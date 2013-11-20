@@ -18,58 +18,48 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
-Public Class KMItem
-    Public typeID As String
-    Public flag As Integer
-    Public qtyDropped As Integer
-    Public qtyDestroyed As Integer
+Public Class KillmailItem
+    Public Property TypeID As Integer
+    Public Property Flag As Integer
+    Public Property QtyDropped As Integer
+    Public Property QtyDestroyed As Integer
 End Class
 
-Public Class KMVictim
-    Public charID As String
-    Public charName As String
-    Public corpID As String
-    Public corpName As String
-    Public allianceID As String
-    Public allianceName As String
-    Public factionID As String
-    Public factionName As String
-    Public damageTaken As Double
-    Public shipTypeID As String
+Public Class KillmailVictim
+    Public Property CharID As String
+    Public Property CharName As String
+    Public Property CorpID As String
+    Public Property CorpName As String
+    Public Property AllianceID As String
+    Public Property AllianceName As String
+    Public Property FactionID As String
+    Public Property FactionName As String
+    Public Property DamageTaken As Double
+    Public Property ShipTypeID As Integer
 End Class
 
-Public Class KMAttacker
-    Public charID As String
-    Public charName As String
-    Public corpID As String
-    Public corpName As String
-    Public allianceID As String
-    Public allianceName As String
-    Public factionID As String
-    Public factionName As String
-    Public secStatus As Double
-    Public damageDone As Double
-    Public finalBlow As Boolean
-    Public weaponTypeID As String
-    Public shipTypeID As String
+Public Class KillmailAttacker
+    Public Property CharID As String
+    Public Property CharName As String
+    Public Property CorpID As String
+    Public Property CorpName As String
+    Public Property AllianceID As String
+    Public Property AllianceName As String
+    Public Property FactionID As String
+    Public Property FactionName As String
+    Public Property SecStatus As Double
+    Public Property DamageDone As Double
+    Public Property FinalBlow As Boolean
+    Public Property WeaponTypeID As Integer
+    Public Property ShipTypeID As Integer
 End Class
 
 Public Class KillMail
-    Public killID As String
-    Public systemID As String
-    Public killTime As Date
-    Public moonID As String
-    Public Victim As KMVictim
-    Public Attackers As New SortedList
-    Public Items As New List(Of KMItem)
+    Public Property KillID As Integer
+    Public Property SystemID As Integer
+    Public Property KillTime As Date
+    Public Property MoonID As String
+    Public Property Victim As KillmailVictim
+    Public Property Attackers As New SortedList
+    Public Property Items As New List(Of KillmailItem)
 End Class
-
-Public Class SolarSystem
-    Public ID As Integer
-    Public Name As String
-    Public Security As Double
-    Public Region As String
-    Public Constellation As String
-End Class
-
-

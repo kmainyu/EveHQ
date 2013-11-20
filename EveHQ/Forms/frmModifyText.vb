@@ -17,38 +17,41 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class frmModifyText
+Namespace Forms
+    Public Class FrmModifyText
 
-    Dim cTextData As String
-    Public Property TextData() As String
-        Get
-            Return cTextData
-        End Get
-        Set(ByVal value As String)
-            cTextData = value
-            txtText.Text = value
-        End Set
-    End Property
+        Dim _textData As String
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-        ' Check if the input is valid i.e. not blank
-        If txtText.Text = "" Then
-            Dim reply As Integer = MessageBox.Show("Text field cannot be blank! Would you like to try again?", "Text Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.Retry Then
-                Exit Sub
-            Else
-                Me.DialogResult = Windows.Forms.DialogResult.Cancel
-                Me.Close()
-                Exit Sub
+        Public Property TextData() As String
+            Get
+                Return _textData
+            End Get
+            Set(ByVal value As String)
+                _textData = value
+                txtText.Text = value
+            End Set
+        End Property
+
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+            ' Check if the input is valid i.e. not blank
+            If txtText.Text = "" Then
+                Dim reply As Integer = MessageBox.Show("Text field cannot be blank! Would you like to try again?", "Text Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
+                If reply = DialogResult.Retry Then
+                    Exit Sub
+                Else
+                    DialogResult = DialogResult.Cancel
+                    Close()
+                    Exit Sub
+                End If
             End If
-        End If
-        cTextData = txtText.Text
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
-    End Sub
+            _textData = txtText.Text
+            DialogResult = DialogResult.OK
+            Close()
+        End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Me.DialogResult = Windows.Forms.DialogResult.Cancel
-        Me.Close()
-    End Sub
-End Class
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            DialogResult = DialogResult.Cancel
+            Close()
+        End Sub
+    End Class
+End NameSpace

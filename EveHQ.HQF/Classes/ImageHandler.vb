@@ -17,7 +17,6 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
 Imports System.Drawing
 
 Public Class ImageHandler
@@ -27,11 +26,11 @@ Public Class ImageHandler
     Public Shared ItemIcons24 As New SortedList(Of String, Bitmap)
     Public Shared ItemIcons48 As New SortedList(Of String, Bitmap)
 
-    Public Shared Function IconImage24(ByVal IconName As String, ByVal MetaLevel As Integer) As Image
+    Public Shared Function IconImage24(ByVal iconName As String, ByVal metaLevel As Integer) As Image
 
-        If IconName <> "" Then
-            If ItemIcons24.ContainsKey(IconName & "_" & MetaLevel.ToString) Then
-                Return ImageHandler.ItemIcons24(IconName & "_" & MetaLevel.ToString)
+        If iconName <> "" Then
+            If ItemIcons24.ContainsKey(iconName & "_" & MetaLevel.ToString) Then
+                Return ItemIcons24(iconName & "_" & metaLevel.ToString)
             Else
                 Return Nothing
             End If
@@ -41,11 +40,11 @@ Public Class ImageHandler
 
     End Function
 
-    Public Shared Function IconImage48(ByVal IconName As String, ByVal MetaLevel As Integer) As Image
+    Public Shared Function IconImage48(ByVal iconName As String, ByVal metaLevel As Integer) As Image
 
-        If IconName <> "" Then
-            If ItemIcons48.ContainsKey(IconName & "_" & MetaLevel.ToString) Then
-                Return ImageHandler.ItemIcons48(IconName & "_" & MetaLevel.ToString)
+        If iconName <> "" Then
+            If ItemIcons48.ContainsKey(iconName & "_" & MetaLevel.ToString) Then
+                Return ItemIcons48(iconName & "_" & metaLevel.ToString)
             Else
                 Return Nothing
             End If
@@ -56,12 +55,12 @@ Public Class ImageHandler
     End Function
 
     Public Shared Function CombineIcons24() As Boolean
-        Dim IconSize As Integer = 24
+        Const IconSize As Integer = 24
         ItemIcons24.Clear()
 
-        For Each BaseIcon As String In BaseIcons.Keys
-            For Each MetaIcon As String In MetaIcons.Keys
-                ItemIcons24.Add(BaseIcon & "_" & MetaIcon, CreateIcon(BaseIcon, MetaIcon, IconSize))
+        For Each baseIcon As String In BaseIcons.Keys
+            For Each metaIcon As String In MetaIcons.Keys
+                ItemIcons24.Add(baseIcon & "_" & metaIcon, CreateIcon(baseIcon, metaIcon, IconSize))
             Next
         Next
 
@@ -70,12 +69,12 @@ Public Class ImageHandler
     End Function
 
     Public Shared Function CombineIcons48() As Boolean
-        Dim IconSize As Integer = 48
+        Const IconSize As Integer = 48
         ItemIcons48.Clear()
 
-        For Each BaseIcon As String In BaseIcons.Keys
-            For Each MetaIcon As String In MetaIcons.Keys
-                ItemIcons48.Add(BaseIcon & "_" & MetaIcon, CreateIcon(BaseIcon, MetaIcon, IconSize))
+        For Each baseIcon As String In BaseIcons.Keys
+            For Each metaIcon As String In MetaIcons.Keys
+                ItemIcons48.Add(baseIcon & "_" & metaIcon, CreateIcon(baseIcon, metaIcon, IconSize))
             Next
         Next
 
@@ -83,28 +82,28 @@ Public Class ImageHandler
 
     End Function
 
-    Public Shared Function CreateIcon(ByVal BaseIcon As String, ByVal MetaIcon As String, ByVal IconSize As Integer, Optional ByVal IsTypeID As Boolean = False) As Bitmap
-        Dim OI As Image
+    Public Shared Function CreateIcon(ByVal baseIcon As String, ByVal metaIcon As String, ByVal iconSize As Integer, Optional ByVal isTypeID As Boolean = False) As Bitmap
+        Dim oi As Image
 
-        If IsTypeID = True Then
-            OI = EveHQ.Core.ImageHandler.GetImage(BaseIcon)
+        If isTypeID = True Then
+            oi = Core.ImageHandler.GetImage(CInt(baseIcon))
         Else
-            OI = ImageHandler.BaseIcons(BaseIcon)
+            oi = BaseIcons(baseIcon)
         End If
 
-        If OI Is Nothing Then
+        If oi Is Nothing Then
             Return Nothing
         End If
 
         ' Resize the image
-        Dim icon As Bitmap = New Bitmap(OI, IconSize, IconSize)
+        Dim icon As Bitmap = New Bitmap(oi, iconSize, iconSize)
 
-        If MetaIcon <> "1" Then
-            Dim IO As Bitmap = ImageHandler.MetaIcons(MetaIcon)
+        If metaIcon <> "1" Then
+            Dim io As Bitmap = MetaIcons(metaIcon)
 
             ' Apply the overlay
             Dim g As Graphics = Graphics.FromImage(icon)
-            g.DrawImage(IO, 0, 0)
+            g.DrawImage(io, 0, 0)
         End If
 
         Return icon

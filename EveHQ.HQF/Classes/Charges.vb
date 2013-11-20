@@ -19,6 +19,6 @@
 '=========================================================================
 Public Class Charges
 
-    Public Shared ChargeGroups As New ArrayList
+    Public Shared Property ChargeGroups As New Dictionary(Of Integer, String)
 
 End Class

@@ -24,6 +24,7 @@ Imports System.IO
 Imports System.Text
 Imports System.Xml
 Imports EveHQ.Core
+Imports EveHQ.Core.Requisitions
 
 
 Public Class frmItemBrowser
@@ -56,7 +57,7 @@ Public Class frmItemBrowser
     Dim compMetas As New SortedList
     Dim CompMatrix(,,) As String
     Dim bEveCentralDataFound As Boolean = False
-    Dim displayPilot As EveHQ.Core.Pilot
+    Dim displayPilot As EveHQ.Core.EveHQPilot
     Dim startup As Boolean = False
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
     Dim ShipCerts As New SortedList(Of String, ArrayList)
@@ -236,7 +237,7 @@ Public Class frmItemBrowser
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("H"), 0) = "0"
             End If
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I1"), 0) = EveData.Tables(0).Rows(row).Item("basePrice").ToString
-            
+
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I2"), 0) = DataFunctions.GetPrice(item)
 
             If EveHQ.Core.HQ.CustomPriceList.ContainsKey(item) = True Then
@@ -431,7 +432,7 @@ Public Class frmItemBrowser
         Me.lblUsableTime.Text = ""
 
         ' Load the browser
-        chkBrowseNonPublished.Checked = EveHQ.Core.HQ.EveHqSettings.IBShowAllItems
+        chkBrowseNonPublished.Checked = EveHQ.Core.HQ.Settings.IBShowAllItems
         If tvwBrowse.Nodes.Count = 0 Then Call Me.LoadBrowserGroups()
 
         ' Load the Pilots
@@ -507,7 +508,7 @@ Public Class frmItemBrowser
     Public Sub UpdatePilots()
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -515,16 +516,16 @@ Public Class frmItemBrowser
         cboPilots.EndUpdate()
 
         If cboPilots.Items.Count > 0 Then
-            If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHqSettings.StartupPilot) = True Then
-                cboPilots.SelectedItem = EveHQ.Core.HQ.EveHqSettings.StartupPilot
+            If cboPilots.Items.Contains(EveHQ.Core.HQ.Settings.StartupPilot) = True Then
+                cboPilots.SelectedItem = EveHQ.Core.HQ.Settings.StartupPilot
             Else
                 cboPilots.SelectedIndex = 0
             End If
         End If
     End Sub
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
-            displayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
+            displayPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
             If startup = False Then
                 Call LoadItemID(itemTypeID)
             End If
@@ -593,7 +594,7 @@ Public Class frmItemBrowser
                 BPWF = EveHQ.Core.DataFunctions.GetBPWF(bpTypeID)
                 BPWFM = ((BPWF / 100) / (1 + nudMELevel.Value))
                 If displayPilot IsNot Nothing Then
-                    BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                    BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.KeySkill.ProductionEfficiency)))
                 End If
             Else
                 picBP.Visible = False
@@ -724,7 +725,7 @@ Public Class frmItemBrowser
                     If attributes(attNo, 2) = "wasteFactor" Then
                         BPWF = (attributes(attNo, 3))
                         BPWFM = ((BPWF / 100) / (1 + nudMELevel.Value))
-                        BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                        BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.KeySkill.ProductionEfficiency)))
                     End If
                 Next
             End If
@@ -1261,7 +1262,7 @@ Public Class frmItemBrowser
                                         ' Do we need the BPWF here? I think so!
                                         BPWFC = EveHQ.Core.DataFunctions.GetBPWF(materials(item, 1))
                                         BPWFMC = ((1 / BPWFC) / (1 + nudMELevelC.Value))
-                                        BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                                        BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.KeySkill.ProductionEfficiency)))
                                         newItem.SubItems.Add(Math.Round(CDbl(1 + BPWFMC) * CDbl(materials(item, 3)), 0))
                                         newItem.SubItems.Add(Math.Round(CDbl(1 + BPWFPC) * CDbl(materials(item, 3)), 0))
                                     Else
@@ -1320,10 +1321,9 @@ Public Class frmItemBrowser
                     Dim skillTrained As Boolean = False
                     Dim myLevel As Integer = 0
                     skillTrained = False
-                    If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
-                        If displayPilot.PilotSkills.Contains(cSkill.Name) Then
-                            Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                            mySkill = displayPilot.PilotSkills(cSkill.Name)
+                    If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And displayPilot.Updated = True Then
+                        If displayPilot.PilotSkills.ContainsKey(cSkill.Name) Then
+                            Dim mySkill As EveHQ.Core.EveHQPilotSkill = displayPilot.PilotSkills(cSkill.Name)
                             myLevel = CInt(mySkill.Level)
                             If myLevel >= curLevel Then skillTrained = True
                             If skillTrained = True Then
@@ -1456,12 +1456,11 @@ Public Class frmItemBrowser
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And displayPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
-            If displayPilot.PilotSkills.Contains(newSkill.Name) Then
-                Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+            If displayPilot.PilotSkills.ContainsKey(newSkill.Name) Then
+                Dim mySkill As EveHQ.Core.EveHQPilotSkill = displayPilot.PilotSkills(newSkill.Name)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
             End If
@@ -1683,7 +1682,7 @@ Public Class frmItemBrowser
         Else
             BPWFM = ((1 / BPWF) * (1 - nudMELevel.Value))
         End If
-        BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+        BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.KeySkill.ProductionEfficiency)))
         Call Me.GetMaterials(itemTypeID, itemTypeName)
     End Sub
 
@@ -1754,10 +1753,10 @@ Public Class frmItemBrowser
                             newNode = New TreeNode
                             newNode.Text = item ' Name
                             newNode.Name = EveHQ.Core.HQ.itemList(item) ' ID
-                            Dim eveItem As EveItem
+                            Dim eveItem As New EveItem
                             If EveHQ.Core.HQ.itemData.TryGetValue(newNode.Name, eveItem) = True And (eveItem IsNot Nothing) = True And e.Name = eveItem.Group.ToString Then
                                 ' Check published flag
-                                If EveHQ.Core.HQ.EveHqSettings.IBShowAllItems = True Then
+                                If EveHQ.Core.HQ.Settings.IBShowAllItems = True Then
                                     e.Nodes.Add(newNode)
                                 Else
                                     If EveHQ.Core.HQ.itemData(newNode.Name).Published = True Then
@@ -1803,7 +1802,7 @@ Public Class frmItemBrowser
         Me.colC1ME.Text = "ME " & nudMELevelC.Value
         ' re-calcualte the new waste factors
         BPWFMC = ((1 / BPWF) / (1 + nudMELevelC.Value))
-        BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+        BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.KeySkill.ProductionEfficiency)))
         Call Me.GetComponents(itemTypeID, itemTypeName)
     End Sub
 
@@ -2099,14 +2098,14 @@ Public Class frmItemBrowser
     End Sub
 
     Private Sub chkBrowseNonPublished_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkBrowseNonPublished.CheckedChanged
-        EveHQ.Core.HQ.EveHqSettings.IBShowAllItems = chkBrowseNonPublished.Checked
+        EveHQ.Core.HQ.Settings.IBShowAllItems = chkBrowseNonPublished.Checked
         Call Me.LoadBrowserGroups()
     End Sub
 
     Private Sub btnRequisition_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRequisition.Click
         Dim Orders As New SortedList(Of String, Integer)
         Orders.Add(itemTypeName, 1)
-        Dim newReq As New EveHQ.Core.frmAddRequisition("Item Browser", Orders)
+        Dim newReq As New frmAddRequisition("Item Browser", Orders)
         newReq.ShowDialog()
     End Sub
 

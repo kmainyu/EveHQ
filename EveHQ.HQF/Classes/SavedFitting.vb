@@ -25,6 +25,8 @@
 ''' <remarks></remarks>
 <Serializable()> Public Class SavedFitting
 
+    ' ReSharper disable InconsistentNaming - for MS serialization compatability
+
 #Region "Property variables"
 
     Dim cShipName As String = ""
@@ -65,7 +67,7 @@
         End Get
         Set(ByVal value As String)
             cShipName = value
-            Call Me.UpdateKeyName()
+            Call UpdateKeyName()
         End Set
     End Property
 
@@ -81,7 +83,7 @@
         End Get
         Set(ByVal value As String)
             cFittingName = value
-            Call Me.UpdateKeyName()
+            Call UpdateKeyName()
         End Set
     End Property
 
@@ -279,10 +281,10 @@
     End Property
 
     ''' <summary>
-    ''' Gets or sets a collection of remote effects to be applied to the fitting
+    ''' Gets or sets a collection of remote effects to be applied to the fitting.
     ''' </summary>
     ''' <value></value>
-    ''' <returns>A collection of fleet effects to be applied to the fitting</returns>
+    ''' <returns>A collection of fleet effects to be applied to the fitting.</returns>
     ''' <remarks></remarks>
     Public Property RemoteEffects() As List(Of RemoteEffect)
         Get
@@ -293,7 +295,35 @@
         End Set
     End Property
 
+    ''' <summary>
+    ''' Gets or sets user notes specific to this fitting.
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>A string containing user notes specific to the fitting.</returns>
+    ''' <remarks></remarks>
+    Public Property Notes As String
+
+    ''' <summary>
+    ''' Gets or sets a list of tags for the fitting.
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>A list of tags for the fitting.</returns>
+    ''' <remarks></remarks>
+    Public Property Tags As List(Of String)
+
+    ''' <summary>
+    ''' Gets or sets the user rating of a fitting (0-10)
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>The rating for a fitting</returns>
+    ''' <remarks></remarks>
+    Public Property Rating As Integer
+
+    
+
 #End Region
+
+    ' ReSharper restore InconsistentNaming
 
 #Region "Class Methods"
 

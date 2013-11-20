@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2012  EveHQ Development Team
+' Copyright © 2012-2013 EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -17,11 +17,14 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Windows.Forms
 
-Public Class frmChartViewer
+Namespace Forms
+    Public Class FrmChartViewer
 
-    Private Sub frmChartViewer_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
-        Me.Dispose()
-    End Sub
+        Private Sub frmChartViewer_FormClosed(ByVal sender As Object, ByVal e As FormClosedEventArgs) Handles Me.FormClosed
+            Dispose()
+        End Sub
 
-End Class
+    End Class
+End NameSpace

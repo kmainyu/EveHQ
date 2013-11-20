@@ -26,11 +26,11 @@ Public Class PlugInData
     Public Shared EffectList As New SortedList
     Public Shared Event PluginDataReceived()
 
-    Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+    Public Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         Try
             Select Case DataType
                 Case 0 ' Item ID
-                    PlugInDataObject = Data
+                    PlugInDataObject = data
                     RaiseEvent PluginDataReceived()
             End Select
             Return True
@@ -63,9 +63,9 @@ Public Class PlugInData
             Return False
         End Try
     End Function
-    Public Function GetEveHQPlugInInfo() As Core.PlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
+    Public Function GetEveHQPlugInInfo() As Core.EveHQPlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
         ' Returns data to EveHQ to identify it as a plugin
-        Dim EveHQPlugIn As New EveHQ.Core.PlugIn
+        Dim EveHQPlugIn As New EveHQ.Core.EveHQPlugIn
         EveHQPlugIn.Name = "EveHQ Item Browser"
         EveHQPlugIn.Description = "Shows Data on all Eve ingame items"
         EveHQPlugIn.Author = "EveHQ Team"
@@ -77,7 +77,7 @@ Public Class PlugInData
         Return EveHQPlugIn
     End Function
 
-    Public Function IGBService(ByVal IGBContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
+    Public Function IGBService(ByVal igbContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
         Return ""
     End Function
 

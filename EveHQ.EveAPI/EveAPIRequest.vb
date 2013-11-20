@@ -31,15 +31,15 @@ Public Class EveAPIRequest
 
     Private Const ErrorRetries As Integer = 5
     Private Const CCPServerAddress As String = "https://api.eveonline.com"
-    Private cAPILastRequestType As APITypes
-    Private cAPILastResult As APIResults
-    Private cAPILastError As Integer = -1
-    Private cAPILastErrorText As String
-    Private cAPILastFileName As String
-    Private cAPIFileExtension As String = "aspx"
-    Private cAPICacheLocation As String = Path.Combine(My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData, "EveAPICache")
-    Private cAPIServerAddress As String = "https://api.eveonline.com"
-    Private cProxyServer As New RemoteProxyServer
+    Private _cAPILastRequestType As APITypes
+    Private _cAPILastResult As APIResults
+    Private _cAPILastError As Integer = -1
+    Private _cAPILastErrorText As String
+    Private _cAPILastFileName As String
+    Private _cAPIFileExtension As String = "aspx"
+    Private _cAPICacheLocation As String = Path.Combine(My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData, "EveAPICache")
+    Private _cAPIServerAddress As String = "https://api.eveonline.com"
+    Private _cProxyServer As New RemoteProxyServer
 
     ''' <summary>
     ''' Gets or sets details to use as a web proxy server
@@ -49,10 +49,10 @@ Public Class EveAPIRequest
     ''' <remarks></remarks>
     Public Property ProxyServer() As RemoteProxyServer
         Get
-            Return cProxyServer
+            Return _cProxyServer
         End Get
         Set(ByVal value As RemoteProxyServer)
-            cProxyServer = value
+            _cProxyServer = value
         End Set
     End Property
 
@@ -64,13 +64,13 @@ Public Class EveAPIRequest
     ''' <remarks></remarks>
     Public Property APIServerAddress() As String
         Get
-            Return cAPIServerAddress
+            Return _cAPIServerAddress
         End Get
         Set(ByVal value As String)
             If value = "" Then
-                cAPIServerAddress = CCPServerAddress
+                _cAPIServerAddress = CCPServerAddress
             Else
-                cAPIServerAddress = value
+                _cAPIServerAddress = value
             End If
         End Set
     End Property
@@ -83,18 +83,18 @@ Public Class EveAPIRequest
     ''' <remarks></remarks>
     Public Property APICacheLocation() As String
         Get
-            Return cAPICacheLocation
+            Return _cAPICacheLocation
         End Get
         Set(ByVal value As String)
             If value = "" Then
-                cAPICacheLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveAPICache")
+                _cAPICacheLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveAPICache")
             Else
-                cAPICacheLocation = value
+                _cAPICacheLocation = value
             End If
             ' Try and create the cache location
             Try
-                If My.Computer.FileSystem.DirectoryExists(cAPICacheLocation) = False Then
-                    My.Computer.FileSystem.CreateDirectory(cAPICacheLocation)
+                If My.Computer.FileSystem.DirectoryExists(_cAPICacheLocation) = False Then
+                    My.Computer.FileSystem.CreateDirectory(_cAPICacheLocation)
                 End If
             Catch ex As Exception
                 Throw New DirectoryNotFoundException
@@ -110,13 +110,13 @@ Public Class EveAPIRequest
     ''' <remarks></remarks>
     Public Property APIFileExtension() As String
         Get
-            Return cAPIFileExtension
+            Return _cAPIFileExtension
         End Get
         Set(ByVal value As String)
             If value = "" Then
-                cAPIFileExtension = "aspx"
+                _cAPIFileExtension = "aspx"
             Else
-                cAPIFileExtension = value
+                _cAPIFileExtension = value
             End If
         End Set
     End Property
@@ -129,7 +129,7 @@ Public Class EveAPIRequest
     ''' <remarks></remarks>
     Public ReadOnly Property LastAPIResult() As APIResults
         Get
-            Return cAPILastResult
+            Return _cAPILastResult
         End Get
     End Property
 
@@ -141,13 +141,13 @@ Public Class EveAPIRequest
     ''' <remarks></remarks>
     Public ReadOnly Property LastAPIError() As Integer
         Get
-            Return cAPILastError
+            Return _cAPILastError
         End Get
     End Property
 
     Public ReadOnly Property LastAPIRequestType() As APITypes
         Get
-            Return cAPILastRequestType
+            Return _cAPILastRequestType
         End Get
     End Property
 
@@ -159,7 +159,7 @@ Public Class EveAPIRequest
     ''' <remarks></remarks>
     Public ReadOnly Property LastAPIErrorText() As String
         Get
-            Return cAPILastErrorText
+            Return _cAPILastErrorText
         End Get
     End Property
 
@@ -171,7 +171,7 @@ Public Class EveAPIRequest
     ''' <remarks></remarks>
     Public ReadOnly Property LastAPIFileName() As String
         Get
-            Return cAPILastFileName
+            Return _cAPILastFileName
         End Get
     End Property
 
@@ -179,438 +179,433 @@ Public Class EveAPIRequest
     ''' Overloaded function to obtain an XML file from a particular API Type and using a particular return method
     ''' Different functions need to be used to obtain different APIs
     ''' </summary>
-    ''' <param name="APIType">The particular type of API to obtain</param>
-    ''' <param name="APIReturnMethod">The particular method used to obtain the XML file</param>
+    ''' <param name="apiType">The particular type of API to obtain</param>
+    ''' <param name="apiReturnMethod">The particular method used to obtain the XML file</param>
     ''' <returns>An XMLDocument containing the request API data</returns>
     ''' <remarks></remarks>
-    Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
+    Public Overloads Function GetAPIXML(ByVal apiType As APITypes, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
         ' Accepts API features that do not have an explicit post request
-        Dim remoteURL As String = ""
-        Dim postdata As String = ""
-        cAPILastRequestType = APIType
-        Select Case APIType
+        Dim remoteURL As String
+        Const Postdata As String = ""
+        _cAPILastRequestType = apiType
+        Select Case apiType
             Case APITypes.AllianceList
-                remoteURL = "/eve/AllianceList.xml." & cAPIFileExtension
+                remoteURL = "/eve/AllianceList.xml." & _cAPIFileExtension
             Case APITypes.RefTypes
-                remoteURL = "/eve/RefTypes.xml." & cAPIFileExtension
+                remoteURL = "/eve/RefTypes.xml." & _cAPIFileExtension
             Case APITypes.SkillTree
-                remoteURL = "/eve/SkillTree.xml." & cAPIFileExtension
+                remoteURL = "/eve/SkillTree.xml." & _cAPIFileExtension
             Case APITypes.Sovereignty
-                remoteURL = "/map/Sovereignty.xml." & cAPIFileExtension
+                remoteURL = "/map/Sovereignty.xml." & _cAPIFileExtension
             Case APITypes.SovereigntyStatus
-                remoteURL = "/map/SovereigntyStatus.xml." & cAPIFileExtension
+                remoteURL = "/map/SovereigntyStatus.xml." & _cAPIFileExtension
             Case APITypes.MapJumps
-                remoteURL = "/map/Jumps.xml." & cAPIFileExtension
+                remoteURL = "/map/Jumps.xml." & _cAPIFileExtension
             Case APITypes.MapKills
-                remoteURL = "/map/Kills.xml." & cAPIFileExtension
+                remoteURL = "/map/Kills.xml." & _cAPIFileExtension
             Case APITypes.Conquerables
-                remoteURL = "/eve/ConquerableStationList.xml." & cAPIFileExtension
+                remoteURL = "/eve/ConquerableStationList.xml." & _cAPIFileExtension
             Case APITypes.ErrorList
-                remoteURL = "/eve/ErrorList.xml." & cAPIFileExtension
+                remoteURL = "/eve/ErrorList.xml." & _cAPIFileExtension
             Case APITypes.FWStats
-                remoteURL = "/eve/FacWarStats.xml." & cAPIFileExtension
+                remoteURL = "/eve/FacWarStats.xml." & _cAPIFileExtension
             Case APITypes.FWTop100
-                remoteURL = "/eve/FacWarTopStats.xml." & cAPIFileExtension
+                remoteURL = "/eve/FacWarTopStats.xml." & _cAPIFileExtension
             Case APITypes.FWMap
-                remoteURL = "/map/FacWarSystems.xml." & cAPIFileExtension
+                remoteURL = "/map/FacWarSystems.xml." & _cAPIFileExtension
             Case APITypes.ServerStatus
-                remoteURL = "/server/ServerStatus.xml." & cAPIFileExtension
+                remoteURL = "/server/ServerStatus.xml." & _cAPIFileExtension
             Case APITypes.CertificateTree
-                remoteURL = "/eve/CertificateTree.xml." & cAPIFileExtension
+                remoteURL = "/eve/CertificateTree.xml." & _cAPIFileExtension
             Case APITypes.CallList
-                remoteURL = "/api/CallList.xml." & cAPIFileExtension
+                remoteURL = "/api/CallList.xml." & _cAPIFileExtension
             Case Else
-                cAPILastResult = APIResults.InvalidFeature
+                _cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
-                Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), APIType)
-        Return GetXML(remoteURL, postdata, fileName, APIReturnMethod, APIType)
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), apiType)
+        Return GetXML(remoteURL, Postdata, fileName, apiReturnMethod)
     End Function
 
     ''' <summary>
     ''' Overloaded function to obtain an XML file from a particular API Type and using a particular return method
     ''' Different functions need to be used to obtain different APIs
     ''' </summary>
-    ''' <param name="APIType">The particular type of API to obtain</param>
-    ''' <param name="Data">The information to be converted to an ID or Name</param>
-    ''' <param name="APIReturnMethod">The particular method used to obtain the XML file</param>
+    ''' <param name="apiType">The particular type of API to obtain</param>
+    ''' <param name="data">The information to be converted to an ID or Name</param>
+    ''' <param name="apiReturnMethod">The particular method used to obtain the XML file</param>
     ''' <returns>An XMLDocument containing the request API data</returns>
     ''' <remarks></remarks>
-    Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal Data As String, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
+    Public Overloads Function GetAPIXML(ByVal apiType As APITypes, ByVal data As String, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
         ' Accepts API features that do not have an explicit post request
-        Dim remoteURL As String = ""
-        Dim postdata As String = ""
-        cAPILastRequestType = APIType
-        Select Case APIType
+        Dim remoteURL As String
+        Dim postdata As String
+        _cAPILastRequestType = apiType
+        Select Case apiType
             Case APITypes.NameToID
-                postdata = "names=" & Data
-                remoteURL = "/eve/CharacterID.xml." & cAPIFileExtension
+                postdata = "names=" & data
+                remoteURL = "/eve/CharacterID.xml." & _cAPIFileExtension
             Case APITypes.IDToName
-                postdata = "ids=" & Data
-				remoteURL = "/eve/CharacterName.xml." & cAPIFileExtension
-			Case APITypes.CharacterInfo
-				postdata = "characterid=" & Data
-				remoteURL = "/eve/CharacterInfo.xml." & cAPIFileExtension
-			Case Else
-				cAPILastResult = APIResults.InvalidFeature
-				Return Nothing
-				Exit Function
-		End Select
+                postdata = "ids=" & data
+                remoteURL = "/eve/CharacterName.xml." & _cAPIFileExtension
+            Case APITypes.CharacterInfo
+                postdata = "characterid=" & data
+                remoteURL = "/eve/CharacterInfo.xml." & _cAPIFileExtension
+            Case Else
+                _cAPILastResult = APIResults.InvalidFeature
+                Return Nothing
+        End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), APIType) & "_" & Format(Now, "yyyyMMddhhmmssfffff")
-        Return GetXML(remoteURL, postdata, fileName, APIReturnMethod, APIType)
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), apiType) & "_" & Format(Now, "yyyyMMddhhmmssfffff")
+        Return GetXML(remoteURL, postdata, fileName, apiReturnMethod)
     End Function
 
     ''' <summary>
     ''' Overloaded function to obtain an XML file from a particular API Type and using a particular return method
     ''' Different functions need to be used to obtain different APIs
     ''' </summary>
-    ''' <param name="APIType">The particular type of API to obtain</param>
-    ''' <param name="APIAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
-    ''' <param name="APIReturnMethod">The particular method used to obtain the XML file</param>
+    ''' <param name="apiType">The particular type of API to obtain</param>
+    ''' <param name="apiAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
+    ''' <param name="apiReturnMethod">The particular method used to obtain the XML file</param>
     ''' <returns>An XMLDocument containing the request API data</returns>
     ''' <remarks></remarks>
-    Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
-        Dim remoteURL As String = ""
-        Dim postdata As String = ""
-        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey
-        cAPILastRequestType = APIType
-        Select Case APIType
+    Public Overloads Function GetAPIXML(ByVal apiType As APITypes, ByVal apiAccount As EveAPIAccount, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
+        Dim remoteURL As String
+        Dim postdata As String
+        postdata = "keyID=" & APIAccount.UserID & "&vCode=" & APIAccount.APIKey
+        _cAPILastRequestType = apiType
+        Select Case apiType
             Case APITypes.Characters
-                remoteURL = "/account/Characters.xml." & cAPIFileExtension
+                remoteURL = "/account/Characters.xml." & _cAPIFileExtension
             Case APITypes.AccountStatus
-                remoteURL = "/account/AccountStatus.xml." & cAPIFileExtension
+                remoteURL = "/account/AccountStatus.xml." & _cAPIFileExtension
             Case APITypes.APIKeyInfo
-                remoteURL = "/account/APIKeyInfo.xml." & cAPIFileExtension
+                remoteURL = "/account/APIKeyInfo.xml." & _cAPIFileExtension
             Case Else
-                cAPILastResult = APIResults.InvalidFeature
+                _cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
-                Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), APIType) & "_" & APIAccount.userID
-        Return GetXML(remoteURL, postData, fileName, APIReturnMethod, APIType)
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), apiType) & "_" & APIAccount.UserID
+        Return GetXML(remoteURL, postdata, fileName, apiReturnMethod)
     End Function
 
     ''' <summary>
     ''' Overloaded function to obtain an XML file from a particular API Type and using a particular return method
     ''' Different functions need to be used to obtain different APIs
     ''' </summary>
-    ''' <param name="APIType">The particular type of API to obtain</param>
-    ''' <param name="APIAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
+    ''' <param name="apiType">The particular type of API to obtain</param>
+    ''' <param name="apiAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
     ''' <param name="charID">The Eve characterID to use for the request</param>
-    ''' <param name="APIReturnMethod">The particular method used to obtain the XML file</param>
+    ''' <param name="apiReturnMethod">The particular method used to obtain the XML file</param>
     ''' <returns>An XMLDocument containing the request API data</returns>
     ''' <remarks></remarks>
-    Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal charID As String, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
-        Dim remoteURL As String = ""
-        Dim postdata As String = ""
-        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID
-        cAPILastRequestType = APIType
-        Select Case APIType
+    Public Overloads Function GetAPIXML(ByVal apiType As APITypes, ByVal apiAccount As EveAPIAccount, ByVal charID As String, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
+        Dim remoteURL As String
+        Dim postdata As String
+        postdata = "keyID=" & apiAccount.UserID & "&vCode=" & apiAccount.APIKey & "&characterID=" & charID
+        _cAPILastRequestType = apiType
+        Select Case apiType
             Case APITypes.AccountBalancesChar
-                remoteURL = "/char/AccountBalance.xml." & cAPIFileExtension
+                remoteURL = "/char/AccountBalance.xml." & _cAPIFileExtension
             Case APITypes.AccountBalancesCorp
-                remoteURL = "/corp/AccountBalance.xml." & cAPIFileExtension
+                remoteURL = "/corp/AccountBalance.xml." & _cAPIFileExtension
             Case APITypes.CharacterSheet
-                remoteURL = "/char/CharacterSheet.xml." & cAPIFileExtension
+                remoteURL = "/char/CharacterSheet.xml." & _cAPIFileExtension
             Case APITypes.CorpSheet
-                remoteURL = "/corp/CorporationSheet.xml." & cAPIFileExtension
+                remoteURL = "/corp/CorporationSheet.xml." & _cAPIFileExtension
             Case APITypes.CorpMemberTracking
-                remoteURL = "/corp/MemberTracking.xml." & cAPIFileExtension
+                remoteURL = "/corp/MemberTracking.xml." & _cAPIFileExtension
             Case APITypes.SkillTraining
-                remoteURL = "/char/SkillInTraining.xml." & cAPIFileExtension
+                remoteURL = "/char/SkillInTraining.xml." & _cAPIFileExtension
             Case APITypes.SkillQueue
-                remoteURL = "/char/SkillQueue.xml." & cAPIFileExtension
+                remoteURL = "/char/SkillQueue.xml." & _cAPIFileExtension
             Case APITypes.AssetsChar
-                remoteURL = "/char/AssetList.xml." & cAPIFileExtension
+                remoteURL = "/char/AssetList.xml." & _cAPIFileExtension
             Case APITypes.AssetsCorp
-                remoteURL = "/corp/AssetList.xml." & cAPIFileExtension
+                remoteURL = "/corp/AssetList.xml." & _cAPIFileExtension
             Case APITypes.IndustryChar
-                remoteURL = "/char/IndustryJobs.xml." & cAPIFileExtension
+                remoteURL = "/char/IndustryJobs.xml." & _cAPIFileExtension
             Case APITypes.IndustryCorp
-                remoteURL = "/corp/IndustryJobs.xml." & cAPIFileExtension
+                remoteURL = "/corp/IndustryJobs.xml." & _cAPIFileExtension
             Case APITypes.OrdersChar
-                remoteURL = "/char/MarketOrders.xml." & cAPIFileExtension
+                remoteURL = "/char/MarketOrders.xml." & _cAPIFileExtension
             Case APITypes.OrdersCorp
-                remoteURL = "/corp/MarketOrders.xml." & cAPIFileExtension
+                remoteURL = "/corp/MarketOrders.xml." & _cAPIFileExtension
             Case APITypes.POSList
-				remoteURL = "/corp/StarbaseList.xml." & cAPIFileExtension
-			Case APITypes.OutpostList
-				remoteURL = "/corp/OutpostList.xml." & cAPIFileExtension
+                remoteURL = "/corp/StarbaseList.xml." & _cAPIFileExtension
+            Case APITypes.OutpostList
+                remoteURL = "/corp/OutpostList.xml." & _cAPIFileExtension
             Case APITypes.StandingsChar
-                remoteURL = "/char/Standings.xml." & cAPIFileExtension
+                remoteURL = "/char/Standings.xml." & _cAPIFileExtension
             Case APITypes.StandingsCorp
-                remoteURL = "/corp/Standings.xml." & cAPIFileExtension
+                remoteURL = "/corp/Standings.xml." & _cAPIFileExtension
             Case APITypes.CorpMemberSecurity
-                remoteURL = "/corp/MemberSecurity.xml." & cAPIFileExtension
+                remoteURL = "/corp/MemberSecurity.xml." & _cAPIFileExtension
             Case APITypes.CorpMemberSecurityLog
-                remoteURL = "/corp/MemberSecurityLog.xml." & cAPIFileExtension
+                remoteURL = "/corp/MemberSecurityLog.xml." & _cAPIFileExtension
             Case APITypes.CorpShareholders
-                remoteURL = "/corp/Shareholders.xml." & cAPIFileExtension
+                remoteURL = "/corp/Shareholders.xml." & _cAPIFileExtension
             Case APITypes.CorpTitles
-                remoteURL = "/corp/Titles.xml." & cAPIFileExtension
+                remoteURL = "/corp/Titles.xml." & _cAPIFileExtension
             Case APITypes.FWStatsChar
-                remoteURL = "/char/FacWarStats.xml." & cAPIFileExtension
+                remoteURL = "/char/FacWarStats.xml." & _cAPIFileExtension
             Case APITypes.FWStatsCorp
-                remoteURL = "/corp/FacWarStats.xml." & cAPIFileExtension
+                remoteURL = "/corp/FacWarStats.xml." & _cAPIFileExtension
             Case APITypes.MedalsReceived
-                remoteURL = "/char/Medals.xml." & cAPIFileExtension
+                remoteURL = "/char/Medals.xml." & _cAPIFileExtension
             Case APITypes.MedalsAvailable
-                remoteURL = "/corp/Medals.xml." & cAPIFileExtension
+                remoteURL = "/corp/Medals.xml." & _cAPIFileExtension
             Case APITypes.MemberMedals
-                remoteURL = "/corp/MemberMedals.xml." & cAPIFileExtension
+                remoteURL = "/corp/MemberMedals.xml." & _cAPIFileExtension
             Case APITypes.MailMessages
-                remoteURL = "/char/MailMessages.xml." & cAPIFileExtension
+                remoteURL = "/char/MailMessages.xml." & _cAPIFileExtension
             Case APITypes.Notifications
-                remoteURL = "/char/Notifications.xml." & cAPIFileExtension
+                remoteURL = "/char/Notifications.xml." & _cAPIFileExtension
             Case APITypes.MailingLists
-				remoteURL = "/char/MailingLists.xml." & cAPIFileExtension
-			Case APITypes.Research
-				remoteURL = "/char/Research.xml." & cAPIFileExtension
-			Case APITypes.CharacterInfo
-                remoteURL = "/eve/CharacterInfo.xml." & cAPIFileExtension
+                remoteURL = "/char/MailingLists.xml." & _cAPIFileExtension
+            Case APITypes.Research
+                remoteURL = "/char/Research.xml." & _cAPIFileExtension
+            Case APITypes.CharacterInfo
+                remoteURL = "/eve/CharacterInfo.xml." & _cAPIFileExtension
             Case APITypes.ContactListChar
-                remoteURL = "/char/ContactList.xml." & cAPIFileExtension
+                remoteURL = "/char/ContactList.xml." & _cAPIFileExtension
             Case APITypes.ContactListCorp
-                remoteURL = "/corp/ContactList.xml." & cAPIFileExtension
+                remoteURL = "/corp/ContactList.xml." & _cAPIFileExtension
             Case APITypes.ContractsChar
-                remoteURL = "/char/Contracts.xml." & cAPIFileExtension
+                remoteURL = "/char/Contracts.xml." & _cAPIFileExtension
             Case APITypes.ContractsCorp
-                remoteURL = "/corp/Contracts.xml." & cAPIFileExtension
+                remoteURL = "/corp/Contracts.xml." & _cAPIFileExtension
             Case APITypes.ContractBidsChar
-                remoteURL = "/char/ContractBids.xml." & cAPIFileExtension
+                remoteURL = "/char/ContractBids.xml." & _cAPIFileExtension
             Case APITypes.ContractBidsCorp
-                remoteURL = "/corp/ContractBids.xml." & cAPIFileExtension
+                remoteURL = "/corp/ContractBids.xml." & _cAPIFileExtension
             Case APITypes.ContactNotifications
-                remoteURL = "/char/ContactNotifications.xml." & cAPIFileExtension
+                remoteURL = "/char/ContactNotifications.xml." & _cAPIFileExtension
             Case APITypes.UpcomingCalendarEvents
-                remoteURL = "/char/UpcomingCalendarEvents.xml." & cAPIFileExtension
+                remoteURL = "/char/UpcomingCalendarEvents.xml." & _cAPIFileExtension
             Case Else
-                cAPILastResult = APIResults.InvalidFeature
+                _cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
-                Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), APIType) & "_" & APIAccount.userID & "_" & charID
-        Return GetXML(remoteURL, postData, fileName, APIReturnMethod, APIType)
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), apiType) & "_" & apiAccount.UserID & "_" & charID
+        Return GetXML(remoteURL, postdata, fileName, apiReturnMethod)
     End Function
 
     ''' <summary>
     ''' Overloaded function to obtain an XML file from a particular API Type and using a particular return method
     ''' Different functions need to be used to obtain different APIs
     ''' </summary>
-    ''' <param name="APIType">The particular type of API to obtain</param>
-    ''' <param name="APIAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
+    ''' <param name="apiType">The particular type of API to obtain</param>
+    ''' <param name="apiAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
     ''' <param name="charID">The Eve characterID to use for the request</param>
     ''' <param name="itemID">The itemID of the starbase (POS) to query</param>
-    ''' <param name="APIReturnMethod">The particular method used to obtain the XML file</param>
+    ''' <param name="apiReturnMethod">The particular method used to obtain the XML file</param>
     ''' <returns>An XMLDocument containing the request API data</returns>
     ''' <remarks></remarks>
-	Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal charID As String, ByVal itemID As Long, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
-        Dim remoteURL As String = ""
-        Dim postdata As String = ""
-        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
-		cAPILastRequestType = APIType
-		Select Case APIType
-			Case APITypes.POSDetails
-				remoteURL = "/corp/StarbaseDetail.xml." & cAPIFileExtension
-			Case APITypes.OutpostServiceDetail
-                remoteURL = "/corp/OutpostServiceDetail.xml." & cAPIFileExtension
+    Public Overloads Function GetAPIXML(ByVal apiType As APITypes, ByVal apiAccount As EveAPIAccount, ByVal charID As String, ByVal itemID As Long, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
+        Dim remoteURL As String
+        Dim postdata As String
+        postdata = "keyID=" & apiAccount.UserID & "&vCode=" & apiAccount.APIKey & "&characterID=" & charID & "&itemID=" & itemID
+        _cAPILastRequestType = apiType
+        Select Case apiType
+            Case APITypes.POSDetails
+                remoteURL = "/corp/StarbaseDetail.xml." & _cAPIFileExtension
+            Case APITypes.OutpostServiceDetail
+                remoteURL = "/corp/OutpostServiceDetail.xml." & _cAPIFileExtension
             Case APITypes.ContractItemsChar
                 postdata = postdata.Replace("&itemID", "&contractID")
-                remoteURL = "/char/ContractItems.xml." & cAPIFileExtension
+                remoteURL = "/char/ContractItems.xml." & _cAPIFileExtension
             Case APITypes.ContractItemsCorp
                 postdata = postdata.Replace("&itemID", "&contractID")
-                remoteURL = "/corp/ContractItems.xml." & cAPIFileExtension
+                remoteURL = "/corp/ContractItems.xml." & _cAPIFileExtension
             Case Else
-                cAPILastResult = APIResults.InvalidFeature
+                _cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
-                Exit Function
         End Select
-		' Determine filename of cache
-		Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), APIType) & "_" & APIAccount.userID & "_" & charID & "_" & itemID
-		Return GetXML(remoteURL, postData, fileName, APIReturnMethod, APIType)
-	End Function
+        ' Determine filename of cache
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), apiType) & "_" & apiAccount.UserID & "_" & charID & "_" & itemID
+        Return GetXML(remoteURL, postdata, fileName, apiReturnMethod)
+    End Function
 
     ''' <summary>
     ''' Overloaded function to obtain an XML file from a particular API Type and using a particular return method
     ''' Different functions need to be used to obtain different APIs
     ''' </summary>
-    ''' <param name="APIType">The particular type of API to obtain</param>
-    ''' <param name="APIAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
+    ''' <param name="apiType">The particular type of API to obtain</param>
+    ''' <param name="apiAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
     ''' <param name="charID">The Eve characterID to use for the request</param>
-	''' <param name="IDs">The additional Eve data with which to use with the request</param>
-    ''' <param name="APIReturnMethod">The particular method used to obtain the XML file</param>
+    ''' <param name="IDs">The additional Eve data with which to use with the request</param>
+    ''' <param name="apiReturnMethod">The particular method used to obtain the XML file</param>
     ''' <returns>An XMLDocument containing the request API data</returns>
     ''' <remarks></remarks>
-	Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal charID As String, ByVal IDs As String, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
-		Dim remoteURL As String = ""
-        Dim postdata As String = ""
-        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID
-		cAPILastRequestType = APIType
-		If IDs <> "" Then
-			Select Case APIType
-				Case APITypes.KillLogChar, APITypes.KillLogCorp
-					postData &= "&beforeKillID=" & IDs
+    Public Overloads Function GetAPIXML(ByVal apiType As APITypes, ByVal apiAccount As EveAPIAccount, ByVal charID As String, ByVal ids As String, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
+        Dim remoteURL As String
+        Dim postdata As String
+        postdata = "keyID=" & apiAccount.UserID & "&vCode=" & apiAccount.APIKey & "&characterID=" & charID
+        _cAPILastRequestType = apiType
+        If ids <> "" Then
+            Select Case apiType
+                Case APITypes.KillLogChar, APITypes.KillLogCorp
+                    postdata &= "&beforeKillID=" & ids
                 Case APITypes.MailBodies, APITypes.NotificationTexts
-                    postdata &= "&ids=" & IDs
+                    postdata &= "&ids=" & ids
                 Case APITypes.CalendarEventAttendeesChar
-                    postdata &= "eventIDs=" & IDs
+                    postdata &= "eventIDs=" & ids
             End Select
-		End If
-		Select Case APIType
-			Case APITypes.KillLogChar
-				remoteURL = "/char/Killlog.xml." & cAPIFileExtension
-			Case APITypes.KillLogCorp
-				remoteURL = "/corp/Killlog.xml." & cAPIFileExtension
-			Case APITypes.MailBodies
-                remoteURL = "/char/MailBodies.xml." & cAPIFileExtension
+        End If
+        Select Case apiType
+            Case APITypes.KillLogChar
+                remoteURL = "/char/Killlog.xml." & _cAPIFileExtension
+            Case APITypes.KillLogCorp
+                remoteURL = "/corp/Killlog.xml." & _cAPIFileExtension
+            Case APITypes.MailBodies
+                remoteURL = "/char/MailBodies.xml." & _cAPIFileExtension
             Case APITypes.NotificationTexts
-                remoteURL = "/char/NotificationTexts.xml." & cAPIFileExtension
+                remoteURL = "/char/NotificationTexts.xml." & _cAPIFileExtension
             Case APITypes.CalendarEventAttendeesChar
-                remoteURL = "/char/CalendarEventAttendees.xml." & cAPIFileExtension
+                remoteURL = "/char/CalendarEventAttendees.xml." & _cAPIFileExtension
             Case Else
-                cAPILastResult = APIResults.InvalidFeature
+                _cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
-                Exit Function
         End Select
-		' Determine filename of cache
-		Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), APIType) & "_" & APIAccount.userID & "_" & charID
-		If IDs <> "" Then
-			Select Case APIType
-				Case APITypes.KillLogChar, APITypes.KillLogCorp
-					fileName &= "_" & IDs
+        ' Determine filename of cache
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), apiType) & "_" & apiAccount.UserID & "_" & charID
+        If ids <> "" Then
+            Select Case apiType
+                Case APITypes.KillLogChar, APITypes.KillLogCorp
+                    fileName &= "_" & ids
                 Case APITypes.MailBodies, APITypes.NotificationTexts
                     fileName &= "_" & Format(Now, "yyyyMMddhhmmssfffff")
             End Select
-		End If
-		Return GetXML(remoteURL, postData, fileName, APIReturnMethod, APIType)
-	End Function
+        End If
+        Return GetXML(remoteURL, postdata, fileName, apiReturnMethod)
+    End Function
 
     ''' <summary>
     ''' Overloaded function to obtain an XML file from a particular API Type and using a particular return method
     ''' Different functions need to be used to obtain different APIs
     ''' </summary>
-    ''' <param name="APIType">The particular type of API to obtain</param>
-    ''' <param name="APIAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
+    ''' <param name="apiType">The particular type of API to obtain</param>
+    ''' <param name="apiAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
     ''' <param name="charID">The Eve characterID to use for the request</param>
     ''' <param name="accountKey">The specific wallet accountID to query</param>
-    ''' <param name="BeforeRefID">The Eve data reference from which to start the request</param>
-    ''' <param name="APIReturnMethod">The particular method used to obtain the XML file</param>
+    ''' <param name="beforeRefID">The Eve data reference from which to start the request</param>
+    ''' <param name="apiReturnMethod">The particular method used to obtain the XML file</param>
     ''' <returns>An XMLDocument containing the request API data</returns>
     ''' <remarks></remarks>
-    Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal BeforeRefID As String, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
-        Dim remoteURL As String = ""
-        Dim postdata As String = ""
-        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
-        cAPILastRequestType = APIType
-        If BeforeRefID <> "" Then
-            Select Case APIType
+    Public Overloads Function GetAPIXML(ByVal apiType As APITypes, ByVal apiAccount As EveAPIAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal beforeRefID As String, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
+        Dim remoteURL As String
+        Dim postdata As String
+        postdata = "keyID=" & apiAccount.UserID & "&vCode=" & apiAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
+        _cAPILastRequestType = apiType
+        If beforeRefID <> "" Then
+            Select Case apiType
                 Case APITypes.WalletTransChar, APITypes.WalletTransCorp
-                    postData &= "&beforeTransID=" & BeforeRefID
+                    postdata &= "&beforeTransID=" & beforeRefID
             End Select
         End If
-        Select Case APIType
+        Select Case apiType
             Case APITypes.WalletTransChar
-                remoteURL = "/char/WalletTransactions.xml." & cAPIFileExtension
+                remoteURL = "/char/WalletTransactions.xml." & _cAPIFileExtension
             Case APITypes.WalletTransCorp
-                remoteURL = "/corp/WalletTransactions.xml." & cAPIFileExtension
+                remoteURL = "/corp/WalletTransactions.xml." & _cAPIFileExtension
             Case Else
-                cAPILastResult = APIResults.InvalidFeature
+                _cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
-                Exit Function
         End Select
         ' Determine filename of cache
-        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), APIType) & "_" & APIAccount.userID & "_" & charID & "_" & accountKey
-        If BeforeRefID <> "" Then
-            fileName &= "_" & BeforeRefID
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), apiType) & "_" & apiAccount.UserID & "_" & charID & "_" & accountKey
+        If beforeRefID <> "" Then
+            fileName &= "_" & beforeRefID
         End If
-        Return GetXML(remoteURL, postData, fileName, APIReturnMethod, APIType)
+        Return GetXML(remoteURL, postdata, fileName, apiReturnMethod)
     End Function
 
     ''' <summary>
     ''' Overloaded function to obtain an XML file from a particular API Type and using a particular return method
     ''' Different functions need to be used to obtain different APIs 
     ''' </summary>
-     ''' <param name="APIType">The particular type of API to obtain</param>
-    ''' <param name="APIAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
+    ''' <param name="apiType">The particular type of API to obtain</param>
+    ''' <param name="apiAccount">An EveAPIAccount contained userID and APIKey to use in the request</param>
     ''' <param name="charID">The Eve characterID to use for the request</param>
     ''' <param name="accountKey">The specific wallet accountID to query</param>
     ''' <param name="fromID">The Eve data reference from which to start the request</param>
     ''' <param name="rowCount">The number of rows to return (max 256)</param>
-    ''' <param name="APIReturnMethod">The particular method used to obtain the XML file</param>
+    ''' <param name="apiReturnMethod">The particular method used to obtain the XML file</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal fromID As Long, ByVal rowCount As Integer, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
-        Dim remoteURL As String = ""
-        Dim postdata As String = ""
-        postdata = "keyID=" & APIAccount.userID & "&vCode=" & APIAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
-        cAPILastRequestType = APIType
+    Public Overloads Function GetAPIXML(ByVal apiType As APITypes, ByVal apiAccount As EveAPIAccount, ByVal charID As String, ByVal accountKey As Integer, ByVal fromID As Long, ByVal rowCount As Integer, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
+        Dim remoteURL As String
+        Dim postdata As String
+        postdata = "keyID=" & apiAccount.UserID & "&vCode=" & apiAccount.APIKey & "&characterID=" & charID & "&accountKey=" & accountKey
+        _cAPILastRequestType = apiType
         If fromID <> 0 Then
-            Select Case APIType
+            Select Case apiType
                 Case APITypes.WalletJournalChar, APITypes.WalletJournalCorp
-                    postData &= "&fromID=" & fromID.ToString
+                    postdata &= "&fromID=" & fromID.ToString
             End Select
         End If
-        postData &= "&rowCount=" & rowCount
-        Select Case APIType
+        postdata &= "&rowCount=" & rowCount
+        Select Case apiType
             Case APITypes.WalletJournalChar
-                remoteURL = "/char/WalletJournal.xml." & cAPIFileExtension
+                remoteURL = "/char/WalletJournal.xml." & _cAPIFileExtension
             Case APITypes.WalletJournalCorp
-                remoteURL = "/corp/WalletJournal.xml." & cAPIFileExtension
+                remoteURL = "/corp/WalletJournal.xml." & _cAPIFileExtension
             Case Else
-                cAPILastResult = APIResults.InvalidFeature
+                _cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
-                Exit Function
         End Select
         ' Determine filename of cache
-		Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), APIType) & "_" & APIAccount.userID & "_" & charID & "_" & accountKey & "_" & fromID
-		Return GetXML(remoteURL, postData, fileName, APIReturnMethod, APIType)
+        Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), apiType) & "_" & apiAccount.UserID & "_" & charID & "_" & accountKey & "_" & fromID
+        Return GetXML(remoteURL, postdata, fileName, apiReturnMethod)
     End Function
 
-	''' <summary>
-	''' Function to return an XML from an API Request
-	''' </summary>
-	''' <param name="remoteURL">The URL of the API page where the XML will be obtained</param>
-	''' <param name="postData">Relevant data to be passed with the URL</param>
-	''' <param name="fileName">The location in local storage of the cached XML to save and/or retrieve</param>
-	''' <param name="APIReturnMethod">The particular method used to obtain the XML file</param>
-	''' <param name="APIType">The particular type of API to obtain - required in case correction is required to the cache expiry time</param>
-	''' <returns>An XMLDocument for the APIRequest, based upon the APIReturnMethod used</returns>
-	''' <remarks></remarks>
-    Private Function GetXML(ByVal remoteURL As String, ByVal postData As String, ByVal fileName As String, ByVal APIReturnMethod As APIReturnMethods, ByVal APIType As APITypes) As XmlDocument
-        Dim fileDate As String = ""
-        Dim APIXML As New XmlDocument
+    ''' <summary>
+    ''' Function to return an XML from an API Request
+    ''' </summary>
+    ''' <param name="remoteURL">The URL of the API page where the XML will be obtained</param>
+    ''' <param name="postData">Relevant data to be passed with the URL</param>
+    ''' <param name="fileName">The location in local storage of the cached XML to save and/or retrieve</param>
+    ''' <param name="apiReturnMethod">The particular method used to obtain the XML file</param>
+    ''' <returns>An XMLDocument for the APIRequest, based upon the APIReturnMethod used</returns>
+    ''' <remarks></remarks>
+    Private Function GetXML(ByVal remoteURL As String, ByVal postData As String, ByVal fileName As String, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
+        Const FileDate As String = ""
+        Dim apixml As New XmlDocument
         Dim errlist As XmlNodeList
-        Dim fileLoc As String = ""
+        Dim fileLoc As String
         Try
-            fileLoc = Path.Combine(cAPICacheLocation, fileName & fileDate & ".xml")
+            fileLoc = Path.Combine(_cAPICacheLocation, fileName & FileDate & ".xml")
         Catch e As Exception
             Dim msg As String = "An error occured while trying to assemble the cache location string. The location being created should be in:" & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Cache Folder: " & cAPICacheLocation & ControlChars.CrLf
+            msg &= "Cache Folder: " & _cAPICacheLocation & ControlChars.CrLf
             msg &= "File Name: " & fileName & ControlChars.CrLf
-            msg &= "File Date: " & fileDate & ControlChars.CrLf
-            cAPILastResult = APIResults.InternalCodeError
-            cAPILastErrorText = msg
+            msg &= "File Date: " & FileDate & ControlChars.CrLf
+            _cAPILastResult = APIResults.InternalCodeError
+            _cAPILastErrorText = msg
             Return Nothing
         End Try
         Try
             ' See if we need to bypass the cache
-            If APIReturnMethod = APIReturnMethods.BypassCache Then
+            If apiReturnMethod = APIReturnMethods.BypassCache Then
                 ' Perform this section if the cache is bypassed
                 ' Fetch the XML from the EveAPI
-                APIXML = FetchXMLFromWeb(remoteURL, postData)
+                apixml = FetchXMLFromWeb(remoteURL, postData)
                 ' Check for null document (can happen if APIRS) isn't active and no backup is used
-                If APIXML.InnerXml = "" Then
-                    ' Do not save and return nothing
-                    cAPILastResult = APIResults.APIServerDownReturnedNull
-                    Return Nothing
+                If apixml.InnerXml = "" Then
+                    ' Check for a CCP error code
+                    If _cAPILastResult <> -1 Then
+                        Return Nothing
+                    Else
+                        _cAPILastResult = APIResults.APIServerDownReturnedNull
+                        Return Nothing
+                    End If
                 Else
                     ' Check for error codes
-                    errlist = APIXML.SelectNodes("/eveapi/error")
+                    errlist = apixml.SelectNodes("/eveapi/error")
                     If errlist.Count <> 0 Then
                         Dim errNode As XmlNode = errlist(0)
                         ' Get error code
@@ -618,150 +613,147 @@ Public Class EveAPIRequest
                             Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
                             Dim errMsg As String = errNode.InnerText
                             ' Return the current XML regardless
-                            cAPILastResult = APIResults.ReturnedActual
-                            cAPILastError = CInt(errCode)
-                            cAPILastErrorText = errMsg
-                            Return APIXML
+                            _cAPILastResult = APIResults.ReturnedActual
+                            _cAPILastError = CInt(errCode)
+                            _cAPILastErrorText = errMsg
+                            Return apixml
                         Catch e As Exception
                             ' Return nothing and report a general error - usually as a result of a API Server error
-                            cAPILastResult = APIResults.UnknownError
-                            cAPILastError = 0
-                            cAPILastErrorText = "A General Error occurred"
+                            _cAPILastResult = APIResults.UnknownError
+                            _cAPILastError = 0
+                            _cAPILastErrorText = "A General Error occurred"
                             Return Nothing
                         End Try
                     Else
-                        ' Update the incorrect cache data
-                        Call UpdateAPICacheTime(APIXML, APIType)
-                        cAPILastResult = APIResults.ReturnedActual
-                        Return APIXML
+                        _cAPILastResult = APIResults.ReturnedActual
+                        Return apixml
                     End If
                 End If
             Else
                 ' Check if the file already exists
-                cAPILastFileName = fileLoc
+                _cAPILastFileName = fileLoc
                 If My.Computer.FileSystem.FileExists(fileLoc) = True Then
-                    Dim tmpAPIXML As New XmlDocument
+                    Dim tmpApixml As XmlDocument
                     ' Check cache time of file
                     Dim failedCacheLoad As Boolean = False
                     Try
-                        APIXML.Load(fileLoc)
+                        apixml.Load(fileLoc)
                     Catch e As Exception
                         failedCacheLoad = True
                         ' Attempt to get a new XML and save
-                        APIXML = FetchXMLFromWeb(remoteURL, postData)
+                        apixml = FetchXMLFromWeb(remoteURL, postData)
                         ' Try to save the XML file
-                        Call SaveAPIXML(APIXML, fileLoc)
+                        Call SaveAPIXML(apixml, fileLoc)
                     End Try
                     ' Get Cache time details
-                    Dim cacheDetails As XmlNodeList = APIXML.SelectNodes("/eveapi")
+                    Dim cacheDetails As XmlNodeList = apixml.SelectNodes("/eveapi")
                     Dim cacheTime As DateTime = CDate(cacheDetails(0).ChildNodes(2).InnerText)
                     Dim localCacheTime As Date = ConvertEveTimeToLocal(cacheTime)
                     ' Has Cache expired?
-                    If (localCacheTime > Now Or APIReturnMethod = APIReturnMethods.ReturnCacheOnly = True) And failedCacheLoad = False Then
+                    If (localCacheTime > Now Or apiReturnMethod = APIReturnMethods.ReturnCacheOnly) And failedCacheLoad = False Then
                         '  Cache has not expired or a request to return cached version- return existing XML
-                        cAPILastResult = APIResults.ReturnedCached
-                        Return APIXML
+                        _cAPILastResult = APIResults.ReturnedCached
+                        Return apixml
                     Else
                         ' Cache has expired - get a new XML
-                        tmpAPIXML = FetchXMLFromWeb(remoteURL, postData)
+                        tmpApixml = FetchXMLFromWeb(remoteURL, postData)
                         ' Check for null document (can happen if APIRS) isn't active and no backup is used
-                        If tmpAPIXML.InnerXml = "" Then
+                        If tmpApixml.InnerXml = "" Then
                             ' Do not save and return the old API file
-                            cAPILastResult = APIResults.APIServerDownReturnedCached
-                            Return APIXML
+                            If _cAPILastResult <> -1 Then
+                                Return apixml
+                            Else
+                                _cAPILastResult = APIResults.APIServerDownReturnedCached
+                                Return apixml
+                            End If
                         End If
                         ' Check for error codes
-                        errlist = tmpAPIXML.SelectNodes("/eveapi/error")
+                        errlist = tmpApixml.SelectNodes("/eveapi/error")
                         If errlist.Count <> 0 Then
                             Dim errNode As XmlNode = errlist(0)
                             If errlist(0).Attributes.GetNamedItem("code") IsNot Nothing Then
                                 ' Get error code
                                 Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
                                 Dim errMsg As String = errNode.InnerText
-                                If APIReturnMethod = APIReturnMethods.ReturnStandard Then
+                                If apiReturnMethod = APIReturnMethods.ReturnStandard Then
                                     ' Return the old XML file but report the error
-                                    cAPILastResult = APIResults.CCPError
-                                    cAPILastError = CInt(errCode)
-                                    cAPILastErrorText = errMsg
-                                    Return APIXML
+                                    _cAPILastResult = APIResults.CCPError
+                                    _cAPILastError = CInt(errCode)
+                                    _cAPILastErrorText = errMsg
+                                    Return apixml
                                 Else
                                     ' Return the current one regardless
-                                    cAPILastResult = APIResults.ReturnedActual
-                                    cAPILastError = CInt(errCode)
-                                    cAPILastErrorText = errMsg
+                                    _cAPILastResult = APIResults.ReturnedActual
+                                    _cAPILastError = CInt(errCode)
+                                    _cAPILastErrorText = errMsg
                                     ' Try to save the XML file
-                                    Call SaveAPIXML(tmpAPIXML, fileLoc)
-                                    Return tmpAPIXML
+                                    Call SaveAPIXML(tmpApixml, fileLoc)
+                                    Return tmpApixml
                                 End If
                             Else
                                 ' Return the old XML file but report a general error - usually as a result of a API Server error
-                                cAPILastResult = APIResults.UnknownError
-                                cAPILastError = 999
-                                cAPILastErrorText = "A General Error occurred. " & errNode.InnerText
-                                Return APIXML
+                                _cAPILastResult = APIResults.UnknownError
+                                _cAPILastError = 999
+                                _cAPILastErrorText = "A General Error occurred. " & errNode.InnerText
+                                Return apixml
                             End If
                         Else
                             ' No error codes so save, then return new XML file
-                            cAPILastResult = APIResults.ReturnedNew
-                            ' Update the incorrect cache data
-                            Call UpdateAPICacheTime(tmpAPIXML, APIType)
+                            _cAPILastResult = APIResults.ReturnedNew
                             ' Try to save the XML file
-                            Call SaveAPIXML(tmpAPIXML, fileLoc)
-                            Return tmpAPIXML
+                            Call SaveAPIXML(tmpApixml, fileLoc)
+                            Return tmpApixml
                         End If
                     End If
                 Else
                     ' Do this if a file does not exist
-                    If APIReturnMethod = APIReturnMethods.ReturnCacheOnly Then
+                    If apiReturnMethod = APIReturnMethods.ReturnCacheOnly Then
                         ' If we demand that a cached fle be returned, return nothing as the file does not exist
                         Return Nothing
                     Else
                         ' Fetch the XML from the EveAPI
-                        APIXML = FetchXMLFromWeb(remoteURL, postData)
+                        apixml = FetchXMLFromWeb(remoteURL, postData)
                         ' Check for null document (can happen if APIRS) isn't active and no backup is used
-                        If APIXML.InnerXml = "" And (cAPILastResult = APIResults.ReturnedNew Or cAPILastResult = APIResults.ReturnedCached Or cAPILastResult = APIResults.ReturnedActual) Then
+                        If apixml.InnerXml = "" And (_cAPILastResult = APIResults.ReturnedNew Or _cAPILastResult = APIResults.ReturnedCached Or _cAPILastResult = APIResults.ReturnedActual) Then
                             ' Do not save and return nothing
-                            cAPILastResult = APIResults.APIServerDownReturnedNull
+                            _cAPILastResult = APIResults.APIServerDownReturnedNull
                             Return Nothing
                         Else
                             ' Check for error codes
-                            errlist = APIXML.SelectNodes("/eveapi/error")
+                            errlist = apixml.SelectNodes("/eveapi/error")
                             If errlist.Count <> 0 Then
                                 Dim errNode As XmlNode = errlist(0)
                                 ' Get error code
                                 Try
                                     Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
                                     Dim errMsg As String = errNode.InnerText
-                                    If APIReturnMethod = APIReturnMethods.ReturnStandard Then
+                                    If apiReturnMethod = APIReturnMethods.ReturnStandard Then
                                         ' Return the file but don't save it as we have an error
-                                        cAPILastResult = APIResults.CCPError
-                                        cAPILastError = CInt(errCode)
-                                        cAPILastErrorText = errMsg
-                                        Return APIXML
+                                        _cAPILastResult = APIResults.CCPError
+                                        _cAPILastError = CInt(errCode)
+                                        _cAPILastErrorText = errMsg
+                                        Return apixml
                                     Else
                                         ' Return the current one regardless
-                                        cAPILastResult = APIResults.ReturnedActual
-                                        cAPILastError = CInt(errCode)
-                                        cAPILastErrorText = errMsg
+                                        _cAPILastResult = APIResults.ReturnedActual
+                                        _cAPILastError = CInt(errCode)
+                                        _cAPILastErrorText = errMsg
                                         ' Try to save the XML file
-                                        Call SaveAPIXML(APIXML, fileLoc)
-                                        Return APIXML
+                                        Call SaveAPIXML(apixml, fileLoc)
+                                        Return apixml
                                     End If
                                 Catch e As Exception
                                     ' Return nothing and report a general error - usually as a result of a API Server error
-                                    cAPILastResult = APIResults.UnknownError
-                                    cAPILastError = 0
-                                    cAPILastErrorText = "A General Error occurred"
+                                    _cAPILastResult = APIResults.UnknownError
+                                    _cAPILastError = 0
+                                    _cAPILastErrorText = "A General Error occurred"
                                     Return Nothing
                                 End Try
                             Else
-                                ' Update the incorrect cache data
-                                Call UpdateAPICacheTime(APIXML, APIType)
-                                ' Save the XML to disk
                                 ' Try to save the XML file
-                                Call SaveAPIXML(APIXML, fileLoc)
-                                cAPILastResult = APIResults.ReturnedNew
-                                Return APIXML
+                                Call SaveAPIXML(apixml, fileLoc)
+                                _cAPILastResult = APIResults.ReturnedNew
+                                Return apixml
                             End If
                         End If
                     End If
@@ -769,8 +761,8 @@ Public Class EveAPIRequest
             End If
         Catch ex As Exception
             ' Something happened so let's return nothing and let the calling routine handle it
-            cAPILastResult = APIResults.InternalCodeError
-            cAPILastErrorText = ex.Message
+            _cAPILastResult = APIResults.InternalCodeError
+            _cAPILastErrorText = ex.Message
             Return Nothing
         End Try
     End Function
@@ -783,15 +775,15 @@ Public Class EveAPIRequest
     ''' <returns>An XMLDocument containing the response from the API Server</returns>
     ''' <remarks></remarks>
     Private Function FetchXMLFromWeb(ByVal remoteURL As String, ByVal postData As String) As XmlDocument
-        Dim APIServer As String = cAPIServerAddress
-        remoteURL = APIServer & remoteURL
-        Dim webdata As String = ""
-        Dim APIXML As New XmlDocument
+        Dim apiServer As String = _cAPIServerAddress
+        remoteURL = apiServer & remoteURL
+        Dim webdata As String
+        Dim apixml As New XmlDocument
         Try
             ' Create the requester
             ServicePointManager.DefaultConnectionLimit = 20
             ServicePointManager.Expect100Continue = False
-            Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
+            ServicePointManager.FindServicePoint(New Uri(remoteURL))
             Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
             ' Setup proxy server (if required)
             If ProxyServer IsNot Nothing Then
@@ -805,8 +797,8 @@ Public Class EveAPIRequest
             request.ContentType = "application/x-www-form-urlencoded"
             request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
             ' Setup a stream to write the HTTP "POST" data
-            Dim WebEncoding As New ASCIIEncoding()
-            Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
+            Dim webEncoding As New ASCIIEncoding()
+            Dim byte1 As Byte() = webEncoding.GetBytes(postData)
             Dim newStream As Stream = request.GetRequestStream()
             newStream.Write(byte1, 0, byte1.Length)
             newStream.Close()
@@ -824,91 +816,97 @@ Public Class EveAPIRequest
             readStream.Close()
             readStream.Dispose()
             ' Check response string for any error codes?
-            APIXML.LoadXml(webdata)
-            Dim errlist As XmlNodeList = APIXML.SelectNodes("/eveapi/error")
+            apixml.LoadXml(webdata)
+            Dim errlist As XmlNodeList = apixml.SelectNodes("/eveapi/error")
             If errlist.Count <> 0 Then
                 Dim errNode As XmlNode = errlist(0)
                 ' Get error code
                 If errNode.Attributes.GetNamedItem("code") IsNot Nothing Then
                     Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
                     Dim errMsg As String = errNode.InnerText
-                    cAPILastResult = APIResults.CCPError
-                    cAPILastError = CInt(errCode)
-                    cAPILastErrorText = errMsg
+                    _cAPILastResult = APIResults.CCPError
+                    _cAPILastError = CInt(errCode)
+                    _cAPILastErrorText = errMsg
                 Else
-                    cAPILastResult = APIResults.UnknownError
-                    cAPILastError = 999
-                    cAPILastErrorText = errNode.InnerText
+                    _cAPILastResult = APIResults.UnknownError
+                    _cAPILastError = 999
+                    _cAPILastErrorText = errNode.InnerText
                 End If
             Else
                 ' Result will be given in the calling sub
             End If
         Catch webEx As WebException
-            'Quantix: The EveAPI now uses HTTP status messages for errors instead of 200 OK plus error details in xml.
-            ' however there is no documentation at the moment about what error codes are used for which scenarios.
-            cAPILastResult = APIResults.CCPError
+            'The EveAPI now uses HTTP status messages for errors but provides more detail in a further reponse (which can be read).
+            _cAPILastResult = APIResults.CCPError
             Dim errorDetails As HttpWebResponse = CType(webEx.Response, HttpWebResponse)
-            cAPILastError = CInt(errorDetails.StatusCode)
-            cAPILastErrorText = CStr(errorDetails.StatusCode)
+            ' Get the stream associated with the response.
+            Dim receiveStream As Stream = errorDetails.GetResponseStream()
+            ' Pipes the stream to a higher level stream reader with the required encoding format. 
+            Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
+            webdata = readStream.ReadToEnd()
+            Try
+                Dim errorXML As New XmlDocument
+                errorXML.LoadXml(webdata)
+                Dim errlist As XmlNodeList = errorXML.SelectNodes("/eveapi/error")
+                If errlist.Count <> 0 Then
+                    Dim errNode As XmlNode = errlist(0)
+                    ' Get error code
+                    If errNode.Attributes.GetNamedItem("code") IsNot Nothing Then
+                        _cAPILastResult = APIResults.CCPError
+                        _cAPILastError = CInt(errNode.Attributes.GetNamedItem("code").Value)
+                        _cAPILastErrorText = errNode.InnerText
+                    Else
+                        _cAPILastResult = APIResults.UnknownError
+                        _cAPILastError = 999
+                        _cAPILastErrorText = errNode.InnerText
+                    End If
+                End If
+            Catch ex As Exception
+                _cAPILastResult = APIResults.UnknownError
+                _cAPILastError = 999
+                _cAPILastErrorText = webdata
+            End Try
         Catch e As Exception
             If e.Message.Contains("timed out") = True Then
-                cAPILastResult = APIResults.TimedOut
-                cAPILastError = 0
-                cAPILastErrorText = e.Message
+                _cAPILastResult = APIResults.TimedOut
+                _cAPILastError = 0
+                _cAPILastErrorText = e.Message
             Else
-                cAPILastResult = APIResults.UnknownError
-                cAPILastError = 0
-                cAPILastErrorText = e.Message
+                _cAPILastResult = APIResults.UnknownError
+                _cAPILastError = 0
+                _cAPILastErrorText = e.Message
             End If
         End Try
-        Return APIXML
+        Return apixml
     End Function
-
-    ''' <summary>
-    ''' Routine to correct the cache timers provided in certain APIs that are reported incorrectly
-    ''' </summary>
-    ''' <param name="APIXML">The XMLDocument to correct</param>
-    ''' <param name="APIType">The type of API that is being passed</param>
-    ''' <remarks></remarks>
-    Private Sub UpdateAPICacheTime(ByRef APIXML As XmlDocument, ByVal APIType As APITypes)
-        Dim cacheDetails As XmlNodeList = APIXML.SelectNodes("/eveapi")
-        Dim APITime As DateTime = CDate(cacheDetails(0).ChildNodes(0).InnerText)
-        ' Set the cache times to the correct values
-        Select Case APIType
-            'Case APITypes.WalletJournalChar, APITypes.WalletJournalCorp, APITypes.WalletTransChar, APITypes.WalletTransCorp
-            'cacheDetails(0).ChildNodes(2).InnerText = Format(APITime.AddSeconds(3630), "yyyy-MM-dd HH:mm:ss")
-            'Case APITypes.AccountBalancesChar, APITypes.AccountBalancesCorp, APITypes.OrdersChar, APITypes.OrdersCorp
-            'cacheDetails(0).ChildNodes(2).InnerText = Format(APITime.AddSeconds(930), "yyyy-MM-dd HH:mm:ss")
-        End Select
-    End Sub
 
     ''' <summary>
     ''' Routine for saving an XMLDocument to the Cache
     ''' </summary>
-    ''' <param name="APIXML">The XMLDocument to save</param>
+    ''' <param name="apixml">The XMLDocument to save</param>
     ''' <param name="fileLoc">The location in local storage to save the XMLDocument</param>
     ''' <remarks></remarks>
-    Private Sub SaveAPIXML(ByRef APIXML As XmlDocument, ByVal fileLoc As String)
-        Dim FileSaved As Boolean = False
-        Dim CurrentAttempt As Integer = 0
+    Private Sub SaveAPIXML(ByRef apixml As XmlDocument, ByVal fileLoc As String)
+        Dim fileSaved As Boolean = False
+        Dim currentAttempt As Integer = 0
         Do
             Try
-                CurrentAttempt += 1
-                APIXML.Save(fileLoc)
-                FileSaved = True
+                currentAttempt += 1
+                apixml.Save(fileLoc)
+                fileSaved = True
             Catch e As Exception
                 ' Failed save, presumably due to conflicting access
             End Try
-        Loop Until FileSaved = True Or CurrentAttempt >= ErrorRetries
+        Loop Until fileSaved = True Or currentAttempt >= ErrorRetries
     End Sub
 
     ''' <summary>
     ''' Converts EveTime to the user's local time
     ''' </summary>
-    ''' <param name="EveTime">The time of the Eve Server</param>
+    ''' <param name="eveTime">The time of the Eve Server</param>
     ''' <returns>The local time equivalent of Eve Time</returns>
     ''' <remarks></remarks>
-    Private Function ConvertEveTimeToLocal(ByVal EveTime As Date) As Date
+    Private Function ConvertEveTimeToLocal(ByVal eveTime As Date) As Date
         ' Calculate the local time and UTC offset.
         Return TimeZone.CurrentTimeZone.ToLocalTime(EveTime)
     End Function
@@ -922,128 +920,128 @@ Public Class EveAPIRequest
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub New()
-        Me.APIServerAddress = ""
-        Me.ProxyServer = Nothing
-        Me.APIFileExtension = ""
-        Me.APICacheLocation = ""
-        cAPILastResult = APIResults.NotYetProcessed
+        APIServerAddress = ""
+        ProxyServer = Nothing
+        APIFileExtension = ""
+        APICacheLocation = ""
+        _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 
     ''' <summary>
     ''' Initialises a new EveAPIRequest
     ''' Allows the EveAPIRequest to use an alternative API Server
     ''' </summary>
-    ''' <param name="ServerInfo">The API server details used for access to the API</param>
+    ''' <param name="serverInfo">The API server details used for access to the API</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal ServerInfo As APIServerInfo)
+    Public Sub New(ByVal serverInfo As APIServerInfo)
         If ServerInfo.UseAPIRS = True Then
-            Me.APIServerAddress = ServerInfo.APIRSServer
+            APIServerAddress = ServerInfo.APIRSServer
         Else
-            Me.APIServerAddress = ServerInfo.CCPServer
+            APIServerAddress = ServerInfo.CCPServer
         End If
-        Me.ProxyServer = Nothing
-        Me.APIFileExtension = ""
-        Me.APICacheLocation = ""
-        cAPILastResult = APIResults.NotYetProcessed
+        ProxyServer = Nothing
+        APIFileExtension = ""
+        APICacheLocation = ""
+        _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 
     ''' <summary>
     ''' Initialises a new EveAPIRequest
     ''' Allows the EveAPIRequest to use an alternative API Server together with a Proxy Server
     ''' </summary>
-    ''' <param name="ServerInfo">The API server details used for access to the API</param>
-    ''' <param name="ProxyDetails">An instance of the RemoteProxyServer class containing Proxy Server details</param>
+    ''' <param name="serverInfo">The API server details used for access to the API</param>
+    ''' <param name="proxyDetails">An instance of the RemoteProxyServer class containing Proxy Server details</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal ServerInfo As APIServerInfo, ByVal ProxyDetails As RemoteProxyServer)
-        If ServerInfo.UseAPIRS = True Then
-            Me.APIServerAddress = ServerInfo.APIRSServer
+    Public Sub New(ByVal serverInfo As APIServerInfo, ByVal proxyDetails As RemoteProxyServer)
+        If serverInfo.UseAPIRS = True Then
+            APIServerAddress = serverInfo.APIRSServer
         Else
-            Me.APIServerAddress = ServerInfo.CCPServer
+            APIServerAddress = serverInfo.CCPServer
         End If
-        Me.ProxyServer = ProxyDetails
-        Me.APIFileExtension = ""
-        Me.APICacheLocation = ""
-        cAPILastResult = APIResults.NotYetProcessed
+        ProxyServer = proxyDetails
+        APIFileExtension = ""
+        APICacheLocation = ""
+        _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 
     ''' <summary>
     ''' Initialises a new EveAPIRequest
     ''' Allows the EveAPIRequest to use an alternative API Server together with an alternative web page extension for non .Net servers
     ''' </summary>
-    ''' <param name="ServerInfo">The API server details used for access to the API</param>
-    ''' <param name="FileExtension">The web page extension to use for API Requests</param>
+    ''' <param name="serverInfo">The API server details used for access to the API</param>
+    ''' <param name="fileExtension">The web page extension to use for API Requests</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal ServerInfo As APIServerInfo, ByVal FileExtension As String)
-        If ServerInfo.UseAPIRS = True Then
-            Me.APIServerAddress = ServerInfo.APIRSServer
+    Public Sub New(ByVal serverInfo As APIServerInfo, ByVal fileExtension As String)
+        If serverInfo.UseAPIRS = True Then
+            APIServerAddress = serverInfo.APIRSServer
         Else
-            Me.APIServerAddress = ServerInfo.CCPServer
+            APIServerAddress = serverInfo.CCPServer
         End If
-        Me.ProxyServer = Nothing
-        Me.APIFileExtension = FileExtension
-        Me.APICacheLocation = ""
-        cAPILastResult = APIResults.NotYetProcessed
+        ProxyServer = Nothing
+        APIFileExtension = fileExtension
+        APICacheLocation = ""
+        _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 
     ''' <summary>
     ''' Initialises a new EveAPIRequest
     ''' Allows the EveAPIRequest to use an alternative API Server and Proxy Server, together with an alternative web page extension for non .Net servers
     ''' </summary>
-    ''' <param name="ServerInfo">The API server details used for access to the API</param>
-    ''' <param name="ProxyDetails">An instance of the RemoteProxyServer class containing Proxy Server details</param>
-    ''' <param name="FileExtension">The web page extension to use for API Requests</param>
+    ''' <param name="serverInfo">The API server details used for access to the API</param>
+    ''' <param name="proxyDetails">An instance of the RemoteProxyServer class containing Proxy Server details</param>
+    ''' <param name="fileExtension">The web page extension to use for API Requests</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal ServerInfo As APIServerInfo, ByVal ProxyDetails As RemoteProxyServer, ByVal FileExtension As String)
-        If ServerInfo.UseAPIRS = True Then
-            Me.APIServerAddress = ServerInfo.APIRSServer
+    Public Sub New(ByVal serverInfo As APIServerInfo, ByVal proxyDetails As RemoteProxyServer, ByVal fileExtension As String)
+        If serverInfo.UseAPIRS = True Then
+            APIServerAddress = serverInfo.APIRSServer
         Else
-            Me.APIServerAddress = ServerInfo.CCPServer
+            APIServerAddress = serverInfo.CCPServer
         End If
-        Me.ProxyServer = ProxyDetails
-        Me.APIFileExtension = FileExtension
-        Me.APICacheLocation = ""
-        cAPILastResult = APIResults.NotYetProcessed
+        ProxyServer = proxyDetails
+        APIFileExtension = FileExtension
+        APICacheLocation = ""
+        _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 
     ''' <summary>
     ''' Initialises a new EveAPIRequest
     ''' Allows the EveAPIRequest to use an alternative API Server and Cache Location, together with an alternative web page extension for non .Net servers
     ''' </summary>
-    ''' <param name="ServerInfo">The API server details used for access to the API</param>
-    ''' <param name="FileExtension">The web page extension to use for API Requests</param>
-    ''' <param name="CacheLocation">The location in local storage of where the cached API files are maintained</param>
+    ''' <param name="serverInfo">The API server details used for access to the API</param>
+    ''' <param name="fileExtension">The web page extension to use for API Requests</param>
+    ''' <param name="cacheLocation">The location in local storage of where the cached API files are maintained</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal ServerInfo As APIServerInfo, ByVal FileExtension As String, ByVal CacheLocation As String)
-        If ServerInfo.UseAPIRS = True Then
-            Me.APIServerAddress = ServerInfo.APIRSServer
+    Public Sub New(ByVal serverInfo As APIServerInfo, ByVal fileExtension As String, ByVal cacheLocation As String)
+        If serverInfo.UseAPIRS = True Then
+            APIServerAddress = serverInfo.APIRSServer
         Else
-            Me.APIServerAddress = ServerInfo.CCPServer
+            APIServerAddress = serverInfo.CCPServer
         End If
-        Me.ProxyServer = Nothing
-        Me.APIFileExtension = FileExtension
-        Me.APICacheLocation = CacheLocation
-        cAPILastResult = APIResults.NotYetProcessed
+        ProxyServer = Nothing
+        APIFileExtension = fileExtension
+        APICacheLocation = CacheLocation
+        _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 
     ''' <summary>
     ''' Initialises a new EveAPIRequest
     ''' Allows full configuration of the EveAPIRequest
     ''' </summary>
-    ''' <param name="ServerInfo">The API server details used for access to the API</param>
-    ''' <param name="ProxyDetails">An instance of the RemoteProxyServer class containing Proxy Server details</param>
-    ''' <param name="FileExtension">The web page extension to use for API Requests</param>
-    ''' <param name="CacheLocation">The location in local storage of where the cached API files are maintained</param>
+    ''' <param name="serverInfo">The API server details used for access to the API</param>
+    ''' <param name="proxyDetails">An instance of the RemoteProxyServer class containing Proxy Server details</param>
+    ''' <param name="fileExtension">The web page extension to use for API Requests</param>
+    ''' <param name="cacheLocation">The location in local storage of where the cached API files are maintained</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal ServerInfo As APIServerInfo, ByVal ProxyDetails As RemoteProxyServer, ByVal FileExtension As String, ByVal CacheLocation As String)
-        If ServerInfo.UseAPIRS = True Then
-            Me.APIServerAddress = ServerInfo.APIRSServer
+    Public Sub New(ByVal serverInfo As APIServerInfo, ByVal proxyDetails As RemoteProxyServer, ByVal fileExtension As String, ByVal cacheLocation As String)
+        If serverInfo.UseAPIRS = True Then
+            APIServerAddress = serverInfo.APIRSServer
         Else
-            Me.APIServerAddress = ServerInfo.CCPServer
+            APIServerAddress = serverInfo.CCPServer
         End If
-        Me.ProxyServer = ProxyDetails
-        Me.APIFileExtension = FileExtension
-        Me.APICacheLocation = CacheLocation
-        cAPILastResult = APIResults.NotYetProcessed
+        ProxyServer = proxyDetails
+        APIFileExtension = fileExtension
+        APICacheLocation = CacheLocation
+        _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 
 #End Region
@@ -1086,28 +1084,28 @@ Public Class APIServerInfo
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Property UseCCPAPIBackup As Boolean
+    Public Property UseCcpapiBackup As Boolean
 
     Public Sub New()
-        Me.CCPServer = ""
-        Me.APIRSServer = ""
-        Me.UseAPIRS = False
-        Me.UseCCPAPIBackup = False
+        CCPServer = ""
+        APIRSServer = ""
+        UseAPIRS = False
+        UseCCPAPIBackup = False
     End Sub
 
     ''' <summary>
     ''' Creates a new instance of the APIServerInfo class to pass to an EveAPIRequest
     ''' </summary>
-    ''' <param name="CCPServerAddress">URL of the CCP API Server</param>
-    ''' <param name="APIRSAddress">URL of the custom API Relay Server</param>
-    ''' <param name="UseAPIRelayServer">Set to true if using the API Relay Server</param>
-    ''' <param name="UseCCPServerForBackup">Set to true if using the CCP API Server as a backup</param>
+    ''' <param name="ccpServerAddress">URL of the CCP API Server</param>
+    ''' <param name="apirsAddress">URL of the custom API Relay Server</param>
+    ''' <param name="useAPIRelayServer">Set to true if using the API Relay Server</param>
+    ''' <param name="useCCPServerForBackup">Set to true if using the CCP API Server as a backup</param>
     ''' <remarks></remarks>
-    Public Sub New(CCPServerAddress As String, APIRSAddress As String, UseAPIRelayServer As Boolean, UseCCPServerForBackup As Boolean)
-        Me.CCPServer = CCPServerAddress
-        Me.APIRSServer = APIRSAddress
-        Me.UseAPIRS = UseAPIRelayServer
-        Me.UseCCPAPIBackup = UseCCPServerForBackup
+    Public Sub New(ccpServerAddress As String, apirsAddress As String, useAPIRelayServer As Boolean, useCCPServerForBackup As Boolean)
+        CCPServer = ccpServerAddress
+        APIRSServer = apirsAddress
+        UseAPIRS = useAPIRelayServer
+        UseCCPAPIBackup = UseCCPServerForBackup
     End Sub
 
 End Class
@@ -1151,7 +1149,7 @@ Public Enum APITypes As Integer
     StandingsChar = 31
     StandingsCorp = 32
     'StandingsAlliance = 33
-	CorpContainerLog = 34
+    CorpContainerLog = 34
     CorpTitles = 35
     CorpMemberSecurity = 36
     CorpMemberSecurityLog = 37
@@ -1169,15 +1167,15 @@ Public Enum APITypes As Integer
     SovereigntyStatus = 49
     MailMessages = 50
     Notifications = 51
-	MailingLists = 52
-	MailBodies = 53
-	Research = 54
-	AccountStatus = 55
+    MailingLists = 52
+    MailBodies = 53
+    Research = 54
+    AccountStatus = 55
     CalendarEventAttendeesChar = 56
-	'CalendarEventAttendeesCorp = 57
+    'CalendarEventAttendeesCorp = 57
     UpcomingCalendarEvents = 58
-	CharacterInfo = 59
-	OutpostList = 60
+    CharacterInfo = 59
+    OutpostList = 60
     OutpostServiceDetail = 61
     ContactListChar = 62
     ContactListCorp = 63

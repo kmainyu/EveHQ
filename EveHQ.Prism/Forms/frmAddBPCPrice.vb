@@ -17,64 +17,69 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
 Imports System.Windows.Forms
+Imports EveHQ.Core
+Imports EveHQ.EveData
+Imports EveHQ.Prism.Classes
 
-Public Class frmAddBPCPrice
+Namespace Forms
 
-    Dim BlueprintID As String
+    Public Class FrmAddBPCPrice
+
+        ReadOnly _blueprintID As Integer
 
 #Region "Form Constructor"
 
-    Public Sub New(ByVal BPID As String)
+        Public Sub New(ByVal bpid As Integer)
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        BlueprintID = BPID
-        pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(BlueprintID)
-        lblBPName.Text = PlugInData.Blueprints(BlueprintID).Name
+            ' Add any initialization after the InitializeComponent() call.
+            _blueprintID = BPID
+            pbBP.ImageLocation = ImageHandler.GetImageLocation(_blueprintID)
+            lblBPName.Text = StaticData.Types(_blueprintID).Name
 
-        If Settings.PrismSettings.BPCCosts.ContainsKey(BlueprintID) = True Then
-            nudMinRunCost.Value = Settings.PrismSettings.BPCCosts(BlueprintID).MinRunCost
-            nudMaxRunCost.Value = Settings.PrismSettings.BPCCosts(BlueprintID).MaxRunCost
-        End If
+            If PrismSettings.UserSettings.BPCCosts.ContainsKey(_blueprintID) = True Then
+                nudMinRunCost.Value = PrismSettings.UserSettings.BPCCosts(_blueprintID).MinRunCost
+                nudMaxRunCost.Value = PrismSettings.UserSettings.BPCCosts(_blueprintID).MaxRunCost
+            End If
 
-    End Sub
+        End Sub
 
 #End Region
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
 
-        ' Check the min cost isn't greater than the max cost
+            ' Check the min cost isn't greater than the max cost
 
-        If nudMinRunCost.Value > nudMaxRunCost.Value Then
-            MessageBox.Show("Minimum Value cannot exceed the Maximum Run Value - please adjust the values.", "Value Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Exit Sub
-        End If
+            If nudMinRunCost.Value > nudMaxRunCost.Value Then
+                MessageBox.Show("Minimum Value cannot exceed the Maximum Run Value - please adjust the values.", "Value Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
 
-        ' Save the value
-        If Settings.PrismSettings.BPCCosts.ContainsKey(BlueprintID) = False Then
-            Dim BPCInfo As New BPCCostInfo(BlueprintID, nudMinRunCost.Value, nudMaxRunCost.Value)
-            Settings.PrismSettings.BPCCosts.Add(BlueprintID, BPCInfo)
-        Else
-            Dim BPCinfo As BPCCostInfo = Settings.PrismSettings.BPCCosts(BlueprintID)
-            BPCinfo.MinRunCost = nudMinRunCost.Value
-            BPCinfo.MaxRunCost = nudMaxRunCost.Value
-        End If
+            ' Save the value
+            If PrismSettings.UserSettings.BPCCosts.ContainsKey(_blueprintID) = False Then
+                Dim bpcInfo As New BlueprintCopyCostInfo(_blueprintID, nudMinRunCost.Value, nudMaxRunCost.Value)
+                PrismSettings.UserSettings.BPCCosts.Add(_blueprintID, bpcInfo)
+            Else
+                Dim bpCinfo As BlueprintCopyCostInfo = PrismSettings.UserSettings.BPCCosts(_blueprintID)
+                bpCinfo.MinRunCost = nudMinRunCost.Value
+                bpCinfo.MaxRunCost = nudMaxRunCost.Value
+            End If
 
-        ' Close the form
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
+            ' Close the form
+            DialogResult = DialogResult.OK
+            Close()
 
-    End Sub
+        End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
 
-        Me.DialogResult = Windows.Forms.DialogResult.Cancel
-        Me.Close()
+            DialogResult = DialogResult.Cancel
+            Close()
 
-    End Sub
+        End Sub
 
-End Class
+    End Class
+End NameSpace

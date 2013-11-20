@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2012  EveHQ Development Team
+' Copyright © 2012-2013 EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -19,43 +19,42 @@
 '=========================================================================
 Imports System.Net
 Imports System.ComponentModel
-Imports System.Xml
-Imports System.Data
 Imports System.IO
-Imports System.Windows.Forms
+Imports EveHQ.EveData
+Imports EveHQ.Core.CoreReports
+Imports EveHQ.Core.Requisitions
 Imports System.Reflection
 Imports System.Text
+Imports System.Windows.Forms
+Imports System.Web
 
 Public Class IGB
     Shared context As HttpListenerContext
-    Dim listener As System.Net.HttpListener
-    Dim response As HttpListenerResponse
-    Dim eveData As New DataSet
+    Public Listener As HttpListener
+    Dim _response As HttpListenerResponse
     Shared timeStart, timeEnd As DateTime
     Shared timeTaken As TimeSpan
-    Const maxActivities As Integer = 9
-    Private EveIcons As Collection = New Collection
-    Private cTQPlayers, cSisiPlayers As Long
+    Private _tqPlayers, _sisiPlayers As Long
 
-    Public Property TQPlayers() As Long
+    Public Property TqPlayers() As Long
         Get
-            Return cTQPlayers
+            Return _tqPlayers
         End Get
         Set(ByVal value As Long)
-            cTQPlayers = value
+            _tqPlayers = value
         End Set
     End Property
     Public Property SisiPlayers() As Long
         Get
-            Return cSisiPlayers
+            Return _sisiPlayers
         End Get
         Set(ByVal value As Long)
-            cSisiPlayers = value
+            _sisiPlayers = value
         End Set
     End Property
     Public Sub RunIGB(ByVal worker As BackgroundWorker, ByVal e As DoWorkEventArgs)
         Dim prefixes(0) As String
-        prefixes(0) = "http://localhost:" & EveHQ.Core.HQ.EveHqSettings.IGBPort & "/"
+        prefixes(0) = "http://localhost:" & HQ.Settings.IgbPort & "/"
 
         ' URI prefixes are required,
         If prefixes Is Nothing OrElse prefixes.Length = 0 Then
@@ -63,9 +62,9 @@ Public Class IGB
         End If
 
         ' Create a listener and add the prefixes.
-        listener = New System.Net.HttpListener()
+        Listener = New HttpListener()
         For Each s As String In prefixes
-            listener.Prefixes.Add(s)
+            Listener.Prefixes.Add(s)
         Next
 
         ' Check our IGB Access List is complete
@@ -73,23 +72,23 @@ Public Class IGB
 
         Try
             ' Start the listener to begin listening for requests.
-            listener.Start()
+            Listener.Start()
 
             ' Set the number of requests this application will handle.
-            'Dim numRequestsToBeHandled As Integer = 10
 
             Do
-                response = Nothing
+                _response = Nothing
                 Try
                     ' Note: GetContext blocks while waiting for a request.
                     If worker.CancellationPending = True Then
                         e.Cancel = True
+                        Exit Do
                     Else
 
-                        context = listener.GetContext()
+                        context = Listener.GetContext
 
                         ' Create the response.
-                        response = context.Response
+                        _response = context.Response
                         Dim responseString As String = ""
                         ' Start the page generation timer
                         timeStart = Now
@@ -100,7 +99,7 @@ Public Class IGB
                             Case "/HOME", "/HOME/"
                                 responseString &= CreateHome()
                             Case "/ITEMDB", "/ITEMDB/"
-                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Item Database") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Item Database") = True Then
                                     responseString &= CreateHTMLItemDB()
                                 Else
                                     responseString &= CreateHome()
@@ -112,63 +111,45 @@ Public Class IGB
                             Case "/HEADERS", "/HEADERS/"
                                 responseString &= CreateHeaders()
                             Case "/REPORTS", "/REPORTS/"
-                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Reports - Main Menu") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Reports - Main Menu") = True Then
                                     responseString &= CreateReports()
                                 Else
                                     responseString &= CreateHome()
                                 End If
-                            Case "/REPORTS/ALLOY", "/REPORTS/ALLOY/"
-                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Alloy Composition") = True Then
-                                    responseString &= CreateAlloyReport()
-                                Else
-                                    responseString &= CreateHome()
-                                End If
-                            Case "/REPORTS/ORE", "/REPORTS/ORE/"
-                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Ore Composition") = True Then
-                                    responseString &= CreateOreReport()
-                                Else
-                                    responseString &= CreateHome()
-                                End If
-                            Case "/REPORTS/ICE", "/REPORTS/ICE/"
-                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Ice Composition") = True Then
-                                    responseString &= CreateIceReport()
-                                Else
-                                    responseString &= CreateHome()
-                                End If
                             Case "/REPORTS/SKILLLEVELS", "/REPORTS/SKILLLEVELS/"
-                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Skill Level Table") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Skill Level Table") = True Then
                                     responseString &= CreateSPReport()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARACTER", "/REPORTS/CHARACTER/"
-                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Individual Reports") = True Then
                                     responseString &= ShowCharReports()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARSUMM", "/REPORTS/CHARASUMM/"
-                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Summary") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Summary") = True Then
                                     responseString &= ShowCharSummary()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARREPORT", "/REPORTS/CHARREPORT/"
-                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Individual Reports") = True Then
                                     responseString &= CreateCharReport()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARREPORT/QUEUES", "/REPORTS/CHARREPORT/QUEUES/"
-                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Individual Reports") = True Then
                                     responseString &= CreateQueueReport()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/LOGO.JPG"
                                 context.Response.ContentType = "image/jpeg"
-                                My.Resources.EveHQ_IGBLogo.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "logo.jpg"))
-                                responseString = GetImage(Path.Combine(EveHQ.Core.HQ.cacheFolder, "logo.jpg"))
+                                My.Resources.EveHQ_IGBLogo.Save(Path.Combine(HQ.CacheFolder, "logo.jpg"))
+                                responseString = GetImage(Path.Combine(HQ.CacheFolder, "logo.jpg"))
                             Case "/TEST.GIF"
                                 context.Response.ContentType = "image/gif"
                                 responseString = GetImage("c:/test.gif")
@@ -199,35 +180,35 @@ Public Class IGB
                             Case Else
                                 ' Check for requisitions
                                 If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS") Or context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS/") Then
-                                    If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Requisitions") = True Then
-                                        responseString = EveHQ.Core.RequisitionIGB.Response(context)
+                                    If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Requisitions") = True Then
+                                        responseString = RequisitionIGB.Response(context)
                                     Else
                                         responseString = CreateHome()
                                     End If
                                 Else
                                     ' Check if this is a plugin string
-                                    Dim IGBPlugin As Boolean = False
-                                    For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHqSettings.Plugins.Values
-                                        If PlugInInfo.RunInIGB Then
-                                            If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData(PlugInInfo.Name) = True Then
-                                                Dim testName As String = PlugInInfo.Name.Replace(" ", "")
+                                    Dim igbPlugin As Boolean = False
+                                    For Each plugInInfo As EveHQPlugIn In HQ.Plugins.Values
+                                        If plugInInfo.RunInIGB Then
+                                            If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData(plugInInfo.Name) = True Then
+                                                Dim testName As String = plugInInfo.Name.Replace(" ", "")
                                                 If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/" & testName.ToUpper) Then
-                                                    IGBPlugin = True
-                                                    Dim PlugInResponse As String = ""
-                                                    Dim myAssembly As Assembly = Assembly.LoadFrom(PlugInInfo.FileName)
-                                                    Dim t As Type = myAssembly.GetType(PlugInInfo.FileType)
-                                                    PlugInInfo.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
-                                                    Dim runPlugIn As EveHQ.Core.IEveHQPlugIn = PlugInInfo.Instance
-                                                    PlugInResponse = runPlugIn.IGBService(context)
-                                                    If PlugInResponse Is Nothing Then
-                                                        PlugInResponse = "The module '" & PlugInInfo.Name & "' failed to return a valid response."
+                                                    igbPlugin = True
+                                                    Dim plugInResponse As String
+                                                    Dim myAssembly As Assembly = Assembly.LoadFrom(plugInInfo.FileName)
+                                                    Dim t As Type = myAssembly.GetType(plugInInfo.FileType)
+                                                    plugInInfo.Instance = CType(Activator.CreateInstance(t), IEveHQPlugIn)
+                                                    Dim runPlugIn As IEveHQPlugIn = plugInInfo.Instance
+                                                    plugInResponse = runPlugIn.IGBService(context)
+                                                    If plugInResponse Is Nothing Then
+                                                        plugInResponse = "The module '" & plugInInfo.Name & "' failed to return a valid response."
                                                     End If
-                                                    responseString &= PlugInResponse
+                                                    responseString &= plugInResponse
                                                 End If
                                             End If
                                         End If
                                     Next
-                                    If IGBPlugin = False Then
+                                    If igbPlugin = False Then
                                         responseString &= IGBHTMLHeader(context, "EveHQ IGB Site", 0)
                                         responseString &= "Sorry, the page you are looking for cannot be found.<br><br>"
                                         responseString &= IGBHTMLFooter(context)
@@ -235,20 +216,20 @@ Public Class IGB
                                 End If
                         End Select
 
-                        Dim buffer() As Byte = System.Text.Encoding.Default.GetBytes(responseString)
-                        response.ContentLength64 = buffer.Length
-                        response.ContentType = "text/html;q=0.9;*/*;q=0.5"
-                        Dim output As System.IO.Stream = response.OutputStream
+                        Dim buffer() As Byte = Encoding.Default.GetBytes(responseString)
+                        _response.ContentLength64 = buffer.Length
+                        _response.ContentType = "text/html;q=0.9;*/*;q=0.5"
+                        Dim output As Stream = _response.OutputStream
                         output.Write(buffer, 0, buffer.Length)
                         output.Flush()
                         output.Close()
                         output.Dispose()
                     End If
                 Catch ex As HttpListenerException
-                    Console.WriteLine(ex.Message)
+                    'Console.WriteLine(ex.Message)
                 Finally
-                    If response IsNot Nothing Then
-                        response.Close()
+                    If _response IsNot Nothing Then
+                        _response.Close()
                     End If
                 End Try
             Loop
@@ -256,74 +237,37 @@ Public Class IGB
             MessageBox.Show("There was an error using the IGB server. The error was: " & ex.Message, "IGB Server Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Finally
             ' Stop listening for requests.
-            listener.Close()
+            Listener.Close()
         End Try
     End Sub
-    Public Shared Function GetImage(ByVal LocalFile As String) As String
+    Public Shared Function GetImage(ByVal localFile As String) As String
         'Create a file stream from an existing file.
-        Dim fi As New FileInfo(LocalFile)
+        Dim fi As New FileInfo(localFile)
         Dim fs As FileStream = fi.OpenRead()
         'Read bytes into an array from the specified file.
         Dim nBytes As Integer = CInt(fi.Length)
-        Dim ByteArray(nBytes - 1) As Byte
-        Dim nBytesRead As Integer = fs.Read(ByteArray, 0, nBytes)
+        Dim byteArray(nBytes - 1) As Byte
+        fs.Read(byteArray, 0, nBytes)
         fs.Close()
         fs.Dispose()
-        Return System.Text.Encoding.Default.GetString(ByteArray)
+        Return Encoding.Default.GetString(byteArray)
     End Function
     Public Shared Sub CheckAllIGBAccessRights()
-        Dim IGBAccessFile As String = My.Resources.IGBAccess.ToString
-        Dim IGBAccessList() As String = IGBAccessFile.Split(ControlChars.CrLf.ToCharArray)
-        For Each IGBFeature As String In IGBAccessList
-            If IGBFeature.Trim <> "" Then
-                Dim IGBFeatureData() As String = IGBFeature.Split(",".ToCharArray)
-                If EveHQ.Core.HQ.EveHqSettings.IGBAllowedData.ContainsKey(IGBFeatureData(0)) = False Then
-                    EveHQ.Core.HQ.EveHqSettings.IGBAllowedData.Add(IGBFeatureData(0), CBool(IGBFeatureData(1)))
+        Dim igbAccessFile As String = My.Resources.IGBAccess.ToString
+        Dim igbAccessList() As String = igbAccessFile.Split(ControlChars.CrLf.ToCharArray)
+        For Each igbFeature As String In igbAccessList
+            If igbFeature.Trim <> "" Then
+                Dim igbFeatureData() As String = igbFeature.Split(",".ToCharArray)
+                If HQ.Settings.IgbAllowedData.ContainsKey(igbFeatureData(0)) = False Then
+                    HQ.Settings.IgbAllowedData.Add(igbFeatureData(0), CBool(igbFeatureData(1)))
                 End If
             End If
         Next
     End Sub
 
 #Region "IGB Procedures and Functions"
-    Private Sub ShowData()
-        Dim lvwData As New ListView
-        lvwData.View = View.Details
-        lvwData.Width = 500
-        lvwData.Height = 500
-        With lvwData
-            .Clear()
-            .Columns.Clear()
-            ' Add column headers
-            For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
-                .Columns.Add(eveData.Tables(0).Columns(col).Caption)
-            Next
-            ' Add data
-            For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                Dim item As New ListViewItem
-                If IsDBNull(eveData.Tables(0).Rows(row).Item(0)) = False Then
-                    item.Text = CStr(eveData.Tables(0).Rows(row).Item(0))
-                Else
-                    item.Text = ""
-                End If
-                For col As Integer = 1 To eveData.Tables(0).Columns.Count - 1
-                    If IsDBNull(eveData.Tables(0).Rows(row).Item(col)) = False Then
-                        item.SubItems.Add(eveData.Tables(0).Rows(row).Item(col).ToString)
-                    Else
-                        item.SubItems.Add("")
-                    End If
-                Next
-                .Items.Add(item)
-            Next
-            .Refresh()
-            Dim frmData As New Form
-            frmData.Width = 600
-            frmData.Height = 600
-            lvwData.Parent = frmData
-            lvwData.Dock = DockStyle.Fill
-            frmData.ShowDialog()
-        End With
-    End Sub
-    Public Shared Function IGBHTMLHeader(ByVal context As Net.HttpListenerContext, ByVal strTitle As String, ByVal PageRefreshPeriod As Integer) As String
+
+    Public Shared Function IGBHTMLHeader(ByVal igbContext As HttpListenerContext, ByVal strTitle As String, ByVal pageRefreshPeriod As Integer) As String
         Dim strHTML As String = ""
         strHTML &= "<HTML>"
         strHTML &= "<HEAD><TITLE>" & strTitle & "</TITLE>"
@@ -338,63 +282,92 @@ Public Class IGB
         strHTML &= ".tbl { width: 800px; color: #ffffff; }"
         strHTML &= "#wrapper {overflow: auto; height: 100%; width:820px; margin-left:auto; margin-right:auto;}"
         strHTML &= "--></STYLE>"
-        If PageRefreshPeriod <> 0 Then
-            strHTML &= "<META HTTP-EQUIV=""REFRESH"" CONTENT=""" & PageRefreshPeriod.ToString & """>"
+        If pageRefreshPeriod <> 0 Then
+            strHTML &= "<META HTTP-EQUIV=""REFRESH"" CONTENT=""" & pageRefreshPeriod.ToString & """>"
         End If
         strHTML &= "</HEAD>"
-        If PageRefreshPeriod <> 0 Then
+        If pageRefreshPeriod <> 0 Then
             strHTML &= "<BODY onLoad=""CCPEVE.showMarketDetails(638)"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
         Else
-            If context.Request.Headers("EVE_CHARNAME") <> "" Then
+            If igbContext.Request.Headers("EVE_CHARNAME") <> "" Then
                 strHTML &= "<BODY link=#ff8888 alink=#ff8888 vlink=#ff8888>"
             Else
-                strHTML &= "<BODY onLoad=""CCPEVE.requestTrust('http://" & context.Request.Headers("Host") & "')"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
+                strHTML &= "<BODY onLoad=""CCPEVE.requestTrust('http://" & igbContext.Request.Headers("Host") & "')"" link=#ff8888 alink=#ff8888 vlink=#ff8888>"
             End If
         End If
 
-        strHTML &= "<img src=""http://" & context.Request.Headers("Host") & "/logo.jpg"" alt=""EveHQ Logo"" />  IGB Server<br>"
-        strHTML &= "<p>"
-        If context.Request.Headers("EVE_CHARNAME") = "" Then
-            strHTML &= "Greetings Pilot!<br>"
+        ' Draw header table
+        strHTML &= "<table border=0 width=100%>"
+
+        ' Draw logo
+        strHTML &= "<tr><td>"
+        strHTML &= "<img src=""http://" & igbContext.Request.Headers("Host") & "/logo.jpg"" alt=""EveHQ Logo"" />"
+        strHTML &= "</td>"
+
+        ' Draw navigation area
+        strHTML &= "<td><table width=100%>"
+
+        ' Draw "logged in" line
+        strHTML &= "<tr><td align=right>"
+        If igbContext.Request.Headers("EVE_CHARNAME") = "" Then
+            strHTML &= "Welcome Pilot!"
         Else
-            strHTML &= "Greetings " & context.Request.Headers("EVE_CHARNAME") & "!<br>"
+            strHTML &= "Greetings " & igbContext.Request.Headers("EVE_CHARNAME")
         End If
+        strHTML &= "</td></tr>"
+
+        ' Draw menu
+
+        strHTML &= "<tr><td align=right>"
 
         strHTML &= "<hr><a href=/>Home</a>  | "
 
-        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Item Database") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Item Database") = True Then
             strHTML &= " <a href=/itemDB>Item Database</a>  | "
         End If
 
-        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Reports - Main Menu") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Reports - Main Menu") = True Then
             strHTML &= " <a href=/reports>Reports</a>  | "
         End If
 
-        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Requisitions") = True Then
-            If EveHQ.Core.RequisitionDataFunctions.CountRequisitions > 0 Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Requisitions") = True Then
+            If CustomDataFunctions.CountRequisitions > 0 Then
                 strHTML &= " <a href=/reqs>Requisitions</a> | "
             End If
         End If
 
         strHTML &= " <a href=/headers>IGB Headers</a>"
 
-        For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHqSettings.Plugins.Values
-            If PlugInInfo.RunInIGB = True Then
-                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData(PlugInInfo.Name) = True Then
-                    strHTML &= "  |  <a href=/" & PlugInInfo.Name.Replace(" ", "") & ">" & PlugInInfo.MainMenuText & "</a>"
+        For Each plugInInfo As EveHQPlugIn In HQ.Plugins.Values
+            If plugInInfo.RunInIGB = True Then
+                ' Check if in the access list, and if not, default to allowable
+                If HQ.Settings.IgbAllowedData.ContainsKey(plugInInfo.Name) = False Then
+                    HQ.Settings.IgbAllowedData.Add(plugInInfo.Name, True)
+                End If
+                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData(plugInInfo.Name) = True Then
+                    strHTML &= "  |  <a href=/" & plugInInfo.Name.Replace(" ", "") & ">" & plugInInfo.MainMenuText & "</a>"
                 End If
             End If
         Next
-        strHTML &= "</p>"
+        strHTML &= "</td></tr>"
+
+        ' Draw search area
+        strHTML &= "<tr><td align=right>"
         strHTML &= "<form method=""GET"" action=""/searchResults"">"
-        If EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Item Database") = True Then
+        If HQ.Settings.IgbAllowedData("Item Database") = True Then
             strHTML &= "Search Item Database:  "
             strHTML &= "<input type=""text"" name=""str"">"
-            strHTML &= "<input type=""submit"" value=""Search!""></form><hr><br>"
+            strHTML &= "<input type=""submit"" value=""Search""></form>"
         End If
+        strHTML &= "</td></tr></table>"
+
+        strHTML &= "</td></tr></table>"
+
+        strHTML &= "<hr>"
+
         Return strHTML
     End Function
-    Public Shared Function IGBHTMLFooter(ByVal context As Net.HttpListenerContext) As String
+    Public Shared Function IGBHTMLFooter(ByVal igbContext As HttpListenerContext) As String
         Dim strHTML As String = ""
         strHTML &= "<table width=100% border=0><tr><td width=100% align=center>"
         strHTML &= "<hr>"
@@ -411,19 +384,17 @@ Public Class IGB
     End Function
     Private Function CreateHome() As String
         Dim strHTML As String = ""
-        Dim strPilot As String = ""
-        Dim strHost As String = ""
         strHTML &= IGBHTMLHeader(context, "EveHQ IGB Home", 0)
         strHTML &= "<p>Welcome to the EveHQ In-Game Browser (IGB) Server!</p>"
         strHTML &= "<p>This server will give you access to the wealth of information that is the Eve Online database and present it in tabular form for easy reading.</p>"
         If context.Request.UserAgent.StartsWith("EVE-IGB") Then
-            strHTML &= "<p>If you have any questions or suggestions, please contact <a href='evemail:Quantix%20Blackstar' SUBJECT='EveHQ IGB'>Quantix Blackstar</a> via Eve-mail.</p>"
+            strHTML &= "<p>If you have any questions or suggestions, please contact <a href='evemail:Vessper' SUBJECT='EveHQ IGB'>Vessper</a> via Eve-mail.</p>"
         Else
-            strHTML &= "<p>If you have any questions or suggestions, please contact <a href='mailto:quantix.blackstar@gmail.com'>Vessper</a> via E-mail.</p>"
+            strHTML &= "<p>If you have any questions or suggestions, please contact <a href='mailto:vessper@EveHQ.net'>Vessper</a> via E-mail.</p>"
         End If
         strHTML &= "<p></p>"
         strHTML &= "<p>Happy browsing and fly safe!</p>"
-        strHTML &= "<p>  - Quantix</p>"
+        strHTML &= "<p>  - Vessper</p>"
         strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
@@ -453,72 +424,39 @@ Public Class IGB
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "EveHQ Reports", 0)
         strHTML &= "<p>Please select a report from the list below:</p><br>"
-        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Alloy Composition") = True Then
-            strHTML &= "<p><a href=/reports/alloy>Alloy Composition Report</a><br>"
-        End If
-        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Ore Composition") = True Then
-            strHTML &= "<br><a href=/reports/ore>Ore Composition Report</a><br>"
-        End If
-        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Ice Composition") = True Then
-            strHTML &= "<br><a href=/reports/ice>Ice Composition Report</a><br>"
-        End If
-        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Skill Level Table") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Skill Level Table") = True Then
             strHTML &= "<br><a href=/reports/skilllevels>Skill Level Table</a><br>"
         End If
-        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Summary") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Summary") = True Then
             strHTML &= "<br><a href=/reports/charsumm>Character Summary</a><br>"
         End If
-        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Individual Reports") = True Then
             strHTML &= "<br><a href=/reports/character>Individual Character Reports</a></p>"
         End If
         strHTML &= "<br><br><br>"
         strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
-    Private Function CreateOreReport() As String
-        Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "Ore Composition Report", 0)
-        strHTML &= EveHQ.Core.Reports.HTMLTitle("Ore Composition Report")
-        strHTML &= EveHQ.Core.Reports.RockReport(True)
-        strHTML &= EveHQ.Core.Reports.HTMLFooter
-        Return strHTML
-    End Function
-    Private Function CreateIceReport() As String
-        Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "Ice Composition Report", 0)
-        strHTML &= EveHQ.Core.Reports.HTMLTitle("Ice Composition Report")
-        strHTML &= EveHQ.Core.Reports.IceReport(True)
-        strHTML &= EveHQ.Core.Reports.HTMLFooter
-        Return strHTML
-    End Function
-    Private Function CreateAlloyReport() As String
-        Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(context, "Alloy Composition Report", 0)
-        strHTML &= EveHQ.Core.Reports.HTMLTitle("Alloy Composition Report")
-        strHTML &= EveHQ.Core.Reports.AlloyReport(True)
-        strHTML &= EveHQ.Core.Reports.HTMLFooter
-        Return strHTML
-    End Function
     Private Function CreateSPReport() As String
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "Skill Level Table", 0)
-        strHTML &= EveHQ.Core.Reports.HTMLTitle("Skill Level Table")
-        strHTML &= EveHQ.Core.Reports.SPSummary
-        strHTML &= EveHQ.Core.Reports.HTMLFooter
+        strHTML &= Reports.HTMLTitle("Skill Level Table")
+        strHTML &= Reports.SPSummary
+        strHTML &= Reports.HTMLFooter
         Return strHTML
     End Function
     Private Function ShowCharSummary() As String
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "Pilot Summary", 0)
-        strHTML &= EveHQ.Core.Reports.HTMLTitle("Pilot Summary")
-        strHTML &= EveHQ.Core.Reports.CharSummary()
-        strHTML &= EveHQ.Core.Reports.HTMLFooter
+        strHTML &= Reports.HTMLTitle("Pilot Summary")
+        strHTML &= Reports.CharSummary()
+        strHTML &= Reports.HTMLFooter
         Return strHTML
     End Function
     Private Function ShowCharReports() As String
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "Generate Character Report", 0)
-        strHTML &= CreateCharReports(True)
+        strHTML &= CreateCharReports()
         strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
@@ -529,11 +467,17 @@ Public Class IGB
             strHTML &= "<p>Please enter a valid search parameter</p>"
         Else
             Try
-                Dim searchFor As String = System.Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("str"))
-                eveData = EveHQ.Core.DataFunctions.GetData("SELECT * from invTypes WHERE invTypes.typeName LIKE '%" & searchFor & "%' ORDER BY invTypes.typeName;")
-                strHTML &= "<p>Search results for """ & searchFor & """ (" & eveData.Tables(0).Rows.Count & " items):</p>"
-                For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                    strHTML &= "<a href=/itemDB/?view=t&id=" & eveData.Tables(0).Rows(row).Item("typeID").ToString & ">" & eveData.Tables(0).Rows(row).Item("typeName").ToString & "</a><br>"
+                Dim searchFor As String = (HttpUtility.UrlDecode(context.Request.QueryString.Item("str"))).Trim
+                Dim strSearch As String = searchFor.ToLower
+                Dim results As New SortedList(Of String, Integer)
+                For Each item As String In StaticData.TypeNames.Keys
+                    If item.ToLower.Contains(strSearch) Then
+                        results.Add(item, StaticData.TypeNames(item))
+                    End If
+                Next
+                strHTML &= "<p>Search results for """ & searchFor & """ (" & results.Count.ToString & " items):</p>"
+                For Each typeName As String In results.Keys
+                    strHTML &= "<a href=/itemDB/?view=t&id=" & results(typeName) & ">" & typeName & "</a><br>"
                 Next
                 strHTML &= "<br>"
             Catch e As Exception
@@ -545,7 +489,6 @@ Public Class IGB
     End Function
     Private Function CreateNavPaneSQL() As String
         Dim strHTML As String = ""
-        Dim strSQL As String = ""
         Dim dbNavigator As String = "Database Location: "
 
         Try
@@ -555,68 +498,70 @@ Public Class IGB
                     dbNavigator &= "<a href=/itemDB/>Home</a>"
                     strHTML &= "<p>" & dbNavigator & "</p>"
                     strHTML &= "</td></tr></table>"
-                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * from invCategories ORDER BY categoryName;")
-                    For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                        strHTML &= "<a href=/itemDB/?view=g&id=" & eveData.Tables(0).Rows(row).Item(0).ToString & ">" & eveData.Tables(0).Rows(row).Item(1).ToString & "</a><br>"
+                    Dim categories As New SortedList(Of String, Integer)
+                    For Each catID As Integer In StaticData.TypeCats.Keys
+                        categories.Add(StaticData.TypeCats(catID), catID)
+                    Next
+                    For Each catName As String In categories.Keys
+                        strHTML &= "<a href=/itemDB/?view=g&id=" & categories(catName) & ">" & catName & "</a><br>"
                     Next
                 Case "g"
-                    Dim catID As String = context.Request.QueryString.Item("id")
-                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * from invCategories WHERE categoryID=" & catID)
+                    Dim catID As Integer = CInt(context.Request.QueryString.Item("id"))
                     dbNavigator &= "<a href=/itemDB/>Home</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=g&id=" & catID & ">" & eveData.Tables(0).Rows(0).Item(1).ToString & "</a>"
+                    dbNavigator &= "<a href=/itemDB/?view=g&id=" & catID & ">" & StaticData.TypeCats(catID) & "</a>"
                     strHTML &= "<p>" & dbNavigator & "</p>"
                     strHTML &= "</td></tr></table>"
-                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invGroups WHERE invGroups.categoryID=" & catID.Trim & " ORDER BY groupName;")
-                    For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                        strHTML &= "<a href=/itemDB/?view=i&id=" & eveData.Tables(0).Rows(row).Item("groupID").ToString & ">" & eveData.Tables(0).Rows(row).Item("groupName").ToString.Trim & "</a><br>"
+                    For Each groupID As Integer In StaticData.GetGroupsInCategory(catID)
+                        strHTML &= "<a href=/itemDB/?view=i&id=" & groupID & ">" & StaticData.TypeGroups(groupID) & "</a><br>"
                     Next
                 Case "i"
-                    Dim groupID As String = context.Request.QueryString.Item("id")
-                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * from invGroups WHERE groupID=" & groupID)
-                    Dim catID As String = eveData.Tables(0).Rows(0).Item("categoryID").ToString
-                    Dim groupName As String = eveData.Tables(0).Rows(0).Item("groupName").ToString.Trim
-                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * from invCategories WHERE categoryID=" & catID)
-                    Dim catName As String = eveData.Tables(0).Rows(0).Item("categoryName").ToString.Trim
+                    Dim groupID As Integer = CInt(context.Request.QueryString.Item("id"))
+                    Dim catID As Integer = StaticData.GroupCats(groupID)
                     dbNavigator &= "<a href=/itemDB/>Home</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=g&id=" & catID & ">" & catName & "</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=i&id=" & groupID & ">" & groupName & "</a>"
+                    dbNavigator &= "<a href=/itemDB/?view=g&id=" & catID & ">" & StaticData.TypeCats(catID) & "</a> -> "
+                    dbNavigator &= "<a href=/itemDB/?view=i&id=" & groupID & ">" & StaticData.TypeGroups(groupID) & "</a>"
                     strHTML &= "<p>" & dbNavigator & "</p>"
                     strHTML &= "</td></tr></table>"
-                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invTypes WHERE invTypes.groupID=" & groupID.Trim & " ORDER BY typeName;")
-                    For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                        strHTML &= "<a href=/itemDB/?view=t&id=" & eveData.Tables(0).Rows(row).Item("typeID").ToString & ">" & eveData.Tables(0).Rows(row).Item("typeName").ToString.Trim & "</a><br>"
+                    For Each typeName As String In StaticData.GetSortedItemListInGroup(CInt(groupID)).Keys
+                        strHTML &= "<a href=/itemDB/?view=t&id=" & StaticData.TypeNames(typeName) & ">" & typeName & "</a><br>"
                     Next
                 Case "t"
-                    Dim typeID As String = context.Request.QueryString.Item("id")
-                    Dim pInfo As EveItem = EveHQ.Core.HQ.itemData(typeID)
+                    Dim typeID As Integer = CInt(context.Request.QueryString.Item("id"))
+                    Dim item As EveType = StaticData.Types(typeID)
                     dbNavigator &= "<a href=/itemDB/>Home</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=g&id=" & pInfo.Category.ToString & ">" & EveHQ.Core.HQ.itemCats(pInfo.Category.ToString) & "</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=i&id=" & pInfo.Group.ToString & ">" & EveHQ.Core.HQ.itemGroups(pInfo.Group.ToString) & "</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=t&id=" & pInfo.ID.ToString & ">" & pInfo.Name & "</a>"
+                    dbNavigator &= "<a href=/itemDB/?view=g&id=" & item.Category.ToString & ">" & StaticData.TypeCats(item.Category) & "</a> -> "
+                    dbNavigator &= "<a href=/itemDB/?view=i&id=" & item.Group.ToString & ">" & StaticData.TypeGroups(item.Group) & "</a> -> "
+                    dbNavigator &= "<a href=/itemDB/?view=t&id=" & item.Id.ToString & ">" & item.Name & "</a>"
                     strHTML &= "<p>" & dbNavigator & "</p>"
                     strHTML &= "</td></tr></table>"
                     strHTML &= "<p><a href=/itemDB/?view=t&id=" & typeID & "&s=a>ATTRIBUTES</a>"
                     strHTML &= "  |  "
-                    Dim bpTypeID As String = EveHQ.Core.DataFunctions.GetBPTypeID(typeID)
-                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * from ramTypeRequirements WHERE (typeID=" & bpTypeID & " OR typeID=" & typeID & ")")
-                    If eveData.Tables(0).Rows.Count > 0 Then
+                    Dim bpTypeID As Integer = StaticData.GetBPTypeId(CInt(typeID))
+                    Dim displayMaterialsLink As Boolean = False
+                    If StaticData.Blueprints(bpTypeID).Resources.ContainsKey(1) Then
+                        If StaticData.Blueprints(bpTypeID).Resources(1).Count > 0 Then
+                            displayMaterialsLink = True
+                        End If
+                    End If
+                    If StaticData.Blueprints(bpTypeID).Resources.ContainsKey(6) Then
+                        If StaticData.Blueprints(bpTypeID).Resources(6).Count > 0 Then
+                            displayMaterialsLink = True
+                        End If
+                    End If
+                    If displayMaterialsLink = True Then
                         strHTML &= "<a href=/itemDB/?view=t&id=" & typeID & "&s=m>MATERIALS</a>"
                         strHTML &= "  |  "
                     End If
-                    ' See if we can get any variations
 
-                    strSQL = "SELECT invMetaTypes.typeID, invMetaTypes.parentTypeID"
-                    strSQL &= " FROM invMetaTypes"
-                    strSQL &= " WHERE (((invMetaTypes.typeID)=" & typeID & ") OR ((invMetaTypes.parentTypeID)=" & typeID & "));"
-                    eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-                    If eveData.Tables(0).Rows.Count > 0 Then
+                    ' See if we can get any variations
+                    If StaticData.GetVariationsForItem(typeID).Count > 1 Then
                         strHTML &= "<a href=/itemDB/?view=t&id=" & typeID & "&s=v>VARIATIONS</a>"
                         strHTML &= "  |  "
                     End If
 
                     ' Show additional information re blueprint or product
-                    If pInfo.Category = 9 Then
-                        Dim typeID2 As String = EveHQ.Core.DataFunctions.GetTypeID(bpTypeID)
+                    If item.Category = 9 Then
+                        Dim typeID2 As Integer = StaticData.GetTypeId(bpTypeID)
                         If bpTypeID <> typeID2 Then
                             strHTML &= "<a href=/itemDB/?view=t&id=" & typeID2 & ">PRODUCT</a>"
                             strHTML &= "  |  "
@@ -633,10 +578,10 @@ Public Class IGB
                     'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
                     '    strHTML &= "<td width=64px><img src=""typeicon:" & typeID & """ width=64 height=64></td>"
                     'Else
-                    strHTML &= "<td width=64px><img src='" & Me.GetExternalIcon(pInfo.ID.ToString, pInfo.Category.ToString) & "'></td>"
+                    strHTML &= "<td width=64px><img src='" & GetExternalIcon(item.Id) & "'></td>"
                     'End If
                     strHTML &= "<td style='font-size:x-large;'>"
-                    strHTML &= "<b>" & pInfo.Name & "</b>"
+                    strHTML &= "<b>" & item.Name & "</b>"
                     strHTML &= "</td></tr></table><br>"
 
                     Select Case context.Request.QueryString.Item("s")
@@ -647,155 +592,150 @@ Public Class IGB
                             ' Set "unused" flag
                             For a As Integer = 0 To 150 : attributes(a, 0) = "0" : Next
 
-                            strSQL = "SELECT * from invTypes where typeID=" & typeID
-                            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-
                             ' Insert attribute 1 from tblTypes
                             attNo += 1
                             attributes(attNo, 1) = "A"
                             attributes(attNo, 2) = "Group ID"
-                            attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("groupID").ToString
+                            attributes(attNo, 3) = item.Group.ToString
                             attributes(attNo, 4) = ""
                             attributes(attNo, 5) = "0"
                             ' Insert attribute 2 from tblTypes
                             attNo += 1
                             attributes(attNo, 1) = "B"
                             attributes(attNo, 2) = "Description"
-                            attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("description").ToString
+                            attributes(attNo, 3) = item.Description
                             attributes(attNo, 4) = ""
                             attributes(attNo, 5) = "0"
+                            ' Insert attribute 3 from tblTypes
+                            attNo += 1
+                            attributes(attNo, 1) = "C"
+                            attributes(attNo, 2) = "Mass"
+                            attributes(attNo, 3) = item.Mass.ToString("N0")
+                            attributes(attNo, 4) = " kg"
+                            attributes(attNo, 5) = "1"
                             ' Insert attribute 4 from tblTypes
                             attNo += 1
                             attributes(attNo, 1) = "D"
-                            attributes(attNo, 2) = "Mass"
-                            attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("mass").ToString
-                            attributes(attNo, 4) = " kg"
+                            attributes(attNo, 2) = "Volume"
+                            attributes(attNo, 3) = item.Volume.ToString("N2")
+                            attributes(attNo, 4) = " m3"
                             attributes(attNo, 5) = "1"
                             ' Insert attribute 5 from tblTypes
                             attNo += 1
                             attributes(attNo, 1) = "E"
-                            attributes(attNo, 2) = "Volume"
-                            attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("volume").ToString
+                            attributes(attNo, 2) = "Cargo Capacity"
+                            attributes(attNo, 3) = item.Capacity.ToString("N2")
                             attributes(attNo, 4) = " m3"
                             attributes(attNo, 5) = "1"
                             ' Insert attribute 6 from tblTypes
                             attNo += 1
                             attributes(attNo, 1) = "F"
-                            attributes(attNo, 2) = "Cargo Capacity"
-                            attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("capacity").ToString
-                            attributes(attNo, 4) = " m3"
-                            attributes(attNo, 5) = "1"
-                            ' Insert attribute 7 from tblTypes
-                            attNo += 1
-                            attributes(attNo, 1) = "G"
-                            attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("portionSize").ToString
+                            attributes(attNo, 3) = item.PortionSize.ToString("N0")
                             attributes(attNo, 2) = "Portion Size"
                             attributes(attNo, 4) = ""
                             attributes(attNo, 5) = "0"
-                            ' Insert attribute 8 from tblTypes
+                            ' Insert attribute 7 from tblTypes
                             attNo += 1
-                            attributes(attNo, 1) = "H"
-                            attributes(attNo, 2) = "Race ID"
-                            If IsDBNull(eveData.Tables(0).Rows(0).Item("raceID")) = False Then
-                                attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("raceID").ToString
-                            Else
-                                attributes(attNo, 3) = "0"
-                            End If
-                            attributes(attNo, 4) = ""
-                            attributes(attNo, 5) = "0"
-                            ' Insert attribute 8 from tblTypes
-                            attNo += 1
-                            attributes(attNo, 1) = "I"
+                            attributes(attNo, 1) = "G"
                             attributes(attNo, 2) = "Base Price"
-                            attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("basePrice").ToString
+                            attributes(attNo, 3) = item.BasePrice.ToString("N2")
                             attributes(attNo, 4) = ""
                             attributes(attNo, 5) = "0"
 
-                            If pInfo.Category = 9 Then            ' If in the blueprint category
-                                strSQL = "SELECT *"
-                                strSQL &= " FROM invBlueprintTypes"
-                                strSQL &= " WHERE blueprintTypeID=" & typeID & ";"
-                                eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-                                For col As Integer = 3 To eveData.Tables(0).Columns.Count - 1
+                            If item.Category = 9 Then
+                                ' If in the blueprint category, fetch the relevant blueprint and display info
+                                Dim bp As Blueprint = StaticData.Blueprints(typeID)
+
+                                attNo += 1
+                                attributes(attNo, 1) = "BP1"
+                                attributes(attNo, 2) = "Tech Level"
+                                attributes(attNo, 3) = bp.TechLevel.ToString("N0")
+                                attributes(attNo, 4) = ""
+                                attributes(attNo, 5) = "15"
+
+                                attNo += 1
+                                attributes(attNo, 1) = "BP2"
+                                attributes(attNo, 2) = "Waste Factor"
+                                attributes(attNo, 3) = bp.WasteFactor.ToString("N0")
+                                attributes(attNo, 4) = ""
+                                attributes(attNo, 5) = "15"
+
+                                attNo += 1
+                                attributes(attNo, 1) = "BP3"
+                                attributes(attNo, 2) = "Material Modifier"
+                                attributes(attNo, 3) = bp.MaterialModifier.ToString("N0")
+                                attributes(attNo, 4) = ""
+                                attributes(attNo, 5) = "15"
+
+                                attNo += 1
+                                attributes(attNo, 1) = "BP4"
+                                attributes(attNo, 2) = "Productivity Modifier"
+                                attributes(attNo, 3) = bp.ProductivityModifier.ToString("N0")
+                                attributes(attNo, 4) = ""
+                                attributes(attNo, 5) = "15"
+
+                                attNo += 1
+                                attributes(attNo, 1) = "BP5"
+                                attributes(attNo, 2) = "Max Production Limit"
+                                attributes(attNo, 3) = bp.MaxProductionLimit.ToString("N0")
+                                attributes(attNo, 4) = ""
+                                attributes(attNo, 5) = "15"
+
+                                attNo += 1
+                                attributes(attNo, 1) = "BP6"
+                                attributes(attNo, 2) = "Production Time"
+                                attributes(attNo, 3) = bp.ProductionTime.ToString("N0")
+                                attributes(attNo, 4) = " s"
+                                attributes(attNo, 5) = "15"
+
+                                attNo += 1
+                                attributes(attNo, 1) = "BP7"
+                                attributes(attNo, 2) = "Research ML Time"
+                                attributes(attNo, 3) = bp.ResearchMaterialLevelTime.ToString("N0")
+                                attributes(attNo, 4) = " s"
+                                attributes(attNo, 5) = "15"
+
+                                attNo += 1
+                                attributes(attNo, 1) = "BP8"
+                                attributes(attNo, 2) = "Research PL Time"
+                                attributes(attNo, 3) = bp.ResearchProductionLevelTime.ToString("N0")
+                                attributes(attNo, 4) = " s"
+                                attributes(attNo, 5) = "15"
+
+                                attNo += 1
+                                attributes(attNo, 1) = "BP9"
+                                attributes(attNo, 2) = "Research Copy Time"
+                                attributes(attNo, 3) = bp.ResearchCopyTime.ToString("N0")
+                                attributes(attNo, 4) = " s"
+                                attributes(attNo, 5) = "15"
+
+                                attNo += 1
+                                attributes(attNo, 1) = "BP10"
+                                attributes(attNo, 2) = "Research Tech Time"
+                                attributes(attNo, 3) = bp.ResearchTechTime.ToString("N0")
+                                attributes(attNo, 4) = " s"
+                                attributes(attNo, 5) = "15"
+
+                            Else
+
+                                ' If not in the blueprint category, fetch the attributes
+                                Dim attributeList As SortedList(Of Integer, ItemAttribData) = StaticData.GetAttributeDataForItem(typeID)
+
+                                For Each att As ItemAttribData In attributeList.Values
                                     attNo += 1
-                                    attributes(attNo, 1) = "Z" & col - 2
-                                    attributes(attNo, 2) = eveData.Tables(0).Columns(col).Caption
-                                    attributes(attNo, 3) = CDbl(eveData.Tables(0).Rows(0).Item(col)).ToString("N6")
-                                    attributes(attNo, 4) = ""
-                                    attributes(attNo, 5) = "15"
+                                    attributes(attNo, 1) = att.Id.ToString
+                                    attributes(attNo, 2) = att.DisplayName
+                                    attributes(attNo, 3) = att.DisplayValue
+                                    attributes(attNo, 4) = att.Unit
                                 Next
-                                attributes(10, 4) = " ms"
-                                attributes(12, 4) = " ms"
-                                attributes(13, 4) = " ms"
-                                attributes(14, 4) = " ms"
-                                attributes(15, 4) = " ms"
-                            Else                            ' If not in the blueprint category
-                                strSQL = "SELECT dgmTypeAttributes.attributeID as attributeTypeID, dgmAttributeTypes.attributeGroup, eveUnits.unitID, eveUnits.displayName as unitDisplayName, eveUnits.unitName, dgmTypeAttributes.attributeID, dgmAttributeTypes.attributeID, dgmAttributeTypes.displayName as attributeDisplayName, dgmAttributeTypes.attributeName, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
-                                strSQL &= " FROM (eveUnits INNER JOIN dgmAttributeTypes ON eveUnits.unitID=dgmAttributeTypes.unitID) INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID=dgmTypeAttributes.attributeID"
-                                strSQL &= " WHERE typeID=" & typeID & " ORDER BY dgmTypeAttributes.attributeID;"
-                                eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-                                For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                                    attNo += 1
-                                    attributes(attNo, 1) = eveData.Tables(0).Rows(row).Item("attributeTypeID").ToString.Trim
-                                    'If IsDBNull(eveData.Tables(0).Rows(row).Item("dgmAttributeTypes.displayName")) = True Then
-                                    If eveData.Tables(0).Rows(row).Item("attributeDisplayName").ToString.Trim = "" Then
-                                        attributes(attNo, 2) = eveData.Tables(0).Rows(row).Item("attributeName").ToString.Trim
-                                    Else
-                                        attributes(attNo, 2) = eveData.Tables(0).Rows(row).Item("attributeDisplayName").ToString.Trim
-                                    End If
-                                    If IsDBNull(eveData.Tables(0).Rows(row).Item("valueInt")) = True Then
-                                        attributes(attNo, 3) = eveData.Tables(0).Rows(row).Item("valueFloat").ToString
-                                    Else
-                                        attributes(attNo, 3) = eveData.Tables(0).Rows(row).Item("valueInt").ToString
-                                    End If
-                                    attributes(attNo, 4) = " " & eveData.Tables(0).Rows(row).Item("unitDisplayName").ToString.Trim
-                                    attributes(attNo, 5) = eveData.Tables(0).Rows(row).Item("attributeGroup").ToString.Trim
-                                    ' Do modifier calculations here!
-                                    Select Case eveData.Tables(0).Rows(row).Item("unitID").ToString
-                                        Case "108"
-                                            attributes(attNo, 3) = CDbl(100 - (Val(attributes(attNo, 3)) * 100)).ToString("N6")
-                                        Case "109"
-                                            attributes(attNo, 3) = CDbl((Val(attributes(attNo, 3)) * 100) - 100).ToString("N6")
-                                        Case "111"
-                                            attributes(attNo, 3) = CDbl((Val(attributes(attNo, 3)) - 1) * 100).ToString("N6")
-                                        Case "101"
-                                            If Val(attributes(attNo, 3)) > 1000 Then
-                                                attributes(attNo, 3) = CDbl((Val(attributes(attNo, 3)) / 1000)).ToString("N6")
-                                                attributes(attNo, 4) = " s"
-                                            End If
-                                    End Select
-                                Next
+
                             End If
 
                             ' Do character attribute adjustments here
-                            Dim attName As String = ""
                             For att As Integer = 1 To attNo
-                                If attributes(att, 4) = " attributeID" Then
-                                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmAttributeTypes WHERE attributeID=" & attributes(att, 3))
-                                    attributes(att, 3) = eveData.Tables(0).Rows(0).Item("attributeName").ToString.Trim
+                                If attributes(att, 4) = "attributeID" Then
+                                    attributes(att, 3) = StaticData.AttributeTypes(CInt(attributes(att, 3))).DisplayName
                                     attributes(att, 4) = ""
-                                End If
-                            Next
-
-                            ' Do skill requirements adjustment & "rounding" here
-                            Dim skillLvl As String = ""
-                            For att As Integer = 1 To attNo
-                                If attributes(att, 4) = " typeID" Then
-                                    eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM invTypes WHERE typeID=" & attributes(att, 3))
-                                    For att2 As Integer = att To attNo
-                                        If Val(attributes(att, 1)) + 95 = Val(attributes(att2, 1)) Then
-                                            skillLvl = attributes(att2, 3)
-                                            attributes(att2, 1) = "0"
-                                            Exit For
-                                        End If
-                                    Next
-                                    attributes(att, 3) = "<a href=/itemDB/?view=t&id=" & attributes(att, 3) & ">" & eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim & "</a>"
-                                    If skillLvl <> "" Then attributes(att, 3) &= " (Level " & skillLvl & ")"
-                                    attributes(att, 4) = ""
-                                Else
-                                    If IsNumeric(attributes(att, 3)) Then
-                                        attributes(att, 3) = CDbl(attributes(att, 3)).ToString("N6")
-                                    End If
                                 End If
                             Next
 
@@ -809,14 +749,14 @@ Public Class IGB
                                 If attributes(itemloop, 0) = "0" And attributes(itemloop, 1) <> "0" Then
                                     Dim attGroup As String = attributes(itemloop, 5)
                                     strHTML &= "<table width=800px border=1 cellpadding=0><tr bgcolor=#661111><td colspan=2>" & attGroups(CInt(attGroup)) & "</td></tr>"
-                                    For item As Integer = itemloop To attNo
-                                        If attributes(item, 5) = attGroup And attributes(item, 1) <> "0" Then
+                                    For itemNo As Integer = itemloop To attNo
+                                        If attributes(itemNo, 5) = attGroup And attributes(itemNo, 1) <> "0" Then
                                             strHTML &= "<tr align=top width=600px><td width=300px>"
-                                            strHTML &= "(" & attributes(item, 1) & ")  " & attributes(item, 2)
+                                            strHTML &= "(" & attributes(itemNo, 1) & ")  " & attributes(itemNo, 2)
                                             strHTML &= "</td><td>"
-                                            strHTML &= attributes(item, 3) & attributes(item, 4)
+                                            strHTML &= attributes(itemNo, 3) & attributes(itemNo, 4)
                                             strHTML &= "</td></tr>"
-                                            attributes(item, 0) = "1"
+                                            attributes(itemNo, 0) = "1"
                                         End If
                                     Next
                                     strHTML &= "</table><br>"
@@ -824,163 +764,51 @@ Public Class IGB
                             Next
 
                         Case "m"
-                            bpTypeID = EveHQ.Core.DataFunctions.GetBPTypeID(typeID)
-                            ' Select only the building activity (at the minute!)
-                            strSQL = "SELECT ramTypeRequirements.requiredTypeID, invTypes.typeName, ramTypeRequirements.quantity, ramTypeRequirements.damagePerJob, invCategories.categoryID as categoryTypeID, invCategories.categoryName, invGroups.groupID as groupTypeID, invGroups.groupName, ramTypeRequirements.activityID"
-                            strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID = invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN ramTypeRequirements ON invTypes.typeID = ramTypeRequirements.requiredTypeID"
-                            strSQL &= " WHERE (ramTypeRequirements.typeID=" & bpTypeID & " OR ramTypeRequirements.typeID=" & typeID & ")"
-                            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+                            Dim bp As Blueprint = StaticData.Blueprints(typeID)
 
-                            ' Work out what activities we have in the list
-                            Dim activities(maxActivities) As Boolean
-                            Dim strActivity As String = ""
-                            For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                                activities(CInt(Val(eveData.Tables(0).Rows(row).Item("activityID")))) = True
-                            Next
-                            ' Then create sub-headings :)
+                            ' Display our activities
                             strHTML &= "|"
-                            For activity As Integer = 1 To maxActivities
-                                If activities(activity) = True Then
-                                    ' Add to list!
+                            For Each activity As Integer In [Enum].GetValues(GetType(BlueprintActivity))
+                                If bp.Resources(activity).Count > 0 Then
                                     strHTML &= "  <a href=/itemDB/?view=t&id=" & typeID & "&s=m&a=" & activity & ">"
-                                    Select Case activity
-                                        Case 1
-                                            strActivity = "Manufacturing"
-                                        Case 2
-                                            strActivity = "Research Tech"
-                                        Case 3
-                                            strActivity = "Research PE"
-                                        Case 4
-                                            strActivity = "Research ME"
-                                        Case 5
-                                            strActivity = "Copying"
-                                        Case 6
-                                            strActivity = "Duplicating"
-                                        Case 7
-                                            strActivity = "Reverse Engineering"
-                                        Case 8
-                                            strActivity = "Invention"
-                                        Case 9
-                                            strActivity = "Composition"
-                                    End Select
-                                    strHTML &= strActivity & "</a>  |"
+                                    strHTML &= [Enum].GetName(GetType(BlueprintActivity), activity) & "</a>  |"
                                 End If
                             Next
 
-                            Dim materials(eveData.Tables(0).Rows.Count, 9) As String
-                            With eveData.Tables(0)
-                                For row As Integer = 0 To .Rows.Count - 1
-                                    If Val(.Rows(row).Item("quantity")) > 0 Then
-                                        materials(row, 0) = "0"
-                                        materials(row, 1) = .Rows(row).Item("requiredTypeID").ToString.Trim
-                                        materials(row, 2) = .Rows(row).Item("typeName").ToString.Trim
-                                        materials(row, 3) = .Rows(row).Item("quantity").ToString.Trim
-                                        materials(row, 4) = .Rows(row).Item("damagePerJob").ToString.Trim
-                                        materials(row, 5) = .Rows(row).Item("categoryTypeID").ToString.Trim
-                                        materials(row, 6) = .Rows(row).Item("categoryName").ToString.Trim
-                                        materials(row, 7) = .Rows(row).Item("groupTypeID").ToString.Trim
-                                        materials(row, 8) = .Rows(row).Item("groupName").ToString.Trim
-                                        materials(row, 9) = .Rows(row).Item("activityID").ToString.Trim
-                                    End If
-                                Next
-                            End With
-
-                            Dim itemcount As Integer = eveData.Tables(0).Rows.Count - 1
-                            Dim matCatID, matCatName, matGroupID, matGroupName As String
+                            ' If activity is blank then set to manufacturing
                             Dim act As String = context.Request.QueryString.Item("a")
-                            ' Decide which view to take if the activity is blank
-                            If act = "" Then
-                                For a As Integer = 1 To maxActivities
-                                    If activities(a) = True Then
-                                        act = CStr(a)
-                                        Exit For
-                                    End If
-                                Next
-                            End If
+                            If act = "" Then act = "1"
+                            strHTML &= "<p style='font-size:14;'><b>Materials: " & [Enum].GetName(GetType(BlueprintActivity), CInt(act)) & "</b></p>"
 
-                            Select Case CInt(act)
-                                Case 1
-                                    strActivity = "Manufacturing"
-                                Case 2
-                                    strActivity = "Research Tech"
-                                Case 3
-                                    strActivity = "Research PE"
-                                Case 4
-                                    strActivity = "Research ME"
-                                Case 5
-                                    strActivity = "Copying"
-                                Case 6
-                                    strActivity = "Duplicating"
-                                Case 7
-                                    strActivity = "Reverse Engineering"
-                                Case 8
-                                    strActivity = "Invention"
-                                Case 9
-                                    strActivity = "Composition"
-                            End Select
-                            strHTML &= "<p style='font-size:14;'><b>Materials: " & strActivity & "</b></p>"
-
-                            For itemloop As Integer = 0 To itemcount
-                                If materials(itemloop, 0) = "0" And materials(itemloop, 9) = act Then
-                                    matCatID = materials(itemloop, 5)
-                                    matCatName = materials(itemloop, 6)
-                                    matGroupID = materials(itemloop, 7)
-                                    matGroupName = materials(itemloop, 8)
-                                    strHTML &= "<table width=600px border=1 cellpadding=0><tr bgcolor=#661111><td colspan=3>" & matCatName & " / " & matGroupName & "</td></tr>"
-                                    For item As Integer = itemloop To itemcount
-                                        If materials(item, 9) = act And materials(item, 5) = matCatID And materials(item, 7) = matGroupID Then
-                                            strHTML &= "<tr align=top width=600px>"
-                                            'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
-                                            '    strHTML &= "<td width=32px><img src=typeicon:" & materials(item, 1) & " width=32 height=32></td>"
-                                            'Else
-                                            Dim iInfo As EveItem = EveHQ.Core.HQ.itemData(materials(item, 1))
-                                            strHTML &= "<td width=32px><img src='" & Me.GetExternalIcon(iInfo.ID.ToString, iInfo.Category.ToString) & "' width=32px height=32px></td>"
-                                            'End If
-                                            strHTML &= "<td width=300px><a href=/itemDB/?view=t&id=" & materials(item, 1) & ">" & materials(item, 2) & "</a>"
-                                            strHTML &= "</td><td>"
-                                            strHTML &= materials(item, 3)
-                                            strHTML &= "</td></tr>"
-                                            materials(item, 0) = "1"
-                                        End If
-                                    Next
-                                    strHTML &= "</table><br>"
-                                End If
+                            strHTML &= "<table width=600px border=1 cellpadding=0><tr bgcolor=#661111><td colspan=3></td></tr>"
+                            For Each br As BlueprintResource In bp.Resources(CInt(act)).Values
+                                strHTML &= "<tr align=top width=600px>"
+                                Dim matInfo As EveType = StaticData.Types(br.TypeId)
+                                'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
+                                '    strHTML &= "<td width=32px><img src=typeicon:" & matInfo.ID.ToString & " width=32 height=32></td>"
+                                'Else
+                                strHTML &= "<td width=32px><img src='" & GetExternalIcon(matInfo.Id) & "' width=32px height=32px></td>"
+                                'End If
+                                strHTML &= "<td width=300px><a href=/itemDB/?view=t&id=" & matInfo.Id.ToString & ">" & matInfo.Name & "</a>"
+                                strHTML &= "</td><td>"
+                                strHTML &= br.Quantity.ToString("N2")
+                                strHTML &= "</td></tr>"
                             Next
+                            strHTML &= "</table><br>"
                         Case "v"
-                            strSQL = "SELECT invMetaTypes.typeID, invMetaTypes.parentTypeID"
-                            strSQL &= " FROM invMetaTypes"
-                            strSQL &= " WHERE (((invMetaTypes.typeID)=" & typeID & ") OR ((invMetaTypes.parentTypeID)=" & typeID & "));"
-                            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-                            Dim metaParentID As String = eveData.Tables(0).Rows(0).Item("parentTypeID").ToString
-                            strSQL = ""
-                            strSQL &= "SELECT invTypes.typeID AS invTypes_typeID, invTypes.typeName, invMetaTypes.typeID AS invMetaTypes_typeID, invMetaTypes.parentTypeID, invMetaTypes.metaGroupID AS invMetaTypes_metaGroupID, invMetaGroups.metaGroupID AS invMetaGroups_metaGroupID, invMetaGroups.metaGroupName"
-                            strSQL &= " FROM invMetaGroups INNER JOIN (invTypes INNER JOIN invMetaTypes ON invTypes.typeID = invMetaTypes.typeID) ON invMetaGroups.metaGroupID = invMetaTypes.metaGroupID"
-                            strSQL &= " WHERE (((invMetaTypes.parentTypeID)=" & metaParentID & "));"
-                            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-                            Dim metaItemCount As Integer = eveData.Tables(0).Rows.Count
-                            Dim itemVariations(2, metaItemCount) As String
-                            For item As Integer = 0 To metaItemCount - 1
-                                itemVariations(0, item + 1) = eveData.Tables(0).Rows(item).Item("invTypes_typeID").ToString
-                                itemVariations(1, item + 1) = eveData.Tables(0).Rows(item).Item("typeName").ToString.Trim
-                                itemVariations(2, item + 1) = eveData.Tables(0).Rows(item).Item("metaGroupName").ToString.Trim
-                            Next
-                            strSQL = "SELECT invTypes.typeID, invTypes.typeName FROM invTypes WHERE invTypes.typeID=" & metaParentID & ";"
-                            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-                            itemVariations(0, 0) = eveData.Tables(0).Rows(0).Item("typeID").ToString.Trim
-                            itemVariations(1, 0) = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
-                            itemVariations(2, 0) = "Tech I"
+                            Dim metaItems As List(Of Integer) = StaticData.GetVariationsForItem(typeID)
 
                             strHTML &= "<p style='font-size:14;'><b>Variations</b></p>"
                             strHTML &= "<table width=600px border=1 cellpadding=0><tr bgcolor=#661111><td width=400px colspan=2>Item Name</td><td width=200px>Meta Type</td></tr>"
-                            For item As Integer = 0 To metaItemCount
+                            For Each metaItemID As Integer In metaItems
                                 strHTML &= "<tr>"
                                 'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
                                 '    strHTML &= "<td width=32px><img src=typeicon:" & itemVariations(0, item) & " width=32 height=32></td>"
                                 'Else
-                                Dim iInfo As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(typeID)
-                                strHTML &= "<td width=32px><img src='" & Me.GetExternalIcon(iInfo.ID.ToString, iInfo.Category.ToString) & "' width=32px height=32px></td>"
+                                Dim iInfo As EveType = StaticData.Types(metaItemID)
+                                strHTML &= "<td width=32px><img src='" & GetExternalIcon(iInfo.Id) & "' width=32px height=32px></td>"
                                 'End If
-                                strHTML &= "<td width=368px><a href=/itemDB/?view=t&id=" & itemVariations(0, item) & ">" & itemVariations(1, item) & "</a></td><td>" & itemVariations(2, item) & "</td></tr>"
+                                strHTML &= "<td width=368px><a href=/itemDB/?view=t&id=" & iInfo.Id.ToString & ">" & iInfo.Name & "</a></td><td>" & StaticData.MetaGroups(StaticData.MetaTypes(iInfo.Id).MetaGroupId) & "</td></tr>"
                             Next
                             strHTML &= "</table><br>"
                     End Select
@@ -995,15 +823,15 @@ Public Class IGB
         Return strHTML
     End Function
 
-    Private Function GetExternalIcon(ByVal typeID As String, ByVal catID As String) As String
-        Return EveHQ.Core.ImageHandler.GetRawImageLocation(typeID)
+    Private Function GetExternalIcon(ByVal typeID As Integer) As String
+        Return ImageHandler.GetRawImageLocation(typeID)
     End Function
 
-    Private Function CreateCharReports(ByVal forIGB As Boolean) As String
+    Private Function CreateCharReports() As String
 
         Dim pilotNames As ArrayList = New ArrayList
-        Dim curPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each curPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        Dim curPilot As EveHQPilot
+        For Each curPilot In HQ.Settings.Pilots.Values
             If curPilot.Updated = True Then
                 pilotNames.Add(curPilot.Name)
             End If
@@ -1013,14 +841,14 @@ Public Class IGB
         Dim strHTML As String = ""
         ' Step 1 - Draw the pilots drop down list
         strHTML &= "<p>Please select a Pilot and a report to view</p>"
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count <> pilotNames.Count Then
+        If HQ.Settings.Pilots.Count <> pilotNames.Count Then
             strHTML &= "<p><b>EveHQ is indicating that you have pilots but they have not been updated, therefore not all pilots will be accessible here.<br><br>"
             strHTML &= "Please update your accounts and/or pilots in order to view reports on all pilots.</b></p>"
         End If
         If pilotNames.Count > 0 Then
             strHTML &= "<form method=""GET"" action=""/reports/charreport"">"
             strHTML &= "<table><tr><td width=100px>Pilot:</td><td width=250px><select name='Pilot' style='width: 200px;'>"
-            Dim pilotName As String = ""
+            Dim pilotName As String
             For Each pilotName In pilotNames
                 strHTML &= "<option "
                 If context.Request.UserAgent.StartsWith("EVE-IGB") Then
@@ -1028,7 +856,7 @@ Public Class IGB
                         strHTML &= "selected='selected'"
                     End If
                 Else
-                    If pilotName = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(1), EveHQ.Core.Pilot).Name Then
+                    If pilotName = HQ.Settings.Pilots.Values(0).Name Then
                         strHTML &= "selected='selected'"
                     End If
                 End If
@@ -1063,51 +891,51 @@ Public Class IGB
             repString = repString.Replace("+", " ")
             pilotString = pilotString.Replace("+", " ")
             strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString, 0)
-            Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(pilotString), Pilot)
+            Dim repPilot As EveHQPilot = HQ.Settings.Pilots(pilotString)
             Select Case repString
                 Case "Character Sheet"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Character Sheet - " & repPilot.Name)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
-                    strHTML &= EveHQ.Core.Reports.CharacterSheet(repPilot)
+                    strHTML &= Reports.HTMLTitle("Character Sheet - " & repPilot.Name)
+                    strHTML &= Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= Reports.CharacterSheet(repPilot)
                 Case "Skill Levels"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Skill Levels Sheet - " & repPilot.Name)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
-                    strHTML &= EveHQ.Core.Reports.SkillLevels(repPilot)
+                    strHTML &= Reports.HTMLTitle("Skill Levels Sheet - " & repPilot.Name)
+                    strHTML &= Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= Reports.SkillLevels(repPilot)
                 Case "Training Queues"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Queues - " & repPilot.Name)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= Reports.HTMLTitle("Training Queues - " & repPilot.Name)
+                    strHTML &= Reports.HTMLCharacterDetails(repPilot)
                     strHTML &= CreateQueueLists(repPilot)
                 Case "Training Times"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Times - " & repPilot.Name)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
-                    strHTML &= EveHQ.Core.Reports.TrainingTime(repPilot)
+                    strHTML &= Reports.HTMLTitle("Training Times - " & repPilot.Name)
+                    strHTML &= Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= Reports.TrainingTime(repPilot)
                 Case "Time To Level 5"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Time To Level 5 - " & repPilot.Name)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
-                    strHTML &= EveHQ.Core.Reports.TimeToLevel5(repPilot)
+                    strHTML &= Reports.HTMLTitle("Time To Level 5 - " & repPilot.Name)
+                    strHTML &= Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= Reports.TimeToLevel5(repPilot)
                 Case "Skills Available To Train"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Skills Available To Train - " & repPilot.Name)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
-                    strHTML &= EveHQ.Core.Reports.SkillsAvailable(repPilot)
+                    strHTML &= Reports.HTMLTitle("Skills Available To Train - " & repPilot.Name)
+                    strHTML &= Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= Reports.SkillsAvailable(repPilot)
                 Case "Skills Not Trained"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Skills Not Trained - " & repPilot.Name)
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
-                    strHTML &= EveHQ.Core.Reports.SkillsNotTrained(repPilot)
+                    strHTML &= Reports.HTMLTitle("Skills Not Trained - " & repPilot.Name)
+                    strHTML &= Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= Reports.SkillsNotTrained(repPilot)
                 Case Else
                     strHTML &= "<p>There was an error generating your character report</p>"
             End Select
-            strHTML &= EveHQ.Core.Reports.HTMLFooter
+            strHTML &= Reports.HTMLFooter
         End If
         Return strHTML
     End Function
-    Private Function CreateQueueLists(ByVal repPilot As EveHQ.Core.Pilot) As String
+    Private Function CreateQueueLists(ByVal repPilot As EveHQPilot) As String
         Dim strHTML As String = ""
 
         strHTML &= "<table width=800px cellspacing=0 cellpadding=0>"
         strHTML &= "<tr><td width=300px bgcolor=#44444488>Training Queues:</td><td width=100px></td><td width=300px bgcolor=#44444488>Shopping Lists:</td></tr>"
         strHTML &= "<tr><td width=300px></td><td width=100px></td><td width=300px></td></tr>"
 
-        For Each cQueue As SkillQueue In repPilot.TrainingQueues.Values
+        For Each cQueue As EveHQSkillQueue In repPilot.TrainingQueues.Values
             strHTML &= "<tr><td width=300px><a href=/REPORTS/CHARREPORT/QUEUES?Pilot=" & repPilot.Name.Replace(" ", "+") & "&Report=Training+Queue&Queue=" & cQueue.Name.Replace(" ", "+") & ">" & cQueue.Name & "</a></td><td width=100px></td><td width=300px><a href=/REPORTS/CHARREPORT/QUEUES?Pilot=" & repPilot.Name.Replace(" ", "+") & "&Report=Shopping+List&Queue=" & cQueue.Name.Replace(" ", "+") & ">" & cQueue.Name & "</a></td></tr>"
         Next
 
@@ -1130,20 +958,20 @@ Public Class IGB
             pilotString = pilotString.Replace("+", " ")
             queueString = queueString.Replace("+", " ")
             strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString, 0)
-            Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(pilotString), Pilot)
+            Dim repPilot As EveHQPilot = HQ.Settings.Pilots(pilotString)
             Select Case repString
                 Case "Training Queue"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Queue - " & repPilot.Name & " (" & queueString & ")")
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
-                    strHTML &= EveHQ.Core.Reports.TrainQueue(repPilot, CType(repPilot.TrainingQueues(queueString), SkillQueue))
+                    strHTML &= Reports.HTMLTitle("Training Queue - " & repPilot.Name & " (" & queueString & ")")
+                    strHTML &= Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= Reports.TrainQueue(repPilot, repPilot.TrainingQueues(queueString))
                 Case "Shopping List"
-                    strHTML &= EveHQ.Core.Reports.HTMLTitle("Shopping List - " & repPilot.Name & " (" & queueString & ")")
-                    strHTML &= EveHQ.Core.Reports.HTMLCharacterDetails(repPilot)
-                    strHTML &= EveHQ.Core.Reports.ShoppingList(repPilot, CType(repPilot.TrainingQueues(queueString), SkillQueue))
+                    strHTML &= Reports.HTMLTitle("Shopping List - " & repPilot.Name & " (" & queueString & ")")
+                    strHTML &= Reports.HTMLCharacterDetails(repPilot)
+                    strHTML &= Reports.ShoppingList(repPilot, repPilot.TrainingQueues(queueString))
                 Case Else
                     strHTML &= "<p>There was an error generating your character report</p>"
             End Select
-            strHTML &= EveHQ.Core.Reports.HTMLFooter
+            strHTML &= Reports.HTMLFooter
         End If
         Return strHTML
     End Function

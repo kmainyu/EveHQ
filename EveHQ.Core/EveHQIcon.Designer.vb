@@ -23,7 +23,7 @@
             Container.Add(Me)
         End If
         InitializeComponent()
-        Me.cMouseState = New MouseStateOut(Me)
+        Me._mouseState = New MouseStateOut(Me)
     End Sub
 
     'Component overrides dispose to clean up the component list.
@@ -46,9 +46,9 @@
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         components = New System.ComponentModel.Container()
-        Me.notifyIcon = New Windows.Forms.NotifyIcon(Me.components)
-        Me.notifyIcon.Text = "notifyIcon1"
-        AddHandler Me.notifyIcon.Click, New EventHandler(AddressOf Me.notifyIcon_Click)
+        Me._notifyIcon = New Windows.Forms.NotifyIcon(Me.components)
+        Me._notifyIcon.Text = "notifyIcon1"
+        AddHandler Me._notifyIcon.Click, New EventHandler(AddressOf Me.notifyIcon_Click)
     End Sub
 
 End Class

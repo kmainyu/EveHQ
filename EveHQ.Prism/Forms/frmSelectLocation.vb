@@ -17,60 +17,60 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Namespace Forms
 
-Imports System.Windows.Forms
+    Public Class FrmSelectLocation
 
-Public Class frmSelectLocation
+        Private _location As String
+        Private _bpLocations As List(Of String)
+        Private _includeBPOs As Boolean = False
 
-    Private cLocation As String
-    Private cBPLocations As List(Of String)
-    Private cIncludeBPOs As Boolean = False
+        Public ReadOnly Property BPLocation() As String
+            Get
+                Return _location
+            End Get
+        End Property
 
-    Public ReadOnly Property BPLocation() As String
-        Get
-            Return cLocation
-        End Get
-    End Property
+        Public Property BPLocations() As List(Of String)
+            Get
+                Return _bpLocations
+            End Get
+            Set(ByVal value As List(Of String))
+                _bpLocations = value
+            End Set
+        End Property
 
-    Public Property BPLocations() As List(Of String)
-        Get
-            Return cBPLocations
-        End Get
-        Set(ByVal value As List(Of String))
-            cBPLocations = value
-        End Set
-    End Property
+        Public ReadOnly Property IncludeBPOs() As Boolean
+            Get
+                Return _includeBPOs
+            End Get
+        End Property
 
-    Public ReadOnly Property IncludeBPOs() As Boolean
-        Get
-            Return cIncludeBPOs
-        End Get
-    End Property
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            Close()
+        End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Me.Close()
-    End Sub
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+            If cboLocations.SelectedItem IsNot Nothing Then
+                _location = cboLocations.SelectedItem.ToString
+            End If
+            Close()
+        End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-        If cboLocations.SelectedItem IsNot Nothing Then
-            cLocation = cboLocations.SelectedItem.ToString
-        End If
-        Me.Close()
-    End Sub
+        Private Sub chkIncludeBPOs_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkIncludeBPOs.CheckedChanged
+            _includeBPOs = chkIncludeBPOs.Checked
+        End Sub
 
-    Private Sub chkIncludeBPOs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkIncludeBPOs.CheckedChanged
-        cIncludeBPOs = chkIncludeBPOs.Checked
-    End Sub
+        Private Sub frmSelectLocation_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+            ' List all locations of blueprints
+            cboLocations.Items.Clear()
+            BPLocations.Sort()
+            cboLocations.BeginUpdate()
+            For Each bpLoc As String In BPLocations
+                cboLocations.Items.Add(bpLoc)
+            Next
+            cboLocations.EndUpdate()
+        End Sub
 
-    Private Sub frmSelectLocation_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' List all locations of blueprints
-        cboLocations.Items.Clear()
-        BPLocations.Sort()
-        cboLocations.BeginUpdate()
-        For Each BPLoc As String In BPLocations
-            cboLocations.Items.Add(BPLoc)
-        Next
-        cboLocations.EndUpdate()
-    End Sub
-
-End Class
+    End Class
+End NameSpace

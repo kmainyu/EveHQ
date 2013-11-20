@@ -17,167 +17,152 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Data
+Imports EveHQ.EveData
 
-Public Class DBCWHole
-    Dim Wormholes As New SortedList(Of String, WormHole)
+Namespace Controls.DBControls
 
-    Public Sub New()
+    Public Class DBCWHole
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+        ReadOnly _wormholes As New SortedList(Of String, WormHole)
 
-        ' Add any initialization after the InitializeComponent() call.
+        Public Sub New()
 
-        ' Initialise configuration form name
-        Me.ControlConfigForm = ""
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-        ' Try and load the wormhole information
-        Call Me.LoadWormholeData()
+            ' Add any initialization after the InitializeComponent() call.
 
-    End Sub
+            ' Initialise configuration form name
+            ControlConfigForm = ""
 
-    Private Sub DBCWHole_Load(sender As Object, e As System.EventArgs) Handles Me.Load
-        'Load the combo box with wormhole information
-        Call Me.PopulateWormholeData()
-    End Sub
+            ' Try and load the wormhole information
+            Call LoadWormholeData()
 
-    Private Sub PopulateWormholeData()
-        cboWHType.BeginUpdate()
-        cboWHType.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        cboWHType.AutoCompleteSource = AutoCompleteSource.CustomSource
-        cboWHType.Items.Clear()
-        For Each WH As WormHole In Wormholes.Values
-            cboWHType.Items.Add(WH.Name)
-            cboWHType.AutoCompleteCustomSource.Add(WH.Name)
-        Next
-        cboWHType.EndUpdate()
-    End Sub
+        End Sub
+
+        Private Sub DBCWHole_Load(sender As Object, e As EventArgs) Handles Me.Load
+            'Load the combo box with wormhole information
+            Call PopulateWormholeData()
+        End Sub
+
+        Private Sub PopulateWormholeData()
+            cboWHType.BeginUpdate()
+            cboWHType.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+            cboWHType.AutoCompleteSource = AutoCompleteSource.CustomSource
+            cboWHType.Items.Clear()
+            For Each wh As WormHole In _wormholes.Values
+                cboWHType.Items.Add(wh.Name)
+                cboWHType.AutoCompleteCustomSource.Add(wh.Name)
+            Next
+            cboWHType.EndUpdate()
+        End Sub
 
 #Region "Public Overriding Propeties"
 
-    Public Overrides ReadOnly Property ControlName() As String
-        Get
-            Return "Wormhole Information"
-        End Get
-    End Property
+        Public Overrides ReadOnly Property ControlName() As String
+            Get
+                Return "Wormhole Information"
+            End Get
+        End Property
 
 #End Region
 
 #Region "Wormhole Loading Routines"
-    Private Function LoadWormholeData() As Boolean
-        ' Parse the WHAttributes resource
-        Dim WHAttributes As New SortedList(Of String, SortedList(Of String, String))
-        Dim cAtts As New SortedList(Of String, String)
-        Dim Atts() As String = My.Resources.WHattribs.Split((ControlChars.CrLf).ToCharArray)
-        For Each Att As String In Atts
-            If Att <> "" Then
-                Dim AttData() As String = Att.Split(",".ToCharArray)
-                If WHAttributes.ContainsKey(AttData(0)) = False Then
-                    WHAttributes.Add(AttData(0), New SortedList(Of String, String))
+        Private Sub LoadWormholeData()
+            ' Parse the WHAttributes resource
+            Dim whAttributes As New SortedList(Of String, SortedList(Of String, String))
+            Dim cAtts As SortedList(Of String, String)
+            Dim atts() As String = My.Resources.WHattribs.Split((ControlChars.CrLf).ToCharArray)
+            For Each att As String In atts
+                If att <> "" Then
+                    Dim attData() As String = att.Split(",".ToCharArray)
+                    If whAttributes.ContainsKey(attData(0)) = False Then
+                        whAttributes.Add(attData(0), New SortedList(Of String, String))
+                    End If
+                    cAtts = whAttributes(attData(0))
+                    cAtts.Add(attData(1), attData(2))
                 End If
-                cAtts = WHAttributes(AttData(0))
-                cAtts.Add(AttData(1), AttData(2))
-            End If
-        Next
-        ' Load the data
-        ' Retribution 1.0 DB: There was a row added with a null input for typename, which causes this code to 
-        ' throw an exception. Adding a clause to the query should work around this faulty row without having to edit the db directly.
-        Dim strSQL As String = "SELECT * from invTypes WHERE groupID=988 and typeName is not null;"
-        Dim WHData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Try
-            If WHData IsNot Nothing Then
-                If WHData.Tables(0).Rows.Count > 0 Then
-                    Dim cWH As New WormHole
-                    Wormholes.Clear()
-                    For WH As Integer = 0 To WHData.Tables(0).Rows.Count - 1
-                        cWH = New WormHole
-                        cWH.ID = CStr(WHData.Tables(0).Rows(WH).Item("typeID"))
-                        cWH.Name = CStr(WHData.Tables(0).Rows(WH).Item("typeName")).Replace("Wormhole ", "")
-                        If WHAttributes.ContainsKey(cWH.ID) = True Then
-                            For Each Att As String In WHAttributes(cWH.ID).Keys
-                                Select Case Att
-                                    Case "1381"
-                                        cWH.TargetClass = WHAttributes(cWH.ID).Item(Att)
-                                    Case "1382"
-                                        cWH.MaxStabilityWindow = WHAttributes(cWH.ID).Item(Att)
-                                    Case "1383"
-                                        cWH.MaxMassCapacity = WHAttributes(cWH.ID).Item(Att)
-                                    Case "1384"
-                                        cWH.MassRegeneration = WHAttributes(cWH.ID).Item(Att)
-                                    Case "1385"
-                                        cWH.MaxJumpableMass = WHAttributes(cWH.ID).Item(Att)
-                                    Case "1457"
-                                        cWH.TargetDistributionID = WHAttributes(cWH.ID).Item(Att)
-                                End Select
-                            Next
-                        Else
-                            cWH.TargetClass = ""
-                            cWH.MaxStabilityWindow = ""
-                            cWH.MaxMassCapacity = ""
-                            cWH.MassRegeneration = ""
-                            cWH.MaxJumpableMass = ""
-                            cWH.TargetDistributionID = ""
-                        End If
-                        ' Add in data from the resource file
-                        If cWH.Name.StartsWith("Test") = False Then
-                            Wormholes.Add(CStr(cWH.Name), cWH)
-                        End If
+            Next
+            ' Load the data
+            Dim cWh As WormHole
+            _wormholes.Clear()
+            For Each wh As EveType In StaticData.GetItemsInGroup(988)
+                cWh = New WormHole
+                cWh.ID = wh.Id.ToString
+                cWh.Name = wh.Name.Replace("Wormhole ", "")
+                If whAttributes.ContainsKey(cWh.ID) = True Then
+                    For Each att As String In whAttributes(cWh.ID).Keys
+                        Select Case att
+                            Case "1381"
+                                cWh.TargetClass = whAttributes(cWh.ID).Item(att)
+                            Case "1382"
+                                cWh.MaxStabilityWindow = whAttributes(cWh.ID).Item(att)
+                            Case "1383"
+                                cWh.MaxMassCapacity = whAttributes(cWh.ID).Item(att)
+                            Case "1384"
+                                cWh.MassRegeneration = whAttributes(cWh.ID).Item(att)
+                            Case "1385"
+                                cWh.MaxJumpableMass = whAttributes(cWh.ID).Item(att)
+                            Case "1457"
+                                cWh.TargetDistributionID = whAttributes(cWh.ID).Item(att)
+                        End Select
                     Next
-                    WHAttributes.Clear()
-                    WHData.Dispose()
-                    Return True
                 Else
-                    Return False
+                    cWh.TargetClass = ""
+                    cWh.MaxStabilityWindow = ""
+                    cWh.MaxMassCapacity = ""
+                    cWh.MassRegeneration = ""
+                    cWh.MaxJumpableMass = ""
+                    cWh.TargetDistributionID = ""
                 End If
-            Else
-                Return False
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error Loading Wormhole Data for the Wormhole Information Widget" & ControlChars.CrLf & ex.Message, "Void Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
+                ' Add in data from the resource file
+                If cWh.Name.StartsWith("Test", StringComparison.Ordinal) = False Then
+                    _wormholes.Add(CStr(cWh.Name), cWh)
+                End If
+            Next
+            whAttributes.Clear()
+        End Sub
 #End Region
 
-    Private Sub cboWHType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHType.SelectedIndexChanged
-        ' Update the WH Details
-        If Wormholes.ContainsKey(cboWHType.SelectedItem.ToString) = True Then
-            Dim WH As WormHole = Wormholes(cboWHType.SelectedItem.ToString)
-            If WH.Name <> "K162" Then
-                lblTargetSystemClass.Text = WH.TargetClass
-                Select Case CInt(WH.TargetClass)
-                    Case 1 To 6
-                        lblTargetSystemClass.Text &= " (Wormhole Class " & WH.TargetClass & ")"
-                    Case 7
-                        lblTargetSystemClass.Text &= " (High Security Space)"
-                    Case 8
-                        lblTargetSystemClass.Text &= " (Low Security Space)"
-                    Case 9
-                        lblTargetSystemClass.Text &= " (Null Security Space)"
-                End Select
-                lblMaxJumpableMass.Text = CLng(WH.MaxJumpableMass).ToString("N0") & " kg"
-                lblMaxTotalMass.Text = CLng(WH.MaxMassCapacity).ToString("N0") & " kg"
-                lblStabilityWindow.Text = (CDbl(WH.MaxStabilityWindow) / 60).ToString("N0") & " hours"
-            Else
-                lblTargetSystemClass.Text = "n/a (Return wormhole)"
-                lblMaxJumpableMass.Text = "n/a"
-                lblMaxTotalMass.Text = "n/a"
-                lblStabilityWindow.Text = "n/a"
+        Private Sub cboWHType_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboWHType.SelectedIndexChanged
+            ' Update the WH Details
+            If _wormholes.ContainsKey(cboWHType.SelectedItem.ToString) = True Then
+                Dim wh As WormHole = _wormholes(cboWHType.SelectedItem.ToString)
+                If wh.Name <> "K162" Then
+                    lblTargetSystemClass.Text = wh.TargetClass
+                    Select Case CInt(wh.TargetClass)
+                        Case 1 To 6
+                            lblTargetSystemClass.Text &= " (Wormhole Class " & wh.TargetClass & ")"
+                        Case 7
+                            lblTargetSystemClass.Text &= " (High Security Space)"
+                        Case 8
+                            lblTargetSystemClass.Text &= " (Low Security Space)"
+                        Case 9
+                            lblTargetSystemClass.Text &= " (Null Security Space)"
+                    End Select
+                    lblMaxJumpableMass.Text = CLng(wh.MaxJumpableMass).ToString("N0") & " kg"
+                    lblMaxTotalMass.Text = CLng(wh.MaxMassCapacity).ToString("N0") & " kg"
+                    lblStabilityWindow.Text = (CDbl(wh.MaxStabilityWindow) / 60).ToString("N0") & " hours"
+                Else
+                    lblTargetSystemClass.Text = "n/a (Return wormhole)"
+                    lblMaxJumpableMass.Text = "n/a"
+                    lblMaxTotalMass.Text = "n/a"
+                    lblStabilityWindow.Text = "n/a"
+                End If
             End If
-        End If
-    End Sub
+        End Sub
 
-    
-End Class
 
-Public Class WormHole
-    Public ID As String
-    Public Name As String
-    Public TargetClass As String
-    Public MaxStabilityWindow As String
-    Public MaxMassCapacity As String
-    Public MassRegeneration As String
-    Public MaxJumpableMass As String
-    Public TargetDistributionID As String
-End Class
+    End Class
+
+    Public Class WormHole
+        Public ID As String
+        Public Name As String
+        Public TargetClass As String
+        Public MaxStabilityWindow As String
+        Public MaxMassCapacity As String
+        Public MassRegeneration As String
+        Public MaxJumpableMass As String
+        Public TargetDistributionID As String
+    End Class
+End NameSpace

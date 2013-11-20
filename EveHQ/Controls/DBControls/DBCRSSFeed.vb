@@ -17,148 +17,152 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports EveHQ.Core.RSS
 Imports System.ComponentModel
+Imports System.Text.RegularExpressions
+Imports EveHQ.Core
 
-Public Class DBCRSSFeed
-    Private ReadOnly feedItems As New ArrayList
-    Private ReadOnly feedIDs As New ArrayList
-    Public Feeds As New List(Of String)()
-    Dim WithEvents FeedWorker As New BackgroundWorker
+Namespace Controls.DBControls
 
-    Public Sub New()
+    Public Class DBCRSSFeed
+        Private ReadOnly _feedItems As New ArrayList
+        Private ReadOnly _feedIDs As New ArrayList
+        Public Feeds As New List(Of String)()
+        Dim WithEvents _rssFeedWorker As New BackgroundWorker
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+        Public Sub New()
 
-        ' Add any initialization after the InitializeComponent() call.
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-        ' Initialise configuration form name
-        Me.ControlConfigForm = "EveHQ.DBCRSSFeedConfig"
-        FeedWorker = New BackgroundWorker
+            ' Add any initialization after the InitializeComponent() call.
 
-    End Sub
+            ' Initialise configuration form name
+            ControlConfigForm = "EveHQ.Controls.DBConfigs.DBCRSSFeedConfig"
+            _rssFeedWorker = New BackgroundWorker
+
+        End Sub
 
 #Region "Public Overriding Propeties"
 
-    Public Overrides ReadOnly Property ControlName() As String
-        Get
-            Return "RSS Feed"
-        End Get
-    End Property
+        Public Overrides ReadOnly Property ControlName() As String
+            Get
+                Return "RSS Feed"
+            End Get
+        End Property
 
 #End Region
 
 #Region "Custom Control Variables"
-    Dim cRSSFeed As String = ""
+        Dim _rssSFeed As String = ""
 #End Region
 
 #Region "Custom Control Properties"
-    Public Property RSSFeed() As String
-        Get
-            Return cRSSFeed
-        End Get
-        Set(ByVal value As String)
-            cRSSFeed = value
-            If ReadConfig = False Then
-                Me.SetConfig("RSSFeed", value)
-                Me.SetConfig("ControlConfigInfo", "RSS Feed: " & Me.RSSFeed)
-            End If
-            cpFeed.IsRunning = True
-            FeedWorker.RunWorkerAsync()
-        End Set
-    End Property
+        Public Property RSSFeed() As String
+            Get
+                Return _rssSFeed
+            End Get
+            Set(ByVal value As String)
+                _rssSFeed = value
+                If ReadConfig = False Then
+                    SetConfig("RSSFeed", value)
+                    SetConfig("ControlConfigInfo", "RSS Feed: " & RSSFeed)
+                End If
+                cpFeed.IsRunning = True
+                _rssFeedWorker.RunWorkerAsync()
+            End Set
+        End Property
 #End Region
 
-    Private Sub UpdateFeedDisplay()
-        pnlFeedItems.SuspendLayout()
-        pnlFeedItems.Controls.Clear()
-        If feedItems.Count > 0 Then
-            pnlFeedItems.Text = ""
-            For Each item As FeedItem In feedItems
-                Dim RSSItem As New RSSFeedItem
-                RSSItem.lblFeedItemTitle.Text = item.Title
-                RSSItem.lblFeedItemTitle.Tag = item.Link
-                Dim itemDate As Date
-                Date.TryParse(item.PubDate, itemDate)
-                RSSItem.lblFeeItemDate.Text = itemDate.ToLongDateString & " " & itemDate.ToLongTimeString
-                pnlFeedItems.Controls.Add(RSSItem)
-                RSSItem.Dock = DockStyle.Top
-                RSSItem.BringToFront()
-                lblHeader.Text = "RSS Feed: " & item.Source
-            Next
-        Else
-            pnlFeedItems.Text = "Unable to obtain feed information."
-        End If
-        pnlFeedItems.ResumeLayout()
-    End Sub
+        Private Sub UpdateFeedDisplay()
+            pnlFeedItems.SuspendLayout()
+            pnlFeedItems.Controls.Clear()
+            If _feedItems.Count > 0 Then
+                pnlFeedItems.Text = ""
+                For Each item As FeedItem In _feedItems
+                    Dim rssItem As New RSSFeedItem
+                    rssItem.lblFeedItemTitle.Text = item.Title
+                    rssItem.lblFeedItemTitle.Tag = item.Link
+                    Dim itemDate As Date
+                    Date.TryParse(item.PubDate, itemDate)
+                    rssItem.lblFeeItemDate.Text = itemDate.ToLongDateString & " " & itemDate.ToLongTimeString
+                    pnlFeedItems.Controls.Add(rssItem)
+                    rssItem.Dock = DockStyle.Top
+                    rssItem.BringToFront()
+                    lblHeader.Text = "RSS Feed: " & item.Source
+                Next
+            Else
+                pnlFeedItems.Text = "Unable to obtain feed information."
+            End If
+            pnlFeedItems.ResumeLayout()
+        End Sub
 
 #Region "Background Worker Routines"
 
-    Private Sub FeedWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles FeedWorker.DoWork
-        Call Me.ParseFeed(cRSSFeed)
-    End Sub
+        Private Sub FeedWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _rssFeedWorker.DoWork
+            Call ParseFeed(_rssSFeed)
+        End Sub
 
-    Private Sub FeedWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles FeedWorker.RunWorkerCompleted
-        Call Me.UpdateFeedDisplay()
-    End Sub
+        Private Sub FeedWorker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _rssFeedWorker.RunWorkerCompleted
+            Call UpdateFeedDisplay()
+        End Sub
 
 #End Region
 
 #Region "Feed Parsing Routines"
 
-    Private Sub ParseFeed(ByVal URL As String)
-        Try
+        Private Sub ParseFeed(ByVal url As String)
+            Try
 
-            Dim parser As IFeedParser = ParserFactory.GetParser(URL)
+                Dim parser As IFeedParser = ParserFactory.GetParser(URL)
 
-            If parser Is Nothing Then
-                Exit Sub
-            End If
-
-            Dim parse As List(Of FeedItem) = parser.Parse(URL)
-
-            If parse Is Nothing Then
-                Exit Sub
-            End If
-
-            For Each item As FeedItem In parse
-                If feedIDs.Contains(item.GUID) Then
-                    Continue For
+                If parser Is Nothing Then
+                    Exit Sub
                 End If
 
-                item.Title = Clean(item.Title).Replace(vbCr, "").Replace(vbLf, "")
-                item.Description = Clean(item.Description)
+                Dim parse As List(Of FeedItem) = parser.Parse(URL)
 
-                feedItems.Add(item)
-                feedIDs.Add(item.GUID)
+                If parse Is Nothing Then
+                    Exit Sub
+                End If
 
-            Next
-        Catch
-            'Suppress any errors 
-        End Try
-    End Sub
+                For Each item As FeedItem In parse
+                    If _feedIDs.Contains(item.GUID) Then
+                        Continue For
+                    End If
 
-    Private Shared Function Clean(ByVal input As String) As String
-        Dim output As String = input.Trim()
+                    item.Title = Clean(item.Title).Replace(vbCr, "").Replace(vbLf, "")
+                    item.Description = Clean(item.Description)
 
-        output = output.Replace("&#39;", "'")
-        output = output.Replace("&amp;", "&")
-        output = output.Replace("&quot;", """")
-        output = output.Replace("&nbsp;", " ")
+                    _feedItems.Add(item)
+                    _feedIDs.Add(item.GUID)
 
-        output = RemoveHTMLTags(output)
+                Next
+            Catch
+                'Suppress any errors 
+            End Try
+        End Sub
 
-        Return output
-    End Function
+        Private Shared Function Clean(ByVal input As String) As String
+            Dim output As String = input.Trim()
 
-    Private Shared Function RemoveHTMLTags(ByVal text As String) As String
-        Dim regularExpressionString As String = "<.+?>"
+            output = output.Replace("&#39;", "'")
+            output = output.Replace("&amp;", "&")
+            output = output.Replace("&quot;", """")
+            output = output.Replace("&nbsp;", " ")
 
-        Dim r As New System.Text.RegularExpressions.Regex(regularExpressionString, System.Text.RegularExpressions.RegexOptions.Singleline)
-        Return r.Replace(text, "")
-    End Function
+            output = RemoveHTMLTags(output)
+
+            Return output
+        End Function
+
+        Private Shared Function RemoveHTMLTags(ByVal text As String) As String
+            Const RegularExpressionString As String = "<.+?>"
+
+            Dim r As New Regex(RegularExpressionString, RegexOptions.Singleline)
+            Return r.Replace(text, "")
+        End Function
 
 #End Region
 
-End Class
+    End Class
+End NameSpace

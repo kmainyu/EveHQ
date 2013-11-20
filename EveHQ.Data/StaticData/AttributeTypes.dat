@@ -1,0 +1,2037 @@
+
+isOnlineisOnline z(	
+damageDamage z(
+massMass (
+*&capacitorNeedactivation cost r(
+minRangeminRange z(	
+#		hpStructure Hitpoints q(
+)%powerOutputpowergrid Output k(
+lowSlots	Low Slots z(
+medSlots	Med Slots z(
+hiSlots
+High Slots z(
+ 	powerLoad	Powerload k(
+chargecharge r(	
+&"powerToSpeedpowerToSpeed z(	
++'speedFactorMax Velocity Bonus |(
+"
+warpFactor
+warpFactor z(
+($warpInhibitorwarpInhibitor z(	
+"powerpowergrid usage k(
+maxArmormaxArmor z(	
+"  
+breakPoint
+breakPoint z(	
+%%!%maxVelocityMax Velocity (
+&&capacityCapacity 	(
++'''damageHPDamage Repaired Bonus i(
+//slotsslots z(	
+!00	cpuOutput
+CPU Output j(
+11cpuLoadCPU Load j(	
+22cpu	CPU usage j(
+33speedRate of fire e(
+.4*4damageResistancedamageResistance z(	
+#66maxRangeOptimal Range (
+'7#7rechargeRateRecharge time e(
+)8%8
+chargeRateCharges Per Cycle z(
+&="=targetModuletargetModule z(	
+(?$?accuracyBonusaccuracyBonus z(	
+-@)@damageMultiplierDamage Modifier h(
+"AA
+armorBonus
+armorBonus z(	
+)B%BdurationBonusDuration Bonus i(
++C'CcapacitorBonusCapacitor Bonus r(
+%D!DshieldBonusshield Bonus q(
+ EE	rateBonus	rateBonus z(	
+%F!FagilityInertia Modifier h(
+*H&HcapacityBonusShield HP bonus q(
+0I,IdurationActivation time / duration e(
+&K"KhpToCapacityhpToCapacity z(	
+3L/LmaxTargetRangeMaximum Targeting Range (
+'M#MminingAmountMining amount 	(
+ OO	scanSpeed	scanSpeed e(	
+#PP
+speedBonusSpeed Bonus (
+QQhpFactorhpFactor z(	
+*R&RstructureBonusstructureBonus z(	
+8S4SstructureDamageAmountStructure hp Repaired q(
+0T,TarmorDamageAmountArmor hp Repaired q(
+6W2WshieldTransferRangeshield Transfer Range (
+0X,XshieldDrainAmountshieldDrainAmount z(	
+.Y*YshieldDrainRangeshieldDrainRange z(	
+7Z3ZpowerTransferAmountEnergy transfer amount x(
+.[*[powerTransferRangeTransfer range (
+H\D\kineticDampeningFieldStrengthkineticDampeningFieldStrength z(	
+B]>]kineticDampeningFieldBonuskineticDampeningFieldBonus z(	
+>_:_energyReflectionStrengthenergyReflectionStrength z(	
+8`4`energyReflectionBonusenergyReflectionBonus z(	
+;a7aenergyDestabilizationAmountEnergy neutralized r(
+@b<benergyDestabilizationRangeMax Neutralization Range (
+0c,cempFieldRangeArea of effect radius (
+3e/elauncherSlotsLeftLauncher hardpoints ç(
+/f+fturretSlotsLeftTurret hardpoints ç(
+2g.gwarpScrambleRangeWarp Scramble Range (
+4h0hwarpScrambleStatusWarp Scramble Status z(
+8i4iwarpScrambleStrengthWarp Scramble Strength z(
+2j.jdroneBaySlotsLeftDronebay hardpoints z(
+
+*k&kexplosionRangeexplosionRange (	
+,l(ldetonationRangedetonationRange (	
+:m6mkineticDamageResonanceKinetic dmg resistance l(
+:n6nthermalDamageResonanceThermal dmg resistance l(
+>o:oexplosiveDamageResonanceExplosive dmg resistance l(
+FpBpenergyDamageAbsorptionFactorenergyDamageAbsorptionFactor z(	
+0q,qemDamageResonanceEM dmg resistance l(
+rremDamage	EM damage q(
+-t)texplosiveDamageExplosive damage q(
+)u%ukineticDamageKinetic damage q(
+)v%vthermalDamageThermal damage q(
+.x*xweaponRangeMultiplierRange bonus m(
+0y,ypowerOutputBonusPower Output Bonus k(
+4z0zarmorPiercingChancearmorPiercingChance z(	
+6{2{shieldPiercingChanceshieldPiercingChance z(	
+ ||	mainColor	mainColor z(	
+.}*}shipScanRangeShip scanning range (
++~'~cargoScanRangeCargoscan range (
+"
+ammoLoaded
+ammoLoaded z(
+%Ä Ä
+chargeSizeCharge size u(
+*Å%ÅmaxPassengersmaxPassengers z(	
+LÇGÇ thermalDamageResonanceMultiplierThermal dmg resistance bonus o(
+LÉGÉ kineticDamageResonanceMultiplierKinetic dmg resistance bonus o(
+PÑKÑ"explosiveDamageResonanceMultiplierExplosive dmg resistance bonus o(
+BÖ=ÖemDamageResonanceMultiplierEM dmg resistance bonus o(
+FÜAÜshieldRechargeRateMultiplierShield recharge rate bonus o(
+$áá
+moduleSize
+moduleSize z(	
+$àà
+uniformity
+uniformity z(	
+6â1âlauncherGroupUsed with (launchergroup) s(
+)ä$äemDamageBonusEM dmg bonus q(
+7ã2ãexplosiveDamageBonusExplosive dmg bonus q(
+3å.åkineticDamageBonusKinetic dmg bonus q(
+3ç.çthermalDamageBonusThermal dmg bonus q(
+-é(éecmBurstRangeECM Burst Radius (
+1è,ètargetHostileRangeTargeting range (
+LêGêcapacitorRechargeRateMultiplierCapacitor recharge rate bonus o(
+4ë/ëpowerOutputMultiplierPowergrid bonus m(
+7í2íshieldCapacityMultiplierShield HP bonus m(
+:ì5ìcapacitorCapacityMultiplierCapacitor bonus m(
+/î*îarmorHPMultiplierArmor HP bonus m(
+;ï6ïcargoCapacityMultiplierCargo capacity bonus m(
+7ñ2ñstructureHPMultiplierStructure HP bonus m(
+)ó$óagilityBonusAgility bonus i(
+6ò1òmaxPassengersBonusMax Passengers Bonus z(
+2ô-ôwarpCapacitorNeedwarpCapacitorNeed z(	
+2ö-öproximityRangeActivation proximity (
+6ú1úincapacitationRatioincapacitationRatio z(	
+$ùù
+orbitRange
+orbitRange z(	
+'û"ûfalloffAccuracy falloff (
+5†0†trackingSpeedTrackingspeed / Accuracy p(
+°°volumeVolume 	(
+¢¢radiusradius z(	
+*£%£dummyDurationdummyDuration z(	
+ §§charismaCharisma x(
+(•#•intelligenceIntelligence x(
+¶¶memoryMemory x(
+$ßß
+perception
+Perception x(	
+"®®	willpower	Willpower x(
+1©,©agilityMultiplierInertia Modifier y(
+6™1™customCharismaBonuscustomCharismaBonus z(	
+8´3´customWillpowerBonuscustomWillpowerBonus z(	
+:¨5¨customPerceptionBonuscustomPerceptionBonus z(	
+2≠-≠customMemoryBonuscustomMemoryBonus z(	
+>Æ9ÆcustomIntelligenceBonuscustomIntelligenceBonus z(	
+.Ø)ØcharismaBonusCharisma Modifier x(
+6∞1∞intelligenceBonusIntelligence Modifier x(
+*±%±memoryBonusMemory Modifier x(
+2≤-≤perceptionBonusPerception Modifier x(
+0≥+≥willpowerBonusWillpower Modifier x(
+1¥,¥primaryAttributePrimary attribute w(
+5µ0µsecondaryAttributeSecondary attribute w(
+4∂/∂requiredSkill1Primary Skill required t(
+6∑1∑requiredSkill2Secondary Skill required t(
+5∏0∏requiredSkill3Tertiary Skill required t(
+.π)πattributePointsattributePoints z(	
+F∫A∫warpCapacitorNeedMultiplierwarpCapacitorNeedMultiplier z(	
+8ª3ªrepairCostMultiplierrepairCostMultiplier z(	
+6º1ºcargoScanResistancecargoScanResistance z(	
+&Ω!ΩtargetGrouptargetGroup z(	
+<æ7æcorporationMemberLimitcorporationMemberLimit z(	
+?ø:øcorporationMemberBonuscorporation Member Bonus ã(
+3¿.¿maxLockedTargetsMax  Locked Targets z(
+0¡+¡maxAttackTargetsmaxAttackTargets z(	
+2¬-¬jammingResistancejammingResistance z(
+√√raceIDraceID z(	
+8ƒ3ƒmanufactureSlotLimitmanufactureSlotLimit z(	
+/≈*≈surveyScanRangeSurveyscan range (
+- ( cpuMultiplierCPU Output bonus m(
+@À;ÀminingDurationMultiplierminingDurationMultiplier z(	
+1Ã,ÃspeedMultiplierrate of fire bonus o(
+4Õ/ÕaccuracyMultiplieraccuracyMultiplier z(	
+>œ9œminingAmountMultiplierMining Amount Multiplier z(
+6–1–scanRadarStrengthRADAR Sensor Strength x(
+6—1—scanLadarStrengthLADAR Sensor Strength x(
+F“A“scanMagnetometricStrengthMagnetometric Sensor Strength x(
+B”=”scanGravimetricStrengthGravimetric Sensor Strength x(
+;‘6‘missileDamageMultiplierMissile Damage Bonus h(
+@’;’missileDamageMultiplierBonusMissile Damage Bonus m(
+@ÿ;ÿcapacitorNeedMultiplierCapacitor Need Multiplier i(
+6Ÿ1ŸpropulsionGraphicIDpropulsionGraphicID z(	
+N⁄I⁄blueprintResearchTimeMultiplierblueprintResearchTimeMultiplier z(	
+B€=€manufactureTimeMultipliermanufactureTimeMultiplier z(	
+X‹S‹$blueprintResearchTimeMultiplierBonus$blueprintResearchTimeMultiplierBonus z(	
+T›O›"blueprintManufactureTimeMultiplier"blueprintManufactureTimeMultiplier z(	
+^ﬁYﬁ'blueprintManufactureTimeMultiplierBonus'blueprintManufactureTimeMultiplierBonus z(	
+VﬂQﬂ#charismaSkillTrainingTimeMultiplier#charismaSkillTrainingTimeMultiplier z(	
+^‡Y‡'intelligenceSkillTrainingTimeMultiplier'intelligenceSkillTrainingTimeMultiplier z(	
+R·M·!memorySkillTrainingTimeMultiplier!memorySkillTrainingTimeMultiplier z(	
+Z‚U‚%perceptionSkillTrainingTimeMultiplier%perceptionSkillTrainingTimeMultiplier z(	
+X„S„$willpowerSkillTrainingTimeMultiplier$willpowerSkillTrainingTimeMultiplier z(	
+`‰[‰(charismaSkillTrainingTimeMultiplierBonus(charismaSkillTrainingTimeMultiplierBonus z(	
+hÂcÂ,intelligenceSkillTrainingTimeMultiplierBonus,intelligenceSkillTrainingTimeMultiplierBonus z(	
+\ÊWÊ&memorySkillTrainingTimeMultiplierBonus&memorySkillTrainingTimeMultiplierBonus z(	
+dÁ_Á*perceptionSkillTrainingTimeMultiplierBonus*perceptionSkillTrainingTimeMultiplierBonus z(	
+bË]Ë)willpowerSkillTrainingTimeMultiplierBonus)willpowerSkillTrainingTimeMultiplierBonus z(	
+>Î9ÎmaxLockedTargetsBonusMax Locked Targets Bonus ã(
+;Ï6ÏmaxAttackTargetsBonusmaxAttackTargetsBonus ã(	
+=Ì8ÌmaxTargetRangeMultiplierTargeting Range Bonus m(
+@Ó;ÓscanGravimetricStrengthBonusGravimetric Strength z(
+4Ô/ÔscanLadarStrengthBonusLADAR Strength z(
+D?scanMagnetometricStrengthBonusMagnetometric Strength z(
+4Ò/ÒscanRadarStrengthBonusRADAR Strength z(
+6Ú1ÚscanSpeedMultiplierscanSpeedMultiplier o(
+6Û1ÛmaxRangeMultiplierMax Range Multiplier h(
+@Ù;ÙtrackingSpeedMultiplierTracking Speed Multiplier h(
+&ı!ıgfxTurretIDgfxTurretID z(	
+(ˆ#ˆgfxBoosterIDgfxBoosterID z(	
+2˜-˜entityAttackRangeentityAttackRange z(	
+4¯/¯entityLootValueMinentityLootValueMin z(	
+4˘/˘entityLootValueMaxentityLootValueMax z(	
+4˙/˙entityLootCountMinentityLootCountMin z(	
+4˚/˚entityLootCountMaxentityLootCountMax z(	
+H¸C¸entitySecurityStatusKillBonusSecurity Status Kill Amount z(
+V˝Q˝#entitySecurityStatusAggressionBonus#entitySecurityStatusAggressionBonus z(	
+(˛#˛minLootCountminLootCount z(	
+(Ä#ÄmaxLootCountmaxLootCount z(	
+2Å-ÅentityFollowRangeentityFollowRange z(	
+(Ç#ÇminLootValueminLootValue z(	
+(É#ÉmaxLootValuemaxLootValue z(	
+&Ñ!ÑattackRangeattackRange z(	
+4Ö/ÖkillStatusModifierkillStatusModifier z(	
+8Ü3ÜattackStatusModifierattackStatusModifier z(	
+-á(áshieldCapacityShield Capacity q(
+(à#àshieldChargeshieldCharge z(	
+&â!âarmorHPArmor Hitpoints q(
+'ä"äarmorDamageArmor Damage z(	
+@ã;ãarmorEmDamageResonanceArmor Em Damage Resistance l(
+NåIåarmorExplosiveDamageResonance!Armor Explosive Damage Resistance l(
+JçEçarmorKineticDamageResonanceArmor Kinetic Damage Resistance l(
+JéEéarmorThermalDamageResonanceArmor Thermal Damage Resistance l(
+Bè=èshieldEmDamageResonanceShield Em Damage Resistance l(
+PêKêshieldExplosiveDamageResonance"Shield Explosive Damage Resistance l(
+LëGëshieldKineticDamageResonance Shield Kinetic Damage Resistance l(
+LíGíshieldThermalDamageResonance Shield Thermal Damage Resistance l(
+9ì4ìskillTimeConstantTraining time multiplier h(
+&î!îskillPointsSkillpoints z(
+6ï1ïrequiredSkill1LevelrequiredSkill1Level z(
+6ñ1ñrequiredSkill2LevelrequiredSkill2Level z(
+6ó1órequiredSkill3LevelrequiredSkill3Level z(
+òò
+skillLevelLevel z(
+-ô(ôexplosionDelayMax Flight Time e(
+Dö?ölauncherCapacityMultiplierlauncherCapacityMultiplier h(	
++õ&õdroneCapacityDrone Capacity 	(
+
+4ú/úexcludeGangMembersexcludeGangMembers z(	
+Bù=ùexcludeCorporationMembersexcludeCorporationMembers z(	
+.û)ûexcludeHostilesexcludeHostiles z(	
+"üü	kDmgBonus	kDmgBonus z(	
+(†#†shipCPUBonusshipCPUBonus z(	
+2°-°turretDamageBonusturretDamageBonus z(	
+6¢1¢skillTurretDmgBonusskillTurretDmgBonus z(	
+*£%£cpuskillBonusCpuskillBonus z(
+<§7§damageMultiplierBonusDamage Multiplier Bonus i(
+*•%•rofBonusRate Of Fire Bonus i(
+5¶0¶rangeSkillBonusOptimal Range Modifier y(
+(ß#ßabPowerBonusabPowerBonus z(	
+(®#®acPowerBonusacPowerBonus z(	
+(©#©afPowerBonusafPowerBonus z(	
+(™#™atPowerBonusatPowerBonus z(	
+*´%´cbTRangeBonuscbTRangeBonus z(	
+*¨%¨ccTRangeBonusccTRangeBonus z(	
+*≠%≠cfTRangeBonuscfTRangeBonus z(	
+*Æ%ÆciTRangeBonusciTRangeBonus z(	
+(Ø#ØaiPowerBonusaiPowerBonus z(	
+*∞%∞ctTRangeBonusctTRangeBonus z(	
+$±±
+gbCpuBonus
+gbCpuBonus z(	
+9≤4≤maxVelocityBonusMaximum Velocity Modifier m(
+8≥3≥scannerDurationBonusscannerDurationBonus z(	
+.¥)¥scanspeedBonusScan Speed Bonus i(
+<µ7µmaxTargetRangeBonusMax Targeting Range Bonus i(
+*∂%∂cpuNeedBonusCPU Need Bonus i(
+/∑*∑maxTargetBonusMax Target Bonus ã(
+0∏+∏durationSkillBonusDuration Bonus y(
+=π8πpowerEngineeringOutputBonusPower Output Bonus i(
+;∫6∫capRechargeBonusCap Recharge Time Reduction i(
+.ª)ªvelocityBonusVelocity Modifier y(
+.º)ºcorpMemberBonuscorpMemberBonus z(	
+0Ω+ΩcapNeedBonusCapacitor Need Bonus i(
+&æ!æspeedFBonusSpeed Bonus i(
+?ø:øwarpCapacitorNeedBonusWarp Capacitor Need Bonus |(
+*¿%¿powerUseBonuspowerUseBonus z(	
+,¡'¡
+burstSpeedBurst Rate Of Fire (
+4¬/¬burstSpeedMutatorBurst Speed Mutator z(
+.√)√powerNeedBonusPower Need Bonus i(
+2ƒ-ƒbarrageDmgMutatorbarrageDmgMutator z(	
+:≈5≈barrageFalloffMutatorbarrageFalloffMutator z(	
+8∆3∆barrageDmgMultiplierbarrageDmgMultiplier z(	
+#««hullHpBonusHp Bonus i(
+,»'»barrageFalloffbarrageFalloff z(	
+(…#…gangRofBonusGangRofBonus z(
+/ * boosterDurationBooster Duration e(
+(À#ÀimplantnessImplant Slot à(
+ ÃÃburstDmgburstDmg z(	
+.Õ)ÕburstDmgMutatorburstDmgMutator z(	
+,Œ'ŒshipPowerBonusshipPowerBonus z(	
+*œ%œarmorHpBonusArmor Hp Bonus i(
+/–*–uniformityBonusUniformity Bonus h(
+8—3—shieldCapacityBonusShield Capacity Bonus y(
+4“/“rechargeratebonusRecharge Rate Bonus i(
+)›$›falloffBonusFalloff Bonus i(
+<ﬁ7ﬁskillTrainingTimeBonusskillTrainingTimeBonus z(	
+0ﬂ+ﬂmaxRangeBonusOptimal Range Bonus i(
+.‡)‡maxActiveDronesmaxActiveDrones z(	
+9·4·maxActiveDroneBonusMax Active Drone Bonus z(
+
+*‚%‚maxDroneBonusmaxDroneBonus z(	
+;„6„negotiationPercentageNegotiation Multiplyer z(
+-‰(‰diplomacyBonusDiplomacy Bonus z(
+6Á1ÁfastTalkPercentageFast Talk Percentage z(
+1Ë,ËconnectionsBonusConnections Bonus z(	
+BÈ=ÈcriminalConnectionsBonusCriminal Connections Bonus z(
+'Í"ÍsocialBonusSocial Bonus i(
+.Î)ÎamarrTechTimePercent
+Amarr Tech z(	
+4Ï/ÏminmatarTechTimePercentMinmatar Tech z(
+3Ì.ÌgallenteTechTimePercentGallenteTech z(
+2Ó-ÓcaldariTechTimePercentCaldari Tech z(
+<Ô7ÔproductionTimePercentProduction time percent z(
+>9refiningTimePercentagerefining pime percentage z(
+DÒ?ÒmanufactureCostMultipliermanufacture cost Multiplyer z(
+0Ú+ÚamarrTechMutatoramarrTechMutator z(	
+4Û/ÛcaldariTechMutatorcaldariTechMutator z(	
+6Ù1ÙgallenteTechMutatorgallenteTechMutator z(	
+:ı5ıproductionTimeMutatorproductionTimeMutator z(	
+6ˆ1ˆminmatarTechMutatorminmatarTechMutator z(	
+:˜5˜productionCostMutatorproductionCostMutator z(	
+;¯6¯refiningTimePercentRefining time Multiplier z(
+6˘1˘refiningTimeMutatorrefiningTimeMutator z(	
+@˙;˙refiningYieldPercentageRefining yield percentage z(
+:˚5˚refiningYieldMutatorRefining Yield Mutator i(
+2¸-¸maxActiveFactoryMax active factory z(
+6ˇ1ˇmaxActiveFactoriesMax active factories z(
+9Ä4ÄmaxResearchGangSizeMax research gang size z(
+LÅGÅmanufacturingTimeResearchSpeedProduction time research speed z(
+8Ç3ÇresearchCostPercentResearch cost percent z(
+7É2ÉcopySpeedPercentBlueprint copying speed z(
+@Ñ;ÑfrigateConstructionCostFrigate construction cost z(
+@Ö;ÖcruiserConstructionCostCruiser construction cost z(
+FàAàindustrialConstructionCostIndustrial construction cost z(
+FâAâbattleshipConstructionCostBattleship construction cost z(
+<ä7ätitanConstructionTimeTitan construction time z(
+@ã;ãstationConstructionTimeStation construction time z(
+4å/årepairCostPercentRepair cost percent z(
+<ç7çreverseEngineeringChanceBreakthrough percent z(
+Cé>émineralNeedResearchSpeedMineral need research speed z(
+2è-èduplicatingChanceprototypingChance i(
+JêEêmissileStandardVelocityPecentmissileStandardVelocityPecent z(	
+HëCëcruiseMissileVelocityPercentcruiseMissileVelocityPercent z(	
+@í;íheavyMissileSpeedPercentheavyMissileSpeedPercent z(	
+2ì-ìrocketDmgPercentRocket Dmg Percent i(
+<î7îtorpedoVelocityPercenttorpedoVelocityPercent z(	
+@ï;ïdefenderVelocityPercentDefender velocity percent i(
+Bñ=ñmissileFOFVelocityPercentmissileFOFVelocityPercent z(	
+:ó5óresearchGangSizeBonusresearchGangSizeBonus z(	
+NòIòbattleshipConstructionTimeBonusbattleshipConstructionTimeBonus z(	
+HôCôcruiserConstructionTimeBonuscruiserConstructionTimeBonus z(	
+HöCöfrigateConstructionTimeBonusfrigateConstructionTimeBonus z(	
+NõIõindustrialConstructionTimeBonusindustrialConstructionTimeBonus z(	
+<ú7úconnectionBonusMutatorconnectionBonusMutator z(	
+FùAùcriminalConnectionsMutatorCriminal Connections Mutator z(
+1û,ûdiplomacyMutatorDiplomacy Mutator z(
+.ü)üfastTalkMutatorfastTalkMutator z(	
+,†'†entityFlyRangeentityFlyRange z(	
+L°G°maxNonRaceCorporationMembers Max non  race corporationMembers z(
+P¢K¢nonRaceCorporationMembersBonus"Non Race Corporation Members Bonus i(
+2£-£skillPointsSavedSkill Points Saved z(
+*§%§trackingBonustrackingBonus y(	
+>•9•shieldRechargerateBonusshieldRechargerateBonus z(	
+$¶¶	techLevel
+Tech Level å(
+0ß+ßentityDroneCountentityDroneCount z(	
+/®*®cpuOutputBonus2CPU Output Bonus i(
+,©'©cpuOutputBonuscpuOutputBonus z(	
+9™4™heavyDroneDamagePercentdroneDamagePercent m(
+:´5´heavyDroneDamageBonusheavyDroneDamageBonus z(	
+?¨:¨miningDroneAmountPercentminingDroneSpeedPercent z(
+:≠5≠miningDroneSpeedBonusminingDroneSpeedBonus z(	
+BÆ=ÆscoutDroneVelocityPercentscoutDroneVelocityPercent z(	
+>Ø9ØscoutDroneVelocityBonusscoutDroneVelocityBonus z(	
+9∞4∞defenderVelocityBonusDrone Velocity Bonus i(
+>±9±heavyMissileDamageBonusheavyMissileDamageBonus z(	
+4≤/≤miningAmountBonusMining Amount Bonus i(
+<≥7≥maxGangModulesMaximum Active Command Relays ã(
+>¥9¥standingIncreasePercentstandingIncreasePercent i(	
+1µ,µnegotiationBonusNegotiation Bonus i(
++∂&∂socialMutatorSocial Mutator i(
+6∑1∑targetingSpeedBonustargetingSpeedBonus z(	
+>∏9∏manufacturingTimeBonusManufacturing Time Bonus i(
+1π,πturretSpeeBonusRate of Fire Bonus y(
+,∫'∫barterDiscountbarterDiscount z(	
+)ª$ªtradePremiumTrade premium z(
+@º;ºcontrabandFencingChanceContraband fencing chance i(
+.Ω)ΩsmugglingChancesmugglingChance z(	
+2æ-ætradePremiumBonustradePremiumBonus z(	
+:ø5øsmugglingChanceBonusSmuggling Chance Bonus i(
+4¿/¿fencingChanceBonusfencingChanceBonus z(	
+6¡1¡barterDiscountBonusBarterDiscountBonus z(
+?¬:¬manufacturingSlotBonusManufacturing Slot Bonus ã(
+8√3√manufactureCostBonusmanufactureCostBonus i(
+.ƒ)ƒcopySpeedBonusCopy Speed Bonus i(
+M≈H≈blueprintmanufactureTimeBonus Blueprint Manufacture Time Bonus i(
+∆∆mutatonmutaton z(	
++«&«learningBonusLearning Bonus i(
+4»/»entityEquipmentMinentityEquipmentMin z(	
+4…/…entityEquipmentMaxentityEquipmentMax z(	
+> 9 droneControlDistanceMax drone control distance (
+
+8À3ÀdroneRangeBonusDrone Control Range Bonus (
+
+0Ã+ÃshipBonusMFSpecial Ability Bonus i(
+6Õ1ÕspecialAbilityBonusspecialAbilityBonus z(	
+&Œ!ŒshipBonusGFshipBonusGF z(	
+&œ!œshipBonusCFshipBonusCF z(	
+&–!–shipBonusAFshipBonusAF z(	
+>—9—entityEquipmentGroupMaxentityEquipmentGroupMax z(	
+8“3“entityReactionFactorentityReactionFactor z(	
+9”4”maxLaborotorySlotsMax Active Laboratories z(
+C‘>‘mineralNeedResearchBonusMineral Need Research Bonus i(
+B’=’entityBluePrintDropChanceentityBluePrintDropChance z(	
+.÷)÷lootRespawnTimelootRespawnTime e(	
+8◊3◊laboratorySlotsBonuslaboratorySlotsBonus z(	
+*ÿ%ÿstationTypeIDstationTypeID t(
+0Ÿ+ŸprototypingBonusprototypingBonus z(	
+,⁄'⁄inventionBonusinventionBonus z(	
+8€3€entityAttackDelayMinentityAttackDelayMin z(	
+8‹3‹entityAttackDelayMaxentityAttackDelayMax z(	
+&ﬁ!ﬁshipBonusACshipBonusAC z(	
+6ﬂ1ﬂshieldRechargeRateShield recharge time e(
+2‡-‡maxEffectiveRangemaxEffectiveRange (	
+&·!·entityKillBountyBounty z(
+3‚.‚capacitorCapacityCapacitor Capacity r(
+0‰+‰shieldUniformityshieldUniformity z(	
+(Â#ÂshipBonus2AFshipBonus2AF z(	
+&Ê!ÊshipBonusGCshipBonusGC z(	
+&Á!ÁshipBonusCCshipBonusCC z(	
+6Ë1ËshipVelocityBonusMCshipVelocityBonusMC z(	
+&È!ÈshipBonusMCshipBonusMC z(	
+&Í!ÍshipBonusMBshipBonusMB z(	
+&Î!ÎshipBonusCBshipBonusCB z(	
+&Ï!ÏshipBonusABshipBonusAB z(	
+&Ì!ÌshipBonusMIshipBonusMI z(	
+&Ó!ÓshipBonusAIshipBonusAI z(	
+&Ô!ÔshipBonusCIshipBonusCI z(	
+&!shipBonusGIshipBonusGI z(	
+8Ò3ÒentityDefenderChanceentityDefenderChance z(	
+4Û/ÛdroneCapacityBonusdroneCapacityBonus z(	
+&Ù!ÙshipBonusGBshipBonusGB z(	
+(ı#ıshipBonus2CBshipBonus2CB z(	
+8ˆ3ˆentityConvoyDroneMinentityConvoyDroneMin z(	
+8˜3˜entityConvoyDroneMaxentityConvoyDroneMax z(	
+@¯;¯entityWarpScrambleChanceentityWarpScrambleChance z(	
+,˘'˘warpScrambleDurationDuration (
+1˙,˙missileLaunchDurationRate of fire e(
+6˚1˚entityMissileTypeIDentityMissileTypeID t(	
+/¸*¸entityCruiseSpeedOrbit Velocity 
+(	
+0˝+˝cargoScanFalloffcargoScanFalloff (	
+0˛+˛shipScanFalloffShip Scan Falloff (
+4ˇ/ˇshipScanResistanceshipScanResistance y(	
+>Ä9ÄmodifyTargetSpeedChancemodifyTargetSpeedChance z(	
+BÅ=ÅmodifyTargetSpeedDurationmodifyTargetSpeedDuration (	
+<Ç7ÇmodifyTargetSpeedRangemodifyTargetSpeedRange (	
+LÉGÉmodifyTargetSpeedCapacitorNeedmodifyTargetSpeedCapacitorNeed z(	
+0Ñ+ÑchassisTypeRequired chassis Type t(	
+0Ö+ÖfallofMultiplierFalloff Modifier h(
+(Ü#ÜshipBonusMB2shipBonusMB2 z(	
+Dá?ácloakingCapacitorNeedRatiocloakingCapacitorNeedRatio z(	
+2ä-ädamageCloudChancedamageCloudChance z(	
+.å)åarmorUniformityarmorUniformity z(	
+6ç1çstructureUniformitystructureUniformity z(	
+7é2éreqResearchSkillResearch Skill Required z(
+Aè<èreqManufacturingSkillRequired Manufacturing Skill z(
+IêDêreqManufacturingSkillLevelrequiredManufacturingSkillLevel z(
+Bë=ëreqResearchSkillLevelRequired Research Skill Level z(
+:í5íreqManufacturingToolreq Manufacturing Tool z(
+0ì+ìreqResearchToolreq Research Tool z(
+8î3îreqResearchComponentreqResearchComponent z(	
+1ñ,ñManufacturer_IDManufacturer Bonus z(
+-ó(óinstalledModModification Type z(
+Bò=òreqResearchComponetAmountreqResearchComponetAmount z(	
+NôIô reqManufacturingComponent1AmountPrimary Manufacture Componet A z(
+NöIö reqManufacturingComponent2AmountSecondary Manufacture Componet z(
+,û'ûentityStrengthentityStrength z(	
+Dü?üdamageCloudChanceReductiondamageCloudChanceReduction z(	
+0†+†cloudEffectDelaycloudEffectDelay e(	
+*°%°cloudDurationcloudDuration e(	
+.¢)¢damageCloudTypedamageCloudType t(	
+:£5£missileVelocityBonusMissile Velocity Bonus i(
+7§2§shieldBoostMultiplierShield Boost Bonus y(
+(•#•powerIncreasePower Bonus k(
+/¶*¶resistanceBonusResistance Bonus y(
+:ß5ßrocketVelocityPercentrocketVelocityPercent z(	
+/®*®signatureRadiusSignature Radius (
+0©+©maxGangSizeBonusmaxGangSizeBonus z(	
+:™5™signatureRadiusBonusSignature Radius Bonus |(
+4´/´cloakVelocityBonuscloakVelocityBonus i(	
+-¨(¨anchoringDelayAnchoring Delay e(
+3≠.≠maxFlightTimeBonusFlight Time Bonus y(
+6Æ1ÆexplosionRangeBonusexplosionRangeBonus z(	
+ØØInertiaInertia (	
+?∞:∞cloakingTargetingDelaySensor Recalibration Time e(
+(±#±shipBonusGB2shipBonusGB2 z(	
+2≤-≤entityFactionLossentityFactionLoss z(	
+:≥5≥entitySecurityMaxGainentitySecurityMaxGain z(	
+-¥(¥scanResolutionScan Resolution f(
+=µ8µscanResolutionMultiplierScan Resolution Bonus m(
+8∂3∂scanResolutionBonusScan Resolution Bonus i(
+&∑!∑speedBoostFactorThrust }(
+:∏5∏eliteBonusInterceptoreliteBonusInterceptor z(	
+6π1πeliteBonusCoverOps1eliteBonusCoverOps1 z(	
+2∫-∫eliteBonusBomberseliteBonusBombers z(	
+4ª/ªeliteBonusGunshipseliteBonusGunships z(	
+8Ω3ΩeliteBonusdestroyerseliteBonusdestroyers z(	
+>ø9øeliteBonusBattlecruisereliteBonusBattlecruiser z(	
+8¿3¿speedBoostFactorCalcspeedBoostFactorCalc z(	
+:¬5¬speedBoostFactorCalc2speedBoostFactorCalc2 z(	
+*√%√testForEggerttestForEggert z(	
+6ƒ1ƒentityChaseMaxDelayentityChaseMaxDelay z(	
+B≈=≈entityChaseMaxDelayChanceentityChaseMaxDelayChance z(	
+<∆7∆entityChaseMaxDurationentityChaseMaxDuration e(	
+H«C«entityChaseMaxDurationChanceentityChaseMaxDurationChance z(	
+8»3»entityMaxWanderRangeentityMaxWanderRange (	
+(…#…shipBonusAB2shipBonusAB2 z(	
+( # shipBonusGF2shipBonusGF2 z(	
+(À#ÀshipBonusMF2shipBonusMF2 z(	
+(Ã#ÃshipBonusCF2shipBonusCF2 z(	
+.Õ)ÕisPlayerOwnableisPlayerOwnable z(	
+*Œ%ŒgestaltBonus1gestaltBonus1 z(	
+9œ4œdroneMaxVelocityBonusDrone Velocity Bonus i(
+
+6–1–cloakCapacitorBonuscloakCapacitorBonus z(	
+““DieDie z(	
+2”-”capBoostMultiplercapBoostMultipler z(	
+6‘1‘explosionDelayBonusexplosionDelayBonus z(	
+2’-’eliteBonusEscortseliteBonusEscorts z(	
+(÷#÷shipBonusCB3shipBonusCB3 z(	
+8ÿ3ÿwarpSpeedMultiplierWarp Speed Multiplier h(
+.Ÿ)ŸwarpSpeedBonusWarp Speed Bonus i(
+7⁄2⁄launcherGroup2Used with (launchergroup) s(
+7€2€launcherGroup3Used with (launchergroup) s(
+3‹.‹chargeGroup1Used with (chargegroup) s(
+3›.›chargeGroup2Used with (chargegroup) s(
+3ﬁ.ﬁchargeGroup3Used with (chargegroup) s(
+4‡/‡powerNeedMultiplierTurret Power Need m(
+3·.·chargeGroup4Used with (chargegroup) s(
+3‚.‚chargeGroup5Used with (chargegroup) s(
+0„+„durationMultiplierDuration Bonus o(
+2‰-‰baseShieldDamageBase Shield Damage z(
+0Â+ÂbaseArmorDamageBase Armor Damage z(
+6Ê1ÊcargoCapacityBonusCargo Capacity Bonus y(
+EË@ËboosterShieldBoostAmountPenaltyShield Booster Penalty i(
+IÎDÎcloakingTargetingDelayBonusCloaking Targeting Delay Bonus i(
+4Ï/ÏoptimalSigRadiusSignature Resolution (
+EÌ@ÌtrackingSpeedAtOptimalTracking Speed at Optimal Range 
+(
+"ÓÓ	massLimit	massLimit (
+<Ô7ÔcloakingSlotsLeftSupercloakingSlotsLeftSuper z(	
+*%
+WarpSBonusWarp Speed Bonus i(
+&Ò!ÒbountyBonusbountyBonus z(	
+0Ú+ÚbountyMultiplierbountyMultiplier z(	
+0Û+ÛbountySkillBonusbountySkillBonus z(	
+:Ù5ÙbountySkillMultiplyerbountySkillMultiplyer z(	
+$ıı
+cargoGroup
+cargoGroup z(	
+Bˆ=ˆentityArmorRepairDurationentityArmorRepairDuration z(	
+>˜9˜entityArmorRepairAmountentityArmorRepairAmount z(	
+*¯%¯interceptorGFinterceptorGF z(	
+$˘˘	metaLevel
+Meta Level å(
+$˙˙
+newAgility
+newAgility z(	
+"˚˚	turnAngle	turnAngle z(	
+B¸=¸entityShieldBoostDurationentityShieldBoostDuration z(	
+>˝9˝entityShieldBoostAmountentityShieldBoostAmount z(	
+H˛C˛entityArmorRepairDelayChanceentityArmorRepairDelayChance z(	
+HˇCˇentityShieldBoostDelayChanceentityShieldBoostDelayChance z(	
+@Ä;ÄentityGroupRespawnChanceentityGroupRespawnChance z(	
+*Å%Åprereqimplantprereqimplant z(	
+%É É
+armingTimeArming Time (
+&Ñ!ÑaimedLaunchaimedLaunch z(	
+EÖ@ÖmissileEntityVelocityMultiplierMissile Velocity Bonus h(
+JÜEÜ!missileEntityFlightTimeMultiplierMissile Flight Time Bonus h(
+RáMá!missileEntityArmingTimeMultiplier!missileEntityArmingTimeMultiplier z(	
+2à-àshieldTUNEBonusShield tuneup bonus q(
+8â3âcloakingCpuNeedBonuscloakingCpuNeedBonus z(	
+>ä9ämaxStructureDistanceMaximum Structure Distance (
+/ã*ãdecloakFieldRangeArea of effect (
+:å5åsignatureRadiusMultiplierSignature Penalty m(
+-ç(çaoeVelocityExplosion Velocity 
+(
+,é'éaoeCloudSizeExplosion Radius (
+$èè
+aoeFalloff
+aoeFalloff z(	
+(ê#êshipBonusAC2shipBonusAC2 z(	
+(ë#ëshipBonusCC2shipBonusCC2 z(	
+(í#íshipBonusGC2shipBonusGC2 z(	
+(ì#ìshipBonusMC2shipBonusMC2 z(	
+(î#îimpactDamageimpactDamage q(	
+<ï7ïmaxDirectionalVelocitymaxDirectionalVelocity z(	
+Bñ=ñminTargetVelDmgMultiplierminTargetVelDmgMultiplier z(	
+Dó?óminMissileVelDmgMultiplierminMissileVelDmgMultiplier z(	
+4ò/òmaxMissileVelocitymaxMissileVelocity z(	
+<ô7ôentityChaseMaxDistanceentityChaseMaxDistance (	
+4ö/ömoduleShipGroup2Restricted Ship Type s(
+4õ/õmoduleShipGroup3Restricted Ship Type s(
+4ú/úmoduleShipGroup1Restricted Ship Type s(
+9ù4ùmoduleReactivationDelayReactivation Delay e(
+5û0ûareaOfEffectBonusArea Of Effect Bonus (
+?†:†entityCruiseSpeedMultiplierOrbit Velocity Bonus m(
+4°/°eliteBonusGunship1eliteBonusGunship1 z(	
+4£/£eliteBonusGunship2eliteBonusGunship2 z(	
+1§,§unanchoringDelayUnanchoring Delay e(
++•&•onliningDelayOnlining Delay e(
+8¶3¶eliteBonusLogistics1eliteBonusLogistics1 z(	
+8ß3ßeliteBonusLogistics2eliteBonusLogistics2 z(	
+)®$®shieldRadiusShield Radius (
+/©*©typeContainerType1Stored Type 1 t(
+/™*™typeContainerType2Stored Type 2 t(
+/´*´typeContainerType3Stored Type 3 t(
+8¨3¨typeContainerCapacity1Storage Capacity 1 	(
+8≠3≠typeContainerCapacity2Storage Capacity 2 	(
+8Æ3ÆtypeContainerCapacity3Storage Capacity 3 	(
+BØ=ØoperationConsumptionRateOperation Consumption Rate z(
+E∞@∞reinforcedConsumptionRateResinforced Consumption Rate z(
+0±+±packageGraphicIDpackageGraphicID z(	
+*≤%≤packageRadiuspackageRadius z(	
+2≥-≥targetSwitchDelaytargetSwitchDelay e(	
+>¥9¥eliteBonusHeavyGunship1eliteBonusHeavyGunship1 z(	
+>µ9µeliteBonusHeavyGunship2eliteBonusHeavyGunship2 z(	
+;∂6∂resourceReinforced1TypeReinforced Mode Type t(
+;∑6∑resourceReinforced2TypeReinforced Mode Type t(
+;∏6∏resourceReinforced3TypeReinforced Mode Type t(
+;π6πresourceReinforced4TypeReinforced Mode Type t(
+;∫6∫resourceReinforced5TypeReinforced Mode Type t(
+Cª>ªresourceReinforced1QuantityReinforced Mode Quantity 	(
+Cº>ºresourceReinforced2QuantityReinforced Mode Quantity 	(
+CΩ>ΩresourceReinforced3QuantityReinforced Mode Quantity 	(
+Cø>øresourceReinforced4QuantityReinforced Mode Quantity 	(
+C¿>¿resourceReinforced5QuantityReinforced Mode Quantity 	(
+3¡.¡resourceOnline1TypeOnline Mode Type t(
+3¬.¬resourceOnline2TypeOnline Mode Type t(
+3√.√resourceOnline3TypeOnline Mode Type t(
+3ƒ.ƒresourceOnline4TypeOnline Mode Type z(
++≈&≈harvesterTypeHarvested Type t(
+0∆+∆harvesterQualityharvesterQuality z(
+6«1«moonAnchorDistanceMoon Anchor Distance (
+5»0»usageDamagePercentCharge Usage Damage i(
+/…*…consumptionTypeConsumption Type t(
+8 3 consumptionQuantityConsumption Quantity ä(
+BÀ=ÀmaxOperationalDistanceMaximum Operational Distance (
+GÃBÃmaxOperationalUsers$Maximum Concurrent Operational Users z(
+@Õ;ÕrefiningYieldMultiplierRefining Yield Multiplier h(
+7œ2œoperationalDurationOperational Duration e(
+1–,–refineryCapacityRefinery Capacity 	(
+>—9—refiningDelayMultiplierrefiningDelayMultiplier z(	
+B“=“posControlTowerPeriodStarbase Control Tower Period e(
+B”=”contrabandDetectionChancecontrabandDetectionChance z(	
+J‘E‘contrabandDetectionResistancecontrabandDetectionResistance z(	
+8’3’contrabandScanChancecontrabandScanChance z(	
+2÷-÷moonMiningAmountMoon Mining Amount 	(	
+8◊3◊destroyerROFpenalitydestroyerROFpenality z(	
+HÿCÿcontrolTowerLaserDamageBonuscontrolTowerLaserDamageBonus i(	
+(Ÿ#ŸshipBonusMD1shipBonusMD1 z(	
+&‹!‹shipBonusD1shipBonusD1 z(	
+&›!›shipBonusD2shipBonusD2 z(	
+(ﬁ#ﬁshipBonusCD1shipBonusCD1 z(	
+(ﬂ#ﬂshipBonusCD2shipBonusCD2 z(	
+(‚#‚shipBonusGD1shipBonusGD1 z(	
+(„#„shipBonusGD2shipBonusGD2 z(	
+(‰#‰shipBonusMD2shipBonusMD2 z(	
+(Â#ÂshipBonusBC1shipBonusBC1 z(	
+(Ê#ÊshipBonusBC2shipBonusBC2 z(	
+*Á%ÁshipBonusCBC1shipBonusCBC1 z(
+*È%ÈshipBonusCBC2shipBonusCBC2 z(	
+*Í%ÍshipBonusGBC2shipBonusGBC2 z(	
+*Î%ÎshipBonusGBC1shipBonusGBC1 z(	
+*Ï%ÏshipBonusMBC1shipBonusMBC1 z(	
+*Ì%ÌshipBonusMBC2shipBonusMBC2 z(	
+JÓEÓcontrolTowerLaserOptimalBonuscontrolTowerLaserOptimalBonus i(	
+IÔDÔcontrolTowerHybridOptimalBonusHybrid Sentry Optimal Bonus i(
+TO"controlTowerProjectileOptimalBonus"controlTowerProjectileOptimalBonus i(	
+TÒOÒ"controlTowerProjectileFallOffBonus"controlTowerProjectileFallOffBonus i(	
+LÚGÚcontrolTowerProjectileROFBonuscontrolTowerProjectileROFBonus i(	
+FÛAÛcontrolTowerMissileROFBonuscontrolTowerMissileROFBonus i(	
+RÙMÙ!controlTowerMoonHarvesterCPUBonus!controlTowerMoonHarvesterCPUBonus i(	
+JıEıcontrolTowerSiloCapacityBonuscontrolTowerSiloCapacityBonus i(	
+(ˆ#ˆshipBonusDF1shipBonusDF1 z(	
+(˜#˜shipBonusDF2shipBonusDF2 z(	
+P¯K¯$controlTowerLaserProximityRangeBonusLaser Sentry Proximity Bonus i(
+Z˘U˘)controlTowerProjectileProximityRangeBonus!Projectile Sentry Proximity Bonus i(
+R˙M˙%controlTowerHybridProximityRangeBonusHybrid Sentry Proximity Bonus i(
+,˚'˚maxGroupActivemaxGroupActive z(	
+C¸>¸controlTowerEwRofBonusTarget Jamming Duration Bonus i(
+"˝˝	scanRange	scanRange z(
+J˛E˛controlTowerHybridDamageBonuscontrolTowerHybridDamageBonus i(	
+6ˇ1ˇtrackingSpeedBonusTracking Speed Bonus i(
+1Å,ÅmaxRangeBonus2Optimal Range Bonus i(
+XÇSÇ$controlTowerEwTargetSwitchDelayBonus$controlTowerEwTargetSwitchDelayBonus i(	
+(É#ÉammoCapacityammoCapacity z(
+8Ñ3ÑentityFlyRangeFactorentityFlyRangeFactor z(	
+*Ö%ÖshipBonusORE1shipBonusORE1 z(	
+*Ü%ÜshipBonusORE2shipBonusORE2 z(	
+4á/áminingCPUNeedBonusminingCPUNeedBonus z(	
+Cà>àstructureMissileVelocityBonusMissile Velocity Bonus i(
+?â:âstructureMissileDamageBonusMissile Damage Bonus i(
+PäKä#structureMissileExplosionDelayBonusMissile Explosion Delay Bonus i(
+@ã;ãentityFlyRangeMultiplierentityFlyRangeMultiplier z(	
+4å/åiceHarvestCycleBonusCycle Time bonus i(
+HçCçspecialisationAsteroidGroupAsteroid Specialization Group s(
+[éVé%specialisationAsteroidYieldMultiplier&Asteroid Specialization Yield Modifier h(
+1è,ècrystalVolatilityChance
+Volatility (
+8ê3êcrystalVolatilityDamageVolatility Damage q(
+4ë/ëunfitCapCostUnfitting Capacitor Cost r(
+7í2ícrystalsGetDamagedCrystals Take Damage â(
+6ì1ìminScanDeviationMinimum Scan Deviation (
+6î1îmaxScanDeviationMaximum Scan Deviation (
+Dï?ïspecialtyMiningAmountSpecialty Crystal Mining Amount 	(
+7ñ2ñreprocessingSkillTypeReprocessing Skill t(
+1ó,óscanAnalyzeCountProbes to Analyze z(
+PòKò controlTowerMissileVelocityBonus controlTowerMissileVelocityBonus i(	
+<ô7ôshipBonusPirateFactionshipBonusPirateFaction z(	
+*ö%öprobesInGroupprobesInGroup z(	
+*õ%õshipBonusABC1shipBonusABC1 z(	
+)ú$úmassAdditionMass Addition (
+Bù=ùmaximumRangeCap#Theoretical Maximum Targeting Range (
+6û1ûentityBracketColourentityBracketColour z(	
+7ü2üimplantSetBloodraiderTalisman Set Bonus h(
+K†F†contrabandDetectionChanceBonusContraband Detection Modifier (
+.°)°deadspaceUnsafedeadspaceUnsafe z(	
+2¢-¢implantSetSerpentisSnake Set Bonus h(
+8£3£implantSetSerpentis2implantSetSerpentis2 z(	
+<§7§eliteBonusInterceptor2eliteBonusInterceptor2 z(	
+ ••quantityQuantity z(
+'¶"¶repairBonusRepair Bonus i(
+:ß5ßeliteBonusIndustrial1eliteBonusIndustrial1 z(	
+:®5®eliteBonusIndustrial2eliteBonusIndustrial2 z(	
+(©#©shipBonusAI2shipBonusAI2 z(	
+(´#´shipBonusCI2shipBonusCI2 z(	
+(≠#≠shipBonusGI2shipBonusGI2 z(	
+(Æ#ÆshipBonusMI2shipBonusMI2 z(	
+<Ø7ØpropulsionFusionStrengthBonusFusion Strength x(
+6∞1∞propulsionIonStrengthBonusIon Strength x(
+@±;±propulsionMagpulseStrengthBonusMagpulse Strength x(
+<≤7≤propulsionPlasmaStrengthBonusPlasma Strength x(
+0∑+∑hitsMissilesOnlyhitsMissilesOnly z(	
+<º7ºscanSkillEwStrengthBonusEW Strength Modifier i(
+\ΩWΩ&propulsionSkillPropulsionStrengthBonus&propulsionSkillPropulsionStrengthBonus z(	
+6æ1æbonusComplexAngel10bonusComplexAngel10 z(	
+&ø!øewTargetJamewTargetJam z(	
+F¿A¿!scanSkillTargetPaintStrengthBonusTarget Painting Bonus i(
+)¡$¡commandBonusCommand Bonus y(
+0¬+¬wingCommandBonuswingCommandBonus z(	
+D≈?≈stealthBomberLauncherPowerstealthBomberLauncherPower z(	
+3∆.∆implantSetGuristasCrystal Set Bonus h(
+6«1«eliteBonusCoverOps2eliteBonusCoverOps2 z(	
+»»agentIDAgent ID z(	
+.…)…agentCommRangeAgent Comm Range (	
+- ( reactionGroup1Reaction Type 1 s(
+-À(ÀreactionGroup2Reaction Type 2 s(
+9Ã4ÃagentAutoPopupRangeAgent Auto Popup Range (	
+BÕ=ÕhiddenLauncherDamageBonushiddenLauncherDamageBonus z(	
+4Œ/ŒscanStrengthBonusScan Strength Bonus i(
+8œ3œaoeVelocityBonusExplosion Velocity Bonus i(
+7–2–aoeCloudSizeBonusExplosion Radius Bonus i(
+4—/—canUseCargoInSpacecanUseCargoInSpace z(	
+:“5“squadronCommandBonusSquadron Command Bonus y(
+=”8”shieldBoostCapacitorBonusCapacitor Need Bonus |(
+6‘1‘siegeModeWarpStatussiegeModeWarpStatus z(	
+.’)’advancedAgilityadvancedAgility z(
+7÷2÷disallowAssistanceDisallows Assistance â(	
+8◊3◊activationTargetLossactivationTargetLoss z(
+.Ÿ)ŸaoeFalloffBonusaoeFalloffBonus i(
+I⁄D⁄#missileEntityAoeCloudSizeMultiplierExplosion Radius Bonus m(
+J€E€"missileEntityAoeVelocityMultiplierExplosion Velocity Bonus m(
+R‹M‹!missileEntityAoeFalloffMultiplier!missileEntityAoeFalloffMultiplier z(	
+*›%›canJumpOnboard Jump Drive â(
+,ﬁ'ﬁusageWeightingusageWeighting z(	
+-ﬂ(ﬂimplantSetAngelHalo Set Bonus h(
+/‡*‡implantSetSanshaSlave Set Bonus h(
+8·3·planetAnchorDistanceplanetAnchorDistance (	
+<‚7‚jumpDriveConsumptionTypeJump Drive Fuel Need t(
+0„+„jumpDriveRangeMaximum Jump Range ~(
+H‰C‰jumpDriveConsumptionAmountJump Drive Consumption Amount ä(
+2Â-ÂjumpDriveDurationjumpDriveDuration z(	
+9Ê4ÊjumpDriveRangeBonusJump Drive Range Bonus i(
+<Á7ÁjumpDriveDurationBonusjumpDriveDurationBonus i(	
+DË?ËdisallowOffensiveModifiersdisallowOffensiveModifiers z(	
+<Í7ÍadvancedCapitalAgilityadvancedCapitalAgility z(	
+<Î7ÎdreadnoughtShipBonusA1dreadnoughtShipBonusA1 z(	
+<Ï7ÏdreadnoughtShipBonusA2dreadnoughtShipBonusA2 z(	
+<Ì7ÌdreadnoughtShipBonusC1dreadnoughtShipBonusC1 z(	
+<Ó7ÓdreadnoughtShipBonusC2dreadnoughtShipBonusC2 z(	
+<Ô7ÔdreadnoughtShipBonusG1dreadnoughtShipBonusG1 z(	
+<7dreadnoughtShipBonusG2dreadnoughtShipBonusG2 z(	
+<Ò7ÒdreadnoughtShipBonusM1dreadnoughtShipBonusM1 z(	
+<Ú7ÚdreadnoughtShipBonusM2dreadnoughtShipBonusM2 z(	
++Ù&ÙmindlinkBonusMindlink Bonus i(
+Cı>ıconsumptionQuantityBonusConsumption Quantity Bonus ä(
+0ˆ+ˆfreighterBonusA1freighterBonusA1 z(	
+0˜+˜freighterBonusA2freighterBonusA2 z(	
+0¯+¯freighterBonusC1freighterBonusC1 z(	
+0˘+˘freighterBonusC2freighterBonusC2 z(	
+0˙+˙freighterBonusG2freighterBonusG2 z(	
+0˚+˚freighterBonusG1freighterBonusG1 z(	
+0¸+¸freighterBonusM1freighterBonusM1 z(	
+0˝+˝freighterBonusM2freighterBonusM2 z(	
+0˛+˛speedBoostBonusSpeed Boost Bonus i(
+8ˇ3ˇarmorDamageAmountBonusArmor Repair Bonus i(
+CÄ>ÄarmorDamageDurationBonusArmor Repair Duration Bonus i(
+CÅ>ÅshieldBonusDurationBonusShield Boost Duration Bonus i(
+?Ç:ÇjumpDriveCapacitorNeedJump Drive Capacitor Need (
+JÉEÉjumpDriveCapacitorNeedBonusJump Drive Capacitor Need Bonus i(
+1Ö,ÖaccessDifficultyAccess Difficulty z(
+<Ü7ÜaccessDifficultyBonusAccess Difficulty Bonus y(
+:á5áspawnWithoutGuardsToospawnWithoutGuardsToo z(	
+4à/àwarcruiserCPUBonuswarcruiserCPUBonus z(	
+(â#âtacklerBonustacklerBonus z(	
+Bä=ädisallowEarlyDeactivationdisallowEarlyDeactivation z(	
+:ã5ãhasShipMaintenanceBayhasShipMaintenanceBay z(	
+GåBåshipMaintenanceBayCapacityShip Maintenance Bay Capacity 	(
+8ç3çmaxShipGroupActiveIDmaxShipGroupActiveID z(	
+2é-émaxShipGroupActiveMax Group Active z(
+.è)èhasFleetHangarshasFleetHangars z(	
+8ê3êfleetHangarCapacityFleet Hangar Capacity 	(
+2ë-ëgallenteNavyBonusgallenteNavyBonus z(	
+FíAígallenteNavyBonusMultipliergallenteNavyBonusMultiplier z(	
+0ì+ìcaldariNavyBonuscaldariNavyBonus z(	
+Dî?îcaldariNavyBonusMultipliercaldariNavyBonusMultiplier z(	
+,ï'ïamarrNavyBonusamarrNavyBonus z(	
+@ñ;ñamarrNavyBonusMulitplieramarrNavyBonusMulitplier z(	
+4ó/órepublicFleetBonusrepublicFleetBonus z(	
+HòCòrepublicFleetBonusMultiplierrepublicFleetBonusMultiplier z(	
+,ô'ôoreCompressionoreCompression z(	
+0ú+úeliteBonusBarge1eliteBonusBarge1 z(	
+0ù+ùeliteBonusBarge2eliteBonusBarge2 z(	
+*û%ûshipBonusORE3shipBonusORE3 z(	
+LüGüminingUpgradeCPUReductionBonusminingUpgradeCPUReductionBonus z(	
+.†)†entityTargetJamentityTargetJam z(	
+>°9°entityTargetJamDurationentityTargetJamDuration z(	
+J¢E¢entityTargetJamDurationChanceentityTargetJamDurationChance z(	
+T£O£"entityCapacitorDrainDurationChance"entityCapacitorDrainDurationChance z(	
+P§K§ entitySensorDampenDurationChance entitySensorDampenDurationChance z(	
+V•Q•#entityTrackingDisruptDurationChance#entityTrackingDisruptDurationChance z(	
+NßIßentityTargetPaintDurationChanceentityTargetPaintDurationChance z(	
+>®9®entityTargetJamMaxRangeentityTargetJamMaxRange z(	
+H©C©entityCapacitorDrainMaxRangeentityCapacitorDrainMaxRange z(	
+D™?™entitySensorDampenMaxRangeentitySensorDampenMaxRange z(	
+J¨E¨entityTrackingDisruptMaxRangeentityTrackingDisruptMaxRange z(	
+B≠=≠entityTargetPaintMaxRangeentityTargetPaintMaxRange z(	
+HÆCÆentityCapacitorDrainDurationentityCapacitorDrainDuration z(	
+DØ?ØentitySensorDampenDurationentitySensorDampenDuration z(	
+J∞E∞entityTrackingDisruptDurationentityTrackingDisruptDuration z(	
+B±=±entityTargetPaintDurationentityTargetPaintDuration z(	
+D≤?≤entityCapacitorDrainAmountentityCapacitorDrainAmount z(	
+H≥C≥entitySensorDampenMultiplierentitySensorDampenMultiplier z(	
+N¥I¥entityTrackingDisruptMultiplierentityTrackingDisruptMultiplier z(	
+FµAµentityTargetPaintMultiplierentityTargetPaintMultiplier z(	
+B∂=∂entitySensorDampenFallOffentitySensorDampenFallOff z(	
+H∑C∑entityTrackingDisruptFallOffentityTrackingDisruptFallOff z(	
+<∏7∏entityCapacitorFallOffentityCapacitorFallOff z(	
+<π7πentityTargetJamFallOffentityTargetJamFallOff z(	
+@∫;∫entityTargetPaintFallOffentityTargetPaintFallOff z(	
+*ª%ªisCaldariNavyisCaldariNavy z(	
+JºEºdamageModifierMultiplierBonusdamageModifierMultiplierBonus z(	
+6Ω1ΩcNavyModOncNavyShipcNavyModOncNavyShip z(	
+-æ(æhardeningBonusHardening Bonus i(
+RøMø!entityShieldBoostLargeDelayChance!entityShieldBoostLargeDelayChance z(	
+F¿A¿caldariNavyBonusMultiplier2caldariNavyBonusMultiplier2 z(	
+0¡+¡caldarNavyBonus2caldarNavyBonus2 z(	
+8¬3¬eliteBonusReconShip1eliteBonusReconShip1 z(	
+8√3√eliteBonusReconShip2eliteBonusReconShip2 z(	
+TƒOƒ"passiveEmDamageResonanceMultiplier"passiveEmDamageResonanceMultiplier o(	
+^≈Y≈'passiveThermalDamageResonanceMultiplier'passiveThermalDamageResonanceMultiplier o(	
+^∆Y∆'passiveKineticDamageResonanceMultiplier'passiveKineticDamageResonanceMultiplier o(	
+b«]«)passiveExplosiveDamageResonanceMultiplier)passiveExplosiveDamageResonanceMultiplier o(	
+(»#»hasStasisWebhasStasisWeb z(	
+>…9…activeEmDamageResonanceactiveEmDamageResonance o(
+H C activeThermalDamageResonanceactiveThermalDamageResonance o(
+HÀCÀactiveKineticDamageResonanceactiveKineticDamageResonance o(
+LÃGÃactiveExplosiveDamageResonanceactiveExplosiveDamageResonance o(
+AÕ<ÕsignatureRadiusBonusPercentSignature radius bonus i(
+>Œ9ŒhullEmDamageResonanceHull Em Damage Resistance l(
+LœGœhullExplosiveDamageResonance Hull Explosive Damage Resistance l(
+H–C–hullKineticDamageResonanceHull Kinetic Damage Resistance l(
+H—C—hullThermalDamageResonanceHull Thermal Damage Resistance l(
+,“'“maxGroupOnlinemaxGroupOnline z(	
+0”+”maxJumpClonesMaximum Jump Clones z(
+2‘-‘hasCloneJumpSlotshasCloneJumpSlots z(	
+D’?’allowsCloneJumpsWhenActiveallowsCloneJumpsWhenActive z(	
+8÷3÷canReceiveCloneJumpscanReceiveCloneJumps z(	
+8◊3◊signatureRadiusAddSignature radius bonus (
+>ÿ9ÿemDamageResistanceBonusEM dmg resistance bonus |(
+LŸGŸexplosiveDamageResistanceBonusExplosive dmg resistance bonus |(
+H⁄C⁄kineticDamageResistanceBonusKinetic dmg resistance bonus i(
+H€C€thermalDamageResistanceBonusThermal dmg resistance bonus |(
+.‹)‹hardeningbonus2hardeningbonus2 z(	
+2›-›volumePostPercentvolumePostPercent z(	
+>ﬁ9ﬁactiveEmResistanceBonusactiveEmResistanceBonus z(
+LﬂGﬂactiveExplosiveResistanceBonusactiveExplosiveResistanceBonus z(
+H‡C‡activeThermicResistanceBonusactiveThermicResistanceBonus z(
+H·C·activeKineticResistanceBonusactiveKineticResistanceBonus z(
+M‚H‚passiveEmDamageResistanceBonusPassive EM dmg resistance bonus i(
+[„V„%passiveExplosiveDamageResistanceBonus&Passive Explosive dmg resistance bonus i(
+W‰R‰#passiveKineticDamageResistanceBonus$Passive kinetic dmg resistance bonus i(
+WÂRÂ#passiveThermicDamageResistanceBonus$Passive thermal dmg resistance bonus i(
+.Ê)ÊisRAMcompatibleisRAMcompatible z(	
+>Á9ÁeliteBonusCommandShips2eliteBonusCommandShips2 z(	
+>Ë9ËeliteBonusCommandShips1eliteBonusCommandShips1 z(	
+NÈIÈjumpPortalConsumptionMassFactorjumpPortalConsumptionMassFactor z(	
+4Í/ÍjumpPortalDurationjumpPortalDuration e(	
+LÎGÎeliteBonusCommandShip1DONOTUSEeliteBonusCommandShip1DONOTUSE z(	
+LÏGÏeliteBonusCommandShip2DONOTUSEeliteBonusCommandShip2DONOTUSE z(	
+BÌ=ÌjumpPortalCapacitorNeedJump portal activation cost r(
+RÓMÓ!entityShieldBoostDelayChanceSmall!entityShieldBoostDelayChanceSmall z(	
+TÔOÔ"entityShieldBoostDelayChanceMedium"entityShieldBoostDelayChanceMedium z(	
+RM!entityShieldBoostDelayChanceLarge!entityShieldBoostDelayChanceLarge z(	
+RÒMÒ!entityArmorRepairDelayChanceSmall!entityArmorRepairDelayChanceSmall z(	
+TÚOÚ"entityArmorRepairDelayChanceMedium"entityArmorRepairDelayChanceMedium z(	
+RÛMÛ!entityArmorRepairDelayChanceLarge!entityArmorRepairDelayChanceLarge z(	
+>Ù9ÙeliteBonusInterdictors1eliteBonusInterdictors1 z(	
+>ı9ıeliteBonusInterdictors2eliteBonusInterdictors2 z(	
+>ˆ9ˆdisallowRepeatingActivationCannot Auto Repeat â(
+f˜a˜+entityShieldBoostDelayChanceSmallMultiplier+entityShieldBoostDelayChanceSmallMultiplier z(	
+h¯c¯,entityShieldBoostDelayChanceMediumMultiplier,entityShieldBoostDelayChanceMediumMultiplier z(	
+f˘a˘+entityShieldBoostDelayChanceLargeMultiplier+entityShieldBoostDelayChanceLargeMultiplier z(	
+f˙a˙+entityArmorRepairDelayChanceSmallMultiplier+entityArmorRepairDelayChanceSmallMultiplier z(	
+h˚c˚,entityArmorRepairDelayChanceMediumMultiplier,entityArmorRepairDelayChanceMediumMultiplier z(	
+f¸a¸+entityArmorRepairDelayChanceLargeMultiplier+entityArmorRepairDelayChanceLargeMultiplier z(	
+8˝3˝warpAccuracyMaxRangewarpAccuracyMaxRange z(	
+4˛/˛warpAccuracyFactorwarpAccuracyFactor z(	
+HˇCˇwarpAccuracyFactorMultiplierwarpAccuracyFactorMultiplier z(	
+LÄGÄwarpAccuracyMaxRangeMultiplierwarpAccuracyMaxRangeMultiplier z(	
+HÅCÅwarpAccuracyFactorPercentagewarpAccuracyFactorPercentage z(	
+LÇGÇwarpAccuracyMaxRangePercentagewarpAccuracyMaxRangePercentage z(	
+BÉ=ÉscanGravimetricStrengthPercentGravimetric Strength i(
+6Ñ1ÑscanLadarStrengthPercentLadar Strength i(
+FÖAÖ scanMagnetometricStrengthPercentMagnetometric Strength i(
+6Ü1ÜscanRadarStrengthPercentRadar Strength i(
+2á-ácontrolTowerSizeControl Tower Size u(
+OàJàanchoringSecurityLevelMax&Restricted To Security Level Less Than z(
+HâCâanchoringRequiresSovereigntyanchoringRequiresSovereignty z(	
+LäGä$covertOpsAndReconOpsCloakModuleDelayCloak Reactivation Delay e(
+ZãUã%covertOpsStealthBomberTargettingDelay%covertOpsStealthBomberTargettingDelay e(	
+0å+åtitanAmarrBonus1titanAmarrBonus1 z(	
+0é+étitanAmarrBonus2titanAmarrBonus2 z(
+(è#èshipBonusCT1shipBonusCT1 z(	
+(ê#êshipBonusCT2shipBonusCT2 z(	
+6ë1ëtitanGallenteBonus1titanGallenteBonus1 z(	
+6í1ítitanGallenteBonus2titanGallenteBonus2 z(	
+6ì1ìtitanMinmatarBonus1titanMinmatarBonus1 z(	
+6î1îtitanMinmatarBonus2titanMinmatarBonus2 z(	
+6ï1ïmaxTractorVelocityMax Tractor Velocity 
+(
+<ó7ócanNotBeTrainedOnTrialcanNotBeTrainedOnTrial z(	
+LòGòdisallowOffensiveModifierBonusdisallowOffensiveModifierBonus z(	
+4ô/ôcarrierAmarrBonus1carrierAmarrBonus1 z(	
+4ö/öcarrierAmarrBonus2carrierAmarrBonus2 z(	
+4õ/õcarrierAmarrBonus3carrierAmarrBonus3 z(	
+8ú3úcarrierCaldariBonus1carrierCaldariBonus1 z(	
+8ù3ùcarrierCaldariBonus2carrierCaldariBonus2 z(	
+8û3ûcarrierCaldariBonus3carrierCaldariBonus3 z(	
+:ü5ücarrierGallenteBonus1carrierGallenteBonus1 z(	
+:†5†carrierGallenteBonus2carrierGallenteBonus2 z(	
+:°5°carrierGallenteBonus3carrierGallenteBonus3 z(	
+:¢5¢carrierMinmatarBonus1carrierMinmatarBonus1 z(	
+:£5£carrierMinmatarBonus2carrierMinmatarBonus2 z(	
+:§5§carrierMinmatarBonus3carrierMinmatarBonus3 z(	
+0•+•titanAmarrBonus3titanAmarrBonus3 z(	
+0¶+¶titanAmarrBonus4titanAmarrBonus4 z(	
+4ß/ßtitanCaldariBonus3titanCaldariBonus3 z(	
+4®/®titanCaldariBonus4titanCaldariBonus4 z(	
+6©1©titanGallenteBonus3titanGallenteBonus3 z(	
+6™1™titanGallenteBonus4titanGallenteBonus4 z(	
+6´1´titanMinmatarBonus4titanMinmatarBonus4 z(	
+6¨1¨titanMinmatarBonus3titanMinmatarBonus3 z(	
+4≠/≠carrierAmarrBonus4carrierAmarrBonus4 z(	
+8Æ3ÆcarrierCaldariBonus4carrierCaldariBonus4 z(	
+:Ø5ØcarrierGallenteBonus4carrierGallenteBonus4 z(	
+:∞5∞carrierMinmatarBonus4carrierMinmatarBonus4 z(	
+@±;±maxJumpClonesBonusNumber of Jump Clones Allowed ã(
+<≤7≤disallowInEmpireSpaceBanned in Empire Space â(	
+<≥7≥missileNeverDoesDamagemissileNeverDoesDamage z(	
+5¥0¥implantBonusVelocityVelocity Modifier y(
+*µ%µmaxDCUModulesDrone Modules z(
+
+8∑3∑capacitorCapacityBonusCapacitor Modifier i(
+:∏5∏cpuPenaltySuperWeaponcpuPenaltySuperWeapon z(	
+6π1πcpuBonusSuperWeaponcpuBonusSuperWeapon z(	
+,∫'∫cpuPenaltyPercentCpu Penalty i(
++ª&ªarmorHpBonus2Armor Hp Bonus y(
+/º*ºvelocityBonus2Velocity Modifier y(
+(Ω#ΩhasFuelCargohasFuelCargo z(	
+4æ/æfuelCargoCapacityFuel Cargo Capacity z(
+(ø#øboosternessBooster Slot à(
+$¿¿
+expiryTime
+expiryTime z(	
+9¡4¡boosterEffectChance1Chance of Side Effect (
+8¬3¬boosterEffectChance2boosterEffectChance2 (	
+8√3√boosterEffectChance3boosterEffectChance3 (	
+8ƒ3ƒboosterEffectChance4boosterEffectChance4 (	
+8≈3≈boosterEffectChance5boosterEffectChance5 (	
+E∆@∆displayCapacitorCapacityBonusCapacitor Capacity Bonus i(
+>«9«displayShieldBoostMultiplierShield Boost Bonus i(
+?»:»displayShieldCapacityBonusShield Capacity Bonus i(
+9…4…displayAoeVelocityBonusExplosion Velocity i(
+9 4 displayRangeSkillBonusOptimal Range Bonus i(
+4À/ÀboosterAttribute1Side Effect Penalty i(
+2Ã-ÃboosterAttribute2boosterAttribute2 z(	
+2Õ-ÕboosterAttribute3boosterAttribute3 z(	
+2Œ-ŒboosterAttribute4boosterAttribute4 z(	
+2œ-œboosterAttribute5boosterAttribute5 z(	
+9–4–displayMaxVelocityBonusMax Velocity Bonus i(
+3—.—displayArmorHpBonusArmor HP Penalty i(
+H“C“displayMissileMaxVelocityBonusMissile Max Velocity Bonus i(
+A”<”displayArmorDamageAmountBonusArmor Repaired Bonus i(
+3‘.‘displayFalloffModifierfalloff bonus i(
+@’;’displayTrackingSpeedModifierTracking Speed bonus i(
+@÷;÷displayAoeCloudsizeModifierExplosion Cloud Bonus i(
+:◊5◊displayMaxRangeModifierOptimal Range Bonus i(
+LÿGÿinventionPropabilityMultiplierinventionPropabilityMultiplier h(	
+6Ÿ1ŸinventionMEModifierinventionMEModifier x(	
+6⁄1⁄inventionPEModifierinventionPEModifier z(	
+&€!€decryptorIDdecryptorID z(	
+2‹-‹scanProbeStrengthscanProbeStrength z(
+<›7›scanStrengthSignaturesscanStrengthSignatures z(
+@ﬁ;ﬁscanStrengthDronesProbesscanStrengthDronesProbes z(
+2ﬂ-ﬂscanStrengthScrapscanStrengthScrap z(
+2‡-‡scanStrengthShipsscanStrengthShips z(
+<·7·scanStrengthStructuresscanStrengthStructures z(
+*‚%‚maxScanGroupsmaxScanGroups z(	
+(„#„scanDurationscanDuration e(
+>‰9‰inventionMaxRunModifierinventionMaxRunModifier z(	
+CÂ>ÂboosterChanceBonus!Negative Side Effect Chance Bonus i(
+<Ê7ÊboosterAttributeModifierSide effect Modifier i(
+&Á!ÁinterfaceIDinterfaceID z(	
+&Ë!Ëdatacore1IDdatacore1ID z(	
+&È!Èdatacore2IDdatacore2ID z(
+9Í4ÍecmStrengthBonusPercentECM Strength Bonus i(
+1Î,ÎmassBonusPercentageMass Reduction i(
+*Ï%ÏupgradeCapacityCalibration x(
+dÌ_Ì*entityMaxVelocitySignatureRadiusMultiplier*entityMaxVelocitySignatureRadiusMultiplier z(	
+FÓAÓmaxTargetRangeMultiplierSetmaxTargetRangeMultiplierSet z(	
+FÔAÔscanResolutionMultiplierSetscanResolutionMultiplierSet z(	
+.)scanAllStrengthscanAllStrength x(	
+!ÒÒrigSlots	Rig Slots z(
+ ÚÚdrawbackDrawback i(
+6Û1ÛrigDrawbackBonusRig Drawback Reduction i(
+;ı6ıboosterArmorHPPenaltyArmor Hitpoint Penalty i(
+JˆEˆboosterArmorRepairAmountPenaltyArmor Repair Amount Penalty i(
+C˜>˜boosterShieldCapacityPenaltyShield Capacity Penalty i(
+E¯@¯boosterTurretOptimalRangeTurret Optimal Range Penalty i(
+C˘>˘boosterTurretTrackingPenaltyTurret Tracking Penalty i(
+A˙<˙boosterTurretFalloffPenaltyTurret Falloff Penalty i(
+C˚>˚boosterAOEVelocityPenaltyExplosion Velocity Penalty i(
+E¸@¸boosterMissileVelocityPenaltyMissile Velocity Penalty i(
+M˝H˝boosterMissileAOECloudPenalty Missile Explosion Radius Penalty i(
+I˛D˛boosterCapacitorCapacityPenaltyCapacitor Capacity Penalty i(
+9ˇ4ˇboosterMaxVelocityPenaltyVelocity Penalty i(
+&Ä	!Ä	upgradeLoadupgradeLoad z(
++Å	&Å	upgradeCostCalibration cost z(
+3Ç	.Ç	upgradeSlotsLeftUpgrade Hardpoints ç(
+(É	#É	researchPointCostRP Cost x(
+GÑ	BÑ	maxScanDeviationModifierMaximum Scan Deviation Modifier i(
+*Ö	%Ö	commandBonus2commandBonus2 z(	
+(Ü	#Ü	untargetableUntargetable z(
+-á	(á	armorHPBonusAddArmor Hp Bonus q(
+Mà	Hà	accessDifficultyBonusModifier Access Difficulty Bonus Modifier i(
+6â	1â	scanFrequencyResultscanFrequencyResult z(	
+6ä	1ä	explosionDelayWreckexplosionDelayWreck z(	
+ ã	ã	canCloakcanCloak z(	
+Qå	Lå	speedFactorBonus1Afterburner and Microwarpdrive Max Velocity Bonus i(
+Zç	Uç	controlTowerMinimumDistance/Minimum Anchoring Distance From Starbase Shield (
+=è	8è	posPlayerControlStructurePlayer Controllable â(
+.ê	)ê	isIncapacitatedisIncapacitated z(	
+:ë	5ë	scanGenericStrengthGeneric Sensor Strength x(
+=í	8í	structureArmorRepairAmountArmor Repair Amount z(
+?ì	:ì	structureShieldRepairAmountShield Repair Amount z(
+@î	;î	structureArmorBoostValuestructureArmorBoostValue z(
+Bï	=ï	structureShieldBoostValuestructureShieldBoostValue z(	
+Bñ	=ñ	posStructureControlAmountposStructureControlAmount z(
+ó	ó	heatHiheatHi z(
+ò	ò	heatMedheatMed z(
+ô	ô	heatLowheatLow z(
+,ö	'ö	heatCapacityHiheatCapacityHi z(	
+:õ	5õ	heatDissipationRateHiheatDissipationRateHi z(	
+Dú	?ú	heatAbsorbtionRateModifierheatAbsorbtionRateModifier z(	
+?ù	:ù	overloadDurationBonusOverload Duration Modifier i(
+8û	3û	heatAbsorbtionRateHiheatAbsorbtionRateHi z(	
+:ü	5ü	heatAbsorbtionRateMedheatAbsorbtionRateMed z(	
+:†	5†	heatAbsorbtionRateLowheatAbsorbtionRateLow z(	
+J°	E°	 onliningRequiresSovereigntyLevelRequired Sovereignty Level z(
+E¢	@¢	remoteArmorDamageAmountBonusRemote Armor Repair Bonus i(
+P£	K£	remoteArmorDamageDurationBonus"Remote Armor Repair Duration Bonus i(
+K§	F§	shieldTransportDurationBonusShield Transport Duration Bonus i(
+G•	B•	shieldTransportAmountBonusShield Transport Amount Bonus i(
+;¶	6¶	ewCapacitorNeedBonusEW Capacitor Need Bonus i(
+@ß	;ß	maxDronePercentageBonusMax Active Drone Modifier i(
+7®	2®	triageCpuNeedBonusTriage CPU Need Bonus i(
+@©	;©	projECMDurationBonusProjected ECM Duration Bonus i(
+?™	:™	projECMCpuNeedBonusProjected ECM CPU Need Bonus i(
+T´	O´	posAnchoredPerSolarSystemAmount%Max anchoring amount per solar system z(
+<¨	7¨	heatDissipationRateMedheatDissipationRateMed z(	
+<Æ	7Æ	heatDissipationRateLowheatDissipationRateLow z(	
+.Ø	)Ø	heatCapacityMedheatCapacityMed z(	
+.∞	)∞	heatCapacityLowheatCapacityLow z(	
+C±	>±	remoteHullDamageAmountBonusRemote Hull Repair Bonus i(
+N≤	I≤	remoteHullDamageDurationBonus!Remote Hull Repair Duration Bonus i(
+=≥	8≥	powerTransferAmountBonusEnergy Transfer Bonus i(
+H¥	C¥	powerTransferDurationBonusEnergy Transfer Duration Bonus i(
+;µ	6µ	overloadRofBonusOverload rate of fire bonus i(
+@∂	;∂	overloadSelfDurationBonusOverload duration bonus i(
+ ∑	∑	isGlobalisGlobal z(	
+>∏	9∏	overloadHardeningBonusOverload hardening bonus i(
+Hπ	Cπ	bombDeploymentCpuNeedMultiplierBomb Deployment CPU Bonus h(
+;∫	6∫	overloadDamageModifierOverload damage bonus i(
+%ª	 ª	
+heatDamageHeat Damage q(
+Iº	Dº	requiredThermoDynamicsSkillRequired Thermodynamics Level å(
+2Ω	-Ω	heatDamageBonusHeat damage penalty i(
+Fæ	Aæ	posStructureControlDistanceMaxMaximum Control Distance (
+J¿	E¿	shieldTransportCpuNeedBonusShield Transport Cpu Need Bonus i(
+M¡	H¡	remoteArmorPowerNeedBonus$Remote Armor Repair Power Need Bonus i(
+K¬	F¬	powerTransferPowerNeedBonus Energy Transfer Array Power Need i(
+J√	E√	droneArmorDamageAmountBonusDrone Armor Damage Amount Bonus i(
+
+Hƒ	Cƒ	droneShieldBonusBonus#Drone Shield Transport Amount Bonus i(
+
+4≈	/≈	jumpDelayDurationJump Delay Duration {(
+>∆	9∆	overloadRangeBonusOverload optimal range bonus i(
+<«	7«	overloadSpeedFactorBonusOverload Speed Bonus i(
+@»	;»	heatGenerationMultiplierheatGenerationMultiplier z(	
+:…	5…	overloadECMStrengthBonusOverload ECM Bonus i(
+< 	7 	overloadECCMStrenghtBonusOverload ECCM Bonus i(
+OÀ	JÀ	signatureRadiusBonusBonus&Modification of Signature Radius Bonus i(
+NÃ	IÃ	#signatureRadiusMultiplierMultiplierSignature Radius Multiplier i(
+<Õ	7Õ	thermodynamicsHeatDamageHeat damage modifier i(
+>Œ	9Œ	overloadArmorDamageAmountOverload Repair Bonus i(
+>œ	9œ	overloadShieldBonusOverload Shield Boost Bonus i(
+.—	)—	capacitySecondaryStrontium Bay 	(
+>“	9“	surveyScannerRangeBonussurveyScannerRangeBonus i(
+<”	7”	cargoScannerRangeBonuscargoScannerRangeBonus i(	
+:‘	5‘	commandBonusEffectivecommandBonusEffective i(
+.’	)’	commandBonusAddcommandBonusAdd z(
+@÷	;÷	commandBonusEffectiveAddcommandBonusEffectiveAdd z(	
+8◊	3◊	shipBonusORECapital1shipBonusORECapital1 z(	
+8ÿ	3ÿ	shipBonusORECapital2shipBonusORECapital2 z(
+8€	3€	shipBonusORECapital3shipBonusORECapital3 z(
+8‹	3‹	shipBonusORECapital4shipBonusORECapital4 z(
+B›	=›	disallowActivateOnWarpDisallow Activation In Warp â(
+Hﬁ	Cﬁ	eliteBonusHeavyInterdictors1eliteBonusHeavyInterdictors1 z(
+Hﬂ	Cﬂ	eliteBonusHeavyInterdictors2eliteBonusHeavyInterdictors2 z(
+N·	I·	eliteBonusElectronicAttackShip1eliteBonusElectronicAttackShip1 z(
+N‚	I‚	eliteBonusElectronicAttackShip2eliteBonusElectronicAttackShip2 z(
+2„	-„	securityClearancesecurityClearance z(
+/‰	*‰	isCovertUses Covert Technology â(
+*Â	%Â	jumpHarmonicsjumpHarmonics z(
+2Ê	-Ê	canNotUseStargatescantUseStargates z(
+2Á	-Á	droneDamageBonusDrone Damage Bonus i(
+
+(Ë	#Ë	droneHPBonusdroneHPBonus i(
+
+6È	1È	eliteBonusBlackOps1eliteBonusBlackOps1 z(
+6Í	1Í	eliteBonusBlackOps2eliteBonusBlackOps2 z(
+0Î	+Î	heatAttenuationHiheatAttenuation z(
+4Ì	/Ì	heatAttenuationMedheatAttenuationMed z(
+4Ó	/Ó	heatAttenuationLowheatAttenuationMed z(
+8Ô	3Ô	towerHPOnlineMutatortowerHPOnlineMutator (
+D	?	brokenRepairCostMultiplierbrokenRepairCostMultiplier z(	
+8Ò	3Ò	eliteBonusViolators1eliteBonusViolators1 z(	
+8Ú	3Ú	eliteBonusViolators2eliteBonusViolators2 z(	
+0Û	+Û	moduleRepairRatemoduleRepairRate z(
+@Ù	;Ù	eliteBonusViolatorsRole1eliteBonusViolatorsRole1 z(	
+@ı	;ı	eliteBonusViolatorsRole2eliteBonusViolatorsRole2 z(	
+Pˆ	Kˆ	speedBoostFactorBonus+Afterburner and Microwarpdrive Thrust Bonus i(
+.˜	)˜	droneBandwidthDrone Bandwidth Ä(
+
+3¯	.¯	droneBandwidthUsedBandwidth Needed Ä(
+
+4˘	/˘	droneBandwidthLoaddroneBandwidthLoad z(
+
+;˙	6˙	miningTargetMultiplierAssisted Mining Bonus o(
+0˚	+˚	droneIsAgressivedroneIsAgressive z(
+
+V¸	Q¸	#nonBrokenModuleRepairCostMultiplier#nonBrokenModuleRepairCostMultiplier z(	
+X˝	S˝	$shipBrokenModuleRepairCostMultiplier$shipBrokenModuleRepairCostMultiplier z(
+,˛	'˛	droneIsChaoticdroneIsChaotic z(
+
+@ˇ	;ˇ	eliteBonusViolatorsRole3eliteBonusViolatorsRole3 z(	
+BÄ
+=Ä
+eliteBonusInterceptorRoleeliteBonusInterceptorRole z(	
+,Å
+'Å
+baseWarpSpeedShip Warp Speed z(
+0Ç
++Ç
+implantSetThukkerNomad Set Bonus h(
+>É
+9É
+fightersAttackAndFollowfightersAttackAndFollow z(
+1Ñ
+,Ñ
+implantSetSistersVirtue Set Bonus h(
+7Ö
+2Ö
+requiredSkill4Quaternary Skill required t(
+6Ü
+1Ü
+requiredSkill4LevelrequiredSkill5Level z(
+6á
+1á
+requiredSkill5LevelrequiredSkill5Level z(
+6à
+1à
+requiredSkill6LevelrequiredSkill6Level z(
+4â
+/â
+requiredSkill5Quinary Skill required t(
+3ä
+.ä
+requiredSkill6Senary Skill required t(
+1ã
+,ã
+implantSetSyndicateEdge Set Bonus h(
+.å
+)å
+implantSetOREHarvest Set Bonus h(
+3ç
+.ç
+implantSetMordusCenturion Set Bonus h(
+Xé
+Sé
+#shipBrokenRepairCostMultiplierBonus%Nanite Repair Paste Consumption Bonus y(
+=è
+8è
+moduleRepairRateBonusModule Repair Rate Bonus i(
+Lê
+Gê
+"consumptionQuantityBonusPercentageConsumption Quantity Bonus i(
+,ë
+'ë
+droneFocusFiredroneFocusFire z(
+
+0í
++í
+canFitShipGroup1Can be fitted to s(
+0ì
++ì
+canFitShipGroup2Can be fitted to s(
+0î
++î
+canFitShipGroup3Can be fitted to s(
+0ï
++ï
+canFitShipGroup4Can be fitted to s(
+/ñ
+*ñ
+canFitShipType1Can be fitted to t(
+/ó
+*ó
+canFitShipType2Can be fitted to t(
+/ò
+*ò
+canFitShipType3Can be fitted to t(
+/ô
+*ô
+canFitShipType4Can be fitted to t(
+Iö
+Dö
+maxRangeMultiplierBonusAdditiveMax Range Multiplier Bonus h(
+Sõ
+Nõ
+$trackingSpeedMultiplierBonusAdditiveTracking Speed Multiplier Bonus h(
+Nú
+Iú
+%maxTargetRangeMultiplierBonusAdditiveMax Targeting Range Bonus h(
+Jù
+Eù
+%scanResolutionMultiplierBonusAdditiveScan Resolution Bonus h(
+4û
+/û
+commandBonusHiddencommandBonusHidden i(	
+@ü
+;ü
+eliteBonusJumpFreighter1eliteBonusJumpFreighter1 z(	
+@†
+;†
+eliteBonusJumpFreighter2eliteBonusJumpFreighter2 z(	
+Q°
+L°
+maxTargetRangeBonusBonus)Modification of Max Targeting Range Bonus i(
+M¢
+H¢
+scanResolutionBonusBonus%Modification of Scan Resolution Bonus i(
+E£
+@£
+maxRangeBonusBonus#Modification of Optimal Range Bonus i(
+K§
+F§
+trackingSpeedBonusBonus$Modification of Tracking Speed Bonus i(
+,•
+'•
+maxRangeHiddenmaxRangeHidden (	
+D¶
+?¶
+warpScrambleStrengthHiddenwarpScrambleStrengthHidden z(	
+6ß
+1ß
+capacitorNeedHiddencapacitorNeedHidden z(	
+0®
++®
+commandBonusECMECM Command Bonus i(
+D©
+?©
+commandBonusRSD%Remote Sensor Dampening Command Bonus i(
+?™
+:™
+commandBonusTD!Tracking Disruption Command Bonus i(
+;´
+6´
+commandBonusTPTarget Painting Command Bonus i(
+F¨
+A¨
+massBonusPercentageBonusModification of Mass Reduction i(
+e≠
+`≠
+speedBoostFactorBonusBonus;Modification of Afterburner and Microwarpdrive Thrust Bonus i(
+fÆ
+aÆ
+speedFactorBonusBonusAModification of Afterburner and Microwarpdrive Max Velocity Bonus i(
+?Ø
+:Ø
+warpScrambleRangeBonusWarp Scramble Range Bonus i(
+@∞
+;∞
+droneBandwidthMultiplierdroneBandwidthMultiplier h(
+
+<±
+7±
+droneBandwidthBonusAddDrone Bandwidth Bonus Ä(
+
+"≤
+≤
+	isHacking	isHacking z(	
+(≥
+#≥
+isArcheologyisArcheology z(	
+>¥
+9¥
+falloffBonusBonusModification of Falloff Bonus i(
+4µ
+/µ
+maxVelocityLimitedmaxVelocityLimited z(	
+A∂
+<∂
+maxVelocityActivationLimitMax Velocity Limitation 
+(
+,∑
+'∑
+defenderRaceIDdefenderRaceID z(	
+/∏
+*∏
+jumpClonesLeftUnused Clone Vats z(
+:π
+5π
+captureProximityRangecaptureProximityRange z(	
+2ª
+-ª
+factionDefenderIDfactionDefenderID z(	
+2º
+-º
+factionOffenderIDfactionOffenderID z(	
+"Ω
+Ω
+	factionID	factionID z(	
+2≈
+-≈
+activationBlockedactivationBlocked z(
+B∆
+=∆
+activationBlockedStrenghtactivationBlockedStrenght z(
+7«
+2«
+posCargobayAcceptTypeAllowed Cargo Type t(
+9»
+4»
+posCargobayAcceptGroupAllowed Cargo Group s(
+@…
+;…
+aoeDamageReductionFactoraoeDamageReductionFactor z(
+J 
+E 
+aoeDamageReductionSensitivityaoeDamageReductionSensitivity z(
+FÀ
+AÀ
+shipOrcaTractorBeamRangeBonus1Tractor Beam Range Bonus i(
+>Ã
+9Ã
+shipOrcaCargoBonusOrca1shipOrcaCargoBonusOrca1 i(	
+RÕ
+MÕ
+!shipOrcaTractorBeamVelocityBonus2!shipOrcaTractorBeamVelocityBonus2 i(	
+8Œ
+3Œ
+shipOrcaForemanBonusshipOrcaForemanBonus i(	
+Dœ
+?œ
+shipOrcaSurveyScannerBonusshipOrcaSurveyScannerBonus i(	
+8–
+3–
+shipBonusHPExtender1shipBonusHPExtender1 i(	
+N—
+I—
+eliteIndustrialCovertCloakBonuseliteIndustrialCovertCloakBonus i(	
+(÷
+#÷
+subSystemSlotsubSystemSlot z
++◊
+&◊
+maxSubSystemsSub System Slots z
+?ÿ
+:ÿ
+turretHardPointModifierTurret Hardpoint Modifier ã
+CŸ
+>Ÿ
+launcherHardPointModifierLauncher Hardpoint Modifier ã
+-⁄
+(⁄
+baseScanRangeBase Scan Range á(
+6€
+1€
+baseSensorStrengthBase Sensor Strength x(
+;‹
+6‹
+baseMaxScanDeviationBase Maximum Deviation á(
+6›
+1›
+rangeFactorScan Range Increment Factor h(
+-ﬁ
+(ﬁ
+hiSlotModifierHi Slot Modifier ã
+/ﬂ
+*ﬂ
+medSlotModifierMed Slot Modifier ã
+/‡
+*‡
+lowSlotModifierLow Slot Modifier ã
+&·
+!·
+cpuOutputAdd
+CPU Output j(
+.‚
+)‚
+powerOutputAddpowergrid Output k(
+*„
+%„
+maxVelocityAddMax Velocity (
+3‰
+.‰
+fitsToShipTypeRestricted to Ship Type t
+BÂ
+=Â
+wormholeTargetSystemClasswormholeTargetSystemClass z(
+:Ê
+5Ê
+wormholeMaxStableTimewormholeMaxStableTime (
+:Á
+5Á
+wormholeMaxStableMasswormholeMaxStableMass (
+@Ë
+;Ë
+wormholeMassRegenerationwormholeMassRegeneration (
+6È
+1È
+wormholeMaxJumpMasswormholeMaxJumpMass (
+:Í
+5Í
+wormholeTargetRegion1wormholeTargetRegion1 z(
+:Î
+5Î
+wormholeTargetRegion2wormholeTargetRegion2 z(
+:Ï
+5Ï
+wormholeTargetRegion3wormholeTargetRegion3 z(
+:Ì
+5Ì
+wormholeTargetRegion4wormholeTargetRegion4 z(
+:Ó
+5Ó
+wormholeTargetRegion5wormholeTargetRegion5 z(
+:Ô
+5Ô
+wormholeTargetRegion6wormholeTargetRegion6 z(
+:
+5
+wormholeTargetRegion7wormholeTargetRegion7 z(
+:Ò
+5Ò
+wormholeTargetRegion8wormholeTargetRegion8 z(
+:Ú
+5Ú
+wormholeTargetRegion9wormholeTargetRegion9 z(
+HÛ
+CÛ
+wormholeTargetConstellation1wormholeTargetConstellation1 z(
+HÙ
+CÙ
+wormholeTargetConstellation2wormholeTargetConstellation2 z(
+Hı
+Cı
+wormholeTargetConstellation3wormholeTargetConstellation3 z(
+Hˆ
+Cˆ
+wormholeTargetConstellation4wormholeTargetConstellation4 z(
+H˜
+C˜
+wormholeTargetConstellation5wormholeTargetConstellation5 z(
+H¯
+C¯
+wormholeTargetConstellation6wormholeTargetConstellation6 z(
+H˘
+C˘
+wormholeTargetConstellation7wormholeTargetConstellation7 z(
+H˙
+C˙
+wormholeTargetConstellation8wormholeTargetConstellation8 z(
+H˚
+C˚
+wormholeTargetConstellation9wormholeTargetConstellation9 z(
+:¸
+5¸
+wormholeTargetSystem1wormholeTargetSystem1 z(
+:˝
+5˝
+wormholeTargetSystem2wormholeTargetSystem2 z(
+:˛
+5˛
+wormholeTargetSystem3wormholeTargetSystem3 z(
+:ˇ
+5ˇ
+wormholeTargetSystem4wormholeTargetSystem4 z(
+:Ä5ÄwormholeTargetSystem5wormholeTargetSystem5 z(
+:Å5ÅwormholeTargetSystem6wormholeTargetSystem6 z(
+:Ç5ÇwormholeTargetSystem7wormholeTargetSystem7 z(
+:É5ÉwormholeTargetSystem8wormholeTargetSystem8 z(
+:Ñ5ÑwormholeTargetSystem9wormholeTargetSystem9 z(
+2Ö-ÖprobeCanScanShipsprobeCanScanShips z(
+FÜAÜAI_ShouldUseEvasiveManeuverAI_ShouldUseEvasiveManeuver z(
+8à3àAI_TargetSwitchTimerAI_TargetSwitchTimer e(
+ââcolorcolor z
+GäBäpassiveArmorEmDamageResonanceArmor Em Damage Resistance l(
+QãLã"passiveArmorThermalDamageResonanceArmor Thermic Damage Resistance l(
+QåLå"passiveArmorKineticDamageResonanceArmor Kinetic Damage Resistance l(
+UçPç$passiveArmorExplosiveDamageResonance!Armor Explosive Damage Resistance l(
+WéRé%passiveShieldExplosiveDamageResonance"Shield Explosive Damage Resistance l(
+IèDèpassiveShieldEmDamageResonanceShield Em Damage Resistance l(
+SêNê#passiveShieldKineticDamageResonance Shield Kinetic Damage Resistance l(
+SëNë#passiveShieldThermalDamageResonance Shield Thermal Damage Resistance l(
+Eí@ípassiveHullEmDamageResonanceHull Em Damage Resistance (
+SìNì#passiveHullExplosiveDamageResonance Hull Explosive Damage Resistance (
+OîJî!passiveHullKineticDamageResonanceHull Kinetic Damage Resistance (
+OïJï!passiveHullThermalDamageResonanceHull Thermal Damage Resistance (
+$ññ
+lightColor
+lightColor z(
+LóGósubsystemBonusAmarrEngineeringsubsystemBonusAmarrEngineering z(
+JòEòsubsystemBonusAmarrElectronicsubsystemBonusAmarrElectronic z(
+HôCôsubsystemBonusAmarrDefensivesubsystemBonusAmarrDefensive z(
+HöCösubsystemBonusAmarrOffensivesubsystemBonusAmarrOffensive z(
+JõEõsubsystemBonusAmarrPropulsionsubsystemBonusAmarrPropulsion z(
+RúMú!subsystemBonusGallenteEngineering!subsystemBonusGallenteEngineering z(
+PùKù subsystemBonusGallenteElectronic subsystemBonusGallenteElectronic z(
+NûIûsubsystemBonusGallenteDefensivesubsystemBonusGallenteDefensive z(
+NüIüsubsystemBonusGallenteOffensivesubsystemBonusGallenteOffensive z(
+P†K† subsystemBonusGallentePropulsion subsystemBonusGallentePropulsion z(
+P°K° subsystemBonusCaldariEngineering subsystemBonusCaldariEngineering z(
+N¢I¢subsystemBonusCaldariElectronicsubsystemBonusCaldariElectronic z(
+L£G£subsystemBonusCaldariDefensivesubsystemBonusCaldariDefensive z(
+L§G§subsystemBonusCaldariOffensivesubsystemBonusCaldariOffensive z(
+N•I•subsystemBonusCaldariPropulsionsubsystemBonusCaldariPropulsion z(
+R¶M¶!subsystemBonusMinmatarEngineering!subsystemBonusMinmatarEngineering z(
+PßKß subsystemBonusMinmatarElectronic subsystemBonusMinmatarElectronic z(
+N®I®subsystemBonusMinmatarDefensivesubsystemBonusMinmatarDefensive z(
+N©I©subsystemBonusMinmatarOffensivesubsystemBonusMinmatarOffensive z(
+P™K™ subsystemBonusMinmatarPropulsion subsystemBonusMinmatarPropulsion z(
+:´5´npcAssistanceProiritynpcAssistanceProirity z(
+D≠?≠npcRemoteArmorRepairChancenpcRemoteArmorRepairChance i(
+HÆCÆnpcRemoteArmorRepairDurationnpcRemoteArmorRepairDuration e(
+DØ?ØnpcRemoteArmorRepairAmountnpcRemoteArmorRepairAmount z(
+J∞E∞npcRemoteArmorRepairThresholdnpcRemoteArmorRepairThreshold i(
+D±?±wormholeTargetDistributionwormholeTargetDistribution z(
+H≤C≤npcRemoteShieldBoostDurationnpcRemoteShieldBoostDuration e(
+D≥?≥npcRemoteShieldBoostChancenpcRemoteShieldBoostChance m(
+D¥?¥npcRemoteShieldBoostAmountnpcRemoteShieldBoostAmount x(
+J∂E∂npcRemoteShieldBoostThresholdnpcRemoteShieldBoostThreshold m(
+4∏/∏npcAssistanceRangenpcAssistanceRange (
+Eπ@πarmorEmDamageResistanceBonusArmor EM resistance bonus |(
+O∫J∫!armorKineticDamageResistanceBonusArmor kinetic resistance bonus |(
+OªJª!armorThermalDamageResistanceBonusArmor thermal resistance bonus |(
+SºNº#armorExplosiveDamageResistanceBonus Armor explosive resistance bonus |(
+DΩ?ΩmissileVelocityMultiplierMissile velocity multiplier h(
+@æ;æmaxVelocityMultiplierMaximum velocity multiplier h(
+-ø(ømassMultiplierMass multiplier h(
+<¿7¿droneRangeMultiplierControl range multiplier h(
+
+P¡K¡!scanGravimetricStrengthMultiplierGravimetric strength multiplier h(
+D¬?¬scanLadarStrengthMultiplierLadar strength multiplier h(
+T√O√#scanMagnetometricStrengthMultiplier!Magnetometric strength multiplier h(
+Dƒ?ƒscanRadarStrengthMultiplierRadar strength multiplier h(
+G≈B≈signatureRadiusBonusMultiplierTarget painter multiplier h(
+Q∆L∆maxTargetRangeBonusMultiplier$Dampening range reduction multiplier h(
+Q«L«scanResolutionBonusMultiplier$Scan resolution reduction multiplier h(
+G»B»trackingSpeedBonusMultiplierTracking penalty multiplier h(
+G…B…maxRangeBonusMultiplier Optimal range penalty multiplier h(
+F A damageMultiplierMultiplierDamage multiplier multiplier h(
+<À7ÀaoeVelocityMultiplierAOE velocity multiplier h(
+CÃ>ÃmaxDroneVelocityMultiplierDrone velocity multiplier h(
+
+:Õ5ÕheatDamageMultiplierHeat damage multiplier h(
+@Œ;ŒoverloadBonusMultiplierOverload bonus multiplier h(
+Bœ=œempFieldRangeMultiplierSmart bomb range multiplier h(
+E–@–smartbombDamageMultiplierSmart bomb damage multiplier h(
+A—<—shieldEmDamageResistanceBonusShield EM Resistance i(
+O“J“$shieldExplosiveDamageResistanceBonusShield Explosive Resistance i(
+K”F”"shieldKineticDamageResistanceBonusShield Kinetic Resistance i(
+K‘F‘"shieldThermalDamageResistanceBonusShield Thermal Resistance i(
+I’D’smallWeaponDamageMultiplierSmall weapon damage multiplier h(
+K÷F÷mediumWeaponDamageMultiplierMedium weapon damage multiplier h(
+C◊>◊armorDamageAmountMultiplierRepair amount multiplier h(
+FÿAÿshieldBonusMultiplier!Shield transfer amount multiplier h(
+CŸ>ŸshieldBonusMultiplierRemoteShield repair multiplier h(
+P⁄K⁄!armorDamageAmountMultiplierRemoteRemote repair amount multiplier h(
+N€I€!capacitorCapacityMultiplierSystemCapacitor capacity multiplier h(
+C‹>‹rechargeRateMultiplierCapacitor recharge multiplier h(
+L›G›npcRemoteArmorRepairMaxTargetsnpcRemoteArmorRepairMaxTargets z(
+LﬁGﬁnpcRemoteShieldBoostMaxTargetsnpcRemoteShieldBoostMaxTargets z(
+LﬂGﬂshipBonusStrategicCruiserAmarrshipBonusStrategicCruiserAmarr z(	
+P‡K‡ shipBonusStrategicCruiserCaldari shipBonusStrategicCruiserCaldari z(	
+R·M·!shipBonusStrategicCruiserGallente!shipBonusStrategicCruiserGallente z(	
+R‚M‚!shipBonusStrategicCruiserMinmatar!shipBonusStrategicCruiserMinmatar z(	
+J„E„subsystemBonusAmarrDefensive2subsystemBonusAmarrDefensive2 z(
+L‰G‰subsystemBonusAmarrElectronic2subsystemBonusAmarrElectronic2 z(
+NÂIÂsubsystemBonusAmarrEngineering2subsystemBonusAmarrEngineering2 z(
+NÊIÊsubsystemBonusCaldariOffensive2subsystemBonusCaldariOffensive2 z(
+JÁEÁsubsystemBonusAmarrOffensive2subsystemBonusAmarrOffensive2 z(
+LËGËsubsystemBonusAmarrPropulsion2subsystemBonusAmarrPropulsion2 z(
+PÈKÈ subsystemBonusCaldariPropulsion2 subsystemBonusCaldariPropulsion2 z(
+PÍKÍ subsystemBonusCaldariElectronic2 subsystemBonusCaldariElectronic2 z(
+RÎMÎ!subsystemBonusCaldariEngineering2!subsystemBonusCaldariEngineering2 z(
+NÏIÏsubsystemBonusCaldariDefensive2subsystemBonusCaldariDefensive2 z(
+PÌKÌ subsystemBonusGallenteDefensive2 subsystemBonusGallenteDefensive2 z(
+RÓMÓ!subsystemBonusGallenteElectronic2!subsystemBonusGallenteElectronic2 z(
+TÔOÔ"subsystemBonusGallenteEngineering2"subsystemBonusGallenteEngineering2 z(
+RM!subsystemBonusGallentePropulsion2!subsystemBonusGallentePropulsion2 z(
+PÒKÒ subsystemBonusGallenteOffensive2 subsystemBonusGallenteOffensive2 z(
+PÚKÚ subsystemBonusMinmatarOffensive2 subsystemBonusMinmatarOffensive2 z(
+RÛMÛ!subsystemBonusMinmatarPropulsion2!subsystemBonusMinmatarPropulsion2 z(
+RÙMÙ!subsystemBonusMinmatarElectronic2!subsystemBonusMinmatarElectronic2 z(
+TıOı"subsystemBonusMinmatarEngineering2"subsystemBonusMinmatarEngineering2 z(
+PˆKˆ subsystemBonusMinmatarDefensive2 subsystemBonusMinmatarDefensive2 z(
+>˜9˜armorMaxDamageResonancearmorMaxDamageResonance z(
+@¯;¯shieldMaxDamageResonanceshieldMaxDamageResonance z(
+<˘7˘hullMaxDamageResonancehullMaxDamageResonance z(
+B˙=˙hullMaxDamageResonanceOldhullMaxDamageResonanceOld z(
+J˚E˚subsystemBonusAmarrOffensive3subsystemBonusAmarrOffensive3 z(
+P¸K¸ subsystemBonusGallenteOffensive3 subsystemBonusGallenteOffensive3 z(
+N˝I˝subsystemBonusCaldariOffensive3subsystemBonusCaldariOffensive3 z(
+P˛K˛ subsystemBonusMinmatarOffensive3 subsystemBonusMinmatarOffensive3 z(
+(ˇ#ˇshipBonusCR3shipBonusCR3 z(	
+,Ä'ÄecmRangeBonusECM Range Bonus i(
+8Å3ÅeliteBonusReconShips3eliteBonusReconShips3 z
+0Ç+ÇwarpBubbleImmunewarpBubbleImmune z(
+@É;ÉwarpBubbleImmuneModifierwarpBubbleImmuneModifier z(
+DÑ?ÑstealthBomberLauncherPower2stealthBomberLauncherPower2 z
+:Ö5ÖjumpHarmonicsModifierjumpHarmonicsModifier z(
+?à:àmaxGroupFitted!Max Modules Of This Group Allowed z(
+<â7âdreadnoughtShipBonusM3dreadnoughtShipBonusM3 z(	
+ããrigSizeRig Size u(
+7ç2çspecialFuelBayCapacityFuel Bay Capacity 	(
+:é5éimplantSetImperialNavyimplantSetImperialNavy z
+/è*ènumDaysDays added to subscription z
+8ê3êimplantSetCaldariNavyimplantSetCaldariNavy z
+>ë9ëimplantSetFederationNavyimplantSetFederationNavy z
+<í7íimplantSetRepublicFleetimplantSetRepublicFleet z
+ììfwLpKillfwLpKill z
+7î2îspecialOreHoldCapacityOre Hold Capacity 	(
+7ï2ïspecialGasHoldCapacityGas Hold Capacity 	(
+?ñ:ñspecialMineralHoldCapacityMineral Hold Capacity 	(
+?ó:óspecialSalvageHoldCapacitySalvage Hold Capacity 	(
+9ò4òspecialShipHoldCapacityShip Hold Capacity 	(
+Dô?ôspecialSmallShipHoldCapacitySmall Ship Hold Capacity 	(
+FöAöspecialMediumShipHoldCapacityMedium Ship Hold Capacity 	(
+Dõ?õspecialLargeShipHoldCapacityLarge Ship Hold Capacity 	(
+NúIú!specialIndustrialShipHoldCapacityIndustrial Ship Hold Capacity 	(
+=ù8ùscanRadarStrengthModifierRADAR strength bonus z(
+=û8ûscanLadarStrengthModifierLADAR strength bonus z(
+IüDüscanGravimetricStrengthModifierGravimetric strength bonus z(
+M†H†!scanMagnetometricStrengthModifierMagnetometric strength bonus z(
+>°9°implantSetLGImperialNavyimplantSetLGImperialNavy z
+B¢=¢implantSetLGFederationNavyimplantSetLGFederationNavy z
+<£7£implantSetLGCaldariNavyimplantSetLGCaldariNavy z
+@§;§implantSetLGRepublicFleetimplantSetLGRepublicFleet z
+9•4•specialAmmoHoldCapacityAmmo Hold Capacity 	(
+2¶-¶shipBonusATC1Special Ability Bonus i(
+2ß-ßshipBonusATC2Special Ability Bonus i(
+2®-®shipBonusATF1Special Ability Bonus i(
+2©-©shipBonusATF2Special Ability Bonus i(
+4™/™eliteBonusCoverOps3eliteBonusCoverOps3 z
+<´7´effectDeactivationDelayeffectDeactivationDelay z
+4¨/¨maxDefenseBunkersMax defense Bunkers z(
+>≠9≠eliteBonusAssaultShips1eliteBonusAssaultShips1 z(
+LÆGÆspecialTutorialLootRespawnTimespecialTutorialLootRespawnTime e(	
+JØEØdevIndexMilitary+Required Development Index Level (Military) å
+N∞I∞devIndexIndustrial-Required Development Index Level (Industrial) å
+C±>±devIndexEconomic%Required Development Index (economic) z
+\≤W≤devIndexResearchDevelopment3Required Development Index (Research & Development) z
+TµOµ"siegeModeGallenteDreadnoughtBonus2"siegeModeGallenteDreadnoughtBonus2 z(	
+2∂-∂anchorDistanceMinanchorDistanceMin (
+2∑-∑anchorDistanceMaxanchorDistanceMax (
+.∏)∏titanAmarrBonus5titanAmarrBonus5 z
+4π/πtitanGallenteBonus5titanGallenteBonus5 z
+4∫/∫titanMinmatarBonus5titanMinmatarBonus5 z
+UªPªanchoringRequiresSovUpgrade1)Anchoring Requires Infrastructure Upgrade t(
+2º-ºtitanCaldariBonus5titanCaldariBonus5 z
+ZΩUΩsovUpgradeSovereigntyHeldFor-Minimum Sovereignty Period to Install Upgrade Å(
+FæAæsovUpgradeBlockingUpgradeIDsovUpgradeBlockingUpgradeID t(
+IøDøsovUpgradeRequiredUpgradeIDPrerequisite Installed Upgrade t(
+Y¿T¿%sovUpgradeRequiredOutpostUpgradeLevel$Required System Oupost Upgrade Level z(
+S¡N¡onliningRequiresSovUpgrade1(Onlining Requires Infrastructure Upgrade t(
+3√.√sovBillSystemCostDaily Upkeep Cost Ö(
+:≈5≈dreadnoughtShipBonusC3dreadnoughtShipBonusC3 z
+6∆1∆distributionID_blooddistributionID_blood z
+6«1«distributionID_angeldistributionID_angel z
+<»7»distributionID_guristasdistributionID_guristas z
+>…9…distributionID_serpentisdistributionID_serpentis z
+8 3 distributionID_dronesdistributionID_drones z
+:À5ÀdistributionID_sanshasdistributionID_sanshas z
+:Ã5ÃreinforcementDurationreinforcementDuration (
+:Õ5ÕreinforcementVariancereinforcementVariance (
+8Œ3ŒdistributionID_mordusdistributionID_mordus z
+NœIœdevIndexSovereignty,Required Development Index Level (Strategic) å
+*–%–distributionIDdistributionID z
+7”2”webSpeedFactorBonusDrone Stasis Web Bonus i
+(◊#◊shipBonus3AFshipBonus3AF z(	
+(ÿ#ÿshipBonus3CFshipBonus3CF z(	
+(Ÿ#ŸshipBonus3GFshipBonus3GF z(	
+(⁄#⁄shipBonus3MFshipBonus3MF z(	
+4ﬂ/ﬂlogisticalCapacityLogistical Capacity Ü
+8‡3‡planetRestrictionPlanet Type Restriction t(
+1·,·powerLoadPerKmPower Load (per km) k(
+.‚)‚cpuLoadPerKmCPU Usage (per km) j(
+;„6„cpuLoadLevelModifierCPU Load Level Modifier z(
+?‰:‰powerLoadLevelModifierPower Load Level Modifier z(
+$ÊÊ	importTax
+Import Tax Ö(
+$ÁÁ	exportTax
+Export Tax Ö(
+6Ë1ËimportTaxMultiplierimportTaxMultiplier y(
+6È1ÈexportTaxMultiplierexportTaxMultiplier y(
+8Í3ÍpinExtractionQuantityExtraction Quantity z(
+&Î!ÎpinCycleTime
+Cycle Time (
+>Ï9ÏextractorDepletionRangeextractorDepletionRange (
+<Ì7ÌextractorDepletionRateextractorDepletionRate z(
+LÓGÓ specialCommandCenterHoldCapacityCommand Center Hold Capacity 	(
+8Ô3ÔboosterMaxCharAgeHoursMaximum Pilot Age Å(
+FAAI_ShouldUseTargetSwitchingAI_ShouldUseTargetSwitching z(
+FÒAÒAI_ShouldUseSecondaryTargetAI_ShouldUseSecondaryTarget z(
+FÚAÚAI_ShouldUseSignatureRadiusAI_ShouldUseSignatureRadius z(
+DÛ?ÛAI_ChanceToNotTargetSwitchAI_ChanceToNotTargetSwitch (
+HÙCÙAI_ShouldUseEffectMultiplierAI_ShouldUseEffectMultiplier z(
+ZıUı'specialPlanetaryCommoditiesHoldCapacity#Planetary Commodities Hold Capacity 	(
+Dˆ?ˆAI_ImmuneToSuperWeaponImmune to super weapon attacks z(
+E˜@˜AI_PreferredSignatureRadiusPreferred Signature Radius (
+=¯8¯AI_TankingModifierDroneDrone Tanking Modifier z(
+2˘-˘AI_TankingModifierTanking Modifier z(
+>˙9˙entityRemoteECMDurationNPC Remote ECM Duration z(	
+I˚D˚entityRemoteECMMinDurationNPC Remote ECM Minimum Duration z(	
+R¸M¸entityRemoteECMDurationScale&NPC Remote ECM Duration Scaling Factor z(	
+G˝B˝entityRemoteECMBaseDurationNPC remote ECM base duration z(	
+P˛K˛entityRemoteECMExtraPlayerScale!NPC remote ECM Extra Player Scale z(	
+ZˇUˇ!entityRemoteECMIntendedNumPlayers)NPC remote ECM intended number of players z(	
+FÄAÄ!entityRemoteECMChanceOfActivationNPC remote ECM chance z(	
+<Ö7ÖshipBonusOreIndustrial1shipBonusOreIndustrial1 z
+<Ü7ÜshipBonusOreIndustrial2shipBonusOreIndustrial2 z
+QáLá entityGroupShieldResistanceBonus!NPC group shield resistance bonus m(	
+WàRà#entityGroupShieldResistanceDuration$NPC group shield resistance duration z(	
+hâcâ+entityGroupShieldResistanceActivationChance-NPC group shield resistance activation chance z(	
+:ä5äentityGroupSpeedBonusentityGroupSpeedBonus m(	
+IãDãentityGroupPropJamBonus"NPC group propulsion jamming bonus m(	
+OåJåentityGroupArmorResistanceBonus NPC group armor resistance bonus m(	
+@ç;çentityGroupSpeedDurationentityGroupSpeedDuration z(	
+PéKé entityGroupSpeedActivationChance entityGroupSpeedActivationChance z(	
+Dè?èentityGroupPropJamDurationentityGroupPropJamDuration z(	
+TêOê"entityGroupPropJamActivationChance"entityGroupPropJamActivationChance z(	
+TëOë"entityGroupArmorResistanceDuration"entityGroupArmorResistanceDuration z(	
+dí_í*entityGroupArmorResistanceActivationChance*entityGroupArmorResistanceActivationChance z(	
+(ì#ìecuDecayFactordecay factor z
+$îîecuMaxVolume
+max volume z
+.ï)ïecuOverlapFactorecuOverlapFactor z
+IñDñsystemEffectDamageReductionSystem effect damage reduction |(
+*ó%óecuNoiseFactorecuNoiseFactor z
+>ò9òshipBonusPirateFaction2shipBonusPirateFaction2 z(	
+2ô-ôecuAreaOfInfluenceecuAreaOfInfluence z
+3ö.öecuExtractorHeadCPUExtractor head CPU j
+7õ2õecuExtractorHeadPowerExtractor head Power k
+$úúmetaGroupIDmetaGroupID z
+:ü5üdistributionIDAngel01distributionIDAngel01 z(
+:†5†distributionIDAngel02distributionIDAngel02 z(
+:°5°distributionIDAngel03distributionIDAngel03 z(
+:¢5¢distributionIDAngel04distributionIDAngel04 z(
+:£5£distributionIDAngel05distributionIDAngel05 z(
+:§5§distributionIDAngel06distributionIDAngel06 z(
+:•5•distributionIDAngel07distributionIDAngel07 z(
+:¶5¶distributionIDAngel08distributionIDAngel08 z(
+:ß5ßdistributionIDAngel09distributionIDAngel09 z(
+:®5®distributionIDAngel10distributionIDAngel10 z(
+:©5©distributionIDBlood01distributionIDBlood01 z(
+:™5™distributionIDBlood02distributionIDBlood02 z(
+:´5´distributionIDBlood03distributionIDBlood03 z(
+:¨5¨distributionIDBlood04distributionIDBlood04 z(
+:≠5≠distributionIDBlood05distributionIDBlood05 z(
+:Æ5ÆdistributionIDBlood06distributionIDBlood06 z(
+:Ø5ØdistributionIDBlood07distributionIDBlood07 z(
+:∞5∞distributionIDBlood08distributionIDBlood08 z(
+:±5±distributionIDBlood09distributionIDBlood09 z(
+:≤5≤distributionIDBlood10distributionIDBlood10 z(
+>≥9≥distributionIDGurista01distributionIDGurista01 z(
+>¥9¥distributionIDGurista02distributionIDGurista02 z(
+>µ9µdistributionIDGurista03distributionIDGurista03 z(
+>∂9∂distributionIDGurista04distributionIDGurista04 z(
+>∑9∑distributionIDGurista05distributionIDGurista05 z(
+>∏9∏distributionIDGurista06distributionIDGurista06 z(
+>π9πdistributionIDGurista07distributionIDGurista07 z(
+>∫9∫distributionIDGurista08distributionIDGurista08 z(
+>ª9ªdistributionIDGurista09distributionIDGurista09 z(
+>º9ºdistributionIDGurista10distributionIDGurista10 z(
+DΩ?ΩdistributionIDRogueDrone01distributionIDRogueDrone01 z(
+Dæ?ædistributionIDRogueDrone02distributionIDRogueDrone02 z(
+Dø?ødistributionIDRogueDrone03distributionIDRogueDrone03 z(
+D¿?¿distributionIDRogueDrone04distributionIDRogueDrone04 z(
+D¡?¡distributionIDRogueDrone05distributionIDRogueDrone05 z(
+D¬?¬distributionIDRogueDrone06distributionIDRogueDrone06 z(
+D√?√distributionIDRogueDrone07distributionIDRogueDrone07 z(
+Dƒ?ƒdistributionIDRogueDrone08distributionIDRogueDrone08 z(
+D≈?≈distributionIDRogueDrone09distributionIDRogueDrone09 z(
+D∆?∆distributionIDRogueDrone10distributionIDRogueDrone10 z(
+<«7«distributionIDSansha01distributionIDSansha01 z(
+<»7»distributionIDSansha02distributionIDSansha02 z(
+<…7…distributionIDSansha03distributionIDSansha03 z(
+< 7 distributionIDSansha04distributionIDSansha04 z(
+<À7ÀdistributionIDSansha05distributionIDSansha05 z(
+<Ã7ÃdistributionIDSansha06distributionIDSansha06 z(
+<Õ7ÕdistributionIDSansha07distributionIDSansha07 z(
+<Œ7ŒdistributionIDSansha08distributionIDSansha08 z(
+<œ7œdistributionIDSansha09distributionIDSansha09 z(
+<–7–distributionIDSansha10distributionIDSansha10 z(
+B—=—distributionIDSerpentis01distributionIDSerpentis01 z(
+B“=“distributionIDSerpentis02distributionIDSerpentis02 z(
+B”=”distributionIDSerpentis03distributionIDSerpentis03 z(
+B‘=‘distributionIDSerpentis04distributionIDSerpentis04 z(
+B’=’distributionIDSerpentis05distributionIDSerpentis05 z(
+B÷=÷distributionIDSerpentis06distributionIDSerpentis06 z(
+B◊=◊distributionIDSerpentis07distributionIDSerpentis07 z(
+Bÿ=ÿdistributionIDSerpentis08distributionIDSerpentis08 z(
+BŸ=ŸdistributionIDSerpentis09distributionIDSerpentis09 z(
+B⁄=⁄distributionIDSerpentis10distributionIDSerpentis10 z(
+0€+€distributionID01distributionID01 z(
+0‹+‹distributionID02distributionID02 z(
+0›+›distributionID03distributionID03 z(
+0ﬁ+ﬁdistributionID04distributionID04 z(
+0ﬂ+ﬂdistributionID05distributionID05 z(
+0‡+‡distributionID06distributionID06 z(
+0·+·distributionID07distributionID07 z(
+0‚+‚distributionID08distributionID08 z(
+0„+„distributionID09distributionID09 z(
+0‰+‰distributionID10distributionID10 z(
+BÊ=ÊentityOverviewShipGroupIdentityOverviewShipGroupId s(
+.Ë)ËtypeColorSchemetypeColorScheme z(
+GÍBÍspecialMaterialBayCapacitySpecial material bay capacity 	(
+0Î+ÎconstructionTypeconstructionType z(
+KÏFÏ$accessDifficultyBonusAbsolutePercentAccess Difficulty Bonus (
+ÌÌgenderGender é(
+IÔDÔconsumptionQuantityBonusPercentConsumption Quantity Bonus i(
+BÚ=ÚmanufactureCostBonusShowInfoManufacture Cost Bonus i(
+<Ù7ÙnpcCustomsOfficeTaxRatenpcCustomsOfficeTaxRate z
+Dı?ıdefaultCustomsOfficeTaxRatedefaultCustomsOfficeTaxRate z
+5ˆ0ˆallowedDroneGroup1Allowed Drone Group s(
+
+5˜0˜allowedDroneGroup2Allowed Drone Group s(
+
+2˘-˘isCapitalSizeCapital Sized Vessel â(
+4˙/˙bcLargeTurretPowerbcLargeTurretPower z(	
+0˚+˚bcLargeTurretCPUbcLargeTurretCPU z(	
+0¸+¸bcLargeTurretCapbcLargeTurretCap z(	
+2˛-˛bcSiegeMissileCPUbcSiegeMissileCPU z(	
+6ˇ1ˇbcSiegeMissilePowerbcSiegeMissilePower z(	
+(Ä#ÄshipBonusBC3shipBonusBC3 z(	
+(Å#ÅshipBonusBC4shipBonusBC4 z(	
+-Ç(ÇskillBonusBoosterEffect Bonus i(
+%É É
+reloadTimeReload Time e(
+FÖAÖclothingAlsoCoversCategoryDoesn¬¥t require clothing type z
+OÜJÜdisallowAgainstEwImmuneTarget!Disallow against EW-immune target â(
+7á2áimplantSetChristmasGenolution Set Bonus h(
+_äZätriageRemoteModuleCapNeed6Capacitor need reduction for remote assistance modules i(
+>ã9ãMWDSignatureRadiusBonusMWDSignatureRadiusBonus z(
+;å6åspecialQuafeHoldCapacityQuafe Hold Capacity 	(
+Cé>érequiresSovereigntyDisplayOnlyRequires Sovereignty â(
+&ê!ênosReflectornosReflector z
+(ë#ëneutReflectorneutReflector z
+?ì:ìcapAttackReflectorCapacitor Attack Reflect Chance o
+Cî>îturretDamageScalingRadiusDamage Reduction Threshold (
+Cï>ïtitanBonusScalingRadiusTurret Damage Scaling Radius (
+.ñ)ñnosReflectAmountnosReflectAmount o
+0ó+óneutReflectAmountneutReflectAmount o
+>ò9òneutReflectAmountBonusNeutralizer Reflect Amount i
+>ô9ônosReflectAmountBonusEnergy Leech Reflect Amount i
+4ö/öaurumConversionRateaurumConversionRate z
+9ú4úbaseDefenderAllyCostbaseDefenderAllyCost Ö(
+QùLùskillAllyCostModifierBonus'Ally Cost Modifier Percentage Per Level z(
+0û+ûrookieSETCapBonusrookieSETCapBonus z
+6ü1ürookieSETDamageBonusrookieSETDamageBonus z
+D†?†rookieWeaponDisruptionBonusrookieWeaponDisruptionBonus z
+B°=°rookieArmorResistanceBonusrookieArmorResistanceBonus z
+8¢3¢rookieSHTOptimalBonusrookieSHTOptimalBonus z
+D£?£rookieMissileKinDamageBonusrookieMissileKinDamageBonus z
+:§5§rookieECMStrengthBonusrookieECMStrengthBonus z
+<•7•rookieShieldResistBonusrookieShieldResistBonus z
+6¶1¶rookieSHTDamageBonusrookieSHTDamageBonus z
+.ß)ßrookieDroneBonusrookieDroneBonus z
+<®7®rookieDampStrengthBonusrookieDampStrengthBonus z
+4©/©rookieArmorRepBonusrookieArmorRepBonus z
+N™I™ rookieTargetPainterStrengthBonus rookieTargetPainterStrengthBonus z
+<´7´rookieShipVelocityBonusrookieShipVelocityBonus z
+6¨1¨rookieSPTDamageBonusrookieSPTDamageBonus z
+:≠5≠rookieShieldBoostBonusrookieShieldBoostBonus z
+>Æ9ÆminiProfessionRangeBonusminiProfessionRangeBonus z
+/Ø*ØdamageDelayDurationDamage Delay (
+B∞=∞energyTransferAmountBonusenergyTransferAmountBonus z(
+2≤-≤shipBonusOREfrig1shipBonusOREfrig1 z(	
+2≥-≥shipBonusOREfrig2shipBonusOREfrig2 z(	
+<¥7¥orbitalStrikeAccuracyOrbital Strike Accuracy z(
+8µ3µorbitalStrikeDamageOrbital Strike Damage z(
+&∂!∂cargoGroup2cargoGroup2 z(	
+:π5πresistanceShiftAmountresistanceShiftAmount z(
+8ª3ªsensorStrengthBonusSensor Strength Bonus i(
+.º)ºcanBeJettisonedCan Be Jettisoned z
+2æ-ædoesNotEmergencyWarpStable Shutdown â
+PøKø#AI_IgnoreDronesBelowSignatureRadiusIgnore Drones Below This Size (
+:¿5¿massPenaltyReductionMass Penalty Reduction i(
+0¡+¡rookieSETTrackingrookieSETTracking z
+.¬)¬rookieSETOptimalrookieSETOptimal z
+*√%√rookieNosDrainrookieNosDrain z
+,ƒ'ƒrookieNeutDrainrookieNeutDrain z
+,≈'≈rookieWebAmountrookieWebAmount z
+B∆=∆rookieLightMissileVelocityrookieLightMissileVelocity z
+6«1«rookieRocketVelocityrookieRocketVelocity z
+4»/»rookieDroneMWDspeedrookieDroneMWDspeed z
+0…+…rookieSHTTrackingrookieSHTTracking z
+. ) rookieSHTFalloffrookieSHTFalloff z
+0À+ÀrookieSPTTrackingrookieSPTTracking z
+.Ã)ÃrookieSPTFalloffrookieSPTFalloff z
+.Õ)ÕrookieSPTOptimalrookieSPTOptimal z
+0Œ+ŒcovertCloakCPUAddcovertCloakCPUAdd z
+8œ3œcovertCloakCPUPenaltycovertCloakCPUPenalty z
+0–+–canFitShipGroup5Can be fitted to s(
+0◊+◊canFitShipGroup6Can be fitted to s(
+0ÿ+ÿcanFitShipGroup7Can be fitted to s(
+0Ÿ+ŸcanFitShipGroup8Can be fitted to s(
+0⁄+⁄warfareLinkCPUAddwarfareLinkCPUAdd z
+8€3€warfareLinkCPUPenaltywarfareLinkCPUPenalty z
+Eﬁ@ﬁchargedArmorDamageMultiplierBoosted repair multiplier h(
+(ﬂ#ﬂshipBonusAD1shipBonusAD1 z(	
+(‡#‡shipBonusAD2shipBonusAD2 z(	
+*·%·shipBonusABC2shipBonusABC2 z(	
+0‚+‚nondestructibleNon-Destructible â(
+X„S„$allowedInCapIndustrialMaintenanceBay$allowedInCapIndustrialMaintenanceBay z(	
+P‰K‰ entityArmorRepairAmountPerSecond entityArmorRepairAmountPerSecond q(
+PÂKÂ entityShieldBoostAmountPerSecond entityShieldBoostAmountPerSecond q(
+8Ê3ÊentityCapacitorLevelentityCapacitorLevel m(
+RÁMÁ!entityCapacitorLevelModifierSmall!entityCapacitorLevelModifierSmall m(
+TËOË"entityCapacitorLevelModifierMedium"entityCapacitorLevelModifierMedium m(
+RÈMÈ!entityCapacitorLevelModifierLarge!entityCapacitorLevelModifierLarge m(
+4/securityProcessingFeeProcessing Fee Ö(
+MÒHÒmaxScanDeviationModifierModuleMaximum Scan Deviation Modifier i(
+/Ú*ÚscanDurationBonusDuration Bonus i(
+:Û5ÛscanStrengthBonusModuleScan Strength Bonus i(
+?Ù:ÙscanWormholeStrengthWormhole Signature Strength x(
+-ı(ıvirusCoherenceVirus Coherence z(
++ˆ&ˆvirusStrengthVirus Strength z(
+<˜7˜virusElementSlotsVirus Utility Element Slots z(
+3¯.¯spewContainerCountspewContainerCount ä
+8˘3˘defaultJunkLootTypeIDdefaultJunkLootTypeID t
+&˙!˙spewVelocityspewVelocity 
+
+8˚3˚virusCoherenceBonusVirus Coherence Bonus z(	
+5¸0¸followsJumpClonesFollows Jump Clones â(
+B˝=˝spewContainerLifeExtensionspewContainerLifeExtension 
+?˛:˛virusStrengthBonusAnalyzer Virus Strength Bonus z(
+,ˇ'ˇtierDifficultytierDifficulty z(	
+MÄHÄdisallowActivateInForcefield!Disallow activation in forcefield z(
+3Å.ÅcloneJumpCoolDownClone Jump Cool Down z
+;Ç6ÇwarfareLinkBonusWarfare Link Strength Bonus z(
+3É.ÉroleBonusMarauderReactivation Bonus i(
+>Ñ9ÑeliteBonusCommandShips3eliteBonusCommandShips3 z(	
+8Ö3ÖpiTaxReductionModiferEmpire Tax Modifier i(
+,Ü'ÜpiTaxReductionpiTaxReduction z(
+ááhackablehackable â
+<à7àsiphonRawMaterialRaw Material Siphon Amount ä(
+Bâ=âsiphonProMaterial Processed Material Siphon Amount ä(
+:ä5äsiphonWasteAmountAmount Destroyed On Steal i(
+7å2åimplantSetWarpSpeedAscendancy Set bonus h(

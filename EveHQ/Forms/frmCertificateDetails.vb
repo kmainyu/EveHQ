@@ -17,289 +17,305 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Text
+Imports System.ComponentModel
+Imports DevComponents.DotNetBar
+Imports EveHQ.EveData
+Imports EveHQ.Core
+Imports EveHQ.Common.Extensions
+Imports DevComponents.AdvTree
+Imports EveHQ.Core.ItemBrowser
 
-Public Class frmCertificateDetails
+Namespace Forms
 
-    Dim CertGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
-    Dim cDisplayPilotName As String
-    Dim displayPilot As New EveHQ.Core.Pilot
-    Public Property DisplayPilotName() As String
-        Get
-            Return cDisplayPilotName
-        End Get
-        Set(ByVal value As String)
-            cDisplayPilotName = value
-            DisplayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(value), Core.Pilot)
-        End Set
-    End Property
+    Public Class FrmCertificateDetails
 
-    Public Sub ShowCertDetails(ByVal certID As String)
+        Dim _displayPilotName As String
+        Dim _displayPilot As New EveHQPilot
 
-        Dim cCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
-        Me.Text = EveHQ.Core.HQ.CertificateClasses(cCert.ClassID.ToString).Name & " (" & CertGrades(cCert.Grade) & ")"
-        Call Me.PrepareDescription(certID)
-        Call Me.PrepareTree(certID)
-        Call Me.PrepareCerts(certID)
-        Call Me.PrepareDepends(certID)
+        Public Property DisplayPilotName() As String
+            Get
+                Return _displayPilotName
+            End Get
+            Set(ByVal value As String)
+                _displayPilotName = value
+                _displayPilot = HQ.Settings.Pilots(value)
+            End Set
+        End Property
 
-        If Me.IsHandleCreated = False Then
-            Me.Show()
-        Else
-            Me.BringToFront()
-        End If
+        Public Sub ShowCertDetails(ByVal certID As Integer)
 
-    End Sub
+            Dim cCert As Certificate = StaticData.Certificates(certID)
+            Text = cCert.Name
+            Call PrepareImage(certID)
+            Call PrepareDescription(certID)
+            Call PrepareTree(certID)
+            Call PrepareRecommendations(certID)
 
-    Private Sub PrepareDescription(ByVal certID As String)
-        Dim cCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
-        Me.lblDescription.Text = cCert.Description
-    End Sub
-
-    Private Sub PrepareCerts(ByVal certID As String)
-        Dim cCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
-        Dim cRCert As EveHQ.Core.Certificate
-        Dim newCert As New ListViewItem
-        lvwCerts.BeginUpdate()
-        lvwCerts.Items.Clear()
-        For Each cReqCert As String In cCert.RequiredCerts.Keys
-            cRCert = EveHQ.Core.HQ.Certificates(cReqCert)
-            newCert = New ListViewItem
-            newCert.Text = EveHQ.Core.HQ.CertificateClasses(cRCert.ClassID.ToString).Name
-            newCert.Name = cRCert.ID.ToString
-            newCert.SubItems.Add(CertGrades(cRCert.Grade))
-            If displayPilot.Certificates.Contains(cRCert.ID.ToString) = True Then
-                newCert.ForeColor = Color.Green
+            If IsHandleCreated = False Then
+                Show()
             Else
-                newCert.ForeColor = Color.Red
+                BringToFront()
             End If
-            lvwCerts.Items.Add(newCert)
-        Next
-        lvwCerts.EndUpdate()
-    End Sub
+        End Sub
 
-    Private Sub PrepareTree(ByVal certID As String)
-        Dim cCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
-        tvwReqs.BeginUpdate()
-        tvwReqs.Nodes.Clear()
+        Private Sub PrepareImage(certID As Integer)
+            Dim certGrade As Integer = 0
+            If _displayPilot.QualifiedCertificates.ContainsKey(certID) = True Then
+                certGrade = _displayPilot.QualifiedCertificates(certID)
+            End If
+            riCert.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & certGrade.ToString), Image)
+        End Sub
 
-        For Each skillID As String In cCert.RequiredSkills.Keys
+        Private Sub PrepareDescription(ByVal certID As Integer)
+            Dim cCert As Certificate = StaticData.Certificates(certID)
+            lblDescription.Text = cCert.Description
+        End Sub
 
-            Dim level As Integer = 1
-            Dim pointer(20) As Integer
-            Dim parent(20) As Integer
-            Dim skillName(20) As String
-            Dim skillLevel(20) As String
-            pointer(level) = 1
-            parent(level) = CInt(skillID)
+        Private Sub PrepareTree(ByVal certID As Integer)
+            Dim cCert As Certificate = StaticData.Certificates(certID)
+            tvwBasicReqs.BeginUpdate()
+            tvwBasicReqs.Nodes.Clear()
 
-            Dim strTree As String = ""
-            Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
-            Dim curSkill As Integer = CInt(skillID)
-            Dim curLevel As Integer = CInt(cCert.RequiredSkills(skillID))
-            Dim counter As Integer = 0
-            Dim curNode As TreeNode = New TreeNode
+            For Each grade As CertificateGrade In cCert.GradesAndSkills.Keys
 
-            ' Write the skill we are querying as the first (parent) node
-            curNode.Text = cSkill.Name & " (Level " & CStr(cCert.RequiredSkills(skillID)) & ")"
-            Dim skillTrained As Boolean = False
-            Dim myLevel As Integer = 0
-            skillTrained = False
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
-                If displayPilot.PilotSkills.Contains(cSkill.Name) Then
-                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                    mySkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
-                    myLevel = CInt(mySkill.Level)
-                    If myLevel >= curLevel Then skillTrained = True
-                    If skillTrained = True Then
-                        curNode.ForeColor = Color.LimeGreen
-                        curNode.ToolTipText = "Already Trained"
-                    Else
-                        Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
-                        If planLevel = 0 Then
-                            curNode.ForeColor = Color.Red
-                            curNode.ToolTipText = "Not trained & no planned training"
-                        Else
-                            curNode.ToolTipText = "Planned training to Level " & planLevel
-                            If planLevel >= curLevel Then
-                                curNode.ForeColor = Color.Blue
+                Dim currentTreeView As TreeView
+                Select Case grade
+                    Case CertificateGrade.Basic
+                        currentTreeView = tvwBasicReqs
+                    Case CertificateGrade.Standard
+                        currentTreeView = tvwStandardReqs
+                    Case CertificateGrade.Improved
+                        currentTreeView = tvwImprovedReqs
+                    Case CertificateGrade.Advanced
+                        currentTreeView = tvwAdvancedReqs
+                    Case CertificateGrade.Elite
+                        currentTreeView = tvwEliteReqs
+                    Case Else
+                        Throw New InvalidOperationException("Invalid Certificate grade data was found when processing '{0}'".FormatInvariant(cCert.Name))
+                End Select
+
+                For Each skillID As Integer In cCert.GradesAndSkills(grade).Keys
+                    Const Level As Integer = 1
+                    Dim pointer(20) As Integer
+                    Dim parentItem(20) As Integer
+                    pointer(Level) = 1
+                    parentItem(Level) = CInt(skillID)
+
+                    Dim cSkill As EveSkill = HQ.SkillListID(skillID)
+                    Dim curLevel As Integer = CInt(cCert.GradesAndSkills(grade)(skillID))
+                    Dim curNode As TreeNode = New TreeNode
+
+                    ' Write the skill we are querying as the first (parent) node
+                    curNode.Text = cSkill.Name & " (Level " & CStr(cCert.GradesAndSkills(grade)(skillID)) & ")"
+                    Dim skillTrained As Boolean
+                    Dim myLevel As Integer
+                    skillTrained = False
+                    If HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
+                        If _displayPilot.PilotSkills.ContainsKey(cSkill.Name) Then
+                            Dim mySkill As EveHQPilotSkill
+                            mySkill = _displayPilot.PilotSkills(cSkill.Name)
+                            myLevel = CInt(mySkill.Level)
+                            If myLevel >= curLevel Then skillTrained = True
+                            If skillTrained = True Then
+                                curNode.ForeColor = Color.LimeGreen
+                                curNode.ToolTipText = "Already Trained"
                             Else
-                                curNode.ForeColor = Color.Orange
+                                Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                                If planLevel = 0 Then
+                                    curNode.ForeColor = Color.Red
+                                    curNode.ToolTipText = "Not trained & no planned training"
+                                Else
+                                    curNode.ToolTipText = "Planned training to Level " & planLevel
+                                    If planLevel >= curLevel Then
+                                        curNode.ForeColor = Color.Blue
+                                    Else
+                                        curNode.ForeColor = Color.Orange
+                                    End If
+                                End If
+                            End If
+                        Else
+                            Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                            If planLevel = 0 Then
+                                curNode.ForeColor = Color.Red
+                                curNode.ToolTipText = "Not trained & no planned training"
+                            Else
+                                curNode.ToolTipText = "Planned training to Level " & planLevel
+                                If planLevel >= curLevel Then
+                                    curNode.ForeColor = Color.Blue
+                                Else
+                                    curNode.ForeColor = Color.Orange
+                                End If
                             End If
                         End If
                     End If
-                Else
-                    Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, cSkill.Name, curLevel)
-                    If planLevel = 0 Then
-                        curNode.ForeColor = Color.Red
-                        curNode.ToolTipText = "Not trained & no planned training"
-                    Else
-                        curNode.ToolTipText = "Planned training to Level " & planLevel
-                        If planLevel >= curLevel Then
-                            curNode.ForeColor = Color.Blue
-                        Else
-                            curNode.ForeColor = Color.Orange
-                        End If
-                    End If
-                End If
-            End If
-            tvwReqs.Nodes.Add(curNode)
+                    currentTreeView.Nodes.Add(curNode)
 
-            If cSkill.PreReqSkills.Count > 0 Then
-                Dim subSkill As EveHQ.Core.EveSkill
-                For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                    subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
-                    Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
+                    If cSkill.PreReqSkills.Count > 0 Then
+                        Dim subSkill As EveSkill
+                        For Each subSkillID As Integer In cSkill.PreReqSkills.Keys
+                            subSkill = HQ.SkillListID(subSkillID)
+                            Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
+                        Next
+                    End If
                 Next
-            End If
-        Next
-        tvwReqs.ExpandAll()
-        tvwReqs.EndUpdate()
-    End Sub
-
-    Private Sub AddPreReqsToTree(ByVal newSkill As EveHQ.Core.EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode)
-        Dim skillTrained As Boolean = False
-        Dim myLevel As Integer = 0
-        Dim newNode As TreeNode = New TreeNode
-        newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
-        newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
-        ' Check status of this skill
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
-            skillTrained = False
-            myLevel = 0
-            If displayPilot.PilotSkills.Contains(newSkill.Name) Then
-                Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
-                myLevel = CInt(mySkill.Level)
-                If myLevel >= curLevel Then skillTrained = True
-            End If
-            If skillTrained = True Then
-                newNode.ForeColor = Color.LimeGreen
-                newNode.ToolTipText = "Already Trained"
-            Else
-                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(displayPilot, newSkill.Name, curLevel)
-                If planLevel = 0 Then
-                    newNode.ForeColor = Color.Red
-                    newNode.ToolTipText = "Not trained & no planned training"
-                Else
-                    newNode.ToolTipText = "Planned training to Level " & planLevel
-                    If planLevel >= curLevel Then
-                        newNode.ForeColor = Color.Blue
-                    Else
-                        newNode.ForeColor = Color.Orange
-                    End If
-                End If
-            End If
-        End If
-        curNode.Nodes.Add(newNode)
-        curNode = newNode
-
-        If newSkill.PreReqSkills.Count > 0 Then
-            Dim subSkill As EveHQ.Core.EveSkill
-            For Each subSkillID As String In newSkill.PreReqSkills.Keys
-                subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
-                Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
             Next
-        End If
-    End Sub
+            tvwBasicReqs.ExpandAll()
+            tvwStandardReqs.ExpandAll()
+            tvwImprovedReqs.ExpandAll()
+            tvwAdvancedReqs.ExpandAll()
+            tvwEliteReqs.ExpandAll()
+            tvwBasicReqs.EndUpdate()
+        End Sub
 
-    Private Sub PrepareDepends(ByVal certID As String)
-        ' Add the certificate unlocks
-        lvwDepend.BeginUpdate()
-        lvwDepend.Items.Clear()
-        If EveHQ.Core.HQ.CertUnlockCerts.ContainsKey(certID) = True Then
-            Dim certUnlocks As ArrayList = EveHQ.Core.HQ.CertUnlockCerts(certID)
-            If certUnlocks IsNot Nothing Then
-                For Each item As String In certUnlocks
-                    Dim itemGrade As String = ""
-                    Dim newItem As New ListViewItem
-                    Dim toolTipText As New StringBuilder
-                    newItem.Group = lvwDepend.Groups("CatCerts")
-                    Dim cert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(item)
-                    Dim certName As String = EveHQ.Core.HQ.CertificateClasses(cert.ClassID.ToString).Name
-                    Dim certGrade As String = CertGrades(cert.Grade)
-                    For Each reqCertID As String In cert.RequiredCerts.Keys
-                        Dim reqCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(reqCertID)
-                        If reqCert.ID.ToString <> certID Then
-                            toolTipText.Append(EveHQ.Core.HQ.CertificateClasses(reqCert.ClassID.ToString).Name)
-                            toolTipText.Append(" (")
-                            toolTipText.Append(CertGrades(reqCert.Grade))
-                            toolTipText.Append("), ")
-                        End If
-                    Next
-                    If toolTipText.Length > 0 Then
-                        toolTipText.Insert(0, "Also Requires: ")
-
-                        If (toolTipText.ToString().EndsWith(", ")) Then
-                            toolTipText.Remove(toolTipText.Length - 2, 2)
-                        End If
-                    End If
-
-                    If displayPilot.Certificates.Contains(cert.ID.ToString) = True Then
-                        newItem.ForeColor = Color.Green
+        Private Sub AddPreReqsToTree(ByVal newSkill As EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode)
+            Dim skillTrained As Boolean
+            Dim newNode As TreeNode = New TreeNode
+            newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
+            newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
+            ' Check status of this skill
+            If HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
+                skillTrained = False
+                Dim myLevel As Integer
+                If _displayPilot.PilotSkills.ContainsKey(newSkill.Name) Then
+                    Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
+                    myLevel = CInt(mySkill.Level)
+                    If myLevel >= curLevel Then skillTrained = True
+                End If
+                If skillTrained = True Then
+                    newNode.ForeColor = Color.LimeGreen
+                    newNode.ToolTipText = "Already Trained"
+                Else
+                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, newSkill.Name, curLevel)
+                    If planLevel = 0 Then
+                        newNode.ForeColor = Color.Red
+                        newNode.ToolTipText = "Not trained & no planned training"
                     Else
-                        newItem.ForeColor = Color.Red
+                        newNode.ToolTipText = "Planned training to Level " & planLevel
+                        If planLevel >= curLevel Then
+                            newNode.ForeColor = Color.Blue
+                        Else
+                            newNode.ForeColor = Color.Orange
+                        End If
                     End If
+                End If
+            End If
+            curNode.Nodes.Add(newNode)
 
-                    newItem.ToolTipText = toolTipText.ToString()
-                    newItem.Text = certName
-                    newItem.Name = cert.ID.ToString
-                    newItem.SubItems.Add(certGrade)
-                    newItem.Name = item
-                    lvwDepend.Items.Add(newItem)
+            If newSkill.PreReqSkills.Count > 0 Then
+                Dim subSkill As EveSkill
+                For Each subSkillID As Integer In newSkill.PreReqSkills.Keys
+                    subSkill = HQ.SkillListID(subSkillID)
+                    Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
                 Next
             End If
-        End If
-        lvwDepend.EndUpdate()
-    End Sub
+        End Sub
 
-    Private Sub ctxSkills_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxSkills.Opening
-        Dim curNode As TreeNode = New TreeNode
-        curNode = tvwReqs.SelectedNode
-        Dim skillName As String = ""
-        Dim skillID As String = ""
-        skillName = curNode.Text
-        If InStr(skillName, "(Level") <> 0 Then
-            skillName = skillName.Substring(0, InStr(skillName, "(Level") - 1).Trim(Chr(32))
-        End If
-        skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
-        mnuSkillName.Text = skillName
-        mnuSkillName.Tag = skillID
-    End Sub
+        Private Sub PrepareRecommendations(certID As Integer)
+            Dim certGroupStyle As ElementStyle = adtShips.Styles("SkillGroup").Copy
+            certGroupStyle.BackColor = Color.FromArgb(CInt(HQ.Settings.PilotGroupBackgroundColor))
+            certGroupStyle.BackColor2 = Color.Black
+            certGroupStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotGroupTextColor))
+            Dim selSkillStyle As ElementStyle = adtShips.Styles("Skill").Copy
+            selSkillStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotSkillHighlightColor))
+            selSkillStyle.BackColor = Color.FromArgb(32, selSkillStyle.BackColor2)
 
-    Private Sub mnuViewSkillDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSkillDetails.Click
-        Dim skillID As String = mnuSkillName.Tag.ToString
-        frmSkillDetails.DisplayPilotName = cDisplayPilotName
-        Call frmSkillDetails.ShowSkillDetails(skillID)
-    End Sub
-
-    Private Sub tvwReqs_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwReqs.NodeMouseClick
-        tvwReqs.SelectedNode = e.Node
-    End Sub
-
-    Private Sub ctxCerts_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxCerts.Opening
-        Dim curNode As New ListViewItem
-        If ctxCerts.SourceControl.Name = "lvwCerts" Then
-            If lvwCerts.SelectedItems.Count > 0 Then
-                mnuCertName.Text = lvwCerts.SelectedItems(0).Text & " (" & lvwCerts.SelectedItems(0).SubItems(1).Text & ")"
-                mnuCertName.Tag = lvwCerts.SelectedItems(0).Name
+            Dim groupNodes As New SortedList(Of String, Node) ' groupName, groupNode
+            Dim cert As Certificate = StaticData.Certificates(certID)
+            adtShips.BeginUpdate()
+            adtShips.Nodes.Clear()
+            For Each shipID As Integer In cert.RecommendedTypes
+                Dim ship As EveType = StaticData.Types(shipID)
+                Dim shipNode As New Node(ship.Name)
+                shipNode.FullRowBackground = True
+                shipNode.StyleSelected = selSkillStyle
+                If groupNodes.ContainsKey(StaticData.TypeGroups(ship.Group)) = False Then
+                    ' Create a new node
+                    Dim groupNode As New Node(StaticData.TypeGroups(ship.Group))
+                    groupNode.Style = certGroupStyle
+                    groupNode.FullRowBackground = True
+                    groupNodes.Add(groupNode.Text, groupNode)
+                End If
+                ' Add the ship to the group node
+                groupNodes(StaticData.TypeGroups(ship.Group)).Nodes.Add(shipNode)
+                shipNode.Image = ImageHandler.GetImage(shipID, 32)
+                shipNode.ContextMenu = ctxShips
+            Next
+            ' Add all the group nodes
+            For Each groupNode As Node In groupNodes.Values
+                adtShips.Nodes.Add(groupNode)
+                groupNode.Text &= " [" & groupNode.Nodes.Count.ToString & "]"
+            Next
+            adtShips.EndUpdate()
+            ' Hide the tab if no recommendations
+            If adtShips.Nodes.Count = 0 Then
+                recommendedTab.Visible = False
+            Else
+                recommendedTab.Visible = True
             End If
-        Else
-            If lvwDepend.SelectedItems.Count > 0 Then
-                mnuCertName.Text = lvwDepend.SelectedItems(0).Text & " (" & lvwDepend.SelectedItems(0).SubItems(1).Text & ")"
-                mnuCertName.Tag = lvwDepend.SelectedItems(0).Name
+        End Sub
+
+        Private Sub ctxSkills_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxSkills.Opening
+            Dim ctx As ContextMenuStrip = CType(sender, ContextMenuStrip)
+            Dim curNode As TreeNode = CType(ctx.SourceControl, TreeView).SelectedNode
+            Dim skillName As String
+            Dim skillID As Integer
+            skillName = curNode.Text
+            If InStr(skillName, "(Level") <> 0 Then
+                skillName = skillName.Substring(0, InStr(skillName, "(Level") - 1).Trim(Chr(32))
             End If
-        End If
-    End Sub
+            skillID = SkillFunctions.SkillNameToID(skillName)
+            mnuSkillName.Text = skillName
+            mnuSkillName.Tag = skillID
+        End Sub
 
-    Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
-        Dim certID As String = mnuCertName.Tag.ToString
-        Dim cCert As EveHQ.Core.Certificate = EveHQ.Core.HQ.Certificates(certID)
-        Me.Text = EveHQ.Core.HQ.CertificateClasses(cCert.ClassID.ToString).Name & " (" & CertGrades(cCert.Grade) & ")"
-        Call Me.PrepareDescription(certID)
-        Call Me.PrepareTree(certID)
-        Call Me.PrepareCerts(certID)
-        Call Me.PrepareDepends(certID)
-    End Sub
+        Private Sub mnuViewSkillDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewSkillDetails.Click
+            Dim skillID As Integer = CInt(mnuSkillName.Tag)
+            FrmSkillDetails.DisplayPilotName = _displayPilotName
+            Call FrmSkillDetails.ShowSkillDetails(skillID)
+        End Sub
 
-End Class
+        Private Sub tvwBasicReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwBasicReqs.NodeMouseClick
+            tvwBasicReqs.SelectedNode = e.Node
+        End Sub
+
+        Private Sub tvwStandardReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwStandardReqs.NodeMouseClick
+            tvwStandardReqs.SelectedNode = e.Node
+        End Sub
+
+        Private Sub tvwImprovedReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwImprovedReqs.NodeMouseClick
+            tvwImprovedReqs.SelectedNode = e.Node
+        End Sub
+
+        Private Sub tvwAdvancedReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwAdvancedReqs.NodeMouseClick
+            tvwAdvancedReqs.SelectedNode = e.Node
+        End Sub
+
+        Private Sub tvwEliteReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwEliteReqs.NodeMouseClick
+            tvwEliteReqs.SelectedNode = e.Node
+        End Sub
+
+        Private Sub mnuShowInfo_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuShowInfo.Click
+            Dim typeID As Integer = CInt(mnuShipName.Tag)
+            Using myIB As New FrmIB(typeID)
+                myIB.ShowDialog()
+            End Using
+        End Sub
+
+        Private Sub adtShips_NodeClick(sender As Object, e As TreeNodeMouseEventArgs) Handles adtShips.NodeClick
+            If e.Node.Level = 0 Then
+                e.Node.Toggle()
+            End If
+        End Sub
+
+        Private Sub ctxShips_Opening(sender As System.Object, e As System.ComponentModel.CancelEventArgs) Handles ctxShips.Opening
+            Dim ctx As ContextMenuStrip = CType(sender, ContextMenuStrip)
+            Dim selNode As Node = CType(ctx.SourceControl, AdvTree).SelectedNode
+            If selNode IsNot Nothing Then
+                mnuShipName.Text = selNode.Text
+                mnuShipName.Tag = StaticData.TypeNames(selNode.Text)
+            Else
+                e.Cancel = True
+            End If
+        End Sub
+    End Class
+End Namespace

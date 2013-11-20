@@ -17,32 +17,34 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-<Serializable()> Public Class ItemSkills
-    Public ID As String
-    Public Name As String
-    Public Level As Integer
+Imports ProtoBuf
+
+<ProtoContract()> <Serializable()> Public Class ItemSkills
+    <ProtoMember(1)> Public Property ID As Integer
+    <ProtoMember(2)> Public Property Name As String
+    <ProtoMember(3)> Public Property Level As Integer
 End Class
 
-<Serializable()> Public Class NeededSkillsCollection
-    Public ShipPilotSkills As New ArrayList
-    Public TruePilotSkills As New ArrayList
+<ProtoContract()> <Serializable()> Public Class NeededSkillsCollection
+    <ProtoMember(1)> Public Property ShipPilotSkills As New ArrayList
+    <ProtoMember(2)> Public Property TruePilotSkills As New ArrayList
 End Class
 
-<Serializable()> Public Class ReqSkill
-    Public ID As String
-    Public Name As String
-    Public ReqLevel As Integer
-    Public CurLevel As Integer
-    Public NeededFor As String
+<ProtoContract()> <Serializable()> Public Class ReqSkill
+    <ProtoMember(1)> Public Property ID As Integer
+    <ProtoMember(2)> Public Property Name As String
+    <ProtoMember(3)> Public Property ReqLevel As Integer
+    <ProtoMember(4)> Public Property CurLevel As Integer
+    <ProtoMember(5)> Public Property NeededFor As String
 End Class
 
-<Serializable()> Public Class Skill
-    Public ID As String
-    Public Name As String
-    Public GroupID As String
-    Public Attributes As New SortedList
+<ProtoContract()> <Serializable()> Public Class Skill
+    <ProtoMember(1)> Public Property ID As Integer
+    <ProtoMember(2)> Public Property Name As String
+    <ProtoMember(3)> Public Property GroupID As String
+    <ProtoMember(4)> Public Property Attributes As New SortedList(Of Integer, Double)
 End Class
 
-<Serializable()> Public Class SkillLists
-    Public Shared SkillList As New SortedList
+Public Class SkillLists
+    Public Shared SkillList As New SortedList(Of Integer, Skill) ' SkillID, Skill
 End Class

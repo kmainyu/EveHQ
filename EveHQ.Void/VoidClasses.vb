@@ -25,26 +25,34 @@ Public Class VoidData
 End Class
 
 Public Class WormHole
-    Public ID As String
-    Public Name As String
-    Public TargetClass As String
-    Public MaxStabilityWindow As String
-    Public MaxMassCapacity As String
-    Public MassRegeneration As String
-    Public MaxJumpableMass As String
-    Public TargetDistributionID As String
+    Public Property ID As String
+    Public Property Name As String
+    Public Property TargetClass As String
+    Public Property MaxStabilityWindow As String
+    Public Property MaxMassCapacity As String
+    Public Property MassRegeneration As String
+    Public Property MaxJumpableMass As String
+    Public Property TargetDistributionID As String
 End Class
 
 Public Class WormholeSystem
-    Public ID As String
-    Public Name As String
-    Public Constellation As String
-    Public Region As String
-    Public WClass As String
-    Public WEffect As String
+    Public Property ID As String
+    Public Property Name As String
+    Public Property Constellation As String
+    Public Property Region As String
+    Public Property WClass As String
+    Public Property WEffect As String
 End Class
 
 Public Class WormholeEffect
-    Public WormholeType As String
-    Public Attributes As New SortedList(Of String, Double)
+    Public Property WormholeType As String
+    Public Property Attributes As New SortedList(Of String, Double)
+End Class
+
+Public Class TypeAttributeQuery
+    Public Property TypeID As Long
+    Public Property TypeName As String
+    Public Property AttributeID As Integer
+    Public Property UnitID As Integer
+    Public Property Value As Double
 End Class

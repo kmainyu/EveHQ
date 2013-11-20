@@ -6,9 +6,11 @@ SetCompressor /solid lzma
 !include DotNetFramework.nsh
 !include MUI2.nsh
 !include x64.nsh
-!include SQLCE40.nsh
 !include Upgrade.nsh
 !include DirClean.nsh
+!include "FileFunc.nsh"
+
+
 
  
 Name "EveHQ"
@@ -45,8 +47,6 @@ VIProductVersion 1.0.0.0
 !insertmacro MUI_PAGE_WELCOME
 
 #License
-!define MUI_LICENSEPAGE_CHECKBOX
-!define MUI_LICENSEPAGE_CHECKBOX_TEXT "I accept the terms"
 !insertmacro MUI_PAGE_LICENSE ..\EveHQ\License.txt
 
 #Install directory
@@ -63,8 +63,9 @@ Var StartMenuFolder
 !insertmacro MUI_PAGE_INSTFILES
 
 #Finish page
-!define MUI_FINISHPAGE_RUN $INSTDIR\EveHQ.exe
-!define MUI_FINISHPAGE_RUN_TEXT "Run EveHQ.exe"
+
+#!define MUI_FINISHPAGE_RUN $INSTDIR\EveHQ.exe /local
+#!define MUI_FINISHPAGE_RUN_TEXT "Run EveHQ.exe"
 !define MUI_FINISHPAGE_SHOWREADME ""
 !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "Create Desktop Shortcut"
@@ -85,8 +86,11 @@ Section "EveHQ Files"
 
 SectionIn RO
   
-  ; Set output path to the installation directory.
+###################################################################
+# Program files                                                   #
+###################################################################
   SetOutPath $INSTDIR
+  
   File "..\BuildOutput\Debug\DevComponents.DotNetBar2.dll"
   File "..\BuildOutput\Debug\EveCacheParser.dll"
   File "..\BuildOutput\Debug\EveHQ.Caching.dll"
@@ -94,20 +98,15 @@ SectionIn RO
   File "..\BuildOutput\Debug\EveHQ.Common.dll"
   File "..\BuildOutput\Debug\EveHQ.Core.dll"
   File "..\BuildOutput\Debug\EveHQ.Core.pdb"
-  File "..\BuildOutput\Debug\EveHQ.CoreControls.dll"
-  File "..\BuildOutput\Debug\EveHQ.CoreControls.pdb"
-  File "..\BuildOutput\Debug\EveHQ.DataUpgrader.exe"
-  File "..\BuildOutput\Debug\EveHQ.DataUpgrader.pdb"
-  File "..\BuildOutput\Debug\EveHQ.DataUpgrader.exe.config"
   File "..\BuildOutput\Debug\EveHQ.EveAPI.dll"
   File "..\BuildOutput\Debug\EveHQ.EveAPI.pdb"
+  File "..\BuildOutput\Debug\EveHQ.EveData.dll"
+  File "..\BuildOutput\Debug\EveHQ.EveData.pdb"
   File "..\BuildOutput\Debug\EveHQ.exe"
   File "..\BuildOutput\Debug\EveHQ.pdb"
   File "..\BuildOutput\Debug\EveHQ.exe.config"
   File "..\BuildOutput\Debug\EveHQ.HQF.dll"
   File "..\BuildOutput\Debug\EveHQ.HQF.pdb"
-  File "..\BuildOutput\Debug\EveHQ.ItemBrowser.dll"
-  File "..\BuildOutput\Debug\EveHQ.ItemBrowser.pdb"
   File "..\BuildOutput\Debug\EveHQ.KillMailViewer.dll"
   File "..\BuildOutput\Debug\EveHQ.KillMailViewer.pdb"
   File "..\BuildOutput\Debug\EveHQ.Market.dll"
@@ -116,12 +115,15 @@ SectionIn RO
   File "..\BuildOutput\Debug\EveHQ.Prism.pdb"
   File "..\BuildOutput\Debug\EveHQ.Void.dll"
   File "..\BuildOutput\Debug\EveHQ.Void.pdb"
-  File "..\BuildOutput\Debug\EveHQPatcher.exe"
-  File "..\BuildOutput\Debug\EveHQPatcher.pdb"
-  File "..\BuildOutput\Debug\EveHQPatcher.exe.config"
   File "..\BuildOutput\Debug\GammaJul.lglcd.dll"
+  File "..\BuildOutput\Debug\GammaJul.lglcd.Native32.dll"
+  File "..\BuildOutput\Debug\GammaJul.lglcd.Native64.dll"
   File "..\BuildOutput\Debug\Ionic.Zip.dll"
   File "..\BuildOutput\Debug\Newtonsoft.json.dll"
+  File "..\BuildOutput\Debug\protobuf-net.dll"
+  File "..\BuildOutput\Debug\EveHQ.SettingsConverter.exe"
+  File "..\BuildOutput\Debug\EveHQ.SettingsConverter.pdb"
+  File "..\BuildOutput\Debug\System.Data.SQLite.dll"
   File "..\BuildOutput\Debug\System.Net.Http.dll"
   File "..\BuildOutput\Debug\System.Net.Http.Extensions.dll"
   File "..\BuildOutput\Debug\System.Net.Http.Primitives.dll"
@@ -129,14 +131,72 @@ SectionIn RO
   File "..\BuildOutput\Debug\System.Runtime.dll"
   File "..\BuildOutput\Debug\System.Threading.Tasks.dll"
   File "..\EveHQ\License.txt"
+
+###################################################################
+# Data files                                                      #
+###################################################################
+
+
+  SetOutPath $INSTDIR\StaticData
+
+	File "..\BuildOutput\Debug\StaticData\Agents.dat"
+	File "..\BuildOutput\Debug\StaticData\AssemblyArrays.dat"
+	File "..\BuildOutput\Debug\StaticData\attributes.dat"
+	File "..\BuildOutput\Debug\StaticData\AttributeTypes.dat"
+	File "..\BuildOutput\Debug\StaticData\Blueprints.dat"
+	File "..\BuildOutput\Debug\StaticData\boosters.dat"
+	File "..\BuildOutput\Debug\StaticData\CertCats.dat"
+	File "..\BuildOutput\Debug\StaticData\CertRec.dat"
+	File "..\BuildOutput\Debug\StaticData\Certs.dat"
+	File "..\BuildOutput\Debug\StaticData\CertSkills.dat"
+	File "..\BuildOutput\Debug\StaticData\Constellations.dat"
+	File "..\BuildOutput\Debug\StaticData\Divisions.dat"
+	File "..\BuildOutput\Debug\StaticData\EffectTypes.dat"
+	File "..\BuildOutput\Debug\StaticData\GroupCats.dat"
+	File "..\BuildOutput\Debug\StaticData\implants.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemCats.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemFlags.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemGroups.bin"
+	File "..\BuildOutput\Debug\StaticData\ItemGroups.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemList.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemMarketGroups.dat"
+	File "..\BuildOutput\Debug\StaticData\Items.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemUnlocks.dat"
+	File "..\BuildOutput\Debug\StaticData\MarketGroups.dat"
+	File "..\BuildOutput\Debug\StaticData\Masteries.dat"
+	File "..\BuildOutput\Debug\StaticData\MetaGroups.dat"
+	File "..\BuildOutput\Debug\StaticData\MetaTypes.dat"
+	File "..\BuildOutput\Debug\StaticData\modules.dat"
+	File "..\BuildOutput\Debug\StaticData\NPCCorps.dat"
+	File "..\BuildOutput\Debug\StaticData\Regions.dat"
+	File "..\BuildOutput\Debug\StaticData\ShipGroups.bin"
+	File "..\BuildOutput\Debug\StaticData\ships.dat"
+	File "..\BuildOutput\Debug\StaticData\skills.dat"
+	File "..\BuildOutput\Debug\StaticData\SkillUnlocks.dat"
+	File "..\BuildOutput\Debug\StaticData\Stations.dat"
+	File "..\BuildOutput\Debug\StaticData\Systems.dat"
+  File "..\BuildOutput\Debug\StaticData\TypeAttributes.dat"
+  File "..\BuildOutput\Debug\StaticData\TypeEffects.dat"
+  File "..\BuildOutput\Debug\StaticData\Units.dat"
   
-  SetOutPath $APPDATA\EveHQ
-  File "..\EveHQ.Data\EveHQ.sdf"
-    # delete cache files
-  Delete $APPDATA\EveHQ\HQF\Cache\*.*
+  # delete cache files
+  
+${If} $useLocalFlag == "1" 
+   Delete $INSTDIR\EveHQ\HQF\Cache\*.*
+  Delete $INSTDIR\EveHQ\CoreCache\*.*
+  Delete $INSTDIR\EveHQ\ImageCache\*.*
+  !insertmacro RemoveFilesAndSubDirs "$INSTDIR\EveHQ\MarketCache\"
+${Else}
+   Delete $APPDATA\EveHQ\HQF\Cache\*.*
   Delete $APPDATA\EveHQ\CoreCache\*.*
+  Delete $APPDATA\EveHQ\ImageCache\*.*
   !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\MarketCache\"
+${EndIf}
   
+ SetOutPath $INSTDIR
+  
+  
+
  ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\EveHQ "Install_Dir" "$INSTDIR"
   
@@ -144,7 +204,11 @@ SectionIn RO
   !insertmacro MUI_STARTMENU_WRITE_BEGIN EveHQ
 	 SetShellVarContext current
 		 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-		 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe"
+${If} $useLocalFlag == "1"
+		 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe" "/local"
+${Else}
+     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe"
+${EndIf}
 	!insertmacro MUI_STARTMENU_WRITE_END
   
   ; Write the uninstall keys for Windows
@@ -170,7 +234,17 @@ Section "un.Uninstall"
   DeleteRegKey HKLM SOFTWARE\EveHQ
 
   ; Remove files and uninstaller
-  Delete $INSTDIR\*.*
+  Delete $INSTDIR\*.exe
+  Delete $INSTDIR\*.dll
+  Delete $INSTDIR\*.pdb
+  Delete $INSTDIR\*.txt
+  
+${If} $useLocalFlag == "1" 
+  !insertmacro RemoveFilesAndSubDirs "$INSTDIR\StaticData" 
+${Else}
+  !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\StaticData" 
+${EndIf}
+
 
   ; Remove shortcuts, if any
   !insertmacro MUI_STARTMENU_GETFOLDER EveHQ $StartMenuFolder
@@ -191,6 +265,7 @@ SectionEnd
 #Functions
 #--------------------------------------------
 
+
 Function .onInit
 
 # make sure it isn't running
@@ -209,6 +284,7 @@ push $R0
   StrCpy $R0 {5EBB0328-70C2-4A58-A4AC-225419B25E51}
   Call UninstallMSI
 pop $R0
+
 
 #2.11.8
 push $R0
@@ -308,12 +384,27 @@ Please manually uninstall the existing installation and then re-run this install
 abort
 
 
-
 done:
 
+var /GLOBAL cmdParams
+
+${GetParameters} $cmdParams
+
+var /GLOBAL useLocalFlag
+StrCpy $useLocalFlag 0
+
+#Check input parameters given to the installer.
+
+    ; /local
+
+    ${GetOptions} $cmdLineParams 'local' $R0
+
+    IfErrors +2 0
+
+    StrCpy $useLocalFlag 1
+    
 
 FunctionEnd
-
 
 Function un.onInit
 
@@ -322,7 +413,11 @@ FunctionEnd
 
 
 Function CreateDesktopShortcut
+${If} $useLocalFlag == "1"
+CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe" "/local"
+${Else}
 CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe"
+${EndIf}
 FunctionEnd
 
 
@@ -392,3 +487,5 @@ Function un.EveHQNotRunning
  
 	success:
 FunctionEnd
+
+

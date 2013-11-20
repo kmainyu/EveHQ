@@ -17,31 +17,21 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class RSSTwitterItem
-    Private Sub lblFeedItemTitle_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs)
-        Try
-            If lblFeedItemTitle.Tag IsNot Nothing Then
-                Dim URL As String = lblFeedItemTitle.Tag.ToString
-                If URL <> "" Then
-                    Process.Start(URL)
+Namespace Controls
+    Public Class RSSTwitterItem
+       
+        Private Sub lblFeedItemTitle_MarkupLinkClick(sender As Object, e As DevComponents.DotNetBar.MarkupLinkClickEventArgs) Handles lblFeedItemTitle.MarkupLinkClick
+            Try
+                If lblFeedItemTitle.Tag IsNot Nothing Then
+                    Dim url As String = e.HRef
+                    If url <> "" Then
+                        Process.Start(url)
+                    End If
                 End If
-            End If
-        Catch ex As Exception
-            ' Suppress any error message and do nothing
-        End Try
-    End Sub
+            Catch ex As Exception
+                ' Suppress any error message and do nothing
+            End Try
+        End Sub
 
-    Private Sub lblFeedItemTitle_MarkupLinkClick(sender As Object, e As DevComponents.DotNetBar.MarkupLinkClickEventArgs) Handles lblFeedItemTitle.MarkupLinkClick
-        Try
-            If lblFeedItemTitle.Tag IsNot Nothing Then
-                Dim URL As String = e.HRef
-                If URL <> "" Then
-                    Process.Start(URL)
-                End If
-            End If
-        Catch ex As Exception
-            ' Suppress any error message and do nothing
-        End Try
-    End Sub
-
-End Class
+    End Class
+End NameSpace

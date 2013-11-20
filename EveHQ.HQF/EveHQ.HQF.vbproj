@@ -45,7 +45,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>EveHQ.HQF.xml</DocumentationFile>
     <NoWarn>42353,42354,42355,40010</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <Optimize>false</Optimize>
@@ -64,9 +64,16 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevComponents.DotNetBar2, Version=8.6.0.2, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+    <Reference Include="DevComponents.DotNetBar2, Version=11.4.0.4, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\EveHQ.Core\ExternalLibs\DevComponents.DotNetBar2.dll</HintPath>
+      <HintPath>..\Ref\DotNetBar\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\Ref\Protobuf\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -76,6 +83,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -92,54 +100,43 @@
     <Compile Include="Classes\Booster.vb" />
     <Compile Include="Classes\Capacitor.vb" />
     <Compile Include="Classes\Charges.vb" />
+    <Compile Include="Classes\DNAFitting.vb" />
+    <Compile Include="Classes\IGBData.vb" />
+    <Compile Include="Forms\frmShipSelection.Designer.vb">
+      <DependentUpon>frmShipSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmShipSelection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_Deprecated\ImplantGroup.vb" />
+    <Compile Include="_New\FittingPilots.vb" />
+    <Compile Include="_New\FittingSkill.vb" />
+    <Compile Include="_New\FittingPilot.vb" />
     <Compile Include="Classes\CustomShip.vb" />
     <Compile Include="Classes\CustomShipClass.vb" />
     <Compile Include="Classes\CustomHQFClasses.vb" />
-    <Compile Include="Classes\DamageProfiles.vb" />
-    <Compile Include="Classes\DefenceProfiles.vb" />
+    <Compile Include="_Deprecated\HQFPilotCollection.vb" />
+    <Compile Include="_Deprecated\HQFSkill.vb" />
+    <Compile Include="_Deprecated\DamageProfiles.vb" />
+    <Compile Include="_Deprecated\DefenceProfiles.vb" />
     <Compile Include="Classes\Effect.vb" />
     <Compile Include="Classes\EffectFunctions.vb" />
     <Compile Include="Classes\Fitting.vb" />
     <Compile Include="Classes\FittingItems.vb" />
     <Compile Include="Classes\ImageHandler.vb" />
+    <Compile Include="Classes\ResourceHandler.vb" />
     <Compile Include="Classes\SavedFitting.vb" />
-    <Compile Include="Classes\FleetManager.vb" />
     <Compile Include="Classes\HQFEvents.vb" />
-    <Compile Include="Classes\HQFPilot.vb" />
-    <Compile Include="Classes\ListViewNoFlicker.Designer.vb">
-      <DependentUpon>ListViewNoFlicker.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\ListViewNoFlicker.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="_Deprecated\HQFPilot.vb" />
     <Compile Include="Classes\Market.vb" />
-    <Compile Include="Classes\NPCs.vb" />
     <Compile Include="Classes\PlugInData.vb" />
     <Compile Include="Classes\SavedFittings.vb" />
-    <Compile Include="Classes\Settings.vb" />
+    <Compile Include="_Deprecated\Settings.vb" />
     <Compile Include="Classes\Fittings.vb" />
     <Compile Include="Controls\EveSpace.Designer.vb">
       <DependentUpon>EveSpace.vb</DependentUpon>
     </Compile>
     <Compile Include="Controls\EveSpace.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\FleetDashboard.Designer.vb">
-      <DependentUpon>FleetDashboard.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\FleetDashboard.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ShipWidget.Designer.vb">
-      <DependentUpon>ShipWidget.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ShipWidget.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ShipWidgetModules.Designer.vb">
-      <DependentUpon>ShipWidgetModules.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ShipWidgetModules.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\frmAddDefenceProfile.Designer.vb">
@@ -152,18 +149,6 @@
       <DependentUpon>frmCapSim.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmCapSim.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmFittingPopup.Designer.vb">
-      <DependentUpon>frmFittingPopup.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmFittingPopup.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmFleetManager.Designer.vb">
-      <DependentUpon>frmFleetManager.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmFleetManager.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmFittingBrowser.Designer.vb">
@@ -310,7 +295,7 @@
     <Compile Include="Forms\frmShowInfo.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\Implant.vb" />
+    <Compile Include="Classes\ImplantCollection.vb" />
     <Compile Include="Forms\frmTargetSpeed.Designer.vb">
       <DependentUpon>frmTargetSpeed.vb</DependentUpon>
     </Compile>
@@ -355,19 +340,17 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Classes\Skills.vb" />
+    <Compile Include="_New\HQFDamageProfile.vb" />
+    <Compile Include="_New\HQFDamageProfiles.vb" />
+    <Compile Include="_New\HQFDefenceProfile.vb" />
+    <Compile Include="_New\HQFDefenceProfiles.vb" />
+    <Compile Include="_New\HQFDefenseProfileResults.vb" />
+    <Compile Include="_New\ProfileTypes.vb" />
+    <Compile Include="_New\PluginSettings.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\EveSpace.resx">
       <DependentUpon>EveSpace.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\FleetDashboard.resx">
-      <DependentUpon>FleetDashboard.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ShipWidget.resx">
-      <DependentUpon>ShipWidget.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ShipWidgetModules.resx">
-      <DependentUpon>ShipWidgetModules.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAddDefenceProfile.resx">
       <DependentUpon>frmAddDefenceProfile.vb</DependentUpon>
@@ -375,12 +358,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCapSim.resx">
       <DependentUpon>frmCapSim.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmFittingPopup.resx">
-      <DependentUpon>frmFittingPopup.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmFleetManager.resx">
-      <DependentUpon>frmFleetManager.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmFittingBrowser.resx">
       <DependentUpon>frmFittingBrowser.vb</DependentUpon>
@@ -463,6 +440,9 @@
     <EmbeddedResource Include="Forms\frmShipEditorBonus.resx">
       <DependentUpon>frmShipEditorBonus.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmShipSelection.resx">
+      <DependentUpon>frmShipSelection.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmShowInfo.RESX">
       <DependentUpon>frmShowInfo.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -506,13 +486,13 @@
       <Project>{7CD9A34B-9635-4D69-B451-1CE93B8280D8}</Project>
       <Name>EveHQ.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
-      <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
-      <Name>EveHQ.CoreControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EveHQ.Core\EveHQ.Core.vbproj">
       <Project>{AD4AA9C0-F258-44D8-9D71-07493198B580}</Project>
       <Name>EveHQ.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.EveData\EveHQ.EveData.csproj">
+      <Project>{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}</Project>
+      <Name>EveHQ.EveData</Name>
     </ProjectReference>
     <ProjectReference Include="..\EveHQ.Market\EveHQ.Market.csproj">
       <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
@@ -672,6 +652,7 @@
     <Content Include="Resources\icon01_16.png" />
     <Content Include="Resources\icon53_16.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->

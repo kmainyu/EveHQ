@@ -17,15 +17,18 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-<Serializable()> Public Class Boosters
+Imports ProtoBuf
 
-    Public Shared BoosterList As New SortedList   ' Key = Name
-    Public Shared BoosterEffects As New SortedList ' Key = Name, Value = ArrayList (of BoosterPenalty)
+<ProtoContract()> <Serializable()> Public Class Boosters
+
+    <ProtoMember(1)> Public Shared BoosterList As New SortedList(Of String, ShipModule)   ' Key = Name
+    <ProtoMember(2)> Public Shared BoosterEffects As New SortedList(Of String, SortedList(Of String, BoosterEffect)) ' Key = Name, Value = SortedList (of String, BoosterEffect)
 
 End Class
 
-<Serializable()> Public Class BoosterEffect
-    Public AttributeID As String
-    Public AttributeEffect As String
+<ProtoContract()> <Serializable()> Public Class BoosterEffect
+    <ProtoMember(1)> Public AttributeID As String
+    <ProtoMember(2)> Public AttributeEffect As String
 End Class
+
 

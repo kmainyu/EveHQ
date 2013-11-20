@@ -60,7 +60,7 @@
     <DocumentationFile>EveHQ.xml</DocumentationFile>
     <NoWarn>42353,42354,42355,40010</NoWarn>
     <Optimize>false</Optimize>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -79,10 +79,13 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevComponents.DotNetBar2, Version=8.9.0.3, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+    <Reference Include="DevComponents.DotNetBar2, Version=11.4.0.4, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\EveHQ.Core\ExternalLibs\DevComponents.DotNetBar2.dll</HintPath>
+      <HintPath>..\Ref\DotNetBar\DevComponents.DotNetBar2.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
@@ -111,6 +114,7 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
@@ -140,9 +144,6 @@
       <DependentUpon>ListViewNoFlicker.vb</DependentUpon>
     </Compile>
     <Compile Include="Classes\ListViewNoFlicker.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Classes\DragAndDropListView.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\DBConfigs\DBCRSSFeedConfig.Designer.vb">
@@ -247,6 +248,12 @@
     <Compile Include="Controls\DBControls\DBCWSystem.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\EveHQTrainingQueue.Designer.vb">
+      <DependentUpon>EveHQTrainingQueue.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EveHQTrainingQueue.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\MarketItemMetrics.Designer.vb">
       <DependentUpon>MarketItemMetrics.vb</DependentUpon>
     </Compile>
@@ -271,22 +278,16 @@
     <Compile Include="Controls\RSSFeedItem.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\TrainingQueue.Designer.vb">
-      <DependentUpon>TrainingQueue.vb</DependentUpon>
+    <Compile Include="Forms\frmSkillPriority.Designer.vb">
+      <DependentUpon>frmSkillPriority.vb</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TrainingQueue.vb">
-      <SubType>UserControl</SubType>
+    <Compile Include="Forms\frmSkillPriority.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmHelp.Designer.vb">
       <DependentUpon>frmHelp.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmHelp.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmModifyPriceGroup.Designer.vb">
-      <DependentUpon>frmModifyPriceGroup.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmModifyPriceGroup.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmCharCreate.Designer.vb">
@@ -299,12 +300,6 @@
       <DependentUpon>frmEveHQMessage.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmEveHQMessage.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmModifyPriceGroupItem.Designer.vb">
-      <DependentUpon>frmModifyPriceGroupItem.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmModifyPriceGroupItem.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmModifyText.Designer.vb">
@@ -391,12 +386,6 @@
     <Compile Include="Forms\frmMarketPrices.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmModifyQueues.Designer.vb">
-      <DependentUpon>frmModifyQueues.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmModifyQueues.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\frmNeuralRemap.Designer.vb">
       <DependentUpon>frmNeuralRemap.vb</DependentUpon>
     </Compile>
@@ -475,22 +464,16 @@
     <Compile Include="Forms\frmTraining.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmUpdater.Designer.vb">
-      <DependentUpon>frmUpdater.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmUpdater.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\frmSplash.Designer.vb">
       <DependentUpon>frmSplash.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmSplash.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\newUpdater.Designer.vb">
-      <DependentUpon>newUpdater.vb</DependentUpon>
+    <Compile Include="Forms\NewUpdater.Designer.vb">
+      <DependentUpon>NewUpdater.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\newUpdater.vb">
+    <Compile Include="Forms\NewUpdater.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -568,6 +551,9 @@
     <EmbeddedResource Include="Controls\DBControls\DBCWSystem.resx">
       <DependentUpon>DBCWSystem.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EveHQTrainingQueue.resx">
+      <DependentUpon>EveHQTrainingQueue.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\MarketItemMetrics.resx">
       <DependentUpon>MarketItemMetrics.vb</DependentUpon>
     </EmbeddedResource>
@@ -580,15 +566,11 @@
     <EmbeddedResource Include="Controls\RSSFeedItem.resx">
       <DependentUpon>RSSFeedItem.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TrainingQueue.resx">
-      <DependentUpon>TrainingQueue.vb</DependentUpon>
+    <EmbeddedResource Include="Forms\frmSkillPriority.resx">
+      <DependentUpon>frmSkillPriority.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHelp.resx">
       <DependentUpon>frmHelp.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmModifyPriceGroup.resx">
-      <DependentUpon>frmModifyPriceGroup.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCharCreate.resx">
@@ -596,9 +578,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEveHQMessage.resx">
       <DependentUpon>frmEveHQMessage.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmModifyPriceGroupItem.resx">
-      <DependentUpon>frmModifyPriceGroupItem.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmModifyText.resx">
       <DependentUpon>frmModifyText.vb</DependentUpon>
@@ -653,10 +632,6 @@
       <DependentUpon>frmMarketPrices.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmModifyQueues.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmModifyQueues.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmNeuralRemap.resx">
       <DependentUpon>frmNeuralRemap.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -707,16 +682,12 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmTraining.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmUpdater.resx">
-      <DependentUpon>frmUpdater.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmSplash.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSplash.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\newUpdater.resx">
-      <DependentUpon>newUpdater.vb</DependentUpon>
+    <EmbeddedResource Include="Forms\NewUpdater.resx">
+      <DependentUpon>NewUpdater.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -742,7 +713,6 @@
     <None Include="Resources\EveHQ_online.ico" />
     <None Include="Resources\EveHQ_starting.ico" />
     <None Include="Resources\EveHQ_offline.ico" />
-    <None Include="Resources\Square721BT.TTF" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -781,10 +751,6 @@
       <Project>{7CD9A34B-9635-4D69-B451-1CE93B8280D8}</Project>
       <Name>EveHQ.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
-      <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
-      <Name>EveHQ.CoreControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EveHQ.Core\EveHQ.Core.vbproj">
       <Project>{AD4AA9C0-F258-44D8-9D71-07493198B580}</Project>
       <Name>EveHQ.Core</Name>
@@ -792,6 +758,10 @@
     <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
       <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
       <Name>EveHQ.EveAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.EveData\EveHQ.EveData.csproj">
+      <Project>{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}</Project>
+      <Name>EveHQ.EveData</Name>
     </ProjectReference>
     <ProjectReference Include="..\EveHQ.Market\EveHQ.Market.csproj">
       <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
@@ -842,12 +812,6 @@
   <ItemGroup>
     <None Include="Resources\EveHQErrorProf.png" />
     <None Include="Resources\nochar.jpg" />
-    <None Include="Resources\icon79_01.png" />
-    <None Include="Resources\icon79_02.png" />
-    <None Include="Resources\icon79_03.png" />
-    <None Include="Resources\icon79_04.png" />
-    <None Include="Resources\icon79_05.png" />
-    <None Include="Resources\icon79_06.png" />
     <None Include="Resources\RefTypes.txt" />
     <None Include="Resources\EveHQSplash9.jpg" />
     <None Include="Resources\icon77_07.png" />
@@ -876,6 +840,20 @@
     <None Include="Resources\level_200.gif" />
     <None Include="Resources\level_100.gif" />
     <None Include="Resources\level_000.gif" />
+    <Content Include="..\Ref\G15 Drivers\GammaJul.LgLcd.Native32.dll">
+      <Link>GammaJul.LgLcd.Native32.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Ref\G15 Drivers\GammaJul.LgLcd.Native64.dll">
+      <Link>GammaJul.LgLcd.Native64.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\79_64_1.png" />
+    <None Include="Resources\79_64_2.png" />
+    <None Include="Resources\79_64_3.png" />
+    <None Include="Resources\79_64_4.png" />
+    <None Include="Resources\79_64_5.png" />
+    <None Include="Resources\79_64_6.png" />
     <Content Include="Resources\AssetsSafe32.png" />
     <Content Include="_updates.xml">
       <SubType>Designer</SubType>

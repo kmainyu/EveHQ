@@ -17,90 +17,93 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class frmSelectQueuePilot
+Imports EveHQ.Core
 
-    Dim cDisplayPilotName As String
-    Dim displayPilot As New EveHQ.Core.Pilot
-    Public Property DisplayPilotName() As String
-        Get
-            Return cDisplayPilotName
-        End Get
-        Set(ByVal value As String)
-            cDisplayPilotName = value
-            DisplayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(value), Core.Pilot)
-        End Set
-    End Property
+Namespace Forms
+    Public Class FrmSelectQueuePilot
 
-    Private Sub frmSelectQueuePilot_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' Populate the combo box
-        cboPilots.Items.Clear()
-        For Each nPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
-            If nPilot.Active = True Then
-                If nPilot.Name <> displayPilot.Name Then
-                    cboPilots.Items.Add(nPilot.Name)
+        Dim _displayPilotName As String
+        Dim _displayPilot As New EveHQPilot
+
+        Public Property DisplayPilotName() As String
+            Get
+                Return _displayPilotName
+            End Get
+            Set(ByVal value As String)
+                _displayPilotName = value
+                _displayPilot = HQ.Settings.Pilots(value)
+            End Set
+        End Property
+
+        Private Sub frmSelectQueuePilot_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+            ' Populate the combo box
+            cboPilots.Items.Clear()
+            For Each nPilot As EveHQPilot In HQ.Settings.Pilots.Values
+                If nPilot.Active = True Then
+                    If nPilot.Name <> _displayPilot.Name Then
+                        cboPilots.Items.Add(nPilot.Name)
+                    End If
                 End If
-            End If
-        Next
-    End Sub
+            Next
+        End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-        If cboPilots.SelectedItem IsNot Nothing Then
-            If cboPilots.SelectedItem.ToString = "" Then
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+            If cboPilots.SelectedItem IsNot Nothing Then
+                If cboPilots.SelectedItem.ToString = "" Then
+                    MessageBox.Show("Please select a pilot to continue.", "Copy Queue to Pilot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+            Else
                 MessageBox.Show("Please select a pilot to continue.", "Copy Queue to Pilot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-        Else
-            MessageBox.Show("Please select a pilot to continue.", "Copy Queue to Pilot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
-        Dim oldQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(cboPilots.Tag.ToString), EveHQ.Core.SkillQueue)
-        Dim newPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
-        Dim newQueue As New EveHQ.Core.SkillQueue
-        Dim reply As Integer = 0
-        If newPilot.TrainingQueues.Contains(cboPilots.Tag.ToString) Then
-            reply = MessageBox.Show("Queue name '" & cboPilots.Tag.ToString & "' already exists for this pilot!" & ControlChars.CrLf & "Would you like to replace this Queue?", "Overwrite Existing Queue?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.No Then
-                Me.Close()
-                Exit Sub
-            Else
-                newQueue = CType(newPilot.TrainingQueues(cboPilots.Tag.ToString), EveHQ.Core.SkillQueue)
+            Dim oldQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(cboPilots.Tag.ToString)
+            Dim newPilot As EveHQPilot = HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
+            Dim newQueue As New EveHQSkillQueue
+            Dim reply As Integer = 0
+            If newPilot.TrainingQueues.ContainsKey(cboPilots.Tag.ToString) Then
+                reply = MessageBox.Show("Queue name '" & cboPilots.Tag.ToString & "' already exists for this pilot!" & ControlChars.CrLf & "Would you like to replace this Queue?", "Overwrite Existing Queue?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If reply = DialogResult.No Then
+                    Close()
+                    Exit Sub
+                Else
+                    newQueue = newPilot.TrainingQueues(cboPilots.Tag.ToString)
+                End If
             End If
-        End If
-        newQueue.Name = cboPilots.Tag.ToString
-        newQueue.IncCurrentTraining = CBool(oldQueue.IncCurrentTraining)
+            newQueue.Name = cboPilots.Tag.ToString
+            newQueue.IncCurrentTraining = CBool(oldQueue.IncCurrentTraining)
 
-        If newPilot.TrainingQueues.Count <> 0 Then
-            If newPilot.TrainingQueues.Contains(newQueue.Name) = True Then
-                If newPilot.PrimaryQueue = newQueue.Name Then
-                    newQueue.Primary = True
-                    newPilot.PrimaryQueue = newQueue.Name
+            If newPilot.TrainingQueues.Count <> 0 Then
+                If newPilot.TrainingQueues.ContainsKey(newQueue.Name) = True Then
+                    If newPilot.PrimaryQueue = newQueue.Name Then
+                        newQueue.Primary = True
+                        newPilot.PrimaryQueue = newQueue.Name
+                    Else
+                        newQueue.Primary = False
+                    End If
                 Else
                     newQueue.Primary = False
                 End If
             Else
-                newQueue.Primary = False
+                newQueue.Primary = True
+                newPilot.PrimaryQueue = newQueue.Name
             End If
-        Else
-            newQueue.Primary = True
-            newPilot.PrimaryQueue = newQueue.Name
-        End If
 
-
-        Dim newQ As New Collection
-        For Each qItem As EveHQ.Core.SkillQueueItem In oldQueue.Queue
-            Dim nItem As New EveHQ.Core.SkillQueueItem
-            nItem.ToLevel = qItem.ToLevel
-            nItem.FromLevel = qItem.FromLevel
-            nItem.Name = qItem.Name
-            nItem.Key = nItem.Name & nItem.FromLevel & nItem.ToLevel
-            nItem.Pos = qItem.Pos
-            newQ.Add(nItem, nItem.Key)
-        Next
-        newQueue.Queue = newQ
-        ' Add the new queue
-        If reply <> Windows.Forms.DialogResult.Yes Then
-            newPilot.TrainingQueues.Add(newQueue.Name, newQueue)
-        End If
-        Me.Close()
-    End Sub
-End Class
+            Dim newQ As New Dictionary(Of String, EveHQSkillQueueItem)
+            For Each qItem As EveHQSkillQueueItem In oldQueue.Queue.Values
+                Dim nItem As New EveHQSkillQueueItem
+                nItem.ToLevel = qItem.ToLevel
+                nItem.FromLevel = qItem.FromLevel
+                nItem.Name = qItem.Name
+                nItem.Pos = qItem.Pos
+                newQ.Add(nItem.Key, nItem)
+            Next
+            newQueue.Queue = newQ
+            ' Add the new queue
+            If reply <> DialogResult.Yes Then
+                newPilot.TrainingQueues.Add(newQueue.Name, newQueue)
+            End If
+            Close()
+        End Sub
+    End Class
+End NameSpace

@@ -17,106 +17,106 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Windows.Forms
 Imports DevComponents.AdvTree
+Imports System.Windows.Forms
 Imports System.Globalization
 
 Public Class AdvTreeSorter
 
-    Shared SortByTag As Boolean = False
+    Shared sortByTag As Boolean = False
 
-    Public Shared Function Sort(ByVal Column As DevComponents.AdvTree.ColumnHeader, ByVal SortChildNodes As Boolean, ByVal RetainLastSortOrder As Boolean) As AdvTreeSortResult
-        Dim HostedTree As AdvTree = Column.AdvTree
-        Dim ColumnDisplayIndex As Integer = Column.DisplayIndex
-        Return Sort(HostedTree, ColumnDisplayIndex, SortChildNodes, RetainLastSortOrder)
+    Public Shared Function Sort(ByVal column As DevComponents.AdvTree.ColumnHeader, ByVal sortChildNodes As Boolean, ByVal retainLastSortOrder As Boolean) As AdvTreeSortResult
+        Dim hostedTree As AdvTree = column.AdvTree
+        Dim columnDisplayIndex As Integer = column.DisplayIndex
+        Return Sort(hostedTree, columnDisplayIndex, sortChildNodes, retainLastSortOrder)
     End Function
 
-    Public Shared Function Sort(ByVal HostedTree As AdvTree, ByVal SortResult As AdvTreeSortResult, ByVal SortChildNodes As Boolean) As AdvTreeSortResult
-        Return Sort(HostedTree, SortResult.SortedIndex, SortResult.SortedOrder, SortChildNodes, False)
+    Public Shared Function Sort(ByVal hostedTree As AdvTree, ByVal sortResult As AdvTreeSortResult, ByVal sortChildNodes As Boolean) As AdvTreeSortResult
+        Return Sort(hostedTree, sortResult.SortedIndex, sortResult.SortedOrder, sortChildNodes, False)
     End Function
 
-    Public Shared Function Sort(ByVal HostedTree As AdvTree, ByVal ColumnDisplayIndex As Integer, ByVal SortChildNodes As Boolean, ByVal RetainLastSortOrder As Boolean) As AdvTreeSortResult
-        Return Sort(HostedTree, ColumnDisplayIndex, AdvTreeSortOrder.Default, SortChildNodes, RetainLastSortOrder)
+    Public Shared Function Sort(ByVal hostedTree As AdvTree, ByVal columnDisplayIndex As Integer, ByVal sortChildNodes As Boolean, ByVal retainLastSortOrder As Boolean) As AdvTreeSortResult
+        Return Sort(hostedTree, columnDisplayIndex, AdvTreeSortOrder.Default, sortChildNodes, retainLastSortOrder)
     End Function
 
-    Private Shared Function Sort(ByVal HostedTree As AdvTree, ByVal ColumnDisplayIndex As Integer, ByVal SortOrder As AdvTreeSortOrder, ByVal SortChildNodes As Boolean, ByVal RetainLastSortOrder As Boolean) As AdvTreeSortResult
+    Private Shared Function Sort(ByVal hostedTree As AdvTree, ByVal columnDisplayIndex As Integer, ByVal sortOrder As AdvTreeSortOrder, ByVal sortChildNodes As Boolean, ByVal retainLastSortOrder As Boolean) As AdvTreeSortResult
 
         ' Determine sorting logic based on method parameters
-        Dim LastSortResult As AdvTreeSortResult = CType(HostedTree.Tag, AdvTreeSortResult)
-        Dim IndexToSort As Integer = ColumnDisplayIndex
-        Dim OrderToSort As AdvTreeSortOrder = SortOrder
-        If SortOrder = AdvTreeSortOrder.Default Then
-            OrderToSort = AdvTreeSortOrder.Ascending
+        Dim lastSortResult As AdvTreeSortResult = CType(hostedTree.Tag, AdvTreeSortResult)
+        Dim indexToSort As Integer = columnDisplayIndex
+        Dim orderToSort As AdvTreeSortOrder = sortOrder
+        If sortOrder = AdvTreeSortOrder.Default Then
+            orderToSort = AdvTreeSortOrder.Ascending
         End If
 
-        If LastSortResult IsNot Nothing Then
-            If RetainLastSortOrder = True Then
-                IndexToSort = LastSortResult.SortedIndex
-                OrderToSort = LastSortResult.SortedOrder
+        If lastSortResult IsNot Nothing Then
+            If retainLastSortOrder = True Then
+                indexToSort = lastSortResult.SortedIndex
+                orderToSort = lastSortResult.SortedOrder
             Else
-                If SortOrder = AdvTreeSortOrder.Default Then
-                    If IndexToSort = LastSortResult.SortedIndex Then
-                        OrderToSort = CType(-LastSortResult.SortedOrder, AdvTreeSortOrder)
+                If sortOrder = AdvTreeSortOrder.Default Then
+                    If indexToSort = lastSortResult.SortedIndex Then
+                        orderToSort = CType(-lastSortResult.SortedOrder, AdvTreeSortOrder)
                     Else
-                        OrderToSort = CType(LastSortResult.SortedOrder, AdvTreeSortOrder)
+                        orderToSort = lastSortResult.SortedOrder
                     End If
                 Else
-                    OrderToSort = SortOrder
+                    orderToSort = sortOrder
                 End If
             End If
         End If
 
         ' Set the "true" column index
-        Dim ColIdx As Integer = IndexToSort - 1
+        Dim colIdx As Integer = indexToSort - 1
 
         ' Begin UI update
-        HostedTree.Cursor = Cursors.WaitCursor
-        HostedTree.BeginUpdate()
+        hostedTree.Cursor = Cursors.WaitCursor
+        hostedTree.BeginUpdate()
 
         ' Check if we are to look at the tag instead of text
-        If HostedTree.Columns(ColIdx).EditorType = eCellEditorType.Custom Then
-            SortByTag = True
+        If hostedTree.Columns(colIdx).EditorType = eCellEditorType.Custom Then
+            sortByTag = True
         Else
-            SortByTag = False
+            sortByTag = False
         End If
 
         ' Reset the old image
-        If LastSortResult IsNot Nothing Then
-            HostedTree.Columns(LastSortResult.SortedIndex - 1).Image = Nothing
+        If lastSortResult IsNot Nothing Then
+            hostedTree.Columns(lastSortResult.SortedIndex - 1).SortDirection = eSortDirection.None
         End If
 
         ' Set new image
-        HostedTree.Columns(ColIdx).ImageAlignment = eColumnImageAlignment.Right
-        If OrderToSort = AdvTreeSortOrder.Ascending Then
-            HostedTree.Columns(ColIdx).Image = My.Resources.ArrowUp
+        hostedTree.Columns(colIdx).ImageAlignment = eColumnImageAlignment.Right
+        If orderToSort = AdvTreeSortOrder.Ascending Then
+            hostedTree.Columns(colIdx).SortDirection = eSortDirection.Ascending
         Else
-            HostedTree.Columns(ColIdx).Image = My.Resources.ArrowDown
+            hostedTree.Columns(colIdx).SortDirection = eSortDirection.Descending
         End If
 
-        HostedTree.Nodes.Sort(New AdvTreeSortComparer(ColIdx, OrderToSort, SortByTag))
-        If SortChildNodes = True Then
-            Call PerformIterativeSort(HostedTree.Nodes, ColIdx, OrderToSort)
+        hostedTree.Nodes.Sort(New AdvTreeSortComparer(colIdx, orderToSort, sortByTag))
+        If sortChildNodes = True Then
+            Call PerformIterativeSort(hostedTree.Nodes, colIdx, orderToSort)
         End If
 
         ' End the update
-        HostedTree.EndUpdate()
-        HostedTree.Cursor = Cursors.Default
+        hostedTree.EndUpdate()
+        hostedTree.Cursor = Cursors.Default
 
         ' Return and store the result
-        Dim NewSortResult As New AdvTreeSortResult(IndexToSort, OrderToSort)
-        HostedTree.Tag = NewSortResult
-        Return NewSortResult
+        Dim newSortResult As New AdvTreeSortResult(indexToSort, orderToSort)
+        hostedTree.Tag = newSortResult
+        Return newSortResult
 
     End Function
 
 
-    Private Shared Sub PerformIterativeSort(ByVal SortNodeCollection As NodeCollection, ByVal ColIdx As Integer, ByVal Order As AdvTreeSortOrder)
-        For Each SortNode As Node In SortNodeCollection
-            If SortNode.Nodes.Count > 0 Then
+    Private Shared Sub PerformIterativeSort(ByVal sortNodeCollection As NodeCollection, ByVal colIdx As Integer, ByVal order As AdvTreeSortOrder)
+        For Each sortNode As Node In sortNodeCollection
+            If sortNode.Nodes.Count > 0 Then
                 ' Do a sort on these
-                SortNode.Nodes.Sort(New AdvTreeSortComparer(ColIdx, Order, SortByTag))
+                sortNode.Nodes.Sort(New AdvTreeSortComparer(colIdx, order, sortByTag))
                 ' Check for additional nodes to sort
-                PerformIterativeSort(SortNode.Nodes, ColIdx, Order)
+                PerformIterativeSort(sortNode.Nodes, colIdx, order)
             End If
         Next
     End Sub
@@ -125,66 +125,65 @@ End Class
 
 Public Class AdvTreeSortComparer
     Implements IComparer
-    Private col As Integer
-    Private order As AdvTreeSortOrder
-    Private sorttag As Boolean = False
-    Dim DoubleX, DoubleY As Double
-    Dim DateX, DateY As Date
+    Private ReadOnly _col As Integer
+    Private ReadOnly _order As AdvTreeSortOrder
+    Private ReadOnly _sortTag As Boolean = False
+    Dim _doubleX, _doubleY As Double
+    Dim _dateX, _dateY As Date
 
     Public Sub New()
-        col = 0
-        order = AdvTreeSortOrder.Ascending
-        sorttag = False
+        _col = 0
+        _order = AdvTreeSortOrder.Ascending
+        _sortTag = False
     End Sub
 
-    Public Sub New(ByVal column As Integer, ByVal order As AdvTreeSortOrder, ByVal SortTag As Boolean)
-        Me.col = column
-        Me.order = order
-        Me.sorttag = SortTag
+    Public Sub New(ByVal column As Integer, ByVal order As AdvTreeSortOrder, ByVal sortTag As Boolean)
+        _col = column
+        _order = order
+        _sortTag = SortTag
     End Sub
 
     Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer Implements IComparer.Compare
-        Dim returnVal As Integer = -1
-        Dim TempDbl As Double = 0
-        Dim TempDate As Date = Now
-        Dim NumberStyle As NumberStyles = NumberStyles.Number Or NumberStyles.AllowParentheses
+        Dim returnVal As Integer
+        Dim tempDbl As Double = 0
+        Const NumberStyle As NumberStyles = NumberStyles.Number Or NumberStyles.AllowParentheses
 
-        If sorttag = False Then
-            If Double.TryParse(CType(x, Node).Cells(col).Text, NumberStyle, Nothing, TempDbl) And Double.TryParse(CType(y, Node).Cells(col).Text, NumberStyle, Nothing, TempDbl) Then
+        If _sortTag = False Then
+            If Double.TryParse(CType(x, Node).Cells(_col).Text, NumberStyle, Nothing, tempDbl) And Double.TryParse(CType(y, Node).Cells(_col).Text, NumberStyle, Nothing, tempDbl) Then
                 'Parse the two objects passed as a parameter as a Double
-                DoubleX = Double.Parse((CType(x, Node).Cells(col).Text), NumberStyle)
-                DoubleY = Double.Parse((CType(y, Node).Cells(col).Text), NumberStyle)
+                _doubleX = Double.Parse((CType(x, Node).Cells(_col).Text), NumberStyle)
+                _doubleY = Double.Parse((CType(y, Node).Cells(_col).Text), NumberStyle)
                 'Compare the two numbers
-                returnVal = DoubleX.CompareTo(DoubleY)
-            ElseIf IsDate(CType(x, Node).Cells(col).Text) And IsDate(CType(y, Node).Cells(col).Text) Then
+                returnVal = _doubleX.CompareTo(_doubleY)
+            ElseIf IsDate(CType(x, Node).Cells(_col).Text) And IsDate(CType(y, Node).Cells(_col).Text) Then
                 ' Parse the two objects passed as a parameter as a Date
-                DateX = CDate((CType(x, Node).Cells(col).Text))
-                DateY = CDate((CType(y, Node).Cells(col).Text))
+                _dateX = CDate((CType(x, Node).Cells(_col).Text))
+                _dateY = CDate((CType(y, Node).Cells(_col).Text))
                 ' Compare the two numbers
-                returnVal = DateX.CompareTo(DateY)
+                returnVal = _dateX.CompareTo(_dateY)
             Else
-                returnVal = CType(x, Node).Cells(col).Text.CompareTo(CType(y, Node).Cells(col).Text)
+                returnVal = System.String.Compare(CType(x, Node).Cells(_col).Text, CType(y, Node).Cells(_col).Text, StringComparison.Ordinal)
             End If
         Else
-            If Double.TryParse(CType(x, Node).Cells(col).Tag.ToString, NumberStyle, Nothing, TempDbl) And Double.TryParse(CType(y, Node).Cells(col).Tag.ToString, NumberStyle, Nothing, TempDbl) Then
+            If Double.TryParse(CType(x, Node).Cells(_col).Tag.ToString, NumberStyle, Nothing, tempDbl) And Double.TryParse(CType(y, Node).Cells(_col).Tag.ToString, NumberStyle, Nothing, tempDbl) Then
                 'Parse the two objects passed as a parameter as a Double
-                DoubleX = Double.Parse((CType(x, Node).Cells(col).Tag.ToString), NumberStyle)
-                DoubleY = Double.Parse((CType(y, Node).Cells(col).Tag.ToString), NumberStyle)
+                _doubleX = Double.Parse((CType(x, Node).Cells(_col).Tag.ToString), NumberStyle)
+                _doubleY = Double.Parse((CType(y, Node).Cells(_col).Tag.ToString), NumberStyle)
                 'Compare the two numbers
-                returnVal = DoubleX.CompareTo(DoubleY)
-            ElseIf IsDate(CType(x, Node).Cells(col).Tag) And IsDate(CType(y, Node).Cells(col).Tag) Then
+                returnVal = _doubleX.CompareTo(_doubleY)
+            ElseIf IsDate(CType(x, Node).Cells(_col).Tag) And IsDate(CType(y, Node).Cells(_col).Tag) Then
                 ' Parse the two objects passed as a parameter as a Date
-                DateX = CDate((CType(x, Node).Cells(col).Tag))
-                DateY = CDate((CType(y, Node).Cells(col).Tag))
+                _dateX = CDate((CType(x, Node).Cells(_col).Tag))
+                _dateY = CDate((CType(y, Node).Cells(_col).Tag))
                 ' Compare the two numbers
-                returnVal = DateX.CompareTo(DateY)
+                returnVal = _dateX.CompareTo(_dateY)
             Else
-                returnVal = CType(x, Node).Cells(col).Tag.ToString.CompareTo(CType(y, Node).Cells(col).Tag.ToString)
+                returnVal = System.String.Compare(CType(x, Node).Cells(_col).Tag.ToString, CType(y, Node).Cells(_col).Tag.ToString, StringComparison.Ordinal)
             End If
         End If
 
         ' Determine whether the sort order is descending.
-        If order = AdvTreeSortOrder.Descending Then
+        If _order = AdvTreeSortOrder.Descending Then
             ' Invert the value returned by String.Compare.
             returnVal *= -1
         End If
@@ -202,8 +201,8 @@ End Class
         SortedOrder = AdvTreeSortOrder.Default
     End Sub
 
-    Public Sub New(ByVal ColumnIndex As Integer, ByVal SortOrder As AdvTreeSortOrder)
-        SortedIndex = ColumnIndex
+    Public Sub New(ByVal columnIndex As Integer, ByVal sortOrder As AdvTreeSortOrder)
+        SortedIndex = columnIndex
         SortedOrder = SortOrder
     End Sub
 End Class
