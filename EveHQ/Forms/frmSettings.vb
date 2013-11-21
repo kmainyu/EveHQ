@@ -2463,7 +2463,6 @@ Namespace Forms
         End Sub
 
         Private Sub OnAddUpdateItemOverrideClick(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideAddOverride.Click
-            Const Item As String = ""
             Dim itemID As Integer
 
             If _itemOverrideItemList Is Nothing Then
@@ -2474,9 +2473,11 @@ Namespace Forms
                 Return
             End If
 
-            If (StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False) Or (Integer.TryParse(Item, itemID) = False) Then
+            If (StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False) Then
                 Return 'not a real item
             End If
+
+            itemID = StaticData.TypeNames(_itemOverrideItemList.SelectedItem.ToString)
 
             Dim override As New ItemMarketOverride()
             override.ItemId = itemID
@@ -2513,10 +2514,32 @@ Namespace Forms
 
         Private Sub OnOverrideGridNodeClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) Handles _itemOverridesActiveGrid.NodeClick
 
-
             If (e.Node IsNot Nothing) Then
                 _itemOverrideItemList.SelectedItem = e.Node.Text
+                Dim itemID As Integer = StaticData.TypeNames(e.Node.Text)
+                Dim o As ItemMarketOverride = HQ.Settings.MarketStatOverrides(itemID)
+                Select Case o.MarketStat
+                    Case MarketMetric.Average
+                        _itemOverrideAvgPrice.Select()
+                    Case MarketMetric.Maximum
+                        _itemOverrideMaxPrice.Select()
+                    Case MarketMetric.Median
+                        _itemOverrideMedianPrice.Select()
+                    Case MarketMetric.Minimum
+                        _itemOverrideMinPrice.Select()
+                    Case MarketMetric.Percentile
+                        _itemOverridePercentPrice.Select()
+                End Select
+                Select Case o.TransactionType
+                    Case MarketTransactionKind.All
+                        _itemOverrideAllOrders.Select()
+                    Case MarketTransactionKind.Buy
+                        _itemOverrideBuyOrders.Select()
+                    Case MarketTransactionKind.Sell
+                        _itemOverrideSellOrders.Select()
+                End Select
             End If
+
         End Sub
 
         Private Sub UpdateActiveOverrides()
@@ -2547,7 +2570,6 @@ Namespace Forms
         End Sub
 
         Private Sub OnRemoveOverrideClick(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideRemoveOverride.Click
-            Const Item As String = ""
             Dim itemID As Integer
 
             If _itemOverrideItemList Is Nothing Then
@@ -2558,9 +2580,11 @@ Namespace Forms
                 Return
             End If
 
-            If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False Or (Integer.TryParse(Item, itemID) = False) Then
+            If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False Then
                 Return 'not a real item
             End If
+
+            itemID = StaticData.TypeNames(_itemOverrideItemList.SelectedItem.ToString)
 
             HQ.Settings.MarketStatOverrides.Remove(itemID)
             UpdateActiveOverrides()
@@ -2581,9 +2605,7 @@ Namespace Forms
         End Sub
 
 #End Region
-
-      
-
+        
         Public Sub FinaliseAPIServerUpdate()
             btnGetData.Enabled = True
             Call UpdatePilots()
