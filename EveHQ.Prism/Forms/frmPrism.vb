@@ -117,7 +117,7 @@ Namespace Forms
 
             ' Load the Production Jobs
             _jobsUpdated = Jobs.Load()
-           
+
             ' Load the Batch Jobs
             Call BatchJobs.LoadBatchJobs()
 
@@ -2912,6 +2912,8 @@ Namespace Forms
 
                     For Each job As IndustryJob In jobList
 
+                        Dim localTime As DateTime = SkillFunctions.ConvertEveTimeToLocal(job.EndProductionTime)
+
                         ' Check filters to see if the job is allowed
                         displayJob = False
                         ' Check installer filter
@@ -2924,7 +2926,7 @@ Namespace Forms
                                 Else
                                     Select Case job.Completed
                                         Case 0
-                                            If job.EndProductionTime < DateTime.Now.ToUniversalTime Then
+                                            If localTime < DateTime.Now.ToUniversalTime Then
                                                 ' Job finished but not delivered
                                                 If cboStatusFilter.SelectedItem.ToString = PlugInData.Statuses("B") Then
                                                     displayJob = True
@@ -2964,12 +2966,12 @@ Namespace Forms
                             Else
                                 transItem.Cells(4).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                             End If
-                            transItem.Cells(5).Text = job.EndProductionTime.ToString
-                            transItem.Cells(5).Tag = job.EndProductionTime
+                            transItem.Cells(5).Text = localTime.ToString
+                            transItem.Cells(5).Tag = localTime
                             transItem.Cells(6).Tag = Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60
                             transItem.Cells(6).Text = SkillFunctions.TimeToString(CDbl(transItem.Cells(6).Tag), False, "Complete")
                             If job.Completed = 0 Then
-                                If job.EndProductionTime < DateTime.Now.ToUniversalTime Then
+                                If localTime < DateTime.Now.ToUniversalTime Then
                                     transItem.Cells(7).Text = PlugInData.Statuses("B")
                                 Else
                                     transItem.Cells(7).Text = PlugInData.Statuses("A")
@@ -4626,7 +4628,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub OpenBPCalculator(ByVal bpCalc As frmBPCalculator)
+        Private Sub OpenBPCalculator(ByVal bpCalc As FrmBPCalculator)
             bpCalc.Location = New Point(CInt(ParentForm.Left + ((ParentForm.Width - bpCalc.Width) / 2)), CInt(ParentForm.Top + ((ParentForm.Height - bpCalc.Height) / 2)))
             bpCalc.Show()
         End Sub
