@@ -1127,7 +1127,7 @@ Namespace Forms
                     Exit Sub
                 Else
                     lblAPIStatus.Text = "API Status: Fetching Character Data..."
-                    barStatus.Refresh()
+                    Invoke(Sub() barStatus.Refresh())
                     ' Clear the current list of pilots
                     HQ.TempPilots.Clear()
                     HQ.TempCorps.Clear()
@@ -1137,7 +1137,7 @@ Namespace Forms
                         If currentAccount.APIAccountStatus <> APIAccountStatuses.ManualDisabled Then
                             lblAPIStatus.Text = "API Status: Updating Account '" & currentAccount.FriendlyName & "' (ID=" &
                                                 currentAccount.UserID & ")..."
-                            barStatus.Refresh()
+                            Invoke(Sub() barStatus.Refresh())
                             Call PilotParseFunctions.GetCharactersInAccount(currentAccount)
                         End If
                     Next
@@ -1495,7 +1495,6 @@ Namespace Forms
 #Region "Background Module Loading"
 
         Private Sub tmrModules_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrModules.Tick
-            CheckForIllegalCrossThreadCalls = False
             tmrModules.Stop()
             For Each plugInInfo As EveHQPlugIn In HQ.Plugins.Values
                 ' Override settings if the remote server says so
@@ -1587,7 +1586,7 @@ Namespace Forms
                 loadPlugInButton.Enabled = True
                 runPlugInButton.Enabled = False
             End Try
-            rbPlugins.Refresh()
+            Invoke(Sub() rbPlugins.Refresh())
         End Sub
 
 #End Region
