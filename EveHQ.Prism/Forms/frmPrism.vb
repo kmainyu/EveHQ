@@ -1927,11 +1927,19 @@ Namespace Forms
                 Case 18 ' Agents Temp
                     desc = "Agents Temporary" & misc
                 Case 19 ' Insurance
-                    Dim itemName As String
-                    If StaticData.Types.ContainsKey(CInt(argName1)) = True Then
-                        itemName = StaticData.Types(CInt(argName1)).Name
-                    Else
-                        itemName = "ship"
+                    Dim itemName As String = "ship"
+                    ' Check if the argName1 is numeric first
+                    If IsNumeric(argName1) Then
+                        ' See if we can convert to an integer
+                        Dim typeID As Integer
+                        If Integer.TryParse(argName1, typeID) Then
+                            If StaticData.Types.ContainsKey(typeID) = True Then
+                                itemName = StaticData.Types(typeID).Name
+                            End If
+                        Else
+                            ' TODO: Work out what this negative 64-bit number represents
+                            ' Possibly an assetID, leave it as a ship for now!
+                        End If
                     End If
                     desc = "Insurance paid by EVE Central Bank to " & owner2 & " covering loss of a " & itemName
                 Case 20 'Mission Expiration
