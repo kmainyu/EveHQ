@@ -28,13 +28,13 @@ Namespace Classes
 
     Public Class IndustryJob
         Public JobID As Long
-        Public InstalledItemLocationID As Integer
+        Public InstalledItemLocationID As Long
         Public InstallerID As Long
         Public ActivityID As BlueprintActivity
         Public InstalledItemTypeID As Integer
         Public OutputTypeID As Integer
         Public Runs As Integer
-        Public OutputLocationID As Integer
+        Public OutputLocationID As Long
         Public InstalledInSolarSystemID As Integer
         Public Completed As Integer
         Public CompletedStatus As Integer
@@ -81,13 +81,13 @@ Namespace Classes
                         For Each tran As XmlNode In jobNodes
                             Dim newJob As New IndustryJob
                             newJob.JobID = CLng(tran.Attributes.GetNamedItem("jobID").Value)
-                            newJob.InstalledItemLocationID = CInt(tran.Attributes.GetNamedItem("installedItemLocationID").Value)
+                            newJob.InstalledItemLocationID = CLng(tran.Attributes.GetNamedItem("installedItemLocationID").Value)
                             newJob.InstallerID = CLng(tran.Attributes.GetNamedItem("installerID").Value)
                             newJob.ActivityID = CType(tran.Attributes.GetNamedItem("activityID").Value, BlueprintActivity)
                             newJob.InstalledItemTypeID = CInt(tran.Attributes.GetNamedItem("installedItemTypeID").Value)
                             newJob.OutputTypeID = CInt(tran.Attributes.GetNamedItem("outputTypeID").Value)
                             newJob.Runs = CInt(tran.Attributes.GetNamedItem("runs").Value)
-                            newJob.OutputLocationID = CInt(tran.Attributes.GetNamedItem("outputLocationID").Value)
+                            newJob.OutputLocationID = CLng(tran.Attributes.GetNamedItem("outputLocationID").Value)
                             newJob.InstalledInSolarSystemID = CInt(tran.Attributes.GetNamedItem("installedInSolarSystemID").Value)
                             newJob.Completed = CInt(tran.Attributes.GetNamedItem("completed").Value)
                             newJob.CompletedStatus = CInt(tran.Attributes.GetNamedItem("completedStatus").Value)

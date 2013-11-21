@@ -1474,9 +1474,9 @@ Namespace Controls
                                 rNode.Cells(_assetColumn("AssetOwner")).Text = owner
                                 rNode.Cells(_assetColumn("AssetGroup")).Text = group
                                 rNode.Cells(_assetColumn("AssetCategory")).Text = category
-                                If StaticData.Stations.ContainsKey(job.OutputLocationID) = True Then
-                                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(job.OutputLocationID).StationName
-                                    eveLocation = StaticData.SolarSystems(StaticData.Stations(job.OutputLocationID).SystemId)
+                                If job.OutputLocationID <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.OutputLocationID)) Then
+                                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(CInt(job.OutputLocationID)).StationName
+                                    eveLocation = StaticData.SolarSystems(StaticData.Stations(CInt(job.OutputLocationID)).SystemId)
                                 Else
                                     rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                                     eveLocation = StaticData.SolarSystems(job.InstalledInSolarSystemID)
@@ -1545,9 +1545,9 @@ Namespace Controls
                 rNode.Cells(_assetColumn("AssetOwner")).Text = owner
                 rNode.Cells(_assetColumn("AssetGroup")).Text = group
                 rNode.Cells(_assetColumn("AssetCategory")).Text = category
-                If StaticData.Stations.ContainsKey(job.OutputLocationID) = True Then
-                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(job.OutputLocationID).StationName
-                    eveLocation = StaticData.SolarSystems(StaticData.Stations(job.OutputLocationID).SystemId)
+                If job.OutputLocationID <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.OutputLocationID)) Then
+                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(CInt(job.OutputLocationID)).StationName
+                    eveLocation = StaticData.SolarSystems(StaticData.Stations(CInt(job.OutputLocationID)).SystemId)
                 Else
                     rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                     eveLocation = StaticData.SolarSystems(job.InstalledInSolarSystemID)
