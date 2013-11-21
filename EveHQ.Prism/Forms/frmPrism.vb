@@ -4316,7 +4316,7 @@ Namespace Forms
                     ' Get the Node List
                     Dim jobs As XmlNodeList = jobXML.SelectNodes("/eveapi/result/rowset/row")
                     For Each job As XmlNode In jobs
-                        Dim assetID As Integer = CInt(job.Attributes.GetNamedItem("installedItemID").Value)
+                        Dim assetID As Long = CLng(job.Attributes.GetNamedItem("installedItemID").Value)
                         If ownerBPs.ContainsKey(assetID) = True Then
                             ' Fetch the current BP Data
                             Dim cBPInfo As BlueprintAsset = ownerBPs(assetID)
