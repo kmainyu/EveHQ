@@ -2901,7 +2901,6 @@ Namespace Forms
                     ' Parse the XML
                     Dim transItem As Node
                     Dim transTypeID As Integer
-                    Dim locationID As Integer
                     Dim displayJob As Boolean
 
                     For Each job As IndustryJob In jobList
@@ -2953,15 +2952,10 @@ Namespace Forms
                             transItem.Cells(1).Text = job.ActivityID.ToString
                             transItem.Cells(2).Text = job.Runs.ToString
                             transItem.Cells(3).Text = installerList(job.InstallerID)
-                            locationID = job.InstalledItemLocationID
-                            If StaticData.Stations.ContainsKey(locationID) = True Then
-                                transItem.Cells(4).Text = StaticData.Stations(locationID).StationName
+                            If job.InstalledItemLocationID <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.InstalledItemLocationID)) = True Then
+                                transItem.Cells(4).Text = StaticData.Stations(CInt(job.InstalledItemLocationID)).StationName
                             Else
-                                If StaticData.Stations.ContainsKey(job.OutputLocationID) = True Then
-                                    transItem.Cells(4).Text = StaticData.Stations(job.OutputLocationID).StationName
-                                Else
-                                    transItem.Cells(4).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
-                                End If
+                                transItem.Cells(4).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                             End If
                             transItem.Cells(5).Text = job.EndProductionTime.ToString
                             transItem.Cells(5).Tag = job.EndProductionTime
