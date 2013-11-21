@@ -27,10 +27,10 @@ Namespace Classes
 
             ' Load all the decryptor data
             Dim groupIDs As List(Of Integer) = {728, 729, 730, 731}.ToList
+            PlugInData.Decryptors.Clear()
             For Each groupID As Integer In groupIDs
                 ' Get the items in each group
                 Dim items As IEnumerable(Of EveType) = StaticData.GetItemsInGroup(groupID)
-                PlugInData.Decryptors.Clear()
                 For Each item As EveType In items
                     ' Set data
                     Dim newDecryptor As New Decryptor
