@@ -2329,8 +2329,10 @@ Namespace Controls
 
                     End If
                 Else
-                    If Double.TryParse(cLoc.Cells(_assetColumn("AssetValue")).Text, locPrice) = True Then
-                        _totalAssetValue += locPrice
+                    If _assetColumn("AssetValue") < cLoc.Cells.Count Then
+                        If Double.TryParse(cLoc.Cells(_assetColumn("AssetValue")).Text, locPrice) = True Then
+                            _totalAssetValue += locPrice
+                        End If
                     End If
                 End If
             Next

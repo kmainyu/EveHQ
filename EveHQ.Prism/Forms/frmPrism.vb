@@ -363,7 +363,7 @@ Namespace Forms
             Next
 
             lvwCurrentAPIs.EndUpdate()
-            Call CompleteAPIUpdate()
+            Invoke(Sub() CompleteAPIUpdate())
         End Sub
 
         ''' <summary>
@@ -691,7 +691,7 @@ Namespace Forms
 
         Private Sub CompleteAPIUpdate()
             ' Populate the various Owner boxes
-            Call UpdatePrismOwners()
+            Invoke(Sub() UpdatePrismOwners())
             ' Set the label, enable the button and inform the user
             lblCurrentAPI.Text = "Cached APIs Loaded:"
             btnDownloadAPIData.Enabled = True
@@ -815,7 +815,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -856,7 +856,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -903,7 +903,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -975,7 +975,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1016,7 +1016,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1063,7 +1063,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1124,7 +1124,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1149,7 +1149,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
         End Sub
 
@@ -1193,7 +1193,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1237,7 +1237,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1288,7 +1288,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1369,7 +1369,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1414,7 +1414,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1468,7 +1468,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1533,7 +1533,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1579,7 +1579,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
