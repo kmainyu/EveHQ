@@ -69,8 +69,7 @@ Namespace Forms
         Dim _recyclerAssetList As New SortedList(Of Integer, Long)
         Dim _recyclerAssetOwner As String = ""
         Dim _recyclerAssetLocation As Integer
-        ReadOnly _itemList As New SortedList(Of Integer, SortedList(Of String, Long))
-        Dim _matList As New SortedList(Of String, Long)
+        Dim _matList As New Dictionary(Of Integer, Long)
         Dim _baseYield As Double = 0.5
         Dim _netYield As Double = 0
         Dim _stationYield As Double = 0
@@ -3182,22 +3181,6 @@ Namespace Forms
         End Function
         Private Sub LoadRecyclingInfo()
 
-            _itemList.Clear()
-            If _recyclerAssetList.Count > 0 Then
-
-                ' Cycle through the items and get the materials
-                For Each itemID As Integer In _recyclerAssetList.Keys
-                    Dim bpID As Integer = StaticData.GetBPTypeId(CInt(itemID))
-                    _itemList.Add(itemID, New SortedList(Of String, Long))
-                    If StaticData.Blueprints(bpID).Resources.ContainsKey(6) Then
-                        For Each br As EveData.BlueprintResource In StaticData.Blueprints(bpID).Resources(6).Values
-                            _itemList(itemID).Add(StaticData.Types(br.TypeId).Name, br.Quantity)
-                        Next
-                    End If
-                Next
-
-            End If
-
             ' Load the characters into the combobox
             cboRecyclePilots.Items.Clear()
             For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
@@ -3278,7 +3261,7 @@ Namespace Forms
             Dim bestPriceTotal As Double = 0
             Dim salePriceTotal As Double = 0
             Dim refinePriceTotal As Double = 0
-            Dim recycleResults As New SortedList
+            Dim recycleResults As New SortedList(Of Integer, Long)
             Dim recycleWaste As New SortedList
             Dim recycleTake As New SortedList
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
@@ -3328,7 +3311,14 @@ Namespace Forms
                     tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.ScrapMetalProc)))) + _baseYield
                 End If
                 tempNetYield = Math.Min(tempNetYield, 1)
-                _matList = _itemList(asset)
+                If StaticData.TypeMaterials.ContainsKey(asset) Then
+                    _matList.Clear()
+                    For Each mat As Integer In StaticData.TypeMaterials(asset).Materials.Keys
+                        _matList.Add(mat, StaticData.TypeMaterials(asset).Materials(mat))
+                    Next
+                Else
+                    _matList = Nothing
+                End If
                 newClvItem = New Node
                 adtRecycle.Nodes.Add(newClvItem)
                 newClvItem.CreateCells()
@@ -3355,11 +3345,11 @@ Namespace Forms
                 End If
                 recycleTotal = 0
                 If _matList IsNot Nothing Then ' i.e. it can be refined
-                    Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From m In _matList.Keys Select StaticData.TypeNames(CStr(m)))
+                    Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(_matList.Keys)
                     matPriceTask.Wait()
                     Dim matPrices As Dictionary(Of Integer, Double) = matPriceTask.Result
-                    For Each mat As String In _matList.Keys
-                        price = Math.Round(matPrices(StaticData.TypeNames(mat)), 2, MidpointRounding.AwayFromZero)
+                    For Each mat As Integer In _matList.Keys
+                        price = Math.Round(matPrices(mat), 2, MidpointRounding.AwayFromZero)
                         perfect = CLng(_matList(mat)) * batches
                         wastage = CLng(perfect * (1 - tempNetYield))
                         quant = CLng(perfect * tempNetYield)
@@ -3371,7 +3361,7 @@ Namespace Forms
                         newClvSubItem = New Node
                         newClvItem.Nodes.Add(newClvSubItem)
                         newClvSubItem.CreateCells()
-                        newClvSubItem.Text = mat
+                        newClvSubItem.Text = StaticData.Types(mat).Name
                         newClvSubItem.Cells(2).Text = quant.ToString("N0")
                         newClvSubItem.Cells(3).Text = quant.ToString("N0")
                         newClvSubItem.Cells(4).Text = price.ToString("N2")
@@ -3385,10 +3375,10 @@ Namespace Forms
                             recycleTotal += value
                         End If
                         ' Save the perfect refining quantity
-                        If recycleResults.Contains(mat) = False Then
+                        If recycleResults.ContainsKey(mat) = False Then
                             recycleResults.Add(mat, quant)
                         Else
-                            recycleResults(mat) = CDbl(recycleResults(mat)) + quant
+                            recycleResults(mat) += quant
                         End If
                         ' Save the wasted amounts
                         If recycleWaste.Contains(mat) = False Then
@@ -3430,18 +3420,18 @@ Namespace Forms
             adtTotals.BeginUpdate()
             adtTotals.Nodes.Clear()
             If recycleResults IsNot Nothing Then
-                Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From m In recycleResults.Keys Select StaticData.TypeNames(CStr(m)))
+                Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(recycleResults.Keys)
                 matPriceTask.Wait()
                 Dim matPrices As Dictionary(Of Integer, Double) = matPriceTask.Result
-                For Each mat As String In recycleResults.Keys
-                    price = Math.Round(matPrices(StaticData.TypeNames(mat)), 2, MidpointRounding.AwayFromZero)
+                For Each mat As Integer In recycleResults.Keys
+                    price = Math.Round(matPrices(mat), 2, MidpointRounding.AwayFromZero)
                     wastage = CLng(recycleWaste(mat))
                     taken = CLng(recycleTake(mat))
                     quant = CLng(recycleResults(mat))
                     newClvItem = New Node
                     adtTotals.Nodes.Add(newClvItem)
                     newClvItem.CreateCells()
-                    newClvItem.Text = mat
+                    newClvItem.Text = StaticData.Types(mat).Name
                     newClvItem.Cells(1).Text = taken.ToString("N0")
                     newClvItem.Cells(2).Text = wastage.ToString("N0")
                     newClvItem.Cells(3).Text = quant.ToString("N0")
