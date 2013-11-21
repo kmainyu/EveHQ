@@ -99,7 +99,7 @@ Public Class ImageHandler
                 Return My.Resources.nochar
             End If
         Catch e As Exception
-            Return Nothing
+            Return My.Resources.nochar
         End Try
     End Function
 
@@ -128,7 +128,7 @@ Public Class ImageHandler
                 Return CType(New Bitmap(My.Resources.nochar, imageSize, imageSize), Image)
             End If
         Catch e As Exception
-            Return Nothing
+            Return CType(New Bitmap(My.Resources.nochar, imageSize, imageSize), Image)
         End Try
     End Function
 
@@ -157,7 +157,7 @@ Public Class ImageHandler
                 Return My.Resources.nochar
             End If
         Catch e As Exception
-            Return Nothing
+            Return My.Resources.nochar
         End Try
     End Function
 
@@ -186,7 +186,7 @@ Public Class ImageHandler
                 Return CType(New Bitmap(My.Resources.nochar, imageSize, imageSize), Image)
             End If
         Catch e As Exception
-            Return Nothing
+            Return CType(New Bitmap(My.Resources.nochar, imageSize, imageSize), Image)
         End Try
     End Function
 
@@ -215,7 +215,7 @@ Public Class ImageHandler
                 Return My.Resources.nochar
             End If
         Catch e As Exception
-            Return Nothing
+            Return My.Resources.nochar
         End Try
     End Function
 
