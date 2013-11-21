@@ -1172,14 +1172,14 @@ Namespace Forms
 
                 If IsHandleCreated Then
                     ' Save the settings
-                    Invoke(New MethodInvoker(AddressOf HQ.Settings.Save))
+                    Invoke(Sub() HQ.Settings.Save())
 
                     ' Enable the option again
                     btnQueryAPI.Enabled = True
-                    Invoke(New MethodInvoker(AddressOf ResetSettingsButton))
+                    Invoke(Sub() ResetSettingsButton())
 
                     ' Update data
-                    Invoke(New MethodInvoker(AddressOf UpdatePilotInfo))
+                    Invoke(Sub() UpdatePilotInfo())
                 End If
             Catch e As Exception
                 If IsHandleCreated Then

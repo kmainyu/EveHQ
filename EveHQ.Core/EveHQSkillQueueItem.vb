@@ -110,7 +110,7 @@
     ''' <returns>A copy of the instance of SkillQueueItem from where the function was called</returns>
     ''' <remarks></remarks>
     Public Function Clone() As Object Implements ICloneable.Clone
-        Return CType(MemberwiseClone(), SkillQueueItem)
+        Return CType(MemberwiseClone(), EveHQSkillQueueItem)
     End Function
 
 End Class
