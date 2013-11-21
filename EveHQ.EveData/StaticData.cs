@@ -24,7 +24,7 @@ namespace EveHQ.EveData
     using System.IO;
     using System.Linq;
 
-    using EveHQ.Common.Extensions;
+    using Common.Extensions;
 
     using ProtoBuf;
 
@@ -191,6 +191,11 @@ namespace EveHQ.EveData
         ///     The types.
         /// </summary>
         private static SortedList<int, EveType> types = new SortedList<int, EveType>(); // typeID, EveType
+
+        /// <summary>
+        ///     The type materials
+        /// </summary>
+        private static Dictionary<int, TypeMaterial> typeMaterials = new Dictionary<int, TypeMaterial>();
 
         #endregion
 
@@ -559,6 +564,17 @@ namespace EveHQ.EveData
             }
         }
 
+        /// <summary>
+        ///     Gets the type materials.
+        /// </summary>
+        public static Dictionary<int, TypeMaterial> TypeMaterials
+        {
+            get
+            {
+                return typeMaterials;
+            }
+        }
+
         #endregion
 
         #region Public Methods and Operators
@@ -847,7 +863,7 @@ namespace EveHQ.EveData
                 // Get files from dump
 
                 // Item List
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemList.dat"), FileMode.Open,FileAccess.Read))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemList.dat"), FileMode.Open, FileAccess.Read))
                 {
                     typeNames = Serializer.Deserialize<SortedList<string, int>>(s);
                 }
@@ -1062,6 +1078,14 @@ namespace EveHQ.EveData
 
                 Trace.TraceInformation(" *** Meta Types Finished Loading");
 
+                // Type Materials
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "TypeMaterials.dat"), FileMode.Open, FileAccess.Read))
+                {
+                    typeMaterials = Serializer.Deserialize<Dictionary<int, TypeMaterial>>(s);
+                }
+
+                Trace.TraceInformation(" *** Type Materials Finished Loading");
+
                 // Blueprint Types
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "Blueprints.dat"), FileMode.Open, FileAccess.Read))
                 {
@@ -1093,6 +1117,7 @@ namespace EveHQ.EveData
                 }
 
                 Trace.TraceInformation(" *** Item Flags Finished Loading");
+
                 return true;
             }
             catch (Exception ex)

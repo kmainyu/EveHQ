@@ -32,7 +32,7 @@ Public Class FrmCacheCreator
 
     Private Const CacheFolderName As String = "StaticData"
     Private Const StaticDB As String = "EveHQMaster"
-    Private Const StaticDBConnection As String = "Server=localhost; Database = " & StaticDB & "; Integrated Security = SSPI;" ' For SDE connection
+    Private Const StaticDBConnection As String = "Server=localhost\SQLExpress; Database = " & StaticDB & "; Integrated Security = SSPI;" ' For SDE connection
     ReadOnly _sqLiteDBFolder As String = Path.Combine(Application.StartupPath, "EveCache")
     ReadOnly _sqLiteDB As String = Path.Combine(_sqLiteDBFolder, "EveHQMaster.db3")
 
@@ -281,6 +281,7 @@ Public Class FrmCacheCreator
         Call LoadMetaGroups()
         Call LoadMetaTypes()
 
+        Call LoadTypeMaterials()
         Call LoadBlueprints()
         Call LoadAssemblyArrays()
         Call LoadNPCCorps()
@@ -979,6 +980,24 @@ Public Class FrmCacheCreator
 
     End Sub
 
+    Private Sub LoadTypeMaterials()
+
+        StaticData.TypeMaterials.Clear()
+        Using evehqData As DataSet = GetStaticData("SELECT * FROM invTypeMaterials;")
+            For item As Integer = 0 To evehqData.Tables(0).Rows.Count - 1
+                Dim typeID As Integer = CInt(evehqData.Tables(0).Rows(item).Item("typeID"))
+                Dim tm As New TypeMaterial
+                If StaticData.TypeMaterials.ContainsKey(typeID) = True Then
+                    tm = StaticData.TypeMaterials(typeID)
+                Else
+                    StaticData.TypeMaterials.Add(typeID, tm)
+                End If
+                tm.Materials.Add(CInt(evehqData.Tables(0).Rows(item).Item("materialTypeID")), CInt(evehqData.Tables(0).Rows(item).Item("quantity")))
+            Next
+        End Using
+
+    End Sub
+
     Private Sub LoadBlueprints()
 
         StaticData.Blueprints.Clear()
@@ -1322,6 +1341,12 @@ Public Class FrmCacheCreator
         ' Meta Types
         s = New FileStream(Path.Combine(coreCacheFolder, "MetaTypes.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.MetaTypes)
+        s.Flush()
+        s.Close()
+
+        ' Type Materials
+        s = New FileStream(Path.Combine(coreCacheFolder, "TypeMaterials.dat"), FileMode.Create)
+        Serializer.Serialize(s, StaticData.TypeMaterials)
         s.Flush()
         s.Close()
 

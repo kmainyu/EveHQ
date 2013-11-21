@@ -70,6 +70,7 @@
     <Compile Include="Station.cs" />
     <Compile Include="TypeAttrib.cs" />
     <Compile Include="TypeEffect.cs" />
+    <Compile Include="TypeMaterial.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\EveHQ.Data\StaticData\Agents.dat">
