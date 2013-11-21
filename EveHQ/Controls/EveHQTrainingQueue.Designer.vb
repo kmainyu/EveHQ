@@ -53,6 +53,8 @@ Namespace Controls
             Me.mnuSeparateBottomLevel = New System.Windows.Forms.ToolStripMenuItem()
             Me.ToolStripMenuItem8 = New System.Windows.Forms.ToolStripSeparator()
             Me.mnuSplitQueue = New System.Windows.Forms.ToolStripMenuItem()
+            Me.mnuCopySkills = New System.Windows.Forms.ToolStripMenuItem()
+            Me.mnuPasteSkills = New System.Windows.Forms.ToolStripMenuItem()
             Me.mnuSeperateLevelSep = New System.Windows.Forms.ToolStripSeparator()
             Me.mnuDeleteFromQueue = New System.Windows.Forms.ToolStripMenuItem()
             Me.mnuRemoveTrainedSkills = New System.Windows.Forms.ToolStripMenuItem()
@@ -65,8 +67,6 @@ Namespace Controls
             Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
             Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
             Me.SkillCompleted = New DevComponents.DotNetBar.ElementStyle()
-            Me.mnuCopySkills = New System.Windows.Forms.ToolStripMenuItem()
-            Me.mnuPasteSkills = New System.Windows.Forms.ToolStripMenuItem()
             Me.panelInfo.SuspendLayout()
             CType(Me.adtQueue, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.ctxQueue.SuspendLayout()
@@ -191,7 +191,7 @@ Namespace Controls
             Me.ctxQueue.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
             Me.ctxQueue.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuChangeLevel, Me.mnuIncreaseLevel, Me.mnuDecreaseLevel, Me.ToolStripSeparator3, Me.mnuMoveUpQueue, Me.mnuMoveDownQueue, Me.ToolStripMenuItem3, Me.mnuSeparateLevels, Me.ToolStripMenuItem8, Me.mnuSplitQueue, Me.mnuCopySkills, Me.mnuPasteSkills, Me.mnuSeperateLevelSep, Me.mnuDeleteFromQueue, Me.mnuRemoveTrainedSkills, Me.mnuClearTrainingQueue, Me.ToolStripSeparator2, Me.mnuChangePriority, Me.mnuEditNote, Me.ToolStripMenuItem1, Me.mnuViewDetails})
             Me.ctxQueue.Name = "ctxDepend"
-            Me.ctxQueue.Size = New System.Drawing.Size(207, 420)
+            Me.ctxQueue.Size = New System.Drawing.Size(207, 398)
             '
             'mnuSkillName
             '
@@ -318,6 +318,20 @@ Namespace Controls
             Me.mnuSplitQueue.Size = New System.Drawing.Size(206, 22)
             Me.mnuSplitQueue.Text = "Split Queue"
             '
+            'mnuCopySkills
+            '
+            Me.mnuCopySkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.mnuCopySkills.Name = "mnuCopySkills"
+            Me.mnuCopySkills.Size = New System.Drawing.Size(206, 22)
+            Me.mnuCopySkills.Text = "Copy Skills"
+            '
+            'mnuPasteSkills
+            '
+            Me.mnuPasteSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.mnuPasteSkills.Name = "mnuPasteSkills"
+            Me.mnuPasteSkills.Size = New System.Drawing.Size(206, 22)
+            Me.mnuPasteSkills.Text = "Paste Skills"
+            '
             'mnuSeperateLevelSep
             '
             Me.mnuSeperateLevelSep.Name = "mnuSeperateLevelSep"
@@ -390,20 +404,6 @@ Namespace Controls
             Me.SkillCompleted.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.SkillCompleted.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.SkillCompleted.Name = "SkillCompleted"
-            '
-            'mnuCopySkills
-            '
-            Me.mnuCopySkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.mnuCopySkills.Name = "mnuCopySkills"
-            Me.mnuCopySkills.Size = New System.Drawing.Size(206, 22)
-            Me.mnuCopySkills.Text = "Copy Skills"
-            '
-            'mnuPasteSkills
-            '
-            Me.mnuPasteSkills.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.mnuPasteSkills.Name = "mnuPasteSkills"
-            Me.mnuPasteSkills.Size = New System.Drawing.Size(206, 22)
-            Me.mnuPasteSkills.Text = "Paste Skills"
             '
             'EveHQTrainingQueue
             '

@@ -35,6 +35,7 @@ Namespace Controls
         Dim _queueName As String
         Dim _queue As Core.EveHQSkillQueue
         Dim _storedQueue As Core.EveHQSkillQueue = Nothing
+        Dim _nodeImage As Image = My.Resources.SkillBook16
 
         ReadOnly _startup As Boolean
 
@@ -144,57 +145,58 @@ Namespace Controls
             ch.SortingEnabled = False
             ch.Name = "Name" : ch.Width.Absolute = 180
             adtQueue.Columns.Add(ch)
-
+          
             ' Add subitems based on the user selected columns
             Dim colName As String
             For Each col As String In Core.HQ.Settings.UserQueueColumns
                 If col.EndsWith("1", StringComparison.Ordinal) = True Then
                     colName = col.Substring(0, col.Length - 1)
                     ' Define a new column header
-                    Dim ach As New ColumnHeader
-                    ach.SortingEnabled = False
-                    ach.Name = colName : ach.Width.Absolute = 100
-                    Select Case colName
-                        Case "Current"
-                            ach.Text = "Cur Lvl" : ach.Width.Absolute = 60
-                        Case "From"
-                            ach.Text = "From Lvl" : ach.Width.Absolute = 60
-                        Case "To"
-                            ach.Text = "To Lvl" : ach.Width.Absolute = 60
-                        Case "Percent"
-                            ach.Text = "%" : ach.Width.Absolute = 30
-                        Case "TrainTime"
-                            ach.Text = "Training Time" : ach.Width.Absolute = 125
-                        Case "TimeToComplete"
-                            ach.Text = "Time to Complete" : ach.Width.Absolute = 125
-                        Case "DateEnded"
-                            ach.Text = "Date Completed" : ach.Width.Absolute = 150
-                        Case "Rank"
-                            ach.Text = "Rank" : ach.Width.Absolute = 50
-                        Case "PAtt"
-                            ach.Text = "Pri Att" : ach.Width.Absolute = 80
-                        Case "SAtt"
-                            ach.Text = "Sec Att" : ach.Width.Absolute = 80
-                        Case "SPHour"
-                            ach.Text = "SP /hour" : ach.Width.Absolute = 80
-                        Case "SPDay"
-                            ach.Text = "SP /day" : ach.Width.Absolute = 80
-                        Case "SPWeek"
-                            ach.Text = "SP /week" : ach.Width.Absolute = 80
-                        Case "SPMonth"
-                            ach.Text = "SP /mnth" : ach.Width.Absolute = 80
-                        Case "SPYear"
-                            ach.Text = "SP /year" : ach.Width.Absolute = 80
-                        Case "SPAdded"
-                            ach.Text = "SP Added" : ach.Width.Absolute = 100
-                        Case "SPTotal"
-                            ach.Text = "SP @ End" : ach.Width.Absolute = 100
-                        Case "Notes"
-                            ach.Text = "Notes" : ach.Width.Absolute = 200
-                        Case "Priority"
-                            ach.Text = "Priority" : ach.Width.Absolute = 50
-                    End Select
-                    adtQueue.Columns.Add(ach)
+                    Using ach As New ColumnHeader
+                        ach.SortingEnabled = False
+                        ach.Name = colName : ach.Width.Absolute = 100
+                        Select Case colName
+                            Case "Current"
+                                ach.Text = "Cur Lvl" : ach.Width.Absolute = 60
+                            Case "From"
+                                ach.Text = "From Lvl" : ach.Width.Absolute = 60
+                            Case "To"
+                                ach.Text = "To Lvl" : ach.Width.Absolute = 60
+                            Case "Percent"
+                                ach.Text = "%" : ach.Width.Absolute = 30
+                            Case "TrainTime"
+                                ach.Text = "Training Time" : ach.Width.Absolute = 125
+                            Case "TimeToComplete"
+                                ach.Text = "Time to Complete" : ach.Width.Absolute = 125
+                            Case "DateEnded"
+                                ach.Text = "Date Completed" : ach.Width.Absolute = 150
+                            Case "Rank"
+                                ach.Text = "Rank" : ach.Width.Absolute = 50
+                            Case "PAtt"
+                                ach.Text = "Pri Att" : ach.Width.Absolute = 80
+                            Case "SAtt"
+                                ach.Text = "Sec Att" : ach.Width.Absolute = 80
+                            Case "SPHour"
+                                ach.Text = "SP /hour" : ach.Width.Absolute = 80
+                            Case "SPDay"
+                                ach.Text = "SP /day" : ach.Width.Absolute = 80
+                            Case "SPWeek"
+                                ach.Text = "SP /week" : ach.Width.Absolute = 80
+                            Case "SPMonth"
+                                ach.Text = "SP /mnth" : ach.Width.Absolute = 80
+                            Case "SPYear"
+                                ach.Text = "SP /year" : ach.Width.Absolute = 80
+                            Case "SPAdded"
+                                ach.Text = "SP Added" : ach.Width.Absolute = 100
+                            Case "SPTotal"
+                                ach.Text = "SP @ End" : ach.Width.Absolute = 100
+                            Case "Notes"
+                                ach.Text = "Notes" : ach.Width.Absolute = 200
+                            Case "Priority"
+                                ach.Text = "Priority" : ach.Width.Absolute = 50
+                        End Select
+                        adtQueue.Columns.Add(ach)
+                    End Using
                 End If
             Next
         End Sub
@@ -203,7 +205,7 @@ Namespace Controls
 
             If _queuePilot.PilotSkills.Count <> 0 Then
 
-                ' Define node background colours
+               ' Define node background colours
                 Dim styleCurrentTraining As ElementStyle = adtQueue.Styles(0).Copy
                 Dim styleIsPreReq As ElementStyle = adtQueue.Styles(0).Copy
                 Dim styleHasPreReq As ElementStyle = adtQueue.Styles(0).Copy
@@ -232,7 +234,6 @@ Namespace Controls
                 'End If
 
                 ' Set the queue up for redrawing
-                adtQueue.SuspendLayout()
                 adtQueue.BeginUpdate()
                 adtQueue.Nodes.Clear()
 
@@ -257,78 +258,79 @@ Namespace Controls
 
                 If sortedQueue IsNot Nothing Then
                     For Each qItem In sortedQueue
-                        Dim newskill As New Node
-                        newskill.Name = qItem.Key
-                        Try
-                            newskill.Image = My.Resources.SkillBook16
-                        Catch e As Exception
-                            'TODO: Not sure why this fails, possibly some delay in fetching the image from resources?
-                        End Try
+                        Using newskill As New Node
+                            newskill.Name = qItem.Key
+                            Try
+                                newskill.Image = _nodeImage
+                            Catch e As Exception
+                                'TODO: Not sure why this fails, possibly some delay in fetching the image from resources?
+                            End Try
 
-                        ' Do some additional calcs
-                        totalSP += CLng(qItem.SPTrained)
-                        totalTime += CLng(qItem.TrainTime)
-                        newskill.Text = qItem.Name
-                        newskill.Tag = qItem.ID
-                        Call AddUserColumns(newskill, qItem, totalSP)
+                            ' Do some additional calcs
+                            totalSP += CLng(qItem.SPTrained)
+                            totalTime += CLng(qItem.TrainTime)
+                            newskill.Text = qItem.Name
+                            newskill.Tag = qItem.ID
+                            Call AddUserColumns(newskill, qItem, totalSP)
 
-                        If qItem.Done = False Or (qItem.Done = True And _queue.ShowCompletedSkills = True) Then
-                            newskill.Visible = True
-                        Else
-                            newskill.Visible = False
-                        End If
-                        If qItem.Done = True Then
-                            'newskill.Style = adtQueue.Styles("SkillCompleted")
-                            For Each c As Cell In newskill.Cells
-                                c.StyleNormal = adtQueue.Styles("SkillCompleted")
-                            Next
-                        End If
-                        If qItem.IsPrereq = True Then
-                            If qItem.HasPrereq = True Then
-                                newskill.Tooltip &= qItem.Prereq & ControlChars.CrLf & qItem.Reqs
-                                'newskill.Style = styleBothPreReq
-                                For Each c As Cell In newskill.Cells
-                                    c.StyleNormal = styleBothPreReq
-                                Next
+                            If qItem.Done = False Or (qItem.Done = True And _queue.ShowCompletedSkills = True) Then
+                                newskill.Visible = True
                             Else
-                                newskill.Tooltip = qItem.Prereq
-                                'newskill.Style = styleIsPreReq
+                                newskill.Visible = False
+                            End If
+                            If qItem.Done = True Then
+                                'newskill.Style = adtQueue.Styles("SkillCompleted")
                                 For Each c As Cell In newskill.Cells
-                                    c.StyleNormal = styleIsPreReq
+                                    c.StyleNormal = adtQueue.Styles("SkillCompleted")
                                 Next
                             End If
-                        Else
-                            If qItem.HasPrereq = True Then
-                                newskill.Tooltip = qItem.Reqs
-                                'newskill.Style = styleHasPreReq
-                                For Each c As Cell In newskill.Cells
-                                    c.StyleNormal = styleHasPreReq
-                                Next
-                            Else
-                                If qItem.PartTrained = True Then
-                                    'newskill.Style = stylePartialTraining
+                            If qItem.IsPrereq = True Then
+                                If qItem.HasPrereq = True Then
+                                    newskill.Tooltip &= qItem.Prereq & ControlChars.CrLf & qItem.Reqs
+                                    'newskill.Style = styleBothPreReq
                                     For Each c As Cell In newskill.Cells
-                                        c.StyleNormal = stylePartialTraining
+                                        c.StyleNormal = styleBothPreReq
                                     Next
                                 Else
-                                    'newskill.Style = styleReadySkill
+                                    newskill.Tooltip = qItem.Prereq
+                                    'newskill.Style = styleIsPreReq
                                     For Each c As Cell In newskill.Cells
-                                        c.StyleNormal = styleReadySkill
+                                        c.StyleNormal = styleIsPreReq
                                     Next
                                 End If
+                            Else
+                                If qItem.HasPrereq = True Then
+                                    newskill.Tooltip = qItem.Reqs
+                                    'newskill.Style = styleHasPreReq
+                                    For Each c As Cell In newskill.Cells
+                                        c.StyleNormal = styleHasPreReq
+                                    Next
+                                Else
+                                    If qItem.PartTrained = True Then
+                                        'newskill.Style = stylePartialTraining
+                                        For Each c As Cell In newskill.Cells
+                                            c.StyleNormal = stylePartialTraining
+                                        Next
+                                    Else
+                                        'newskill.Style = styleReadySkill
+                                        For Each c As Cell In newskill.Cells
+                                            c.StyleNormal = styleReadySkill
+                                        Next
+                                    End If
+                                End If
                             End If
-                        End If
-                        If qItem.IsTraining = True Then
-                            newskill.DragDropEnabled = False
-                            'newskill.Style = styleCurrentTraining
-                            For Each c As Cell In newskill.Cells
-                                c.StyleNormal = styleCurrentTraining
-                            Next
-                            ' Set a flag in the tree of the skill name for later checking
-                            adtQueue.Tag = newskill.Name
-                        End If
+                            If qItem.IsTraining = True Then
+                                newskill.DragDropEnabled = False
+                                'newskill.Style = styleCurrentTraining
+                                For Each c As Cell In newskill.Cells
+                                    c.StyleNormal = styleCurrentTraining
+                                Next
+                                ' Set a flag in the tree of the skill name for later checking
+                                adtQueue.Tag = newskill.Name
+                            End If
 
-                        adtQueue.Nodes.Add(newskill)
+                            adtQueue.Nodes.Add(newskill)
+                        End Using
                     Next
                 End If
 
@@ -346,9 +348,7 @@ Namespace Controls
                 'Next
 
                 ' Tidy up afterwards
-                adtQueue.RecalcLayout()
                 adtQueue.EndUpdate()
-                adtQueue.ResumeLayout()
 
                 ' Restore the first visible item
                 'If FVI >= 0 And lvwQueue.Items.Count > 0 And FVI < lvwQueue.Items.Count Then
