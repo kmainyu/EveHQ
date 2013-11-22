@@ -177,6 +177,7 @@ SectionIn RO
 	File "..\BuildOutput\Debug\StaticData\Systems.dat"
   File "..\BuildOutput\Debug\StaticData\TypeAttributes.dat"
   File "..\BuildOutput\Debug\StaticData\TypeEffects.dat"
+  File "..\BuildOutput\Debug\StaticData\TypeMaterials.dat"
   File "..\BuildOutput\Debug\StaticData\Units.dat"
   
   # delete cache files

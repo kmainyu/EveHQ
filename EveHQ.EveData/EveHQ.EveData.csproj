@@ -225,6 +225,10 @@
       <Link>StaticData\TypeEffects.dat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\EveHQ.Data\StaticData\TypeMaterials.dat">
+      <Link>StaticData\TypeMaterials.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\EveHQ.Data\StaticData\Units.dat">
       <Link>StaticData\Units.dat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
