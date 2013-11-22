@@ -220,7 +220,7 @@ Public Class ModuleLists
     <ProtoMember(1)> Public Shared ModuleMetaTypes As New SortedList(Of Integer, Integer) ' Key = typeID, Value = parentTypeID
     <ProtoMember(2)> Public Shared ModuleMetaGroups As New SortedList(Of Integer, Integer) ' Key = typeID, Value = metaGroupID
     <ProtoMember(3)> Public Shared ModuleList As New SortedList(Of Integer, ShipModule)   ' Key = module ID, Value = ShipModule
-    <ProtoMember(4)> Public Shared ModuleListName As New SortedList(Of String, Integer) ' Key = moduleName, Value = ID (for quick name to ID conversions)
+    <ProtoMember(4)> Public Shared ModuleListName As New Dictionary(Of String, Integer) ' Key = moduleName, Value = ID (for quick name to ID conversions)
     <ProtoMember(5)> Public Shared TypeGroups As New SortedList(Of Integer, String) ' groupID, groupName
     <ProtoMember(6)> Public Shared TypeCats As New SortedList(Of Integer, String) ' catID, catName
     <ProtoMember(7)> Public Shared GroupCats As New SortedList(Of Integer, Integer) ' groupID, catID

@@ -896,17 +896,18 @@ Namespace Forms
         Private Sub LoadSkillTreeSearch()
             If Len(cboFilter.Text) > 1 Then
                 Dim strSearch As String = cboFilter.Text.Trim.ToLower
-                Dim results As New SortedList(Of String, String)
+                Dim results As New List(Of String)
                 Dim newSkill As EveSkill
                 For Each newSkill In HQ.SkillListID.Values
                     If newSkill.Name.ToLower.Contains(strSearch) Or newSkill.Description.ToLower.Contains(strSearch) Then
-                        results.Add(newSkill.Name, newSkill.Name)
+                        results.Add(newSkill.Name)
                     End If
                 Next
+                results.Sort(StringComparer.InvariantCulture)
 
                 adtSkillList.BeginUpdate()
                 adtSkillList.Nodes.Clear()
-                For Each item As String In results.Values
+                For Each item As String In results
                     newSkill = HQ.SkillListName(item)
                     If newSkill.GroupID <> 505 And newSkill.Published = True Then
                         Dim skillNode As New Node

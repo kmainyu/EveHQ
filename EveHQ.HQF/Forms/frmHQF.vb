@@ -640,7 +640,7 @@ Namespace Forms
                 Dim strSearch As String = txtShipSearch.Text.Trim.ToLower
 
                 ' Redraw the ships tree
-                Dim shipResults As New SortedList(Of String, String)
+                Dim shipResults As New List(Of String)
                 Dim isFlyable As Boolean
                 For Each sShip As String In ShipLists.ShipList.Keys
                     If sShip.ToLower.Contains(strSearch) Then
@@ -650,13 +650,13 @@ Namespace Forms
                             isFlyable = True
                         End If
                         If isFlyable = True Then
-                            shipResults.Add(sShip, sShip)
+                            shipResults.Add(sShip)
                         End If
                     End If
                 Next
                 tvwShips.BeginUpdate()
                 tvwShips.Nodes.Clear()
-                For Each item As String In shipResults.Values
+                For Each item As String In shipResults
                     Dim shipNode As New Node
 
                     Dim ship As Ship = ShipLists.ShipList(item)
@@ -687,7 +687,7 @@ Namespace Forms
                 Dim shipName As String
                 Dim fittingName As String
                 Dim fittingSep As Integer
-                Dim fitResults As New SortedList(Of String, String)
+                Dim fitResults As New List(Of String)
                 For Each sFit As String In Fittings.FittingList.Keys
                     If sFit.ToLower.Contains(strSearch) Then
                         fittingSep = sFit.IndexOf(", ", StringComparison.Ordinal)
@@ -698,7 +698,7 @@ Namespace Forms
                             isFlyable = True
                         End If
                         If isFlyable = True Then
-                            fitResults.Add(sFit, sFit)
+                            fitResults.Add(sFit)
                         End If
                     End If
                 Next
@@ -712,7 +712,7 @@ Namespace Forms
                 Next
                 tvwFittings.BeginUpdate()
                 tvwFittings.Nodes.Clear()
-                For Each item As String In fitResults.Values
+                For Each item As String In fitResults
                     fittingSep = item.IndexOf(", ", StringComparison.Ordinal)
                     shipName = item.Substring(0, fittingSep)
                     fittingName = item.Substring(fittingSep + 2)
@@ -748,10 +748,10 @@ Namespace Forms
                 Dim strSearch As String = txtShipSearch.Text.Trim.ToLower
 
                 ' Redraw the fitting tree
-                Dim fitResults As New SortedList(Of String, String)
+                Dim fitResults As New List(Of String)
                 For Each sFit As String In Fittings.FittingList.Keys
                     If sFit.ToLower.Contains(strSearch) Then
-                        fitResults.Add(sFit, sFit)
+                        fitResults.Add(sFit)
                     End If
                 Next
                 ' Get Current List of "open" nodes
@@ -766,7 +766,7 @@ Namespace Forms
                 Dim shipName As String
                 Dim fittingName As String
                 Dim fittingSep As Integer
-                For Each item As String In fitResults.Values
+                For Each item As String In fitResults
                     fittingSep = item.IndexOf(", ", StringComparison.Ordinal)
                     shipName = item.Substring(0, fittingSep)
                     fittingName = item.Substring(fittingSep + 2)
@@ -1032,13 +1032,13 @@ Namespace Forms
             If Len(txtSearchModules.Text) > 2 Then
                 Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
                 Dim results As New SortedList(Of Integer, ShipModule)
-                For Each item As String In ModuleLists.ModuleListName.Keys
-                    If item.ToLower.Contains(strSearch) Then
+                For Each item As KeyValuePair(Of String, Integer) In ModuleLists.ModuleListName
+                    If item.Key.ToLower.Contains(strSearch) Then
                         ' Add results in by name, module
-                        sMod = ModuleLists.ModuleList(ModuleLists.ModuleListName(item))
+                        sMod = ModuleLists.ModuleList(item.Value)
                         If ActiveFitting IsNot Nothing Then
                             If chkApplySkills.Checked = True Then
-                                sMod = ModuleLists.ModuleList(ModuleLists.ModuleListName(item)).Clone
+                                sMod = ModuleLists.ModuleList(item.Value).Clone
                                 ActiveFitting.ApplySkillEffectsToModule(sMod, True)
                             End If
                         End If
@@ -1337,27 +1337,27 @@ Namespace Forms
             End If
         End Sub
         Private Sub UpdateMruModules(ByVal modName As String)
-            If PluginSettings.HQFSettings.MRUModules.Count < PluginSettings.HQFSettings.MRULimit Then
+            If PluginSettings.HQFSettings.MruModules.Count < PluginSettings.HQFSettings.MruLimit Then
                 ' If the MRU list isn't full
-                If PluginSettings.HQFSettings.MRUModules.Contains(modName) = False Then
+                If PluginSettings.HQFSettings.MruModules.Contains(modName) = False Then
                     ' If the module isn't already in the list
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 Else
                     ' If it is in the list, remove it and add it at the end
-                    PluginSettings.HQFSettings.MRUModules.Remove(modName)
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.Remove(modName)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 End If
             Else
-                If PluginSettings.HQFSettings.MRUModules.Contains(modName) = False Then
-                    For m As Integer = 0 To PluginSettings.HQFSettings.MRULimit - 2
-                        PluginSettings.HQFSettings.MRUModules(m) = PluginSettings.HQFSettings.MRUModules(m + 1)
+                If PluginSettings.HQFSettings.MruModules.Contains(modName) = False Then
+                    For m As Integer = 0 To PluginSettings.HQFSettings.MruLimit - 2
+                        PluginSettings.HQFSettings.MruModules(m) = PluginSettings.HQFSettings.MruModules(m + 1)
                     Next
-                    PluginSettings.HQFSettings.MRUModules.RemoveAt(PluginSettings.HQFSettings.MRULimit - 1)
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.RemoveAt(PluginSettings.HQFSettings.MruLimit - 1)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 Else
                     ' If it is in the list, remove it and add it at the end
-                    PluginSettings.HQFSettings.MRUModules.Remove(modName)
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.Remove(modName)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 End If
             End If
         End Sub

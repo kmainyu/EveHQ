@@ -94,7 +94,7 @@ Public Class PlugInData
             If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFCacheFolder, "ships.dat")) = True Then
                 s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "ships.dat"), FileMode.Open)
                 Try
-                    ShipLists.ShipList = Serializer.Deserialize(Of SortedList(Of String, Ship))(s)
+                    ShipLists.ShipList = Serializer.Deserialize(Of Dictionary(Of String, Ship))(s)
                     s.Close()
                     For Each cShip As Ship In ShipLists.ShipList.Values
                         ShipLists.ShipListKeyID.Add(cShip.ID, cShip.Name)
