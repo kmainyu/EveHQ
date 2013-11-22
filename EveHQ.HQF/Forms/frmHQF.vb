@@ -1195,14 +1195,14 @@ Namespace Forms
 
 
             For Each shipmod As ShipModule In _lastModuleResults.Values
-                If shipmod.SlotType <> 0 Or (shipmod.SlotType = 0 And (shipmod.IsBooster Or shipmod.IsCharge Or shipmod.IsDrone)) Then
+                If shipmod.SlotType <> 0 Or (shipmod.SlotType = 0 And (shipmod.IsBooster Or shipmod.IsCharge Or shipmod.IsDrone Or shipmod.DatabaseCategory = 22)) Then
                     If (shipmod.MetaType And PluginSettings.HQFSettings.ModuleFilter) = shipmod.MetaType Then
                         Dim newModule As New Node
                         newModule.Name = CStr(shipmod.ID)
                         newModule.Text = shipmod.Name
                         newModule.Cells.Add(New Cell(shipmod.MetaLevel.ToString))
-                        newModule.Cells.Add(New Cell(shipmod.CPU.ToString))
-                        newModule.Cells.Add(New Cell(shipmod.PG.ToString))
+                        newModule.Cells.Add(New Cell(shipmod.Cpu.ToString))
+                        newModule.Cells.Add(New Cell(shipmod.Pg.ToString))
                         ' newModule.Cells.Add(New Cell(CStr(costTable(shipmod.ID))))
                         newModule.Cells.Add(New Cell("Processing...")) 'Place holder for the price data that will update afterward.
                         newModule.Cells(4).TextDisplayFormat = "N2"
@@ -1221,7 +1221,7 @@ Namespace Forms
                             stt.BodyText &= "Slot Modifiers - High: " & shipmod.Attributes(1374) & ", Mid: " & shipmod.Attributes(1375) & ", Low: " & shipmod.Attributes(1376) & ControlChars.CrLf & ControlChars.CrLf
                             stt.FooterText = "Subsystem Module Information"
                         Else
-                            stt.FooterText = " Meta: " & shipmod.MetaLevel.ToString("N0") & ", CPU: " & shipmod.CPU.ToString("N0") & ", PG: " & shipmod.PG.ToString("N0")
+                            stt.FooterText = " Meta: " & shipmod.MetaLevel.ToString("N0") & ", CPU: " & shipmod.Cpu.ToString("N0") & ", PG: " & shipmod.Pg.ToString("N0")
                         End If
                         stt.BodyText &= shipmod.Description
                         stt.Color = eTooltipColor.Yellow
@@ -1323,7 +1323,7 @@ Namespace Forms
                             Call ActiveFitting.AddDrone(shipMod, 1, False, False)
                         Else
                             ' Check if module is a charge
-                            If shipMod.IsCharge = True Or shipMod.IsContainer Then
+                            If shipMod.IsCharge = True Or shipMod.IsContainer Or shipMod.DatabaseCategory = 22 Then
                                 ActiveFitting.AddItem(shipMod, 1, False)
                             Else
                                 ' Must be a proper module then!
