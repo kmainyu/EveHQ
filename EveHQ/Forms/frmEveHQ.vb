@@ -317,20 +317,13 @@ Namespace Forms
                 Else
                     ' Close and flush the timer file
                     Trace.Flush()
-                    Trace.Listeners.Remove(HQ.EveHqTracer)
                 End If
             Catch ex As Exception
                 MessageBox.Show("An error occured while closing EveHQ: " & ex.Message & "- " & ex.StackTrace,
                                 "Error Closing EveHQ", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             Finally
-                If (HQ.LoggingStream.CanWrite) Then
-
-
-                    HQ.LoggingStream.Flush()
-                    HQ.LoggingStream.Close()
-                    HQ.LoggingStream.Dispose()
-                End If
+                Trace.Flush()
             End Try
         End Sub
 
@@ -768,7 +761,7 @@ Namespace Forms
                 ' Close log files
 
                 Trace.Flush()
-                Trace.Listeners.Remove(HQ.EveHqTracer)
+                ' Trace.Listeners.Remove(HQ.EveHqTracer)
 
                 'End
 
@@ -778,12 +771,7 @@ Namespace Forms
                     "Error Closing EveHQ", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             Finally
-                If (HQ.LoggingStream.CanWrite) Then
-
-
-                    HQ.LoggingStream.Flush()
-                    HQ.LoggingStream.Close()
-                End If
+                 Trace.Flush()
             End Try
         End Sub
 
