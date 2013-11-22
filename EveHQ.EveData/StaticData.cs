@@ -616,7 +616,12 @@ namespace EveHQ.EveData
                 case 116:
 
                     // typeID
-                    att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name;
+                    att.DisplayValue = "Unknown";
+                    if (Types.ContainsKey(Convert.ToInt32(att.Value))) 
+                    {
+                        att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name;
+                    }
+                    
                     att.Unit = string.Empty;
                     break;
                 case 119:
@@ -694,7 +699,13 @@ namespace EveHQ.EveData
                         }
                         else
                         {
-                            att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name + " (Level " + attributeList[skillLevelAttribute].Value.ToString("N0", CultureInfo.CurrentCulture) + ")";
+                            att.DisplayValue = "Unknown";
+                            if (Types.ContainsKey(Convert.ToInt32(att.Value)))
+                            {
+                                att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name;
+                            }
+
+                            att.DisplayValue += " (Level " + attributeList[skillLevelAttribute].Value.ToString("N0", CultureInfo.CurrentCulture) + ")";
                         }
 
                         break;
