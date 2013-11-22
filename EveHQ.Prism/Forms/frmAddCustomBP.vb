@@ -48,7 +48,7 @@ Namespace Forms
             cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
             cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
             For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
-                cboBPs.Items.Add(StaticData.Types(newBP.Id))
+                cboBPs.Items.Add(StaticData.Types(newBP.Id).Name)
             Next
             cboBPs.Sorted = True
             cboBPs.EndUpdate()
