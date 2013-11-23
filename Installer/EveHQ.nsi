@@ -6,6 +6,7 @@ SetCompressor /solid lzma
 !include DotNetFramework.nsh
 !include MUI2.nsh
 !include x64.nsh
+!include VC2010.nsh
 !include Upgrade.nsh
 !include DirClean.nsh
 !include "FileFunc.nsh"
