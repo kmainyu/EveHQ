@@ -258,7 +258,7 @@ namespace EveHQ.Market.MarketServices
                 () =>
                     {
                         string cacheKey;
-                        IList<int> regionList = includedRegions as IList<int> ?? includedRegions.ToList();
+                        IList<int> regionList = includedRegions != null ? includedRegions.ToList() : new List<int>();
                         if (systemId.HasValue)
                         {
                             cacheKey = CalcCacheKey(new[] { systemId.Value });
