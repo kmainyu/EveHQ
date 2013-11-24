@@ -33,14 +33,17 @@ Imports Newtonsoft.Json
     Public Shared Sub CheckForInvalidSkills(ByVal hPilot As FittingPilot)
         If HQ.Settings.Pilots.ContainsKey(hPilot.PilotName) = True Then
             ' validate that all the skills in the HQF pilot record exist in the core skill list
+            Dim resetRequired As Boolean = False
             For Each skill As FittingSkill In hPilot.SkillSet.Values
                 If HQ.SkillListName.Keys.Contains(skill.Name) = False Then
-                    ' HQF record has a skill that doesn't exist anymore (or was renamed)
-                    ' the pilot will be reset to default
-                    ResetSkillsToDefault(hPilot)
-                    MessageBox.Show(String.Format("The pilot '{0}', was found to have a skill that either has been renamed or no longer exists ({1}). In order to ensure a proper experience for fitting calculations, this pilot has had their HQFitter skills reset back to match what the Eve API has reported. If you had some custom values set on this pilot, they will have to be recreated.", hPilot.PilotName, skill.Name))
+                    ' HQF record has a skill that doesn't exist anymore (or was renamed) the pilot will be reset to default
+                    resetRequired = True
                 End If
             Next
+            If resetRequired = True Then
+                ResetSkillsToDefault(hPilot)
+                MessageBox.Show(String.Format("The pilot '{0}', was found to have a skill that either has been renamed or no longer exists. In order to ensure a proper experience for fitting calculations, this pilot has had their HQFitter skills reset back to match what the Eve API has reported. If you had some custom values set on this pilot, they will have to be recreated.", hPilot.PilotName))
+            End If
         End If
     End Sub
 
