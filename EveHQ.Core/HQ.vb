@@ -243,13 +243,14 @@ Public Class HQ
     End Sub
 
     Public Shared Function GetMdiTab(ByVal tabName As String) As TabItem
-
         Dim mainTab As TabStrip = CType(MainForm.Controls("tabEveHQMDI"), TabStrip)
-        For Each tp As TabItem In mainTab.Tabs
-            If tp.Text = tabName Then
-                Return tp
-            End If
-        Next
+        If mainTab IsNot Nothing Then
+            For Each tp As TabItem In mainTab.Tabs
+                If tp.Text = tabName Then
+                    Return tp
+                End If
+            Next
+        End If
         Return Nothing
     End Function
 
