@@ -346,7 +346,7 @@ Imports System.Runtime.Serialization
                     _cMidSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cMidSlots = value
             End If
         End Set
     End Property
@@ -363,7 +363,7 @@ Imports System.Runtime.Serialization
                     _cLowSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cLowSlots = value
             End If
         End Set
     End Property
@@ -380,7 +380,7 @@ Imports System.Runtime.Serialization
                     _cRigSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cRigSlots = value
             End If
         End Set
     End Property
@@ -397,7 +397,7 @@ Imports System.Runtime.Serialization
                     _cSubSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cSubSlots = value
             End If
         End Set
     End Property
@@ -414,7 +414,7 @@ Imports System.Runtime.Serialization
                     _cTurretSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cTurretSlots = value
             End If
         End Set
     End Property
@@ -431,7 +431,7 @@ Imports System.Runtime.Serialization
                     _cLauncherSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cLauncherSlots = value
             End If
         End Set
     End Property
