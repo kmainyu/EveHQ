@@ -38,6 +38,8 @@ Namespace Forms
         ReadOnly _allMails As New SortedList(Of Long, EveMailMessage)
         ReadOnly _allNotices As New SortedList(Of Long, EveNotification)
 
+        ReadOnly _mailImage As Image = My.Resources.EveMail32
+
         Dim _currentUnreadMails As Integer = 0
         Dim _currentUnreadNotices As Integer = 0
 
@@ -318,7 +320,7 @@ Namespace Forms
                     Else
                         strTo = "<Mailing List>"
                     End If
-                    sentNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, strTo, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, _readItemStyle, _subItemStyle))
+                    sentNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, strTo, newMail.MessageTitle, newMail.MessageDate.ToString, _mailImage, _readItemStyle, _subItemStyle))
                 Else
                     ' Inbox
                     Dim senderName As String = "ID: " & newMail.SenderID.ToString
@@ -326,10 +328,10 @@ Namespace Forms
                         senderName = finalIDs(newMail.SenderID)
                     End If
                     If newMail.ReadFlag = False Then
-                        inboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, senderName, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, _unreadItemStyle, _subItemStyle))
+                        inboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, senderName, newMail.MessageTitle, newMail.MessageDate.ToString, _mailImage, _unreadItemStyle, _subItemStyle))
                         _currentUnreadMails += 1
                     Else
-                        inboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, senderName, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, _readItemStyle, _subItemStyle))
+                        inboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, senderName, newMail.MessageTitle, newMail.MessageDate.ToString, _mailImage, _readItemStyle, _subItemStyle))
                     End If
                 End If
             Next
@@ -420,10 +422,10 @@ Namespace Forms
                     senderName = finalIDs(newNotice.SenderID)
                 End If
                 If newNotice.ReadFlag = False Then
-                    noticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, senderName, strNotice, newNotice.MessageDate.ToString, My.Resources.EveMail32, _unreadItemStyle, _subItemStyle))
+                    noticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, senderName, strNotice, newNotice.MessageDate.ToString, _mailImage, _unreadItemStyle, _subItemStyle))
                     _currentUnreadNotices += 1
                 Else
-                    noticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, senderName, strNotice, newNotice.MessageDate.ToString, My.Resources.EveMail32, _readItemStyle, _subItemStyle))
+                    noticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, senderName, strNotice, newNotice.MessageDate.ToString, _mailImage, _readItemStyle, _subItemStyle))
                 End If
             Next
             noticeNode.Text = "Eve Notifications (" & _currentUnreadNotices.ToString & ")"
