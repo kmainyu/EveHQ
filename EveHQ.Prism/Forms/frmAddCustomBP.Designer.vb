@@ -101,6 +101,7 @@
             Me.nudPELevel.Location = New System.Drawing.Point(300, 55)
             Me.nudPELevel.MaxValue = 100000
             Me.nudPELevel.MinValue = -10
+            Me.nudPELevel.Value = 0
             Me.nudPELevel.Name = "nudPELevel"
             Me.nudPELevel.ShowUpDown = True
             Me.nudPELevel.Size = New System.Drawing.Size(87, 21)
@@ -117,6 +118,7 @@
             Me.nudMELevel.Location = New System.Drawing.Point(141, 55)
             Me.nudMELevel.MaxValue = 100000
             Me.nudMELevel.MinValue = -10
+            Me.nudMELevel.Value = 0
             Me.nudMELevel.Name = "nudMELevel"
             Me.nudMELevel.ShowUpDown = True
             Me.nudMELevel.Size = New System.Drawing.Size(87, 21)

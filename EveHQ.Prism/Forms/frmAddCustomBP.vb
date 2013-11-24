@@ -45,8 +45,8 @@ Namespace Forms
             ' Load the Blueprints into the combo box
             cboBPs.BeginUpdate()
             cboBPs.Items.Clear()
-            cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
             cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
+            cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
             For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
                 cboBPs.Items.Add(StaticData.Types(newBP.Id).Name)
             Next
