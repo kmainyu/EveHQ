@@ -47,7 +47,7 @@ Namespace Controls.DBControls
             cboPilotList.BeginUpdate()
             cboPilotList.Items.Clear()
             For Each pilot As EveHQPilot In HQ.Settings.Pilots.Values
-                If pilot.Active = True Then
+                If pilot.Active = True And pilot.Account <> "" Then
                     cboPilotList.Items.Add(pilot.Name)
                 End If
             Next
@@ -128,7 +128,6 @@ Namespace Controls.DBControls
                     For Each transaction As XmlNode In transactionList
                         sortedTransactions.Add(transaction)
                     Next
-                    sortedTransactions.Reverse()
 
                     adtLastTransactions.BeginUpdate()
                     adtLastTransactions.Nodes.Clear()
