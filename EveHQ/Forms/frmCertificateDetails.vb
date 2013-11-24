@@ -74,7 +74,16 @@ Namespace Forms
         Private Sub PrepareTree(ByVal certID As Integer)
             Dim cCert As Certificate = StaticData.Certificates(certID)
             tvwBasicReqs.BeginUpdate()
+            tvwStandardReqs.BeginUpdate()
+            tvwImprovedReqs.BeginUpdate()
+            tvwAdvancedReqs.BeginUpdate()
+            tvwEliteReqs.BeginUpdate()
+
             tvwBasicReqs.Nodes.Clear()
+            tvwStandardReqs.Nodes.Clear()
+            tvwImprovedReqs.Nodes.Clear()
+            tvwAdvancedReqs.Nodes.Clear()
+            tvwEliteReqs.Nodes.Clear()
 
             For Each grade As CertificateGrade In cCert.GradesAndSkills.Keys
 
@@ -165,6 +174,10 @@ Namespace Forms
             tvwAdvancedReqs.ExpandAll()
             tvwEliteReqs.ExpandAll()
             tvwBasicReqs.EndUpdate()
+            tvwStandardReqs.EndUpdate()
+            tvwImprovedReqs.EndUpdate()
+            tvwAdvancedReqs.EndUpdate()
+            tvwEliteReqs.EndUpdate()
         End Sub
 
         Private Sub AddPreReqsToTree(ByVal newSkill As EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode)
