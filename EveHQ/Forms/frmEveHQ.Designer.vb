@@ -198,6 +198,7 @@ Namespace Forms
             Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
             Me.ColorPickerDropDown1 = New DevComponents.DotNetBar.ColorPickerDropDown()
             Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
+            Me.trainingBlockLayout = New System.Windows.Forms.FlowLayoutPanel()
             Me.rpPlugins.SuspendLayout()
             Me.EveIconMenu.SuspendLayout()
             Me.ctxTabbedMDI.SuspendLayout()
@@ -207,6 +208,7 @@ Namespace Forms
             Me.DockSite4.SuspendLayout()
             CType(Me.Bar1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.Bar1.SuspendLayout()
+            Me.pdc1.SuspendLayout()
             CType(Me.barStatus, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
@@ -1995,6 +1997,7 @@ Namespace Forms
             '
             Me.pdc1.AutoScroll = True
             Me.pdc1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.pdc1.Controls.Add(Me.trainingBlockLayout)
             Me.pdc1.Location = New System.Drawing.Point(3, 26)
             Me.pdc1.Name = "pdc1"
             Me.pdc1.Size = New System.Drawing.Size(1225, 70)
@@ -2216,6 +2219,16 @@ Namespace Forms
             Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
             Me.EveStatusIcon.Text = ""
             '
+            'trainingBlockLayout
+            '
+            Me.trainingBlockLayout.AutoSize = True
+            Me.trainingBlockLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+            Me.trainingBlockLayout.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.trainingBlockLayout.Location = New System.Drawing.Point(0, 0)
+            Me.trainingBlockLayout.Name = "trainingBlockLayout"
+            Me.trainingBlockLayout.Size = New System.Drawing.Size(1225, 70)
+            Me.trainingBlockLayout.TabIndex = 0
+            '
             'FrmEveHQ
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2249,6 +2262,8 @@ Namespace Forms
             Me.DockSite4.ResumeLayout(False)
             CType(Me.Bar1, System.ComponentModel.ISupportInitialize).EndInit()
             Me.Bar1.ResumeLayout(False)
+            Me.pdc1.ResumeLayout(False)
+            Me.pdc1.PerformLayout()
             CType(Me.barStatus, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
 
@@ -2429,6 +2444,7 @@ Namespace Forms
         Private WithEvents btnVisualStudio2012Dark As DevComponents.DotNetBar.ButtonItem
         Private WithEvents ColorPickerDropDown1 As DevComponents.DotNetBar.ColorPickerDropDown
         Private WithEvents btnCanvasColor As DevComponents.DotNetBar.ColorPickerDropDown
+        Friend WithEvents trainingBlockLayout As System.Windows.Forms.FlowLayoutPanel
 
     End Class
 End Namespace

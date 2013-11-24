@@ -235,15 +235,15 @@ Namespace Forms
             Else
                 frmEveHQ.Bar1.Visible = False
                 ' Clear old event handlers and controls
-                For c As Integer = frmEveHQ.pdc1.Controls.Count - 1 To 0 Step -1
-                    Dim cb As CharacterTrainingBlock = CType(frmEveHQ.pdc1.Controls(c), CharacterTrainingBlock)
-                    RemoveHandler cb.lblSkill.Click, AddressOf frmEveHQ.TrainingStatusLabelClick
-                    RemoveHandler cb.lblTime.Click, AddressOf frmEveHQ.TrainingStatusLabelClick
-                    RemoveHandler cb.lblQueue.Click, AddressOf frmEveHQ.TrainingStatusLabelClick
+                For c As Integer = FrmEveHQ.trainingBlockLayout.Controls.Count - 1 To 0 Step -1
+                    Dim cb As CharacterTrainingBlock = CType(FrmEveHQ.trainingBlockLayout.Controls(c), CharacterTrainingBlock)
+                    RemoveHandler cb.lblSkill.Click, AddressOf FrmEveHQ.TrainingStatusLabelClick
+                    RemoveHandler cb.lblTime.Click, AddressOf FrmEveHQ.TrainingStatusLabelClick
+                    RemoveHandler cb.lblQueue.Click, AddressOf FrmEveHQ.TrainingStatusLabelClick
                     cb.Dispose()
                 Next
                 ' Clear items - just to make sure
-                frmEveHQ.pdc1.Controls.Clear()
+                FrmEveHQ.trainingBlockLayout.Controls.Clear()
             End If
         End Sub
 
