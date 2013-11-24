@@ -1261,8 +1261,8 @@ Namespace Forms
                 pilotTrainingTimes.Sort(myClassSorter)
 
                 ' Clear old event handlers
-                For c As Integer = pdc1.Controls.Count - 1 To 0 Step -1
-                    Dim cb As CharacterTrainingBlock = CType(pdc1.Controls(c), CharacterTrainingBlock)
+                For c As Integer = trainingBlockLayout.Controls.Count - 1 To 0 Step -1
+                    Dim cb As CharacterTrainingBlock = CType(trainingBlockLayout.Controls(c), CharacterTrainingBlock)
                     RemoveHandler cb.lblSkill.Click, AddressOf TrainingStatusLabelClick
                     RemoveHandler cb.lblTime.Click, AddressOf TrainingStatusLabelClick
                     RemoveHandler cb.lblQueue.Click, AddressOf TrainingStatusLabelClick
@@ -1271,7 +1271,7 @@ Namespace Forms
                 Next
 
                 ' Initialise the x-location and clear items
-                pdc1.Controls.Clear()
+                trainingBlockLayout.Controls.Clear()
                 Dim startloc As Integer = 0
 
                 ' Add non-training accounts to the training bar
@@ -1280,7 +1280,7 @@ Namespace Forms
                         ' Build a status panel if the account is not manually disabled
                         If cAccount.APIAccountStatus <> APIAccountStatuses.ManualDisabled Then
                             Dim cb As New CharacterTrainingBlock(cAccount.UserID, True)
-                            pdc1.Controls.Add(cb)
+                            trainingBlockLayout.Controls.Add(cb)
                             If Bar1.DockSide = eDockSide.Bottom Or Bar1.DockSide = eDockSide.Top Then
                                 cb.Left = startloc
                                 cb.BringToFront()
@@ -1301,7 +1301,7 @@ Namespace Forms
                                 ' Build a status panel if the account is not manually disabled
                                 If cAccount.APIAccountStatus <> APIAccountStatuses.ManualDisabled Then
                                     Dim cb As New CharacterTrainingBlock(cAccount.UserID, True)
-                                    pdc1.Controls.Add(cb)
+                                    trainingBlockLayout.Controls.Add(cb)
                                     If Bar1.DockSide = eDockSide.Bottom Or Bar1.DockSide = eDockSide.Top Then
                                         cb.Left = startloc
                                         cb.BringToFront()
@@ -1324,7 +1324,7 @@ Namespace Forms
                     AddHandler cb.pbPilot.Click, AddressOf PilotPicClick
                     AddHandler cb.lblTime.Click, AddressOf TrainingStatusLabelClick
                     AddHandler cb.lblQueue.Click, AddressOf TrainingStatusLabelClick
-                    pdc1.Controls.Add(cb)
+                    trainingBlockLayout.Controls.Add(cb)
                     If Bar1.DockSide = eDockSide.Bottom Or Bar1.DockSide = eDockSide.Top Then
                         cb.Left = startloc
                         cb.BringToFront()
