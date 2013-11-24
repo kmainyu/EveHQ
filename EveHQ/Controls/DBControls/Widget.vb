@@ -368,7 +368,7 @@ Namespace Controls.DBControls
             For Each checkConfig As SortedList(Of String, Object) In HQ.Settings.DashboardConfiguration
                 Dim ccInfo As String = CStr(checkConfig("ControlConfigInfo"))
                 If ccInfo = cControlConfigInfo And CStr(checkConfig("ControlName")) = ControlName Then
-                    If Location = CType(checkConfig("ControlLocation"), Point) Then
+                    If Location.ToString = checkConfig("ControlLocation").ToString Then
                         ' This matches our type, config and location, so must be the one!
                         removeIndex = HQ.Settings.DashboardConfiguration.IndexOf(checkConfig)
                         Exit For
