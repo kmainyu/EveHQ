@@ -689,7 +689,7 @@ Namespace Forms
                 If _currentBP.InventFrom.Count > 0 Then
                     ' Populate invention data
                     Call UpdateInventionUi()
-                  Else
+                Else
                     If _currentBP.Inventions.Count > 0 Then
                         ' Populate invention data
                         Call UpdateInventionUi()
@@ -818,7 +818,7 @@ Namespace Forms
             cboDecryptor.BeginUpdate()
             cboDecryptor.Items.Clear()
             cboDecryptor.Items.Add("<None>")
-            For Each decrypt As Decryptor In PlugInData.Decryptors.Values
+            For Each decrypt As BPCalc.Decryptor In PlugInData.Decryptors.Values
                 If decrypt.GroupID = decryptorGroupID Then
                     cboDecryptor.Items.Add(decrypt.Name & " (" & decrypt.ProbMod.ToString & "x, " & decrypt.MEMod.ToString & "ME, " & decrypt.PEMod.ToString & "PE, " & decrypt.RunMod.ToString & "r)")
                 End If

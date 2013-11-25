@@ -825,7 +825,7 @@ Public Class FileConverter
                 End Using
 
                 ' Load up some static data for the conversion
-                EveData.StaticData.LoadCoreCacheForConversion(Path.Combine(Application.StartupPath, "StaticData"))
+                StaticData.LoadCoreCacheForConversion(Path.Combine(Application.StartupPath, "StaticData"))
 
                 ' Convert the old jobs into the new format
                 Dim newJobs As New SortedList(Of String, Job)
@@ -884,13 +884,13 @@ Public Class FileConverter
             If oldJob.AssemblyArray Is Nothing Then
                 newJob.AssemblyArray = Nothing
             Else
-                newJob.AssemblyArray = EveData.StaticData.AssemblyArrays(oldJob.AssemblyArray.ID)
+                newJob.AssemblyArray = StaticData.AssemblyArrays(oldJob.AssemblyArray.ID)
             End If
             For Each key As String In oldJob.SubJobMEs.Keys
                 newJob.SubJobMEs.Add(CInt(key), oldJob.SubJobMEs(key))
             Next
-            If EveData.StaticData.Blueprints.ContainsKey(oldJob.CurrentBP.ID) Then
-                newJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(oldJob.CurrentBP.ID))
+            If StaticData.Blueprints.ContainsKey(oldJob.CurrentBP.ID) Then
+                newJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(oldJob.CurrentBP.ID))
                 newJob.CurrentBlueprint.MELevel = oldJob.CurrentBP.MELevel
                 newJob.CurrentBlueprint.PELevel = oldJob.CurrentBP.PELevel
                 newJob.CurrentBlueprint.Runs = oldJob.CurrentBP.Runs
@@ -933,7 +933,7 @@ Public Class FileConverter
             Dim newJob As New BPCalc.InventionJob
             newJob.InventedBpid = oldJob.InventedBpid
             newJob.BaseChance = oldJob.BaseChance
-            newJob.DecryptorUsed = oldJob.DecryptorUsed
+            newJob.DecryptorUsed = ConvertDecryptor(oldJob.DecryptorUsed)
             newJob.MetaItemId = oldJob.MetaItemId
             newJob.MetaItemLevel = oldJob.MetaItemLevel
             newJob.OverrideBpcRuns = oldJob.OverrideBpcRuns
@@ -949,6 +949,22 @@ Public Class FileConverter
 
         End If
 
+    End Function
+
+    Private Function ConvertDecryptor(oldDecryptor As Prism.Decryptor) As BPCalc.Decryptor
+        If oldDecryptor Is Nothing Then
+            Return Nothing
+        Else
+            Dim newDecryptor As New BPCalc.Decryptor
+            newDecryptor.GroupID = oldDecryptor.GroupID
+            newDecryptor.ID = CInt(oldDecryptor.ID)
+            newDecryptor.MEMod = oldDecryptor.MEMod
+            newDecryptor.Name = oldDecryptor.Name
+            newDecryptor.PEMod = oldDecryptor.PEMod
+            newDecryptor.ProbMod = oldDecryptor.ProbMod
+            newDecryptor.RunMod = oldDecryptor.RunMod
+            Return newDecryptor
+        End If
     End Function
 
     Private Sub ConvertBatchJobs(prismFolder As String)

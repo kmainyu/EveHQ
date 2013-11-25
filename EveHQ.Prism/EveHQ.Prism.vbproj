@@ -116,7 +116,7 @@
     <Compile Include="Classes\BatchJobs.vb" />
     <Compile Include="_Deprecated\Blueprint.vb" />
     <Compile Include="BPCalc\Jobs.vb" />
-    <Compile Include="Classes\Decryptor.vb" />
+    <Compile Include="_Deprecated\Decryptor.vb" />
     <Compile Include="Classes\Contract.vb" />
     <Compile Include="Classes\InventionAPIJob.vb" />
     <Compile Include="Classes\PrismDataFunctions.vb" />
@@ -124,6 +124,7 @@
     <Compile Include="Classes\Invention.vb" />
     <Compile Include="Classes\PrismEvents.vb" />
     <Compile Include="Classes\PrismOwner.vb" />
+    <Compile Include="BPCalc\Decryptor.vb" />
     <Compile Include="_Deprecated\InventionJob.vb" />
     <Compile Include="_Deprecated\ProductionJob.vb" />
     <Compile Include="_Deprecated\ProductionJobs.vb" />

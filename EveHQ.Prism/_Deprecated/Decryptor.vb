@@ -21,7 +21,7 @@
 ' ReSharper disable once CheckNamespace - for binary serialization compatability
 <Serializable()> Public Class Decryptor
     Public Name As String
-    Public ID As Integer
+    Public ID As String
     Public ProbMod As Double
     Public MEMod As Integer
     Public PEMod As Integer
