@@ -79,9 +79,9 @@ Imports Newtonsoft.Json
                     Dim myHQFSkill As FittingSkill = hPilot.SkillSet(newSkill.Name)
                     If cpilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
                         Dim mySkill As EveHQPilotSkill = cpilot.PilotSkills(newSkill.Name)
-                        If myHQFSkill.Level < mySkill.Level Then
-                            myHQFSkill.Level = mySkill.Level
-                        End If
+                        myHQFSkill.Level = mySkill.Level
+                    Else
+                        myHQFSkill.Level = 0
                     End If
                 End If
             Next

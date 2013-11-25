@@ -405,7 +405,7 @@ Namespace Forms
         Private Sub LoadPilots()
             ' Loads the skills for the selected pilots
             ' Check for a valid HQFPilotSettings.xml file
-            If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFPilotSettings.bin")) = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFPilotSettings.json")) = True Then
                 Call FittingPilots.LoadHQFPilotData()
                 ' Check we have all the available pilots!
                 Dim morePilots As Boolean = False
