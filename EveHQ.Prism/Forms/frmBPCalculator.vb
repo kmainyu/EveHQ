@@ -408,7 +408,7 @@ Namespace Forms
             End If
 
             If _currentBP IsNot Nothing Then
-                If StaticData.Blueprints.ContainsKey(CInt(_currentBP.AssetId)) Then
+                If _currentBP.AssetId <= Integer.MaxValue AndAlso StaticData.Blueprints.ContainsKey(CInt(_currentBP.AssetId)) Then
                     ' This is a standard BP, not an owned one
                     Call DisplayAllBlueprints()
                     cboBPs.SelectedItem = StaticData.Types(CInt(_currentBP.AssetId)).Name
