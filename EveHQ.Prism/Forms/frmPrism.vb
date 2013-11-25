@@ -3313,13 +3313,11 @@ Namespace Forms
                     tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.ScrapMetalProc)))) + _baseYield
                 End If
                 tempNetYield = Math.Min(tempNetYield, 1)
+                _matList.Clear()
                 If StaticData.TypeMaterials.ContainsKey(asset) Then
-                    _matList.Clear()
                     For Each mat As Integer In StaticData.TypeMaterials(asset).Materials.Keys
                         _matList.Add(mat, StaticData.TypeMaterials(asset).Materials(mat))
                     Next
-                Else
-                    _matList = Nothing
                 End If
                 newClvItem = New Node
                 adtRecycle.Nodes.Add(newClvItem)
@@ -3346,7 +3344,7 @@ Namespace Forms
                     newClvItem.Cells(7).Text = value.ToString("N2")
                 End If
                 recycleTotal = 0
-                If _matList IsNot Nothing Then ' i.e. it can be refined
+                If _matList.Count > 0 Then ' i.e. it can be refined
                     Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(_matList.Keys)
                     matPriceTask.Wait()
                     Dim matPrices As Dictionary(Of Integer, Double) = matPriceTask.Result
