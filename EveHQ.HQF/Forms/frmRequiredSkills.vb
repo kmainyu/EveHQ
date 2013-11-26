@@ -250,7 +250,7 @@ Namespace Forms
         End Sub
 
         Private Sub AddNeededSkillsToQueue()
-            Dim neededSkills As New SortedList(Of String, Integer)
+            Dim neededSkills As New Dictionary(Of String, Integer)
             For Each neededSkill As ReqSkill In _reqSkills
                 If neededSkills.ContainsKey(neededSkill.Name) = False Then
                     neededSkills.Add(neededSkill.Name, neededSkill.ReqLevel)

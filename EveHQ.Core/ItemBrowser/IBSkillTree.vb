@@ -46,7 +46,7 @@ Namespace ItemBrowser
 
         Public Property ItemIsUsable As Boolean
         Public Property ItemUsableTime As Long
-        Public Property RequiredSkills As New SortedList(Of String, Integer) ' skillID, skillLevel
+        Public Property RequiredSkills As New Dictionary(Of String, Integer) ' skillID, skillLevel
 
 #End Region
 

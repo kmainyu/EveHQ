@@ -34,7 +34,7 @@ Namespace Forms
         Dim _currentPilot As FittingPilot
         Dim _currentGroup As ImplantCollection
         Dim _startUp As Boolean = False
-        ReadOnly _queueSkills As New SortedList(Of String, Integer)
+        ReadOnly _queueSkills As New Dictionary(Of String, Integer)
         ReadOnly _standardSkillStyle As ElementStyle
         ReadOnly _higherSkillStyle As ElementStyle
         ReadOnly _lowerSkillStyle As ElementStyle

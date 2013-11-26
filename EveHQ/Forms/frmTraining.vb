@@ -2138,11 +2138,17 @@ Namespace Forms
                         End Try
                         ' Get the list of skills from the plan
                         Dim skillList As XmlNodeList = planXML.SelectNodes("/plan/entry")
-                        Dim planSkills As New SortedList(Of String, Integer)
+                        Dim planSkills As New Dictionary(Of String, Integer)
                         For Each skill As XmlNode In skillList
                             Dim skillName As String = skill.Attributes.GetNamedItem("skill").Value
                             Dim skillLevel As Integer = CInt(skill.Attributes.GetNamedItem("level").Value)
-                            planSkills.Add(skillName, skillLevel)
+                            If planSkills.ContainsKey(skillName) Then
+                                If planSkills(skillName) < skillLevel Then
+                                    planSkills(skillName) = skillLevel
+                                End If
+                            Else
+                                planSkills.Add(skillName, skillLevel)
+                            End If
                         Next
                         ' Get a dialog for the new skills
                         Using selectQueue As New FrmSelectQueue(_displayPilot.Name, planSkills, "Import from EveMon")
@@ -2204,37 +2210,39 @@ Namespace Forms
                     Dim empElement As XmlElement
 
                     For Each qItem In arrQueue
-                        Dim empEntry As XmlNode = empxml.CreateElement("entry")
+                        If qItem.IsTraining = False Then
+                            Dim empEntry As XmlNode = empxml.CreateElement("entry")
 
-                        empAtt = empxml.CreateAttribute("skillID")
-                        empAtt.Value = qItem.ID.ToString
-                        empEntry.Attributes.Append(empAtt)
+                            empAtt = empxml.CreateAttribute("skillID")
+                            empAtt.Value = qItem.ID.ToString
+                            empEntry.Attributes.Append(empAtt)
 
-                        empAtt = empxml.CreateAttribute("skill")
-                        empAtt.Value = qItem.Name
-                        empEntry.Attributes.Append(empAtt)
+                            empAtt = empxml.CreateAttribute("skill")
+                            empAtt.Value = qItem.Name
+                            empEntry.Attributes.Append(empAtt)
 
-                        empAtt = empxml.CreateAttribute("level")
-                        empAtt.Value = qItem.ToLevel.ToString
-                        empEntry.Attributes.Append(empAtt)
+                            empAtt = empxml.CreateAttribute("level")
+                            empAtt.Value = qItem.ToLevel.ToString
+                            empEntry.Attributes.Append(empAtt)
 
-                        empAtt = empxml.CreateAttribute("priority")
-                        empAtt.Value = "3"
-                        empEntry.Attributes.Append(empAtt)
+                            empAtt = empxml.CreateAttribute("priority")
+                            empAtt.Value = "3"
+                            empEntry.Attributes.Append(empAtt)
 
-                        empAtt = empxml.CreateAttribute("type")
-                        If qItem.IsPrereq Then
-                            empAtt.Value = "Prerequisite"
-                        Else
-                            empAtt.Value = "Planned"
+                            empAtt = empxml.CreateAttribute("type")
+                            If qItem.IsPrereq Then
+                                empAtt.Value = "Prerequisite"
+                            Else
+                                empAtt.Value = "Planned"
+                            End If
+                            empEntry.Attributes.Append(empAtt)
+
+                            empElement = empxml.CreateElement("notes")
+                            empElement.InnerText = qItem.Notes
+                            empEntry.AppendChild(empElement)
+
+                            empRoot.AppendChild(empEntry)
                         End If
-                        empEntry.Attributes.Append(empAtt)
-
-                        empElement = empxml.CreateElement("notes")
-                        empElement.InnerText = qItem.Notes
-                        empEntry.AppendChild(empElement)
-
-                        empRoot.AppendChild(empEntry)
                     Next
 
                     ' Form a string of the XML
