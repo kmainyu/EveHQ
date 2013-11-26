@@ -327,6 +327,12 @@ Namespace Forms
                     _activeQueueControl.RedrawMenuOptions()
                     _activeQueueTree.Select()
                     mnuAddToQueue.Enabled = True
+                    If FrmNeuralRemap.IsHandleCreated = True Then
+                        FrmNeuralRemap.QueueName = _activeQueueName
+                    End If
+                    If FrmImplants.IsHandleCreated = True Then
+                        FrmImplants.QueueName = _activeQueueName
+                    End If
                 Else
                     _activeQueueName = ""
                     _activeQueueControl = Nothing
@@ -346,13 +352,6 @@ Namespace Forms
                     btnRemap.Enabled = False
                     btnExportEMPFile.Enabled = False
                 End If
-                If FrmNeuralRemap.IsHandleCreated = True Then
-                    FrmNeuralRemap.QueueName = _activeQueueName
-                End If
-                If FrmImplants.IsHandleCreated = True Then
-                    FrmImplants.QueueName = _activeQueueName
-                End If
-
             End If
         End Sub
 #End Region
