@@ -179,6 +179,7 @@ Namespace Forms
             Me.DockSite4 = New DevComponents.DotNetBar.DockSite()
             Me.Bar1 = New DevComponents.DotNetBar.Bar()
             Me.pdc1 = New DevComponents.DotNetBar.PanelDockContainer()
+            Me.trainingBlockLayout = New System.Windows.Forms.FlowLayoutPanel()
             Me.DockContainerItem1 = New DevComponents.DotNetBar.DockContainerItem()
             Me.DockSite1 = New DevComponents.DotNetBar.DockSite()
             Me.DockSite2 = New DevComponents.DotNetBar.DockSite()
@@ -198,7 +199,6 @@ Namespace Forms
             Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
             Me.ColorPickerDropDown1 = New DevComponents.DotNetBar.ColorPickerDropDown()
             Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
-            Me.trainingBlockLayout = New System.Windows.Forms.FlowLayoutPanel()
             Me.rpPlugins.SuspendLayout()
             Me.EveIconMenu.SuspendLayout()
             Me.ctxTabbedMDI.SuspendLayout()
@@ -2008,6 +2008,16 @@ Namespace Forms
             Me.pdc1.Style.GradientAngle = 90
             Me.pdc1.TabIndex = 0
             '
+            'trainingBlockLayout
+            '
+            Me.trainingBlockLayout.AutoSize = True
+            Me.trainingBlockLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+            Me.trainingBlockLayout.BackColor = System.Drawing.Color.Transparent
+            Me.trainingBlockLayout.Location = New System.Drawing.Point(0, 0)
+            Me.trainingBlockLayout.Name = "trainingBlockLayout"
+            Me.trainingBlockLayout.Size = New System.Drawing.Size(0, 0)
+            Me.trainingBlockLayout.TabIndex = 0
+            '
             'DockContainerItem1
             '
             Me.DockContainerItem1.Control = Me.pdc1
@@ -2218,16 +2228,6 @@ Namespace Forms
             Me.EveStatusIcon.ContextMenuStrip = Me.EveIconMenu
             Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
             Me.EveStatusIcon.Text = ""
-            '
-            'trainingBlockLayout
-            '
-            Me.trainingBlockLayout.AutoSize = True
-            Me.trainingBlockLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-            Me.trainingBlockLayout.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.trainingBlockLayout.Location = New System.Drawing.Point(0, 0)
-            Me.trainingBlockLayout.Name = "trainingBlockLayout"
-            Me.trainingBlockLayout.Size = New System.Drawing.Size(1225, 70)
-            Me.trainingBlockLayout.TabIndex = 0
             '
             'FrmEveHQ
             '

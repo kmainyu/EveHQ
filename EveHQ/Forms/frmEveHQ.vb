@@ -1229,7 +1229,7 @@ Namespace Forms
 
             If HQ.Settings.DisableTrainingBar = False Then
                 ' Setup a collection for sorting
-                Dim pilotTrainingTimes As New ArrayList
+                Dim pilotTrainingTimes As New List(Of PilotSortTrainingTime)
                 Dim trainingAccounts As New ArrayList
                 Dim disabledAccounts As New ArrayList
                 For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
@@ -1252,13 +1252,6 @@ Namespace Forms
                         End If
                     End If
                 Next
-
-                ' Initialise a new ClassSorter instance and add a standard SortClass (i.e. sort method)
-                Dim myClassSorter As New ClassSorter("TrainingEndTime", SortDirection.Ascending)
-                ' Always sort by name to handle similarly ranked items in the first sort
-                myClassSorter.SortClasses.Add(New SortClass("Name", SortDirection.Ascending))
-                ' Sort the class
-                pilotTrainingTimes.Sort(myClassSorter)
 
                 ' Clear old event handlers
                 For c As Integer = trainingBlockLayout.Controls.Count - 1 To 0 Step -1
@@ -1318,7 +1311,10 @@ Namespace Forms
                 Next
 
                 ' Add training pilots to the training bar
-                For Each cPilot As PilotSortTrainingTime In pilotTrainingTimes
+                ' Note: I'm not completely sure why the date objects need to be sorted descending, in order to get the pilots in order of 
+                ' next to finish training, but it's what is required. It seems counter-intuitive, but don't change this to an ascending order or 
+                ' you get the pilots in the wrong order (the one with the most training left is first)
+                For Each cPilot As PilotSortTrainingTime In pilotTrainingTimes.OrderByDescending(Function(pilot) pilot.TrainingEndTime)
                     Dim cb As New CharacterTrainingBlock(cPilot.Name, False)
                     AddHandler cb.lblSkill.Click, AddressOf TrainingStatusLabelClick
                     AddHandler cb.pbPilot.Click, AddressOf PilotPicClick
@@ -1326,6 +1322,7 @@ Namespace Forms
                     AddHandler cb.lblQueue.Click, AddressOf TrainingStatusLabelClick
                     trainingBlockLayout.Controls.Add(cb)
                     If Bar1.DockSide = eDockSide.Bottom Or Bar1.DockSide = eDockSide.Top Then
+
                         cb.Left = startloc
                         cb.BringToFront()
                         startloc += cb.Width + 20
@@ -3253,14 +3250,17 @@ Namespace Forms
             Select Case Bar1.DockSide
                 Case eDockSide.Top, eDockSide.Bottom
                     'DockContainerItem1.Height = 75
+                    trainingBlockLayout.FlowDirection = FlowDirection.LeftToRight
                 Case eDockSide.Left, eDockSide.Right
                     'DockContainerItem1.Width = 320
+                    trainingBlockLayout.FlowDirection = FlowDirection.TopDown
             End Select
             Call SetupTrainingStatus()
         End Sub
 
         Private Sub Bar1_BarUndock(ByVal sender As Object, ByVal e As EventArgs) Handles Bar1.BarUndock
             HQ.Settings.TrainingBarDockPosition = Bar1.DockSide
+            trainingBlockLayout.FlowDirection = FlowDirection.LeftToRight
             Call SetupTrainingStatus()
         End Sub
 
@@ -3269,6 +3269,15 @@ Namespace Forms
                 HQ.Settings.TrainingBarHeight = DockContainerItem1.Height + 3
                 HQ.Settings.TrainingBarWidth = DockContainerItem1.Width
             End If
+
+            ' tailor trainging block layout display to best suit the experience
+            If Bar1.Docked And Bar1.Height < 120 Then
+                trainingBlockLayout.Dock = DockStyle.None
+            Else
+                trainingBlockLayout.Dock = DockStyle.Fill
+            End If
+
+
         End Sub
 
 #End Region

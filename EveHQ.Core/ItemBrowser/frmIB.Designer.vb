@@ -1498,7 +1498,8 @@
             Me.adtSkills.ItemUsableTime = CType(0, Long)
             Me.adtSkills.Location = New System.Drawing.Point(1, 1)
             Me.adtSkills.Name = "adtSkills"
-            Me.adtSkills.RequiredSkills = CType(resources.GetObject("adtSkills.RequiredSkills"), System.Collections.Generic.Dictionary(Of String, Integer))
+            Dim temp = CType(resources.GetObject("adtSkills.RequiredSkills"), System.Collections.Generic.SortedList(Of String, Integer))
+            Me.adtSkills.RequiredSkills = temp.ToDictionary(Of String, Integer)(Function(pair) pair.Key, Function(pair) pair.Value)
             Me.adtSkills.Size = New System.Drawing.Size(699, 590)
             Me.adtSkills.TabIndex = 0
             '
