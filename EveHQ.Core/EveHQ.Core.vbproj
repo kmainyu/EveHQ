@@ -317,6 +317,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ItemBrowser\frmIB.resx">
       <DependentUpon>frmIB.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ItemBrowser\IBSkillTree.resx">
       <DependentUpon>IBSkillTree.vb</DependentUpon>

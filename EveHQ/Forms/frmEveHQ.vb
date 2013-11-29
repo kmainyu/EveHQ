@@ -1993,16 +1993,16 @@ Namespace Forms
                 Catch e As Exception
                 End Try
 
-                ' Clear the EveHQ Pilot Data
+                '' Clear the EveHQ Pilot Data
                 Try
-                    HQ.Settings.Pilots.Clear()
-                    HQ.Settings.Corporations.Clear()
+                    ' Clear the current list of pilots
                     HQ.TempPilots.Clear()
                     HQ.TempCorps.Clear()
+                    HQ.APIResults.Clear()
                 Catch ex As Exception
                 End Try
 
-                ' Update the pilot lists
+                '' Update the pilot lists
                 Call UpdatePilotInfo()
 
                 ' Restart the timer
@@ -2412,7 +2412,7 @@ Namespace Forms
 
         Private Sub btnClearCharacterCache_Click(ByVal sender As Object, ByVal e As EventArgs) _
             Handles btnClearCharacterCache.Click
-            Const Msg As String = "This will delete the character specific XML files, clear the pilot data and reconnect to the API." &
+            Const Msg As String = "This will delete the character specific XML files, and get fresh data from the API." &
                                   ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
             Dim reply As Integer = MessageBox.Show(Msg, "Confirm Delete Cache", MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question)
@@ -2456,16 +2456,17 @@ Namespace Forms
                     Catch ex As Exception
                     End Try
 
-                    ' Clear the EveHQ Pilot Data
+
+                    '' Clear the EveHQ Pilot Data
                     Try
-                        HQ.Settings.Pilots.Clear()
-                        HQ.Settings.Corporations.Clear()
+                        ' Clear the current list of pilots
                         HQ.TempPilots.Clear()
                         HQ.TempCorps.Clear()
+                        HQ.APIResults.Clear()
                     Catch ex As Exception
                     End Try
 
-                    ' Update the pilot lists
+                    '' Update the pilot lists
                     Call UpdatePilotInfo()
 
                     ' Restart the timer
@@ -2479,6 +2480,7 @@ Namespace Forms
                         "Error Deleting the EveHQ Cache Folder, please try to delete the following location manually: " &
                         ControlChars.CrLf & ControlChars.CrLf & HQ.CacheFolder, "Error Deleting Cache", MessageBoxButtons.OK,
                         MessageBoxIcon.Information)
+                    Trace.TraceError(ex.FormatException())
                 End Try
             End If
         End Sub
@@ -2547,16 +2549,17 @@ Namespace Forms
                     Catch ex As Exception
                     End Try
 
-                    ' Clear the EveHQ Pilot Data
+
+                    '' Clear the EveHQ Pilot Data
                     Try
-                        HQ.Settings.Pilots.Clear()
-                        HQ.Settings.Corporations.Clear()
+                        ' Clear the current list of pilots
                         HQ.TempPilots.Clear()
                         HQ.TempCorps.Clear()
+                        HQ.APIResults.Clear()
                     Catch ex As Exception
                     End Try
 
-                    ' Update the pilot lists
+                    '' Update the pilot lists
                     Call UpdatePilotInfo()
 
                     ' Restart the timer
