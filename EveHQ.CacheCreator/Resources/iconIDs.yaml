@@ -5413,3 +5413,9 @@
 21086:
   description: Shattered Villard Wheel
   iconFile: res:/UI/Texture/Icons/icons111_09.png
+21089:
+  description: res:/UI/Asset/mannequin/Female_TopMiddle_ShirtQF01_Types_soerff01.png
+  iconFile: res:/UI/Asset/mannequin/Female_TopMiddle_ShirtQF01_Types_soerff01.png
+21090:
+  description: res:/UI/Asset/mannequin/Male_TopMiddle_ShirtQM01_Types_soerfm01.png
+  iconFile: res:/UI/Asset/mannequin/Male_TopMiddle_ShirtQM01_Types_soerfm01.png
