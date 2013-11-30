@@ -2862,14 +2862,14 @@ Namespace Forms
                                 If testMod.IsDrone = True Then
                                     newFit.Add(modName & ", " & quantity)
                                 Else
-                                    ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
-                                    For modCount As Integer = 1 To CInt(quantity)
-                                        If chargeName <> "" Then
-                                            newFit.Add(modName & ", " & chargeName)
-                                        Else
-                                            newFit.Add(modName)
-                                        End If
-                                    Next
+                                    If CInt(quantity) > 1 Then
+                                        modName = modName & " x" & quantity
+                                    End If
+                                    If chargeName <> "" Then
+                                        newFit.Add(modName & ", " & chargeName)
+                                    Else
+                                        newFit.Add(modName)
+                                    End If
                                 End If
                             End If
                         End If
@@ -2888,10 +2888,11 @@ Namespace Forms
                                     If testMod.IsDrone = True Then
                                         newFit.Add(modName & ", " & quantity)
                                     Else
-                                        ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
-                                        For modCount As Integer = 1 To CInt(quantity)
-                                            newFit.Add(modName)
-                                        Next
+                                        If CInt(quantity) > 1 Then
+                                            modName = modName & " x" & quantity
+                                        End If
+                                        newFit.Add(modName)
+
                                     End If
                                 End If
                             Else
