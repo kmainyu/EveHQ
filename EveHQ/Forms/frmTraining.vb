@@ -36,7 +36,8 @@ Namespace Forms
 
         Dim _oldNodeIndex As Integer = -1
         ReadOnly _openNodes As New List(Of String)
-        Dim _omitQueuedSkills As Boolean = False
+        Dim _hideQueuedSkills As Boolean = False
+        Dim _hideLevel5Skills As Boolean = False
         Dim _selQTime As Double = 0
         Dim _activeQueueName As String = ""
         Dim _activeQueueControl As EveHQTrainingQueue
@@ -44,7 +45,6 @@ Namespace Forms
         Dim _usingFilter As Boolean = True
         ReadOnly _skillListNodes As New SortedList(Of String, Node)
         ReadOnly _certListNodes As New SortedList
-        ReadOnly _certGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
         Dim _displayPilot As New EveHQPilot
         Dim _cDisplayPilotName As String = ""
         Dim _startup As Boolean = False
@@ -248,8 +248,8 @@ Namespace Forms
                         RemoveHandler tq.adtQueue.Click, AddressOf activeLVW_Click
                         RemoveHandler tq.adtQueue.DoubleClick, AddressOf activeLVW_DoubleClick
                         RemoveHandler tq.adtQueue.DragEnter, AddressOf activeLVW_DragEnter
-                        RemoveHandler tq.adtQueue.ColumnHeaderMouseUp, AddressOf activeLVW_ColumnClick
-                        RemoveHandler tq.adtQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
+                        RemoveHandler tq.adtQueue.ColumnHeaderMouseDown, AddressOf activeLVW_ColumnClick
+                        RemoveHandler tq.adtQueue.SelectionChanged, AddressOf activeLVW_SelectionChanged
                         RemoveHandler tq.QueueUpdated, AddressOf QueueUpdated
                     End If
                     tabQueues.Tabs.Remove(ti)
@@ -275,8 +275,8 @@ Namespace Forms
                             AddHandler tq.adtQueue.Click, AddressOf activeLVW_Click
                             AddHandler tq.adtQueue.DoubleClick, AddressOf activeLVW_DoubleClick
                             AddHandler tq.adtQueue.DragEnter, AddressOf activeLVW_DragEnter
-                            AddHandler tq.adtQueue.ColumnHeaderMouseUp, AddressOf activeLVW_ColumnClick
-                            AddHandler tq.adtQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
+                            AddHandler tq.adtQueue.ColumnHeaderMouseDown, AddressOf activeLVW_ColumnClick
+                            AddHandler tq.adtQueue.SelectionChanged, AddressOf activeLVW_SelectionChanged
                             AddHandler tq.QueueUpdated, AddressOf QueueUpdated
 
                             Call tq.DrawColumnHeadings()
@@ -327,6 +327,12 @@ Namespace Forms
                     _activeQueueControl.RedrawMenuOptions()
                     _activeQueueTree.Select()
                     mnuAddToQueue.Enabled = True
+                    If FrmNeuralRemap.IsHandleCreated = True Then
+                        FrmNeuralRemap.QueueName = _activeQueueName
+                    End If
+                    If FrmImplants.IsHandleCreated = True Then
+                        FrmImplants.QueueName = _activeQueueName
+                    End If
                 Else
                     _activeQueueName = ""
                     _activeQueueControl = Nothing
@@ -346,13 +352,6 @@ Namespace Forms
                     btnRemap.Enabled = False
                     btnExportEMPFile.Enabled = False
                 End If
-                If FrmNeuralRemap.IsHandleCreated = True Then
-                    FrmNeuralRemap.QueueName = _activeQueueName
-                End If
-                If FrmImplants.IsHandleCreated = True Then
-                    FrmImplants.QueueName = _activeQueueName
-                End If
-
             End If
         End Sub
 #End Region
@@ -534,33 +533,49 @@ Namespace Forms
                                 End If
                         End Select
                         If addSkill = True Then
-                            If _omitQueuedSkills = False Then
+
+                            If HideSkill(newSkill) = False Then
                                 If groupNode IsNot Nothing Then
                                     groupNode.Nodes.Add(skillNode)
                                 End If
-                            Else
-                                Dim inQ As Boolean = False
-                                For Each skillQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
-                                    If inQ = True Then Exit For
-                                    Dim sQ As Dictionary(Of String, EveHQSkillQueueItem) = skillQ.Queue
-                                    For Each skillQueueItem As EveHQSkillQueueItem In sQ.Values
-                                        If newSkill.Name = skillQueueItem.Name Then
-                                            inQ = True
-                                            Exit For
-                                        End If
-                                    Next
-                                Next
-                                If inQ = False Then
-                                    If groupNode IsNot Nothing Then
-                                        groupNode.Nodes.Add(skillNode)
-                                    End If
-                                End If
                             End If
+
                         End If
                     End If
                 End If
             Next
         End Sub
+        Public Function HideSkill(skill As EveSkill) As Boolean
+            If _hideQueuedSkills = False Then
+                If _hideLevel5Skills = False Then
+                    Return False
+                Else
+                    Return SkillFunctions.IsSkillTrained(_displayPilot, skill.Name, 5)
+                End If
+            Else
+                Dim inQ As Boolean = False
+                For Each skillQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
+                    If inQ = True Then Exit For
+                    Dim sQ As Dictionary(Of String, EveHQSkillQueueItem) = skillQ.Queue
+                    For Each skillQueueItem As EveHQSkillQueueItem In sQ.Values
+                        If skill.Name = skillQueueItem.Name Then
+                            inQ = True
+                            Exit For
+                        End If
+                    Next
+                Next
+                If inQ = False Then
+                    If _hideLevel5Skills = False Then
+                        Return False
+                    Else
+                        Return SkillFunctions.IsSkillTrained(_displayPilot, skill.Name, 5)
+                    End If
+                Else
+                    Return True
+                End If
+            End If
+        End Function
+
         Private Sub ShowSkillGroups()
             For Each groupNode As Node In _skillListNodes.Values
                 If groupNode.Nodes.Count > 0 Then
@@ -568,6 +583,7 @@ Namespace Forms
                 End If
             Next
         End Sub
+
         Public Sub RefreshTraining(ByVal queueName As String, updateColumnHeaders As Boolean)
 
             Dim ti As TabItem = tabQueues.Tabs.Item(queueName)
@@ -860,12 +876,16 @@ Namespace Forms
                 Call LoadSkillTreeSearch()
             End If
         End Sub
-        Private Sub chkOmitQueuesSkills_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkOmitQueuesSkills.CheckedChanged
-            If chkOmitQueuesSkills.Checked = True Then
-                _omitQueuedSkills = True
+        Private Sub chkOmitQueuedSkills_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkOmitQueuedSkills.CheckedChanged
+            _hideQueuedSkills = chkOmitQueuedSkills.Checked
+            If _usingFilter = True Then
+                Call LoadSkillTree()
             Else
-                _omitQueuedSkills = False
+                Call LoadSkillTreeSearch()
             End If
+        End Sub
+        Private Sub chkOmitLevel5Skills_CheckedChanged(sender As Object, e As EventArgs) Handles chkOmitLevel5Skills.CheckedChanged
+            _hideLevel5Skills = chkOmitLevel5Skills.Checked
             If _usingFilter = True Then
                 Call LoadSkillTree()
             Else
@@ -875,17 +895,18 @@ Namespace Forms
         Private Sub LoadSkillTreeSearch()
             If Len(cboFilter.Text) > 1 Then
                 Dim strSearch As String = cboFilter.Text.Trim.ToLower
-                Dim results As New SortedList(Of String, String)
+                Dim results As New List(Of String)
                 Dim newSkill As EveSkill
                 For Each newSkill In HQ.SkillListID.Values
                     If newSkill.Name.ToLower.Contains(strSearch) Or newSkill.Description.ToLower.Contains(strSearch) Then
-                        results.Add(newSkill.Name, newSkill.Name)
+                        results.Add(newSkill.Name)
                     End If
                 Next
+                results.Sort(StringComparer.InvariantCulture)
 
                 adtSkillList.BeginUpdate()
                 adtSkillList.Nodes.Clear()
-                For Each item As String In results.Values
+                For Each item As String In results
                     newSkill = HQ.SkillListName(item)
                     If newSkill.GroupID <> 505 And newSkill.Published = True Then
                         Dim skillNode As New Node
@@ -898,23 +919,9 @@ Namespace Forms
                         Else
                             skillNode.ImageIndex = 10
                         End If
-                        If _omitQueuedSkills = False Then
+
+                        If HideSkill(newSkill) = False Then
                             adtSkillList.Nodes.Add(skillNode)
-                        Else
-                            Dim inQ As Boolean = False
-                            For Each skillQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
-                                If inQ = True Then Exit For
-                                Dim sQ As Dictionary(Of String, EveHQSkillQueueItem) = skillQ.Queue
-                                For Each skillQueueItem As EveHQSkillQueueItem In sQ.Values
-                                    If newSkill.Name = skillQueueItem.Name Then
-                                        inQ = True
-                                        Exit For
-                                    End If
-                                Next
-                            Next
-                            If inQ = False Then
-                                adtSkillList.Nodes.Add(skillNode)
-                            End If
                         End If
 
                     End If
@@ -981,10 +988,10 @@ Namespace Forms
             ' Establish the sort direction and store it for later comparison and use
             Dim sortDirection As SortDirection
             If ch.SortDirection = eSortDirection.None Or ch.SortDirection = eSortDirection.Descending Then
-                sortDirection = SortDirection.Ascending
+                sortDirection = sortDirection.Ascending
                 ch.SortDirection = eSortDirection.Ascending
             Else
-                sortDirection = SortDirection.Descending
+                sortDirection = sortDirection.Descending
                 ch.SortDirection = eSortDirection.Descending
             End If
 
@@ -1033,7 +1040,7 @@ Namespace Forms
             Call RedrawOptions()
             _activeQueueControl.RedrawMenuOptions()
         End Sub
-        Private Sub activeLVW_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs)
+        Private Sub activeLVW_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs)
             If _activeQueueTree.SelectedNodes.Count <> 0 Then
                 Call RedrawOptions()
                 _activeQueueControl.RedrawMenuOptions()
@@ -1091,7 +1098,7 @@ Namespace Forms
             _certListNodes.Clear()
             For Each certCat As CertificateCategory In StaticData.CertificateCategories.Values
                 Dim groupNode As TreeNode = New TreeNode
-                groupNode.Name = certCat.ID.ToString
+                groupNode.Name = certCat.Id.ToString
                 groupNode.Text = certCat.Name
                 groupNode.ImageIndex = 8
                 groupNode.SelectedImageIndex = 8
@@ -1102,60 +1109,59 @@ Namespace Forms
             Dim groupNode As TreeNode
             Dim addCert As Boolean
             For Each newCert As Certificate In StaticData.Certificates.Values
+                'For Each grade As CertificateGrade In newCert.GradesAndSkills.Keys
+                ' since each cert contains the 5 grades instead of having 5 different certs, loop for each grade
+                Dim grade = CertificateGrade.Basic
                 addCert = False
-                groupNode = CType(_certListNodes.Item(newCert.CategoryID.ToString), TreeNode)
+                groupNode = CType(_certListNodes.Item(newCert.GroupID.ToString), TreeNode)
                 Select Case filter
                     Case 0
                         addCert = True
                     Case 1
-                        If _displayPilot.Certificates.Contains(newCert.Id) = True Then
+                        If _displayPilot.QualifiedCertificates.ContainsKey(newCert.Id) = True Then
                             addCert = True
                         End If
                     Case 2
-                        If _displayPilot.Certificates.Contains(newCert.Id) = False Then
+                        If _displayPilot.QualifiedCertificates.ContainsKey(newCert.Id) = False Then
                             addCert = True
                         End If
                     Case 3 To 7
-                        If newCert.Grade = filter - 2 Then
-                            addCert = True
-                        End If
-                    Case 8 To 12
-                        If newCert.Grade = filter - 7 And _displayPilot.Certificates.Contains(newCert.Id) = False Then
+                        grade = CType(filter - 2, CertificateGrade)
+                        Dim pilotCertGrade As CertificateGrade
+                        If _displayPilot.QualifiedCertificates.TryGetValue(newCert.Id, pilotCertGrade) = False Or (_displayPilot.QualifiedCertificates.TryGetValue(newCert.Id, pilotCertGrade) = True And pilotCertGrade < grade) Then
                             addCert = True
                         End If
                 End Select
                 If addCert = True Then
                     Dim certNode As New TreeNode
-                    certNode.Text = StaticData.CertificateClasses(newCert.ClassID.ToString).Name & " (" & newCert.Grade & " - " & _certGrades(newCert.Grade) & ")"
-                    certNode.Name = newCert.ID.ToString
-                    If _displayPilot.Certificates.Contains(newCert.Id) = True Then
-                        certNode.ImageIndex = newCert.Grade
-                        certNode.SelectedImageIndex = newCert.Grade
+                    certNode.Text = newCert.Name
+                    certNode.Name = newCert.Id.ToString
+                    Dim pilotCertGrade As CertificateGrade
+                    If _displayPilot.QualifiedCertificates.TryGetValue(newCert.Id, pilotCertGrade) = True Then
+                        '_displayPilot.QualifiedCertificates.Contains(New KeyValuePair(Of Integer, CertificateGrade)(newCert.Id, grade))
+                        certNode.ImageIndex = pilotCertGrade
+                        certNode.SelectedImageIndex = pilotCertGrade
                     Else
+                        ' Does not even qualify for any level.
                         certNode.ImageIndex = 10
                         certNode.SelectedImageIndex = 10
                         ' Check if we have the pre-reqs for the certificate
-                        Dim canClaimCert As Boolean = True
-                        For Each reqSkill As Integer In newCert.RequiredSkills.Keys
-                            If SkillFunctions.IsSkillTrained(_displayPilot, SkillFunctions.SkillIDToName(reqSkill), newCert.RequiredSkills(reqSkill)) = False Then
-                                canClaimCert = False
-                                Exit For
-                            End If
-                        Next
-                        If canClaimCert = True Then
-                            For Each reqCert As Integer In newCert.RequiredCertificates.Keys
-                                If _displayPilot.Certificates.Contains(reqCert) = False Then
-                                    canClaimCert = False
-                                    Exit For
-                                End If
-                            Next
-                        End If
-                        If canClaimCert = True Then
-                            certNode.ForeColor = Color.LimeGreen
-                        End If
+                        'Dim canClaimCert As Boolean = True
+                        'For Each reqSkillAndLevel In newCert.GradesAndSkills(grade)
+                        '    If SkillFunctions.IsSkillTrained(_displayPilot, SkillFunctions.SkillIDToName(reqSkillAndLevel.Key), reqSkillAndLevel.Value) = False Then
+                        '        canClaimCert = False
+                        '        Exit For
+                        '    End If
+                        'Next
+
+                        'If canClaimCert = True Then
+                        '    certNode.ForeColor = Color.LimeGreen
+                        'End If
                     End If
                     groupNode.Nodes.Add(certNode)
                 End If
+                'Next
+
             Next
         End Sub
         Private Sub ShowCertGroups()
@@ -1205,18 +1211,29 @@ Namespace Forms
                     mnuAddCertGroupToQueue.Enabled = True
                     mnuAddCertToQueue.Enabled = True
                     ' Determine enabled menu items of adding to queue
-                    Dim selCert As Certificate = StaticData.Certificates(certID)
-                    Dim selCertClass As Integer = selCert.ClassID
-                    For Each testCert As Certificate In StaticData.Certificates.Values
-                        If testCert.ClassID = selCertClass Then
-                            ' Check if the pilot has it
-                            If _displayPilot.Certificates.Contains(testCert.Id) = False Then
-                                mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & testCert.Grade).Enabled = True
-                            Else
-                                mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & testCert.Grade).Enabled = False
+                    If curNode.Parent IsNot Nothing Then
+                        Dim selCert As Certificate = StaticData.Certificates(certID)
+                        Dim selCertClass As Integer = selCert.Id
+                        For Each testCert As Certificate In StaticData.Certificates.Values
+                            If testCert.Id = selCertClass Then
+                                For Each grade In testCert.GradesAndSkills.Keys
+
+                                    ' Check if the pilot has it
+                                    If _displayPilot.QualifiedCertificates.ContainsKey(testCert.Id) Then
+                                        If _displayPilot.QualifiedCertificates(testCert.Id) >= grade Then
+                                            mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & CStr(grade)).Enabled = False
+                                        Else
+                                            mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & CStr(grade)).Enabled = True
+                                        End If
+                                    Else
+                                        mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & CStr(grade)).Enabled = True
+                                    End If
+
+                                Next
                             End If
-                        End If
-                    Next
+                        Next
+                   End If
+
                 End If
             End If
         End Sub
@@ -1231,26 +1248,19 @@ Namespace Forms
             ' Get the certificate details
             Dim grade As Integer = CInt(CType(sender, ToolStripItem).Name.Substring(CType(sender, ToolStripItem).Name.Length - 1, 1))
             Dim certID As Integer = CInt(mnuCertName.Tag)
-            Dim certClass As Integer = StaticData.Certificates(certID).ClassID
             For Each cert As Certificate In StaticData.Certificates.Values
-                If cert.ClassID = certClass Then
-                    If cert.Grade = grade Then
-                        Call AddCertSkills(cert)
-                    End If
+                If cert.Id = certID Then
+                    Call AddCertSkills(cert, CType(grade, CertificateGrade))
                 End If
             Next
             ' Refresh our training queue
             Call RefreshTraining(_activeQueueName, False)
         End Sub
 
-        Private Sub AddCertSkills(ByVal cert As Certificate)
-            Dim reqSkills As SortedList(Of Integer, Integer) = cert.RequiredSkills
+        Private Sub AddCertSkills(ByVal cert As Certificate, ByVal grade As CertificateGrade)
+            Dim reqSkills As SortedList(Of Integer, Integer) = cert.GradesAndSkills(grade)
             For Each reqSkill As Integer In reqSkills.Keys
-                SkillQueueFunctions.AddSkillToQueue(_displayPilot, CStr(SkillFunctions.SkillIDToName(reqSkill)), _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & StaticData.CertificateClasses(cert.ClassId.ToString).Name)
-            Next
-            ' Get a list of the certs that are required
-            For Each reqCertID As Integer In cert.RequiredCertificates.Keys
-                Call AddCertSkills(StaticData.Certificates(reqCertID))
+                SkillQueueFunctions.AddSkillToQueue(_displayPilot, CStr(SkillFunctions.SkillIDToName(reqSkill)), _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & cert.Name)
             Next
         End Sub
 
@@ -1259,10 +1269,8 @@ Namespace Forms
             Dim grade As Integer = CInt(CType(sender, ToolStripItem).Name.Substring(CType(sender, ToolStripItem).Name.Length - 1, 1))
             Dim certCat As String = mnuCertName.Tag.ToString
             For Each cert As Certificate In StaticData.Certificates.Values
-                If cert.CategoryID = CInt(certCat) Then
-                    If cert.Grade = grade Then
-                        Call AddCertSkills(cert)
-                    End If
+                If cert.GroupID = CInt(certCat) Then
+                    Call AddCertSkills(cert, CType(grade, CertificateGrade))
                 End If
             Next
             ' Refresh our training queue
@@ -1347,7 +1355,7 @@ Namespace Forms
             tvwReqs.Nodes.Clear()
 
             Dim cSkill As EveSkill = HQ.SkillListID(skillID)
-            Const curLevel As Integer = 0
+            Const CurLevel As Integer = 0
             Dim curNode As TreeNode = New TreeNode
 
             ' Write the skill we are querying as the first (parent) node
@@ -1359,18 +1367,18 @@ Namespace Forms
                     Dim mySkill As EveHQPilotSkill
                     mySkill = _displayPilot.PilotSkills(cSkill.Name)
                     myLevel = CInt(mySkill.Level)
-                    If myLevel >= curLevel Then skillTrained = True
+                    If myLevel >= CurLevel Then skillTrained = True
                     If skillTrained = True Then
                         curNode.ForeColor = Color.LimeGreen
                         curNode.ToolTipText = "Already Trained"
                     Else
-                        Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                        Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, CurLevel)
                         If planLevel = 0 Then
                             curNode.ForeColor = Color.Red
                             curNode.ToolTipText = "Not trained & no planned training"
                         Else
                             curNode.ToolTipText = "Planned training to Level " & planLevel
-                            If planLevel >= curLevel Then
+                            If planLevel >= CurLevel Then
                                 curNode.ForeColor = Color.Blue
                             Else
                                 curNode.ForeColor = Color.Orange
@@ -1378,13 +1386,13 @@ Namespace Forms
                         End If
                     End If
                 Else
-                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, CurLevel)
                     If planLevel = 0 Then
                         curNode.ForeColor = Color.Red
                         curNode.ToolTipText = "Not trained & no planned training"
                     Else
                         curNode.ToolTipText = "Planned training to Level " & planLevel
-                        If planLevel >= curLevel Then
+                        If planLevel >= CurLevel Then
                             curNode.ForeColor = Color.Blue
                         Else
                             curNode.ForeColor = Color.Orange
@@ -1455,7 +1463,6 @@ Namespace Forms
             Dim catID As Integer
             Dim skillName As String
             Dim certName As String
-            Dim certGrade As String = ""
             Dim itemData(1) As String
             Dim skillData(1) As String
             For lvl As Integer = 1 To 5
@@ -1502,61 +1509,45 @@ Namespace Forms
                         lvwDepend.Items.Add(newItem)
                     Next
                 End If
-                ' Add the certificate unlocks
-                If StaticData.CertUnlockSkills.ContainsKey(skillID & "." & CStr(lvl)) = True Then
-                    Dim certUnlocked As List(Of Integer) = StaticData.CertUnlockSkills(skillID & "." & CStr(lvl))
-                    For Each item As Integer In certUnlocked
-                        Dim newItem As New ListViewItem
-                        newItem.Group = lvwDepend.Groups("CatCerts")
-                        Dim cert As Certificate = StaticData.Certificates(item)
-                        newItem.Tag = cert.Id
-                        certName = StaticData.CertificateClasses(cert.ClassId.ToString).Name
-                        Select Case cert.Grade
-                            Case 1
-                                certGrade = "Basic"
-                            Case 2
-                                certGrade = "Standard"
-                            Case 3
-                                certGrade = "Improved"
-                            Case 4
-                                certGrade = "Advanced"
-                            Case 5
-                                certGrade = "Elite"
-                        End Select
-                        For Each reqCertID As Integer In cert.RequiredCertificates.Keys
-                            Dim reqCert As Certificate = StaticData.Certificates(reqCertID)
-                            If reqCert.Id <> item Then
-                                newItem.ToolTipText &= StaticData.CertificateClasses(reqCert.ClassId.ToString).Name
-                                Select Case reqCert.Grade
-                                    Case 1
-                                        newItem.ToolTipText &= " (Basic), "
-                                    Case 2
-                                        newItem.ToolTipText &= " (Standard), "
-                                    Case 3
-                                        newItem.ToolTipText &= " (Improved), "
-                                    Case 4
-                                        newItem.ToolTipText &= " (Advanced), "
-                                    Case 5
-                                        newItem.ToolTipText &= " (Elite), "
-                                End Select
-                            End If
-                        Next
-                        If newItem.ToolTipText <> "" Then
-                            newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
-                            newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
-                        End If
-                        If _displayPilot.Certificates.Contains(cert.Id) = True Then
-                            newItem.ForeColor = Color.Green
-                        Else
-                            newItem.ForeColor = Color.Red
-                        End If
-                        newItem.Text = certName & " (" & certGrade & ")"
-                        newItem.Name = CStr(item)
-                        newItem.SubItems.Add("Level " & lvl)
-                        lvwDepend.Items.Add(newItem)
-                    Next
-                End If
             Next
+
+            ' Add the certificate unlocks
+            For Each cert As Certificate In StaticData.Certificates.Values
+                For Each cGrade As CertificateGrade In System.Enum.GetValues(GetType(CertificateGrade))
+                    If cert.GradesAndSkills.ContainsKey(cGrade) Then
+                        If cert.GradesAndSkills(cGrade).ContainsKey(skillID) Then
+                            Dim newItem As New ListViewItem
+                            Dim toolTipText As New StringBuilder
+
+                            newItem.Group = lvwDepend.Groups("CatCerts")
+                            certName = cert.Name
+
+                            If toolTipText.Length > 0 Then
+                                toolTipText.Insert(0, "Also Requires: ")
+
+                                If toolTipText.ToString().EndsWith(", ", StringComparison.Ordinal) Then
+                                    toolTipText.Remove(toolTipText.Length - 2, 2)
+                                End If
+                            End If
+                            If _displayPilot.QualifiedCertificates.ContainsKey(cert.Id) = True Then
+                                If _displayPilot.QualifiedCertificates(cert.Id) >= cGrade Then
+                                    newItem.ForeColor = Color.Green
+                                Else
+                                    newItem.ForeColor = Color.Red
+                                End If
+                            Else
+                                newItem.ForeColor = Color.Red
+                            End If
+                            newItem.ToolTipText = toolTipText.ToString()
+                            newItem.Text = certName & " (Grade: " & cGrade & " - " & cGrade.ToString & ")"
+                            newItem.Name = cert.Id.ToString
+                            newItem.SubItems.Add("Level " & cert.GradesAndSkills(cGrade)(skillID))
+                            lvwDepend.Items.Add(newItem)
+                        End If
+                    End If
+                Next
+            Next
+
             lvwDepend.EndUpdate()
         End Sub
         Private Sub PrepareDescription(ByVal skillID As Integer)
@@ -2147,11 +2138,17 @@ Namespace Forms
                         End Try
                         ' Get the list of skills from the plan
                         Dim skillList As XmlNodeList = planXML.SelectNodes("/plan/entry")
-                        Dim planSkills As New SortedList(Of String, Integer)
+                        Dim planSkills As New Dictionary(Of String, Integer)
                         For Each skill As XmlNode In skillList
                             Dim skillName As String = skill.Attributes.GetNamedItem("skill").Value
                             Dim skillLevel As Integer = CInt(skill.Attributes.GetNamedItem("level").Value)
-                            planSkills.Add(skillName, skillLevel)
+                            If planSkills.ContainsKey(skillName) Then
+                                If planSkills(skillName) < skillLevel Then
+                                    planSkills(skillName) = skillLevel
+                                End If
+                            Else
+                                planSkills.Add(skillName, skillLevel)
+                            End If
                         Next
                         ' Get a dialog for the new skills
                         Using selectQueue As New FrmSelectQueue(_displayPilot.Name, planSkills, "Import from EveMon")
@@ -2213,37 +2210,39 @@ Namespace Forms
                     Dim empElement As XmlElement
 
                     For Each qItem In arrQueue
-                        Dim empEntry As XmlNode = empxml.CreateElement("entry")
+                        If qItem.IsTraining = False Then
+                            Dim empEntry As XmlNode = empxml.CreateElement("entry")
 
-                        empAtt = empxml.CreateAttribute("skillID")
-                        empAtt.Value = qItem.ID.ToString
-                        empEntry.Attributes.Append(empAtt)
+                            empAtt = empxml.CreateAttribute("skillID")
+                            empAtt.Value = qItem.ID.ToString
+                            empEntry.Attributes.Append(empAtt)
 
-                        empAtt = empxml.CreateAttribute("skill")
-                        empAtt.Value = qItem.Name
-                        empEntry.Attributes.Append(empAtt)
+                            empAtt = empxml.CreateAttribute("skill")
+                            empAtt.Value = qItem.Name
+                            empEntry.Attributes.Append(empAtt)
 
-                        empAtt = empxml.CreateAttribute("level")
-                        empAtt.Value = qItem.ToLevel.ToString
-                        empEntry.Attributes.Append(empAtt)
+                            empAtt = empxml.CreateAttribute("level")
+                            empAtt.Value = qItem.ToLevel.ToString
+                            empEntry.Attributes.Append(empAtt)
 
-                        empAtt = empxml.CreateAttribute("priority")
-                        empAtt.Value = "3"
-                        empEntry.Attributes.Append(empAtt)
+                            empAtt = empxml.CreateAttribute("priority")
+                            empAtt.Value = "3"
+                            empEntry.Attributes.Append(empAtt)
 
-                        empAtt = empxml.CreateAttribute("type")
-                        If qItem.IsPrereq Then
-                            empAtt.Value = "Prerequisite"
-                        Else
-                            empAtt.Value = "Planned"
+                            empAtt = empxml.CreateAttribute("type")
+                            If qItem.IsPrereq Then
+                                empAtt.Value = "Prerequisite"
+                            Else
+                                empAtt.Value = "Planned"
+                            End If
+                            empEntry.Attributes.Append(empAtt)
+
+                            empElement = empxml.CreateElement("notes")
+                            empElement.InnerText = qItem.Notes
+                            empEntry.AppendChild(empElement)
+
+                            empRoot.AppendChild(empEntry)
                         End If
-                        empEntry.Attributes.Append(empAtt)
-
-                        empElement = empxml.CreateElement("notes")
-                        empElement.InnerText = qItem.Notes
-                        empEntry.AppendChild(empElement)
-
-                        empRoot.AppendChild(empEntry)
                     Next
 
                     ' Form a string of the XML
@@ -2373,7 +2372,7 @@ Namespace Forms
                         _displayPilot.ActiveQueue = Nothing
                     End If
                     ' Remove the item from the list
-                    frmEveHQ.BuildQueueReportsMenu()
+                    FrmEveHQ.BuildQueueReportsMenu()
                     Call RefreshAllTraining()
                 Else
                     lvQueues.Select()
@@ -2387,16 +2386,14 @@ Namespace Forms
                 MessageBox.Show("Please select a Queue to call Primary!", "Cannot Set Primary Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
             Else
-                ' Remove the current primary queue (if exists!)
-                Dim oldPq As EveHQSkillQueue = _displayPilot.TrainingQueues(_displayPilot.PrimaryQueue)
-                If oldPq IsNot Nothing Then
-                    oldPq.Primary = False
-                End If
-                _displayPilot.PrimaryQueue = ""
-                ' Select the new primary queue
-                Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
-                selQueue.Primary = True
-                _displayPilot.PrimaryQueue = selQueue.Name
+                For Each tq As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
+                    If tq.Name = lvQueues.SelectedItems(0).Name Then
+                        tq.Primary = True
+                        _displayPilot.PrimaryQueue = tq.Name
+                    Else
+                        tq.Primary = False
+                    End If
+                Next
                 Call DrawQueueSummary()
             End If
         End Sub
@@ -2531,7 +2528,7 @@ Namespace Forms
         End Sub
 
 #End Region
-        
+
     End Class
 
 End Namespace

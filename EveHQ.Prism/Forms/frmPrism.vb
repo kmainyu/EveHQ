@@ -49,12 +49,14 @@ Namespace Forms
         ReadOnly _culture As CultureInfo = New CultureInfo("en-GB")
 
         Dim _startup As Boolean = True
+        Dim _jobsUpdated As Boolean = False
         Dim _selectedTab As TabItem
         ReadOnly _divisions As New SortedList
         Dim _prismThreadMax As Integer = 16
         Dim _prismThreadCurrent As Integer = 0
         Private Const MaxAPIRetries As Integer = 3
         Private Const MaxAPIJournals As Integer = 2000
+        Dim _csvFile As String = ""
 
         Dim _bpManagerUpdate As Boolean = False
         ReadOnly _bpLocations As List(Of String) = New List(Of String)()
@@ -68,8 +70,7 @@ Namespace Forms
         Dim _recyclerAssetList As New SortedList(Of Integer, Long)
         Dim _recyclerAssetOwner As String = ""
         Dim _recyclerAssetLocation As Integer
-        ReadOnly _itemList As New SortedList(Of Integer, SortedList(Of String, Long))
-        Dim _matList As New SortedList(Of String, Long)
+        Dim _matList As New Dictionary(Of Integer, Long)
         Dim _baseYield As Double = 0.5
         Dim _netYield As Double = 0
         Dim _stationYield As Double = 0
@@ -113,7 +114,8 @@ Namespace Forms
             Call PrismSettings.UserSettings.LoadPrismSettings()
 
             ' Load the Production Jobs
-            Call Jobs.Load()
+            _jobsUpdated = Jobs.Load()
+
             ' Load the Batch Jobs
             Call BatchJobs.LoadBatchJobs()
 
@@ -240,6 +242,28 @@ Namespace Forms
 
         End Sub
 
+        Private Sub FrmPrism_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+            If _jobsUpdated = True Then
+                TaskDialog.AntiAlias = True
+                TaskDialog.EnableGlass = False
+                Dim tdi As New TaskDialogInfo
+                tdi.TaskDialogIcon = eTaskDialogIcon.Information2
+                tdi.DialogButtons = eTaskDialogButton.Ok
+                tdi.DefaultButton = eTaskDialogButton.Ok
+                tdi.Title = "Production Jobs Updated"
+                tdi.Header = "Production Jobs Updated"
+                Dim msg As New StringBuilder
+                msg.Append("Prism has detected that materials required for certain Eve blueprints no longer match the production jobs. ")
+                msg.AppendLine("As a result, Prism has now updated these production jobs to reflect the new blueprint requirements.")
+                msg.AppendLine()
+                msg.AppendLine("Please ensure all your production jobs are updated for any known changes to blueprint requirements.")
+                tdi.Text = msg.ToString
+                tdi.DialogColor = eTaskDialogBackgroundColor.DarkBlue
+                TaskDialog.Show(Me, tdi)
+                _jobsUpdated = False
+            End If
+        End Sub
+
         ''' <summary>
         ''' Builds a list of all owners to be used by Prism, and also builds the corp list
         ''' Could replace the LoadedOwners list
@@ -336,7 +360,7 @@ Namespace Forms
             Next
 
             lvwCurrentAPIs.EndUpdate()
-            Call CompleteAPIUpdate()
+            Invoke(Sub() CompleteAPIUpdate())
         End Sub
 
         ''' <summary>
@@ -416,7 +440,7 @@ Namespace Forms
                 Dim corpAccount As EveHQAccount = pOwner.Account
 
                 Dim apixml As XmlDocument
-                Const returnMethod As APIReturnMethods = APIReturnMethods.ReturnCacheOnly
+                Const ReturnMethod As APIReturnMethods = APIReturnMethods.ReturnCacheOnly
                 Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
                 Dim ownerID As String
 
@@ -508,6 +532,7 @@ Namespace Forms
             ' Perform this so that the API download process doesn't block the main UI thread
             GetXMLData()
         End Sub
+
         Private Sub GetXMLData()
 
             _prismThreadMax = 16
@@ -548,7 +573,7 @@ Namespace Forms
 
                         ' Checking XML of APIv2 keys
                         If apiResult IsNot Nothing Then
-                            If CanUseAPIv2(pOwner, apiType) Then
+                            If CanUseApiV2(pOwner, apiType) Then
                                 Call DisplayAPIDetails(apiResult, apiOwner, pos)
                             Else
                                 apiOwner.SubItems(pos).ForeColor = Color.Red
@@ -559,7 +584,7 @@ Namespace Forms
                                 apiOwner.SubItems(pos).ForeColor = Color.Black
                                 apiOwner.SubItems(pos).Text = "n/a"
                             Else
-                                If CanUseAPIv2(pOwner, apiType) Then
+                                If CanUseApiV2(pOwner, apiType) Then
                                     ' ...but we can use it (it's just missing for now)
                                     apiOwner.SubItems(pos).ForeColor = Color.Red
                                     apiOwner.SubItems(pos).Text = "Missing"
@@ -580,6 +605,7 @@ Namespace Forms
                 MessageBox.Show(msg, "CheckXML Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
+
         Private Sub DisplayAPIDetails(ByVal apiXML As XmlDocument, ByVal apiOwner As ListViewItem, ByVal pos As Integer)
             ' Check response string for any error codes?
             Dim errlist As XmlNodeList = apiXML.SelectNodes("/eveapi/error")
@@ -600,15 +626,17 @@ Namespace Forms
                 End If
             End If
         End Sub
+
         Private Function CanUseAPI(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
             Select Case pOwner.APIVersion
                 Case APIKeySystems.Version2
-                    Return CanUseAPIv2(pOwner, apiType)
+                    Return CanUseApiV2(pOwner, apiType)
                 Case Else
                     Return False
             End Select
         End Function
-        Private Function CanUseAPIv2(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
+
+        Private Function CanUseApiV2(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
             Dim account As EveHQAccount = pOwner.Account
             If account.ApiKeySystem = APIKeySystems.Version2 Then
                 Select Case account.APIKeyType
@@ -655,9 +683,10 @@ Namespace Forms
                 Return False
             End If
         End Function
+
         Private Sub CompleteAPIUpdate()
             ' Populate the various Owner boxes
-            Call UpdatePrismOwners()
+            Invoke(Sub() UpdatePrismOwners())
             ' Set the label, enable the button and inform the user
             lblCurrentAPI.Text = "Cached APIs Loaded:"
             btnDownloadAPIData.Enabled = True
@@ -665,6 +694,7 @@ Namespace Forms
                 DisplayAPICompleteDialog()
             End If
         End Sub
+
         Private Sub DisplayAPICompleteDialog()
             TaskDialog.AntiAlias = True
             TaskDialog.EnableGlass = False
@@ -679,6 +709,7 @@ Namespace Forms
             tdi.CheckBoxCommand = APIDownloadDialogCheckBox
             TaskDialog.Show(Me, tdi)
         End Sub
+
         Private Sub APIDownloadDialogCheckBox_Executed(ByVal sender As Object, ByVal e As EventArgs) Handles APIDownloadDialogCheckBox.Executed
             PrismSettings.UserSettings.HideAPIDownloadDialog = APIDownloadDialogCheckBox.Checked
         End Sub
@@ -779,7 +810,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -820,7 +851,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -867,7 +898,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -939,7 +970,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -980,7 +1011,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -991,7 +1022,7 @@ Namespace Forms
                     If pOwner.IsCorp = False Then
 
                         ' Setup the array of transactions
-                        Const transID As String = ""
+                        Const TransID As String = ""
 
                         Dim apixml As New XmlDocument
                         Dim pilotAccount As EveHQAccount = pOwner.Account
@@ -1004,7 +1035,7 @@ Namespace Forms
                             Dim retries As Integer = 0
                             Do
                                 retries += 1
-                                apixml = apireq.GetAPIXML(APITypes.WalletTransChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, transID, APIReturnMethods.ReturnStandard)
+                                apixml = apireq.GetAPIXML(APITypes.WalletTransChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, TransID, APIReturnMethods.ReturnStandard)
                             Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
 
                             ' Write the journal to the database!
@@ -1027,7 +1058,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1088,7 +1119,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1113,7 +1144,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
         End Sub
 
@@ -1157,7 +1188,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1201,7 +1232,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1252,7 +1283,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1333,7 +1364,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1378,7 +1409,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1389,7 +1420,7 @@ Namespace Forms
                     If pOwner.IsCorp = True Then
 
                         ' Setup the array of transactions
-                        Const transID As String = ""
+                        Const TransID As String = ""
 
                         Dim apixml As New XmlDocument
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.WalletTransactions)
@@ -1406,7 +1437,7 @@ Namespace Forms
                                     Dim retries As Integer = 0
                                     Do
                                         retries += 1
-                                        apixml = apireq.GetAPIXML(APITypes.WalletTransCorp, pilotAccount.ToAPIAccount, ownerID, divID, transID, APIReturnMethods.ReturnStandard)
+                                        apixml = apireq.GetAPIXML(APITypes.WalletTransCorp, pilotAccount.ToAPIAccount, ownerID, divID, TransID, APIReturnMethods.ReturnStandard)
                                     Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
 
                                     ' Write the journal to the database!
@@ -1432,7 +1463,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1497,7 +1528,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1543,7 +1574,7 @@ Namespace Forms
             Next
             _prismThreadCurrent += 1
             If _prismThreadCurrent = _prismThreadMax Then
-                Call CompleteAPIUpdate()
+                Invoke(Sub() CompleteAPIUpdate())
             End If
 
         End Sub
@@ -1891,11 +1922,19 @@ Namespace Forms
                 Case 18 ' Agents Temp
                     desc = "Agents Temporary" & misc
                 Case 19 ' Insurance
-                    Dim itemName As String
-                    If StaticData.Types.ContainsKey(CInt(argName1)) = True Then
-                        itemName = StaticData.Types(CInt(argName1)).Name
-                    Else
-                        itemName = "ship"
+                    Dim itemName As String = "ship"
+                    ' Check if the argName1 is numeric first
+                    If IsNumeric(argName1) Then
+                        ' See if we can convert to an integer
+                        Dim typeID As Integer
+                        If Integer.TryParse(argName1, typeID) Then
+                            If StaticData.Types.ContainsKey(typeID) = True Then
+                                itemName = StaticData.Types(typeID).Name
+                            End If
+                        Else
+                            ' TODO: Work out what this negative 64-bit number represents
+                            ' Possibly an assetID, leave it as a ship for now!
+                        End If
                     End If
                     desc = "Insurance paid by EVE Central Bank to " & owner2 & " covering loss of a " & itemName
                 Case 20 'Mission Expiration
@@ -2382,8 +2421,8 @@ Namespace Forms
                 Dim sfd As New SaveFileDialog
                 sfd.Title = "Export Wallet Journal Entries"
                 sfd.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-                Const filterText As String = "XML files (*.xml)|*.xml"
-                sfd.Filter = filterText
+                Const FilterText As String = "XML files (*.xml)|*.xml"
+                sfd.Filter = FilterText
                 sfd.FilterIndex = 0
                 sfd.AddExtension = True
                 sfd.ShowDialog()
@@ -2456,8 +2495,8 @@ Namespace Forms
             Dim ofd As New OpenFileDialog
             ofd.Title = "Import Wallet Journal Entries"
             ofd.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-            Const filterText As String = "XML files (*.xml)|*.xml"
-            ofd.Filter = filterText
+            Const FilterText As String = "XML files (*.xml)|*.xml"
+            ofd.Filter = FilterText
             ofd.FilterIndex = 0
             ofd.AddExtension = True
             ofd.CheckPathExists = True
@@ -2568,7 +2607,7 @@ Namespace Forms
 
         End Sub
 
-        Private Sub adtJournal_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtJournal.ColumnHeaderMouseUp
+        Private Sub adtJournal_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtJournal.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -2789,7 +2828,7 @@ Namespace Forms
             End If
         End Sub
 
-       Private Sub btnGetTransactions_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetTransactions.Click
+        Private Sub btnGetTransactions_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetTransactions.Click
             Call DisplayWalletTransactions()
         End Sub
 
@@ -2809,7 +2848,7 @@ Namespace Forms
             dtiTransEndDate.Value = SkillFunctions.ConvertLocalTimeToEve(Now)
         End Sub
 
-        Private Sub adtTransactions_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtTransactions.ColumnHeaderMouseUp
+        Private Sub adtTransactions_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtTransactions.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -2865,10 +2904,11 @@ Namespace Forms
                     ' Parse the XML
                     Dim transItem As Node
                     Dim transTypeID As Integer
-                    Dim locationID As Integer
                     Dim displayJob As Boolean
 
                     For Each job As Prism.Classes.IndustryJob In jobList
+
+                        Dim localTime As DateTime = SkillFunctions.ConvertEveTimeToLocal(job.EndProductionTime)
 
                         ' Check filters to see if the job is allowed
                         displayJob = False
@@ -2882,7 +2922,7 @@ Namespace Forms
                                 Else
                                     Select Case job.Completed
                                         Case 0
-                                            If job.EndProductionTime < DateTime.Now.ToUniversalTime Then
+                                            If localTime < DateTime.Now.ToUniversalTime Then
                                                 ' Job finished but not delivered
                                                 If cboStatusFilter.SelectedItem.ToString = PlugInData.Statuses("B") Then
                                                     displayJob = True
@@ -2917,21 +2957,17 @@ Namespace Forms
                             transItem.Cells(1).Text = job.ActivityID.ToString
                             transItem.Cells(2).Text = job.Runs.ToString
                             transItem.Cells(3).Text = installerList(job.InstallerID)
-                            locationID = job.InstalledItemLocationID
-                            If StaticData.Stations.ContainsKey(locationID) = True Then
-                                transItem.Cells(4).Text = StaticData.Stations(locationID).StationName
+                            If job.InstalledItemLocationID <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.InstalledItemLocationID)) = True Then
+                                transItem.Cells(4).Text = StaticData.Stations(CInt(job.InstalledItemLocationID)).StationName
                             Else
-                                If StaticData.Stations.ContainsKey(job.OutputLocationID) = True Then
-                                    transItem.Cells(4).Text = StaticData.Stations(job.OutputLocationID).StationName
-                                Else
-                                    transItem.Cells(4).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
-                                End If
+                                transItem.Cells(4).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                             End If
-                            transItem.Cells(5).Text = job.EndProductionTime.ToString
-                            transItem.Cells(5).Tag = job.EndProductionTime
-                            transItem.Cells(6).Text = SkillFunctions.TimeToString(Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60, False, "Complete")
+                            transItem.Cells(5).Text = localTime.ToString
+                            transItem.Cells(5).Tag = localTime
+                            transItem.Cells(6).Tag = Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60
+                            transItem.Cells(6).Text = SkillFunctions.TimeToString(CDbl(transItem.Cells(6).Tag), False, "Complete")
                             If job.Completed = 0 Then
-                                If job.EndProductionTime < DateTime.Now.ToUniversalTime Then
+                                If localTime < DateTime.Now.ToUniversalTime Then
                                     transItem.Cells(7).Text = PlugInData.Statuses("B")
                                 Else
                                     transItem.Cells(7).Text = PlugInData.Statuses("A")
@@ -2962,7 +2998,8 @@ Namespace Forms
 
         Private Sub UpdateIndustryJobTimes()
             For Each transItem As Node In adtJobs.Nodes
-                transItem.Cells(6).Text = SkillFunctions.TimeToString(Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60, False, "Complete")
+                transItem.Cells(6).Tag = Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60
+                transItem.Cells(6).Text = SkillFunctions.TimeToString(CDbl(transItem.Cells(6).Tag), False, "Complete")
             Next
         End Sub
 
@@ -2985,6 +3022,11 @@ Namespace Forms
                 ' We are not triggering a change in the selected item from the main drawing routine
                 Call DisplayIndustryJobs()
             End If
+        End Sub
+
+        Private Sub adtJobs_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtJobs.ColumnHeaderMouseDown
+            Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+            AdvTreeSorter.Sort(ch, False, False)
         End Sub
 
 #End Region
@@ -3012,11 +3054,11 @@ Namespace Forms
 
                     For Each c As Prism.Classes.Contract In contractList.Values
                         ' Setup filter result
-                        Const displayContract As Boolean = True
+                        Const DisplayContract As Boolean = True
                         ' Apply filtering...
 
                         ' Display the result if allowed by filters
-                        If displayContract = True Then
+                        If DisplayContract = True Then
                             Dim newContract As New Node
                             adtContracts.Nodes.Add(newContract)
                             newContract.CreateCells()
@@ -3107,7 +3149,7 @@ Namespace Forms
 
         End Sub
 
-        Private Sub adtContracts_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtContracts.ColumnHeaderMouseUp
+        Private Sub adtContracts_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtContracts.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -3136,22 +3178,6 @@ Namespace Forms
             End If
         End Function
         Private Sub LoadRecyclingInfo()
-
-            _itemList.Clear()
-            If _recyclerAssetList.Count > 0 Then
-
-                ' Cycle through the items and get the materials
-                For Each itemID As Integer In _recyclerAssetList.Keys
-                    Dim bpID As Integer = StaticData.GetBPTypeId(CInt(itemID))
-                    _itemList.Add(itemID, New SortedList(Of String, Long))
-                    If StaticData.Blueprints(bpID).Resources.ContainsKey(6) Then
-                        For Each br As EveData.BlueprintResource In StaticData.Blueprints(bpID).Resources(6).Values
-                            _itemList(itemID).Add(StaticData.Types(br.TypeId).Name, br.Quantity)
-                        Next
-                    End If
-                Next
-
-            End If
 
             ' Load the characters into the combobox
             cboRecyclePilots.Items.Clear()
@@ -3233,7 +3259,7 @@ Namespace Forms
             Dim bestPriceTotal As Double = 0
             Dim salePriceTotal As Double = 0
             Dim refinePriceTotal As Double = 0
-            Dim recycleResults As New SortedList
+            Dim recycleResults As New SortedList(Of Integer, Long)
             Dim recycleWaste As New SortedList
             Dim recycleTake As New SortedList
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
@@ -3283,7 +3309,12 @@ Namespace Forms
                     tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.ScrapMetalProc)))) + _baseYield
                 End If
                 tempNetYield = Math.Min(tempNetYield, 1)
-                _matList = _itemList(asset)
+                _matList.Clear()
+                If StaticData.TypeMaterials.ContainsKey(asset) Then
+                    For Each mat As Integer In StaticData.TypeMaterials(asset).Materials.Keys
+                        _matList.Add(mat, StaticData.TypeMaterials(asset).Materials(mat))
+                    Next
+                End If
                 newClvItem = New Node
                 adtRecycle.Nodes.Add(newClvItem)
                 newClvItem.CreateCells()
@@ -3309,12 +3340,12 @@ Namespace Forms
                     newClvItem.Cells(7).Text = value.ToString("N2")
                 End If
                 recycleTotal = 0
-                If _matList IsNot Nothing Then ' i.e. it can be refined
-                    Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From m In _matList.Keys Select StaticData.TypeNames(CStr(m)))
+                If _matList.Count > 0 Then ' i.e. it can be refined
+                    Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(_matList.Keys)
                     matPriceTask.Wait()
                     Dim matPrices As Dictionary(Of Integer, Double) = matPriceTask.Result
-                    For Each mat As String In _matList.Keys
-                        price = Math.Round(matPrices(StaticData.TypeNames(mat)), 2, MidpointRounding.AwayFromZero)
+                    For Each mat As Integer In _matList.Keys
+                        price = Math.Round(matPrices(mat), 2, MidpointRounding.AwayFromZero)
                         perfect = CLng(_matList(mat)) * batches
                         wastage = CLng(perfect * (1 - tempNetYield))
                         quant = CLng(perfect * tempNetYield)
@@ -3326,7 +3357,7 @@ Namespace Forms
                         newClvSubItem = New Node
                         newClvItem.Nodes.Add(newClvSubItem)
                         newClvSubItem.CreateCells()
-                        newClvSubItem.Text = mat
+                        newClvSubItem.Text = StaticData.Types(mat).Name
                         newClvSubItem.Cells(2).Text = quant.ToString("N0")
                         newClvSubItem.Cells(3).Text = quant.ToString("N0")
                         newClvSubItem.Cells(4).Text = price.ToString("N2")
@@ -3340,10 +3371,10 @@ Namespace Forms
                             recycleTotal += value
                         End If
                         ' Save the perfect refining quantity
-                        If recycleResults.Contains(mat) = False Then
+                        If recycleResults.ContainsKey(mat) = False Then
                             recycleResults.Add(mat, quant)
                         Else
-                            recycleResults(mat) = CDbl(recycleResults(mat)) + quant
+                            recycleResults(mat) += quant
                         End If
                         ' Save the wasted amounts
                         If recycleWaste.Contains(mat) = False Then
@@ -3385,18 +3416,18 @@ Namespace Forms
             adtTotals.BeginUpdate()
             adtTotals.Nodes.Clear()
             If recycleResults IsNot Nothing Then
-                Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From m In recycleResults.Keys Select StaticData.TypeNames(CStr(m)))
+                Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(recycleResults.Keys)
                 matPriceTask.Wait()
                 Dim matPrices As Dictionary(Of Integer, Double) = matPriceTask.Result
-                For Each mat As String In recycleResults.Keys
-                    price = Math.Round(matPrices(StaticData.TypeNames(mat)), 2, MidpointRounding.AwayFromZero)
+                For Each mat As Integer In recycleResults.Keys
+                    price = Math.Round(matPrices(mat), 2, MidpointRounding.AwayFromZero)
                     wastage = CLng(recycleWaste(mat))
                     taken = CLng(recycleTake(mat))
                     quant = CLng(recycleResults(mat))
                     newClvItem = New Node
                     adtTotals.Nodes.Add(newClvItem)
                     newClvItem.CreateCells()
-                    newClvItem.Text = mat
+                    newClvItem.Text = StaticData.Types(mat).Name
                     newClvItem.Cells(1).Text = taken.ToString("N0")
                     newClvItem.Cells(2).Text = wastage.ToString("N0")
                     newClvItem.Cells(3).Text = quant.ToString("N0")
@@ -3457,7 +3488,7 @@ Namespace Forms
             Call RecalcRecycling()
         End Sub
 
-        Private Sub adtRecycle_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRecycle.ColumnHeaderMouseUp
+        Private Sub adtRecycle_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRecycle.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -3471,7 +3502,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub adtTotals_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtTotals.ColumnHeaderMouseUp
+        Private Sub adtTotals_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtTotals.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -3758,27 +3789,26 @@ Namespace Forms
 #Region "CSV Export Routines"
 
         Private Sub btnExportTransactions_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportTransactions.Click
-            Call GenerateCSVFileFromCLV(cboTransactionOwner.Text, "Wallet Transactions", adtTransactions)
+            Call GenerateCsvFileFromClv(cboTransactionOwner.Text, "Wallet Transactions", adtTransactions)
         End Sub
 
         Private Sub btnExportJournal_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportJournal.Click
-            'TODO: Update the called routine
-            Call GenerateCSVFileFromCLV(cboJournalOwners.Text, "Wallet Journal", adtJournal)
+            Call GenerateCsvFileFromClv(cboJournalOwners.Text, "Wallet Journal", adtJournal)
         End Sub
 
         Private Sub btnExportJobs_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportJobs.Click
-            Call GenerateCSVFileFromCLV(cboJobOwner.SelectedItem.ToString, "Industry Jobs", adtJobs)
+            Call GenerateCsvFileFromClv(cboJobOwner.SelectedItem.ToString, "Industry Jobs", adtJobs)
         End Sub
 
-        'Private Sub btnExportOrders_Click(ByVal sender As Object, ByVal e As EventArgs)
-        '    Call GenerateCSVFileFromCLV(cboOrdersOwner.SelectedItem.ToString, "Sell Orders", adtSellOrders)
-        '    Call GenerateCSVFileFromCLV(cboOrdersOwner.SelectedItem.ToString, "Buy Orders", adtBuyOrders)
-        'End Sub
+        Private Sub btnExportOrders_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportOrders.Click
+            Call GenerateCsvFileFromClv(cboOrdersOwner.SelectedItem.ToString, "Sell Orders", adtSellOrders)
+            Call GenerateCsvFileFromClv(cboOrdersOwner.SelectedItem.ToString, "Buy Orders", adtBuyOrders)
+        End Sub
 
-        Private Sub GenerateCSVFileFromCLV(ByVal ownerName As String, ByVal description As String, ByVal cAdvTree As AdvTree)
+        Private Sub GenerateCsvFileFromClv(ByVal ownerName As String, ByVal description As String, ByVal cAdvTree As AdvTree)
 
             Try
-                Dim csvFile As String = Path.Combine(HQ.ReportFolder, Description.Replace(" ", "") & " - " & ownerName & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv")
+                _csvFile = Path.Combine(HQ.ReportFolder, description.Replace(" ", "") & " - " & ownerName & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv")
                 Dim csvText As New StringBuilder
                 With cAdvTree
                     ' Write the columns
@@ -3804,14 +3834,51 @@ Namespace Forms
                         csvText.AppendLine("")
                     Next
                 End With
-                Dim sw As New StreamWriter(csvFile)
+                Dim sw As New StreamWriter(_csvFile)
                 sw.Write(csvText.ToString)
                 sw.Flush()
                 sw.Close()
-                MessageBox.Show(Description & " successfully exported to " & csvFile, "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                DisplayCsvExportDialog()
+                'MessageBox.Show(description & " successfully exported to " & csvFile, "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Catch ex As Exception
-                MessageBox.Show("There was an error writing the " & Description & " File. The error was: " & ControlChars.CrLf & ControlChars.CrLf & ex.Message, "Error Writing File", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("There was an error writing the " & description & " File. The error was: " & ControlChars.CrLf & ControlChars.CrLf & ex.Message, "Error Writing File", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
+
+        End Sub
+
+        Private Sub DisplayCsvExportDialog()
+            TaskDialog.AntiAlias = True
+            TaskDialog.EnableGlass = False
+            Dim tdi As New TaskDialogInfo
+            tdi.TaskDialogIcon = eTaskDialogIcon.CheckMark2
+            tdi.DialogButtons = eTaskDialogButton.Ok
+            tdi.DefaultButton = eTaskDialogButton.Ok
+            tdi.Buttons = New Command() {CSVExportOpenFolderButton, CSVExportOpenFileButton}
+            tdi.Title = "CSV Export Complete"
+            tdi.Header = "CSV Export Complete"
+            tdi.Text = "Prism has completed the export of the CSV data." & ControlChars.CrLf & ControlChars.CrLf
+            tdi.Text &= "You can close this screen or optionally select one of the following additional tasks below."
+            tdi.DialogColor = eTaskDialogBackgroundColor.DarkBlue
+            'tdi.CheckBoxCommand = CSVExportDialogCheckBox
+            TaskDialog.Show(Me, tdi)
+        End Sub
+
+        Private Sub CSVExportOpenFolderButton_Executed(sender As System.Object, e As EventArgs) Handles CSVExportOpenFolderButton.Executed
+            Try
+                Process.Start(HQ.ReportFolder)
+            Catch ex As Exception
+                MessageBox.Show("Unable to start Windows Explorer: " & ex.Message, "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+            TaskDialog.Close()
+        End Sub
+
+        Private Sub CSVExportOpenFileButton_Executed(sender As System.Object, e As EventArgs) Handles CSVExportOpenFileButton.Executed
+            Try
+                Process.Start(_csvFile)
+            Catch ex As Exception
+                MessageBox.Show("Unable to open CSV File in the defaul application: " & ex.Message, "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+            TaskDialog.Close()
         End Sub
 
 #End Region
@@ -3924,7 +3991,6 @@ Namespace Forms
                     Dim locationName As String
                     Dim matchCat As Boolean
                     For Each blueprint As BlueprintAsset In ownerBPs.Values
-                        Dim bpName As String = StaticData.Types(CInt(blueprint.TypeID)).Name
                         If blueprint.LocationDetails Is Nothing Then blueprint.LocationDetails = "" ' Resets details
                         If blueprint.LocationID Is Nothing Then blueprint.LocationID = "0" ' Resets details
                         If StaticData.Blueprints.ContainsKey(CInt(blueprint.TypeID)) Then
@@ -3943,14 +4009,15 @@ Namespace Forms
                                         End If
                                     End If
                                     If matchCat = True Then
+                                        Dim bpName As String = StaticData.Types(CInt(blueprint.TypeID)).Name
                                         If search = "" Or bpName.ToLower.Contains(search.ToLower) Or blueprint.LocationDetails.ToLower.Contains(search.ToLower) Or locationName.ToLower.Contains(search.ToLower) Then
-                                            Dim newBPItem As New Node
-                                            adtBlueprints.Nodes.Add(newBPItem)
-                                            newBPItem.CreateCells()
-                                            newBPItem.Text = bpName
-                                            newBPItem.Tag = blueprint.AssetID
-                                            newBPItem.Cells(3).Text = bpData.TechLevel.ToString
-                                            Call UpdateOwnerBPItem(prismOwner, locationName, blueprint, newBPItem)
+                                            Dim newBpItem As New Node
+                                            adtBlueprints.Nodes.Add(newBpItem)
+                                            newBpItem.CreateCells()
+                                            newBpItem.Text = bpName
+                                            newBpItem.Tag = blueprint.AssetID
+                                            newBpItem.Cells(3).Text = bpData.TechLevel.ToString
+                                            Call UpdateOwnerBPItem(prismOwner, locationName, blueprint, newBpItem)
                                         End If
                                     End If
                                 End If
@@ -3967,19 +4034,19 @@ Namespace Forms
             newBPItem.Cells(5).Text = bpAsset.PELevel.ToString("N0")
             Select Case bpAsset.BPType
                 Case BPType.Unknown  ' Undetermined
-                    newBPItem.Cells(1).Text = LocationName
+                    newBPItem.Cells(1).Text = locationName
                     newBPItem.Cells(2).Text = bpAsset.LocationDetails
                     newBPItem.Cells(6).Text = "Unknown"
                     newBPItem.Cells(6).Tag = bpAsset.Runs
                     newBPItem.Style = _bpmStyleUnknown
                 Case BPType.Original  ' BPO
-                    newBPItem.Cells(1).Text = LocationName
+                    newBPItem.Cells(1).Text = locationName
                     newBPItem.Cells(2).Text = bpAsset.LocationDetails
                     newBPItem.Cells(6).Text = "BPO"
                     newBPItem.Cells(6).Tag = 1000000
                     newBPItem.Style = _bpmStyleBpo
                 Case BPType.Copy ' BPC
-                    newBPItem.Cells(1).Text = LocationName
+                    newBPItem.Cells(1).Text = locationName
                     newBPItem.Cells(2).Text = bpAsset.LocationDetails
                     newBPItem.Cells(6).Text = bpAsset.Runs.ToString("N0")
                     newBPItem.Cells(6).Tag = bpAsset.Runs
@@ -4235,7 +4302,7 @@ Namespace Forms
                     ' Get the Node List
                     Dim jobs As XmlNodeList = jobXML.SelectNodes("/eveapi/result/rowset/row")
                     For Each job As XmlNode In jobs
-                        Dim assetID As Integer = CInt(job.Attributes.GetNamedItem("installedItemID").Value)
+                        Dim assetID As Long = CLng(job.Attributes.GetNamedItem("installedItemID").Value)
                         If ownerBPs.ContainsKey(assetID) = True Then
                             ' Fetch the current BP Data
                             Dim cBPInfo As BlueprintAsset = ownerBPs(assetID)
@@ -4555,9 +4622,9 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub OpenBPCalculator(ByVal bpCalc As frmBPCalculator)
-            BPCalc.Location = New Point(CInt(ParentForm.Left + ((ParentForm.Width - BPCalc.Width) / 2)), CInt(ParentForm.Top + ((ParentForm.Height - BPCalc.Height) / 2)))
-            BPCalc.Show()
+        Private Sub OpenBPCalculator(ByVal bpCalc As FrmBPCalculator)
+            bpCalc.Location = New Point(CInt(ParentForm.Left + ((ParentForm.Width - bpCalc.Width) / 2)), CInt(ParentForm.Top + ((ParentForm.Height - bpCalc.Height) / 2)))
+            bpCalc.Show()
         End Sub
 
         Private Sub mnuAmendBPDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAmendBPDetails.Click
@@ -4626,9 +4693,9 @@ Namespace Forms
                 ' Remove the nodes
                 Dim bpOwner As String = cboBPOwner.SelectedItem.ToString
                 For Each rn As Node In removalList
-                    Dim assetID As Integer = CInt(rn.Tag)
-                    If PlugInData.BlueprintAssets(bpOwner).ContainsKey(assetID) = True Then
-                        PlugInData.BlueprintAssets(bpOwner).Remove(assetID)
+                    Dim assetId As Long = CLng(rn.Tag)
+                    If PlugInData.BlueprintAssets(bpOwner).ContainsKey(assetId) = True Then
+                        PlugInData.BlueprintAssets(bpOwner).Remove(assetId)
                         adtBlueprints.Nodes.Remove(rn)
                     End If
                 Next
@@ -5114,6 +5181,7 @@ Namespace Forms
                 newJob.Text = cJob.JobName
                 newJob.Cells.Add(New Cell(cJob.TypeName))
                 If cJob.CurrentBlueprint IsNot Nothing Then
+                    cJob.Cost = cJob.CalculateCost()
                     Dim product As EveType = StaticData.Types(cJob.CurrentBlueprint.ProductId)
                     Dim totalcosts As Double = cJob.Cost + Math.Round((PrismSettings.UserSettings.FactoryRunningCost / 3600 * cJob.RunTime) + PrismSettings.UserSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
                     Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2, MidpointRounding.AwayFromZero)
@@ -5208,7 +5276,7 @@ Namespace Forms
             bpCalc.Show()
         End Sub
 
-        Private Sub adtProdJobs_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtProdJobs.ColumnHeaderMouseUp
+        Private Sub adtProdJobs_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtProdJobs.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -5375,7 +5443,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub adtInventionJobs_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionJobs.ColumnHeaderMouseUp
+        Private Sub adtInventionJobs_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionJobs.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -5653,11 +5721,10 @@ Namespace Forms
                                         If CLng(groupID) = 754 Then
 
                                             Dim quantity As Long = CLng(loc.Attributes.GetNamedItem("quantity").Value)
-                                            Dim itemName As String = StaticData.Types(itemID).Name
-                                            If _salvageList.Contains(itemName) = False Then
-                                                _salvageList.Add(itemName, quantity)
+                                            If _salvageList.Contains(itemID) = False Then
+                                                _salvageList.Add(itemID, quantity)
                                             Else
-                                                _salvageList.Item(itemName) = CLng(_salvageList.Item(itemName)) + quantity
+                                                _salvageList.Item(itemID) = CLng(_salvageList.Item(itemID)) + quantity
                                             End If
                                         End If
                                     End If
@@ -5685,16 +5752,16 @@ Namespace Forms
                         If CLng(groupID) = 754 Then
                             Dim quantity As Long = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
                             Dim itemName As String = StaticData.Types(itemID).Name
-                            If SalvageList.Contains(itemName) = False Then
-                                SalvageList.Add(itemName, quantity)
+                            If salvageList.Contains(itemName) = False Then
+                                salvageList.Add(itemName, quantity)
                             Else
-                                SalvageList.Item(itemName) = CLng(SalvageList.Item(itemName)) + quantity
+                                salvageList.Item(itemName) = CLng(salvageList.Item(itemName)) + quantity
                             End If
                         End If
                     End If
 
                     If subLoc.HasChildNodes = True Then
-                        Call GetSalvageNode(SalvageList, subLoc)
+                        Call GetSalvageNode(salvageList, subLoc)
                     End If
 
                 Catch ex As Exception
@@ -5765,7 +5832,7 @@ Namespace Forms
                     ' Find the results
                     If buildableBP = True Then
                         ' Caluclate the build cost
-                        Dim costTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From mat In _rigBuildData.Keys Select StaticData.TypeNames(CStr(mat)))
+                        Dim costTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(_rigBuildData.Keys)
                         costTask.Wait()
                         Dim costs As Dictionary(Of Integer, Double) = costTask.Result
                         For Each material In _rigBuildData.Keys
@@ -5885,16 +5952,16 @@ Namespace Forms
             Call GetBuildList()
         End Sub
         Private Sub btnExportRigList_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportRigList.Click
-            Call GenerateCSVFileFromCLV(PSCRigOwners.cboHost.Text, "Rig List", adtRigs)
+            Call GenerateCsvFileFromClv(PSCRigOwners.cboHost.Text, "Rig List", adtRigs)
         End Sub
         Private Sub btnExportRigBuildList_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportRigBuildList.Click
-            Call GenerateCSVFileFromCLV(PSCRigOwners.cboHost.Text, "Rig Build List", adtRigBuildList)
+            Call GenerateCsvFileFromClv(PSCRigOwners.cboHost.Text, "Rig Build List", adtRigBuildList)
         End Sub
-        Private Sub adtRigs_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRigs.ColumnHeaderMouseUp
+        Private Sub adtRigs_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRigs.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
-        Private Sub adtRigBuildList_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRigBuildList.ColumnHeaderMouseUp
+        Private Sub adtRigBuildList_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRigBuildList.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -6117,12 +6184,12 @@ Namespace Forms
             dtiInventionEndDate.Value = Now
         End Sub
 
-        Private Sub adtInventionResults_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionResults.ColumnHeaderMouseUp
+        Private Sub adtInventionResults_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionResults.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
 
-        Private Sub adtInventionStats_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionStats.ColumnHeaderMouseUp
+        Private Sub adtInventionStats_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionStats.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub

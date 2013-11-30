@@ -76,7 +76,7 @@
     <NoWarn>42353,42354,42355,40010</NoWarn>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -818,12 +818,6 @@
   <ItemGroup>
     <None Include="Resources\EveHQErrorProf.png" />
     <None Include="Resources\nochar.jpg" />
-    <None Include="Resources\icon79_01.png" />
-    <None Include="Resources\icon79_02.png" />
-    <None Include="Resources\icon79_03.png" />
-    <None Include="Resources\icon79_04.png" />
-    <None Include="Resources\icon79_05.png" />
-    <None Include="Resources\icon79_06.png" />
     <None Include="Resources\RefTypes.txt" />
     <None Include="Resources\EveHQSplash9.jpg" />
     <None Include="Resources\icon77_07.png" />
@@ -860,6 +854,12 @@
       <Link>GammaJul.LgLcd.Native64.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\79_64_1.png" />
+    <None Include="Resources\79_64_2.png" />
+    <None Include="Resources\79_64_3.png" />
+    <None Include="Resources\79_64_4.png" />
+    <None Include="Resources\79_64_5.png" />
+    <None Include="Resources\79_64_6.png" />
     <Content Include="Resources\AssetsSafe32.png" />
     <Content Include="_updates.xml">
       <SubType>Designer</SubType>
@@ -940,4 +940,5 @@
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

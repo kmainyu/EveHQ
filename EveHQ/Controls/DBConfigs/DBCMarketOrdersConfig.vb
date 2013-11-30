@@ -21,6 +21,23 @@ Imports EveHQ.Controls.DBControls
 
 Namespace Controls.DBConfigs
     Public Class DBCMarketOrdersConfig
+        Public Sub New()
+
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
+
+            ' Add any initialization after the InitializeComponent() call.
+            ' Load the combo box with the pilot info
+            cboPilots.BeginUpdate()
+            cboPilots.Items.Clear()
+            For Each pilot As Core.EveHQPilot In Core.HQ.Settings.Pilots.Values
+                If pilot.Active = True And pilot.Account <> "" Then
+                    cboPilots.Items.Add(pilot.Name)
+                End If
+            Next
+            cboPilots.EndUpdate()
+
+        End Sub
 
 #Region "Properties"
 

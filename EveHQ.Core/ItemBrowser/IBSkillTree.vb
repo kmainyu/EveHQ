@@ -46,7 +46,7 @@ Namespace ItemBrowser
 
         Public Property ItemIsUsable As Boolean
         Public Property ItemUsableTime As Long
-        Public Property RequiredSkills As New SortedList(Of String, Integer) ' skillID, skillLevel
+        Public Property RequiredSkills As New Dictionary(Of String, Integer) ' skillID, skillLevel
 
 #End Region
 
@@ -71,18 +71,22 @@ Namespace ItemBrowser
 
             For Each skillID As Integer In itemSkills.Keys
 
-                ' Get this skill
-                Dim curSkill As EveSkill = HQ.SkillListID(skillID)
+                If HQ.SkillListID.ContainsKey(skillID) Then
 
-                ' Add the skill to the node list
-                Dim skillNode As New Node
-                skillNode.Name = skillID.ToString
-                skillNode.Text = curSkill.Name & " (Level " & itemSkills(skillID).ToString & ")"
-                CheckPilotSkillStatus(skillNode, skillsPilot, curSkill, itemSkills(skillID))
-                adtSkills.Nodes.Add(skillNode)
+                    ' Get this skill
+                    Dim curSkill As EveSkill = HQ.SkillListID(skillID)
 
-                ' Add any pre-reqs of this skill
-                Call DisplaySkillPreReqs(skillsPilot, curSkill, skillNode)
+                    ' Add the skill to the node list
+                    Dim skillNode As New Node
+                    skillNode.Name = skillID.ToString
+                    skillNode.Text = curSkill.Name & " (Level " & itemSkills(skillID).ToString & ")"
+                    CheckPilotSkillStatus(skillNode, skillsPilot, curSkill, itemSkills(skillID))
+                    adtSkills.Nodes.Add(skillNode)
+
+                    ' Add any pre-reqs of this skill
+                    Call DisplaySkillPreReqs(skillsPilot, curSkill, skillNode)
+
+                End If
 
             Next
 

@@ -504,9 +504,9 @@ Imports System.Runtime.Serialization
         Dim shipPilot As FittingPilot = FittingPilots.HQFPilots(PilotName)
 
         ' Setup performance info - just in case!
-        Const stages As Integer = 23
-        Dim pStages(stages) As String
-        Dim pStageTime(stages) As DateTime
+        Const Stages As Integer = 23
+        Dim pStages(Stages) As String
+        Dim pStageTime(Stages) As DateTime
         pStages(0) = "Start Timing: "
         pStages(1) = "Building Skill Effects: "
         pStages(2) = "Building Implant Effects: "
@@ -685,12 +685,12 @@ Imports System.Runtime.Serialization
         If PluginSettings.HQFSettings.ShowPerformanceData = True Then
             Dim dTime As TimeSpan
             Dim perfMsg As String = ""
-            For stage As Integer = 1 To stages
+            For stage As Integer = 1 To Stages
                 perfMsg &= pStages(stage)
                 dTime = pStageTime(stage) - pStageTime(stage - 1)
                 perfMsg &= dTime.TotalMilliseconds.ToString("N2") & "ms" & ControlChars.CrLf
             Next
-            dTime = pStageTime(stages) - pStageTime(0)
+            dTime = pStageTime(Stages) - pStageTime(0)
             perfMsg &= "Total Time: " & dTime.TotalMilliseconds.ToString("N2") & "ms" & ControlChars.CrLf
             MessageBox.Show(perfMsg, "Performance Data Results: Method " & buildMethod, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -778,6 +778,9 @@ Imports System.Runtime.Serialization
                 piGroup = CStr(Engine.PirateImplants.Item(hImplant))
                 aImplant = ModuleLists.ModuleList(ModuleLists.ModuleListName(hImplant))
                 Select Case piGroup
+                    Case "Ascendancy", "Low-grade Ascendancy"
+                        cPirateImplantGroups.Item("Ascendancy") = CDbl(cPirateImplantGroups.Item("Ascendancy")) * CDbl(aImplant.Attributes(1932))
+                        cPirateImplantGroups.Item("Low-grade Ascendancy") = CDbl(cPirateImplantGroups.Item("Low-grade Ascendancy")) * CDbl(aImplant.Attributes(1932))
                     Case "Centurion", "Low-grade Centurion"
                         cPirateImplantGroups.Item("Centurion") = CDbl(cPirateImplantGroups.Item("Centurion")) * CDbl(aImplant.Attributes(1293))
                         cPirateImplantGroups.Item("Low-grade Centurion") = CDbl(cPirateImplantGroups.Item("Low-grade Centurion")) * CDbl(aImplant.Attributes(1293))
@@ -1854,7 +1857,11 @@ Imports System.Runtime.Serialization
                                         ' Adjust for reload time if required
                                         Dim reloadEffect As Double = 0
                                         If PluginSettings.HQFSettings.IncludeAmmoReloadTime = True Then
-                                            reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                            Dim reloadTime As Double = 10
+                                            If cModule.Attributes.ContainsKey(AttributeEnum.ModuleReloadTime) Then
+                                                reloadTime = cModule.Attributes(AttributeEnum.ModuleReloadTime)
+                                            End If
+                                            reloadEffect = reloadTime / (cModule.Capacity / cModule.LoadedCharge.Volume)
                                         End If
                                         dmgMod = 1
                                         rof = cModule.Attributes(AttributeEnum.ModuleRof) + reloadEffect

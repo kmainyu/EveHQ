@@ -346,7 +346,7 @@ Imports System.Runtime.Serialization
                     _cMidSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cMidSlots = value
             End If
         End Set
     End Property
@@ -363,7 +363,7 @@ Imports System.Runtime.Serialization
                     _cLowSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cLowSlots = value
             End If
         End Set
     End Property
@@ -380,7 +380,7 @@ Imports System.Runtime.Serialization
                     _cRigSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cRigSlots = value
             End If
         End Set
     End Property
@@ -397,7 +397,7 @@ Imports System.Runtime.Serialization
                     _cSubSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cSubSlots = value
             End If
         End Set
     End Property
@@ -414,7 +414,7 @@ Imports System.Runtime.Serialization
                     _cTurretSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cTurretSlots = value
             End If
         End Set
     End Property
@@ -431,7 +431,7 @@ Imports System.Runtime.Serialization
                     _cLauncherSlots = value
                 End If
             Else
-                _cHiSlots = value
+                _cLauncherSlots = value
             End If
         End Set
     End Property
@@ -2404,7 +2404,7 @@ End Enum
 
     <ProtoMember(1)> Public Shared ShipListKeyName As New SortedList(Of String, Integer) ' Ship.Name, Ship.Id
     <ProtoMember(2)> Public Shared ShipListKeyID As New SortedList(Of Integer, String) ' Ship.Id, Ship.Name
-    <ProtoMember(3)> Public Shared ShipList As New SortedList(Of String, Ship)   ' Key = ship name
+    <ProtoMember(3)> Public Shared ShipList As New Dictionary(Of String, Ship)   ' Key = ship name
     <ProtoMember(4)> Public Shared FittedShipList As New SortedList(Of String, Ship)   ' Key = fitting key
 
 End Class

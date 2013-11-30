@@ -82,45 +82,20 @@ Namespace Forms
             Dim price As Double
             If chkShowOnlyCustom.Checked = True Then
                 For Each itemID In HQ.CustomPriceList.Keys ' ID
-                    itemData = StaticData.Types(itemID)
-                    If itemData.Name.ToLower.Contains(search) = True Then
-                        If itemData.Published = True Then
-                            lvItem = New Node
-                            lvItem.Text = itemData.Name
-                            lvItem.Name = CStr(itemID)
-                            lvItem.Cells.Add(New Cell(StaticData.Types(itemID).BasePrice.ToString("N2")))
-
-                            price = DataFunctions.GetPrice(itemID)
-                            lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
-
-                            If HQ.CustomPriceList.ContainsKey(itemID) Then
-                                price = CDbl(HQ.CustomPriceList(itemID))
-                                lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
-                            Else
-                                lvItem.Cells.Add(New Cell(""))
-                            End If
-                            adtPrices.Nodes.Add(lvItem)
-                        End If
-                    End If
-                Next
-            Else
-                Dim itemCells As New Dictionary(Of String, Cell)
-                For Each item As String In StaticData.TypeNames.Keys
-                    If item.ToLower.Contains(search) = True Then
-                        itemID = StaticData.TypeNames(item)
-                        If StaticData.Types.TryGetValue(itemID, itemData) = True Then
+                    If StaticData.Types.TryGetValue(itemID, itemData) Then
+                        If itemData.Name.ToLower.Contains(search) = True Then
                             If itemData.Published = True Then
                                 lvItem = New Node
                                 lvItem.Text = itemData.Name
-                                lvItem.Name = CStr(itemData.Id)
-                                lvItem.Cells.Add(New Cell(StaticData.Types(itemID).BasePrice.ToString("N2")))
+                                lvItem.Name = CStr(itemID)
+                                lvItem.Cells.Add(New Cell(itemData.BasePrice.ToString("N2")))
 
-                                itemCells.Add(CStr(itemID), New Cell())
-                                lvItem.Cells.Add(itemCells(CStr(itemID)))
+                                price = DataFunctions.GetPrice(itemID)
+                                lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
 
                                 If HQ.CustomPriceList.ContainsKey(itemID) Then
                                     price = CDbl(HQ.CustomPriceList(itemID))
-                                    lvItem.Cells.Add(New Cell(price.ToString("N2")))
+                                    lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
                                 Else
                                     lvItem.Cells.Add(New Cell(""))
                                 End If
@@ -128,6 +103,30 @@ Namespace Forms
                             End If
                         End If
                     End If
+                Next
+            Else
+                Dim itemCells As New Dictionary(Of String, Cell)
+                For Each item As String In StaticData.TypeNames.Keys.Where(Function(key) key.ToLower().Contains(search))
+                    If StaticData.TypeNames.TryGetValue(item, itemID) And StaticData.Types.TryGetValue(itemID, itemData) = True Then
+                        If itemData.Published = True Then
+                            lvItem = New Node
+                            lvItem.Text = itemData.Name
+                            lvItem.Name = CStr(itemData.Id)
+                            lvItem.Cells.Add(New Cell(itemData.BasePrice.ToString("N2")))
+
+                            itemCells.Add(CStr(itemID), New Cell())
+                            lvItem.Cells.Add(itemCells(CStr(itemID)))
+
+                            If HQ.CustomPriceList.ContainsKey(itemID) Then
+                                price = CDbl(HQ.CustomPriceList(itemID))
+                                lvItem.Cells.Add(New Cell(price.ToString("N2")))
+                            Else
+                                lvItem.Cells.Add(New Cell(""))
+                            End If
+                            adtPrices.Nodes.Add(lvItem)
+                        End If
+                    End If
+
                 Next
 
                 '' get the prices for the items

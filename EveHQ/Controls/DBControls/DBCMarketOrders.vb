@@ -38,7 +38,7 @@ Namespace Controls.DBControls
             cboOwner.BeginUpdate()
             cboOwner.Items.Clear()
             For Each pilot As EveHQPilot In HQ.Settings.Pilots.Values
-                If pilot.Active = True Then
+                If pilot.Active = True And pilot.Account <> "" Then
                     cboOwner.Items.Add(pilot.Name)
                 End If
             Next
@@ -84,8 +84,7 @@ Namespace Controls.DBControls
                 Dim totalOrders As Integer = 0
                 Dim orderXML As XmlDocument
                 Dim selPilot As EveHQPilot = HQ.Settings.Pilots(owner)
-                Dim accountName As String = selPilot.Account
-                Dim pilotAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
+                Dim pilotAccount As EveHQAccount = HQ.Settings.Accounts.Item(selPilot.Account)
 
                 Dim ordersResponse As EveServiceResponse(Of IEnumerable(Of MarketOrder)) =
                         HQ.ApiProvider.Character.MarketOrders(pilotAccount.UserID, pilotAccount.APIKey,

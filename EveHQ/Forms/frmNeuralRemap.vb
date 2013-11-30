@@ -64,18 +64,18 @@ Namespace Forms
         Private Sub InitialiseForm()
 
             _updateAllBases = True
-            Const minAtt As Integer = 17
-            Const maxAtt As Integer = 27
+            Const MinAtt As Integer = 17
+            Const MaxAtt As Integer = 27
 
             Text = "Neural Remapping - " & _iPilot.Name
             ' Create a dummy pilot with which to check new attributes & skill queues
 
             ' Reset NUDs
-            nudIBase.Minimum = minAtt : nudIBase.Maximum = maxAtt : nudIBase.Value = minAtt
-            nudPBase.Minimum = minAtt : nudPBase.Maximum = maxAtt : nudPBase.Value = minAtt
-            nudCBase.Minimum = minAtt : nudCBase.Maximum = maxAtt : nudCBase.Value = minAtt
-            nudWBase.Minimum = minAtt : nudWBase.Maximum = maxAtt : nudWBase.Value = minAtt
-            nudMBase.Minimum = minAtt : nudMBase.Maximum = maxAtt : nudMBase.Value = minAtt
+            nudIBase.Minimum = MinAtt : nudIBase.Maximum = MaxAtt : nudIBase.Value = MinAtt
+            nudPBase.Minimum = MinAtt : nudPBase.Maximum = MaxAtt : nudPBase.Value = MinAtt
+            nudCBase.Minimum = MinAtt : nudCBase.Maximum = MaxAtt : nudCBase.Value = MinAtt
+            nudWBase.Minimum = MinAtt : nudWBase.Maximum = MaxAtt : nudWBase.Value = MinAtt
+            nudMBase.Minimum = MinAtt : nudMBase.Maximum = MaxAtt : nudMBase.Value = MinAtt
 
             _nPilot.PilotSkills = _iPilot.PilotSkills
             _nPilot.SkillPoints = _iPilot.SkillPoints
@@ -87,17 +87,17 @@ Namespace Forms
             _nPilot.MAtt = _iPilot.MAtt : _nPilot.MImplant = _iPilot.MImplant : _nPilot.MAttT = _iPilot.MAttT
 
             ' Check for the maximum allowable base units - API errors
-            If _nPilot.IntAtt > maxAtt Or _nPilot.PAtt > maxAtt Or _nPilot.CAtt > maxAtt Or _nPilot.WAtt > maxAtt Or _nPilot.MAtt > maxAtt Then
+            If _nPilot.IntAtt > MaxAtt Or _nPilot.PAtt > MaxAtt Or _nPilot.CAtt > MaxAtt Or _nPilot.WAtt > MaxAtt Or _nPilot.MAtt > MaxAtt Then
                 MessageBox.Show("It would appear that your base attributes contain incorrect values. The Neural Remapper cannot continue until these have been resolved.", "Base Attributes Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
 
             ' Set the minimum allowable units
-            _intMin = minAtt
-            _pMin = minAtt
-            _cMin = minAtt
-            _wMin = minAtt
-            _mMin = minAtt
+            _intMin = MinAtt
+            _pMin = MinAtt
+            _cMin = MinAtt
+            _wMin = MinAtt
+            _mMin = MinAtt
 
             ' Set minimums on NUDs
             nudIBase.Minimum = _intMin
@@ -108,76 +108,76 @@ Namespace Forms
 
             ' Check if any base attributes are less than 5 as this is not permitted under the remapping rules
             _unused = 0
-            If _nPilot.IntAtt < minAtt Then
-                _unused += minAtt - _nPilot.IntAtt
-                _nPilot.IntAtt = minAtt
+            If _nPilot.IntAtt < MinAtt Then
+                _unused += MinAtt - _nPilot.IntAtt
+                _nPilot.IntAtt = MinAtt
             End If
-            If _nPilot.PAtt < minAtt Then
-                _unused += minAtt - _nPilot.PAtt
-                _nPilot.PAtt = minAtt
+            If _nPilot.PAtt < MinAtt Then
+                _unused += MinAtt - _nPilot.PAtt
+                _nPilot.PAtt = MinAtt
             End If
-            If _nPilot.CAtt < minAtt Then
-                _unused += minAtt - _nPilot.CAtt
-                _nPilot.CAtt = minAtt
+            If _nPilot.CAtt < MinAtt Then
+                _unused += MinAtt - _nPilot.CAtt
+                _nPilot.CAtt = MinAtt
             End If
-            If _nPilot.WAtt < minAtt Then
-                _unused += minAtt - _nPilot.WAtt
-                _nPilot.WAtt = minAtt
+            If _nPilot.WAtt < MinAtt Then
+                _unused += MinAtt - _nPilot.WAtt
+                _nPilot.WAtt = MinAtt
             End If
-            If _nPilot.MAtt < minAtt Then
-                _unused += minAtt - _nPilot.MAtt
-                _nPilot.MAtt = minAtt
+            If _nPilot.MAtt < MinAtt Then
+                _unused += MinAtt - _nPilot.MAtt
+                _nPilot.MAtt = MinAtt
             End If
 
             ' Now reallocate the unused against larger items
             Dim available As Integer
-            If _unused > 0 And _nPilot.IntAtt > minAtt Then
-                available = _nPilot.IntAtt - minAtt
+            If _unused > 0 And _nPilot.IntAtt > MinAtt Then
+                available = _nPilot.IntAtt - MinAtt
                 If available >= _unused Then
                     _nPilot.IntAtt = _nPilot.IntAtt - _unused
                     _unused = 0
                 Else
-                    _nPilot.IntAtt = minAtt
+                    _nPilot.IntAtt = MinAtt
                     _unused = _unused - available
                 End If
             End If
-            If _unused > 0 And _nPilot.PAtt > minAtt Then
-                available = _nPilot.PAtt - minAtt
+            If _unused > 0 And _nPilot.PAtt > MinAtt Then
+                available = _nPilot.PAtt - MinAtt
                 If available >= _unused Then
                     _nPilot.PAtt = _nPilot.PAtt - _unused
                     _unused = 0
                 Else
-                    _nPilot.PAtt = minAtt
+                    _nPilot.PAtt = MinAtt
                     _unused = _unused - available
                 End If
             End If
-            If _unused > 0 And _nPilot.CAtt > minAtt Then
-                available = _nPilot.CAtt - minAtt
+            If _unused > 0 And _nPilot.CAtt > MinAtt Then
+                available = _nPilot.CAtt - MinAtt
                 If available >= _unused Then
                     _nPilot.CAtt = _nPilot.CAtt - _unused
                     _unused = 0
                 Else
-                    _nPilot.CAtt = minAtt
+                    _nPilot.CAtt = MinAtt
                     _unused = _unused - available
                 End If
             End If
-            If _unused > 0 And _nPilot.WAtt > minAtt Then
-                available = _nPilot.WAtt - minAtt
+            If _unused > 0 And _nPilot.WAtt > MinAtt Then
+                available = _nPilot.WAtt - MinAtt
                 If available >= _unused Then
                     _nPilot.WAtt = _nPilot.WAtt - _unused
                     _unused = 0
                 Else
-                    _nPilot.WAtt = minAtt
+                    _nPilot.WAtt = MinAtt
                     _unused = _unused - available
                 End If
             End If
-            If _unused > 0 And _nPilot.MAtt > minAtt Then
-                available = _nPilot.MAtt - minAtt
+            If _unused > 0 And _nPilot.MAtt > MinAtt Then
+                available = _nPilot.MAtt - MinAtt
                 If available >= _unused Then
                     _nPilot.MAtt = _nPilot.MAtt - _unused
                     _unused = 0
                 Else
-                    _nPilot.MAtt = minAtt
+                    _nPilot.MAtt = MinAtt
                     _unused = _unused - available
                 End If
             End If
@@ -442,17 +442,17 @@ Namespace Forms
             Dim bestW As Integer = _nPilot.WAtt
             Dim bestM As Integer = _nPilot.MAtt
             ' Maximum distributable points (39 - (5 x 5))
-            Const maxAtt As Integer = 27 ' Max = 27
+            Const MaxAtt As Integer = 27 ' Max = 27
 
-            For intAtt As Integer = _intMin To maxAtt
+            For intAtt As Integer = _intMin To MaxAtt
                 _nPilot.IntAtt = intAtt
-                For pAtt As Integer = _pMin To maxAtt
+                For pAtt As Integer = _pMin To MaxAtt
                     _nPilot.PAtt = pAtt
-                    For cAtt As Integer = _cMin To maxAtt
+                    For cAtt As Integer = _cMin To MaxAtt
                         _nPilot.CAtt = cAtt
-                        For wAtt As Integer = _wMin To maxAtt
+                        For wAtt As Integer = _wMin To MaxAtt
                             _nPilot.WAtt = wAtt
-                            For mAtt As Integer = _pMin To maxAtt
+                            For mAtt As Integer = _pMin To MaxAtt
                                 _nPilot.MAtt = mAtt
                                 If intAtt + pAtt + cAtt + wAtt + mAtt = 99 Then
                                     Call RecalcAttributes()

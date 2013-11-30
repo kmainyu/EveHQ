@@ -6,6 +6,7 @@ SetCompressor /solid lzma
 !include DotNetFramework.nsh
 !include MUI2.nsh
 !include x64.nsh
+!include VC2010.nsh
 !include Upgrade.nsh
 !include DirClean.nsh
 !include "FileFunc.nsh"
@@ -63,8 +64,8 @@ Var StartMenuFolder
 !insertmacro MUI_PAGE_INSTFILES
 
 #Finish page
-!define MUI_FINISHPAGE_RUN $INSTDIR\EveHQ.exe
-!define MUI_FINISHPAGE_RUN_TEXT "Run EveHQ.exe"
+#!define MUI_FINISHPAGE_RUN $INSTDIR\EveHQ.exe
+#!define MUI_FINISHPAGE_RUN_TEXT "Run EveHQ.exe"
 !define MUI_FINISHPAGE_SHOWREADME ""
 !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "Create Desktop Shortcut"
@@ -122,11 +123,9 @@ SectionIn RO
 # Data files                                                      #
 ###################################################################
 
-${If} $useLocalFlag == "1" 
+
   SetOutPath $INSTDIR\StaticData
-${Else}
-  SetOutPath $APPDATA\EveHQ\StaticData
-${EndIf}
+
 
 	File "..\BuildOutput\Release\StaticData\Agents.dat"
 	File "..\BuildOutput\Release\StaticData\AssemblyArrays.dat"
@@ -135,8 +134,6 @@ ${EndIf}
 	File "..\BuildOutput\Release\StaticData\Blueprints.dat"
 	File "..\BuildOutput\Release\StaticData\boosters.dat"
 	File "..\BuildOutput\Release\StaticData\CertCats.dat"
-	File "..\BuildOutput\Release\StaticData\CertCerts.dat"
-	File "..\BuildOutput\Release\StaticData\CertClasses.dat"
 	File "..\BuildOutput\Release\StaticData\CertRec.dat"
 	File "..\BuildOutput\Release\StaticData\Certs.dat"
 	File "..\BuildOutput\Release\StaticData\CertSkills.dat"
@@ -154,6 +151,7 @@ ${EndIf}
 	File "..\BuildOutput\Release\StaticData\Items.dat"
 	File "..\BuildOutput\Release\StaticData\ItemUnlocks.dat"
 	File "..\BuildOutput\Release\StaticData\MarketGroups.dat"
+	File "..\BuildOutput\Release\StaticData\Masteries.dat"
 	File "..\BuildOutput\Release\StaticData\MetaGroups.dat"
 	File "..\BuildOutput\Release\StaticData\MetaTypes.dat"
 	File "..\BuildOutput\Release\StaticData\modules.dat"
@@ -167,6 +165,7 @@ ${EndIf}
 	File "..\BuildOutput\Release\StaticData\Systems.dat"
   File "..\BuildOutput\Release\StaticData\TypeAttributes.dat"
   File "..\BuildOutput\Release\StaticData\TypeEffects.dat"
+  File "..\BuildOutput\Release\StaticData\TypeMaterials.dat"
   File "..\BuildOutput\Release\StaticData\Units.dat"
   
   # delete cache files
@@ -174,14 +173,16 @@ ${EndIf}
 ${If} $useLocalFlag == "1" 
    Delete $INSTDIR\EveHQ\HQF\Cache\*.*
   Delete $INSTDIR\EveHQ\CoreCache\*.*
+  Delete $INSTDIR\EveHQ\ImageCache\*.*
   !insertmacro RemoveFilesAndSubDirs "$INSTDIR\EveHQ\MarketCache\"
 ${Else}
    Delete $APPDATA\EveHQ\HQF\Cache\*.*
   Delete $APPDATA\EveHQ\CoreCache\*.*
+  Delete $APPDATA\EveHQ\ImageCache\*.*
   !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\MarketCache\"
 ${EndIf}
   
-  
+  SetOutPath $INSTDIR
   
 
  ; Write the installation path into the registry
@@ -192,7 +193,7 @@ ${EndIf}
 	 SetShellVarContext current
 		 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
 ${If} $useLocalFlag == "1"
-		 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe /local"
+		CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe" "/local"
 ${Else}
      CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe"
 ${EndIf}
@@ -384,16 +385,11 @@ StrCpy $useLocalFlag 0
 
     ; /local
 
-    ${GetOptions} $cmdLineParams '/local' $R0
+    ${GetOptions} $cmdLineParams 'local' $R0
 
     IfErrors +2 0
 
     StrCpy $useLocalFlag 1
-    
-    ; /instdir
-    ${GetOptions} $cmdLineParams '/instdir=' $R0
-    IfErrors +2 0
-    StrCpy $INSTDIR $R0
 
 FunctionEnd
 
@@ -405,7 +401,7 @@ FunctionEnd
 
 Function CreateDesktopShortcut
 ${If} $useLocalFlag == "1"
-CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe /local"
+CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe" "/local"
 ${Else}
 CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe"
 ${EndIf}

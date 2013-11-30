@@ -211,9 +211,6 @@
   <data name="Jin_MeiBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Jin-MeiBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Cert5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon79_06.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="WHEffects" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WHEffects.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -259,9 +256,6 @@
   <data name="EveHQErrorProf" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EveHQErrorProf.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Cert1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon79_02.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="GallenteRace" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GallenteRace.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -295,9 +289,6 @@
   <data name="level0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level0.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Cert3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon79_04.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="EveHQSplash9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EveHQSplash9.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -309,9 +300,6 @@
   </data>
   <data name="Chart32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Chart32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cert0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon79_01.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="VherokiorBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VherokiorBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -331,9 +319,6 @@
   <data name="Charisma32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Charisma32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Cert2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon79_03.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="EveHQ_offline" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EveHQ_offline.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -348,9 +333,6 @@
   </data>
   <data name="MinmatarRace" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MinmatarRace.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Cert4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon79_05.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BrutorBlood" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BrutorBlood.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -429,5 +411,23 @@
   </data>
   <data name="Errors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Errors.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Cert0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\79_64_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\79_64_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\79_64_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\79_64_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\79_64_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cert5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\79_64_6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

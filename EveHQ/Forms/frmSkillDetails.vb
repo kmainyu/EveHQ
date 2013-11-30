@@ -125,7 +125,7 @@ Namespace Forms
             tvwReqs.Nodes.Clear()
 
             Dim cSkill As EveSkill = HQ.SkillListID(skillID)
-            Const curLevel As Integer = 0
+            Const CurLevel As Integer = 0
             Dim curNode As TreeNode = New TreeNode
 
             ' Write the skill we are querying as the first (parent) node
@@ -136,18 +136,18 @@ Namespace Forms
                 If _displayPilot.PilotSkills.ContainsKey(cSkill.Name) Then
                     Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(cSkill.Name)
                     myLevel = CInt(mySkill.Level)
-                    If myLevel >= curLevel Then skillTrained = True
+                    If myLevel >= CurLevel Then skillTrained = True
                     If skillTrained = True Then
                         curNode.ForeColor = Color.LimeGreen
                         curNode.ToolTipText = "Already Trained"
                     Else
-                        Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                        Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, CurLevel)
                         If planLevel = 0 Then
                             curNode.ForeColor = Color.Red
                             curNode.ToolTipText = "Not trained & no planned training"
                         Else
                             curNode.ToolTipText = "Planned training to Level " & planLevel
-                            If planLevel >= curLevel Then
+                            If planLevel >= CurLevel Then
                                 curNode.ForeColor = Color.Blue
                             Else
                                 curNode.ForeColor = Color.Orange
@@ -155,13 +155,13 @@ Namespace Forms
                         End If
                     End If
                 Else
-                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, CurLevel)
                     If planLevel = 0 Then
                         curNode.ForeColor = Color.Red
                         curNode.ToolTipText = "Not trained & no planned training"
                     Else
                         curNode.ToolTipText = "Planned training to Level " & planLevel
-                        If planLevel >= curLevel Then
+                        If planLevel >= CurLevel Then
                             curNode.ForeColor = Color.Blue
                         Else
                             curNode.ForeColor = Color.Orange
@@ -281,67 +281,46 @@ Namespace Forms
                         lvwDepend.Items.Add(newItem)
                     Next
                 End If
-                ' Add the certificate unlocks
-                If StaticData.CertUnlockSkills.ContainsKey(skillID & "." & CStr(lvl)) = True Then
-                    Dim certUnlocked As List(Of Integer) = StaticData.CertUnlockSkills(skillID & "." & CStr(lvl))
-                    For Each item As Integer In certUnlocked
-                        Dim newItem As New ListViewItem
-                        Dim toolTipText As New StringBuilder
-
-                        newItem.Group = lvwDepend.Groups("CatCerts")
-                        Dim cert As Certificate = StaticData.Certificates(item)
-                        certName = StaticData.CertificateClasses(cert.ClassId.ToString).Name
-                        Select Case cert.Grade
-                            Case 1
-                                certGrade = "Basic"
-                            Case 2
-                                certGrade = "Standard"
-                            Case 3
-                                certGrade = "Improved"
-                            Case 4
-                                certGrade = "Advanced"
-                            Case 5
-                                certGrade = "Elite"
-                        End Select
-                        For Each reqCertID As Integer In cert.RequiredCertificates.Keys
-                            Dim reqCert As Certificate = StaticData.Certificates(reqCertID)
-                            If reqCert.Id <> item Then
-                                toolTipText.Append(StaticData.CertificateClasses(reqCert.ClassId.ToString).Name)
-                                Select Case reqCert.Grade
-                                    Case 1
-                                        toolTipText.Append(" (Basic), ")
-                                    Case 2
-                                        toolTipText.Append(" (Standard), ")
-                                    Case 3
-                                        toolTipText.Append(" (Improved), ")
-                                    Case 4
-                                        toolTipText.Append(" (Advanced), ")
-                                    Case 5
-                                        toolTipText.Append(" (Elite), ")
-                                End Select
-                            End If
-                        Next
-                        If toolTipText.Length > 0 Then
-                            toolTipText.Insert(0, "Also Requires: ")
-
-                            If toolTipText.ToString().EndsWith(", ", StringComparison.Ordinal) Then
-                                toolTipText.Remove(toolTipText.Length - 2, 2)
-                            End If
-                        End If
-                        If _displayPilot.Certificates.Contains(cert.Id) = True Then
-                            newItem.ForeColor = Color.Green
-                        Else
-                            newItem.ForeColor = Color.Red
-                        End If
-                        newItem.ToolTipText = toolTipText.ToString()
-                        newItem.Text = certName & " (" & certGrade & ")"
-                        newItem.Name = CStr(item)
-                        newItem.SubItems.Add("Level " & lvl)
-                        lvwDepend.Items.Add(newItem)
-                    Next
-                End If
             Next
-            lvwDepend.EndUpdate()
+
+            ' Add the certificate unlocks
+            For Each cert As Certificate In StaticData.Certificates.Values
+                For Each cGrade As CertificateGrade In System.Enum.GetValues(GetType(CertificateGrade))
+                    If cert.GradesAndSkills.ContainsKey(cGrade) Then
+                        If cert.GradesAndSkills(cGrade).ContainsKey(skillID) Then
+                            Dim newItem As New ListViewItem
+                            Dim toolTipText As New StringBuilder
+
+                            newItem.Group = lvwDepend.Groups("CatCerts")
+                            certName = cert.Name
+
+                            If toolTipText.Length > 0 Then
+                                toolTipText.Insert(0, "Also Requires: ")
+
+                                If toolTipText.ToString().EndsWith(", ", StringComparison.Ordinal) Then
+                                    toolTipText.Remove(toolTipText.Length - 2, 2)
+                                End If
+                            End If
+                            If _displayPilot.QualifiedCertificates.ContainsKey(cert.Id) = True Then
+                                If _displayPilot.QualifiedCertificates(cert.Id) >= cGrade Then
+                                    newItem.ForeColor = Color.Green
+                                Else
+                                    newItem.ForeColor = Color.Red
+                                End If
+                            Else
+                                newItem.ForeColor = Color.Red
+                            End If
+                            newItem.ToolTipText = toolTipText.ToString()
+                            newItem.Text = certName & " (Grade: " & cGrade & " - " & cGrade.ToString & ")"
+                            newItem.Name = cert.Id.ToString
+                            newItem.SubItems.Add("Level " & cert.GradesAndSkills(cGrade)(skillID))
+                            lvwDepend.Items.Add(newItem)
+                        End If
+                    End If
+                Next
+            Next
+
+           lvwDepend.EndUpdate()
         End Sub
         Private Sub PrepareQueues(ByVal skillID As Integer)
             lvwQueues.BeginUpdate()

@@ -48,7 +48,7 @@ Namespace Controls.DBControls
             cboPilotList.BeginUpdate()
             cboPilotList.Items.Clear()
             For Each pilot As EveHQPilot In HQ.Settings.Pilots.Values
-                If pilot.Active = True Then
+                If pilot.Active = True And pilot.Account <> "" Then
                     cboPilotList.Items.Add(pilot.Name)
                 End If
             Next
@@ -113,8 +113,8 @@ Namespace Controls.DBControls
                 Dim cPilot As EveHQPilot = HQ.Settings.Pilots(cboPilotList.SelectedItem.ToString)
                 Dim cAccount As EveHQAccount = HQ.Settings.Accounts(cPilot.Account)
                 Dim cCharID As String = cPilot.ID
-                Const accountKey As Integer = 1000
-                Const beforeRefID As String = ""
+                Const AccountKey As Integer = 1000
+                Const BeforeRefID As String = ""
 
                 'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
                 'transactionsXML = apiReq.GetAPIXML(APITypes.WalletTransChar, cAccount.ToAPIAccount, cCharID, accountKey, beforeRefID, APIReturnMethods.ReturnStandard)
@@ -125,7 +125,6 @@ Namespace Controls.DBControls
                     ' Get transactions
                     Dim transactionList = transactions.ResultData
                     Dim sortedTransactions As List(Of WalletTransaction) = transactionList.ToList()
-                    sortedTransactions.Reverse()
 
                     adtLastTransactions.BeginUpdate()
                     adtLastTransactions.Nodes.Clear()

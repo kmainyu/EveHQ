@@ -248,6 +248,16 @@ Namespace Controls
                             Next
 
                             adtResources.Nodes.Add(newRes)
+                            ' Add tooltip if appropriate
+                            Dim raw As Long = CLng(resource.BaseUnits * _currentJob.Runs)
+                            Dim extra As Long = CLng((resource.PerfectUnits - resource.BaseUnits) * _currentJob.Runs)
+                            Dim msg As String = "Raw/Base Material (affected by waste): " & raw.ToString("N0") & ControlChars.CrLf
+                            msg &= "Extra Material (not affected by waste): " & extra.ToString("N0") & ControlChars.CrLf
+                            msg &= "Total Perfect Material: " & perfectTotal.ToString("N0") & ControlChars.CrLf
+                            msg &= "Waste Material: " & wasteTotal.ToString("N0") & ControlChars.CrLf
+                            msg &= "Total Required: " & totalTotal.ToString("N0")
+                            Dim sti As New SuperTooltipInfo("Resource Split", resource.TypeName, msg, Nothing, ImageHandler.GetImage(resource.TypeID, 32), eTooltipColor.Yellow)
+                            STT.SetSuperTooltip(newRes, sti)
                         End If
                     End If
                 Next
@@ -379,6 +389,16 @@ Namespace Controls
                         End Select
                     Next
                     parentRes.Nodes.Add(newRes)
+                    ' Add tooltip if appropriate
+                    Dim raw As Long = CLng(resource.BaseUnits * _currentJob.Runs)
+                    Dim extra As Long = CLng((resource.PerfectUnits - resource.BaseUnits) * parentJob.Runs)
+                    Dim msg As String = "Raw/Base Material (affected by waste): " & raw.ToString("N0") & ControlChars.CrLf
+                    msg &= "Extra Material (not affected by waste): " & extra.ToString("N0") & ControlChars.CrLf
+                    msg &= "Total Perfect Material: " & perfectRaw.ToString("N0") & ControlChars.CrLf
+                    msg &= "Waste Material: " & waste.ToString("N0") & ControlChars.CrLf
+                    msg &= "Total Required: " & total.ToString("N0")
+                    Dim sti As New SuperTooltipInfo("Resource Split", resource.TypeName, msg, Nothing, ImageHandler.GetImage(resource.TypeID, 32), eTooltipColor.Yellow)
+                    STT.SetSuperTooltip(newRes, sti)
                 End If
             Next
             For Each subJob As Job In parentJob.SubJobs.Values
@@ -879,7 +899,7 @@ Namespace Controls
             adtProductionList.EndUpdate()
         End Sub
 
-        Private Sub adtProductionList_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtProductionList.ColumnHeaderMouseUp
+        Private Sub adtProductionList_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtProductionList.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -951,7 +971,6 @@ Namespace Controls
         End Sub
 
 #End Region
-
 
     End Class
 

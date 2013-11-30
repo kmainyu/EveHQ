@@ -62,7 +62,7 @@
     <DocumentationFile>EveHQ.Core.xml</DocumentationFile>
     <NoWarn>42353,42354,42355,40010</NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
@@ -337,6 +337,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ItemBrowser\frmIB.resx">
       <DependentUpon>frmIB.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ItemBrowser\IBSkillTree.resx">
       <DependentUpon>IBSkillTree.vb</DependentUpon>

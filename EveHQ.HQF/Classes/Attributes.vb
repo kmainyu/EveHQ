@@ -145,6 +145,7 @@ Public Enum AttributeEnum
     ModulePowerTransferAmount = 90
     ModulePowerTransferRange = 91
     ModuleReactivationDelay = 669
+    ModuleReloadTime = 1795
     ModuleReqSkill1 = 182
     ModuleReqSkill1Level = 277
     ModuleReqSkill2 = 183

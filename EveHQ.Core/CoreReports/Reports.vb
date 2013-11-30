@@ -415,8 +415,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 6              ' Number of groups to break the report into
-            Dim repGroup(nog, 5) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 6              ' Number of groups to break the report into
+            Dim repGroup(Nog, 5) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Level 0" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
             repGroup(2, 0) = "Level 1" : repGroup(2, 1) = "1" : repGroup(2, 2) = "1"
             repGroup(3, 0) = "Level 2" : repGroup(3, 1) = "2" : repGroup(3, 2) = "2"
@@ -426,7 +426,7 @@ Namespace CoreReports
 
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -465,7 +465,7 @@ Namespace CoreReports
 
             Dim imgLevel As String
             strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-            For group As Integer = 1 To nog
+            For group As Integer = 1 To Nog
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                     strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
@@ -554,8 +554,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 16              ' Number of groups to break the report into
-            Dim repGroup(nog, 5) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 16              ' Number of groups to break the report into
+            Dim repGroup(Nog, 5) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Rank 1" : repGroup(1, 1) = "1" : repGroup(1, 2) = "1"
             repGroup(2, 0) = "Rank 2" : repGroup(2, 1) = "2" : repGroup(2, 2) = "2"
             repGroup(3, 0) = "Rank 3" : repGroup(3, 1) = "3" : repGroup(3, 2) = "3"
@@ -575,7 +575,7 @@ Namespace CoreReports
 
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -614,7 +614,7 @@ Namespace CoreReports
 
             Dim imgLevel As String
             strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
-            For group As Integer = 1 To nog
+            For group As Integer = 1 To Nog
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                     strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
@@ -686,17 +686,17 @@ Namespace CoreReports
             Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
             Dim curSkill As EveHQPilotSkill
             Dim count As Integer
-            Const redTime As Long = 0
+            Const RedTime As Long = 0
             For Each curSkill In rpilot.PilotSkills.Values
                 ' Determine if the skill is being trained
                 If rpilot.Training = True Then
                     If curSkill.ID = rpilot.TrainingSkillID Then
                         sortSkill(count, 1) = rpilot.TrainingCurrentTime
                     Else
-                        sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - redTime, 0))
+                        sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - RedTime, 0))
                     End If
                 Else
-                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - redTime, 0))
+                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - RedTime, 0))
                 End If
                 sortSkill(count, 0) = CLng(curSkill.ID)
                 count += 1
@@ -713,8 +713,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 15             ' Number of groups to break the report into
-            Dim repGroup(nog, 4) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 15             ' Number of groups to break the report into
+            Dim repGroup(Nog, 4) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Training Completed" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
             repGroup(2, 0) = "Upto 1 hour" : repGroup(2, 1) = "1" : repGroup(2, 2) = "3600"
             repGroup(3, 0) = "1 to 2 hours" : repGroup(3, 1) = "3601" : repGroup(3, 2) = "7200"
@@ -734,7 +734,7 @@ Namespace CoreReports
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
             Dim skillTimeLeft As Long
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -776,7 +776,7 @@ Namespace CoreReports
             Dim group As Integer = 1
             Do
                 group = group + 1
-                If group = nog + 1 Then group = 1
+                If group = Nog + 1 Then group = 1
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                     strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
@@ -865,8 +865,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 15             ' Number of groups to break the report into
-            Dim repGroup(nog, 4) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 15             ' Number of groups to break the report into
+            Dim repGroup(Nog, 4) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Ready To Start Training" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
             repGroup(2, 0) = "Upto 24 hours" : repGroup(2, 1) = "1" : repGroup(2, 2) = "86400"
             repGroup(3, 0) = "1 to 3 days" : repGroup(3, 1) = "86401" : repGroup(3, 2) = "259200"
@@ -886,7 +886,7 @@ Namespace CoreReports
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
             Dim skillTimeLeft As Long
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -948,7 +948,7 @@ Namespace CoreReports
                     strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
                     strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
                 End If
-            Loop Until group = nog
+            Loop Until group = Nog
             strHTML &= "</table>"
             strHTML &= "<p></p>"
 
@@ -988,13 +988,13 @@ Namespace CoreReports
             Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
             Dim curSkill As EveHQPilotSkill
             Dim count As Integer
-            Const redTime As Long = 0
+            Const RedTime As Long = 0
             For Each curSkill In rpilot.PilotSkills.Values
                 ' Determine if the skill is being trained
                 If rpilot.Training = True Then
-                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 5) - redTime, 0))
+                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 5) - RedTime, 0))
                 Else
-                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 5) - redTime, 0))
+                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 5) - RedTime, 0))
                 End If
                 sortSkill(count, 0) = CLng(curSkill.ID)
                 count += 1
@@ -1011,8 +1011,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 15             ' Number of groups to break the report into
-            Dim repGroup(nog, 4) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 15             ' Number of groups to break the report into
+            Dim repGroup(Nog, 4) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Training Completed" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
             repGroup(2, 0) = "Upto 24 hours" : repGroup(2, 1) = "1" : repGroup(2, 2) = "86400"
             repGroup(3, 0) = "1 to 3 days" : repGroup(3, 1) = "86401" : repGroup(3, 2) = "259200"
@@ -1032,7 +1032,7 @@ Namespace CoreReports
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
             Dim skillTimeLeft As Long
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -1067,7 +1067,7 @@ Namespace CoreReports
             Dim group As Integer = 1
             Do
                 group = group + 1
-                If group = nog + 1 Then group = 1
+                If group = Nog + 1 Then group = 1
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                     strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
@@ -1727,7 +1727,7 @@ Namespace CoreReports
 #Region "Skill Group Chart"
         Public Shared Sub SkillGroupChart(ByVal rpilot As EveHQPilot, chart1 As Chart)
 
-            Const collectionThreshold As Double = 4
+            Const CollectionThreshold As Double = 4
 
             ' Calculate skill splits
             Dim currentSkill As New EveHQPilotSkill
@@ -1799,7 +1799,7 @@ Namespace CoreReports
                 If CDbl(repGroup(group, 3)) > 0 Then
                     x.Add(repGroup(group, 1) & ControlChars.CrLf & CDbl(repGroup(group, 3)).ToString("N0") & " (" & (CDbl(repGroup(group, 3)) / totalSPCount * 100).ToString("N2") & "%)")
                     y.Add(CDbl(repGroup(group, 3)))
-                    If CDbl(repGroup(group, 3)) / totalSPCount * 100 <= collectionThreshold Then
+                    If CDbl(repGroup(group, 3)) / totalSPCount * 100 <= CollectionThreshold Then
                         collectedTotal += CDbl(repGroup(group, 3))
                         collectedDetails &= repGroup(group, 1) & ": " & CDbl(repGroup(group, 3)).ToString("N0") & ControlChars.CrLf
                     End If
@@ -1818,7 +1818,7 @@ Namespace CoreReports
             Dim series1 As Series = chart1.Series(0)
 
             ' Set the threshold under which all points will be collected
-            series1("CollectedThreshold") = collectionThreshold.ToString
+            series1("CollectedThreshold") = CollectionThreshold.ToString
 
             ' Set the threshold type to be a percentage of the pie
             ' When set to false, this property uses the actual value to determine the collected threshold
@@ -1846,7 +1846,7 @@ Namespace CoreReports
 #Region "Skill Cost Chart"
         Public Shared Sub SkillCostChart(ByVal rpilot As EveHQPilot, chart1 As Chart)
 
-            Const collectionThreshold As Double = 1
+            Const CollectionThreshold As Double = 1
 
             ' Calculate skill splits
             Dim repGroup(HQ.SkillGroups.Count, 3) As String
@@ -1901,7 +1901,7 @@ Namespace CoreReports
                 If CDbl(repGroup(group, 3)) > 0 Then
                     x.Add(repGroup(group, 1) & ControlChars.CrLf & CDbl(repGroup(group, 3)).ToString("N0") & " (" & (CDbl(repGroup(group, 3)) / totalSkillCost * 100).ToString("N2") & "%)")
                     y.Add(CDbl(repGroup(group, 3)))
-                    If CDbl(repGroup(group, 3)) / totalSkillCost * 100 <= collectionThreshold Then
+                    If CDbl(repGroup(group, 3)) / totalSkillCost * 100 <= CollectionThreshold Then
                         collectedTotal += CDbl(repGroup(group, 3))
                         collectedDetails &= repGroup(group, 1) & ": " & CDbl(repGroup(group, 3)).ToString("N0") & ControlChars.CrLf
                     End If
@@ -1920,7 +1920,7 @@ Namespace CoreReports
             Dim series1 As Series = chart1.Series(0)
 
             ' Set the threshold under which all points will be collected
-            series1("CollectedThreshold") = collectionThreshold.ToString
+            series1("CollectedThreshold") = CollectionThreshold.ToString
 
             ' Set the threshold type to be a percentage of the pie
             ' When set to false, this property uses the actual value to determine the collected threshold
@@ -2063,17 +2063,17 @@ Namespace CoreReports
             Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
             Dim curSkill As EveHQPilotSkill
             Dim count As Integer
-            Const redTime As Long = 0
+            Const RedTime As Long = 0
             For Each curSkill In rpilot.PilotSkills.Values
                 ' Determine if the skill is being trained
                 If rpilot.Training = True Then
                     If curSkill.ID = rpilot.TrainingSkillID Then
                         sortSkill(count, 1) = rpilot.TrainingCurrentTime
                     Else
-                        sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - redTime, 0))
+                        sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - RedTime, 0))
                     End If
                 Else
-                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - redTime, 0))
+                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - RedTime, 0))
                 End If
                 sortSkill(count, 0) = CLng(curSkill.ID)
                 count += 1
@@ -2090,8 +2090,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 15             ' Number of groups to break the report into
-            Dim repGroup(nog, 4) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 15             ' Number of groups to break the report into
+            Dim repGroup(Nog, 4) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Training Completed" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
             repGroup(2, 0) = "Upto 1 hour" : repGroup(2, 1) = "1" : repGroup(2, 2) = "3600"
             repGroup(3, 0) = "1 to 2 hours" : repGroup(3, 1) = "3601" : repGroup(3, 2) = "7200"
@@ -2111,7 +2111,7 @@ Namespace CoreReports
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
             Dim skillTimeLeft As Long
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -2151,7 +2151,7 @@ Namespace CoreReports
             Dim group As Integer = 1
             Do
                 group = group + 1
-                If group = nog + 1 Then group = 1
+                If group = Nog + 1 Then group = 1
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strText.AppendLine(repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)")
                     For skill As Integer = 1 To CInt(repGroup(group, 2))
@@ -2194,13 +2194,13 @@ Namespace CoreReports
             Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
             Dim curSkill As EveHQPilotSkill
             Dim count As Integer
-            Const redTime As Long = 0
+            Const RedTime As Long = 0
             For Each curSkill In rpilot.PilotSkills.Values
                 ' Determine if the skill is being trained
                 If rpilot.Training = True Then
-                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 5) - redTime, 0))
+                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 5) - RedTime, 0))
                 Else
-                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 5) - redTime, 0))
+                    sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 5) - RedTime, 0))
                 End If
                 sortSkill(count, 0) = CLng(curSkill.ID)
                 count += 1
@@ -2217,8 +2217,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 15             ' Number of groups to break the report into
-            Dim repGroup(nog, 4) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 15             ' Number of groups to break the report into
+            Dim repGroup(Nog, 4) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Training Completed" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
             repGroup(2, 0) = "Upto 24 hours" : repGroup(2, 1) = "1" : repGroup(2, 2) = "86400"
             repGroup(3, 0) = "1 to 3 days" : repGroup(3, 1) = "86401" : repGroup(3, 2) = "259200"
@@ -2238,7 +2238,7 @@ Namespace CoreReports
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
             Dim skillTimeLeft As Long
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -2272,7 +2272,7 @@ Namespace CoreReports
             Dim group As Integer = 1
             Do
                 group = group + 1
-                If group = nog + 1 Then group = 1
+                If group = Nog + 1 Then group = 1
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strText.AppendLine(repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)")
                     For skill As Integer = 1 To CInt(repGroup(group, 2))
@@ -2341,8 +2341,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 6              ' Number of groups to break the report into
-            Dim repGroup(nog, 5) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 6              ' Number of groups to break the report into
+            Dim repGroup(Nog, 5) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Level 0" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
             repGroup(2, 0) = "Level 1" : repGroup(2, 1) = "1" : repGroup(2, 2) = "1"
             repGroup(3, 0) = "Level 2" : repGroup(3, 1) = "2" : repGroup(3, 2) = "2"
@@ -2352,7 +2352,7 @@ Namespace CoreReports
 
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -2389,7 +2389,7 @@ Namespace CoreReports
                 repGroup(groupCount, 4) = SkillFunctions.TimeToString(totalTime)
             Next
 
-            For group As Integer = 1 To nog
+            For group As Integer = 1 To Nog
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strText.AppendLine(repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)")
                     For skill As Integer = 1 To CInt(repGroup(group, 2))
@@ -2459,8 +2459,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 16              ' Number of groups to break the report into
-            Dim repGroup(nog, 5) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 16              ' Number of groups to break the report into
+            Dim repGroup(Nog, 5) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Rank 1" : repGroup(1, 1) = "1" : repGroup(1, 2) = "1"
             repGroup(2, 0) = "Rank 2" : repGroup(2, 1) = "2" : repGroup(2, 2) = "2"
             repGroup(3, 0) = "Rank 3" : repGroup(3, 1) = "3" : repGroup(3, 2) = "3"
@@ -2480,7 +2480,7 @@ Namespace CoreReports
 
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -2517,7 +2517,7 @@ Namespace CoreReports
                 repGroup(groupCount, 4) = SkillFunctions.TimeToString(totalTime)
             Next
 
-            For group As Integer = 1 To nog
+            For group As Integer = 1 To Nog
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strText.AppendLine(repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)")
                     For skill As Integer = 1 To CInt(repGroup(group, 2))
@@ -2637,8 +2637,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 15             ' Number of groups to break the report into
-            Dim repGroup(nog, 4) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 15             ' Number of groups to break the report into
+            Dim repGroup(Nog, 4) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Ready To Start Training" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
             repGroup(2, 0) = "Upto 24 hours" : repGroup(2, 1) = "1" : repGroup(2, 2) = "86400"
             repGroup(3, 0) = "1 to 3 days" : repGroup(3, 1) = "86401" : repGroup(3, 2) = "259200"
@@ -2658,7 +2658,7 @@ Namespace CoreReports
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
             Dim skillTimeLeft As Long
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -2686,7 +2686,7 @@ Namespace CoreReports
                 repGroup(groupCount, 4) = SkillFunctions.TimeToString(totalTime)
             Next
 
-            For group As Integer = 1 To nog
+            For group As Integer = 1 To Nog
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strText.AppendLine(repGroup(group, 0) & " (" & repGroup(group, 2) & " Skills)")
                     For skill As Integer = 1 To CInt(repGroup(group, 2))
@@ -2855,7 +2855,7 @@ Namespace CoreReports
             Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
             Dim curSkill As EveHQPilotSkill
             Dim count As Integer
-            Const redTime As Long = 0
+            Const RedTime As Long = 0
             For Each curSkill In rpilot.PilotSkills.Values
                 Dim partTrained As Boolean = True
                 For level As Integer = 0 To 5
@@ -2870,10 +2870,10 @@ Namespace CoreReports
                         If curSkill.ID = rpilot.TrainingSkillID Then
                             sortSkill(count, 1) = rpilot.TrainingCurrentTime
                         Else
-                            sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - redTime, 0))
+                            sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - RedTime, 0))
                         End If
                     Else
-                        sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - redTime, 0))
+                        sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - RedTime, 0))
                     End If
                     sortSkill(count, 0) = CLng(curSkill.ID)
                     count += 1
@@ -2891,8 +2891,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 15             ' Number of groups to break the report into
-            Dim repGroup(nog, 4) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 15             ' Number of groups to break the report into
+            Dim repGroup(Nog, 4) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Training Completed" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
             repGroup(2, 0) = "Upto 1 hour" : repGroup(2, 1) = "1" : repGroup(2, 2) = "3600"
             repGroup(3, 0) = "1 to 2 hours" : repGroup(3, 1) = "3601" : repGroup(3, 2) = "7200"
@@ -2912,7 +2912,7 @@ Namespace CoreReports
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
             Dim skillTimeLeft As Long
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -2954,7 +2954,7 @@ Namespace CoreReports
             Dim group As Integer = 1
             Do
                 group = group + 1
-                If group = nog + 1 Then group = 1
+                If group = Nog + 1 Then group = 1
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strHTML &= "<tr><td class=thead width=50px></td><td colspan=2 class=thead align=left valign=middle>" & repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)</td><td class=thead width=50px></td></tr>"
                     strHTML &= "<tr><td width=50px></td><td width=50px></td><td>&nbsp;</td><td width=100px></td></tr>"
@@ -3022,7 +3022,7 @@ Namespace CoreReports
             Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
             Dim curSkill As EveHQPilotSkill
             Dim count As Integer
-            Const redTime As Long = 0
+            Const RedTime As Long = 0
             For Each curSkill In rpilot.PilotSkills.Values
                 Dim partTrained As Boolean = True
                 For level As Integer = 0 To 5
@@ -3037,10 +3037,10 @@ Namespace CoreReports
                         If curSkill.ID = rpilot.TrainingSkillID Then
                             sortSkill(count, 1) = rpilot.TrainingCurrentTime
                         Else
-                            sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - redTime, 0))
+                            sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - RedTime, 0))
                         End If
                     Else
-                        sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - redTime, 0))
+                        sortSkill(count, 1) = CLng(Math.Max(SkillFunctions.CalcTimeToLevel(rpilot, HQ.SkillListName(curSkill.Name), 0) - RedTime, 0))
                     End If
                     sortSkill(count, 0) = CLng(curSkill.ID)
                     count += 1
@@ -3058,8 +3058,8 @@ Namespace CoreReports
             Array.Sort(tagArray, myComparer)
 
             ' Define the groups
-            Const nog As Integer = 15             ' Number of groups to break the report into
-            Dim repGroup(nog, 4) As String      ' Name, Min, Max, skillcount, SPs
+            Const Nog As Integer = 15             ' Number of groups to break the report into
+            Dim repGroup(Nog, 4) As String      ' Name, Min, Max, skillcount, SPs
             repGroup(1, 0) = "Training Completed" : repGroup(1, 1) = "0" : repGroup(1, 2) = "0"
             repGroup(2, 0) = "Upto 1 hour" : repGroup(2, 1) = "1" : repGroup(2, 2) = "3600"
             repGroup(3, 0) = "1 to 2 hours" : repGroup(3, 1) = "3601" : repGroup(3, 2) = "7200"
@@ -3079,7 +3079,7 @@ Namespace CoreReports
             Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 6) As String
             Dim groupCount As Integer
             Dim skillTimeLeft As Long
-            For groupCount = 1 To nog
+            For groupCount = 1 To Nog
                 Dim skillCount As Long = 0
                 Dim spCount As Long = 0
                 Dim totalTime As Double = 0
@@ -3119,7 +3119,7 @@ Namespace CoreReports
             Dim group As Integer = 1
             Do
                 group = group + 1
-                If group = nog + 1 Then group = 1
+                If group = Nog + 1 Then group = 1
                 If CDbl(repGroup(group, 2)) > 0 Then
                     strText.AppendLine(repGroup(group, 0) & " (" & Format(CLng(repGroup(group, 3)), "#,####") & " Skillpoints in " & repGroup(group, 2) & " Skills)")
                     For skill As Integer = 1 To CInt(repGroup(group, 2))
@@ -3528,7 +3528,7 @@ Namespace CoreReports
 
                 strHTML &= "<tr height=20px>"
                 strHTML &= "<td>" & ct.CertName & "</td>"
-                strHTML &= "<td>" & cert.Grade.ToString & "</td>"
+                strHTML &= "<td>" & CType(grade, CertificateGrade) & "</td>"
                 strHTML &= "<td>" & ttc & "</td>"
                 strHTML &= "</tr>"
 
@@ -3541,12 +3541,7 @@ Namespace CoreReports
         Private Shared Function GetCertificateList(grade As Integer) As ArrayList
 
             ' Get a list of the relevant cert grades
-            Dim certList As New List(Of Certificate)
-            For Each cert As Certificate In StaticData.Certificates.Values
-                If cert.Grade = grade Then
-                    certList.Add(cert)
-                End If
-            Next
+            Dim certList As List(Of Certificate) = StaticData.Certificates.Values.ToList()
 
             Dim certQueues As New ArrayList
             ' Calculate time for each cert
@@ -3554,7 +3549,7 @@ Namespace CoreReports
             For Each cert As Certificate In certList
                 skillList.Clear()
                 ' Calculate skills for the current cert
-                GetSkillsForCertificate(cert, skillList)
+                GetSkillsForCertificate(cert, CType(grade, CertificateGrade), skillList)
 
                 ' Work out time for this cert
                 Dim qQueue As New EveHQSkillQueue
@@ -3569,9 +3564,9 @@ Namespace CoreReports
                 Next
                 Dim q As ArrayList = SkillQueueFunctions.BuildQueue(displayPilot, qQueue, False, True)
                 If q.Count > 0 Then
-                    certQueues.Add(New CertTimes(cert.Id, StaticData.CertificateClasses(cert.ClassId.ToString).Name, CLng((CType(q(q.Count - 1), SortedQueueItem).DateFinished - Now).TotalSeconds)))
+                    certQueues.Add(New CertTimes(cert.Id, cert.Name, CLng((CType(q(q.Count - 1), SortedQueueItem).DateFinished - Now).TotalSeconds)))
                 Else
-                    certQueues.Add(New CertTimes(cert.Id, StaticData.CertificateClasses(cert.ClassId.ToString).Name, 0))
+                    certQueues.Add(New CertTimes(cert.Id, cert.Name, 0))
                 End If
             Next
 
@@ -3586,20 +3581,18 @@ Namespace CoreReports
 
         End Function
 
-        Private Shared Sub GetSkillsForCertificate(ByRef cert As Certificate, ByRef skillList As SortedList(Of Integer, Integer))
+        Private Shared Sub GetSkillsForCertificate(ByRef cert As Certificate, ByVal grade As CertificateGrade, ByRef skillList As SortedList(Of Integer, Integer))
             ' Get skills for the cert
-            For Each skill As Integer In cert.RequiredSkills.Keys
+            Dim skillsNeeded = cert.GradesAndSkills(grade)
+
+            For Each skill As Integer In skillsNeeded.Keys
                 If skillList.ContainsKey(skill) = False Then
-                    skillList.Add(skill, cert.RequiredSkills(skill))
+                    skillList.Add(skill, skillsNeeded(skill))
                 Else
-                    If cert.RequiredSkills(skill) > skillList(skill) Then
-                        skillList(skill) = cert.RequiredSkills(skill)
+                    If skillsNeeded(skill) > skillList(skill) Then
+                        skillList(skill) = skillsNeeded(skill)
                     End If
                 End If
-            Next
-            ' Parse the required certs
-            For Each certID As Integer In cert.RequiredCertificates.Keys
-                GetSkillsForCertificate(StaticData.Certificates(certID), skillList)
             Next
         End Sub
 

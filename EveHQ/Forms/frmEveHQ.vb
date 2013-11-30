@@ -295,8 +295,8 @@ Namespace Forms
                         Else
                             ' Check if there are updates available
                             If HQ.AppUpdateAvailable = True Then
-                                Const msg As String = "There are pending updates available - these will be installed now."
-                                MessageBox.Show(msg, "Update Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Const Msg As String = "There are pending updates available - these will be installed now."
+                                MessageBox.Show(Msg, "Update Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Call UpdateNow()
                             Else
                                 HQ.WriteLogEvent("Shutdown: Calling main shutdown routine")
@@ -306,8 +306,8 @@ Namespace Forms
                     Else
                         ' Check if there are updates available
                         If HQ.AppUpdateAvailable = True Then
-                            Const msg As String = "There are pending updates available - these will be installed now."
-                            MessageBox.Show(msg, "Update Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Const Msg As String = "There are pending updates available - these will be installed now."
+                            MessageBox.Show(Msg, "Update Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Call UpdateNow()
                         Else
                             HQ.WriteLogEvent("Shutdown: Calling main shutdown routine")
@@ -317,20 +317,13 @@ Namespace Forms
                 Else
                     ' Close and flush the timer file
                     Trace.Flush()
-                    Trace.Listeners.Remove(HQ.EveHqTracer)
                 End If
             Catch ex As Exception
                 MessageBox.Show("An error occured while closing EveHQ: " & ex.Message & "- " & ex.StackTrace,
                                 "Error Closing EveHQ", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             Finally
-                If (HQ.LoggingStream.CanWrite) Then
-
-
-                    HQ.LoggingStream.Flush()
-                    HQ.LoggingStream.Close()
-                    HQ.LoggingStream.Dispose()
-                End If
+                Trace.Flush()
             End Try
         End Sub
 
@@ -768,7 +761,7 @@ Namespace Forms
                 ' Close log files
 
                 Trace.Flush()
-                Trace.Listeners.Remove(HQ.EveHqTracer)
+                ' Trace.Listeners.Remove(HQ.EveHqTracer)
 
                 'End
 
@@ -778,12 +771,7 @@ Namespace Forms
                     "Error Closing EveHQ", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             Finally
-                If (HQ.LoggingStream.CanWrite) Then
-
-
-                    HQ.LoggingStream.Flush()
-                    HQ.LoggingStream.Close()
-                End If
+                 Trace.Flush()
             End Try
         End Sub
 
@@ -1127,7 +1115,7 @@ Namespace Forms
                     Exit Sub
                 Else
                     lblAPIStatus.Text = "API Status: Fetching Character Data..."
-                    barStatus.Refresh()
+                    Invoke(Sub() barStatus.Refresh())
                     ' Clear the current list of pilots
                     HQ.TempPilots.Clear()
                     HQ.TempCorps.Clear()
@@ -1137,7 +1125,7 @@ Namespace Forms
                         If currentAccount.APIAccountStatus <> APIAccountStatuses.ManualDisabled Then
                             lblAPIStatus.Text = "API Status: Updating Account '" & currentAccount.FriendlyName & "' (ID=" &
                                                 currentAccount.UserID & ")..."
-                            barStatus.Refresh()
+                            Invoke(Sub() barStatus.Refresh())
                             Call PilotParseFunctions.GetCharactersInAccount(currentAccount)
                         End If
                     Next
@@ -1172,14 +1160,14 @@ Namespace Forms
 
                 If IsHandleCreated Then
                     ' Save the settings
-                    Invoke(New MethodInvoker(AddressOf HQ.Settings.Save))
+                    Invoke(Sub() HQ.Settings.Save())
 
                     ' Enable the option again
                     btnQueryAPI.Enabled = True
-                    Invoke(New MethodInvoker(AddressOf ResetSettingsButton))
+                    Invoke(Sub() ResetSettingsButton())
 
                     ' Update data
-                    Invoke(New MethodInvoker(AddressOf UpdatePilotInfo))
+                    Invoke(Sub() UpdatePilotInfo())
                 End If
             Catch e As Exception
                 If IsHandleCreated Then
@@ -1197,7 +1185,7 @@ Namespace Forms
             Call FrmSettings.FinaliseAPIServerUpdate()
         End Sub
 
-        Public Sub UpdatePilotInfo(Optional ByVal startUp As Boolean = False)
+        Public Sub UpdatePilotInfo()
 
             ' Setup the Training Status Bar
             Call SetupTrainingStatus()
@@ -1241,7 +1229,7 @@ Namespace Forms
 
             If HQ.Settings.DisableTrainingBar = False Then
                 ' Setup a collection for sorting
-                Dim pilotTrainingTimes As New ArrayList
+                Dim pilotTrainingTimes As New List(Of PilotSortTrainingTime)
                 Dim trainingAccounts As New ArrayList
                 Dim disabledAccounts As New ArrayList
                 For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
@@ -1265,16 +1253,9 @@ Namespace Forms
                     End If
                 Next
 
-                ' Initialise a new ClassSorter instance and add a standard SortClass (i.e. sort method)
-                Dim myClassSorter As New ClassSorter("TrainingEndTime", SortDirection.Ascending)
-                ' Always sort by name to handle similarly ranked items in the first sort
-                myClassSorter.SortClasses.Add(New SortClass("Name", SortDirection.Ascending))
-                ' Sort the class
-                pilotTrainingTimes.Sort(myClassSorter)
-
                 ' Clear old event handlers
-                For c As Integer = pdc1.Controls.Count - 1 To 0 Step -1
-                    Dim cb As CharacterTrainingBlock = CType(pdc1.Controls(c), CharacterTrainingBlock)
+                For c As Integer = trainingBlockLayout.Controls.Count - 1 To 0 Step -1
+                    Dim cb As CharacterTrainingBlock = CType(trainingBlockLayout.Controls(c), CharacterTrainingBlock)
                     RemoveHandler cb.lblSkill.Click, AddressOf TrainingStatusLabelClick
                     RemoveHandler cb.lblTime.Click, AddressOf TrainingStatusLabelClick
                     RemoveHandler cb.lblQueue.Click, AddressOf TrainingStatusLabelClick
@@ -1283,7 +1264,7 @@ Namespace Forms
                 Next
 
                 ' Initialise the x-location and clear items
-                pdc1.Controls.Clear()
+                trainingBlockLayout.Controls.Clear()
                 Dim startloc As Integer = 0
 
                 ' Add non-training accounts to the training bar
@@ -1292,7 +1273,7 @@ Namespace Forms
                         ' Build a status panel if the account is not manually disabled
                         If cAccount.APIAccountStatus <> APIAccountStatuses.ManualDisabled Then
                             Dim cb As New CharacterTrainingBlock(cAccount.UserID, True)
-                            pdc1.Controls.Add(cb)
+                            trainingBlockLayout.Controls.Add(cb)
                             If Bar1.DockSide = eDockSide.Bottom Or Bar1.DockSide = eDockSide.Top Then
                                 cb.Left = startloc
                                 cb.BringToFront()
@@ -1313,7 +1294,7 @@ Namespace Forms
                                 ' Build a status panel if the account is not manually disabled
                                 If cAccount.APIAccountStatus <> APIAccountStatuses.ManualDisabled Then
                                     Dim cb As New CharacterTrainingBlock(cAccount.UserID, True)
-                                    pdc1.Controls.Add(cb)
+                                    trainingBlockLayout.Controls.Add(cb)
                                     If Bar1.DockSide = eDockSide.Bottom Or Bar1.DockSide = eDockSide.Top Then
                                         cb.Left = startloc
                                         cb.BringToFront()
@@ -1330,14 +1311,18 @@ Namespace Forms
                 Next
 
                 ' Add training pilots to the training bar
-                For Each cPilot As PilotSortTrainingTime In pilotTrainingTimes
+                ' Note: I'm not completely sure why the date objects need to be sorted descending, in order to get the pilots in order of 
+                ' next to finish training, but it's what is required. It seems counter-intuitive, but don't change this to an ascending order or 
+                ' you get the pilots in the wrong order (the one with the most training left is first)
+                For Each cPilot As PilotSortTrainingTime In pilotTrainingTimes.OrderByDescending(Function(pilot) pilot.TrainingEndTime)
                     Dim cb As New CharacterTrainingBlock(cPilot.Name, False)
                     AddHandler cb.lblSkill.Click, AddressOf TrainingStatusLabelClick
                     AddHandler cb.pbPilot.Click, AddressOf PilotPicClick
                     AddHandler cb.lblTime.Click, AddressOf TrainingStatusLabelClick
                     AddHandler cb.lblQueue.Click, AddressOf TrainingStatusLabelClick
-                    pdc1.Controls.Add(cb)
+                    trainingBlockLayout.Controls.Add(cb)
                     If Bar1.DockSide = eDockSide.Bottom Or Bar1.DockSide = eDockSide.Top Then
+
                         cb.Left = startloc
                         cb.BringToFront()
                         startloc += cb.Width + 20
@@ -1495,7 +1480,6 @@ Namespace Forms
 #Region "Background Module Loading"
 
         Private Sub tmrModules_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrModules.Tick
-            CheckForIllegalCrossThreadCalls = False
             tmrModules.Stop()
             For Each plugInInfo As EveHQPlugIn In HQ.Plugins.Values
                 ' Override settings if the remote server says so
@@ -1587,7 +1571,7 @@ Namespace Forms
                 loadPlugInButton.Enabled = True
                 runPlugInButton.Enabled = False
             End Try
-            rbPlugins.Refresh()
+            Invoke(Sub() rbPlugins.Refresh())
         End Sub
 
 #End Region
@@ -2009,17 +1993,17 @@ Namespace Forms
                 Catch e As Exception
                 End Try
 
-                ' Clear the EveHQ Pilot Data
+                '' Clear the EveHQ Pilot Data
                 Try
-                    HQ.Settings.Pilots.Clear()
-                    HQ.Settings.Corporations.Clear()
+                    ' Clear the current list of pilots
                     HQ.TempPilots.Clear()
                     HQ.TempCorps.Clear()
+                    HQ.APIResults.Clear()
                 Catch ex As Exception
                 End Try
 
-                ' Update the pilot lists
-                Call UpdatePilotInfo(True)
+                '' Update the pilot lists
+                Call UpdatePilotInfo()
 
                 ' Restart the timer
                 tmrSkillUpdate.Start()
@@ -2412,9 +2396,9 @@ Namespace Forms
 
         Private Sub btnClearCharacterCache_Click(ByVal sender As Object, ByVal e As EventArgs) _
             Handles btnClearCharacterCache.Click
-            Const msg As String = "This will delete the character specific XML files, clear the pilot data and reconnect to the API." &
+            Const Msg As String = "This will delete the character specific XML files, and get fresh data from the API." &
                                   ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
-            Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Cache", MessageBoxButtons.YesNo,
+            Dim reply As Integer = MessageBox.Show(Msg, "Confirm Delete Cache", MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
                 Try
@@ -2456,17 +2440,18 @@ Namespace Forms
                     Catch ex As Exception
                     End Try
 
-                    ' Clear the EveHQ Pilot Data
+
+                    '' Clear the EveHQ Pilot Data
                     Try
-                        HQ.Settings.Pilots.Clear()
-                        HQ.Settings.Corporations.Clear()
+                        ' Clear the current list of pilots
                         HQ.TempPilots.Clear()
                         HQ.TempCorps.Clear()
+                        HQ.APIResults.Clear()
                     Catch ex As Exception
                     End Try
 
-                    ' Update the pilot lists
-                    Call UpdatePilotInfo(True)
+                    '' Update the pilot lists
+                    Call UpdatePilotInfo()
 
                     ' Restart the timer
                     tmrSkillUpdate.Start()
@@ -2479,14 +2464,15 @@ Namespace Forms
                         "Error Deleting the EveHQ Cache Folder, please try to delete the following location manually: " &
                         ControlChars.CrLf & ControlChars.CrLf & HQ.CacheFolder, "Error Deleting Cache", MessageBoxButtons.OK,
                         MessageBoxIcon.Information)
+                    Trace.TraceError(ex.FormatException())
                 End Try
             End If
         End Sub
 
         Private Sub btnClearImageCache_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClearImageCache.Click
-            Const msg As String = "This will delete the entire contents of the image cache folder." & ControlChars.CrLf &
+            Const Msg As String = "This will delete the entire contents of the image cache folder." & ControlChars.CrLf &
                                   ControlChars.CrLf & "Are you sure you wish to continue?"
-            Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Image Cache", MessageBoxButtons.YesNo,
+            Dim reply As Integer = MessageBox.Show(Msg, "Confirm Delete Image Cache", MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
                 Try
@@ -2517,9 +2503,9 @@ Namespace Forms
         End Sub
 
         Private Sub btnClearAllCache_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClearAllCache.Click
-            Const msg As String = "This will delete the entire contents of the cache folder, clear the pilot data and reconnect to the API." &
+            Const Msg As String = "This will delete the entire contents of the cache folder, clear the pilot data and reconnect to the API." &
                                   ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
-            Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Cache", MessageBoxButtons.YesNo,
+            Dim reply As Integer = MessageBox.Show(Msg, "Confirm Delete Cache", MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
                 Try
@@ -2547,17 +2533,18 @@ Namespace Forms
                     Catch ex As Exception
                     End Try
 
-                    ' Clear the EveHQ Pilot Data
+
+                    '' Clear the EveHQ Pilot Data
                     Try
-                        HQ.Settings.Pilots.Clear()
-                        HQ.Settings.Corporations.Clear()
+                        ' Clear the current list of pilots
                         HQ.TempPilots.Clear()
                         HQ.TempCorps.Clear()
+                        HQ.APIResults.Clear()
                     Catch ex As Exception
                     End Try
 
-                    ' Update the pilot lists
-                    Call UpdatePilotInfo(True)
+                    '' Update the pilot lists
+                    Call UpdatePilotInfo()
 
                     ' Restart the timer
                     tmrSkillUpdate.Start()
@@ -2922,68 +2909,68 @@ Namespace Forms
         End Sub
 
         Private Sub btnHTMLCertGrades1_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades1.Click
-            Const grade As Integer = 1
+            Const Grade As Integer = 1
             If cboReportPilot.SelectedItem Is Nothing Then
                 MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
-            Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
-            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+            Call Reports.GenerateCertGradeTimes(rPilot, Grade)
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), Grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), Grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
         Private Sub btnHTMLCertGrades2_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades2.Click
-            Const grade As Integer = 2
+            Const Grade As Integer = 2
             If cboReportPilot.SelectedItem Is Nothing Then
                 MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
-            Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
-            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+            Call Reports.GenerateCertGradeTimes(rPilot, Grade)
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), Grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), Grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
         Private Sub btnHTMLCertGrades3_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades3.Click
-            Const grade As Integer = 3
+            Const Grade As Integer = 3
             If cboReportPilot.SelectedItem Is Nothing Then
                 MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
-            Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
-            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+            Call Reports.GenerateCertGradeTimes(rPilot, Grade)
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), Grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), Grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
         Private Sub btnHTMLCertGrades4_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades4.Click
-            Const grade As Integer = 4
+            Const Grade As Integer = 4
             If cboReportPilot.SelectedItem Is Nothing Then
                 MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
-            Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
-            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+            Call Reports.GenerateCertGradeTimes(rPilot, Grade)
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), Grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), Grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
         Private Sub btnHTMLCertGrades5_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades5.Click
-            Const grade As Integer = 5
+            Const Grade As Integer = 5
             If cboReportPilot.SelectedItem Is Nothing Then
                 MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
-            Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
-            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+            Call Reports.GenerateCertGradeTimes(rPilot, Grade)
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), Grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), Grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
 #End Region
@@ -3250,14 +3237,17 @@ Namespace Forms
             Select Case Bar1.DockSide
                 Case eDockSide.Top, eDockSide.Bottom
                     'DockContainerItem1.Height = 75
+                    trainingBlockLayout.FlowDirection = FlowDirection.LeftToRight
                 Case eDockSide.Left, eDockSide.Right
                     'DockContainerItem1.Width = 320
+                    trainingBlockLayout.FlowDirection = FlowDirection.TopDown
             End Select
             Call SetupTrainingStatus()
         End Sub
 
         Private Sub Bar1_BarUndock(ByVal sender As Object, ByVal e As EventArgs) Handles Bar1.BarUndock
             HQ.Settings.TrainingBarDockPosition = Bar1.DockSide
+            trainingBlockLayout.FlowDirection = FlowDirection.LeftToRight
             Call SetupTrainingStatus()
         End Sub
 
@@ -3266,6 +3256,15 @@ Namespace Forms
                 HQ.Settings.TrainingBarHeight = DockContainerItem1.Height + 3
                 HQ.Settings.TrainingBarWidth = DockContainerItem1.Width
             End If
+
+            ' tailor trainging block layout display to best suit the experience
+            If Bar1.Docked And Bar1.Height < 120 Then
+                trainingBlockLayout.Dock = DockStyle.None
+            Else
+                trainingBlockLayout.Dock = DockStyle.Fill
+            End If
+
+
         End Sub
 
 #End Region

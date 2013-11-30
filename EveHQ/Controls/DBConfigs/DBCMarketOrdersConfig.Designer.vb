@@ -103,23 +103,6 @@ Namespace Controls.DBConfigs
 
         End Sub
 
-        Public Sub New()
-
-            ' This call is required by the Windows Form Designer.
-            InitializeComponent()
-
-            ' Add any initialization after the InitializeComponent() call.
-            ' Load the combo box with the pilot info
-            cboPilots.BeginUpdate()
-            cboPilots.Items.Clear()
-            For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
-                If pilot.Active = True Then
-                    cboPilots.Items.Add(pilot.Name)
-                End If
-            Next
-            cboPilots.EndUpdate()
-
-        End Sub
         Friend WithEvents btnCancel As DevComponents.DotNetBar.ButtonX
         Friend WithEvents btnAccept As DevComponents.DotNetBar.ButtonX
         Friend WithEvents cboPilots As DevComponents.DotNetBar.Controls.ComboBoxEx

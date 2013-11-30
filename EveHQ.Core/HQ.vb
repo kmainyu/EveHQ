@@ -35,9 +35,9 @@ Public Class HQ
     Public Shared TempCorps As New SortedList(Of String, Corporation)
     Public Shared MyIGB As New IGB
     Public Shared MyTqServer As EveServer = New EveServer
-    Public Shared SkillListName As New SortedList(Of String, EveSkill) ' SkillName, EveSkill
+    Public Shared SkillListName As New Dictionary(Of String, EveSkill) ' SkillName, EveSkill
     Public Shared SkillListID As New SortedList(Of Integer, EveSkill) ' SkillID, EveSkill
-    Public Shared SkillGroups As New SortedList(Of String, SkillGroup)
+    Public Shared SkillGroups As New Dictionary(Of String, SkillGroup)
     Public Shared IsUsingLocalFolders As Boolean = False
     Public Shared IsSplashFormDisabled As Boolean = False
     Private Shared _appDataFolder As String = ""
@@ -289,13 +289,14 @@ Public Class HQ
     End Sub
 
     Public Shared Function GetMdiTab(ByVal tabName As String) As TabItem
-
         Dim mainTab As TabStrip = CType(MainForm.Controls("tabEveHQMDI"), TabStrip)
-        For Each tp As TabItem In mainTab.Tabs
-            If tp.Text = tabName Then
-                Return tp
-            End If
-        Next
+        If mainTab IsNot Nothing Then
+            For Each tp As TabItem In mainTab.Tabs
+                If tp.Text = tabName Then
+                    Return tp
+                End If
+            Next
+        End If
         Return Nothing
     End Function
 

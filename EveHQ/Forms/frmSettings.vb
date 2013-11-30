@@ -235,15 +235,15 @@ Namespace Forms
             Else
                 frmEveHQ.Bar1.Visible = False
                 ' Clear old event handlers and controls
-                For c As Integer = frmEveHQ.pdc1.Controls.Count - 1 To 0 Step -1
-                    Dim cb As CharacterTrainingBlock = CType(frmEveHQ.pdc1.Controls(c), CharacterTrainingBlock)
-                    RemoveHandler cb.lblSkill.Click, AddressOf frmEveHQ.TrainingStatusLabelClick
-                    RemoveHandler cb.lblTime.Click, AddressOf frmEveHQ.TrainingStatusLabelClick
-                    RemoveHandler cb.lblQueue.Click, AddressOf frmEveHQ.TrainingStatusLabelClick
+                For c As Integer = FrmEveHQ.trainingBlockLayout.Controls.Count - 1 To 0 Step -1
+                    Dim cb As CharacterTrainingBlock = CType(FrmEveHQ.trainingBlockLayout.Controls(c), CharacterTrainingBlock)
+                    RemoveHandler cb.lblSkill.Click, AddressOf FrmEveHQ.TrainingStatusLabelClick
+                    RemoveHandler cb.lblTime.Click, AddressOf FrmEveHQ.TrainingStatusLabelClick
+                    RemoveHandler cb.lblQueue.Click, AddressOf FrmEveHQ.TrainingStatusLabelClick
                     cb.Dispose()
                 Next
                 ' Clear items - just to make sure
-                frmEveHQ.pdc1.Controls.Clear()
+                FrmEveHQ.trainingBlockLayout.Controls.Clear()
             End If
         End Sub
 
@@ -559,10 +559,14 @@ Namespace Forms
                     ' Remove the item from the list
                     adtAccounts.Nodes.Remove(adtAccounts.SelectedNodes(0))
                     ' Remove the pilots
+                    Dim removeList As New List(Of String)
                     For Each dPilot As EveHQPilot In HQ.Settings.Pilots.Values
                         If dPilot.Account = selAccount Then
-                            HQ.Settings.Pilots.Remove(dPilot.Name)
+                            removeList.Add(dPilot.Name)
                         End If
+                    Next
+                    For Each pilotName As String In removeList
+                        HQ.Settings.Pilots.Remove(pilotName)
                     Next
                     Call frmEveHQ.UpdatePilotInfo()
                     Call UpdatePilots()
@@ -2435,11 +2439,11 @@ Namespace Forms
 
         Private Sub OnOverrideItemListIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideItemList.SelectedIndexChanged
 
-            Const item As String = ""
+            Const Item As String = ""
             Dim itemId As Integer
             Dim activeStat As MarketMetric = HQ.Settings.MarketDefaultMetric
             Dim activeTransactionType As MarketTransactionKind = HQ.Settings.MarketDefaultTransactionType
-            If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) And Integer.TryParse(item, itemId) Then
+            If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) And Integer.TryParse(Item, itemId) Then
 
                 ' see if the item is in the override list, otherwise set values to default
                 Dim itemOverride As New ItemMarketOverride
@@ -2459,7 +2463,6 @@ Namespace Forms
         End Sub
 
         Private Sub OnAddUpdateItemOverrideClick(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideAddOverride.Click
-            Const item As String = ""
             Dim itemID As Integer
 
             If _itemOverrideItemList Is Nothing Then
@@ -2470,9 +2473,11 @@ Namespace Forms
                 Return
             End If
 
-            If (StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False) Or (Integer.TryParse(item, itemID) = False) Then
+            If (StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False) Then
                 Return 'not a real item
             End If
+
+            itemID = StaticData.TypeNames(_itemOverrideItemList.SelectedItem.ToString)
 
             Dim override As New ItemMarketOverride()
             override.ItemId = itemID
@@ -2509,10 +2514,32 @@ Namespace Forms
 
         Private Sub OnOverrideGridNodeClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) Handles _itemOverridesActiveGrid.NodeClick
 
-
             If (e.Node IsNot Nothing) Then
                 _itemOverrideItemList.SelectedItem = e.Node.Text
+                Dim itemID As Integer = StaticData.TypeNames(e.Node.Text)
+                Dim o As ItemMarketOverride = HQ.Settings.MarketStatOverrides(itemID)
+                Select Case o.MarketStat
+                    Case MarketMetric.Average
+                        _itemOverrideAvgPrice.Select()
+                    Case MarketMetric.Maximum
+                        _itemOverrideMaxPrice.Select()
+                    Case MarketMetric.Median
+                        _itemOverrideMedianPrice.Select()
+                    Case MarketMetric.Minimum
+                        _itemOverrideMinPrice.Select()
+                    Case MarketMetric.Percentile
+                        _itemOverridePercentPrice.Select()
+                End Select
+                Select Case o.TransactionType
+                    Case MarketTransactionKind.All
+                        _itemOverrideAllOrders.Select()
+                    Case MarketTransactionKind.Buy
+                        _itemOverrideBuyOrders.Select()
+                    Case MarketTransactionKind.Sell
+                        _itemOverrideSellOrders.Select()
+                End Select
             End If
+
         End Sub
 
         Private Sub UpdateActiveOverrides()
@@ -2543,7 +2570,6 @@ Namespace Forms
         End Sub
 
         Private Sub OnRemoveOverrideClick(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideRemoveOverride.Click
-            Const item As String = ""
             Dim itemID As Integer
 
             If _itemOverrideItemList Is Nothing Then
@@ -2554,9 +2580,11 @@ Namespace Forms
                 Return
             End If
 
-            If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False Or (Integer.TryParse(item, itemID) = False) Then
+            If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False Then
                 Return 'not a real item
             End If
+
+            itemID = StaticData.TypeNames(_itemOverrideItemList.SelectedItem.ToString)
 
             HQ.Settings.MarketStatOverrides.Remove(itemID)
             UpdateActiveOverrides()
@@ -2577,9 +2605,7 @@ Namespace Forms
         End Sub
 
 #End Region
-
-      
-
+        
         Public Sub FinaliseAPIServerUpdate()
             btnGetData.Enabled = True
             Call UpdatePilots()

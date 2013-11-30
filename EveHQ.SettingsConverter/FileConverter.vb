@@ -21,6 +21,7 @@ Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
 Imports System.ComponentModel
+Imports EveHQ.EveData
 Imports EveHQ.Prism.Classes
 Imports EveHQ.Prism.BPCalc
 Imports Newtonsoft.Json
@@ -546,10 +547,13 @@ Public Class FileConverter
                 ConvertPilotSkills(pilot, newPilot)
                 ConvertPilotQueuedSkills(pilot, newPilot)
                 newPilot.QueuedSkillTime = pilot.QueuedSkillTime
-                newPilot.Certificates.Clear()
-                For Each c As String In pilot.Certificates
-                    newPilot.Certificates.Add(CInt(c))
-                Next
+                newPilot.QualifiedCertificates.Clear()
+                'For Each c As String In pilot.Certificates
+                '    newPilot.Certificates.Add(CInt(c))
+                'Next
+
+                ConvertPilotCertificates(newPilot)
+
                 newPilot.PrimaryQueue = pilot.PrimaryQueue
                 ConvertTrainingQueues(pilot, newPilot)
                 newPilot.ActiveQueue = ConvertPilotSkillQueue(pilot.ActiveQueue)
@@ -574,7 +578,7 @@ Public Class FileConverter
     End Sub
 
     Private Sub ConvertPilotSkills(ByVal pilot As Pilot, ByVal newPilot As EveHQPilot)
-      newPilot.PilotSkills.Clear()
+        newPilot.PilotSkills.Clear()
         For Each oldskill As PilotSkill In pilot.PilotSkills
             Dim newSkill As New EveHQPilotSkill
             newSkill.ID = CInt(oldskill.ID)
@@ -586,7 +590,44 @@ Public Class FileConverter
             newPilot.PilotSkills.Add(newSkill.Name, newSkill)
         Next
     End Sub
+    Private Sub ConvertPilotCertificates(ByRef pilot As EveHQPilot)
+        pilot.QualifiedCertificates.Clear()
 
+        Dim qualifiedCerts As New Dictionary(Of Integer, CertificateGrade)
+
+        For Each cert In StaticData.Certificates.Values
+            For Each grade In cert.GradesAndSkills.Keys
+                If CheckPilotSkillsForCertGrade(cert.GradesAndSkills(grade), pilot) Then
+                    If qualifiedCerts.ContainsKey(cert.Id) Then
+                        qualifiedCerts(cert.Id) = grade
+                    Else
+                        qualifiedCerts.Add(cert.Id, grade)
+                    End If
+                End If
+            Next
+        Next
+
+        ' take the collection of qualified certs and apply them to the pilot
+        For Each certId In qualifiedCerts.Keys
+            pilot.QualifiedCertificates.Add(certId, qualifiedCerts(certId))
+        Next
+    End Sub
+
+    Private Shared Function CheckPilotSkillsForCertGrade(ByRef reqSkills As SortedList(Of Integer, Integer), ByRef pilot As EveHQPilot) As Boolean
+        Dim qualifications As New SortedList(Of Integer, Boolean)
+        For Each skill In reqSkills.Keys
+            Dim pSkill As New EveHQPilotSkill
+            qualifications.Add(skill, False)
+            If pilot.PilotSkills.TryGetValue(skill.ToString(), pSkill) Then
+                If pSkill.Rank >= reqSkills(skill) Then
+                    qualifications(skill) = True
+                End If
+            End If
+        Next
+        Return qualifications.Values.All(Function(q) q = True)
+    End Function
+
+    
     Private Sub ConvertPilotQueuedSkills(ByVal pilot As Pilot, ByVal newPilot As EveHQPilot)
         newPilot.QueuedSkills.Clear()
         For Each oldskill As PilotQueuedSkill In pilot.QueuedSkills.Values
@@ -645,20 +686,23 @@ Public Class FileConverter
     End Sub
 
     Private Sub ConvertDashboard(ByVal oldSettings As EveSettings)
-        Try
-            _newSettings.DashboardConfiguration.Clear()
-            For Each config As SortedList(Of String, Object) In oldSettings.DashboardConfiguration
+        _newSettings.DashboardConfiguration.Clear()
+        For Each config As SortedList(Of String, Object) In oldSettings.DashboardConfiguration
+            Try
+                Dim newConfig As New SortedList(Of String, Object)
                 For Each configProperty As String In config.Keys
                     Select Case configProperty
                         Case "ControlLocation", "ControlSize"
-                            config(configProperty) = config(configProperty).ToString
+                            newConfig.Add(configProperty, config(configProperty).ToString)
+                        Case Else
+                            newConfig.Add(configProperty, config(configProperty))
                     End Select
                 Next
-                _newSettings.DashboardConfiguration.Add(config)
-            Next
-        Catch e As Exception
-            _worker.ReportProgress(0, "Error converting dashboard settings: " & e.Message)
-        End Try
+                _newSettings.DashboardConfiguration.Add(newConfig)
+            Catch e As Exception
+                _worker.ReportProgress(0, "Error converting dashboard widget: " & e.Message)
+            End Try
+        Next
     End Sub
 
 #End Region
@@ -780,6 +824,9 @@ Public Class FileConverter
                     oldJobs = CType(f.Deserialize(s), SortedList(Of String, ProductionJob))
                 End Using
 
+                ' Load up some static data for the conversion
+                StaticData.LoadCoreCacheForConversion(Path.Combine(Application.StartupPath, "StaticData"))
+
                 ' Convert the old jobs into the new format
                 Dim newJobs As New SortedList(Of String, Job)
                 For Each job As ProductionJob In oldJobs.Values
@@ -837,16 +884,17 @@ Public Class FileConverter
             If oldJob.AssemblyArray Is Nothing Then
                 newJob.AssemblyArray = Nothing
             Else
-                newJob.AssemblyArray = EveData.StaticData.AssemblyArrays(oldJob.AssemblyArray.ID)
+                newJob.AssemblyArray = StaticData.AssemblyArrays(oldJob.AssemblyArray.ID)
             End If
             For Each key As String In oldJob.SubJobMEs.Keys
                 newJob.SubJobMEs.Add(CInt(key), oldJob.SubJobMEs(key))
             Next
-            If EveData.StaticData.Blueprints.ContainsKey(oldJob.CurrentBP.ID) Then
-                newJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(oldJob.CurrentBP.ID))
+            If StaticData.Blueprints.ContainsKey(oldJob.CurrentBP.ID) Then
+                newJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(oldJob.CurrentBP.ID))
                 newJob.CurrentBlueprint.MELevel = oldJob.CurrentBP.MELevel
                 newJob.CurrentBlueprint.PELevel = oldJob.CurrentBP.PELevel
                 newJob.CurrentBlueprint.Runs = oldJob.CurrentBP.Runs
+                newJob.CurrentBlueprint.AssetId = oldJob.CurrentBP.AssetID
             Else
                 newJob.CurrentBlueprint = Nothing
             End If
@@ -885,7 +933,7 @@ Public Class FileConverter
             Dim newJob As New BPCalc.InventionJob
             newJob.InventedBpid = oldJob.InventedBpid
             newJob.BaseChance = oldJob.BaseChance
-            newJob.DecryptorUsed = oldJob.DecryptorUsed
+            newJob.DecryptorUsed = ConvertDecryptor(oldJob.DecryptorUsed)
             newJob.MetaItemId = oldJob.MetaItemId
             newJob.MetaItemLevel = oldJob.MetaItemLevel
             newJob.OverrideBpcRuns = oldJob.OverrideBpcRuns
@@ -901,6 +949,22 @@ Public Class FileConverter
 
         End If
 
+    End Function
+
+    Private Function ConvertDecryptor(oldDecryptor As Prism.Decryptor) As BPCalc.Decryptor
+        If oldDecryptor Is Nothing Then
+            Return Nothing
+        Else
+            Dim newDecryptor As New BPCalc.Decryptor
+            newDecryptor.GroupID = oldDecryptor.GroupID
+            newDecryptor.ID = CInt(oldDecryptor.ID)
+            newDecryptor.MEMod = oldDecryptor.MEMod
+            newDecryptor.Name = oldDecryptor.Name
+            newDecryptor.PEMod = oldDecryptor.PEMod
+            newDecryptor.ProbMod = oldDecryptor.ProbMod
+            newDecryptor.RunMod = oldDecryptor.RunMod
+            Return newDecryptor
+        End If
     End Function
 
     Private Sub ConvertBatchJobs(prismFolder As String)
@@ -1000,8 +1064,8 @@ Public Class FileConverter
                 newSettings.StandardSlotColumns = oldSettings.StandardSlotColumns
                 newSettings.UserSlotColumns = oldSettings.UserSlotColumns
                 newSettings.Favourites = oldSettings.Favourites
-                newSettings.MRULimit = oldSettings.MRULimit
-                newSettings.MRUModules = oldSettings.MRUModules
+                newSettings.MruLimit = oldSettings.MRULimit
+                newSettings.MruModules = oldSettings.MRUModules
                 newSettings.ShipPanelWidth = oldSettings.ShipPanelWidth
                 newSettings.ModPanelWidth = oldSettings.ModPanelWidth
                 newSettings.ShipSplitterWidth = oldSettings.ShipSplitterWidth

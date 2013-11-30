@@ -179,8 +179,8 @@ Namespace Forms
             End If
 
             ' Set default widths of module list
-            Const moduleListColumns As Integer = 5
-            If PluginSettings.HQFSettings.ModuleListColWidths.Count <> moduleListColumns Then
+            Const ModuleListColumns As Integer = 5
+            If PluginSettings.HQFSettings.ModuleListColWidths.Count <> ModuleListColumns Then
                 PluginSettings.HQFSettings.ModuleListColWidths.Clear()
                 PluginSettings.HQFSettings.ModuleListColWidths.Add(0, 150)
                 PluginSettings.HQFSettings.ModuleListColWidths.Add(1, 40)
@@ -188,7 +188,7 @@ Namespace Forms
                 PluginSettings.HQFSettings.ModuleListColWidths.Add(3, 40)
                 PluginSettings.HQFSettings.ModuleListColWidths.Add(4, 80)
             End If
-            For col As Integer = 0 To moduleListColumns - 1
+            For col As Integer = 0 To ModuleListColumns - 1
                 tvwModules.Columns(col).Width.Absolute = PluginSettings.HQFSettings.ModuleListColWidths(CLng(col))
             Next
 
@@ -405,7 +405,7 @@ Namespace Forms
         Private Sub LoadPilots()
             ' Loads the skills for the selected pilots
             ' Check for a valid HQFPilotSettings.xml file
-            If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFPilotSettings.bin")) = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFPilotSettings.json")) = True Then
                 Call FittingPilots.LoadHQFPilotData()
                 ' Check we have all the available pilots!
                 Dim morePilots As Boolean = False
@@ -640,7 +640,7 @@ Namespace Forms
                 Dim strSearch As String = txtShipSearch.Text.Trim.ToLower
 
                 ' Redraw the ships tree
-                Dim shipResults As New SortedList(Of String, String)
+                Dim shipResults As New List(Of String)
                 Dim isFlyable As Boolean
                 For Each sShip As String In ShipLists.ShipList.Keys
                     If sShip.ToLower.Contains(strSearch) Then
@@ -650,13 +650,13 @@ Namespace Forms
                             isFlyable = True
                         End If
                         If isFlyable = True Then
-                            shipResults.Add(sShip, sShip)
+                            shipResults.Add(sShip)
                         End If
                     End If
                 Next
                 tvwShips.BeginUpdate()
                 tvwShips.Nodes.Clear()
-                For Each item As String In shipResults.Values
+                For Each item As String In shipResults
                     Dim shipNode As New Node
 
                     Dim ship As Ship = ShipLists.ShipList(item)
@@ -687,7 +687,7 @@ Namespace Forms
                 Dim shipName As String
                 Dim fittingName As String
                 Dim fittingSep As Integer
-                Dim fitResults As New SortedList(Of String, String)
+                Dim fitResults As New List(Of String)
                 For Each sFit As String In Fittings.FittingList.Keys
                     If sFit.ToLower.Contains(strSearch) Then
                         fittingSep = sFit.IndexOf(", ", StringComparison.Ordinal)
@@ -698,7 +698,7 @@ Namespace Forms
                             isFlyable = True
                         End If
                         If isFlyable = True Then
-                            fitResults.Add(sFit, sFit)
+                            fitResults.Add(sFit)
                         End If
                     End If
                 Next
@@ -712,7 +712,7 @@ Namespace Forms
                 Next
                 tvwFittings.BeginUpdate()
                 tvwFittings.Nodes.Clear()
-                For Each item As String In fitResults.Values
+                For Each item As String In fitResults
                     fittingSep = item.IndexOf(", ", StringComparison.Ordinal)
                     shipName = item.Substring(0, fittingSep)
                     fittingName = item.Substring(fittingSep + 2)
@@ -748,10 +748,10 @@ Namespace Forms
                 Dim strSearch As String = txtShipSearch.Text.Trim.ToLower
 
                 ' Redraw the fitting tree
-                Dim fitResults As New SortedList(Of String, String)
+                Dim fitResults As New List(Of String)
                 For Each sFit As String In Fittings.FittingList.Keys
                     If sFit.ToLower.Contains(strSearch) Then
-                        fitResults.Add(sFit, sFit)
+                        fitResults.Add(sFit)
                     End If
                 Next
                 ' Get Current List of "open" nodes
@@ -766,7 +766,7 @@ Namespace Forms
                 Dim shipName As String
                 Dim fittingName As String
                 Dim fittingSep As Integer
-                For Each item As String In fitResults.Values
+                For Each item As String In fitResults
                     fittingSep = item.IndexOf(", ", StringComparison.Ordinal)
                     shipName = item.Substring(0, fittingSep)
                     fittingName = item.Substring(fittingSep + 2)
@@ -1032,13 +1032,13 @@ Namespace Forms
             If Len(txtSearchModules.Text) > 2 Then
                 Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
                 Dim results As New SortedList(Of Integer, ShipModule)
-                For Each item As String In ModuleLists.ModuleListName.Keys
-                    If item.ToLower.Contains(strSearch) Then
+                For Each item As KeyValuePair(Of String, Integer) In ModuleLists.ModuleListName
+                    If item.Key.ToLower.Contains(strSearch) Then
                         ' Add results in by name, module
-                        sMod = ModuleLists.ModuleList(ModuleLists.ModuleListName(item))
+                        sMod = ModuleLists.ModuleList(item.Value)
                         If ActiveFitting IsNot Nothing Then
                             If chkApplySkills.Checked = True Then
-                                sMod = ModuleLists.ModuleList(ModuleLists.ModuleListName(item)).Clone
+                                sMod = ModuleLists.ModuleList(item.Value).Clone
                                 ActiveFitting.ApplySkillEffectsToModule(sMod, True)
                             End If
                         End If
@@ -1195,14 +1195,14 @@ Namespace Forms
 
 
             For Each shipmod As ShipModule In _lastModuleResults.Values
-                If shipmod.SlotType <> 0 Or (shipmod.SlotType = 0 And (shipmod.IsBooster Or shipmod.IsCharge Or shipmod.IsDrone)) Then
+                If shipmod.SlotType <> 0 Or (shipmod.SlotType = 0 And (shipmod.IsBooster Or shipmod.IsCharge Or shipmod.IsDrone Or shipmod.DatabaseCategory = 22)) Then
                     If (shipmod.MetaType And PluginSettings.HQFSettings.ModuleFilter) = shipmod.MetaType Then
                         Dim newModule As New Node
                         newModule.Name = CStr(shipmod.ID)
                         newModule.Text = shipmod.Name
                         newModule.Cells.Add(New Cell(shipmod.MetaLevel.ToString))
-                        newModule.Cells.Add(New Cell(shipmod.CPU.ToString))
-                        newModule.Cells.Add(New Cell(shipmod.PG.ToString))
+                        newModule.Cells.Add(New Cell(shipmod.Cpu.ToString))
+                        newModule.Cells.Add(New Cell(shipmod.Pg.ToString))
                         ' newModule.Cells.Add(New Cell(CStr(costTable(shipmod.ID))))
                         newModule.Cells.Add(New Cell("Processing...")) 'Place holder for the price data that will update afterward.
                         newModule.Cells(4).TextDisplayFormat = "N2"
@@ -1221,7 +1221,7 @@ Namespace Forms
                             stt.BodyText &= "Slot Modifiers - High: " & shipmod.Attributes(1374) & ", Mid: " & shipmod.Attributes(1375) & ", Low: " & shipmod.Attributes(1376) & ControlChars.CrLf & ControlChars.CrLf
                             stt.FooterText = "Subsystem Module Information"
                         Else
-                            stt.FooterText = " Meta: " & shipmod.MetaLevel.ToString("N0") & ", CPU: " & shipmod.CPU.ToString("N0") & ", PG: " & shipmod.PG.ToString("N0")
+                            stt.FooterText = " Meta: " & shipmod.MetaLevel.ToString("N0") & ", CPU: " & shipmod.Cpu.ToString("N0") & ", PG: " & shipmod.Pg.ToString("N0")
                         End If
                         stt.BodyText &= shipmod.Description
                         stt.Color = eTooltipColor.Yellow
@@ -1304,7 +1304,7 @@ Namespace Forms
 
 #Region "Module List Routines"
 
-        Private Sub tvwModules_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles tvwModules.ColumnHeaderMouseUp
+        Private Sub tvwModules_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles tvwModules.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             PluginSettings.HQFSettings.SortedModuleListInfo = AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -1323,7 +1323,7 @@ Namespace Forms
                             Call ActiveFitting.AddDrone(shipMod, 1, False, False)
                         Else
                             ' Check if module is a charge
-                            If shipMod.IsCharge = True Or shipMod.IsContainer Then
+                            If shipMod.IsCharge = True Or shipMod.IsContainer Or shipMod.DatabaseCategory = 22 Then
                                 ActiveFitting.AddItem(shipMod, 1, False)
                             Else
                                 ' Must be a proper module then!
@@ -1337,27 +1337,27 @@ Namespace Forms
             End If
         End Sub
         Private Sub UpdateMruModules(ByVal modName As String)
-            If PluginSettings.HQFSettings.MRUModules.Count < PluginSettings.HQFSettings.MRULimit Then
+            If PluginSettings.HQFSettings.MruModules.Count < PluginSettings.HQFSettings.MruLimit Then
                 ' If the MRU list isn't full
-                If PluginSettings.HQFSettings.MRUModules.Contains(modName) = False Then
+                If PluginSettings.HQFSettings.MruModules.Contains(modName) = False Then
                     ' If the module isn't already in the list
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 Else
                     ' If it is in the list, remove it and add it at the end
-                    PluginSettings.HQFSettings.MRUModules.Remove(modName)
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.Remove(modName)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 End If
             Else
-                If PluginSettings.HQFSettings.MRUModules.Contains(modName) = False Then
-                    For m As Integer = 0 To PluginSettings.HQFSettings.MRULimit - 2
-                        PluginSettings.HQFSettings.MRUModules(m) = PluginSettings.HQFSettings.MRUModules(m + 1)
+                If PluginSettings.HQFSettings.MruModules.Contains(modName) = False Then
+                    For m As Integer = 0 To PluginSettings.HQFSettings.MruLimit - 2
+                        PluginSettings.HQFSettings.MruModules(m) = PluginSettings.HQFSettings.MruModules(m + 1)
                     Next
-                    PluginSettings.HQFSettings.MRUModules.RemoveAt(PluginSettings.HQFSettings.MRULimit - 1)
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.RemoveAt(PluginSettings.HQFSettings.MruLimit - 1)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 Else
                     ' If it is in the list, remove it and add it at the end
-                    PluginSettings.HQFSettings.MRUModules.Remove(modName)
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.Remove(modName)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 End If
             End If
         End Sub
@@ -2285,8 +2285,8 @@ Namespace Forms
                 Dim sy As Integer = xy.Y
                 Dim fittingImage As Bitmap = ScreenGrab.GrabScreen(New Rectangle(sx, sy, tabHQF.Width, tabHQF.Height))
                 Clipboard.SetDataObject(fittingImage)
-                Const rgPattern As String = "[\\\/:\*\?""'<>|]"
-                Dim objRegEx As New Regex(rgPattern)
+                Const RgPattern As String = "[\\\/:\*\?""'<>|]"
+                Dim objRegEx As New Regex(RgPattern)
                 Dim fittingName As String = objRegEx.Replace(ActiveFitting.KeyName, "_")
                 Dim filename As String = "HQF_" & fittingName & "_" & Format(Now, "yyyy-MM-dd-HH-mm-ss") & ".png"
                 fittingImage.Save(Path.Combine(HQ.ReportFolder, filename), ImageFormat.Png)
@@ -2297,8 +2297,8 @@ Namespace Forms
 
         Private Sub btnExportEve_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportEve.Click
             If ActiveFitting Is Nothing Then
-                Const msg As String = "Please make sure you have a fit open and active before exporting to Eve."
-                MessageBox.Show(msg, "Open Fitting Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Const Msg As String = "Please make sure you have a fit open and active before exporting to Eve."
+                MessageBox.Show(Msg, "Open Fitting Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 Call ExportMainFittingToEve()
             End If
@@ -2862,14 +2862,14 @@ Namespace Forms
                                 If testMod.IsDrone = True Then
                                     newFit.Add(modName & ", " & quantity)
                                 Else
-                                    ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
-                                    For modCount As Integer = 1 To CInt(quantity)
-                                        If chargeName <> "" Then
-                                            newFit.Add(modName & ", " & chargeName)
-                                        Else
-                                            newFit.Add(modName)
-                                        End If
-                                    Next
+                                    If CInt(quantity) > 1 Then
+                                        modName = modName & " x" & quantity
+                                    End If
+                                    If chargeName <> "" Then
+                                        newFit.Add(modName & ", " & chargeName)
+                                    Else
+                                        newFit.Add(modName)
+                                    End If
                                 End If
                             End If
                         End If
@@ -2888,10 +2888,11 @@ Namespace Forms
                                     If testMod.IsDrone = True Then
                                         newFit.Add(modName & ", " & quantity)
                                     Else
-                                        ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
-                                        For modCount As Integer = 1 To CInt(quantity)
-                                            newFit.Add(modName)
-                                        Next
+                                        If CInt(quantity) > 1 Then
+                                            modName = modName & " x" & quantity
+                                        End If
+                                        newFit.Add(modName)
+
                                     End If
                                 End If
                             Else

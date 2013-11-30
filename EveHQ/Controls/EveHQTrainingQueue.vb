@@ -20,6 +20,7 @@
 Imports DevComponents.AdvTree
 Imports EveHQ.Forms
 Imports DevComponents.DotNetBar
+Imports System.Text
 
 Namespace Controls
 
@@ -34,6 +35,7 @@ Namespace Controls
         Dim _queueName As String
         Dim _queue As Core.EveHQSkillQueue
         Dim _storedQueue As Core.EveHQSkillQueue = Nothing
+        Dim _nodeImage As Image = My.Resources.SkillBook16
 
         ReadOnly _startup As Boolean
 
@@ -143,57 +145,58 @@ Namespace Controls
             ch.SortingEnabled = False
             ch.Name = "Name" : ch.Width.Absolute = 180
             adtQueue.Columns.Add(ch)
-
+          
             ' Add subitems based on the user selected columns
             Dim colName As String
             For Each col As String In Core.HQ.Settings.UserQueueColumns
                 If col.EndsWith("1", StringComparison.Ordinal) = True Then
                     colName = col.Substring(0, col.Length - 1)
                     ' Define a new column header
-                    Dim ach As New ColumnHeader
-                    ach.SortingEnabled = False
-                    ach.Name = colName : ach.Width.Absolute = 100
-                    Select Case colName
-                        Case "Current"
-                            ach.Text = "Cur Lvl" : ach.Width.Absolute = 60
-                        Case "From"
-                            ach.Text = "From Lvl" : ach.Width.Absolute = 60
-                        Case "To"
-                            ach.Text = "To Lvl" : ach.Width.Absolute = 60
-                        Case "Percent"
-                            ach.Text = "%" : ach.Width.Absolute = 30
-                        Case "TrainTime"
-                            ach.Text = "Training Time" : ach.Width.Absolute = 125
-                        Case "TimeToComplete"
-                            ach.Text = "Time to Complete" : ach.Width.Absolute = 125
-                        Case "DateEnded"
-                            ach.Text = "Date Completed" : ach.Width.Absolute = 150
-                        Case "Rank"
-                            ach.Text = "Rank" : ach.Width.Absolute = 50
-                        Case "PAtt"
-                            ach.Text = "Pri Att" : ach.Width.Absolute = 80
-                        Case "SAtt"
-                            ach.Text = "Sec Att" : ach.Width.Absolute = 80
-                        Case "SPHour"
-                            ach.Text = "SP /hour" : ach.Width.Absolute = 80
-                        Case "SPDay"
-                            ach.Text = "SP /day" : ach.Width.Absolute = 80
-                        Case "SPWeek"
-                            ach.Text = "SP /week" : ach.Width.Absolute = 80
-                        Case "SPMonth"
-                            ach.Text = "SP /mnth" : ach.Width.Absolute = 80
-                        Case "SPYear"
-                            ach.Text = "SP /year" : ach.Width.Absolute = 80
-                        Case "SPAdded"
-                            ach.Text = "SP Added" : ach.Width.Absolute = 100
-                        Case "SPTotal"
-                            ach.Text = "SP @ End" : ach.Width.Absolute = 100
-                        Case "Notes"
-                            ach.Text = "Notes" : ach.Width.Absolute = 200
-                        Case "Priority"
-                            ach.Text = "Priority" : ach.Width.Absolute = 50
-                    End Select
-                    adtQueue.Columns.Add(ach)
+                    Using ach As New ColumnHeader
+                        ach.SortingEnabled = False
+                        ach.Name = colName : ach.Width.Absolute = 100
+                        Select Case colName
+                            Case "Current"
+                                ach.Text = "Cur Lvl" : ach.Width.Absolute = 60
+                            Case "From"
+                                ach.Text = "From Lvl" : ach.Width.Absolute = 60
+                            Case "To"
+                                ach.Text = "To Lvl" : ach.Width.Absolute = 60
+                            Case "Percent"
+                                ach.Text = "%" : ach.Width.Absolute = 30
+                            Case "TrainTime"
+                                ach.Text = "Training Time" : ach.Width.Absolute = 125
+                            Case "TimeToComplete"
+                                ach.Text = "Time to Complete" : ach.Width.Absolute = 125
+                            Case "DateEnded"
+                                ach.Text = "Date Completed" : ach.Width.Absolute = 150
+                            Case "Rank"
+                                ach.Text = "Rank" : ach.Width.Absolute = 50
+                            Case "PAtt"
+                                ach.Text = "Pri Att" : ach.Width.Absolute = 80
+                            Case "SAtt"
+                                ach.Text = "Sec Att" : ach.Width.Absolute = 80
+                            Case "SPHour"
+                                ach.Text = "SP /hour" : ach.Width.Absolute = 80
+                            Case "SPDay"
+                                ach.Text = "SP /day" : ach.Width.Absolute = 80
+                            Case "SPWeek"
+                                ach.Text = "SP /week" : ach.Width.Absolute = 80
+                            Case "SPMonth"
+                                ach.Text = "SP /mnth" : ach.Width.Absolute = 80
+                            Case "SPYear"
+                                ach.Text = "SP /year" : ach.Width.Absolute = 80
+                            Case "SPAdded"
+                                ach.Text = "SP Added" : ach.Width.Absolute = 100
+                            Case "SPTotal"
+                                ach.Text = "SP @ End" : ach.Width.Absolute = 100
+                            Case "Notes"
+                                ach.Text = "Notes" : ach.Width.Absolute = 200
+                            Case "Priority"
+                                ach.Text = "Priority" : ach.Width.Absolute = 50
+                        End Select
+                        adtQueue.Columns.Add(ach)
+                    End Using
                 End If
             Next
         End Sub
@@ -202,7 +205,7 @@ Namespace Controls
 
             If _queuePilot.PilotSkills.Count <> 0 Then
 
-                ' Define node background colours
+               ' Define node background colours
                 Dim styleCurrentTraining As ElementStyle = adtQueue.Styles(0).Copy
                 Dim styleIsPreReq As ElementStyle = adtQueue.Styles(0).Copy
                 Dim styleHasPreReq As ElementStyle = adtQueue.Styles(0).Copy
@@ -231,9 +234,10 @@ Namespace Controls
                 'End If
 
                 ' Set the queue up for redrawing
-                adtQueue.SuspendLayout()
                 adtQueue.BeginUpdate()
                 adtQueue.Nodes.Clear()
+
+                adtQueue.CellHorizontalSpacing = 1
 
                 ' Call the main procedure
                 Dim aq As Core.EveHQSkillQueue = _queuePilot.TrainingQueues(_queueName)
@@ -254,48 +258,79 @@ Namespace Controls
 
                 If sortedQueue IsNot Nothing Then
                     For Each qItem In sortedQueue
-                        Dim newskill As New Node
-                        newskill.Name = qItem.Key
-                        newskill.Image = My.Resources.SkillBook16
-                        If qItem.Done = False Or (qItem.Done = True And _queue.ShowCompletedSkills = True) Then
-                            newskill.Visible = True
-                        Else
-                            newskill.Visible = False
-                        End If
-                        If qItem.Done = True Then newskill.Style = adtQueue.Styles("SkillCompleted")
-                        If qItem.IsPrereq = True Then
-                            If qItem.HasPrereq = True Then
-                                newskill.Tooltip &= qItem.Prereq & ControlChars.CrLf & qItem.Reqs
-                                newskill.Style = styleBothPreReq
+                        Using newskill As New Node
+                            newskill.Name = qItem.Key
+                            Try
+                                newskill.Image = _nodeImage
+                            Catch e As Exception
+                                'TODO: Not sure why this fails, possibly some delay in fetching the image from resources?
+                            End Try
+
+                            ' Do some additional calcs
+                            totalSP += CLng(qItem.SPTrained)
+                            totalTime += CLng(qItem.TrainTime)
+                            newskill.Text = qItem.Name
+                            newskill.Tag = qItem.ID
+                            Call AddUserColumns(newskill, qItem, totalSP)
+
+                            If qItem.Done = False Or (qItem.Done = True And _queue.ShowCompletedSkills = True) Then
+                                newskill.Visible = True
                             Else
-                                newskill.Tooltip = qItem.Prereq
-                                newskill.Style = styleIsPreReq
+                                newskill.Visible = False
                             End If
-                        Else
-                            If qItem.HasPrereq = True Then
-                                newskill.Tooltip = qItem.Reqs
-                                newskill.Style = styleHasPreReq
-                            Else
-                                If qItem.PartTrained = True Then
-                                    newskill.Style = stylePartialTraining
+                            If qItem.Done = True Then
+                                'newskill.Style = adtQueue.Styles("SkillCompleted")
+                                For Each c As Cell In newskill.Cells
+                                    c.StyleNormal = adtQueue.Styles("SkillCompleted")
+                                Next
+                            End If
+                            If qItem.IsPrereq = True Then
+                                If qItem.HasPrereq = True Then
+                                    newskill.Tooltip &= qItem.Prereq & ControlChars.CrLf & qItem.Reqs
+                                    'newskill.Style = styleBothPreReq
+                                    For Each c As Cell In newskill.Cells
+                                        c.StyleNormal = styleBothPreReq
+                                    Next
                                 Else
-                                    newskill.Style = styleReadySkill
+                                    newskill.Tooltip = qItem.Prereq
+                                    'newskill.Style = styleIsPreReq
+                                    For Each c As Cell In newskill.Cells
+                                        c.StyleNormal = styleIsPreReq
+                                    Next
+                                End If
+                            Else
+                                If qItem.HasPrereq = True Then
+                                    newskill.Tooltip = qItem.Reqs
+                                    'newskill.Style = styleHasPreReq
+                                    For Each c As Cell In newskill.Cells
+                                        c.StyleNormal = styleHasPreReq
+                                    Next
+                                Else
+                                    If qItem.PartTrained = True Then
+                                        'newskill.Style = stylePartialTraining
+                                        For Each c As Cell In newskill.Cells
+                                            c.StyleNormal = stylePartialTraining
+                                        Next
+                                    Else
+                                        'newskill.Style = styleReadySkill
+                                        For Each c As Cell In newskill.Cells
+                                            c.StyleNormal = styleReadySkill
+                                        Next
+                                    End If
                                 End If
                             End If
-                        End If
-                        If qItem.IsTraining = True Then
-                            newskill.DragDropEnabled = False
-                            newskill.Style = styleCurrentTraining
-                            ' Set a flag in the listview of the listviewitem name for later checking
-                            adtQueue.Tag = newskill.Name
-                        End If
-                        ' Do some additional calcs
-                        totalSP += CLng(qItem.SPTrained)
-                        totalTime += CLng(qItem.TrainTime)
-                        newskill.Text = qItem.Name
-                        newskill.Tag = qItem.ID
-                        Call AddUserColumns(newskill, qItem, totalSP)
-                        adtQueue.Nodes.Add(newskill)
+                            If qItem.IsTraining = True Then
+                                newskill.DragDropEnabled = False
+                                'newskill.Style = styleCurrentTraining
+                                For Each c As Cell In newskill.Cells
+                                    c.StyleNormal = styleCurrentTraining
+                                Next
+                                ' Set a flag in the tree of the skill name for later checking
+                                adtQueue.Tag = newskill.Name
+                            End If
+
+                            adtQueue.Nodes.Add(newskill)
+                        End Using
                     Next
                 End If
 
@@ -313,9 +348,7 @@ Namespace Controls
                 'Next
 
                 ' Tidy up afterwards
-                adtQueue.RecalcLayout()
                 adtQueue.EndUpdate()
-                adtQueue.ResumeLayout()
 
                 ' Restore the first visible item
                 'If FVI >= 0 And lvwQueue.Items.Count > 0 And FVI < lvwQueue.Items.Count Then
@@ -532,8 +565,24 @@ Namespace Controls
 
         Public Sub RedrawMenuOptions()
             ' Determines what buttons and menus are available from the listview!
-            ' Check the queue status
+            ' Check the clipboard status
+            Dim skillList As List(Of Core.EveHQSkillQueueItem) = ClipboardData()
+            mnuPasteSkills.DropDownItems.Clear()
+            If skillList Is Nothing Then
+                mnuPasteSkills.Enabled = False
+            Else
+                For Each skill As Core.EveHQSkillQueueItem In skillList
+                    Dim subMenu As New ToolStripMenuItem(skill.Name & " (" & skill.FromLevel.ToString & " -> " & skill.ToLevel.ToString & ")", Nothing, AddressOf PasteSkill)
+                    subMenu.Tag = skill
+                    mnuPasteSkills.DropDownItems.Add(subMenu)
+                Next
+                mnuPasteSkills.Enabled = True
+            End If
             If adtQueue.SelectedNodes.Count <> 0 Then
+                ' This is for zero nodes selected - we want just paste!
+                For Each subMenu As ToolStripItem In ctxQueue.Items
+                    subMenu.Visible = True
+                Next
                 Select Case adtQueue.SelectedNodes.Count
                     Case 1
                         Dim skillKey As String = adtQueue.SelectedNodes(0).Name
@@ -638,41 +687,51 @@ Namespace Controls
                         mnuSeparateTopLevel.Enabled = False
                         mnuSeperateLevelSep.Visible = True
                 End Select
+            Else
+                ' This is for zero nodes selected - we want just paste!
+                For Each subMenu As ToolStripItem In ctxQueue.Items
+                    subMenu.Visible = False
+                Next
+                mnuPasteSkills.Visible = True
             End If
         End Sub
 
         Private Sub ctxQueue_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxQueue.Opening
-            ' Cancel the menu opening if there are no skills selected
+            ' Cancel the menu opening if there are no skills selected and we might not want to paste
             If adtQueue.SelectedNodes.Count = 0 Then
-                e.Cancel = True
-                Exit Sub
-            End If
-            Call RedrawMenuOptions()
-            ' Determine enabled menu items of adding to queue
-            Dim keyName As String = adtQueue.SelectedNodes(0).Name
-            Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
-            Dim skillName As String = mnuSkillName.Text
-            Dim currentLevel As Integer = 0
-            If _queuePilot.PilotSkills.ContainsKey(skillName) = True Then
-                Dim cSkill As Core.EveHQPilotSkill = _queuePilot.PilotSkills(skillName)
-                currentLevel = cSkill.Level
-            End If
-            For a As Integer = 1 To 5
-                If a <= CInt(fromLevel) Then
-                    mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = False
-                Else
-                    mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = True
+                ' Check for pasting
+                If ClipboardData() Is Nothing Then
+                    e.Cancel = True
+                    Exit Sub
                 End If
-            Next
-            If currentLevel = 4 Then
-                mnuChangeLevel.Enabled = False
             Else
-                mnuChangeLevel.Enabled = True
-            End If
-            If _queue.Queue.ContainsKey(keyName) = False Then
-                mnuEditNote.Enabled = False
-            Else
-                mnuEditNote.Enabled = True
+                Call RedrawMenuOptions()
+                ' Determine enabled menu items of adding to queue
+                Dim keyName As String = adtQueue.SelectedNodes(0).Name
+                Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+                Dim skillName As String = mnuSkillName.Text
+                Dim currentLevel As Integer = 0
+                If _queuePilot.PilotSkills.ContainsKey(skillName) = True Then
+                    Dim cSkill As Core.EveHQPilotSkill = _queuePilot.PilotSkills(skillName)
+                    currentLevel = cSkill.Level
+                End If
+                For a As Integer = 1 To 5
+                    If a <= CInt(fromLevel) Then
+                        mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = False
+                    Else
+                        mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = True
+                    End If
+                Next
+                If currentLevel = 4 Then
+                    mnuChangeLevel.Enabled = False
+                Else
+                    mnuChangeLevel.Enabled = True
+                End If
+                If _queue.Queue.ContainsKey(keyName) = False Then
+                    mnuEditNote.Enabled = False
+                Else
+                    mnuEditNote.Enabled = True
+                End If
             End If
         End Sub
 
@@ -788,6 +847,48 @@ Namespace Controls
         Private Sub mnuSplitQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuSplitQueue.Click
             Call SplitQueue()
             DrawQueue(False)
+        End Sub
+        Private Sub mnuCopySkills_Click(sender As Object, e As EventArgs) Handles mnuCopySkills.Click
+            ' Create a custom string to place on the clipboard for copying
+            If adtQueue IsNot Nothing Then
+                If adtQueue.SelectedNodes.Count > 0 Then
+                    ' Add skills to a string
+                    Dim copySkills As New StringBuilder("EveHQSkills")
+                    For Each lvi As Node In adtQueue.SelectedNodes
+                        copySkills.Append(":" & lvi.Name)
+                    Next
+                    ' Copy string to the clipboard
+                    Try
+                        Clipboard.SetText(copySkills.ToString)
+                    Catch ex As Exception
+                        ' Inform the user of an error!
+                        MessageBox.Show("There was an error copying the skills to the clipboard. The error was: " & ex.Message)
+                    End Try
+                End If
+            End If
+        End Sub
+        Private Sub mnuPasteSkills_Click(sender As Object, e As EventArgs) Handles mnuPasteSkills.Click
+            ' Check if the clipboard data is actually relevant for use
+            Dim skillList As List(Of Core.EveHQSkillQueueItem) = ClipboardData()
+            If skillList IsNot Nothing Then
+                For Each skill As Core.EveHQSkillQueueItem In skillList
+                    _queue = Core.SkillQueueFunctions.AddSkillToQueue(_queuePilot, skill.Name, _queue.Queue.Count + 1, _queue, skill.ToLevel, False, False, "")
+                Next
+            End If
+            ' Force closing the menu as we may be clicking the parent (which would normally just expand it)
+            ctxQueue.Close()
+            Call DrawQueue(False)
+        End Sub
+        Public Sub PasteSkill(ByVal sender As Object, ByVal e As EventArgs)
+            ' Get the skill from the menu tag
+            Try
+                Dim menu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+                Dim skill As Core.EveHQSkillQueueItem = CType(menu.Tag, Core.EveHQSkillQueueItem)
+                _queue = Core.SkillQueueFunctions.AddSkillToQueue(_queuePilot, skill.Name, _queue.Queue.Count + 1, _queue, skill.ToLevel, False, False, "")
+                DrawQueue(False)
+            Catch ex As Exception
+                ' Oops, something bad happened with the tagging!
+            End Try
         End Sub
         Private Sub mnuEditNote_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuEditNote.Click
             ' Try to get the keys of the skill(s) we are changing
@@ -950,7 +1051,7 @@ Namespace Controls
                 If adtQueue.SelectedNodes.Count > 0 Then
                     ' Build a new queue
                     Dim selQueue As New Core.EveHQSkillQueue
-                    For Each lvi As ListViewItem In adtQueue.SelectedNodes
+                    For Each lvi As Node In adtQueue.SelectedNodes
                         Dim keyName As String = lvi.Name
                         Dim splitSkillQueueItem As Core.EveHQSkillQueueItem = CType(_queue.Queue(keyName).Clone, Core.EveHQSkillQueueItem)
                         selQueue.Queue.Add(keyName, splitSkillQueueItem)
@@ -969,6 +1070,62 @@ Namespace Controls
             End If
 
         End Sub
+
+        Public Function ClipboardData() As List(Of Core.EveHQSkillQueueItem)
+            Dim skillText As String
+            Try
+                skillText = Clipboard.GetText()
+            Catch ex As Exception
+                ' Unlikely to be valid data, so exit as not valid
+                Return Nothing
+            End Try
+            If skillText.StartsWith("EveHQSkills:", StringComparison.Ordinal) Then
+                Dim skillList As New List(Of Core.EveHQSkillQueueItem)
+                ' Could potentially be valid, so let's parse it and find out
+                Dim keyList As List(Of String) = skillText.Split(":".ToCharArray).ToList
+                ' We can safely remove the first item
+                keyList.RemoveAt(0)
+                ' Check each entry has a valid skill name and skill level
+                For Each keyName As String In keyList
+                    Try
+                        Dim skillName As String = CStr(keyName.Substring(0, keyName.Length - 2))
+                        Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+                        Dim toLevel As Integer = CInt(keyName.Substring(keyName.Length - 1, 1))
+                        ' Check valid skill name
+                        If Core.HQ.SkillListName.ContainsKey(skillName) = True Then
+                            ' Check valid "from" level
+                            If fromLevel >= 0 And fromLevel < 5 Then
+                                ' Check valid "to" level
+                                If toLevel > 0 And toLevel <= 5 And toLevel > fromLevel Then
+                                    ' Add this skill to the list to return if there are no errors
+                                    Dim skill As New Core.EveHQSkillQueueItem
+                                    skill.Name = skillName
+                                    skill.FromLevel = fromLevel
+                                    skill.ToLevel = toLevel
+                                    skillList.Add(skill)
+                                Else
+                                    ' "to" level failed the test
+                                    Return Nothing
+                                End If
+                            Else
+                                ' "from" level failed the test
+                                Return Nothing
+                            End If
+                        Else
+                            ' Skill name failed the test
+                            Return Nothing
+                        End If
+                    Catch e As Exception
+                        ' Failed on invalid length or integer conversion, therefore not valid
+                        Return Nothing
+                    End Try
+                Next
+                ' All seem to be valid!
+                Return skillList
+            Else
+                Return Nothing
+            End If
+        End Function
 
         Public Sub IncreaseLevel()
 
@@ -1149,6 +1306,7 @@ Namespace Controls
         End Sub
 
 #End Region
+
 
     End Class
 End Namespace

@@ -600,7 +600,7 @@ Namespace Controls
                                     CreateNodeCells(locNode)
                                     Dim addLocation As Boolean = True
                                     Dim stationLocation As String
-                                    Const corpHangarName As String = "n/a"
+                                    Const CorpHangarName As String = "n/a"
                                     For Each testNode As Node In adtAssets.Nodes
                                         If testNode.Tag.ToString() = assetItem.LocationId.ToInvariantString() Then
                                             locNode = testNode
@@ -781,7 +781,7 @@ Namespace Controls
                                     ' Add the asset to the list of assets
                                     Dim newAssetList As New Classes.AssetItem
                                     newAssetList.ItemID = CLng(newAsset.Tag)
-                                    newAssetList.CorpHangar = corpHangarName
+                                    newAssetList.CorpHangar = CorpHangarName
                                     newAssetList.Station = stationLocation
                                     newAssetList.System = locNode.Text
                                     newAssetList.TypeID = itemID
@@ -891,7 +891,7 @@ Namespace Controls
             Dim containerPrice As Double
             Dim assetIsInHanger As Boolean
             Dim hangarPrice As Double
-            Const linePrice As Double = 0
+            Const LinePrice As Double = 0
             subAssets = assetItem.Contents
             If IsNumeric(parentAsset.Cells(_assetColumn("AssetPrice")).Text) = True Then
                 containerPrice = CDbl(parentAsset.Cells(_assetColumn("AssetPrice")).Text)
@@ -1038,7 +1038,6 @@ Namespace Controls
 
                     If subAssetItem.Contents IsNot Nothing Then
                         If subAssetItem.Contents.Any() Then
-                            containerPrice -= linePrice
                             containerPrice += PopulateAssetNode(subAsset, subAssetItem, assetOwner, assetLocation, owner, eveLocation, stationLocation, corpHangarName)
                         End If
 
@@ -1450,9 +1449,9 @@ Namespace Controls
                                 rNode.Cells(_assetColumn("AssetOwner")).Text = owner
                                 rNode.Cells(_assetColumn("AssetGroup")).Text = group
                                 rNode.Cells(_assetColumn("AssetCategory")).Text = category
-                                If StaticData.Stations.ContainsKey(job.OutputLocationID) = True Then
-                                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(job.OutputLocationID).StationName
-                                    eveLocation = StaticData.SolarSystems(StaticData.Stations(job.OutputLocationID).SystemId)
+                                If job.OutputLocationID <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.OutputLocationID)) Then
+                                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(CInt(job.OutputLocationID)).StationName
+                                    eveLocation = StaticData.SolarSystems(StaticData.Stations(CInt(job.OutputLocationID)).SystemId)
                                 Else
                                     rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                                     eveLocation = StaticData.SolarSystems(job.InstalledInSolarSystemID)
@@ -1521,9 +1520,9 @@ Namespace Controls
                 rNode.Cells(_assetColumn("AssetOwner")).Text = owner
                 rNode.Cells(_assetColumn("AssetGroup")).Text = group
                 rNode.Cells(_assetColumn("AssetCategory")).Text = category
-                If StaticData.Stations.ContainsKey(job.OutputLocationID) = True Then
-                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(job.OutputLocationID).StationName
-                    eveLocation = StaticData.SolarSystems(StaticData.Stations(job.OutputLocationID).SystemId)
+                If job.OutputLocationID <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.OutputLocationID)) Then
+                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(CInt(job.OutputLocationID)).StationName
+                    eveLocation = StaticData.SolarSystems(StaticData.Stations(CInt(job.OutputLocationID)).SystemId)
                 Else
                     rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                     eveLocation = StaticData.SolarSystems(job.InstalledInSolarSystemID)
@@ -2038,7 +2037,7 @@ Namespace Controls
                 adtAssets.SelectedNodes(0).Text = itemName
             End If
         End Sub
-        Private Sub adtAssets_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtAssets.ColumnHeaderMouseUp
+        Private Sub adtAssets_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtAssets.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -2301,8 +2300,10 @@ Namespace Controls
 
                     End If
                 Else
-                    If Double.TryParse(cLoc.Cells(_assetColumn("AssetValue")).Text, locPrice) = True Then
-                        _totalAssetValue += locPrice
+                    If _assetColumn("AssetValue") < cLoc.Cells.Count Then
+                        If Double.TryParse(cLoc.Cells(_assetColumn("AssetValue")).Text, locPrice) = True Then
+                            _totalAssetValue += locPrice
+                        End If
                     End If
                 End If
             Next

@@ -261,8 +261,8 @@ Namespace Forms
         End Sub
 
         Private Sub DisplaySkills()
-            Const maxGroups As Integer = 21
-            Dim groupHeaders(maxGroups, 3) As String
+            Const MaxGroups As Integer = 21
+            Dim groupHeaders(MaxGroups, 3) As String
             groupHeaders(0, 0) = "Armor"
             groupHeaders(1, 0) = "Corporation Management"
             groupHeaders(2, 0) = "Drones"
@@ -341,7 +341,7 @@ Namespace Forms
 
             Dim groupStructure As New SortedList
             If chkGroupSkills.Checked = True Then
-                For group As Integer = 0 To maxGroups
+                For group As Integer = 0 To MaxGroups
                     Dim newSkillGroup As New Node("", skillGroupStyle)
                     newSkillGroup.FullRowBackground = True
                     For cell As Integer = 1 To 5
@@ -429,7 +429,7 @@ Namespace Forms
                     newClvItem.Cells(4).Tag = cSkill.SP
 
                     If chkGroupSkills.Checked = True Then
-                        For group As Integer = 0 To maxGroups
+                        For group As Integer = 0 To MaxGroups
                             If cSkill.GroupID = CInt(groupHeaders(group, 1)) Then
                                 'newLine.Group = lvSkills.Groups.Item(skillGroup)
                                 groupHeaders(group, 2) = CStr(CDbl(groupHeaders(group, 2)) + cSkill.SP)
@@ -516,18 +516,12 @@ Namespace Forms
 
             Dim cCert As Certificate
 
-            ' Filter out the lower end certificates
             Dim certList As New SortedList
-            For Each cCertID As Integer In _displayPilot.Certificates
+            For Each cCertID As Integer In _displayPilot.QualifiedCertificates.Keys
                 If StaticData.Certificates.ContainsKey(cCertID) Then
                     cCert = StaticData.Certificates(cCertID)
-                    If certList.Contains(cCert.ClassId) = False Then
-                        certList.Add(cCert.ClassId, cCert)
-                    Else
-                        Dim storedGrade As Integer = CType(certList(cCert.ClassId), Certificate).Grade
-                        If cCert.Grade > storedGrade Then
-                            certList(cCert.ClassId) = cCert
-                        End If
+                    If certList.Contains(cCert.Id) = False Then
+                        certList.Add(cCert.Id, cCert)
                     End If
                 End If
             Next
@@ -538,7 +532,7 @@ Namespace Forms
             certGroupStyle.BackColor2 = Color.Black
             certGroupStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotGroupTextColor))
             Dim normalCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-            normalCertStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotStandardSkillColor))
+            normalCertStyle.BackColor2 = Color.FromArgb(160, 160, 160)
             normalCertStyle.BackColor = Color.FromArgb(128, normalCertStyle.BackColor2)
             normalCertStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotSkillTextColor))
             Dim selCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
@@ -567,42 +561,33 @@ Namespace Forms
             End If
 
             'Set up items
-
-            For Each cCert In certList.Values
-                Dim certGroup As Node = CType(certGroups(cCert.CategoryId.ToString), Node)
-                Dim newCert As New Node("", normalCertStyle)
-                newCert.FullRowBackground = True
-                newCert.Text = StaticData.CertificateClasses(cCert.ClassId.ToString).Name
-                newCert.Tag = cCert.Id
-                If chkGroupSkills.Checked = True Then
-                    certGroup.Nodes.Add(newCert)
-                    certGroup.Tag = CInt(certGroup.Tag) + 1
-                Else
-                    adtCerts.Nodes.Add(newCert)
+            For Each cCertID As Integer In _displayPilot.QualifiedCertificates.Keys
+                If StaticData.Certificates.ContainsKey(cCertID) Then
+                    cCert = StaticData.Certificates(cCertID)
+                    Dim certGroup As Node = CType(certGroups(cCert.GroupId.ToString), Node)
+                    Dim newCert As New Node("", normalCertStyle)
+                    newCert.FullRowBackground = True
+                    newCert.Text = cCert.Name
+                    newCert.Tag = cCert.Id
+                    If chkGroupSkills.Checked = True Then
+                        certGroup.Nodes.Add(newCert)
+                        certGroup.Tag = CInt(certGroup.Tag) + 1
+                    Else
+                        adtCerts.Nodes.Add(newCert)
+                    End If
+                    newCert.StyleSelected = selCertStyle
+                    newCert.Cells.Add(New Cell)
+                    Dim certGrade As Integer = _displayPilot.QualifiedCertificates(cCertID)
+                    newCert.Cells(1).Tag = certGrade
+                    newCert.Image = New Bitmap(CType(My.Resources.ResourceManager.GetObject("Cert" & certGrade.ToString), Image), 32, 32)
+                    newCert.Cells(1).Text = CType(certGrade, CertificateGrade).ToString
                 End If
-                newCert.StyleSelected = selCertStyle
-                newCert.Cells.Add(New Cell)
-                newCert.Cells(1).Tag = cCert.Grade
-                newCert.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & cCert.Grade.ToString), Image)
-                Select Case cCert.Grade
-                    Case 1
-                        newCert.Cells(1).Text = "Basic"
-                    Case 2
-                        newCert.Cells(1).Text = "Standard"
-                    Case 3
-                        newCert.Cells(1).Text = "Improved"
-                    Case 4
-                        newCert.Cells(1).Text = "Advanced"
-                    Case 5
-                        newCert.Cells(1).Text = "Elite"
-                End Select
-
             Next
 
             ' Add certificate count and remove empty groups
             If chkGroupSkills.Checked = True Then
                 For Each certGroup As Node In adtCerts.Nodes
-                    certGroup.Text &= " (" & certGroup.Tag.ToString & " certificates)"
+                    certGroup.Text &= " [" & certGroup.Tag.ToString & " certificates]"
                 Next
                 Dim sg As Node
                 Dim sgNo As Integer = 0
@@ -987,7 +972,7 @@ Namespace Forms
                 End Using
             End If
         End Sub
-        Private Sub adtStandings_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtStandings.ColumnHeaderMouseUp
+        Private Sub adtStandings_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtStandings.ColumnHeaderMouseDown
             Dim ch As ColumnHeader = CType(sender, ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub

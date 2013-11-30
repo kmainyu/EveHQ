@@ -37,11 +37,11 @@ Public Class Capacitor
         Dim currentTime, nextTime As Double
         Dim rechargeRate As Double = baseShip.CapRecharge
         Dim capConstant As Double = (rechargeRate / 5.0)
-        Const maxTime As Double = 43200 ' 12 hour
+        Const MaxTime As Double = 43200 ' 12 hour
         Dim minCap As Double = capacitor
 
         ' Create a new instance of the cap results class
-        Dim shipCapResults As New CapSimResults(maxTime)
+        Dim shipCapResults As New CapSimResults(MaxTime)
 
         ' Populate the module list
         For Each slotMod As ShipModule In baseShip.SlotCollection
@@ -71,7 +71,7 @@ Public Class Capacitor
         Dim rate As Double = 0
         Dim cap As Double
         Dim oldCap As Double
-        While ((capacitor > 0.0) And (nextTime < maxTime))
+        While ((capacitor > 0.0) And (nextTime < MaxTime))
             oldCap = capacitor
             capacitor = (((1.0 + ((Math.Sqrt((capacitor / capacitorCapacity)) - 1.0) * Math.Exp(((currentTime - nextTime) / capConstant)))) ^ 2) * capacitorCapacity)
             If recordCapEvents = True Then
@@ -80,7 +80,7 @@ Public Class Capacitor
                 shipCapResults.Events.Add(New CapacitorEvent(nextTime, "Recharge", oldCap, -cap, rate))
             End If
             currentTime = nextTime
-            nextTime = maxTime
+            nextTime = MaxTime
             For Each cm As CapacitorModule In shipCapResults.Modules
                 If cm.IsActive = True Then
                     If cm.NextTime = currentTime Then
@@ -128,7 +128,7 @@ Public Class Capacitor
         Dim currentTime, nextTime As Double
         Dim rechargeRate As Double = baseShip.CapRecharge
         Dim capConstant As Double = (rechargeRate / 5.0)
-        Const maxTime As Double = 43200 ' 12 hour
+        Const MaxTime As Double = 43200 ' 12 hour
         Dim minCap As Double = capacitor
 
         ' Reset Data
@@ -142,7 +142,7 @@ Public Class Capacitor
         Dim rate As Double = 0
         Dim cap As Double
         Dim oldCap As Double
-        While ((capacitor > 0.0) And (nextTime < maxTime))
+        While ((capacitor > 0.0) And (nextTime < MaxTime))
             oldCap = capacitor
             capacitor = (((1.0 + ((Math.Sqrt((capacitor / capacitorCapacity)) - 1.0) * Math.Exp(((currentTime - nextTime) / capConstant)))) ^ 2) * capacitorCapacity)
             If recordCapEvents = True Then
@@ -151,7 +151,7 @@ Public Class Capacitor
                 shipCapResults.Events.Add(New CapacitorEvent(nextTime, "Recharge", oldCap, -cap, rate))
             End If
             currentTime = nextTime
-            nextTime = maxTime
+            nextTime = MaxTime
             For Each cm As CapacitorModule In shipCapResults.Modules
                 If cm.IsActive = True Then
                     If cm.NextTime = currentTime Then
@@ -196,11 +196,11 @@ Public Class Capacitor
         Dim currentTime, nextTime As Double
         Dim rechargeRate As Double = baseShip.CapRecharge
         Dim capConstant As Double = (rechargeRate / 5.0)
-        Const maxTime As Double = 43200 ' 12 hour
+        Const MaxTime As Double = 43200 ' 12 hour
         Dim minCap As Double = capacitor
 
         ' Create a new instance of the cap results class
-        Dim shipCapResults As New CapSimResults(maxTime)
+        Dim shipCapResults As New CapSimResults(MaxTime)
 
         ' Create a dummy module to trigger an event
         shipCapResults.Modules.Add(New CapacitorModule("Recharge Interval", SlotTypes.Low, 0, 1, True))
@@ -218,7 +218,7 @@ Public Class Capacitor
                 shipCapResults.Events.Add(New CapacitorEvent(nextTime, "Recharge", oldCap, -cap, rate))
             End If
             currentTime = nextTime
-            nextTime = maxTime
+            nextTime = MaxTime
             For Each cm As CapacitorModule In shipCapResults.Modules
                 If cm.NextTime = currentTime Then
                     cm.NextTime += cm.CycleTime

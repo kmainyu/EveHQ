@@ -62,20 +62,21 @@ Public Class EveMail
         HQ.NextAutoMailAPITime = Now.AddMinutes(30)
         Dim mails As New SortedList(Of String, EveMailMessage)
         Dim mailingListIDs As New SortedList(Of Long, String)
-        For Each mPilot As EveHQPilot In HQ.Settings.Pilots.Values
-            ' Stage 1: Download the latest EveMail API using the standard API method
-            If mPilot.Active = True Then
-                Dim accountName As String = mPilot.Account
-                If HQ.Settings.Accounts.ContainsKey(accountName) = True Then
-                    Dim mAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
-                    ' Add in the data for mailing lists
-                    RaiseEvent MailProgress("Processing Mailing Lists for " & mPilot.Name & "...")
-                    mailingListIDs = CustomDataFunctions.WriteMailingListIDsToDatabase(mPilot)
-                    ' Make a call to the API to fetch the EveMail
-                    RaiseEvent MailProgress("Fetching EveMails for " & mPilot.Name & "...")
+        Try
+            For Each mPilot As EveHQPilot In HQ.Settings.Pilots.Values
+                ' Stage 1: Download the latest EveMail API using the standard API method
+                If mPilot.Active = True Then
+                    Dim accountName As String = mPilot.Account
+                    If HQ.Settings.Accounts.ContainsKey(accountName) = True Then
+                        Dim mAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
+                        ' Add in the data for mailing lists
+                        RaiseEvent MailProgress("Processing Mailing Lists for " & mPilot.Name & "...")
+                        mailingListIDs = CustomDataFunctions.WriteMailingListIDsToDatabase(mPilot)
+                        ' Make a call to the API to fetch the EveMail
+                        RaiseEvent MailProgress("Fetching EveMails for " & mPilot.Name & "...")
                     Dim mailMessages As EveServiceResponse(Of IEnumerable(Of MailHeader)) = HQ.ApiProvider.Character.MailMessages(mAccount.UserID, mAccount.APIKey, Integer.Parse(mPilot.ID))
                     If mailMessages.ResultData IsNot Nothing Then
-                        ' Stage 2: Populate the class with our EveMails
+                            ' Stage 2: Populate the class with our EveMails
 
                         If mailMessages.ResultData.Any() Then
                             Dim mailIDs As New List(Of String)
@@ -130,10 +131,20 @@ Public Class EveMail
                         End If
                     End If
 
+                    End If
                 End If
-            End If
-        Next
-
+            Next
+        Catch ioe As InvalidOperationException
+            ' Catches situations where Settings.Pilots have been updated by the API
+            RaiseEvent MailProgress("Failed to retrieve mails due to character update...")
+            Dim msg As New StringBuilder
+            msg.AppendLine("There was an error updating the EveMail caused by updating the list of characters during the EveMail API downloads.")
+            msg.AppendLine()
+            msg.AppendLine("To ensure that all EveMails are correctly downloaded and processed, please download the EveMail again.")
+            MessageBox.Show(msg.ToString, "EveHQ Pilots Updated", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End Try
+        
         ' Stage 3: Check the messages which have already been posted
         RaiseEvent MailProgress("Checking for new EveMails for all characters...")
         Dim existingMails As New ArrayList
@@ -157,13 +168,13 @@ Public Class EveMail
         ' Stage 4: Post all new messages to the database
         RaiseEvent MailProgress("Posting new EveMails to the database...")
         Dim newMails As New ArrayList
-        Const strInsert As String = "INSERT INTO eveMail (messageKey, messageID, originatorID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail, messageBody) VALUES "
+        Const StrInsert As String = "INSERT INTO eveMail (messageKey, messageID, originatorID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail, messageBody) VALUES "
         For Each mailKey As String In mails.Keys
             Dim cMail As EveMailMessage = mails(mailKey)
             If existingMails.Contains(mailKey) = False Then
                 ' Add the message to the database
                 Dim uSQL As New StringBuilder
-                uSQL.Append(strInsert)
+                uSQL.Append(StrInsert)
                 uSQL.Append("(")
                 uSQL.Append("'" & cMail.MessageKey & "', ")
                 uSQL.Append(cMail.MessageID & ", ")
@@ -237,14 +248,15 @@ Public Class EveMail
         ' Add to the auto timer
         HQ.NextAutoMailAPITime = Now.AddMinutes(30)
         Dim notices As New SortedList(Of String, EveNotification)
-        For Each mPilot As EveHQPilot In HQ.Settings.Pilots.Values
-            ' Stage 1: Download the latest EveMail API using the standard API method
-            If mPilot.Active = True Then
-                Dim accountName As String = mPilot.Account
-                If HQ.Settings.Accounts.ContainsKey(accountName) = True Then
-                    Dim mAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
-                    ' Make a call to the API to fetch the EveMail
-                    RaiseEvent MailProgress("Fetching Eve Notifications for " & mPilot.Name & "...")
+        Try
+            For Each mPilot As EveHQPilot In HQ.Settings.Pilots.Values
+                ' Stage 1: Download the latest EveMail API using the standard API method
+                If mPilot.Active = True Then
+                    Dim accountName As String = mPilot.Account
+                    If HQ.Settings.Accounts.ContainsKey(accountName) = True Then
+                        Dim mAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
+                        ' Make a call to the API to fetch the EveMail
+                        RaiseEvent MailProgress("Fetching Eve Notifications for " & mPilot.Name & "...")
 
                     Dim notifications As EveServiceResponse(Of IEnumerable(Of Notification)) = HQ.ApiProvider.Character.Notifications(mAccount.UserID, mAccount.APIKey, Integer.Parse(mPilot.ID))
 
@@ -253,21 +265,21 @@ Public Class EveMail
                             If notifications.ResultData.Any() Then
                                 Dim notificationIds As New List(Of String)
                                 For Each notification As Notification In notifications.ResultData
-                                    Dim nMail As New EveNotification
-                                    nMail.OriginatorID = CLng(mPilot.ID)
+                                        Dim nMail As New EveNotification
+                                        nMail.OriginatorID = CLng(mPilot.ID)
                                     nMail.MessageID = notification.NotificationId
                                     nMail.SenderID = notification.SenderId
                                     nMail.MessageDate = notification.SentDate.DateTime
                                     nMail.TypeID = notification.TypeId
                                     nMail.ReadFlag = notification.IsRead
-                                    nMail.MessageKey = nMail.MessageID.ToString & "_" & nMail.OriginatorID.ToString
-                                    If notices.ContainsKey(nMail.MessageKey) = False Then
-                                        notices.Add(nMail.MessageKey, nMail)
-                                    End If
+                                        nMail.MessageKey = nMail.MessageID.ToString & "_" & nMail.OriginatorID.ToString
+                                        If notices.ContainsKey(nMail.MessageKey) = False Then
+                                            notices.Add(nMail.MessageKey, nMail)
+                                        End If
                                     notificationIds.Add(nMail.MessageID.ToString)
-                                Next
+                                    Next
 
-                                ' Get the notification bodies
+                                    ' Get the notification bodies
                                 If notificationIds.Count > 0 Then
 
                                     Dim idsToQuery As List(Of Long) = (From id In notificationIds Select Long.Parse(id)).ToList()
@@ -281,26 +293,36 @@ Public Class EveMail
 
                                                 For Each body As NotificationText In notificationTextResponse.ResultData
                                                     Dim searchKey As String = body.NotificationId & "_" & mPilot.ID
-                                                    If notices.ContainsKey(searchKey) = True Then
+                                                        If notices.ContainsKey(searchKey) = True Then
                                                         notices(searchKey).MessageBody = body.Text
-                                                    End If
-                                                Next
+                                                        End If
+                                                    Next
+                                                End If
                                             End If
                                         End If
                                     End If
-                                End If
 
-                            End If
-                            ' Set the cache time
+                                End If
+                                ' Set the cache time
                             Dim cacheTime As Date = notifications.CacheUntil.DateTime
-                            If cacheTime < HQ.NextAutoMailAPITime And cacheTime > Now Then
-                                HQ.NextAutoMailAPITime = cacheTime
+                                If cacheTime < HQ.NextAutoMailAPITime And cacheTime > Now Then
+                                    HQ.NextAutoMailAPITime = cacheTime
+                                End If
                             End If
                         End If
                     End If
                 End If
-            End If
-        Next
+            Next
+        Catch ioe As InvalidOperationException
+            ' Catches situations where Settings.Pilots have been updated by the API
+            RaiseEvent MailProgress("Failed to retrieve notifications due to character update...")
+            Dim msg As New StringBuilder
+            msg.AppendLine("There was an error updating the notifcations caused by updating the list of characters during the notification API downloads.")
+            msg.AppendLine()
+            msg.AppendLine("To ensure that all notifications are correctly downloaded and processed, please download the notificaitons again.")
+            MessageBox.Show(msg.ToString, "EveHQ Pilots Updated", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End Try
 
         ' Stage 3: Check the messages which have already been posted
         RaiseEvent MailProgress("Checking for new Eve Notifications for all characters...")
@@ -325,13 +347,13 @@ Public Class EveMail
         ' Stage 4: Post all new messages to the database
         RaiseEvent MailProgress("Posting new Eve Notifications to the database...")
         Dim newNotifys As New ArrayList
-        Const strInsert As String = "INSERT INTO eveNotifications (messageKey, messageID, originatorID, senderID, typeID, sentDate, readMail, messageBody) VALUES "
+        Const StrInsert As String = "INSERT INTO eveNotifications (messageKey, messageID, originatorID, senderID, typeID, sentDate, readMail, messageBody) VALUES "
         For Each noticeKey As String In notices.Keys
             Dim cMail As EveNotification = notices(noticeKey)
             If existingMails.Contains(cMail.MessageKey) = False Then
                 ' Add the message to the database
                 Dim uSQL As New StringBuilder
-                uSQL.Append(strInsert)
+                uSQL.Append(StrInsert)
                 uSQL.Append("(")
                 uSQL.Append("'" & cMail.MessageKey & "', ")
                 uSQL.Append(cMail.MessageID & ", ")
@@ -461,8 +483,12 @@ Public Class EveMail
             strBody.AppendLine("From: " & finalIDs(cMail.SenderID))
             strBody.AppendLine("To: " & finalIDs(cMail.OriginatorID))
             strBody.AppendLine("Date: " & cMail.MessageDate.ToString)
-            Dim strNotice As String = [Enum].GetName(GetType(EveNotificationTypes), cMail.TypeID)
-            strNotice = strNotice.Replace("_", " ")
+            Dim strNotice As String
+            If [Enum].IsDefined(GetType(EveNotificationTypes), CInt(cMail.TypeID)) = True Then
+                strNotice = [Enum].GetName(GetType(EveNotificationTypes), cMail.TypeID).Replace("_", " ")
+            Else
+                strNotice = "Unknown Notification: TypeID = " & cMail.TypeID.ToString
+            End If
             strBody.AppendLine("Subject: " & strNotice)
             strBody.AppendLine("")
             messageCount += 1
@@ -526,6 +552,8 @@ End Class
 ''' <remarks></remarks>
 Public Enum EveNotificationTypes As Integer
     ' ReSharper disable InconsistentNaming
+    Unknown = 0
+    Legacy = 1
     Character_Deleted = 2
     Give_Medal_To_Character = 3
     Alliance_Maintenance_Bill = 4
@@ -614,5 +642,46 @@ Public Enum EveNotificationTypes As Integer
     Sovereignty_Blockade_Unit_Under_Attack = 87
     Infrastructure_Hub_Under_Attack = 88
     Contact_Notification = 89
+    Contact_Edit_Notification = 90
+    Incursion_Completed = 91
+    Corp_Kicked = 92
+    Customs_Office_Has_Been_Attacked = 93
+    Customs_Office_Has_Entered_Reinforced = 94
+    Customs_Office_Has_Been_Transferred = 95
+    FW_Alliance_Warning = 96
+    FW_Alliance_Kick = 97
+    All_War_Corp_Joined = 98
+    Ally_Joined_Defender = 99
+    Ally_Has_Joined_A_War_Aggressor = 100
+    Ally_Joined_War_Ally = 101
+    Entity_Is_Offering_Assistance_In_A_War = 102
+    War_Surrender_Offer = 103
+    War_Surrender_Declined = 104
+    FacWar_LP_Payout_Kill = 105
+    FacWar_LP_Payout_Event = 106
+    FacWar_LP_Disqualified_Event = 107
+    FacWar_LP_Disqualified_Kill = 108
+    Alliance_Contract_Cancelled = 109
+    War_Ally_Declined_Offer = 110
+    Your_Bounty_Claimed = 111
+    Bounty_Placed_Char = 112
+    Bounty_Placed_Corp = 113
+    Bounty_Placed_Alliance = 114
+    Kill_Right_Available = 115
+    Kill_Right_Available_Open = 116
+    Kill_Right_Earned = 117
+    Kill_Right_Used = 118
+    Kill_Right_Unavailable = 119
+    Kill_Right_Unavailable_Open = 120
+    Declare_War = 121
+    Offered_Surrender = 122
+    Accepted_Surrender = 123
+    Made_War_Mutual = 124
+    Retracts_War = 125
+    Offered_To_Ally = 126
+    Accepted_Ally = 127
+    Character_Application_Accept_Message = 128
+    Character_Application_Reject_Message = 129
+    Character_Application_Withdraw_Message = 130
     ' ReSharper restore InconsistentNaming
 End Enum

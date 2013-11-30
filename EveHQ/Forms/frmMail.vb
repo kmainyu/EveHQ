@@ -39,6 +39,8 @@ Namespace Forms
         ReadOnly _allMails As New SortedList(Of Long, EveMailMessage)
         ReadOnly _allNotices As New SortedList(Of Long, EveNotification)
 
+        ReadOnly _mailImage As Image = My.Resources.EveMail32
+
         Dim _currentUnreadMails As Integer = 0
         Dim _currentUnreadNotices As Integer = 0
 
@@ -185,8 +187,8 @@ Namespace Forms
                         Next
                     End If
                 Next
-                Const strSQL As String = "SELECT * FROM eveMail ORDER BY messageID DESC;"
-                Dim mailData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
+                Const StrSQL As String = "SELECT * FROM eveMail ORDER BY messageID DESC;"
+                Dim mailData As DataSet = CustomDataFunctions.GetCustomData(StrSQL)
                 If mailData IsNot Nothing Then
                     If mailData.Tables(0).Rows.Count > 0 Then
                         Dim ids As New List(Of String)
@@ -320,7 +322,7 @@ Namespace Forms
                     Else
                         strTo = "<Mailing List>"
                     End If
-                    sentNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, strTo, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, _readItemStyle, _subItemStyle))
+                    sentNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, strTo, newMail.MessageTitle, newMail.MessageDate.ToString, _mailImage, _readItemStyle, _subItemStyle))
                 Else
                     ' Inbox
                     Dim senderName As String = "ID: " & newMail.SenderID.ToString
@@ -328,10 +330,10 @@ Namespace Forms
                         senderName = finalIDs(newMail.SenderID)
                     End If
                     If newMail.ReadFlag = False Then
-                        inboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, senderName, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, _unreadItemStyle, _subItemStyle))
+                        inboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, senderName, newMail.MessageTitle, newMail.MessageDate.ToString, _mailImage, _unreadItemStyle, _subItemStyle))
                         _currentUnreadMails += 1
                     Else
-                        inboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, senderName, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, _readItemStyle, _subItemStyle))
+                        inboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, senderName, newMail.MessageTitle, newMail.MessageDate.ToString, _mailImage, _readItemStyle, _subItemStyle))
                     End If
                 End If
             Next
@@ -413,19 +415,19 @@ Namespace Forms
             For Each newNotice As EveNotification In _allNotices.Values
                 Dim strNotice As String
                 If [Enum].IsDefined(GetType(EveNotificationTypes), CInt(newNotice.TypeID)) = True Then
-                    strNotice = [Enum].GetName(GetType(EveNotificationTypes), newNotice.TypeID)
+                    strNotice = [Enum].GetName(GetType(EveNotificationTypes), newNotice.TypeID).Replace("_", " ")
                 Else
-                    strNotice = "Unknown Notification"
+                    strNotice = "Unknown Notification: TypeID = " & newNotice.TypeID.ToString
                 End If
                 Dim senderName As String = "ID: " & newNotice.SenderID.ToString
                 If finalIDs.ContainsKey(newNotice.SenderID) = True Then
                     senderName = finalIDs(newNotice.SenderID)
                 End If
                 If newNotice.ReadFlag = False Then
-                    noticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, senderName, strNotice, newNotice.MessageDate.ToString, My.Resources.EveMail32, _unreadItemStyle, _subItemStyle))
+                    noticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, senderName, strNotice, newNotice.MessageDate.ToString, _mailImage, _unreadItemStyle, _subItemStyle))
                     _currentUnreadNotices += 1
                 Else
-                    noticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, senderName, strNotice, newNotice.MessageDate.ToString, My.Resources.EveMail32, _readItemStyle, _subItemStyle))
+                    noticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, senderName, strNotice, newNotice.MessageDate.ToString, _mailImage, _readItemStyle, _subItemStyle))
                 End If
             Next
             noticeNode.Text = "Eve Notifications (" & _currentUnreadNotices.ToString & ")"
@@ -439,9 +441,9 @@ Namespace Forms
             If reply = DialogResult.No Then
                 Exit Sub
             Else
-                Const updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE readMail=0;"
-                If CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
-                    MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Const UpdateSQL As String = "UPDATE eveMail SET readMail=1 WHERE readMail=0;"
+                If CustomDataFunctions.SetCustomData(UpdateSQL) = -2 Then
+                    MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & UpdateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
                 Call UpdateMails()
                 Call MailUpdateCompleted()
@@ -454,9 +456,9 @@ Namespace Forms
             If reply = DialogResult.No Then
                 Exit Sub
             Else
-                Const updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE readMail=0;"
-                If CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
-                    MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Const UpdateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE readMail=0;"
+                If CustomDataFunctions.SetCustomData(UpdateSQL) = -2 Then
+                    MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & UpdateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
                 Call UpdateNotifications()
                 Call MailUpdateCompleted()

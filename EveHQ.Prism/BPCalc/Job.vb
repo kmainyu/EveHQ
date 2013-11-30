@@ -50,7 +50,6 @@ Namespace BPCalc
         Public Property Cost As Double
         Public Property Resources As New SortedList(Of Integer, JobResource)
         Public Property SubJobs As New SortedList(Of Integer, Job)
-        'Public Property RequiredResources As New SortedList(Of String, Object)
         Public Property HasInventionJob As Boolean
         Public Property InventionJob As New InventionJob
         Public Property SubJobMEs As New SortedList(Of Integer, Integer)
@@ -182,7 +181,7 @@ Namespace BPCalc
             Cost = CalculateCost()
         End Sub
 
-        Private Function CalculateCost() As Double
+        Public Function CalculateCost() As Double
             Dim costs As Double = 0
 
             'Get the ID's of the required resources

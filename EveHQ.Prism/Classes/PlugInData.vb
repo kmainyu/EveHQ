@@ -17,6 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Prism.BPCalc
 Imports EveHQ.Prism.Classes
 Imports EveHQ.EveAPI
 Imports EveHQ.EveData
@@ -41,7 +42,7 @@ Public Class PlugInData
     Public Shared BlueprintAssets As New SortedList(Of String, SortedList(Of Long, BlueprintAsset))
     Public Shared CorpList As New SortedList(Of String, Integer) ' corpName, corpID
     Public Shared CategoryNames As New SortedList(Of String, Integer) ' catName, catID
-    Public Shared Decryptors As New SortedList(Of String, Decryptor)
+    Public Shared Decryptors As New SortedList(Of String, BPCalc.Decryptor)
     Public Shared PrismOwners As New SortedList(Of String, PrismOwner)
     Private _activeForm As frmPrism
     Private Const OwnerBlueprintsFileName As String = "OwnerBlueprints.json"
@@ -150,8 +151,8 @@ Public Class PlugInData
     End Sub
     Private Sub LoadAssetItemNames()
         Try
-            Const strSQL As String = "SELECT * FROM assetItemNames;"
-            Dim nameData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
+            Const StrSQL As String = "SELECT * FROM assetItemNames;"
+            Dim nameData As DataSet = CustomDataFunctions.GetCustomData(StrSQL)
             AssetItemNames.Clear()
             If nameData IsNot Nothing Then
                 If nameData.Tables(0).Rows.Count > 0 Then

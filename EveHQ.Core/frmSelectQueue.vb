@@ -21,11 +21,11 @@ Imports System.Windows.Forms
 
 Public Class FrmSelectQueue
 
-    ReadOnly _skillsNeeded As New SortedList(Of String, Integer)
+    ReadOnly _skillsNeeded As New Dictionary(Of String, Integer)
     ReadOnly _displayPilot As New EveHQPilot
     ReadOnly _queueReason As String = ""
 
-    Public Sub New(ByVal pilotName As String, ByVal queuedSkills As SortedList(Of String, Integer), ByVal reason As String)
+    Public Sub New(ByVal pilotName As String, ByVal queuedSkills As Dictionary(Of String, Integer), ByVal reason As String)
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()

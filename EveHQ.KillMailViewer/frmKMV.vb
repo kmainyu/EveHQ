@@ -509,7 +509,7 @@ Public Class FrmKmv
 
     Private Sub btnUploadToBC_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnUploadToBC.Click
         ' Only do selected KM for now for testing purposes
-        Const uri As String = "http://eve.battleclinic.com/killboard/index.php"
+        Const Uri As String = "http://eve.battleclinic.com/killboard/index.php"
 
         If adtKillmails.SelectedNodes.Count > 0 Then
             ' Get the killID of the selected Killmail
@@ -526,7 +526,7 @@ Public Class FrmKmv
                         "Non-NPC Attackers Required.", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
                     ' Write the killmail detail
-                    Call UploadKillmail(uri, BuildKillmailDetails(selKillmail))
+                    Call UploadKillmail(Uri, BuildKillmailDetails(selKillmail))
                 End If
             End If
         End If
@@ -622,11 +622,11 @@ Public Class FrmKmv
                     StaticData.Types(selKillmail.Victim.ShipTypeID).Name)
 
                 ' Start the HQF plug-in if it's active
-                Const pluginName As String = "EveHQ Fitter"
-                Dim myPlugIn As EveHQPlugIn = HQ.Plugins(pluginName)
+                Const PluginName As String = "EveHQ Fitter"
+                Dim myPlugIn As EveHQPlugIn = HQ.Plugins(PluginName)
                 If myPlugIn.Status = EveHQPlugInStatus.Active Then
                     Dim mainTab As TabStrip = CType(HQ.MainForm.Controls("tabEveHQMDI"), TabStrip)
-                    Dim tp As TabItem = HQ.GetMdiTab(pluginName)
+                    Dim tp As TabItem = HQ.GetMdiTab(PluginName)
                     If tp IsNot Nothing Then
                         mainTab.SelectedTab = tp
                     Else

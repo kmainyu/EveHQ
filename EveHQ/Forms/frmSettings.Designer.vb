@@ -413,9 +413,9 @@ Namespace Forms
             Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
             Me.gbGeneral.Controls.Add(Me.chkAutoRun)
             Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-            Me.gbGeneral.Location = New System.Drawing.Point(195, 12)
+            Me.gbGeneral.Location = New System.Drawing.Point(195, 142)
             Me.gbGeneral.Name = "gbGeneral"
-            Me.gbGeneral.Size = New System.Drawing.Size(696, 498)
+            Me.gbGeneral.Size = New System.Drawing.Size(111, 29)
             Me.gbGeneral.TabIndex = 1
             Me.gbGeneral.TabStop = False
             Me.gbGeneral.Text = "General Settings"
@@ -2921,9 +2921,9 @@ Namespace Forms
             '
             Me.panelSettings.CanvasColor = System.Drawing.SystemColors.Control
             Me.panelSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.panelSettings.Controls.Add(Me.gbItemOverrides)
             Me.panelSettings.Controls.Add(Me.gbGeneral)
             Me.panelSettings.Controls.Add(Me.gbTrainingQueue)
-            Me.panelSettings.Controls.Add(Me.gbItemOverrides)
             Me.panelSettings.Controls.Add(Me.gbMarket)
             Me.panelSettings.Controls.Add(Me.gbEveServer)
             Me.panelSettings.Controls.Add(Me.gbEveAccounts)
@@ -2969,9 +2969,9 @@ Namespace Forms
             Me.gbItemOverrides.Controls.Add(Me._itemOverrideMinPrice)
             Me.gbItemOverrides.Controls.Add(Me._itemOverrideAvgPrice)
             Me.gbItemOverrides.Controls.Add(Me._itemOverrideMaxPrice)
-            Me.gbItemOverrides.Location = New System.Drawing.Point(731, 234)
+            Me.gbItemOverrides.Location = New System.Drawing.Point(195, 12)
             Me.gbItemOverrides.Name = "gbItemOverrides"
-            Me.gbItemOverrides.Size = New System.Drawing.Size(133, 40)
+            Me.gbItemOverrides.Size = New System.Drawing.Size(706, 501)
             Me.gbItemOverrides.TabIndex = 36
             Me.gbItemOverrides.TabStop = False
             Me.gbItemOverrides.Text = "Item Market Data Overrides"
@@ -3140,7 +3140,7 @@ Namespace Forms
             '_itemOverridePercentPrice
             '
             Me._itemOverridePercentPrice.AutoSize = True
-            Me._itemOverridePercentPrice.Location = New System.Drawing.Point(481, 101)
+            Me._itemOverridePercentPrice.Location = New System.Drawing.Point(495, 101)
             Me._itemOverridePercentPrice.Name = "_itemOverridePercentPrice"
             Me._itemOverridePercentPrice.Size = New System.Drawing.Size(100, 17)
             Me._itemOverridePercentPrice.TabIndex = 19
@@ -3160,7 +3160,7 @@ Namespace Forms
             '_itemOverrideMedianPrice
             '
             Me._itemOverrideMedianPrice.AutoSize = True
-            Me._itemOverrideMedianPrice.Location = New System.Drawing.Point(416, 101)
+            Me._itemOverrideMedianPrice.Location = New System.Drawing.Point(430, 101)
             Me._itemOverrideMedianPrice.Name = "_itemOverrideMedianPrice"
             Me._itemOverrideMedianPrice.Size = New System.Drawing.Size(59, 17)
             Me._itemOverrideMedianPrice.TabIndex = 18
@@ -3182,12 +3182,12 @@ Namespace Forms
             '_itemOverrideAvgPrice
             '
             Me._itemOverrideAvgPrice.AutoSize = True
-            Me._itemOverrideAvgPrice.Location = New System.Drawing.Point(350, 101)
+            Me._itemOverrideAvgPrice.Location = New System.Drawing.Point(358, 101)
             Me._itemOverrideAvgPrice.Name = "_itemOverrideAvgPrice"
-            Me._itemOverrideAvgPrice.Size = New System.Drawing.Size(60, 17)
+            Me._itemOverrideAvgPrice.Size = New System.Drawing.Size(66, 17)
             Me._itemOverrideAvgPrice.TabIndex = 17
             Me._itemOverrideAvgPrice.TabStop = True
-            Me._itemOverrideAvgPrice.Text = "Averge"
+            Me._itemOverrideAvgPrice.Text = "Average"
             Me._itemOverrideAvgPrice.UseVisualStyleBackColor = True
             '
             '_itemOverrideMaxPrice
@@ -3195,10 +3195,10 @@ Namespace Forms
             Me._itemOverrideMaxPrice.AutoSize = True
             Me._itemOverrideMaxPrice.Location = New System.Drawing.Point(283, 101)
             Me._itemOverrideMaxPrice.Name = "_itemOverrideMaxPrice"
-            Me._itemOverrideMaxPrice.Size = New System.Drawing.Size(61, 17)
+            Me._itemOverrideMaxPrice.Size = New System.Drawing.Size(69, 17)
             Me._itemOverrideMaxPrice.TabIndex = 16
             Me._itemOverrideMaxPrice.TabStop = True
-            Me._itemOverrideMaxPrice.Text = "Maxium"
+            Me._itemOverrideMaxPrice.Text = "Maximum"
             Me._itemOverrideMaxPrice.UseVisualStyleBackColor = True
             '
             'gbMarket

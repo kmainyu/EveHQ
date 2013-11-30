@@ -34,7 +34,7 @@ Namespace Controls.DBConfigs
             cboPilots.Items.Clear()
 
             For Each pilot As EveHQPilot In HQ.Settings.Pilots.Values
-                If pilot.Active = True Then
+                If pilot.Active = True And pilot.Account <> "" Then
                     cboPilots.Items.Add(pilot.Name)
                 End If
             Next

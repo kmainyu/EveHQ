@@ -31,6 +31,7 @@ Namespace Forms
             Me.btnClose = New DevComponents.DotNetBar.ButtonX()
             Me.pnlSettings = New DevComponents.DotNetBar.PanelEx()
             Me.gpGeneral = New DevComponents.DotNetBar.Controls.GroupPanel()
+            Me.chkHideAPIDialog = New DevComponents.DotNetBar.Controls.CheckBoxX()
             Me.btnDeleteUndefinedJournals = New DevComponents.DotNetBar.ButtonX()
             Me.btnDeleteDuplicateTransactions = New DevComponents.DotNetBar.ButtonX()
             Me.btnDeleteDuplicateJournals = New DevComponents.DotNetBar.ButtonX()
@@ -93,7 +94,7 @@ Namespace Forms
             Me.nudLabInstallCost = New DevComponents.Editors.DoubleInput()
             Me.nudLabRunningCost = New DevComponents.Editors.DoubleInput()
             Me.nudFactoryInstallCost = New DevComponents.Editors.DoubleInput()
-            Me.chkHideAPIDialog = New DevComponents.DotNetBar.Controls.CheckBoxX()
+            Me.chkHideSaveJobDialog = New DevComponents.DotNetBar.Controls.CheckBoxX()
             Me.pnlSettings.SuspendLayout()
             Me.gpGeneral.SuspendLayout()
             Me.gpCorpReps.SuspendLayout()
@@ -161,6 +162,7 @@ Namespace Forms
             '
             Me.gpGeneral.CanvasColor = System.Drawing.SystemColors.Control
             Me.gpGeneral.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+            Me.gpGeneral.Controls.Add(Me.chkHideSaveJobDialog)
             Me.gpGeneral.Controls.Add(Me.chkHideAPIDialog)
             Me.gpGeneral.Controls.Add(Me.btnDeleteUndefinedJournals)
             Me.gpGeneral.Controls.Add(Me.btnDeleteDuplicateTransactions)
@@ -206,6 +208,19 @@ Namespace Forms
             Me.gpGeneral.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.gpGeneral.TabIndex = 32
             Me.gpGeneral.Text = "General Settings"
+            '
+            'chkHideAPIDialog
+            '
+            '
+            '
+            '
+            Me.chkHideAPIDialog.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.chkHideAPIDialog.Location = New System.Drawing.Point(15, 144)
+            Me.chkHideAPIDialog.Name = "chkHideAPIDialog"
+            Me.chkHideAPIDialog.Size = New System.Drawing.Size(224, 23)
+            Me.chkHideAPIDialog.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.chkHideAPIDialog.TabIndex = 9
+            Me.chkHideAPIDialog.Text = "Hide API Download Dialog"
             '
             'btnDeleteUndefinedJournals
             '
@@ -704,7 +719,7 @@ Namespace Forms
             Me.adtCorpReps.AllowDrop = True
             Me.adtCorpReps.AllowUserToResizeColumns = False
             Me.adtCorpReps.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                           Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
             Me.adtCorpReps.BackColor = System.Drawing.SystemColors.Window
             '
             '
@@ -1019,20 +1034,20 @@ Namespace Forms
             Me.nudFactoryInstallCost.TabIndex = 0
             Me.nudFactoryInstallCost.Value = 1000.0R
             '
-            'chkHideAPIDialog
+            'chkHideSaveJobDialog
             '
             '
             '
             '
-            Me.chkHideAPIDialog.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.chkHideAPIDialog.Location = New System.Drawing.Point(15, 144)
-            Me.chkHideAPIDialog.Name = "chkHideAPIDialog"
-            Me.chkHideAPIDialog.Size = New System.Drawing.Size(224, 23)
-            Me.chkHideAPIDialog.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.chkHideAPIDialog.TabIndex = 9
-            Me.chkHideAPIDialog.Text = "Hide API Download Dialog"
+            Me.chkHideSaveJobDialog.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.chkHideSaveJobDialog.Location = New System.Drawing.Point(15, 173)
+            Me.chkHideSaveJobDialog.Name = "chkHideSaveJobDialog"
+            Me.chkHideSaveJobDialog.Size = New System.Drawing.Size(224, 23)
+            Me.chkHideSaveJobDialog.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.chkHideSaveJobDialog.TabIndex = 10
+            Me.chkHideSaveJobDialog.Text = "Hide Save Job Dialog"
             '
-            'frmPrismSettings
+            'FrmPrismSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -1046,7 +1061,7 @@ Namespace Forms
             Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
             Me.MaximizeBox = False
             Me.MinimizeBox = False
-            Me.Name = "frmPrismSettings"
+            Me.Name = "FrmPrismSettings"
             Me.ShowInTaskbar = False
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             Me.Text = "Prism Settings"
@@ -1135,5 +1150,6 @@ Namespace Forms
         Friend WithEvents lblContractsRep As System.Windows.Forms.Label
         Friend WithEvents btnDeleteUndefinedJournals As DevComponents.DotNetBar.ButtonX
         Friend WithEvents chkHideAPIDialog As DevComponents.DotNetBar.Controls.CheckBoxX
+        Friend WithEvents chkHideSaveJobDialog As DevComponents.DotNetBar.Controls.CheckBoxX
     End Class
 End NameSpace

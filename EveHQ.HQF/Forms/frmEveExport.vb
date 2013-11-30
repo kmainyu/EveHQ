@@ -242,8 +242,8 @@ Namespace Forms
                 MessageBox.Show("Filename cannot be blank. Please try again.", "Filename Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-            Const rgPattern As String = "[\\\/:\*\?""'<>|]"
-            Dim objRegEx As New Regex(rgPattern)
+            Const RgPattern As String = "[\\\/:\*\?""'<>|]"
+            Dim objRegEx As New Regex(RgPattern)
             If objRegEx.IsMatch(txtFilename.Text) = True Then
                 MessageBox.Show("Filename contains invalid characters. Please try again.", "Filename Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub

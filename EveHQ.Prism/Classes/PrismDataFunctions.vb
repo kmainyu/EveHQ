@@ -762,11 +762,11 @@ Namespace Classes
             End If
 
             ' Write new jobs to the database
-            Const strIDInsert As String = "INSERT INTO inventionResults (jobID, resultDate, BPID, typeID, typeName, installerID, installerName, result) VALUES ("
+            Const StrIDInsert As String = "INSERT INTO inventionResults (jobID, resultDate, BPID, typeID, typeName, installerID, installerName, result) VALUES ("
             For Each job As InventionAPIJob In inventionList.Values
                 If dbList.Contains(job.JobID) = False Then
                     Dim uSQL As New StringBuilder
-                    uSQL.Append(strIDInsert)
+                    uSQL.Append(StrIDInsert)
                     uSQL.Append(job.JobID & ", ")
                     uSQL.Append("'" & job.ResultDate.ToString(PrismTimeFormat, Culture) & "', ")
                     uSQL.Append(job.BlueprintID & ", ")
@@ -774,7 +774,7 @@ Namespace Classes
                     uSQL.Append("'" & job.TypeName.Replace("'", "''") & "', ")
                     uSQL.Append(job.InstallerID & ", ")
                     uSQL.Append("'" & job.InstallerName.Replace("'", "''") & "', ")
-                    uSQL.Append(job.result & ");")
+                    uSQL.Append(job.Result & ");")
                     If CustomDataFunctions.SetCustomData(uSQL.ToString) = -2 Then
                         'MessageBox.Show("There was an error writing data to the Invention Results database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)  
                     End If

@@ -175,11 +175,11 @@ Namespace Forms
             Me.btnAbout = New DevComponents.DotNetBar.ButtonItem()
             Me.btnFileExit = New DevComponents.DotNetBar.ButtonItem()
             Me.QatCustomizeItem1 = New DevComponents.DotNetBar.QatCustomizeItem()
-            Me.btnSQLQueryTool = New DevComponents.DotNetBar.ButtonItem()
             Me.DotNetBarManager1 = New DevComponents.DotNetBar.DotNetBarManager(Me.components)
             Me.DockSite4 = New DevComponents.DotNetBar.DockSite()
             Me.Bar1 = New DevComponents.DotNetBar.Bar()
             Me.pdc1 = New DevComponents.DotNetBar.PanelDockContainer()
+            Me.trainingBlockLayout = New System.Windows.Forms.FlowLayoutPanel()
             Me.DockContainerItem1 = New DevComponents.DotNetBar.DockContainerItem()
             Me.DockSite1 = New DevComponents.DotNetBar.DockSite()
             Me.DockSite2 = New DevComponents.DotNetBar.DockSite()
@@ -208,6 +208,7 @@ Namespace Forms
             Me.DockSite4.SuspendLayout()
             CType(Me.Bar1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.Bar1.SuspendLayout()
+            Me.pdc1.SuspendLayout()
             CType(Me.barStatus, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
@@ -483,11 +484,11 @@ Namespace Forms
             '
             'btnInfoHelp
             '
-            Me.btnInfoHelp.Image = CType(resources.GetObject("btnInfoHelp.Image"), System.Drawing.Image)
+            Me.btnInfoHelp.Image = Global.EveHQ.My.Resources.Resources.Info32
             Me.btnInfoHelp.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnInfoHelp.Name = "btnInfoHelp"
             Me.btnInfoHelp.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnInfoHelp, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Info Centre", "Provides links and information relating to support on EveHQ." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnInfoHelp, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Info Centre", "Provides links and information relating to support on EveHQ." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnInfoHelp.Text = "EveHQ Info Centre"
             '
             'rbAPITools
@@ -575,7 +576,7 @@ Namespace Forms
             Me.btnSQLQueryTool.Image = Global.EveHQ.My.Resources.Resources.Database32
             Me.btnSQLQueryTool.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnSQLQueryTool.Name = "btnSQLQueryTool"
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnSQLQueryTool, New DevComponents.DotNetBar.SuperTooltipInfo("", "SQL Query Tools", "Allows the static and custom databases to be queried using SQL statements.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnSQLQueryTool, New DevComponents.DotNetBar.SuperTooltipInfo("", "SQL Query Tools", "Allows the custom database to be queried and amended using SQL statements.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnSQLQueryTool.Text = "SQL Query Tool"
             '
             'rbBackup
@@ -832,6 +833,8 @@ Namespace Forms
             Me.btnIB.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnIB.Name = "btnIB"
             Me.btnIB.SubItemsExpandWidth = 14
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnIB, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Item Browser", "View all the items in the Eve database together with their attributes, effects an" & _
+                "d required skills.", Global.EveHQ.My.Resources.Resources.Info32, CType(resources.GetObject("btnIB.SuperTooltip"), System.Drawing.Image), DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnIB.Text = "Item Browser"
             '
             'rbAPI
@@ -1933,12 +1936,6 @@ Namespace Forms
             '
             Me.QatCustomizeItem1.Name = "QatCustomizeItem1"
             '
-            'btnSQLQueryTool
-            '
-            Me.btnSQLQueryTool.Name = "btnSQLQueryTool"
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnSQLQueryTool, New DevComponents.DotNetBar.SuperTooltipInfo("", "SQL Query Tools", "Allows the static and custom databases to be queried using SQL statements.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
-            Me.btnSQLQueryTool.Text = "SQL Query Tool"
-            '
             'DotNetBarManager1
             '
             Me.DotNetBarManager1.AutoDispatchShortcuts.Add(DevComponents.DotNetBar.eShortcut.F1)
@@ -2000,6 +1997,7 @@ Namespace Forms
             '
             Me.pdc1.AutoScroll = True
             Me.pdc1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.pdc1.Controls.Add(Me.trainingBlockLayout)
             Me.pdc1.Location = New System.Drawing.Point(3, 26)
             Me.pdc1.Name = "pdc1"
             Me.pdc1.Size = New System.Drawing.Size(1225, 70)
@@ -2009,6 +2007,16 @@ Namespace Forms
             Me.pdc1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
             Me.pdc1.Style.GradientAngle = 90
             Me.pdc1.TabIndex = 0
+            '
+            'trainingBlockLayout
+            '
+            Me.trainingBlockLayout.AutoSize = True
+            Me.trainingBlockLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+            Me.trainingBlockLayout.BackColor = System.Drawing.Color.Transparent
+            Me.trainingBlockLayout.Location = New System.Drawing.Point(0, 0)
+            Me.trainingBlockLayout.Name = "trainingBlockLayout"
+            Me.trainingBlockLayout.Size = New System.Drawing.Size(0, 0)
+            Me.trainingBlockLayout.TabIndex = 0
             '
             'DockContainerItem1
             '
@@ -2254,6 +2262,8 @@ Namespace Forms
             Me.DockSite4.ResumeLayout(False)
             CType(Me.Bar1, System.ComponentModel.ISupportInitialize).EndInit()
             Me.Bar1.ResumeLayout(False)
+            Me.pdc1.ResumeLayout(False)
+            Me.pdc1.PerformLayout()
             CType(Me.barStatus, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
 
@@ -2434,6 +2444,7 @@ Namespace Forms
         Private WithEvents btnVisualStudio2012Dark As DevComponents.DotNetBar.ButtonItem
         Private WithEvents ColorPickerDropDown1 As DevComponents.DotNetBar.ColorPickerDropDown
         Private WithEvents btnCanvasColor As DevComponents.DotNetBar.ColorPickerDropDown
+        Friend WithEvents trainingBlockLayout As System.Windows.Forms.FlowLayoutPanel
 
     End Class
 End Namespace

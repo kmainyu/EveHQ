@@ -585,7 +585,7 @@ Public Class EveHQSettings
         PilotPartTrainedSkillColor = Color.Gold.ToArgb
         PilotCurrentTrainSkillColor = Color.LimeGreen.ToArgb
         CcpapiServerAddress = OfficialApiLocation
-        UpdateUrl = "http://evehq.net/betaupdate/"
+        UpdateUrl = "http://evehq.net/update/"
         APIFileExtension = "aspx"
         PilotGroupBackgroundColor = Color.DimGray.ToArgb
         PilotGroupTextColor = Color.White.ToArgb
@@ -625,13 +625,13 @@ Public Class EveHQSettings
     ''' </summary>
     ''' <remarks></remarks>
     Private Shared Function ForceHttpsOnCcpEndpoints(endpoint As String) As String
-        Const oldApi1 As String = "http://api.eveonline.com"
-        Const oldApi2 As String = "http://api.eve-online.com"
-        Const badApi As String = "https://api.eve-online.com" 'this https endpoint isn't supported anymore
+        Const OldApi1 As String = "http://api.eveonline.com"
+        Const OldApi2 As String = "http://api.eve-online.com"
+        Const BadApi As String = "https://api.eve-online.com" 'this https endpoint isn't supported anymore
 
         Dim normalizedEndpoint As String = endpoint.ToLowerInvariant()
 
-        If (normalizedEndpoint = oldApi1 Or normalizedEndpoint = oldApi2 Or normalizedEndpoint = badApi) Then
+        If (normalizedEndpoint = OldApi1 Or normalizedEndpoint = OldApi2 Or normalizedEndpoint = BadApi) Then
             normalizedEndpoint = OfficialApiLocation
         End If
 
@@ -742,8 +742,8 @@ Public Class EveHQSettings
         If showRawData = False Then
 
             ' Reset the update URL to a temp location
-            If HQ.Settings.UpdateUrl <> "http://evehq.net/betaupdate/" Then
-                HQ.Settings.UpdateUrl = "http://evehq.net/betaupdate/"
+            If HQ.Settings.UpdateUrl <> "http://evehq.net/update/" Then
+                HQ.Settings.UpdateUrl = "http://evehq.net/update/"
             End If
 
             ' Set the Custom database connection

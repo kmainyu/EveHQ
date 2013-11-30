@@ -156,9 +156,9 @@ Namespace Controls.DBControls
         End Function
 
         Private Shared Function RemoveHTMLTags(ByVal text As String) As String
-            Const regularExpressionString As String = "<.+?>"
+            Const RegularExpressionString As String = "<.+?>"
 
-            Dim r As New Regex(regularExpressionString, RegexOptions.Singleline)
+            Dim r As New Regex(RegularExpressionString, RegexOptions.Singleline)
             Return r.Replace(text, "")
         End Function
 

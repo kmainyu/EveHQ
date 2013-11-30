@@ -64,7 +64,7 @@
     <DocumentationFile>EveHQ.Prism.xml</DocumentationFile>
     <NoWarn>42353,42354,42355,40010</NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
@@ -138,7 +138,7 @@
     <Compile Include="Classes\BatchJobs.vb" />
     <Compile Include="_Deprecated\Blueprint.vb" />
     <Compile Include="BPCalc\Jobs.vb" />
-    <Compile Include="Classes\Decryptor.vb" />
+    <Compile Include="_Deprecated\Decryptor.vb" />
     <Compile Include="Classes\Contract.vb" />
     <Compile Include="Classes\InventionAPIJob.vb" />
     <Compile Include="Classes\PrismDataFunctions.vb" />
@@ -146,6 +146,7 @@
     <Compile Include="Classes\Invention.vb" />
     <Compile Include="Classes\PrismEvents.vb" />
     <Compile Include="Classes\PrismOwner.vb" />
+    <Compile Include="BPCalc\Decryptor.vb" />
     <Compile Include="_Deprecated\InventionJob.vb" />
     <Compile Include="_Deprecated\ProductionJob.vb" />
     <Compile Include="_Deprecated\ProductionJobs.vb" />
@@ -459,7 +460,12 @@
   <ItemGroup>
     <None Include="Resources\icon38_111.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\22_32_29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9_32_7.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->

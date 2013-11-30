@@ -106,9 +106,12 @@ namespace EveHQ.Common.Logging
         {
             if (disposing)
             {
-                _outputStream.Flush();
-                _outputStream.Close();
-                _outputStream.Dispose();
+                if (_outputStream != null && _outputStream.CanWrite)
+                {
+                    _outputStream.Flush();
+                    _outputStream.Close();
+                    _outputStream.Dispose();
+                }
             }
 
             base.Dispose(disposing);

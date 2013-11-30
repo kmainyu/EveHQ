@@ -148,6 +148,7 @@ Namespace Forms
             End If
 
             chkHideAPIDialog.Checked = PrismSettings.UserSettings.HideAPIDownloadDialog
+            chkHideSaveJobDialog.Checked = PrismSettings.UserSettings.HideSaveJobDialog
 
         End Sub
 
@@ -177,6 +178,10 @@ Namespace Forms
 
         Private Sub chkHideAPIDialog_CheckedChanged(sender As Object, e As EventArgs) Handles chkHideAPIDialog.CheckedChanged
             PrismSettings.UserSettings.HideAPIDownloadDialog = chkHideAPIDialog.Checked
+        End Sub
+
+        Private Sub chkHideSaveJobDialog_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHideSaveJobDialog.CheckedChanged
+            PrismSettings.UserSettings.HideSaveJobDialog = chkHideSaveJobDialog.Checked
         End Sub
 
         Private Sub btnDeleteDuplicateJournals_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteDuplicateJournals.Click
@@ -672,13 +677,14 @@ Namespace Forms
 #End Region
 
         Private Sub btnDeleteUndefinedJournals_Click(sender As Object, e As EventArgs) Handles btnDeleteUndefinedJournals.Click
-            Const strSQL As String = "DELETE FROM walletJournal WHERE refTypeID = 0;"
-            If CustomDataFunctions.SetCustomData(strSQL) = -2 Then
+            Const StrSQL As String = "DELETE FROM walletJournal WHERE refTypeID = 0;"
+            If CustomDataFunctions.SetCustomData(StrSQL) = -2 Then
                 MessageBox.Show("Error deleting undefined entries from the Wallet Journal table!", "Delete Undefined Entries Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else
                 MessageBox.Show("Successfully deleted undefined entries from the Wallet Journal table!", "Delete Undefined Entries Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End Sub
 
+     
     End Class
 End NameSpace

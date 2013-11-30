@@ -29,13 +29,13 @@ Namespace Classes
 
     Public Class IndustryJob
         Public JobID As Long
-        Public InstalledItemLocationID As Integer
+        Public InstalledItemLocationID As Long
         Public InstallerID As Long
         Public ActivityID As BlueprintActivity
         Public InstalledItemTypeID As Integer
         Public OutputTypeID As Integer
         Public Runs As Integer
-        Public OutputLocationID As Integer
+        Public OutputLocationID As Long
         Public InstalledInSolarSystemID As Integer
         Public Completed As Integer
         Public CompletedStatus As Integer

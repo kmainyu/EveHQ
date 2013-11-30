@@ -448,13 +448,13 @@ Namespace Forms
 #Region "Data Checking Routines"
         Private Sub btnCheckData_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCheckData.Click
             Dim dataCheckList As New SortedList
-            Const itemcount As Integer = 0
+            Const Itemcount As Integer = 0
             ' Count number of items
-            Dim items As Integer = ModuleLists.moduleList.Count
+            Dim items As Integer = ModuleLists.ModuleList.Count
             ' Check MarketGroups
             Dim marketError As Integer = 0
-            Dim sw As New StreamWriter(Path.Combine(HQ.reportFolder, "HQFErrors.txt"))
-            For Each item As ShipModule In ModuleLists.moduleList.Values
+            Dim sw As New StreamWriter(Path.Combine(HQ.ReportFolder, "HQFErrors.txt"))
+            For Each item As ShipModule In ModuleLists.ModuleList.Values
                 If Market.MarketGroupList.ContainsKey(item.MarketGroup) = False Then
                     marketError += 1
                     sw.WriteLine("Market Error: " & item.Name)
@@ -463,8 +463,8 @@ Namespace Forms
             Next
             ' Check MarketGroups
             Dim metaError As Integer = 0
-            For Each item As ShipModule In ModuleLists.moduleList.Values
-                If ModuleLists.moduleMetaGroups.ContainsKey(item.ID) = False Then
+            For Each item As ShipModule In ModuleLists.ModuleList.Values
+                If ModuleLists.ModuleMetaGroups.ContainsKey(item.ID) = False Then
                     metaError += 1
                     sw.WriteLine("Meta Type Error: " & item.Name)
                     'MessageBox.Show(item.Name)
@@ -487,8 +487,8 @@ Namespace Forms
             'Next
 
             ' Write missing items to a file
-            Dim sw2 As New StreamWriter(Path.Combine(HQ.reportFolder, "HQFmissingItems.csv"))
-            For Each shipMod As ShipModule In ModuleLists.moduleList.Values
+            Dim sw2 As New StreamWriter(Path.Combine(HQ.ReportFolder, "HQFmissingItems.csv"))
+            For Each shipMod As ShipModule In ModuleLists.ModuleList.Values
                 If dataCheckList.Contains(shipMod.ID) = False Then
                     sw2.WriteLine(shipMod.ID & "," & shipMod.Name)
                     dataCheckList.Add(shipMod.ID, shipMod.Name)
@@ -497,7 +497,7 @@ Namespace Forms
             sw2.Flush()
             sw2.Close()
 
-            MessageBox.Show("Total traversed items: " & itemcount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Total traversed items: " & Itemcount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         End Sub
 
@@ -883,15 +883,15 @@ Namespace Forms
 #End Region
 
         Private Sub btnGenerateIconList_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGenerateIconList.Click
-            Const iconPath1 As String = "Z:\My Downloads\Incursion_1.4_imgs_Icons\Icons\items\32_32"
-            Const iconPath2 As String = "Z:\_HQFIcons"
+            Const IconPath1 As String = "Z:\My Downloads\Incursion_1.4_imgs_Icons\Icons\items\32_32"
+            Const IconPath2 As String = "Z:\_HQFIcons"
             Dim iconList As New List(Of String)
             For Each sMod As ShipModule In ModuleLists.ModuleList.Values
                 If iconList.Contains(sMod.Icon) = False Then
                     iconList.Add(sMod.Icon)
-                    Dim sourceFile As String = Path.Combine(iconPath1, "icon" & sMod.Icon & ".png")
+                    Dim sourceFile As String = Path.Combine(IconPath1, "icon" & sMod.Icon & ".png")
                     If My.Computer.FileSystem.FileExists(sourceFile) = True Then
-                        Dim destFile As String = Path.Combine(iconPath2, sMod.Icon & ".png")
+                        Dim destFile As String = Path.Combine(IconPath2, sMod.Icon & ".png")
                         My.Computer.FileSystem.CopyFile(sourceFile, destFile)
                     End If
                 End If

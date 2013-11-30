@@ -170,6 +170,11 @@ Namespace Forms
         Private Sub RunUpdateInstaller(sender As Object, e As EventArgs) Handles _continueButton.Click
             Dim exeFile As String = GetFileNameFromUrl(_updateLocation)
 
+            Dim arguments As String = ""
+            If HQ.IsUsingLocalFolders Then
+                arguments = " /local /D=" & System.Environment.CurrentDirectory
+            End If
+
             'exit evehq so the installer will run
             Dim formsToClose As New List(Of String)
             For Each openForm As Form In Application.OpenForms
@@ -183,7 +188,7 @@ Namespace Forms
                     openForm.Close()
                 End If
             Next
-            Process.Start(Path.Combine(_storageFolder, exeFile))
+            Process.Start(Path.Combine(_storageFolder, exeFile), arguments)
         End Sub
     End Class
 End Namespace

@@ -17,6 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Prism.BPCalc
 Imports EveHQ.EveData
 
 Namespace Classes
@@ -27,13 +28,13 @@ Namespace Classes
 
             ' Load all the decryptor data
             Dim groupIDs As List(Of Integer) = {728, 729, 730, 731}.ToList
+            PlugInData.Decryptors.Clear()
             For Each groupID As Integer In groupIDs
                 ' Get the items in each group
                 Dim items As IEnumerable(Of EveType) = StaticData.GetItemsInGroup(groupID)
-                PlugInData.Decryptors.Clear()
                 For Each item As EveType In items
                     ' Set data
-                    Dim newDecryptor As New Decryptor
+                    Dim newDecryptor As New BPCalc.Decryptor
                     newDecryptor.ID = item.Id
                     newDecryptor.Name = item.Name
                     newDecryptor.GroupID = item.Group.ToString

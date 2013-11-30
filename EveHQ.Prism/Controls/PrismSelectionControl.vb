@@ -179,8 +179,8 @@ Namespace Controls
                     Next
 
                 Case PrismSelectionType.JournalOwnersAll
-                    Const strSQL As String = "SELECT DISTINCT charName from walletJournal;"
-                    itemData = CustomDataFunctions.GetCustomData(strSQL)
+                    Const StrSQL As String = "SELECT DISTINCT charName from walletJournal;"
+                    itemData = CustomDataFunctions.GetCustomData(StrSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(dr.Item(0).ToString.Trim)
@@ -191,8 +191,8 @@ Namespace Controls
                     CheckDefaultCharacter()
 
                 Case PrismSelectionType.JournalOwnersChars
-                    Const strSQL As String = "SELECT DISTINCT charName from walletJournal;"
-                    itemData = CustomDataFunctions.GetCustomData(strSQL)
+                    Const StrSQL As String = "SELECT DISTINCT charName from walletJournal;"
+                    itemData = CustomDataFunctions.GetCustomData(StrSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             If PlugInData.CorpList.ContainsKey(dr.Item(0).ToString.Trim) = False Then
@@ -205,8 +205,8 @@ Namespace Controls
                     CheckDefaultCharacter()
 
                 Case PrismSelectionType.JournalOwnersCorps
-                    Const strSQL As String = "SELECT DISTINCT charName from walletJournal;"
-                    itemData = CustomDataFunctions.GetCustomData(strSQL)
+                    Const StrSQL As String = "SELECT DISTINCT charName from walletJournal;"
+                    itemData = CustomDataFunctions.GetCustomData(StrSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             If PlugInData.CorpList.ContainsKey(dr.Item(0).ToString.Trim) = True Then
@@ -218,8 +218,8 @@ Namespace Controls
                     End If
 
                 Case PrismSelectionType.JournalRefTypes
-                    Const strSQL As String = "SELECT DISTINCT refTypeID from walletJournal;"
-                    itemData = CustomDataFunctions.GetCustomData(strSQL)
+                    Const StrSQL As String = "SELECT DISTINCT refTypeID from walletJournal;"
+                    itemData = CustomDataFunctions.GetCustomData(StrSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(PlugInData.RefTypes(dr.Item(0).ToString))
@@ -229,8 +229,8 @@ Namespace Controls
                     End If
 
                 Case PrismSelectionType.TransactionOwnersAll
-                    Const strSQL As String = "SELECT DISTINCT charName from walletTransactions;"
-                    itemData = CustomDataFunctions.GetCustomData(strSQL)
+                    Const StrSQL As String = "SELECT DISTINCT charName from walletTransactions;"
+                    itemData = CustomDataFunctions.GetCustomData(StrSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(dr.Item(0).ToString.Trim)
@@ -241,8 +241,8 @@ Namespace Controls
                     CheckDefaultCharacter()
 
                 Case PrismSelectionType.TransactionOwnersChars
-                    Const strSQL As String = "SELECT DISTINCT charName from walletTransactions;"
-                    itemData = CustomDataFunctions.GetCustomData(strSQL)
+                    Const StrSQL As String = "SELECT DISTINCT charName from walletTransactions;"
+                    itemData = CustomDataFunctions.GetCustomData(StrSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             If PlugInData.CorpList.ContainsKey(dr.Item(0).ToString.Trim) = False Then
@@ -255,8 +255,8 @@ Namespace Controls
                     CheckDefaultCharacter()
 
                 Case PrismSelectionType.TransactionOwnersCorps
-                    Const strSQL As String = "SELECT DISTINCT charName from walletTransactions;"
-                    itemData = CustomDataFunctions.GetCustomData(strSQL)
+                    Const StrSQL As String = "SELECT DISTINCT charName from walletTransactions;"
+                    itemData = CustomDataFunctions.GetCustomData(StrSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             If PlugInData.CorpList.ContainsKey(dr.Item(0).ToString.Trim) = True Then
@@ -284,8 +284,8 @@ Namespace Controls
                     End If
 
                 Case PrismSelectionType.InventionInstallers
-                    Const strSQL As String = "SELECT DISTINCT installerName from inventionResults;"
-                    itemData = CustomDataFunctions.GetCustomData(strSQL)
+                    Const StrSQL As String = "SELECT DISTINCT installerName from inventionResults;"
+                    itemData = CustomDataFunctions.GetCustomData(StrSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(dr.Item(0).ToString.Trim)
@@ -296,8 +296,8 @@ Namespace Controls
                     CheckDefaultCharacter()
 
                 Case PrismSelectionType.InventionItems
-                    Const strSQL As String = "SELECT DISTINCT typeName from inventionResults;"
-                    itemData = CustomDataFunctions.GetCustomData(strSQL)
+                    Const StrSQL As String = "SELECT DISTINCT typeName from inventionResults;"
+                    itemData = CustomDataFunctions.GetCustomData(StrSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(dr.Item(0).ToString.Trim)

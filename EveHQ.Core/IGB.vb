@@ -29,11 +29,11 @@ Imports System.Windows.Forms
 Imports System.Web
 
 Public Class IGB
-    Shared _context As HttpListenerContext
+    Shared context As HttpListenerContext
     Public Listener As HttpListener
     Dim _response As HttpListenerResponse
-    Shared _timeStart, _timeEnd As DateTime
-    Shared _timeTaken As TimeSpan
+    Shared timeStart, timeEnd As DateTime
+    Shared timeTaken As TimeSpan
     Private _tqPlayers, _sisiPlayers As Long
 
     Public Property TqPlayers() As Long
@@ -85,15 +85,15 @@ Public Class IGB
                         Exit Do
                     Else
 
-                        _context = Listener.GetContext
+                        context = Listener.GetContext
 
                         ' Create the response.
-                        _response = _context.Response
+                        _response = context.Response
                         Dim responseString As String = ""
                         ' Start the page generation timer
-                        _timeStart = Now
+                        timeStart = Now
 
-                        Select Case _context.Request.Url.AbsolutePath.ToUpper
+                        Select Case context.Request.Url.AbsolutePath.ToUpper
                             Case "", "/"
                                 responseString &= RedirectHome()
                             Case "/HOME", "/HOME/"
@@ -147,14 +147,14 @@ Public Class IGB
                                     responseString &= CreateHome()
                                 End If
                             Case "/LOGO.JPG"
-                                _context.Response.ContentType = "image/jpeg"
+                                context.Response.ContentType = "image/jpeg"
                                 My.Resources.EveHQ_IGBLogo.Save(Path.Combine(HQ.CacheFolder, "logo.jpg"))
                                 responseString = GetImage(Path.Combine(HQ.CacheFolder, "logo.jpg"))
                             Case "/TEST.GIF"
-                                _context.Response.ContentType = "image/gif"
+                                context.Response.ContentType = "image/gif"
                                 responseString = GetImage("c:/test.gif")
                             Case "/TEST.PNG"
-                                _context.Response.ContentType = "image/jpeg"
+                                context.Response.ContentType = "image/jpeg"
                                 responseString = GetImage("c:/test.png")
                                 'NB Other examples!
                                 'Case "/TIME", "/TIME/"
@@ -179,9 +179,9 @@ Public Class IGB
                                 '    responseString &= IGBHTMLFooter(context)
                             Case Else
                                 ' Check for requisitions
-                                If _context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS") Or _context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS/") Then
+                                If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS") Or context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS/") Then
                                     If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Requisitions") = True Then
-                                        responseString = RequisitionIGB.Response(_context)
+                                        responseString = RequisitionIGB.Response(context)
                                     Else
                                         responseString = CreateHome()
                                     End If
@@ -192,14 +192,14 @@ Public Class IGB
                                         If plugInInfo.RunInIGB Then
                                             If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData(plugInInfo.Name) = True Then
                                                 Dim testName As String = plugInInfo.Name.Replace(" ", "")
-                                                If _context.Request.Url.AbsolutePath.ToUpper.StartsWith("/" & testName.ToUpper) Then
+                                                If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/" & testName.ToUpper) Then
                                                     igbPlugin = True
                                                     Dim plugInResponse As String
                                                     Dim myAssembly As Assembly = Assembly.LoadFrom(plugInInfo.FileName)
                                                     Dim t As Type = myAssembly.GetType(plugInInfo.FileType)
                                                     plugInInfo.Instance = CType(Activator.CreateInstance(t), IEveHQPlugIn)
                                                     Dim runPlugIn As IEveHQPlugIn = plugInInfo.Instance
-                                                    plugInResponse = runPlugIn.IGBService(_context)
+                                                    plugInResponse = runPlugIn.IGBService(context)
                                                     If plugInResponse Is Nothing Then
                                                         plugInResponse = "The module '" & plugInInfo.Name & "' failed to return a valid response."
                                                     End If
@@ -209,9 +209,9 @@ Public Class IGB
                                         End If
                                     Next
                                     If igbPlugin = False Then
-                                        responseString &= IGBHTMLHeader(_context, "EveHQ IGB Site", 0)
+                                        responseString &= IGBHTMLHeader(context, "EveHQ IGB Site", 0)
                                         responseString &= "Sorry, the page you are looking for cannot be found.<br><br>"
-                                        responseString &= IGBHTMLFooter(_context)
+                                        responseString &= IGBHTMLFooter(context)
                                     End If
                                 End If
                         End Select
@@ -258,8 +258,8 @@ Public Class IGB
         For Each igbFeature As String In igbAccessList
             If igbFeature.Trim <> "" Then
                 Dim igbFeatureData() As String = igbFeature.Split(",".ToCharArray)
-                If HQ.Settings.IGBAllowedData.ContainsKey(igbFeatureData(0)) = False Then
-                    HQ.Settings.IGBAllowedData.Add(igbFeatureData(0), CBool(igbFeatureData(1)))
+                If HQ.Settings.IgbAllowedData.ContainsKey(igbFeatureData(0)) = False Then
+                    HQ.Settings.IgbAllowedData.Add(igbFeatureData(0), CBool(igbFeatureData(1)))
                 End If
             End If
         Next
@@ -322,15 +322,15 @@ Public Class IGB
 
         strHTML &= "<hr><a href=/>Home</a>  | "
 
-        If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Item Database") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Item Database") = True Then
             strHTML &= " <a href=/itemDB>Item Database</a>  | "
         End If
 
-        If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Reports - Main Menu") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Reports - Main Menu") = True Then
             strHTML &= " <a href=/reports>Reports</a>  | "
         End If
 
-        If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Requisitions") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Requisitions") = True Then
             If CustomDataFunctions.CountRequisitions > 0 Then
                 strHTML &= " <a href=/reqs>Requisitions</a> | "
             End If
@@ -354,7 +354,7 @@ Public Class IGB
         ' Draw search area
         strHTML &= "<tr><td align=right>"
         strHTML &= "<form method=""GET"" action=""/searchResults"">"
-        If HQ.Settings.IGBAllowedData("Item Database") = True Then
+        If HQ.Settings.IgbAllowedData("Item Database") = True Then
             strHTML &= "Search Item Database:  "
             strHTML &= "<input type=""text"" name=""str"">"
             strHTML &= "<input type=""submit"" value=""Search""></form>"
@@ -372,22 +372,22 @@ Public Class IGB
         strHTML &= "<table width=100% border=0><tr><td width=100% align=center>"
         strHTML &= "<hr>"
         strHTML &= "<p align=""center"">Created by " & My.Application.Info.ProductName & " v" & My.Application.Info.Version.ToString
-        _timeEnd = Now
-        _timeTaken = _timeEnd - _timeStart
-        strHTML &= " (Generated in " & _timeTaken.TotalSeconds.ToString("0.00000") & "s)</p>"
+        timeEnd = Now
+        timeTaken = timeEnd - timeStart
+        strHTML &= " (Generated in " & timeTaken.TotalSeconds.ToString("0.00000") & "s)</p>"
         strHTML &= "</td></tr></table></BODY></HTML>"
         Return strHTML
     End Function
     Private Function RedirectHome() As String
-        _context.Response.Redirect("/home/")
+        context.Response.Redirect("/home/")
         Return ""
     End Function
     Private Function CreateHome() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(_context, "EveHQ IGB Home", 0)
+        strHTML &= IGBHTMLHeader(context, "EveHQ IGB Home", 0)
         strHTML &= "<p>Welcome to the EveHQ In-Game Browser (IGB) Server!</p>"
         strHTML &= "<p>This server will give you access to the wealth of information that is the Eve Online database and present it in tabular form for easy reading.</p>"
-        If _context.Request.UserAgent.StartsWith("EVE-IGB") Then
+        If context.Request.UserAgent.StartsWith("EVE-IGB") Then
             strHTML &= "<p>If you have any questions or suggestions, please contact <a href='evemail:Vessper' SUBJECT='EveHQ IGB'>Vessper</a> via Eve-mail.</p>"
         Else
             strHTML &= "<p>If you have any questions or suggestions, please contact <a href='mailto:vessper@EveHQ.net'>Vessper</a> via E-mail.</p>"
@@ -395,51 +395,51 @@ Public Class IGB
         strHTML &= "<p></p>"
         strHTML &= "<p>Happy browsing and fly safe!</p>"
         strHTML &= "<p>  - Vessper</p>"
-        strHTML &= IGBHTMLFooter(_context)
+        strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
     Private Function CreateHTMLItemDB() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(_context, "EveHQ IGB Item Database", 0)
+        strHTML &= IGBHTMLHeader(context, "EveHQ IGB Item Database", 0)
         strHTML &= CreateNavPaneSQL()
-        strHTML &= IGBHTMLFooter(_context)
+        strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
     Private Function CreateHeaders() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(_context, "EveHQ IGB Header Info", 0)
-        If _context.Request.UserAgent.StartsWith("EVE-IGB") Then
-            _context.Response.Headers.Add("refresh:sessionchange;URL=/HEADERS")
+        strHTML &= IGBHTMLHeader(context, "EveHQ IGB Header Info", 0)
+        If context.Request.UserAgent.StartsWith("EVE-IGB") Then
+            context.Response.Headers.Add("refresh:sessionchange;URL=/HEADERS")
         End If
         strHTML &= "<p>If viewed through the Eve IGB, this page will show a list of the Eve specific browser headers which can be used to identify certain Pilot information. If a site is trusted by "
         strHTML &= "the Eve IGB (shown by the EVE_TRUSTED header), this information is made available to the web server (the remote site).</p><p>"
-        For a As Integer = 0 To _context.Request.Headers.Count - 1
-            strHTML &= _context.Request.Headers.Keys(a) & " : " & _context.Request.Headers.Item(a) & "<br>"
+        For a As Integer = 0 To context.Request.Headers.Count - 1
+            strHTML &= context.Request.Headers.Keys(a) & " : " & context.Request.Headers.Item(a) & "<br>"
         Next
         strHTML &= "</p><br><br><br>"
-        strHTML &= IGBHTMLFooter(_context)
+        strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
     Private Function CreateReports() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(_context, "EveHQ Reports", 0)
+        strHTML &= IGBHTMLHeader(context, "EveHQ Reports", 0)
         strHTML &= "<p>Please select a report from the list below:</p><br>"
-        If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Report - Skill Level Table") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Skill Level Table") = True Then
             strHTML &= "<br><a href=/reports/skilllevels>Skill Level Table</a><br>"
         End If
-        If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Report - Character Summary") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Summary") = True Then
             strHTML &= "<br><a href=/reports/charsumm>Character Summary</a><br>"
         End If
-        If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Report - Character Individual Reports") = True Then
+        If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Individual Reports") = True Then
             strHTML &= "<br><a href=/reports/character>Individual Character Reports</a></p>"
         End If
         strHTML &= "<br><br><br>"
-        strHTML &= IGBHTMLFooter(_context)
+        strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
     Private Function CreateSPReport() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(_context, "Skill Level Table", 0)
+        strHTML &= IGBHTMLHeader(context, "Skill Level Table", 0)
         strHTML &= Reports.HTMLTitle("Skill Level Table")
         strHTML &= Reports.SPSummary
         strHTML &= Reports.HTMLFooter
@@ -447,7 +447,7 @@ Public Class IGB
     End Function
     Private Function ShowCharSummary() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(_context, "Pilot Summary", 0)
+        strHTML &= IGBHTMLHeader(context, "Pilot Summary", 0)
         strHTML &= Reports.HTMLTitle("Pilot Summary")
         strHTML &= Reports.CharSummary()
         strHTML &= Reports.HTMLFooter
@@ -455,19 +455,19 @@ Public Class IGB
     End Function
     Private Function ShowCharReports() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(_context, "Generate Character Report", 0)
+        strHTML &= IGBHTMLHeader(context, "Generate Character Report", 0)
         strHTML &= CreateCharReports()
-        strHTML &= IGBHTMLFooter(_context)
+        strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
     Private Function CreateHTMLSearchResultsSQL() As String
         Dim strHTML As String = ""
-        strHTML &= IGBHTMLHeader(_context, "EveHQ Search Results", 0)
-        If _context.Request.QueryString.Count = 0 Or _context.Request.QueryString.Item("str") = "" Then
+        strHTML &= IGBHTMLHeader(context, "EveHQ Search Results", 0)
+        If context.Request.QueryString.Count = 0 Or context.Request.QueryString.Item("str") = "" Then
             strHTML &= "<p>Please enter a valid search parameter</p>"
         Else
             Try
-                Dim searchFor As String = (HttpUtility.UrlDecode(_context.Request.QueryString.Item("str"))).Trim
+                Dim searchFor As String = (HttpUtility.UrlDecode(context.Request.QueryString.Item("str"))).Trim
                 Dim strSearch As String = searchFor.ToLower
                 Dim results As New SortedList(Of String, Integer)
                 For Each item As String In StaticData.TypeNames.Keys
@@ -484,7 +484,7 @@ Public Class IGB
                 strHTML &= "<p>Unable to access database...please check location and integrity.</p>"
             End Try
         End If
-        strHTML &= IGBHTMLFooter(_context)
+        strHTML &= IGBHTMLFooter(context)
         Return strHTML
     End Function
     Private Function CreateNavPaneSQL() As String
@@ -493,7 +493,7 @@ Public Class IGB
 
         Try
             strHTML &= "<table width=800px class=tbl border=0><tr><td width=100%>"
-            Select Case _context.Request.QueryString.Item("view")
+            Select Case context.Request.QueryString.Item("view")
                 Case "c", ""
                     dbNavigator &= "<a href=/itemDB/>Home</a>"
                     strHTML &= "<p>" & dbNavigator & "</p>"
@@ -506,7 +506,7 @@ Public Class IGB
                         strHTML &= "<a href=/itemDB/?view=g&id=" & categories(catName) & ">" & catName & "</a><br>"
                     Next
                 Case "g"
-                    Dim catID As Integer = CInt(_context.Request.QueryString.Item("id"))
+                    Dim catID As Integer = CInt(context.Request.QueryString.Item("id"))
                     dbNavigator &= "<a href=/itemDB/>Home</a> -> "
                     dbNavigator &= "<a href=/itemDB/?view=g&id=" & catID & ">" & StaticData.TypeCats(catID) & "</a>"
                     strHTML &= "<p>" & dbNavigator & "</p>"
@@ -515,7 +515,7 @@ Public Class IGB
                         strHTML &= "<a href=/itemDB/?view=i&id=" & groupID & ">" & StaticData.TypeGroups(groupID) & "</a><br>"
                     Next
                 Case "i"
-                    Dim groupID As Integer = CInt(_context.Request.QueryString.Item("id"))
+                    Dim groupID As Integer = CInt(context.Request.QueryString.Item("id"))
                     Dim catID As Integer = StaticData.GroupCats(groupID)
                     dbNavigator &= "<a href=/itemDB/>Home</a> -> "
                     dbNavigator &= "<a href=/itemDB/?view=g&id=" & catID & ">" & StaticData.TypeCats(catID) & "</a> -> "
@@ -526,12 +526,12 @@ Public Class IGB
                         strHTML &= "<a href=/itemDB/?view=t&id=" & StaticData.TypeNames(typeName) & ">" & typeName & "</a><br>"
                     Next
                 Case "t"
-                    Dim typeID As Integer = CInt(_context.Request.QueryString.Item("id"))
+                    Dim typeID As Integer = CInt(context.Request.QueryString.Item("id"))
                     Dim item As EveType = StaticData.Types(typeID)
                     dbNavigator &= "<a href=/itemDB/>Home</a> -> "
                     dbNavigator &= "<a href=/itemDB/?view=g&id=" & item.Category.ToString & ">" & StaticData.TypeCats(item.Category) & "</a> -> "
                     dbNavigator &= "<a href=/itemDB/?view=i&id=" & item.Group.ToString & ">" & StaticData.TypeGroups(item.Group) & "</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=t&id=" & item.ID.ToString & ">" & item.Name & "</a>"
+                    dbNavigator &= "<a href=/itemDB/?view=t&id=" & item.Id.ToString & ">" & item.Name & "</a>"
                     strHTML &= "<p>" & dbNavigator & "</p>"
                     strHTML &= "</td></tr></table>"
                     strHTML &= "<p><a href=/itemDB/?view=t&id=" & typeID & "&s=a>ATTRIBUTES</a>"
@@ -584,7 +584,7 @@ Public Class IGB
                     strHTML &= "<b>" & item.Name & "</b>"
                     strHTML &= "</td></tr></table><br>"
 
-                    Select Case _context.Request.QueryString.Item("s")
+                    Select Case context.Request.QueryString.Item("s")
                         Case "a", ""            ' If blank or attributes!
                             ' Define array for holding info ready for categorising
                             Dim attributes(150, 5) As String
@@ -776,7 +776,7 @@ Public Class IGB
                             Next
 
                             ' If activity is blank then set to manufacturing
-                            Dim act As String = _context.Request.QueryString.Item("a")
+                            Dim act As String = context.Request.QueryString.Item("a")
                             If act = "" Then act = "1"
                             strHTML &= "<p style='font-size:14;'><b>Materials: " & [Enum].GetName(GetType(BlueprintActivity), CInt(act)) & "</b></p>"
 
@@ -789,7 +789,7 @@ Public Class IGB
                                 'Else
                                 strHTML &= "<td width=32px><img src='" & GetExternalIcon(matInfo.Id) & "' width=32px height=32px></td>"
                                 'End If
-                                strHTML &= "<td width=300px><a href=/itemDB/?view=t&id=" & matInfo.ID.ToString & ">" & matInfo.Name & "</a>"
+                                strHTML &= "<td width=300px><a href=/itemDB/?view=t&id=" & matInfo.Id.ToString & ">" & matInfo.Name & "</a>"
                                 strHTML &= "</td><td>"
                                 strHTML &= br.Quantity.ToString("N2")
                                 strHTML &= "</td></tr>"
@@ -808,7 +808,7 @@ Public Class IGB
                                 Dim iInfo As EveType = StaticData.Types(metaItemID)
                                 strHTML &= "<td width=32px><img src='" & GetExternalIcon(iInfo.Id) & "' width=32px height=32px></td>"
                                 'End If
-                                strHTML &= "<td width=368px><a href=/itemDB/?view=t&id=" & iInfo.ID.ToString & ">" & iInfo.Name & "</a></td><td>" & StaticData.MetaGroups(StaticData.MetaTypes(iInfo.ID).MetaGroupID) & "</td></tr>"
+                                strHTML &= "<td width=368px><a href=/itemDB/?view=t&id=" & iInfo.Id.ToString & ">" & iInfo.Name & "</a></td><td>" & StaticData.MetaGroups(StaticData.MetaTypes(iInfo.Id).MetaGroupId) & "</td></tr>"
                             Next
                             strHTML &= "</table><br>"
                     End Select
@@ -851,8 +851,8 @@ Public Class IGB
             Dim pilotName As String
             For Each pilotName In pilotNames
                 strHTML &= "<option "
-                If _context.Request.UserAgent.StartsWith("EVE-IGB") Then
-                    If _context.Request.Headers("EVE_CHARNAME") = pilotName Then
+                If context.Request.UserAgent.StartsWith("EVE-IGB") Then
+                    If context.Request.Headers("EVE_CHARNAME") = pilotName Then
                         strHTML &= "selected='selected'"
                     End If
                 Else
@@ -881,16 +881,16 @@ Public Class IGB
     End Function
     Private Function CreateCharReport() As String
         Dim strHTML As String = ""
-        If _context.Request.QueryString.Count < 2 Then
-            strHTML &= IGBHTMLHeader(_context, "Character Report Error", 0)
+        If context.Request.QueryString.Count < 2 Then
+            strHTML &= IGBHTMLHeader(context, "Character Report Error", 0)
             strHTML &= "<p>There was an error generating your character report</p>"
-            strHTML &= IGBHTMLFooter(_context)
+            strHTML &= IGBHTMLFooter(context)
         Else
-            Dim repString As String = _context.Request.QueryString.Item("report")
-            Dim pilotString As String = _context.Request.QueryString.Item("Pilot")
+            Dim repString As String = context.Request.QueryString.Item("report")
+            Dim pilotString As String = context.Request.QueryString.Item("Pilot")
             repString = repString.Replace("+", " ")
             pilotString = pilotString.Replace("+", " ")
-            strHTML &= IGBHTMLHeader(_context, repString & " Report For " & pilotString, 0)
+            strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString, 0)
             Dim repPilot As EveHQPilot = HQ.Settings.Pilots(pilotString)
             Select Case repString
                 Case "Character Sheet"
@@ -946,18 +946,18 @@ Public Class IGB
     End Function
     Private Function CreateQueueReport() As String
         Dim strHTML As String = ""
-        If _context.Request.QueryString.Count < 3 Then
-            strHTML &= IGBHTMLHeader(_context, "Character Queue Report Error", 0)
+        If context.Request.QueryString.Count < 3 Then
+            strHTML &= IGBHTMLHeader(context, "Character Queue Report Error", 0)
             strHTML &= "<p>There was an error generating your character report</p>"
-            strHTML &= IGBHTMLFooter(_context)
+            strHTML &= IGBHTMLFooter(context)
         Else
-            Dim repString As String = _context.Request.QueryString.Item("Report")
-            Dim pilotString As String = _context.Request.QueryString.Item("Pilot")
-            Dim queueString As String = _context.Request.QueryString.Item("Queue")
+            Dim repString As String = context.Request.QueryString.Item("Report")
+            Dim pilotString As String = context.Request.QueryString.Item("Pilot")
+            Dim queueString As String = context.Request.QueryString.Item("Queue")
             repString = repString.Replace("+", " ")
             pilotString = pilotString.Replace("+", " ")
             queueString = queueString.Replace("+", " ")
-            strHTML &= IGBHTMLHeader(_context, repString & " Report For " & pilotString, 0)
+            strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString, 0)
             Dim repPilot As EveHQPilot = HQ.Settings.Pilots(pilotString)
             Select Case repString
                 Case "Training Queue"
@@ -979,7 +979,7 @@ Public Class IGB
     Private Function CreateMarketTest() As String
         Dim strHTML As New StringBuilder
 
-        strHTML.Append(IGBHTMLHeader(_context, "EveHQ IGB Market Crawl Test", 5))
+        strHTML.Append(IGBHTMLHeader(context, "EveHQ IGB Market Crawl Test", 5))
         strHTML.Append("<p>Welcome to the EveHQ IGB Market Crawl Test</p>")
         strHTML.Append(Now.ToString)
 

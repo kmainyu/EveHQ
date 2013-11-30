@@ -44,7 +44,7 @@ Namespace Controls
                     lblTime.Text = "ACCOUNT HAS EXPIRED!"
                     ToolTip1.SetToolTip(lblTime, "Account '" & cAccount.FriendlyName & "' has expired!")
                     lblQueue.Text = "Click here to buy Eve GTCs!"
-                    ToolTip1.SetToolTip(lblQueue, "Purchase your GTCs from BattleClinic Deep Space Supply and help support EveHQ!")
+                    ToolTip1.SetToolTip(lblQueue, "Purchase your GTCs from EveTimeCode.com and help support EveHQ!")
                     lblSkill.ForeColor = Color.Red
                     lblTime.LinkColor = Color.Red
                     lblQueue.LinkColor = Color.Red
@@ -186,12 +186,13 @@ Namespace Controls
 
         Private Sub lblQueue_LinkClicked(ByVal sender As System.Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblQueue.LinkClicked
             If _usingAccount <> "" Then
-                ' Start a link to the DSS GTC site
-                'Try
-
-                'Catch ex As Exception
-                '    MessageBox.Show("Unable to browse to the selected website", "Account Expiry Link Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                'End Try
+                ' Start a link to the eve time code site via the sharesale gateway url
+                Try
+                    Dim sInfo As ProcessStartInfo = New ProcessStartInfo("http://www.shareasale.com/r.cfm?B=284450&U=879816&M=31243&urllink=")
+                    Process.Start(sInfo)
+                Catch ex As Exception
+                    MessageBox.Show("Unable to browse to the selected website", "Account Expiry Link Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
             End If
         End Sub
 
@@ -249,7 +250,7 @@ Namespace Controls
                 If Core.HQ.Settings.NotifyInsuffClone = True Then
                     If Core.HQ.Settings.Pilots.ContainsKey(_displayPilotName) Then
                         If (_displayPilot.SkillPoints + Core.SkillFunctions.CalcCurrentSkillPoints(_displayPilot)) > CLng(_displayPilot.CloneSP) Then
-                            Const overlayText As String = "Clone"
+                            Const OverlayText As String = "Clone"
                             Dim overlayFont As Font = New Font(Font.FontFamily, 7)
                             Dim overlayBrush As New SolidBrush(Color.Coral)
                             ' Define a new image
@@ -259,8 +260,8 @@ Namespace Controls
                             myGraphics.FillRectangle(overlayBrush, 0, pbPilot.Height - 20, pbPilot.Width, 10)
                             ' Add the text to the new bitmap.
                             myGraphics.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit
-                            Dim ts As Size = Size.Round(myGraphics.MeasureString(overlayText, overlayFont, 40))
-                            myGraphics.DrawString(overlayText, overlayFont, New SolidBrush(Color.Black), CInt((40 - ts.Width) / 2), pbPilot.Height - 20)
+                            Dim ts As Size = Size.Round(myGraphics.MeasureString(OverlayText, overlayFont, 40))
+                            myGraphics.DrawString(OverlayText, overlayFont, New SolidBrush(Color.Black), CInt((40 - ts.Width) / 2), pbPilot.Height - 20)
                             pbPilot.Image = olImage
                         End If
                     End If

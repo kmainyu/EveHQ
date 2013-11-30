@@ -40,10 +40,10 @@ Namespace Forms
             Dim sortedTagList As Dictionary(Of String, Integer) = tagList.OrderByDescending(Function(x) x.Value).ToDictionary(Function(x) x.Key, Function(y) y.Value)
 
             ' Calculate some weighting
-            Const maxWeight As Integer = 12
+            Const MaxWeight As Integer = 12
             Dim max As Integer = sortedTagList.Values(0)
             Dim min As Integer = sortedTagList.Values(Math.Min(20, sortedTagList.Count) - 1)
-            Dim weight As Double = ((max - min) / maxWeight)
+            Dim weight As Double = ((max - min) / MaxWeight)
 
             lblTagCloud.Text = ""
             For t As Integer = 0 To Math.Min(20, tagList.Count) - 1

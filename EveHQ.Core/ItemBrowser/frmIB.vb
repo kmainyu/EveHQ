@@ -25,6 +25,7 @@ Imports System.Windows.Forms
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports EveHQ.Core.Requisitions
+Imports EveHQ.Common.Extensions
 Imports MarkupLinkClickEventArgs = DevComponents.DotNetBar.MarkupLinkClickEventArgs
 
 Namespace ItemBrowser
@@ -294,7 +295,7 @@ Namespace ItemBrowser
             lblAttSearchCount.Text = adtAttSearch.Nodes.Count & " items found"
         End Sub
 
-        Private Sub adtAttSearch_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtAttSearch.ColumnHeaderMouseUp
+        Private Sub adtAttSearch_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtAttSearch.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -336,7 +337,7 @@ Namespace ItemBrowser
 
         End Sub
 
-        Private Sub adtEffectSearch_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtEffectSearch.ColumnHeaderMouseUp
+        Private Sub adtEffectSearch_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtEffectSearch.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -757,24 +758,24 @@ Namespace ItemBrowser
                 For Each cert As Integer In certs
                     Dim newCert As Certificate = StaticData.Certificates(cert)
                     Dim certNode As New Node
-                    certNode.Text = StaticData.CertificateClasses(newCert.ClassId.ToString).Name
+                    certNode.Text = newCert.Name
                     certNode.Tag = newCert.Id
-                    adtCerts.Nodes.Add(certNode)
-                    certNode.Cells.Add(New Cell)
-                    certNode.Cells(1).Tag = newCert.Grade
-                    certNode.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & newCert.Grade.ToString), Image)
-                    Select Case newCert.Grade
-                        Case 1
-                            certNode.Cells(1).Text = "Basic"
-                        Case 2
-                            certNode.Cells(1).Text = "Standard"
-                        Case 3
-                            certNode.Cells(1).Text = "Improved"
-                        Case 4
-                            certNode.Cells(1).Text = "Advanced"
-                        Case 5
-                            certNode.Cells(1).Text = "Elite"
-                    End Select
+                    'adtCerts.Nodes.Add(certNode)
+                    'certNode.Cells.Add(New Cell)
+                    'certNode.Cells(1).Tag = newCert.Grade
+                    'certNode.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & newCert.Grade.ToString), Image)
+                    'Select Case newCert.Grade
+                    '    Case 1
+                    '        certNode.Cells(1).Text = "Basic"
+                    '    Case 2
+                    '        certNode.Cells(1).Text = "Standard"
+                    '    Case 3
+                    '        certNode.Cells(1).Text = "Improved"
+                    '    Case 4
+                    '        certNode.Cells(1).Text = "Advanced"
+                    '    Case 5
+                    '        certNode.Cells(1).Text = "Elite"
+                    'End Select
                 Next
 
             End If
@@ -919,8 +920,8 @@ Namespace ItemBrowser
             If bpID <> 0 Then
 
                 ' Get the materials for the BP and add them to the list
-                Const activity As Integer = 1
-                For Each br As BlueprintResource In StaticData.Blueprints(bpID).Resources(activity).Values
+                Const Activity As Integer = 1
+                For Each br As BlueprintResource In StaticData.Blueprints(bpID).Resources(Activity).Values
                     Dim mn As New Node
                     mn.Text = StaticData.Types(br.TypeId).Name
                     mn.Cells.Add(New Cell(br.Quantity.ToString("N0")))
@@ -963,13 +964,13 @@ Namespace ItemBrowser
             If bpID <> 0 Then
 
                 ' Get the materials for the BP and add them to the list
-                Const activity As Integer = 1
+                Const Activity As Integer = 1
                 For Each bt As Blueprint In StaticData.Blueprints.Values
-                    If bt.Resources.ContainsKey(activity) Then
-                        If bt.Resources(activity).ContainsKey(itemID) Then
+                    If bt.Resources.ContainsKey(Activity) Then
+                        If bt.Resources(Activity).ContainsKey(itemID) Then
                             Dim mn As New Node
                             mn.Text = StaticData.Types(bt.ProductId).Name
-                            mn.Cells.Add(New Cell(bt.Resources(activity).Item(itemID).Quantity.ToString("N0")))
+                            mn.Cells.Add(New Cell(bt.Resources(Activity).Item(itemID).Quantity.ToString("N0")))
                             adtComponents.Nodes.Add(mn)
                         End If
                     End If

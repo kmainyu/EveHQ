@@ -193,7 +193,7 @@ Namespace Forms
             Call GetVariations(_baseModule)
         End Sub
 
-        Private Sub adtComparisons_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtComparisons.ColumnHeaderMouseUp
+        Private Sub adtComparisons_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtComparisons.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
             ' Set the last forced sort

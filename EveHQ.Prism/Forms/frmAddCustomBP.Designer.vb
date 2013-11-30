@@ -23,19 +23,19 @@
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Me.lblPELevel = New System.Windows.Forms.Label
-            Me.lblMELevel = New System.Windows.Forms.Label
-            Me.pbBP = New System.Windows.Forms.PictureBox
-            Me.pnlCustomBP = New DevComponents.DotNetBar.PanelEx
-            Me.btnAccept = New DevComponents.DotNetBar.ButtonX
-            Me.btnCancel = New DevComponents.DotNetBar.ButtonX
-            Me.cboBPs = New DevComponents.DotNetBar.Controls.ComboBoxEx
-            Me.nudMELevel = New DevComponents.Editors.IntegerInput
-            Me.nudPELevel = New DevComponents.Editors.IntegerInput
+            Me.lblPELevel = New System.Windows.Forms.Label()
+            Me.lblMELevel = New System.Windows.Forms.Label()
+            Me.pbBP = New System.Windows.Forms.PictureBox()
+            Me.pnlCustomBP = New DevComponents.DotNetBar.PanelEx()
+            Me.nudPELevel = New DevComponents.Editors.IntegerInput()
+            Me.nudMELevel = New DevComponents.Editors.IntegerInput()
+            Me.cboBPs = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+            Me.btnCancel = New DevComponents.DotNetBar.ButtonX()
+            Me.btnAccept = New DevComponents.DotNetBar.ButtonX()
             CType(Me.pbBP, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.pnlCustomBP.SuspendLayout()
-            CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
             'lblPELevel
@@ -90,42 +90,22 @@
             Me.pnlCustomBP.Style.GradientAngle = 90
             Me.pnlCustomBP.TabIndex = 50
             '
-            'btnAccept
+            'nudPELevel
             '
-            Me.btnAccept.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnAccept.CallBasePaintBackground = True
-            Me.btnAccept.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnAccept.Location = New System.Drawing.Point(231, 101)
-            Me.btnAccept.Name = "btnAccept"
-            Me.btnAccept.Size = New System.Drawing.Size(75, 23)
-            Me.btnAccept.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnAccept.TabIndex = 50
-            Me.btnAccept.Text = "Accept"
             '
-            'btnCancel
             '
-            Me.btnCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnCancel.CallBasePaintBackground = True
-            Me.btnCancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-            Me.btnCancel.Location = New System.Drawing.Point(312, 101)
-            Me.btnCancel.Name = "btnCancel"
-            Me.btnCancel.Size = New System.Drawing.Size(75, 23)
-            Me.btnCancel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnCancel.TabIndex = 51
-            Me.btnCancel.Text = "Cancel"
             '
-            'cboBPs
-            '
-            Me.cboBPs.DisplayMember = "Text"
-            Me.cboBPs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-            Me.cboBPs.FormattingEnabled = True
-            Me.cboBPs.ItemHeight = 15
-            Me.cboBPs.Location = New System.Drawing.Point(82, 22)
-            Me.cboBPs.Name = "cboBPs"
-            Me.cboBPs.Size = New System.Drawing.Size(305, 21)
-            Me.cboBPs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.cboBPs.TabIndex = 52
+            Me.nudPELevel.BackgroundStyle.Class = "DateTimeInputBackground"
+            Me.nudPELevel.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.nudPELevel.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
+            Me.nudPELevel.Location = New System.Drawing.Point(300, 55)
+            Me.nudPELevel.MaxValue = 100000
+            Me.nudPELevel.MinValue = -10
+            Me.nudPELevel.Value = 0
+            Me.nudPELevel.Name = "nudPELevel"
+            Me.nudPELevel.ShowUpDown = True
+            Me.nudPELevel.Size = New System.Drawing.Size(87, 21)
+            Me.nudPELevel.TabIndex = 54
             '
             'nudMELevel
             '
@@ -138,28 +118,49 @@
             Me.nudMELevel.Location = New System.Drawing.Point(141, 55)
             Me.nudMELevel.MaxValue = 100000
             Me.nudMELevel.MinValue = -10
+            Me.nudMELevel.Value = 0
             Me.nudMELevel.Name = "nudMELevel"
             Me.nudMELevel.ShowUpDown = True
             Me.nudMELevel.Size = New System.Drawing.Size(87, 21)
             Me.nudMELevel.TabIndex = 53
             '
-            'nudPELevel
+            'cboBPs
             '
+            Me.cboBPs.DisplayMember = "Text"
+            Me.cboBPs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+            Me.cboBPs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+            Me.cboBPs.FormattingEnabled = True
+            Me.cboBPs.ItemHeight = 15
+            Me.cboBPs.Location = New System.Drawing.Point(82, 22)
+            Me.cboBPs.Name = "cboBPs"
+            Me.cboBPs.Size = New System.Drawing.Size(305, 21)
+            Me.cboBPs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.cboBPs.TabIndex = 52
             '
+            'btnCancel
             '
+            Me.btnCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnCancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
+            Me.btnCancel.Location = New System.Drawing.Point(312, 101)
+            Me.btnCancel.Name = "btnCancel"
+            Me.btnCancel.Size = New System.Drawing.Size(75, 23)
+            Me.btnCancel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnCancel.TabIndex = 51
+            Me.btnCancel.Text = "Cancel"
             '
-            Me.nudPELevel.BackgroundStyle.Class = "DateTimeInputBackground"
-            Me.nudPELevel.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.nudPELevel.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
-            Me.nudPELevel.Location = New System.Drawing.Point(300, 55)
-            Me.nudPELevel.MaxValue = 100000
-            Me.nudPELevel.MinValue = -10
-            Me.nudPELevel.Name = "nudPELevel"
-            Me.nudPELevel.ShowUpDown = True
-            Me.nudPELevel.Size = New System.Drawing.Size(87, 21)
-            Me.nudPELevel.TabIndex = 54
+            'btnAccept
             '
-            'frmAddCustomBP
+            Me.btnAccept.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnAccept.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnAccept.Location = New System.Drawing.Point(231, 101)
+            Me.btnAccept.Name = "btnAccept"
+            Me.btnAccept.Size = New System.Drawing.Size(75, 23)
+            Me.btnAccept.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnAccept.TabIndex = 50
+            Me.btnAccept.Text = "Accept"
+            '
+            'FrmAddCustomBP
             '
             Me.AcceptButton = Me.btnAccept
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -172,14 +173,14 @@
             Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
             Me.MaximizeBox = False
             Me.MinimizeBox = False
-            Me.Name = "frmAddCustomBP"
+            Me.Name = "FrmAddCustomBP"
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             Me.Text = "Add Custom Blueprint"
             CType(Me.pbBP, System.ComponentModel.ISupportInitialize).EndInit()
             Me.pnlCustomBP.ResumeLayout(False)
             Me.pnlCustomBP.PerformLayout()
-            CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
 
         End Sub

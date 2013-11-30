@@ -186,7 +186,7 @@ Public Class EveAPIRequest
     Public Overloads Function GetAPIXML(ByVal apiType As APITypes, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
         ' Accepts API features that do not have an explicit post request
         Dim remoteURL As String
-        Const postdata As String = ""
+        Const Postdata As String = ""
         _cAPILastRequestType = apiType
         Select Case apiType
             Case APITypes.AllianceList
@@ -225,7 +225,7 @@ Public Class EveAPIRequest
         End Select
         ' Determine filename of cache
         Dim fileName As String = "EVEHQAPI_" & [Enum].GetName(GetType(APITypes), apiType)
-        Return GetXML(remoteURL, postdata, fileName, apiReturnMethod)
+        Return GetXML(remoteURL, Postdata, fileName, apiReturnMethod)
     End Function
 
     ''' <summary>
@@ -574,17 +574,17 @@ Public Class EveAPIRequest
     ''' <returns>An XMLDocument for the APIRequest, based upon the APIReturnMethod used</returns>
     ''' <remarks></remarks>
     Private Function GetXML(ByVal remoteURL As String, ByVal postData As String, ByVal fileName As String, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
-        Const fileDate As String = ""
+        Const FileDate As String = ""
         Dim apixml As New XmlDocument
         Dim errlist As XmlNodeList
         Dim fileLoc As String
         Try
-            fileLoc = Path.Combine(_cAPICacheLocation, fileName & fileDate & ".xml")
+            fileLoc = Path.Combine(_cAPICacheLocation, fileName & FileDate & ".xml")
         Catch e As Exception
             Dim msg As String = "An error occured while trying to assemble the cache location string. The location being created should be in:" & ControlChars.CrLf & ControlChars.CrLf
             msg &= "Cache Folder: " & _cAPICacheLocation & ControlChars.CrLf
             msg &= "File Name: " & fileName & ControlChars.CrLf
-            msg &= "File Date: " & fileDate & ControlChars.CrLf
+            msg &= "File Date: " & FileDate & ControlChars.CrLf
             _cAPILastResult = APIResults.InternalCodeError
             _cAPILastErrorText = msg
             Return Nothing
@@ -597,9 +597,13 @@ Public Class EveAPIRequest
                 apixml = FetchXMLFromWeb(remoteURL, postData)
                 ' Check for null document (can happen if APIRS) isn't active and no backup is used
                 If apixml.InnerXml = "" Then
-                    ' Do not save and return nothing
-                    _cAPILastResult = APIResults.APIServerDownReturnedNull
-                    Return Nothing
+                    ' Check for a CCP error code
+                    If _cAPILastResult <> -1 Then
+                        Return Nothing
+                    Else
+                        _cAPILastResult = APIResults.APIServerDownReturnedNull
+                        Return Nothing
+                    End If
                 Else
                     ' Check for error codes
                     errlist = apixml.SelectNodes("/eveapi/error")
@@ -657,8 +661,12 @@ Public Class EveAPIRequest
                         ' Check for null document (can happen if APIRS) isn't active and no backup is used
                         If tmpApixml.InnerXml = "" Then
                             ' Do not save and return the old API file
-                            _cAPILastResult = APIResults.APIServerDownReturnedCached
-                            Return apixml
+                            If _cAPILastResult <> -1 Then
+                                Return apixml
+                            Else
+                                _cAPILastResult = APIResults.APIServerDownReturnedCached
+                                Return apixml
+                            End If
                         End If
                         ' Check for error codes
                         errlist = tmpApixml.SelectNodes("/eveapi/error")
@@ -829,12 +837,36 @@ Public Class EveAPIRequest
                 ' Result will be given in the calling sub
             End If
         Catch webEx As WebException
-            'Quantix: The EveAPI now uses HTTP status messages for errors instead of 200 OK plus error details in xml.
-            ' however there is no documentation at the moment about what error codes are used for which scenarios.
+            'The EveAPI now uses HTTP status messages for errors but provides more detail in a further reponse (which can be read).
             _cAPILastResult = APIResults.CCPError
             Dim errorDetails As HttpWebResponse = CType(webEx.Response, HttpWebResponse)
-            _cAPILastError = CInt(errorDetails.StatusCode)
-            _cAPILastErrorText = CStr(errorDetails.StatusCode)
+            ' Get the stream associated with the response.
+            Dim receiveStream As Stream = errorDetails.GetResponseStream()
+            ' Pipes the stream to a higher level stream reader with the required encoding format. 
+            Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
+            webdata = readStream.ReadToEnd()
+            Try
+                Dim errorXML As New XmlDocument
+                errorXML.LoadXml(webdata)
+                Dim errlist As XmlNodeList = errorXML.SelectNodes("/eveapi/error")
+                If errlist.Count <> 0 Then
+                    Dim errNode As XmlNode = errlist(0)
+                    ' Get error code
+                    If errNode.Attributes.GetNamedItem("code") IsNot Nothing Then
+                        _cAPILastResult = APIResults.CCPError
+                        _cAPILastError = CInt(errNode.Attributes.GetNamedItem("code").Value)
+                        _cAPILastErrorText = errNode.InnerText
+                    Else
+                        _cAPILastResult = APIResults.UnknownError
+                        _cAPILastError = 999
+                        _cAPILastErrorText = errNode.InnerText
+                    End If
+                End If
+            Catch ex As Exception
+                _cAPILastResult = APIResults.UnknownError
+                _cAPILastError = 999
+                _cAPILastErrorText = webdata
+            End Try
         Catch e As Exception
             If e.Message.Contains("timed out") = True Then
                 _cAPILastResult = APIResults.TimedOut

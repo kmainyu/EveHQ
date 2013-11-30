@@ -34,7 +34,7 @@ Namespace Forms
         Dim _itemType As Object
         Dim _itemName As String = ""
         Dim _hPilot As EveHQPilot
-        ReadOnly _skillsNeeded As New SortedList(Of String, Integer)
+        ReadOnly _skillsNeeded As New Dictionary(Of String, Integer)
         Dim _itemUsable As Boolean = True
 
         Public Sub ShowItemDetails(ByVal itemObject As Object, ByVal iPilot As EveHQPilot)
@@ -179,33 +179,6 @@ Namespace Forms
                         lblUsableTime.Text = ""
                     Else
                         Dim usableTime As Long = 0
-                        Dim skillNo As Integer = 0
-                        If _skillsNeeded.Count > 1 Then
-                            Do
-                                Dim skillName As String = _skillsNeeded.Keys(skillNo)
-                                Dim skillLvl As Integer = _skillsNeeded(skillName)
-                                Dim skillno2 As Integer = skillNo + 1
-                                Do
-                                    If skillno2 < _skillsNeeded.Count Then
-                                        Dim skillName2 As String = _skillsNeeded.Keys(skillno2)
-                                        Dim skillLvl2 As Integer = _skillsNeeded(skillName2)
-                                        If skillName = skillName2 Then
-                                            If skillLvl >= skillLvl2 Then
-                                                _skillsNeeded.RemoveAt(skillno2)
-                                            Else
-                                                _skillsNeeded.RemoveAt(skillNo)
-                                                skillNo = -1
-                                                Exit Do
-                                            End If
-                                        Else
-                                            skillno2 += 1
-                                        End If
-                                    End If
-                                Loop Until skillno2 >= _skillsNeeded.Count
-                                skillNo += 1
-                            Loop Until skillNo >= _skillsNeeded.Count - 1
-                        End If
-                        _skillsNeeded.Reverse()
                         For Each skillName As String In _skillsNeeded.Keys
                             Dim skillLvl As Integer = _skillsNeeded(skillName)
                             Dim cSkill As EveSkill = HQ.SkillListName(skillName)
@@ -475,7 +448,7 @@ Namespace Forms
             End Using
         End Sub
 
-        Private Sub adtAffects_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtAffects.ColumnHeaderMouseUp
+        Private Sub adtAffects_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtAffects.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub

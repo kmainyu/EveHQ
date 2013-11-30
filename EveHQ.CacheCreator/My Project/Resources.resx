@@ -130,4 +130,7 @@
   <data name="typeIDs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\typeIDs.yaml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="certificates" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\certificates.yaml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

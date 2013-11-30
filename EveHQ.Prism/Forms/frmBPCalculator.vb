@@ -25,6 +25,7 @@ Imports EveHQ.EveData
 Imports EveHQ.Prism.BPCalc
 Imports EveHQ.Prism.Classes
 Imports EveHQ.Prism.Controls
+Imports DevComponents.DotNetBar
 
 Namespace Forms
 
@@ -77,9 +78,11 @@ Namespace Forms
                 Return _productionChanged
             End Get
             Set(ByVal value As Boolean)
-                _productionChanged = value
-                If _initialJob IsNot Nothing Then
-                    btnSaveProductionJob.Enabled = value
+                If _startUp = False Then
+                    _productionChanged = value
+                    If _initialJob IsNot Nothing Then
+                        btnSaveProductionJob.Enabled = value
+                    End If
                 End If
             End Set
         End Property
@@ -106,7 +109,8 @@ Namespace Forms
             InitializeComponent()
 
             ' This is for a default blank BPCalc
-            _usingOwnedBPs = UsingOwnedBPs
+            _startUp = True
+            _usingOwnedBPs = usingOwnedBPs
             _startMode = BPCalcStartMode.None
             _bpOwnerName = PrismSettings.UserSettings.DefaultBPOwner
 
@@ -118,7 +122,7 @@ Namespace Forms
             InitializeComponent()
 
             ' This is for a non-owned BP
-            _bpName = BPName
+            _bpName = bpName
             _usingOwnedBPs = False
             _bpOwnerName = PrismSettings.UserSettings.DefaultBPOwner
             _startMode = BPCalcStartMode.StandardBP
@@ -132,7 +136,7 @@ Namespace Forms
 
             ' This is for a non-owned BP
             _bpOwnerName = bpOwner
-            _ownedBpid = CStr(BPAssetID)
+            _ownedBpid = CStr(bpAssetID)
             _usingOwnedBPs = True
             _startMode = BPCalcStartMode.OwnerBP
 
@@ -147,7 +151,7 @@ Namespace Forms
             _initialJob = existingJob
             _currentJob = existingJob.Clone
             _currentBP = _currentJob.CurrentBlueprint
-            If ForInvention = False Then
+            If forInvention = False Then
                 _startMode = BPCalcStartMode.ProductionJob
             Else
                 _startMode = BPCalcStartMode.InventionJob
@@ -167,12 +171,25 @@ Namespace Forms
         Private Sub frmBPCalculator_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
 
             ' Check for changed production values
-            If ProductionChanged = True Then
-                Dim reply As DialogResult = MessageBox.Show("There are unsaved changes to this Production Job. Would you like to save these now?", "Save Job Changes?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
-                If reply = DialogResult.Cancel Then
+            If ProductionChanged = True And PrismSettings.UserSettings.HideSaveJobDialog = False Then
+
+                TaskDialog.AntiAlias = True
+                TaskDialog.EnableGlass = False
+                Dim tdi As New TaskDialogInfo
+                tdi.TaskDialogIcon = eTaskDialogIcon.Information
+                tdi.DialogButtons = eTaskDialogButton.Yes Or eTaskDialogButton.No Or eTaskDialogButton.Cancel
+                tdi.DefaultButton = eTaskDialogButton.Yes
+                tdi.Title = "Save Job Changes?"
+                tdi.Header = "Save Job Changes?"
+                tdi.Text = "There are unsaved changes to this Production Job. Would you like to save these now?"
+                tdi.DialogColor = eTaskDialogBackgroundColor.DarkBlue
+                tdi.CheckBoxCommand = SaveJobDialogCheckBox
+                Dim reply As eTaskDialogResult = TaskDialog.Show(Me, tdi)
+
+                If reply = eTaskDialogResult.Cancel Then
                     e.Cancel = True
                 Else
-                    If reply = DialogResult.Yes Then
+                    If reply = eTaskDialogResult.Yes Then
                         ' Save the current job before exiting
                         Call SaveCurrentProductionJob()
                     End If
@@ -193,7 +210,14 @@ Namespace Forms
                 End If
             End If
         End Sub
+
+        Private Sub SaveJobDialogCheckBox_Executed(ByVal sender As Object, ByVal e As EventArgs) Handles SaveJobDialogCheckBox.Executed
+            PrismSettings.UserSettings.HideSaveJobDialog = SaveJobDialogCheckBox.Checked
+        End Sub
+
         Private Sub frmBPCalculator_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+
+            '_startUp = True
 
             ' Set up the event handlers from the PrismProductionResources controls
             AddHandler PPRInvention.ProductionResourcesChanged, AddressOf InventionResourcesChanged
@@ -354,6 +378,9 @@ Namespace Forms
                     tabBPCalcFunctions.SelectedTab = tiInvention
             End Select
 
+            ' Reset the changed flag - nothing has really changed as we've just finished loading the form!
+            _productionChanged = False
+
         End Sub
 
         Private Sub frmBPCalculator_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
@@ -381,7 +408,7 @@ Namespace Forms
             End If
 
             If _currentBP IsNot Nothing Then
-                If StaticData.Blueprints.ContainsKey(CInt(_currentBP.AssetId)) Then
+                If _currentBP.AssetId <= Integer.MaxValue AndAlso StaticData.Blueprints.ContainsKey(CInt(_currentBP.AssetId)) Then
                     ' This is a standard BP, not an owned one
                     Call DisplayAllBlueprints()
                     cboBPs.SelectedItem = StaticData.Types(CInt(_currentBP.AssetId)).Name
@@ -506,7 +533,7 @@ Namespace Forms
                         End If
 
                         ' Check if this matches the ownedBPID
-                        If bpacbi.AssetID = _ownedBPID Then
+                        If bpacbi.AssetID = _ownedBpid Then
                             _ownedBP = bpacbi
                         End If
                     End If
@@ -662,12 +689,10 @@ Namespace Forms
                 If _currentBP.InventFrom.Count > 0 Then
                     ' Populate invention data
                     Call UpdateInventionUi()
-                    tiInvention.Visible = True
                 Else
                     If _currentBP.Inventions.Count > 0 Then
                         ' Populate invention data
                         Call UpdateInventionUi()
-                        tiInvention.Visible = True
                     Else
                         tiInvention.Visible = False
                     End If
@@ -727,54 +752,65 @@ Namespace Forms
 
             ' Update the decryptors and get skills by looking at the resources and determining the type of interface used
             Dim decryptorGroupID As String = ""
-            For Each resource As EveData.BlueprintResource In _currentInventionBP.Resources(8).Values
-                ' Add the resource to the list
-                Dim resName As String = StaticData.Types(resource.TypeId).Name
-                If resName.EndsWith("Interface", StringComparison.Ordinal) = True Then
-                    Select Case resName.Substring(0, 1)
-                        Case "O"
-                            ' Amarr
-                            decryptorGroupID = "728"
-                            Dim skillLevel As Integer = 0
-                            If _bpPilot.PilotSkills.ContainsKey("Amarr Encryption Methods") = True Then
-                                skillLevel = _bpPilot.PilotSkills("Amarr Encryption Methods").Level
-                            End If
-                            inventionSkills.AddFirst(New DictionaryEntry("Amarr Encryption Methods", skillLevel))
-                        Case "C"
-                            ' Minmatar
-                            decryptorGroupID = "729"
-                            Dim skillLevel As Integer = 0
-                            If _bpPilot.PilotSkills.ContainsKey("Minmatar Encryption Methods") = True Then
-                                skillLevel = _bpPilot.PilotSkills("Minmatar Encryption Methods").Level
-                            End If
-                            inventionSkills.AddFirst(New DictionaryEntry("Minmatar Encryption Methods", skillLevel))
-                        Case "I"
-                            ' Gallente
-                            decryptorGroupID = "730"
-                            Dim skillLevel As Integer = 0
-                            If _bpPilot.PilotSkills.ContainsKey("Gallente Encryption Methods") = True Then
-                                skillLevel = _bpPilot.PilotSkills("Gallente Encryption Methods").Level
-                            End If
-                            inventionSkills.AddFirst(New DictionaryEntry("Gallente Encryption Methods", skillLevel))
-                        Case "E"
-                            ' Caldari
-                            decryptorGroupID = "731"
-                            Dim skillLevel As Integer = 0
-                            If _bpPilot.PilotSkills.ContainsKey("Caldari Encryption Methods") = True Then
-                                skillLevel = _bpPilot.PilotSkills("Caldari Encryption Methods").Level
-                            End If
-                            inventionSkills.AddFirst(New DictionaryEntry("Caldari Encryption Methods", skillLevel))
-                    End Select
-                    ' Terminate early once we know
-                ElseIf resName.StartsWith("Datacore") = True Then
-                    Dim skillName As String = resName.TrimStart("Datacore - ".ToCharArray)
-                    Dim skillLevel As Integer = 0
-                    If _bpPilot.PilotSkills.ContainsKey(skillName) = True Then
-                        skillLevel = _bpPilot.PilotSkills(skillName).Level
+            If _currentInventionBP.Resources.ContainsKey(BlueprintActivity.Invention) = False Then
+                Dim msg As New System.Text.StringBuilder
+                msg.AppendLine("There are invention resources missing from the " & StaticData.Types(_currentInventionBP.Id).Name & ".")
+                msg.AppendLine()
+                msg.AppendLine("This could be caused by a corrupt database. Please report this to the developers so it can be investigated.")
+                MessageBox.Show(msg.ToString, "Missing Invention Resources", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                tiInvention.Visible = False
+                Exit Sub
+            Else
+                tiInvention.Visible = True
+                For Each resource As EveData.BlueprintResource In _currentInventionBP.Resources(BlueprintActivity.Invention).Values
+                    ' Add the resource to the list
+                    Dim resName As String = StaticData.Types(resource.TypeId).Name
+                    If resName.EndsWith("Interface", StringComparison.Ordinal) = True Then
+                        Select Case resName.Substring(0, 1)
+                            Case "O"
+                                ' Amarr
+                                decryptorGroupID = "728"
+                                Dim skillLevel As Integer = 0
+                                If _bpPilot.PilotSkills.ContainsKey("Amarr Encryption Methods") = True Then
+                                    skillLevel = _bpPilot.PilotSkills("Amarr Encryption Methods").Level
+                                End If
+                                inventionSkills.AddFirst(New DictionaryEntry("Amarr Encryption Methods", skillLevel))
+                            Case "C"
+                                ' Minmatar
+                                decryptorGroupID = "729"
+                                Dim skillLevel As Integer = 0
+                                If _bpPilot.PilotSkills.ContainsKey("Minmatar Encryption Methods") = True Then
+                                    skillLevel = _bpPilot.PilotSkills("Minmatar Encryption Methods").Level
+                                End If
+                                inventionSkills.AddFirst(New DictionaryEntry("Minmatar Encryption Methods", skillLevel))
+                            Case "I"
+                                ' Gallente
+                                decryptorGroupID = "730"
+                                Dim skillLevel As Integer = 0
+                                If _bpPilot.PilotSkills.ContainsKey("Gallente Encryption Methods") = True Then
+                                    skillLevel = _bpPilot.PilotSkills("Gallente Encryption Methods").Level
+                                End If
+                                inventionSkills.AddFirst(New DictionaryEntry("Gallente Encryption Methods", skillLevel))
+                            Case "E"
+                                ' Caldari
+                                decryptorGroupID = "731"
+                                Dim skillLevel As Integer = 0
+                                If _bpPilot.PilotSkills.ContainsKey("Caldari Encryption Methods") = True Then
+                                    skillLevel = _bpPilot.PilotSkills("Caldari Encryption Methods").Level
+                                End If
+                                inventionSkills.AddFirst(New DictionaryEntry("Caldari Encryption Methods", skillLevel))
+                        End Select
+                        ' Terminate early once we know
+                    ElseIf resName.StartsWith("Datacore", StringComparison.Ordinal) = True Then
+                        Dim skillName As String = resName.TrimStart("Datacore - ".ToCharArray)
+                        Dim skillLevel As Integer = 0
+                        If _bpPilot.PilotSkills.ContainsKey(skillName) = True Then
+                            skillLevel = _bpPilot.PilotSkills(skillName).Level
+                        End If
+                        inventionSkills.AddLast(New DictionaryEntry(skillName, skillLevel))
                     End If
-                    inventionSkills.AddLast(New DictionaryEntry(skillName, skillLevel))
-                End If
-            Next
+                Next
+            End If
             ' Update the invention resources with this BP
             PPRInvention.InventionBP = _currentInventionBP
 
@@ -782,7 +818,7 @@ Namespace Forms
             cboDecryptor.BeginUpdate()
             cboDecryptor.Items.Clear()
             cboDecryptor.Items.Add("<None>")
-            For Each decrypt As Decryptor In PlugInData.Decryptors.Values
+            For Each decrypt As BPCalc.Decryptor In PlugInData.Decryptors.Values
                 If decrypt.GroupID = decryptorGroupID Then
                     cboDecryptor.Items.Add(decrypt.Name & " (" & decrypt.ProbMod.ToString & "x, " & decrypt.MEMod.ToString & "ME, " & decrypt.PEMod.ToString & "PE, " & decrypt.RunMod.ToString & "r)")
                 End If
@@ -926,7 +962,10 @@ Namespace Forms
             Dim copyImplant As Double = 1 - (CDbl(cboScienceImplant.SelectedItem.ToString.TrimEnd(CChar("%"))) / 100)
             Dim meTime As Double = _currentBP.ResearchMaterialLevelTime * (1 - (0.05 * cboMetallurgySkill.SelectedIndex)) * meImplant
             Dim peTime As Double = _currentBP.ResearchProductionLevelTime * (1 - (0.05 * cboResearchSkill.SelectedIndex)) * peImplant
-            Dim copyTime As Double = _currentBP.ResearchCopyTime / _currentBP.MaxProductionLimit * 2 * (1 - (0.05 * cboScienceSkill.SelectedIndex)) * copyImplant
+            Dim copyTime As Double = 0
+            If _currentBP.MaxProductionLimit <> 0 Then
+                copyTime = _currentBP.ResearchCopyTime / _currentBP.MaxProductionLimit * 2 * (1 - (0.05 * cboScienceSkill.SelectedIndex)) * copyImplant
+            End If
             If chkResearchAtPOS.Checked = True Then
                 meTime *= 0.75
                 peTime *= 0.75
@@ -1149,7 +1188,7 @@ Namespace Forms
             End If
         End Sub
 
-       Private Sub chkAdvancedLab_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkAdvancedLab.CheckedChanged
+        Private Sub chkAdvancedLab_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkAdvancedLab.CheckedChanged
             If chkAdvancedLab.Checked = True Then
                 _copyTimeMod = 0.65
             Else
@@ -1339,7 +1378,7 @@ Namespace Forms
         End Sub
 
         Private Sub lblFactoryCostsLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblFactoryCostsLbl.LinkClicked
-            Using newSettingsForm As New frmPrismSettings
+            Using newSettingsForm As New FrmPrismSettings
                 newSettingsForm.Tag = "nodeCosts"
                 newSettingsForm.ShowDialog()
                 Call UpdateBlueprintInformation()
@@ -1348,7 +1387,7 @@ Namespace Forms
         End Sub
 
         Private Sub lblInventionLabCostsLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblInventionLabCostsLbl.LinkClicked
-            Using newSettingsForm As New frmPrismSettings
+            Using newSettingsForm As New FrmPrismSettings
                 newSettingsForm.Tag = "nodeCosts"
                 newSettingsForm.ShowDialog()
                 Call UpdateBlueprintInformation()
@@ -1357,7 +1396,7 @@ Namespace Forms
         End Sub
 
         Private Sub lblInventionBPCCostLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblInventionBPCCostLbl.LinkClicked
-            Using newSettingsForm As New frmPrismSettings
+            Using newSettingsForm As New FrmPrismSettings
                 newSettingsForm.Tag = "nodeCosts"
                 newSettingsForm.ShowDialog()
                 Call UpdateBlueprintInformation()

@@ -63,6 +63,8 @@ Namespace BPCalc
 
         Public Shared Function Load() As Boolean
 
+            Dim jobsUpdated As Boolean = False
+
             SyncLock LockObj
 
                 If My.Computer.FileSystem.FileExists(Path.Combine(PrismSettings.PrismFolder, MainFileName)) = True Then
@@ -79,6 +81,55 @@ Namespace BPCalc
                                 JobList(jobName).JobName = jobName
                             End If
                         Next
+
+                        ' Check resources of the blueprints to see if anything has changed in the static data
+                        For Each checkJob As Job In JobList.Values
+                            Dim jobChanged As Boolean = False
+                            If checkJob.CurrentBlueprint IsNot Nothing Then
+                                Dim bpID As Integer = checkJob.CurrentBlueprint.Id
+                                Dim bp As EveData.Blueprint = EveData.StaticData.Blueprints(bpID)
+                                For Each typeID As Integer In checkJob.Resources.Keys
+                                    If bp.Resources.ContainsKey(1) Then
+                                        If bp.Resources(1).ContainsKey(typeID) Then
+                                            If checkJob.Resources(typeID).BaseUnits = bp.Resources(1).Item(typeID).BaseMaterial Then
+                                                If checkJob.Resources(typeID).PerfectUnits = bp.Resources(1).Item(typeID).Quantity Then
+                                                    Continue For
+                                                Else
+                                                    jobChanged = True
+                                                    Exit For
+                                                End If
+                                            Else
+                                                jobChanged = True
+                                                Exit For
+                                            End If
+                                        Else
+                                            jobChanged = True
+                                            Exit For
+                                        End If
+                                    Else
+                                        jobChanged = True
+                                        Exit For
+                                    End If
+                                Next
+                                If jobChanged = True Then
+                                    ' Update the job
+                                    checkJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(bpID))
+                                    checkJob.CalculateResourceRequirements(True, checkJob.BlueprintOwner)
+                                    checkJob.Cost = checkJob.CalculateCost
+                                    jobsUpdated = True
+                                End If
+                            Else
+                                ' Try and update the job using the type id
+                                If EveData.StaticData.Blueprints.ContainsKey(checkJob.TypeID) Then
+                                    checkJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(checkJob.TypeID))
+                                    checkJob.CalculateResourceRequirements(True, checkJob.BlueprintOwner)
+                                    checkJob.Cost = checkJob.CalculateCost
+                                    checkJob.CurrentBlueprint.AssetId = checkJob.CurrentBlueprint.Id
+                                    jobsUpdated = True
+                                End If
+                            End If
+                        Next
+
                         PrismEvents.StartUpdateProductionJobs()
                     Catch ex As Exception
                         Dim msg As String = "There was an error trying to load the Production Jobs and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf
@@ -89,12 +140,12 @@ Namespace BPCalc
                             File.Move(Path.Combine(PrismSettings.PrismFolder, MainFileName), Path.Combine(PrismSettings.PrismFolder, MainFileName & ".bad"))
                         Catch e As Exception
                             MessageBox.Show("Unable to delete the ProductionJobs.json file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            Return False
+                            Return jobsUpdated
                         End Try
                     End Try
                 End If
 
-                Return True
+                Return jobsUpdated
 
             End SyncLock
 

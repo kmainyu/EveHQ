@@ -59,12 +59,12 @@ Namespace My
                 ' Check for the fitting protocol
                 If param.StartsWith(Core.HQ.FittingProtocol, StringComparison.Ordinal) Then
                     ' Now see if HQF is available
-                    Const pluginName As String = "EveHQ Fitter"
-                    Dim myPlugIn As Core.EveHQPlugIn = Core.HQ.Plugins(pluginName)
+                    Const PluginName As String = "EveHQ Fitter"
+                    Dim myPlugIn As Core.EveHQPlugIn = Core.HQ.Plugins(PluginName)
                     myPlugIn.PostStartupData = param
                     If myPlugIn.Status = Core.EveHQPlugInStatus.Active Then
                         Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
-                        Dim tp As DevComponents.DotNetBar.TabItem = Core.HQ.GetMDITab(pluginName)
+                        Dim tp As DevComponents.DotNetBar.TabItem = Core.HQ.GetMdiTab(PluginName)
                         If tp IsNot Nothing Then
                             mainTab.SelectedTab = tp
                         Else

@@ -431,7 +431,7 @@ Namespace Controls
             adtSlots.BeginUpdate()
             adtSlots.Nodes.Clear()
 
-            Const shiz As Integer = 24
+            Const Shiz As Integer = 24
             Dim hiSlotStyle As ElementStyle = adtSlots.Styles("SlotStyle").Copy
             Dim midSlotStyle As ElementStyle = adtSlots.Styles("SlotStyle").Copy
             Dim lowSlotStyle As ElementStyle = adtSlots.Styles("SlotStyle").Copy
@@ -448,7 +448,7 @@ Namespace Controls
                 Dim parentNode As New Node("High Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "8"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgHiSlot, shiz, shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgHiSlot, Shiz, Shiz)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.HiSlots
                     Dim slotNode As New Node("", hiSlotStyle)
@@ -467,7 +467,7 @@ Namespace Controls
                 Dim parentNode As New Node("Mid Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "4"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgMidSlot, shiz, shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgMidSlot, Shiz, Shiz)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.MidSlots
                     Dim slotNode As New Node("", midSlotStyle)
@@ -486,7 +486,7 @@ Namespace Controls
                 Dim parentNode As New Node("Low Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "2"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgLowSlot, shiz, shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgLowSlot, Shiz, Shiz)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.LowSlots
                     Dim slotNode As New Node("", lowSlotStyle)
@@ -505,7 +505,7 @@ Namespace Controls
                 Dim parentNode As New Node("Rig Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "1"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgRigSlot, shiz, shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgRigSlot, Shiz, Shiz)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.RigSlots
                     Dim slotNode As New Node("", rigSlotStyle)
@@ -524,7 +524,7 @@ Namespace Controls
                 Dim parentNode As New Node("Subsystem Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "16"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgSubSlot, shiz, shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgSubSlot, Shiz, Shiz)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.SubSlots
                     Dim slotNode As New Node("", subSlotStyle)
@@ -1118,7 +1118,7 @@ Namespace Controls
                 Dim canDeactivate As Boolean = False
                 Dim canOverload As Boolean = False
                 ' Check for activation cost
-                If currentMod.Attributes.ContainsKey(AttributeEnum.ModuleCapacitorNeed) = True Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleConsumptionType) Then
+                If currentMod.Attributes.ContainsKey(AttributeEnum.ModuleCapacitorNeed) = True Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleActivationTime) Then
 
                     canDeactivate = True
                 End If
@@ -1222,8 +1222,8 @@ Namespace Controls
                     ' Check for activation of siege mode with remote effects
                     If fittedMod.ID = ModuleEnum.ItemSiegeModuleI Or fittedMod.ID = ModuleEnum.ItemSiegeModuleT2 Then
                         If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                            Const msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
-                            Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Siege Mode",
+                            Const Msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
+                            Dim reply As Integer = MessageBox.Show(Msg, "Confirm Activate Siege Mode",
                                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                             If reply = DialogResult.No Then
                                 fittedMod.ModuleState = oldState
@@ -1237,8 +1237,8 @@ Namespace Controls
                     ' Check for activation of triage mode with remote effects
                     If fittedMod.ID = ModuleEnum.ItemTriageModuleI Or fittedMod.ID = ModuleEnum.ItemTriageModuleT2 Then
                         If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                            Const msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
-                            Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                            Const Msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
+                            Dim reply As Integer = MessageBox.Show(Msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                             If reply = DialogResult.No Then
                                 fittedMod.ModuleState = oldState
@@ -1717,7 +1717,7 @@ Namespace Controls
                                     statusMenuItem.Name = adtSlots.SelectedNodes(0).Name
                                     statusMenuItem.Text = "Set Module Status"
                                     ' Check for activation cost
-                                    If currentMod.Attributes.ContainsKey(AttributeEnum.ModuleCapacitorNeed) = True Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleConsumptionType) Then
+                                    If currentMod.Attributes.ContainsKey(AttributeEnum.ModuleCapacitorNeed) = True Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleActivationTime) Then
 
                                         canDeactivate = True
                                     End If
@@ -2239,7 +2239,32 @@ Namespace Controls
         End Sub
 
         Private Sub pbShipInfo_MouseHover(ByVal sender As Object, ByVal e As EventArgs) Handles pbShipInfo.MouseHover
-            ToolTip1.SetToolTip(pbShipInfo, SquishText(ParentFitting.BaseShip.Description))
+            Dim description As String = ParentFitting.BaseShip.Description
+
+            ' adjust bare LFs to be CRLFs
+            ' turn already existing CRLFs into LFs first so they don't end up CRCRLFs
+            description = description.Replace(vbCrLf, vbLf).Replace(vbLf, vbCrLf)
+
+            'use CRLFs instead of <br> tags 
+            description = description.Replace("<br>", vbCrLf)
+
+            ' remove double spaces and spaces before CRLFs
+            description = description.Replace("  ", " ").Replace(" " & vbCrLf, vbCrLf)
+
+            Dim charlist As List(Of Char) = New List(Of Char)
+            Dim skip As Boolean
+            ' remove any HTML markup/format tags
+            For Each letter As Char In description
+                If letter = "<" Then
+                    skip = True
+                ElseIf letter = ">" Then
+                    skip = False
+                ElseIf skip = False Then
+                    charlist.Add(letter)
+                End If
+            Next
+
+            ToolTip1.SetToolTip(pbShipInfo, SquishText(charlist.ToArray()))
         End Sub
 
         Private Sub SetPilotSkillLevel(ByVal sender As Object, ByVal e As EventArgs)
@@ -2390,8 +2415,8 @@ Namespace Controls
             ' Check for activation of siege mode with remote effects
             If sModule.ID = ModuleEnum.ItemSiegeModuleI Or sModule.ID = ModuleEnum.ItemSiegeModuleT2 Then
                 If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                    Const msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
-                    Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Siege Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    Const Msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
+                    Dim reply As Integer = MessageBox.Show(Msg, "Confirm Activate Siege Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                     If reply = DialogResult.No Then
                         sModule.ModuleState = oldState
                         Exit Sub
@@ -2404,8 +2429,8 @@ Namespace Controls
             ' Check for activation of triage mode with remote effects
             If sModule.ID = ModuleEnum.ItemTriageModuleI Or sModule.ID = ModuleEnum.ItemTriageModuleT2 Then
                 If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                    Const msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
-                    Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    Const Msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
+                    Dim reply As Integer = MessageBox.Show(Msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                     If reply = DialogResult.No Then
                         sModule.ModuleState = oldState
                         Exit Sub
@@ -3816,7 +3841,7 @@ Namespace Controls
                                     newFit.PilotName = pPilot.PilotName
                                     newFit.ApplyFitting(BuildType.BuildEverything)
                                     Dim remoteShip As Ship = newFit.FittedShip
-                                    Dim wcModules As New ArrayList
+                                    Dim wcModules As New List(Of ShipModule)
                                     For Each fleetModule As ShipModule In remoteShip.SlotCollection
                                         If _fleetGroups.Contains(CInt(fleetModule.DatabaseGroup)) = True Then
                                             fleetModule.ModuleState = ModuleStates.Gang
@@ -3858,7 +3883,7 @@ Namespace Controls
                                     newFit.PilotName = pPilot.PilotName
                                     newFit.ApplyFitting(BuildType.BuildEverything)
                                     Dim remoteShip As Ship = newFit.FittedShip
-                                    Dim fcModules As New ArrayList
+                                    Dim fcModules As New List(Of ShipModule)
                                     For Each fleetModule As ShipModule In remoteShip.SlotCollection
                                         If _fleetGroups.Contains(CInt(fleetModule.DatabaseGroup)) = True Then
                                             fleetModule.ModuleState = ModuleStates.Gang
@@ -3893,7 +3918,7 @@ Namespace Controls
             Dim fleetCollection As New SortedList(Of String, ShipModule)
 
             If cboSCShip.Tag IsNot Nothing Then
-                Dim scModules As ArrayList = CType(cboSCShip.Tag, ArrayList)
+                Dim scModules As List(Of ShipModule) = CType(cboSCShip.Tag, List(Of ShipModule))
                 For Each fleetModule As ShipModule In scModules
                     If fleetCollection.ContainsKey(fleetModule.Name) = False Then
                         ' Add it to the Fleet Collection
@@ -3921,7 +3946,7 @@ Namespace Controls
             End If
 
             If cboWCShip.Tag IsNot Nothing Then
-                Dim wcModules As ArrayList = CType(cboWCShip.Tag, ArrayList)
+                Dim wcModules As List(Of ShipModule) = CType(cboWCShip.Tag, List(Of ShipModule))
                 For Each fleetModule As ShipModule In wcModules
                     If fleetCollection.ContainsKey(fleetModule.Name) = False Then
                         ' Add it to the Fleet Collection
@@ -3949,7 +3974,7 @@ Namespace Controls
             End If
 
             If cboFCShip.Tag IsNot Nothing Then
-                Dim fcModules As ArrayList = CType(cboFCShip.Tag, ArrayList)
+                Dim fcModules As List(Of ShipModule) = CType(cboFCShip.Tag, List(Of ShipModule))
                 For Each fleetModule As ShipModule In fcModules
                     If fleetCollection.ContainsKey(fleetModule.Name) = False Then
                         ' Add it to the Fleet Collection

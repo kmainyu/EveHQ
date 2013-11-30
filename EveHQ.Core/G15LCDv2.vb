@@ -26,9 +26,9 @@ Imports Timer = System.Windows.Forms.Timer
 Public Class G15Lcd
 
     ' Fields
-    Private Shared _monoArrived As Boolean
-    Private Shared _mustExit As Boolean
-    Private Shared _qvgaArrived As Boolean
+    Private Shared monoArrived As Boolean
+    Private Shared mustExit As Boolean
+    Private Shared qvgaArrived As Boolean
     Private Shared ReadOnly WaitAre As New AutoResetEvent(False)
     Public Shared WithEvents TmrLcdChar As New Timer
     Public Shared SplashFlag As Boolean = True
@@ -55,13 +55,13 @@ Public Class G15Lcd
 
             applet.Connect()
 
-            HQ.IsG15LCDActive = True
-            _mustExit = False
+            HQ.IsG15LcdActive = True
+            mustExit = False
 
-            ThreadPool.QueueUserWorkItem(AddressOf MainLCDProcess, applet)
+            ThreadPool.QueueUserWorkItem(AddressOf MainLcdProcess, applet)
 
         Catch e As Exception
-            HQ.IsG15LCDActive = False
+            HQ.IsG15LcdActive = False
         End Try
     End Function
 
@@ -72,7 +72,7 @@ Public Class G15Lcd
         Dim monoDevice As LcdDeviceMonochrome = Nothing
 
         Do
-            If _monoArrived Then
+            If monoArrived Then
                 If (monoDevice Is Nothing) Then
                     monoDevice = DirectCast(applet.OpenDeviceByType(LcdDeviceType.Monochrome), LcdDeviceMonochrome)
                     AddHandler monoDevice.SoftButtonsChanged, New EventHandler(Of LcdSoftButtonsEventArgs)(AddressOf MonoDevice_SoftButtonsChanged)
@@ -80,16 +80,16 @@ Public Class G15Lcd
                 Else
                     monoDevice.ReOpen()
                 End If
-                _monoArrived = False
+                monoArrived = False
             End If
-            If _qvgaArrived Then
-                _qvgaArrived = False
+            If qvgaArrived Then
+                qvgaArrived = False
             End If
             If Not ((Not applet.IsEnabled OrElse (monoDevice Is Nothing)) OrElse monoDevice.IsDisposed) Then
                 monoDevice.DoUpdateAndDraw()
             End If
             Thread.Sleep(50)
-        Loop While Not _mustExit
+        Loop While Not mustExit
 
         monoDevice.Dispose()
         applet.Dispose()
@@ -97,7 +97,7 @@ Public Class G15Lcd
     End Sub
 
     Public Shared Sub CloseLcd()
-        _mustExit = True
+        mustExit = True
     End Sub
 
     Private Shared Sub Applet_Configure(ByVal sender As Object, ByVal e As EventArgs)
@@ -107,7 +107,7 @@ Public Class G15Lcd
     Private Shared Sub Applet_DeviceArrival(ByVal sender As Object, ByVal e As LcdDeviceTypeEventArgs)
         'Console.WriteLine(("A device of type " & e.DeviceType & " was added."))
         If (e.DeviceType = LcdDeviceType.Monochrome) Then
-            _monoArrived = True
+            monoArrived = True
         End If
         WaitAre.Set()
     End Sub
