@@ -22,8 +22,10 @@ Imports System.Globalization
 Imports System.Text
 Imports System.Windows.Forms
 Imports System.Xml
+Imports EveHQ.EveAPI
 Imports EveHQ.Core
 Imports EveHQ.EveData
+Imports EveHQ.Common.Extensions
 
 Namespace Classes
 
@@ -87,7 +89,7 @@ Namespace Classes
                 If CustomDataFunctions.SetCustomData(strSQL.ToString) <> -2 Then
                     Return True
                 Else
-                    MessageBox.Show("There was an error creating the Invention Results database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("There was an error creating the Invention Results database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Return False
                 End If
             End If
@@ -133,7 +135,7 @@ Namespace Classes
                 If CustomDataFunctions.SetCustomData(strSQL.ToString) <> -2 Then
                     Return True
                 Else
-                    MessageBox.Show("There was an error creating the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("There was an error creating the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Return False
                 End If
             End If
@@ -198,23 +200,19 @@ Namespace Classes
                 If CustomDataFunctions.SetCustomData(strSQL.ToString) <> -2 Then
                     Return True
                 Else
-                    MessageBox.Show("There was an error creating the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("There was an error creating the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Return False
                 End If
             End If
 
         End Function
 
-        Public Shared Function WriteWalletTransactionsToDB(ByVal walletXML As XmlDocument, ByVal isCorp As Boolean, ByVal charID As Integer, ByVal charName As String, ByVal walletID As Integer) As Integer
+        Public Shared Function WriteWalletTransactionsToDB(ByVal walletTransactions As IEnumerable(Of WalletTransaction), ByVal isCorp As Boolean, ByVal charID As Integer, ByVal charName As String, ByVal walletID As Integer) As Integer
 
-            If walletXML IsNot Nothing Then
+            If walletTransactions IsNot Nothing Then
 
                 ' Get the last referenceID for the wallet
                 Dim lastTrans As Long = GetLastWalletID(WalletTypes.Transactions, charID, walletID)
-
-                ' Go through each journal entry and see if we should write it
-                Dim transList As XmlNodeList = walletXML.SelectNodes("/eveapi/result/rowset/row")
-
 
                 ' Create the database commands for updating
                 Dim recordsAffected As Integer
@@ -235,22 +233,22 @@ Namespace Classes
                             Next
 
                             ' Run through the transactions and update where relevant
-                            For Each trans As XmlNode In transList
+                            For Each trans As WalletTransaction In walletTransactions
 
-                                Dim currentTrans As Long = CLng(trans.Attributes.GetNamedItem("transactionID").Value)
+                                Dim currentTrans As Long = trans.TransactionId
                                 ' Only write if it's something we haven't seen before i.e. is above our last transaction
                                 If currentTrans > lastTrans Then
 
                                     ' Create key
-                                    Dim transDate As String = Date.ParseExact(trans.Attributes.GetNamedItem("transactionDateTime").Value, PrismTimeFormat, Culture).ToString("yyyyMMddHHmmss")
-                                    Dim transRef As String = CLng(trans.Attributes.GetNamedItem("transactionID").Value).ToString("D20")
-                                    Dim transCharID As String = charID.ToString("D20")
+                                    Dim transDate As String = trans.TransactionDateTime.DateTime.ToInvariantString("yyyyMMddHHmmss")
+                                    Dim transRef As String = trans.TransactionId.ToInvariantString("D20")
+                                    Dim transCharID As String = charID.ToInvariantString("D20")
                                     Dim transKey As String = transDate & transRef & transCharID
                                     Dim typeGroup, typeCategory, typeMarketGroup As Integer
 
                                     ' Get item ID
-                                    If StaticData.Types.ContainsKey(CInt(trans.Attributes.GetNamedItem("typeID").Value)) = True Then
-                                        Dim typeData As EveType = StaticData.Types(CInt(trans.Attributes.GetNamedItem("typeID").Value))
+                                    Dim typeData As EveType
+                                    If StaticData.Types.TryGetValue(trans.TypeId, typeData) = True Then
                                         typeGroup = typeData.Group
                                         typeCategory = typeData.Category
                                         typeMarketGroup = typeData.MarketGroupId
@@ -261,27 +259,30 @@ Namespace Classes
                                     End If
 
                                     ' Add the database values and execute the query
-                                    Dim recDate As DateTime = Date.ParseExact(trans.Attributes.GetNamedItem("transactionDateTime").Value, PrismTimeFormat, Culture)
-                                    sqlCmd.Parameters(0).Value = recDate.ToString(PrismTimeFormat, Culture)
-                                    sqlCmd.Parameters(1).Value = trans.Attributes.GetNamedItem("transactionID").Value
+                                    Dim recDate As DateTime = trans.TransactionDateTime.DateTime
+                                    sqlCmd.Parameters(0).Value = recDate.ToInvariantString(PrismTimeFormat)
+                                    sqlCmd.Parameters(1).Value = trans.TransactionId.ToInvariantString()
                                     sqlCmd.Parameters(2).Value = transKey
-                                    sqlCmd.Parameters(3).Value = trans.Attributes.GetNamedItem("quantity").Value
-                                    sqlCmd.Parameters(4).Value = trans.Attributes.GetNamedItem("typeName").Value
-                                    sqlCmd.Parameters(5).Value = trans.Attributes.GetNamedItem("typeID").Value
+                                    sqlCmd.Parameters(3).Value = trans.Quantity.ToInvariantString()
+                                    sqlCmd.Parameters(4).Value = trans.TypeName
+                                    sqlCmd.Parameters(5).Value = trans.TypeId.ToInvariantString()
                                     sqlCmd.Parameters(6).Value = typeGroup
                                     sqlCmd.Parameters(7).Value = typeCategory
                                     sqlCmd.Parameters(8).Value = typeMarketGroup
-                                    sqlCmd.Parameters(9).Value = trans.Attributes.GetNamedItem("price").Value
-                                    sqlCmd.Parameters(10).Value = trans.Attributes.GetNamedItem("clientID").Value
-                                    sqlCmd.Parameters(11).Value = trans.Attributes.GetNamedItem("clientName").Value
-                                    sqlCmd.Parameters(12).Value = trans.Attributes.GetNamedItem("stationID").Value
-                                    sqlCmd.Parameters(13).Value = trans.Attributes.GetNamedItem("stationName").Value
-                                    sqlCmd.Parameters(14).Value = trans.Attributes.GetNamedItem("transactionType").Value
-                                    sqlCmd.Parameters(15).Value = trans.Attributes.GetNamedItem("transactionFor").Value
-                                    If StaticData.Stations.ContainsKey(CInt(trans.Attributes.GetNamedItem("stationID").Value)) = True Then
-                                        sqlCmd.Parameters(16).Value = StaticData.Stations(CInt(trans.Attributes.GetNamedItem("stationID").Value)).SystemId
-                                        sqlCmd.Parameters(17).Value = StaticData.SolarSystems(StaticData.Stations(CInt(trans.Attributes.GetNamedItem("stationID").Value)).SystemId).ConstellationId
-                                        sqlCmd.Parameters(18).Value = StaticData.SolarSystems(StaticData.Stations(CInt(trans.Attributes.GetNamedItem("stationID").Value)).SystemId).RegionId
+                                    sqlCmd.Parameters(9).Value = trans.Price.ToInvariantString(2)
+                                    sqlCmd.Parameters(10).Value = trans.ClientId.ToInvariantString()
+                                    sqlCmd.Parameters(11).Value = trans.ClientName
+                                    sqlCmd.Parameters(12).Value = trans.StationId.ToInvariantString()
+                                    sqlCmd.Parameters(13).Value = trans.StationName
+                                    sqlCmd.Parameters(14).Value = trans.TransactionType
+                                    sqlCmd.Parameters(15).Value = trans.TransactionFor
+                                    Dim station As Station
+                                    Dim system As SolarSystem
+                                    If StaticData.Stations.TryGetValue(trans.StationId, station) = True Then
+                                        sqlCmd.Parameters(16).Value = station.SystemId
+                                        system = StaticData.SolarSystems(station.SystemId)
+                                        sqlCmd.Parameters(17).Value = system.ConstellationId
+                                        sqlCmd.Parameters(18).Value = system.RegionId
                                     Else
                                         sqlCmd.Parameters(16).Value = 0
                                         sqlCmd.Parameters(17).Value = 0
@@ -308,7 +309,7 @@ Namespace Classes
                     Return recordsAffected
 
                 Catch e As Exception
-                    HQ.dataError = e.Message
+                    HQ.DataError = e.Message
                     HQ.WriteLogEvent("Database Error: " & e.Message)
                     HQ.WriteLogEvent("SQL: " & "")
                     Return -2
@@ -376,75 +377,65 @@ Namespace Classes
                 If CustomDataFunctions.SetCustomData(strSQL.ToString) <> -2 Then
                     Return True
                 Else
-                    MessageBox.Show("There was an error creating the Wallet Journal database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("There was an error creating the Wallet Journal database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Return False
                 End If
             End If
 
         End Function
 
-        Public Shared Function ParseWalletJournalXML(ByVal jxml As XmlDocument, ByRef walletJournals As SortedList(Of String, WalletJournalItem), ownerID As String) As Boolean
+        Public Shared Function ParseWalletJournal(ByVal journal As IEnumerable(Of WalletJournalEntry), ByRef walletJournals As SortedList(Of String, WalletJournalItem), ownerID As String) As Boolean
 
-            If jxml IsNot Nothing Then
+            If journal IsNot Nothing Then
 
                 Dim newJournals As Boolean = False
 
-                ' Go through each journal entry and see if we should write it
-                Dim transList As XmlNodeList = jxml.SelectNodes("/eveapi/result/rowset/row")
 
-                If transList IsNot Nothing Then
-                    If transList.Count > 0 Then
-                        For Each trans As XmlNode In transList
+                If journal.Any() Then
+                    For Each trans As WalletJournalEntry In journal
 
-                            ' Start a New WalletJournalItem
-                            Dim wji As New WalletJournalItem
+                        ' Start a New WalletJournalItem
+                        Dim wji As New WalletJournalItem
 
-                            ' Parse Journal
-                            wji.JournalDate = Date.ParseExact(trans.Attributes.GetNamedItem("date").Value, PrismTimeFormat, Culture)
-                            wji.RefID = CLng(trans.Attributes.GetNamedItem("refID").Value)
-                            wji.RefTypeID = CInt(trans.Attributes.GetNamedItem("refTypeID").Value)
-                            wji.OwnerName1 = trans.Attributes.GetNamedItem("ownerName1").Value
-                            wji.OwnerID1 = trans.Attributes.GetNamedItem("ownerID1").Value
-                            wji.OwnerName2 = trans.Attributes.GetNamedItem("ownerName2").Value
-                            wji.OwnerID2 = trans.Attributes.GetNamedItem("ownerID2").Value
-                            wji.ArgName1 = trans.Attributes.GetNamedItem("argName1").Value
-                            wji.ArgID1 = trans.Attributes.GetNamedItem("argID1").Value
-                            wji.Amount = Double.Parse(trans.Attributes.GetNamedItem("amount").Value, Culture)
-                            wji.Balance = Double.Parse(trans.Attributes.GetNamedItem("balance").Value, Culture)
-                            wji.Reason = trans.Attributes.GetNamedItem("reason").Value
-                            If trans.Attributes.GetNamedItem("taxAmount") IsNot Nothing Then
-                                If trans.Attributes.GetNamedItem("taxAmount").Value <> "" Then
-                                    wji.TaxReceiverID = trans.Attributes.GetNamedItem("taxReceiverID").Value
-                                    wji.TaxAmount = Double.Parse(trans.Attributes.GetNamedItem("taxAmount").Value, Culture)
-                                Else
-                                    wji.TaxReceiverID = "0"
-                                    wji.TaxAmount = 0
-                                End If
-                            Else
-                                wji.TaxReceiverID = "0"
-                                wji.TaxAmount = 0
-                            End If
+                        ' Parse Journal
+                        wji.JournalDate = trans.Date.DateTime
+                        wji.RefID = trans.RefId
+                        wji.RefTypeID = trans.ReferenceType
+                        wji.OwnerName1 = trans.FirstPartyName
+                        wji.OwnerID1 = trans.FirstPartyId.ToInvariantString()
+                        wji.OwnerName2 = trans.SecondPartyName
+                        wji.OwnerID2 = trans.SecondPartyId.ToInvariantString()
+                        wji.ArgName1 = trans.ArgumentName
+                        wji.ArgID1 = trans.ArgumentId.ToInvariantString()
+                        wji.Amount = trans.Amount
+                        wji.Balance = trans.Balance
+                        wji.Reason = trans.Reason
+                        If trans.TaxAmount > 0 Then
 
-                            ' Create a key
-                            CreateWalletJournalKey(wji, CInt(ownerID))
+                            wji.TaxReceiverID = trans.TaxReceiverId.ToInvariantString()
+                            wji.TaxAmount = trans.TaxAmount
 
-                            If walletJournals.ContainsKey(wji.Key) = False Then
-                                walletJournals.Add(wji.Key, wji)
-                                newJournals = True
-                            End If
-
-                        Next
-                        If newJournals = True Then
-                            Return False ' WalletExhausted? Possibly not
                         Else
-                            Return True ' Wallet has no new entries
+                            wji.TaxReceiverID = "0"
+                            wji.TaxAmount = 0
                         End If
-                    Else
-                        Return True ' Wallet is exhausted
-                    End If
 
+                        ' Create a key
+                        CreateWalletJournalKey(wji, CInt(ownerID))
+
+                        If walletJournals.ContainsKey(wji.Key) = False Then
+                            walletJournals.Add(wji.Key, wji)
+                            newJournals = True
+                        End If
+
+                    Next
+                    If newJournals = True Then
+                        Return False ' WalletExhausted? Possibly not
+                    Else
+                        Return True ' Wallet has no new entries
+                    End If
                 Else
-                    Return True ' Wallet is exhausted 
+                    Return True ' Wallet is exhausted
                 End If
             Else
                 Return True ' Wallet is exhausted
@@ -594,7 +585,7 @@ Namespace Classes
                 Return recordsAffected
 
             Catch e As Exception
-                HQ.dataError = e.Message
+                HQ.DataError = e.Message
                 HQ.WriteLogEvent("Database Error: " & e.Message)
                 HQ.WriteLogEvent("SQL: " & "")
                 Return -2
@@ -696,50 +687,44 @@ Namespace Classes
             End If
         End Function
 
-        Public Shared Function WriteInstallerIdsToDB(ByVal jobXML As XmlDocument) As Boolean
+        Public Shared Function WriteInstallerIdsToDB(ByVal jobs As IEnumerable(Of EveAPI.IndustryJob)) As Boolean
 
-            Dim idList As New List(Of String)
-            Dim jobList As XmlNodeList = jobXML.SelectNodes("/eveapi/result/rowset/row")
+            Dim idList As New HashSet(Of String)
 
             ' Get the installerIDs from the JobXML
-            For Each job As XmlNode In jobList
-                If idList.Contains(job.Attributes.GetNamedItem("installerID").Value) = False Then
-                    idList.Add(job.Attributes.GetNamedItem("installerID").Value)
+            For Each job In jobs
+                Dim installer = job.InstallerId.ToInvariantString()
+                If idList.Contains(installer) = False Then
+                    idList.Add(installer)
                 End If
             Next
 
             ' Write the IDs to the database
-            Call CustomDataFunctions.WriteEveIDsToDatabase(idList)
+            Call CustomDataFunctions.WriteEveIDsToDatabase(idList.ToList)
 
         End Function
 
-        Public Shared Function WriteContractIdsToDB(ByVal contractsXML As XmlDocument) As Boolean
+        Public Shared Function WriteContractIdsToDB(ByVal contracts As IEnumerable(Of EveAPI.Contract)) As Boolean
 
-            Dim idList As New List(Of String)
-            Dim contractList As XmlNodeList = contractsXML.SelectNodes("/eveapi/result/rowset/row")
+            Dim idList As New List(Of Integer)
+
 
             ' Get the installerIDs from the JobXML
-            For Each contract As XmlNode In contractList
-                If idList.Contains(contract.Attributes.GetNamedItem("acceptorID").Value) = False Then
-                    idList.Add(contract.Attributes.GetNamedItem("acceptorID").Value)
-                End If
-                If idList.Contains(contract.Attributes.GetNamedItem("assigneeID").Value) = False Then
-                    idList.Add(contract.Attributes.GetNamedItem("assigneeID").Value)
-                End If
-                If idList.Contains(contract.Attributes.GetNamedItem("issuerID").Value) = False Then
-                    idList.Add(contract.Attributes.GetNamedItem("issuerID").Value)
-                End If
+            For Each contract In contracts
+                idList.Add(contract.AcceptorId)
+                idList.Add(contract.AssigneeId)
+                idList.Add(contract.IssuerId)
             Next
 
             ' Write the IDs to the database
-            Call CustomDataFunctions.WriteEveIDsToDatabase(idList)
+            Call CustomDataFunctions.WriteEveIDsToDatabase(idList.Select(Function(id) id.ToInvariantString()).Distinct().ToList())
 
         End Function
 
-        Public Shared Function WriteInventionResultsToDB(ByVal jobXML As XmlDocument) As Boolean
+        Public Shared Function WriteInventionResultsToDB(ByVal jobs As IEnumerable(Of EveAPI.IndustryJob)) As Boolean
 
             ' Parse the list of jobs
-            Dim inventionList As SortedList(Of Long, InventionAPIJob) = InventionAPIJob.ParseInventionJobsFromAPI(jobXML)
+            Dim inventionList As Dictionary(Of Long, InventionAPIJob) = InventionAPIJob.ParseInventionJobsFromAPI(jobs)
 
             ' Prepare a list of job IDs that could already be in the DB
             Dim dbList As New List(Of Long)

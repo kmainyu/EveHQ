@@ -779,9 +779,8 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim apixml As New XmlDocument
+                        Dim charAssets As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
                         Dim pilotAccount As EveHQAccount = pOwner.Account
-                        Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
                         ' Check for valid API Usage
                         If CanUseAPI(pOwner, CorpRepType.Assets) = True Then
@@ -790,14 +789,15 @@ Namespace Forms
                             Dim retries As Integer = 0
                             Do
                                 retries += 1
-                                apixml = apireq.GetAPIXML(APITypes.AssetsChar, pilotAccount.ToAPIAccount, pOwner.ID, APIReturnMethods.ReturnStandard)
-                            Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                charAssets = HQ.ApiProvider.Character.AssetList(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID))
+                            Loop Until retries >= MaxAPIRetries Or charAssets.IsSuccess
 
                         End If
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.Assets})
+                            Dim cOwner = pOwner 'copy ref to local to prevent foreach closure violation.
+                            Invoke(Sub() CheckApiResult(charAssets, cOwner, CorpRepType.Assets))
                         End If
 
                     End If
@@ -820,9 +820,8 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim apixml As New XmlDocument
+                        Dim accountBalance As EveServiceResponse(Of IEnumerable(Of AccountBalance))
                         Dim pilotAccount As EveHQAccount = pOwner.Account
-                        Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
                         ' Check for valid API Usage
                         If CanUseAPI(pOwner, CorpRepType.Balances) = True Then
@@ -831,14 +830,15 @@ Namespace Forms
                             Dim retries As Integer = 0
                             Do
                                 retries += 1
-                                apixml = apireq.GetAPIXML(APITypes.AccountBalancesChar, pilotAccount.ToAPIAccount, pOwner.ID, APIReturnMethods.ReturnStandard)
-                            Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                accountBalance = HQ.ApiProvider.Character.AccountBalance(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID))
+
+                            Loop Until retries >= MaxAPIRetries Or accountBalance.IsSuccess
 
                         End If
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.Balances})
+                            Invoke(Sub() CheckApiResult(accountBalance, pOwner, CorpRepType.Balances))
                         End If
 
                     End If
@@ -861,9 +861,9 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim apixml As New XmlDocument
+                        Dim charIndustry As EveServiceResponse(Of IEnumerable(Of EveApi.IndustryJob))
                         Dim pilotAccount As EveHQAccount = pOwner.Account
-                        Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+
 
                         ' Check for valid API Usage
                         If CanUseAPI(pOwner, CorpRepType.Jobs) = True Then
@@ -872,20 +872,20 @@ Namespace Forms
                             Dim retries As Integer = 0
                             Do
                                 retries += 1
-                                apixml = apireq.GetAPIXML(APITypes.IndustryChar, pilotAccount.ToAPIAccount, pOwner.ID, APIReturnMethods.ReturnStandard)
-                            Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                charIndustry = HQ.ApiProvider.Character.IndustryJobs(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID))
+                            Loop Until retries >= MaxAPIRetries Or charIndustry.IsSuccess
 
                             ' Write the installerIDs to the database
-                            If apixml IsNot Nothing Then
-                                Call PrismDataFunctions.WriteInstallerIdsToDB(apixml)
-                                Call PrismDataFunctions.WriteInventionResultsToDB(apixml)
+                            If charIndustry.IsSuccess Then
+                                Call PrismDataFunctions.WriteInstallerIdsToDB(charIndustry.ResultData)
+                                Call PrismDataFunctions.WriteInventionResultsToDB(charIndustry.ResultData)
                             End If
 
                         End If
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.Jobs})
+                            Invoke(Sub() CheckApiResult(charIndustry, pOwner, CorpRepType.Balances))
                         End If
 
                     End If
@@ -908,9 +908,10 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim apixml As XmlDocument
+                        Dim journalResponse As EveServiceResponse(Of IEnumerable(Of WalletJournalEntry))
+
                         Dim pilotAccount As EveHQAccount = pOwner.Account
-                        Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+
 
                         ' Check for valid API Usage
                         If CanUseAPI(pOwner, CorpRepType.WalletJournal) = True Then
@@ -922,19 +923,20 @@ Namespace Forms
                             Dim walletJournals As New SortedList(Of String, WalletJournalItem)
                             Dim lastRefID As Long = 0
                             Dim walletExhausted As Boolean
-                            apireq = New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
                             Do
                                 ' Make a call to the EveHQ.Core.API to fetch the journal
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    apixml = apireq.GetAPIXML(APITypes.WalletJournalChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, lastRefID, MaxAPIJournals, APIReturnMethods.ReturnStandard)
-                                Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                    journalResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), lastRefID, 1000)
+
+                                    'apixml = apireq.GetAPIXML(APITypes.WalletJournalChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, lastRefID, MaxAPIJournals, APIReturnMethods.ReturnStandard)
+                                Loop Until retries >= MaxAPIRetries Or journalResponse.IsSuccess
 
                                 ' Parse the Journal XML to get the data
-                                If apixml IsNot Nothing Then
-                                    walletExhausted = PrismDataFunctions.ParseWalletJournalXML(apixml, walletJournals, pOwner.ID)
+                                If journalResponse.IsSuccess Then
+                                    walletExhausted = PrismDataFunctions.ParseWalletJournal(journalResponse.ResultData, walletJournals, pOwner.ID)
                                 Else
                                     walletExhausted = True
                                 End If
@@ -955,9 +957,10 @@ Namespace Forms
                         End If
 
                         ' Update the display
-                        Dim oldXML As XmlDocument = apireq.GetAPIXML(APITypes.WalletJournalChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, 0, MaxAPIJournals, APIReturnMethods.ReturnCacheOnly)
+                        journalResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 0, 1000)
+
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {oldXML, pOwner, CorpRepType.WalletJournal})
+                            Invoke(Sub() CheckApiResult(journalResponse, pOwner, CorpRepType.WalletJournal))
                         End If
 
                     End If
@@ -980,10 +983,9 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim apixml As New XmlDocument
                         Dim pilotAccount As EveHQAccount = pOwner.Account
-                        Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
+                        Dim orders As EveServiceResponse(Of IEnumerable(Of EveAPI.MarketOrder))
                         ' Check for valid API Usage
                         If CanUseAPI(pOwner, CorpRepType.Orders) = True Then
 
@@ -991,14 +993,15 @@ Namespace Forms
                             Dim retries As Integer = 0
                             Do
                                 retries += 1
-                                apixml = apireq.GetAPIXML(APITypes.OrdersChar, pilotAccount.ToAPIAccount, pOwner.ID, APIReturnMethods.ReturnStandard)
-                            Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                orders = HQ.ApiProvider.Character.MarketOrders(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID))
+
+                            Loop Until retries >= MaxAPIRetries Or orders.IsSuccess
 
                         End If
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.Orders})
+                            Invoke(Sub() CheckApiResult(orders, pOwner, CorpRepType.Orders))
                         End If
 
                     End If
@@ -1024,9 +1027,10 @@ Namespace Forms
                         ' Setup the array of transactions
                         Const TransID As String = ""
 
-                        Dim apixml As New XmlDocument
+                        Dim transactions As EveServiceResponse(Of IEnumerable(Of WalletTransaction))
+
                         Dim pilotAccount As EveHQAccount = pOwner.Account
-                        Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+
 
                         ' Check for valid API Usage
                         If CanUseAPI(pOwner, CorpRepType.WalletTransactions) = True Then
@@ -1035,17 +1039,19 @@ Namespace Forms
                             Dim retries As Integer = 0
                             Do
                                 retries += 1
-                                apixml = apireq.GetAPIXML(APITypes.WalletTransChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, TransID, APIReturnMethods.ReturnStandard)
-                            Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                transactions = HQ.ApiProvider.Character.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), Nothing, 1000)
+
+                            Loop Until retries >= MaxAPIRetries Or transactions.IsSuccess
 
                             ' Write the journal to the database!
-                            Call PrismDataFunctions.WriteWalletTransactionsToDB(apixml, False, CInt(pOwner.ID), pOwner.Name, 1000)
-
+                            If transactions.IsSuccess Then
+                                Call PrismDataFunctions.WriteWalletTransactionsToDB(transactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, 1000)
+                            End If
                         End If
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.WalletTransactions})
+                            Invoke(Sub() CheckApiResult(transactions, pOwner, CorpRepType.WalletTransactions))
                         End If
 
                     End If
@@ -1068,9 +1074,11 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim apixml As XmlDocument
+                        Dim contracts As EveServiceResponse(Of IEnumerable(Of EveApi.Contract))
+
+
                         Dim pilotAccount As EveHQAccount = pOwner.Account
-                        Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+
 
                         ' Check for valid API Usage
                         If CanUseAPI(pOwner, CorpRepType.Contracts) = True Then
@@ -1079,34 +1087,26 @@ Namespace Forms
                             Dim retries As Integer = 0
                             Do
                                 retries += 1
-                                apixml = apireq.GetAPIXML(APITypes.ContractsChar, pilotAccount.ToAPIAccount, pOwner.ID, APIReturnMethods.ReturnStandard)
-                            Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                contracts = HQ.ApiProvider.Character.Contracts(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID))
+
+                            Loop Until retries >= MaxAPIRetries Or contracts.IsSuccess
 
                             ' Write the contractIDs to the database
-                            If apixml IsNot Nothing Then
-                                Call PrismDataFunctions.WriteContractIdsToDB(apixml)
-                            End If
+                            If contracts.IsSuccess Then
+                                Call PrismDataFunctions.WriteContractIdsToDB(contracts.ResultData)
 
-                            If apixml IsNot Nothing Then
-                                ' Get the Node List
-                                Dim contracts As XmlNodeList = apixml.SelectNodes("/eveapi/result/rowset/row")
+
                                 ' Parse the Node List
-                                For Each contractItem As XmlNode In contracts
-                                    Dim contractID As Long = CLng(contractItem.Attributes.GetNamedItem("contractID").Value)
-                                    retries = 0
-                                    Do
-                                        retries += 1
-                                        apireq.GetAPIXML(APITypes.ContractItemsChar, pilotAccount.ToAPIAccount, pOwner.ID, contractID, APIReturnMethods.ReturnStandard)
-                                    Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                For Each contractItem In contracts.ResultData
+                                    HQ.ApiProvider.Character.ContractItemsAsync(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), contractItem.ContractId)
                                 Next
                             End If
 
                         End If
 
                         ' Update the display
-                        apixml = apireq.GetAPIXML(APITypes.ContractsChar, pilotAccount.ToAPIAccount, pOwner.ID, APIReturnMethods.ReturnStandard)
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.Contracts})
+                            Invoke(Sub() CheckApiResult(contracts, pOwner, CorpRepType.Contracts))
                         End If
 
                     End If
@@ -1131,7 +1131,7 @@ Namespace Forms
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {Nothing, pOwner, CorpRepType.CorpSheet})
+                            Invoke(Sub() CheckApiResult(Nothing, pOwner, CorpRepType.CorpSheet))
                         End If
 
                     End If
@@ -1154,24 +1154,28 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim apixml As New XmlDocument
+                        Dim corpAssets As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Assets)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
-                        If pilotAccount IsNot Nothing And ownerID <> "" Then
-                            Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+                        ' Check for valid API Usage
+                        If CanUseAPI(pOwner, CorpRepType.Assets) = True Then
 
-                            ' Check for valid API Usage
-                            If CanUseAPI(pOwner, CorpRepType.Assets) = True Then
+                            ' Make a call to the EveHQ.Core.API to fetch the relevant API
+                            Dim retries As Integer = 0
+                            Do
+                                retries += 1
+                                corpAssets = HQ.ApiProvider.Corporation.AssetList(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID))
+                            Loop Until retries >= MaxAPIRetries Or corpAssets.IsSuccess
 
-                                ' Make a call to the EveHQ.Core.API to fetch the relevant API
-                                Dim retries As Integer = 0
-                                Do
-                                    retries += 1
-                                    apixml = apireq.GetAPIXML(APITypes.AssetsCorp, pilotAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnStandard)
-                                Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
-
-                            End If
                         End If
+
+                        ' Update the display
+                        If IsHandleCreated = True Then
+                            Dim cOwner = pOwner 'copy ref to local to prevent foreach closure violation.
+                            Invoke(Sub() CheckApiResult(corpAssets, cOwner, CorpRepType.Assets))
+                        End If
+
+                    
 
                         ' Update the display
                         If IsHandleCreated = True Then
@@ -1323,7 +1327,7 @@ Namespace Forms
 
                                         ' Parse the Journal XML to get the data
                                         If apixml IsNot Nothing Then
-                                            walletExhausted = PrismDataFunctions.ParseWalletJournalXML(apixml, walletJournals, pOwner.ID)
+                                            walletExhausted = PrismDataFunctions.ParseWalletJournal(apixml, walletJournals, pOwner.ID)
                                         Else
                                             walletExhausted = True
                                         End If

@@ -713,12 +713,6 @@ Public Class PilotParseFunctions
 
         cPilot.SkillPoints = totalSkillPoints
 
-
-        'Case "certificates"
-        For Each certId As Integer In characterData.Certificates
-            cPilot.Certificates.Add(certId)
-        Next
-
         'Case "corporationRoles"
         For Each roleNode As CharacterCorporationRoles In characterData.CorporationRoles
             cPilot.CorpRoles.Add(CType(roleNode.RoleId, CorporationRoles))

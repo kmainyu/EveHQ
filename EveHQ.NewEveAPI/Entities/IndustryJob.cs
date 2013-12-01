@@ -26,19 +26,19 @@ namespace EveHQ.EveApi
     public sealed class IndustryJob
     {
         /// <summary>Gets the job id.</summary>
-        public int JobId { get; set; }
+        public long JobId { get; set; }
 
         /// <summary>Gets the assembly line id.</summary>
-        public int AssemblyLineId { get; set; }
+        public long AssemblyLineId { get; set; }
 
         /// <summary>Gets the container id.</summary>
-        public int ContainerId { get; set; }
+        public long ContainerId { get; set; }
 
         /// <summary>Gets the installed item id.</summary>
-        public int InstalledItemId { get; set; }
+        public long InstalledItemId { get; set; }
 
         /// <summary>Gets the installed item location id.</summary>
-        public int InstalledItemLocationId { get; set; }
+        public long InstalledItemLocationId { get; set; }
 
         /// <summary>Gets the installed item quantity.</summary>
         public int InstalledItemQuantity { get; set; }
@@ -53,10 +53,10 @@ namespace EveHQ.EveApi
         public int InstalledItemLicensedProductionRunsRemaining { get; set; }
 
         /// <summary>Gets the output location id.</summary>
-        public int OutputLocationId { get; set; }
+        public long OutputLocationId { get; set; }
 
         /// <summary>Gets the installer id.</summary>
-        public int InstallerId { get; set; }
+        public long InstallerId { get; set; }
 
         /// <summary>Gets the runs.</summary>
         public int Runs { get; set; }
@@ -65,10 +65,10 @@ namespace EveHQ.EveApi
         public int LicensedProductionRuns { get; set; }
 
         /// <summary>Gets the installed in solar system id.</summary>
-        public int InstalledInSolarSystemId { get; set; }
+        public long InstalledInSolarSystemId { get; set; }
 
         /// <summary>Gets the container location id.</summary>
-        public int ContainerLocationId { get; set; }
+        public long ContainerLocationId { get; set; }
 
         /// <summary>Gets the material multiplier.</summary>
         public double MaterialMultiplier { get; set; }
@@ -89,7 +89,7 @@ namespace EveHQ.EveApi
         public int OutputTypeId { get; set; }
 
         /// <summary>Gets the container type id.</summary>
-        public int ContainerTypeId { get; set; }
+        public long ContainerTypeId { get; set; }
 
         /// <summary>Gets a value indicating whether installed item copy.</summary>
         public bool InstalledItemCopy { get; set; }

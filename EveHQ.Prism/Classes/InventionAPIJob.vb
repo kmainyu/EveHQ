@@ -38,35 +38,32 @@ Namespace Classes
         Private Const IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
         Private Shared ReadOnly Culture As CultureInfo = New CultureInfo("en-GB")
 
-        Public Shared Function ParseInventionJobsFromAPI(jobXML As XmlDocument) As SortedList(Of Long, InventionAPIJob)
+        Public Shared Function ParseInventionJobsFromAPI(jobs As IEnumerable(Of EveAPI.IndustryJob)) As Dictionary(Of Long, InventionAPIJob)
 
-            If JobXML IsNot Nothing Then
-
-                ' Get the Node List
-                Dim jobNodes As XmlNodeList = jobXML.SelectNodes("/eveapi/result/rowset/row")
+            If jobs IsNot Nothing Then
 
                 ' Parse the Node List
-                Dim jobList As New SortedList(Of Long, InventionAPIJob)
-                For Each tran As XmlNode In jobNodes
+                Dim jobList As New Dictionary(Of Long, InventionAPIJob)
+                For Each job In jobs
                     ' Check for invention jobs
-                    If CType(tran.Attributes.GetNamedItem("activityID").Value, BlueprintActivity) = BlueprintActivity.Invention Then
+                    If CType(job.ActivityId, BlueprintActivity) = BlueprintActivity.Invention Then
                         ' Check the job is actually completed first!
-                        If CInt(tran.Attributes.GetNamedItem("completed").Value) = 1 Then
+                        If job.Completed Then
                             Dim newJob As New InventionAPIJob
-                            newJob.JobID = CLng(tran.Attributes.GetNamedItem("jobID").Value)
-                            newJob.ResultDate = DateTime.ParseExact(tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, Culture)
-                            newJob.InstallerID = CLng(tran.Attributes.GetNamedItem("installerID").Value)
+                            newJob.JobID = job.JobId
+                            newJob.ResultDate = job.EndProductionTime.DateTime
+                            newJob.InstallerID = job.InstallerId
                             newJob.InstallerName = ""
-                            newJob.BlueprintID = CInt(tran.Attributes.GetNamedItem("installedItemTypeID").Value)
-                            newJob.TypeID = CInt(tran.Attributes.GetNamedItem("outputTypeID").Value)
+                            newJob.BlueprintID = job.InstalledItemTypeId
+                            newJob.TypeID = job.OutputTypeId
                             newJob.TypeName = StaticData.Types(newJob.TypeID).Name
-                            newJob.Result = CInt(tran.Attributes.GetNamedItem("completedStatus").Value)
+                            newJob.Result = CInt(job.CompletedStatus)
                             jobList.Add(newJob.JobID, newJob)
                         End If
                     End If
                 Next
                 ' Get Installer Names
-                Dim idList As SortedList(Of Long, String) = GetInstallerList(jobList)
+                Dim idList As Dictionary(Of Long, String) = GetInstallerList(jobList)
                 ' Add installer names
                 For Each job As InventionAPIJob In jobList.Values
                     If idList.ContainsKey(job.InstallerID) Then
@@ -115,14 +112,14 @@ Namespace Classes
 
         End Function
 
-        Public Shared Function GetInstallerList(ByVal jobList As SortedList(Of Long, InventionAPIJob)) As SortedList(Of Long, String)
+        Public Shared Function GetInstallerList(ByVal jobList As Dictionary(Of Long, InventionAPIJob)) As Dictionary(Of Long, String)
             Dim idList As New List(Of String)
             For Each job As InventionAPIJob In jobList.Values
                 If idList.Contains(job.InstallerID.ToString) = False Then
                     idList.Add(job.InstallerID.ToString)
                 End If
             Next
-            Dim installerList As New SortedList(Of Long, String)
+            Dim installerList As New Dictionary(Of Long, String)
             Dim strID As New StringBuilder
             If idList.Count > 0 Then
                 For Each id As String In idList

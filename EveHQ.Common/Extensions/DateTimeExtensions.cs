@@ -10,5 +10,10 @@ namespace EveHQ.Common.Extensions
         {
             return time.ToString(CultureInfo.InvariantCulture);
         }
+
+        public static string ToInvariantString(this DateTime time, string format)
+        {
+            return time.ToString(format, CultureInfo.InvariantCulture);
+        }
     }
 }
