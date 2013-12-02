@@ -3496,7 +3496,7 @@ Namespace CoreReports
             strHTML &= HTMLHeader([Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rpilot.Name)
             strHTML &= HTMLTitle([Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rpilot.Name)
             strHTML &= HTMLCharacterDetails(rpilot)
-            strHTML &= HTMLCertGradeTimes(grade)
+            strHTML &= HTMLCertGradeTimes(rpilot, grade)
             strHTML &= HTMLFooter()
             Dim sw As StreamWriter = New StreamWriter(Path.Combine(HQ.reportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rpilot.Name & ").html"))
             sw.Write(strHTML)
@@ -3508,7 +3508,7 @@ Namespace CoreReports
 
         End Sub
 
-        Private Shared Function HTMLCertGradeTimes(grade As Integer) As String
+        Private Shared Function HTMLCertGradeTimes(rpilot As EveHQPilot, grade As Integer) As String
 
             Dim strHTML As String = ""
 
@@ -3520,7 +3520,7 @@ Namespace CoreReports
             strHTML &= "</tr>"
 
             ' Get the list of certifcates
-            Dim certqueues As ArrayList = GetCertificateList(grade)
+            Dim certqueues As ArrayList = GetCertificateList(rpilot, grade)
 
             For Each ct As CertTimes In certqueues
                 Dim cert As Certificate = StaticData.Certificates(ct.CertID)
@@ -3538,7 +3538,7 @@ Namespace CoreReports
 
         End Function
 
-        Private Shared Function GetCertificateList(grade As Integer) As ArrayList
+        Private Shared Function GetCertificateList(rpilot As EveHQPilot, grade As Integer) As ArrayList
 
             ' Get a list of the relevant cert grades
             Dim certList As List(Of Certificate) = StaticData.Certificates.Values.ToList()
@@ -3557,7 +3557,7 @@ Namespace CoreReports
                 qQueue.IncCurrentTraining = False
                 qQueue.Primary = False
                 qQueue.Queue = New Dictionary(Of String, EveHQSkillQueueItem)
-                Dim displayPilot As EveHQPilot = HQ.Settings.Pilots("Vessper")
+                Dim displayPilot As EveHQPilot = HQ.Settings.Pilots(rpilot.Name)
                 For Each skillID As Integer In skillList.Keys
                     Dim skillName As String = HQ.SkillListID(CInt(skillID)).Name
                     qQueue = SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, qQueue.Queue.Count + 1, qQueue, skillList(skillID), True, True, cert.Id.ToString)
