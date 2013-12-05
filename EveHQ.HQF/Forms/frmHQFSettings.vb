@@ -455,7 +455,7 @@ Namespace Forms
             Dim marketError As Integer = 0
             Dim sw As New StreamWriter(Path.Combine(HQ.ReportFolder, "HQFErrors.txt"))
             For Each item As ShipModule In ModuleLists.ModuleList.Values
-                If Market.MarketGroupList.ContainsKey(item.MarketGroup) = False Then
+                If Market.MarketGroupList.ContainsKey(CStr(item.MarketGroup)) = False Then
                     marketError += 1
                     sw.WriteLine("Market Error: " & item.Name)
                     'MessageBox.Show(item.Name)

@@ -967,7 +967,7 @@ Namespace Forms
                     groupID = CInt(groupNode.Tag)
                     ModuleDisplay = CStr(groupID)
                     Call AddGroupResults(ModuleLists.ModuleList, groupID, results)
-                    lblModuleDisplayType.Tag = Market.MarketGroupList(CStr(groupID)).ToString
+                    lblModuleDisplayType.Tag = Market.MarketGroupList(CStr(groupID))
                     lblModuleDisplayType.Tag = "Displaying: " & lblModuleDisplayType.Tag.ToString
                     _lastModuleResults = results
                 Else
@@ -2087,7 +2087,7 @@ Namespace Forms
         Private Sub mnuShowModuleMarketGroup_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuShowModuleMarketGroup.Click
             Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
             Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
-            Dim pathLine As String = CStr(Market.MarketGroupPath(CStr(cModule.MarketGroup)))
+            Dim pathLine As String = Market.MarketGroupPath(CStr(cModule.MarketGroup))
             If pathLine IsNot Nothing Then
                 HQFEvents.DisplayedMarketGroup = pathLine
             Else
