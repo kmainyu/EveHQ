@@ -64,7 +64,7 @@ Namespace Forms
         ' Rig Builder Variables
         Dim _rigBPData As New SortedList(Of String, SortedList(Of Integer, Long))
         Dim _rigBuildData As New SortedList(Of Integer, Long)
-        ReadOnly _salvageList As New SortedList
+        ReadOnly _salvageList As New SortedList(Of Integer, Long)
 
         ' Recycling Variables
         Dim _recyclerAssetList As New SortedList(Of Integer, Long)
@@ -5717,7 +5717,7 @@ Namespace Forms
                                         If CLng(groupID) = 754 Then
 
                                             Dim quantity As Long = CLng(loc.Attributes.GetNamedItem("quantity").Value)
-                                            If _salvageList.Contains(itemID) = False Then
+                                            If _salvageList.ContainsKey(itemID) = False Then
                                                 _salvageList.Add(itemID, quantity)
                                             Else
                                                 _salvageList.Item(itemID) = CLng(_salvageList.Item(itemID)) + quantity
@@ -5736,7 +5736,7 @@ Namespace Forms
                 End If
             Next
         End Sub
-        Private Sub GetSalvageNode(ByVal salvageList As SortedList, ByVal loc As XmlNode)
+        Private Sub GetSalvageNode(ByVal salvageList As SortedList(Of Integer, Long), ByVal loc As XmlNode)
             Dim subLocList As XmlNodeList
             Dim subLoc As XmlNode
             subLocList = loc.ChildNodes(0).ChildNodes
@@ -5747,11 +5747,10 @@ Namespace Forms
                         Dim groupID As String = StaticData.Types(itemID).Group.ToString
                         If CLng(groupID) = 754 Then
                             Dim quantity As Long = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
-                            Dim itemName As String = StaticData.Types(itemID).Name
-                            If salvageList.Contains(itemName) = False Then
-                                salvageList.Add(itemName, quantity)
+                            If salvageList.ContainsKey(itemID) = False Then
+                                salvageList.Add(itemID, quantity)
                             Else
-                                salvageList.Item(itemName) = CLng(salvageList.Item(itemName)) + quantity
+                                salvageList.Item(itemID) = CLng(salvageList.Item(itemID)) + quantity
                             End If
                         End If
                     End If
@@ -5810,7 +5809,7 @@ Namespace Forms
                     _rigBuildData = _rigBPData(blueprint)
                     ' Go through the requirements and see if have sufficient materials
                     For Each material In _rigBuildData.Keys
-                        If _salvageList.Contains(material) = True Then
+                        If _salvageList.ContainsKey(material) = True Then
                             ' Check quantity
                             If CDbl(_salvageList(material)) > CDbl(_rigBuildData(material)) Then
                                 ' We have enough so let's calculate the quantity we can use

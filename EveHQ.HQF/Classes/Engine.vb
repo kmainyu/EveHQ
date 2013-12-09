@@ -87,6 +87,8 @@ Public Class Engine
         PirateImplantGroups.Add("Genolution Core Augmentation", 1)
         PirateImplants.Add("Genolution Core Augmentation CA-1", "Genolution Core Augmentation")
         PirateImplants.Add("Genolution Core Augmentation CA-2", "Genolution Core Augmentation")
+        PirateImplants.Add("Genolution Core Augmentation CA-3", "Genolution Core Augmentation")
+        PirateImplants.Add("Genolution Core Augmentation CA-4", "Genolution Core Augmentation")
     End Sub
     Public Shared Sub BuildBoosterPenaltyList()
         ' Fetch the Effects list

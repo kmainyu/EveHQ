@@ -226,7 +226,7 @@ Namespace Forms
                         Case HQFEffectType.Category
                             newItem.Text = StaticData.TypeCats(CInt(id))
                         Case HQFEffectType.MarketGroup
-                            newItem.Text = Market.MarketGroupPath(id).ToString.Replace("&", "&&")
+                            newItem.Text = Market.MarketGroupPath(CStr(id)).Replace("&", "&&")
                         Case HQFEffectType.Skill
                             newItem.Text = StaticData.Types(CInt(id)).Name
                         Case HQFEffectType.Slot
@@ -470,7 +470,7 @@ Namespace Forms
                             If itemNode.Tag.ToString <> "0" Then
                                 If lvwItems.Items.ContainsKey(itemNode.Tag.ToString) = False Then
                                     Dim newItem As New ListViewItem
-                                    newItem.Text = Market.MarketGroupPath(itemNode.Tag.ToString).ToString.Replace("&", "&&")
+                                    newItem.Text = Market.MarketGroupPath(itemNode.Tag.ToString).Replace("&", "&&")
                                     newItem.Name = itemNode.Tag.ToString
                                     lvwItems.Items.Add(newItem)
                                     ' Recalculate all IDs

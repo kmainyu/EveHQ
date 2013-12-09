@@ -21,8 +21,8 @@ Imports DevComponents.AdvTree
 
 Public Class Market
 
-    Public Shared MarketGroupList As New SortedList
-    Public Shared MarketGroupPath As New SortedList
+    Public Shared MarketGroupList As New Dictionary(Of String, String)
+    Public Shared MarketGroupPath As New Dictionary(Of String, String)
     Public Shared MarketNodeList As New List(Of Node)
     Public Shared MarketShipList As New List(Of String)
     Public Shared ShipClasses As New SortedList(Of String, String)

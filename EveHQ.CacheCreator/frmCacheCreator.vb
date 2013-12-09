@@ -2460,7 +2460,7 @@ Public Class FrmCacheCreator
                         Case HQFEffectType.Category
                             affectingName = StaticData.TypeCats(newEffect.AffectingID) & ";Category;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                         Case HQFEffectType.MarketGroup
-                            affectingName = CStr(Market.MarketGroupList(newEffect.AffectingID.ToString)) & ";Market Group;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
+                            affectingName = Market.MarketGroupList(newEffect.AffectingID.ToString) & ";Market Group;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                     End Select
                     affectingName &= ";"
 

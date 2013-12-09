@@ -179,13 +179,13 @@ Public Class EffectFunctions
                         If ids.Count > 0 Then
                             Dim itemList As New List(Of String)
                             For Each id As Integer In ids
-                                Dim mgPath As String = Market.MarketGroupPath(id).ToString
+                                Dim mgPath As String = Market.MarketGroupPath(CStr(id))
                                 Dim mgPaths() As String = mgPath.Split("\".ToCharArray)
                                 Select Case mgPaths(mgPaths.Length - 1)
                                     Case "Small", "Medium", "Large", "Extra Large"
                                         itemList.Add(mgPaths(mgPaths.Length - 1) & " " & mgPaths(mgPaths.Length - 2))
                                     Case Else
-                                        itemList.Add(Market.MarketGroupList(id).ToString)
+                                        itemList.Add(Market.MarketGroupList(CStr(id)))
                                 End Select
                             Next
                             desc.Append(" of " & ParseStringListToProperText(itemList, True))

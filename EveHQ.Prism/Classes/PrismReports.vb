@@ -925,11 +925,12 @@ Namespace Classes
 
             Dim html As New StringBuilder
 
-            'Begin Amount and Total Profit version
             html.AppendLine("<table width=800px border=0 align=center>")
             html.AppendLine("<tr><td width=50>&nbsp;</td><td width=50></td><td width=300></td><td width=100></td><td width=150></td><td width=150></td></tr>")
             html.AppendLine("<tr><td width=50></td><td colspan=5><b>TRADING PROFITS</b></td></tr>")
             html.AppendLine("<tr><td width=50></td><td width=50></td><td width=300></td><td align=right><i><u>Amount Traded</u></i></td><td align=right><i><u>Average Unit Profit</u></i></td><td align=right><i><u>Total Profit</u></i></td></tr>")
+
+            Dim totalProfitAllItems As Double = 0
 
             For Each tri As TransactionProfitItem In transList.Values
 
@@ -937,6 +938,7 @@ Namespace Classes
 
                     Dim amount As Long = If(tri.QtySold > tri.QtyBought, tri.QtyBought, tri.QtySold)
                     Dim avgProfit As Double = (tri.ValueSold / tri.QtySold) - (tri.ValueBought / tri.QtyBought)
+                    Dim totalProfit As Double = Math.Round(amount * avgProfit, 2, MidpointRounding.AwayFromZero)
                     If avgProfit >= 0 Then
                         html.AppendLine("<tr class='pos'>")
                     Else
@@ -946,16 +948,27 @@ Namespace Classes
                     html.AppendLine("<td>" & tri.ItemName & "</td>")
                     html.AppendLine("<td align='right'>" & amount.ToString("N0") & "</td>")
                     html.AppendLine("<td align='right'>" & avgProfit.ToString("N2") & "</td>")
-                    html.AppendLine("<td align='right'>" & (amount * avgProfit).ToString("N2") & "</td>")
+                    html.AppendLine("<td align='right'>" & totalProfit.ToString("N2") & "</td>")
                     html.AppendLine("</tr>")
 
+                    totalProfitAllItems += totalProfit
                 End If
 
             Next
 
             html.AppendLine("<tr></tr>")
+            If totalProfitAllItems >= 0 Then
+                html.AppendLine("<tr class='pos'>")
+            Else
+                html.AppendLine("<tr class='neg'>")
+            End If
+            html.AppendLine("<td colspan=4></td>")
+            html.AppendLine("<td align='center' style='color: #FFFFFF'><b>Transaction Trading Total:</b></td>")
+            html.AppendLine("<td align='right'>" & totalProfitAllItems.ToString("N2") & "</td>")
+            html.AppendLine("</tr>")
+
+            html.AppendLine("<tr></tr>")
             html.AppendLine("</table>")
-            'End Amount and Total Profit version
 
             ' Return the result
             Dim result As New ReportResult

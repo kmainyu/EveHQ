@@ -1836,13 +1836,13 @@ Namespace Controls
                                 chargeGroupData = chargeGroup.Split("_".ToCharArray)
                                 If currentMod.Charges.Contains(CInt(chargeGroupData(1))) = True Then
                                     If Market.MarketGroupList.ContainsKey(chargeGroupData(0)) = True Then
-                                        Select Case Market.MarketGroupList.Item(chargeGroupData(0)).ToString
+                                        Select Case Market.MarketGroupList.Item(chargeGroupData(0))
                                             Case "Small", "Medium", "Large", "Extra Large"
-                                                Dim pathLine As String = CStr(Market.MarketGroupPath(chargeGroupData(0)))
+                                                Dim pathLine As String = Market.MarketGroupPath(chargeGroupData(0))
                                                 Dim paths() As String = pathLine.Split("\".ToCharArray)
                                                 groupName = paths(paths.GetUpperBound(0) - 1)
                                             Case Else
-                                                groupName = Market.MarketGroupList.Item(chargeGroupData(0)).ToString
+                                                groupName = Market.MarketGroupList.Item(chargeGroupData(0))
                                         End Select
                                     End If
                                     If chargeGroups.Contains(groupName) = False Then
@@ -2202,7 +2202,7 @@ Namespace Controls
             Dim moduleName As String = showMarketMenu.Name
             Dim moduleID As Integer = ModuleLists.ModuleListName(moduleName)
             Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
-            Dim pathLine As String = CStr(Market.MarketGroupPath(CStr(cModule.MarketGroup)))
+            Dim pathLine As String = Market.MarketGroupPath(CStr(cModule.MarketGroup))
             If pathLine IsNot Nothing Then
                 HQFEvents.DisplayedMarketGroup = pathLine
             Else
