@@ -558,7 +558,7 @@ Namespace Forms
             ThreadPool.QueueUserWorkItem(AddressOf UpdateNullCorpSheet2)
 
         End Sub
-        Private Sub CheckApiResult(Of T)(ByRef apiResult As EveServiceResponse(Of T), ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType)
+        Private Sub CheckApiResult(Of T As Class)(ByRef apiResult As EveServiceResponse(Of T), ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType)
 
             ' Get the listviewitem of the relevant Owner
             Dim apiOwner As ListViewItem = lvwCurrentAPIs.Items(pOwner.ID)
@@ -606,17 +606,15 @@ Namespace Forms
             End Try
         End Sub
 
-        Private Sub DisplayAPIDetails(ByVal apiXML As XmlDocument, ByVal apiOwner As ListViewItem, ByVal pos As Integer)
+        Private Sub DisplayAPIDetails(Of T As Class)(ByVal result As EveServiceResponse(Of T), ByVal apiOwner As ListViewItem, ByVal pos As Integer)
             ' Check response string for any error codes?
-            Dim errlist As XmlNodeList = apiXML.SelectNodes("/eveapi/error")
-            If errlist.Count <> 0 Then
-                Dim errNode As XmlNode = errlist(0)
+            If result.EveErrorCode <> 0 Then
                 ' Get error code
-                Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
+                Dim errCode As String = result.EveErrorCode.ToInvariantString()
                 apiOwner.SubItems(pos).ForeColor = Color.Red
                 apiOwner.SubItems(pos).Text = errCode
             Else
-                Dim cache As Date = CacheDate(apiXML)
+                Dim cache As Date = result.CacheUntil.LocalDateTime
                 If cache <= Now Then
                     apiOwner.SubItems(pos).ForeColor = Color.Blue
                     apiOwner.SubItems(pos).Text = "Cache Expired!"
@@ -1131,7 +1129,7 @@ Namespace Forms
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(Sub() CheckApiResult(Nothing, pOwner, CorpRepType.CorpSheet))
+                            Invoke(Sub() CheckApiResult(Of EveApi.CharacterData)(Nothing, pOwner, CorpRepType.CorpSheet))
                         End If
 
                     End If
@@ -1179,7 +1177,7 @@ Namespace Forms
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.Assets})
+                            Invoke(Sub() CheckApiResult(corpAssets, pOwner, CorpRepType.Assets))
                         End If
 
                     End If
@@ -1201,13 +1199,11 @@ Namespace Forms
             For Each pOwner As PrismOwner In PlugInData.PrismOwners.Values
                 Try
                     If pOwner.IsCorp = True Then
+                        Dim corpBalance As EveServiceResponse(Of IEnumerable(Of AccountBalance))
 
-                        Dim apixml As New XmlDocument
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Balances)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Balances)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
-                            Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-
                             ' Check for valid API Usage
                             If CanUseAPI(pOwner, CorpRepType.Balances) = True Then
 
@@ -1215,15 +1211,16 @@ Namespace Forms
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    apixml = apireq.GetAPIXML(APITypes.AccountBalancesCorp, pilotAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnStandard)
-                                Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                    corpBalance = HQ.ApiProvider.Corporation.AccountBalance(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID))
+
+                                Loop Until retries >= MaxAPIRetries Or corpBalance.IsSuccess
 
                             End If
                         End If
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.Balances})
+                            Invoke(Sub() CheckApiResult(corpBalance, pOwner, CorpRepType.Balances))
                         End If
 
                     End If
@@ -1245,13 +1242,12 @@ Namespace Forms
             For Each pOwner As PrismOwner In PlugInData.PrismOwners.Values
                 Try
                     If pOwner.IsCorp = True Then
+                        Dim corpJobs As EveServiceResponse(Of IEnumerable(Of EveApi.IndustryJob))
 
-                        Dim apixml As New XmlDocument
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Jobs)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Jobs)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
-                            Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-
+                            
                             ' Check for valid API Usage
                             If CanUseAPI(pOwner, CorpRepType.Jobs) = True Then
 
@@ -1259,22 +1255,24 @@ Namespace Forms
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    apixml = apireq.GetAPIXML(APITypes.IndustryCorp, pilotAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnStandard)
-                                Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                    corpJobs = HQ.ApiProvider.Corporation.IndustryJobs(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID))
+
+                                Loop Until retries >= MaxAPIRetries Or corpJobs.IsSuccess
 
                                 ' Write the installerIDs to the database
-                                If apixml IsNot Nothing Then
-                                    Call PrismDataFunctions.WriteInstallerIdsToDB(apixml)
-                                    Call PrismDataFunctions.WriteInventionResultsToDB(apixml)
+                                If corpJobs IsNot Nothing Then
+                                    If corpJobs.IsSuccess Then
+                                        Call PrismDataFunctions.WriteInstallerIdsToDB(corpJobs.ResultData)
+                                        Call PrismDataFunctions.WriteInventionResultsToDB(corpJobs.ResultData)
+                                    End If
                                 End If
-
                             End If
 
                         End If
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.Jobs})
+                            Invoke(Sub() CheckApiResult(corpJobs, pOwner, CorpRepType.Jobs))
                         End If
 
                     End If
@@ -1296,10 +1294,10 @@ Namespace Forms
             For Each pOwner As PrismOwner In PlugInData.PrismOwners.Values
                 Try
                     If pOwner.IsCorp = True Then
+                        Dim corpJournal As EveServiceResponse(Of IEnumerable(Of WalletJournalEntry))
 
-                        Dim apixml As New XmlDocument
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.WalletJournal)
-                        Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletJournal)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
 
@@ -1315,19 +1313,20 @@ Namespace Forms
                                     Dim walletJournals As New SortedList(Of String, WalletJournalItem)
                                     Dim lastRefID As Long = 0
                                     Dim walletExhausted As Boolean
-                                    apireq = New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+
 
                                     Do
                                         ' Make a call to the EveHQ.Core.API to fetch the journal
                                         Dim retries As Integer = 0
                                         Do
                                             retries += 1
-                                            apixml = apireq.GetAPIXML(APITypes.WalletJournalCorp, pilotAccount.ToAPIAccount, ownerID, divID, lastRefID, MaxAPIJournals, APIReturnMethods.ReturnStandard)
-                                        Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                            corpJournal = HQ.ApiProvider.Corporation.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), lastRefID, MaxAPIJournals)
+                                            ' apixml = apireq.GetAPIXML(APITypes.WalletJournalCorp, pilotAccount.ToAPIAccount, ownerID, divID, lastRefID, MaxAPIJournals, APIReturnMethods.ReturnStandard)
+                                        Loop Until retries >= MaxAPIRetries Or corpJournal.IsSuccess
 
                                         ' Parse the Journal XML to get the data
-                                        If apixml IsNot Nothing Then
-                                            walletExhausted = PrismDataFunctions.ParseWalletJournal(apixml, walletJournals, pOwner.ID)
+                                        If corpJournal.IsSuccess Then
+                                            walletExhausted = PrismDataFunctions.ParseWalletJournal(corpJournal.ResultData, walletJournals, pOwner.ID)
                                         Else
                                             walletExhausted = True
                                         End If
@@ -1347,15 +1346,14 @@ Namespace Forms
 
                                 Next
 
-                                apixml = apireq.GetAPIXML(APITypes.WalletJournalCorp, pilotAccount.ToAPIAccount, ownerID, 1000, 0, MaxAPIJournals, APIReturnMethods.ReturnCacheOnly)
-
+                                
                             End If
 
                         End If
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.WalletJournal})
+                            Invoke(Sub() CheckApiResult(corpJournal, pOwner, CorpRepType.WalletJournal))
                         End If
 
                     End If
@@ -1378,12 +1376,11 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim apixml As New XmlDocument
+                        Dim corpOrders As New EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Orders)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
-                            Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-
+                           
                             ' Check for valid API Usage
                             If CanUseAPI(pOwner, CorpRepType.Orders) = True Then
 
@@ -1391,8 +1388,8 @@ Namespace Forms
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    apixml = apireq.GetAPIXML(APITypes.OrdersCorp, pilotAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnStandard)
-                                Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                    corpOrders = HQ.ApiProvider.Corporation.MarketOrders(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID))
+                                Loop Until retries >= MaxAPIRetries Or corpOrders.IsSuccess
 
                             End If
 
@@ -1400,7 +1397,7 @@ Namespace Forms
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.Orders})
+                            Invoke(Sub() CheckApiResult(corpOrders, pOwner, CorpRepType.Orders))
                         End If
 
                     End If
@@ -1426,6 +1423,7 @@ Namespace Forms
                         ' Setup the array of transactions
                         Const TransID As String = ""
 
+                        Dim corpTransactions As EveServiceResponse(Of IEnumerable(Of WalletTransaction))
                         Dim apixml As New XmlDocument
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.WalletTransactions)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
@@ -1441,11 +1439,11 @@ Namespace Forms
                                     Dim retries As Integer = 0
                                     Do
                                         retries += 1
-                                        apixml = apireq.GetAPIXML(APITypes.WalletTransCorp, pilotAccount.ToAPIAccount, ownerID, divID, TransID, APIReturnMethods.ReturnStandard)
-                                    Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                        corpTransactions = HQ.ApiProvider.Corporation.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID))
+                                        Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
 
                                     ' Write the journal to the database!
-                                    Call PrismDataFunctions.WriteWalletTransactionsToDB(apixml, False, CInt(pOwner.ID), pOwner.Name, divID)
+                                    Call PrismDataFunctions.WriteWalletTransactionsToDB(corpTransactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, divID)
 
                                 Next
                             End If
@@ -1454,7 +1452,7 @@ Namespace Forms
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.WalletTransactions})
+                            Invoke(Sub() CheckApiResult(corpTransactions, pOwner, CorpRepType.WalletTransactions))
                         End If
 
                     End If
@@ -1477,8 +1475,9 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim apixml As New XmlDocument
-                        Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+                        Dim corpContacts As EveServiceResponse(Of IEnumerable(Of EveApi.Contract))
+
+                        Dim contractItems As EveServiceResponse(Of IEnumerable(Of EveApi.ContractItem))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Contracts)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Contracts)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
@@ -1490,36 +1489,28 @@ Namespace Forms
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    apixml = apireq.GetAPIXML(APITypes.ContractsCorp, pilotAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnStandard)
-                                Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                    corpContacts = HQ.ApiProvider.Corporation.Contracts(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID))
+                                Loop Until retries >= MaxAPIRetries Or corpContacts.IsSuccess
 
                                 ' Write the contractIDs to the database
-                                If apixml IsNot Nothing Then
-                                    Call PrismDataFunctions.WriteContractIdsToDB(apixml)
-                                End If
-
-                                If apixml IsNot Nothing Then
-                                    ' Get the Node List
-                                    Dim contracts As XmlNodeList = apixml.SelectNodes("/eveapi/result/rowset/row")
-                                    ' Parse the Node List
-                                    For Each contractItem As XmlNode In contracts
-                                        Dim contractID As Long = CLng(contractItem.Attributes.GetNamedItem("contractID").Value)
+                                If corpContacts.IsSuccess Then
+                                    Call PrismDataFunctions.WriteContractIdsToDB(corpContacts.ResultData)
+                                
+                                    For Each contractItem In corpContacts.ResultData
+                                        Dim contractID As Long = contractItem.ContractId
                                         retries = 0
                                         Do
                                             retries += 1
-                                            apireq.GetAPIXML(APITypes.ContractItemsCorp, pilotAccount.ToAPIAccount, ownerID, contractID, APIReturnMethods.ReturnStandard)
-                                        Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                            contractItems = HQ.ApiProvider.Corporation.ContractItems(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), contractID)
+                                        Loop Until retries >= MaxAPIRetries Or contractItems.IsSuccess
                                     Next
                                 End If
-
-                                apixml = apireq.GetAPIXML(APITypes.ContractsCorp, pilotAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnStandard)
-
                             End If
                         End If
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.Contracts})
+                            Invoke(Sub() CheckApiResult(corpContacts, pOwner, CorpRepType.Contracts))
                         End If
 
                     End If
@@ -1542,14 +1533,14 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim apixml As New XmlDocument
+                        Dim info As EveServiceResponse(Of CorporateData)
+
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.CorpSheet)
 
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.CorpSheet)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
 
-                            Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-
+                          
                             ' Check for valid API Usage
                             If CanUseAPI(pOwner, CorpRepType.CorpSheet) = True Then
 
@@ -1557,15 +1548,15 @@ Namespace Forms
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    apixml = apireq.GetAPIXML(APITypes.CorpSheet, pilotAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnStandard)
-                                Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                    info = HQ.ApiProvider.Corporation.CorporationSheet(pilotAccount.UserID, pilotAccount.APIKey)
+                                Loop Until retries >= MaxAPIRetries Or info.IsSuccess
 
                             End If
                         End If
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(_xmlDelegate, New Object() {apixml, pOwner, CorpRepType.CorpSheet})
+                            Invoke(Sub() CheckApiResult(info, pOwner, CorpRepType.CorpSheet))
                         End If
 
                     End If
@@ -1609,32 +1600,31 @@ Namespace Forms
                     pOwner = PlugInData.PrismOwners(cboOrdersOwner.SelectedItem.ToString)
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Orders)
                     Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
-                    Dim orderXML As XmlDocument
+                    Dim marketOrders As EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
                     Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
                     If ownerAccount IsNot Nothing Then
 
                         If pOwner.IsCorp = True Then
-                            orderXML = apireq.GetAPIXML(APITypes.OrdersCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                            marketOrders = HQ.ApiProvider.Corporation.MarketOrders(ownerAccount.UserID, ownerAccount.APIKey, CInt(ownerID))
                         Else
-                            orderXML = apireq.GetAPIXML(APITypes.OrdersChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                            marketOrders = HQ.ApiProvider.Character.MarketOrders(ownerAccount.UserID, ownerAccount.APIKey, CInt(ownerID))
                         End If
                         Dim sellTotal, buyTotal, totalEscrow As Double
                         Dim totalOrders As Integer = 0
-                        If orderXML IsNot Nothing Then
+                        If marketOrders.IsSuccess Then
 
-                            Dim orders As XmlNodeList = orderXML.SelectNodes("/eveapi/result/rowset/row")
                             adtBuyOrders.BeginUpdate()
                             adtSellOrders.BeginUpdate()
                             adtBuyOrders.Nodes.Clear()
                             adtSellOrders.Nodes.Clear()
-                            For Each order As XmlNode In orders
-                                If order.Attributes.GetNamedItem("bid").Value = "0" Then
-                                    If order.Attributes.GetNamedItem("orderState").Value = "0" Then
+                            For Each order In marketOrders.ResultData
+                                If order.IsBuyOrder = False Then
+                                    If order.OrderState = EveApi.MarketOrderState.Active Then
                                         Dim sOrder As New Node
                                         adtSellOrders.Nodes.Add(sOrder)
                                         sOrder.CreateCells()
-                                        Dim itemID As Integer = CInt(order.Attributes.GetNamedItem("typeID").Value)
+                                        Dim itemID As Integer = order.TypeId
                                         Dim itemName As String
                                         If StaticData.Types.ContainsKey(itemID) = True Then
                                             itemName = StaticData.Types(itemID).Name
@@ -1642,20 +1632,21 @@ Namespace Forms
                                             itemName = "Unknown Item ID:" & itemID
                                         End If
                                         sOrder.Text = itemName
-                                        Dim quantity As Double = Double.Parse(order.Attributes.GetNamedItem("volRemaining").Value, _culture)
-                                        sOrder.Cells(1).Text = quantity.ToString("N0") & " / " & CDbl(order.Attributes.GetNamedItem("volEntered").Value).ToString("N0")
-                                        Dim price As Double = Double.Parse(order.Attributes.GetNamedItem("price").Value, NumberStyles.Any, _culture)
-                                        sOrder.Cells(2).Text = price.ToString("N2")
+                                        Dim quantity As Double = order.QuantityRemaining
+                                        sOrder.Cells(1).Text = quantity.ToInvariantString("N0") & " / " & order.QuantityEntered.ToInvariantString("N0")
+                                        Dim price As Double = order.Price
+                                        sOrder.Cells(2).Text = price.ToInvariantString("N2")
                                         Dim loc As String
-                                        If StaticData.Stations.ContainsKey(CInt(order.Attributes.GetNamedItem("stationID").Value)) = True Then
-                                            loc = StaticData.Stations(CInt(order.Attributes.GetNamedItem("stationID").Value)).StationName
+                                        Dim temp As Station
+                                        If StaticData.Stations.TryGetValue(order.StationId, temp) = True Then
+                                            loc = temp.StationName
                                         Else
-                                            loc = "StationID: " & order.Attributes.GetNamedItem("stationID").Value
+                                            loc = "StationID: " & order.StationId
                                         End If
                                         sOrder.Cells(3).Text = loc
-                                        Dim issueDate As Date = DateTime.ParseExact(order.Attributes.GetNamedItem("issued").Value, PrismTimeFormat, _culture, DateTimeStyles.None)
+                                        Dim issueDate As Date = order.DateIssued.ToLocalTime().DateTime
                                         Dim orderExpires As TimeSpan = issueDate - Now
-                                        orderExpires = orderExpires.Add(New TimeSpan(CInt(order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
+                                        orderExpires = orderExpires.Add(order.Duration)
                                         sOrder.Cells(4).Tag = orderExpires
                                         If orderExpires.TotalSeconds <= 0 Then
                                             sOrder.Cells(4).Text = "Expired!"
@@ -1666,11 +1657,11 @@ Namespace Forms
                                         totalOrders = totalOrders + 1
                                     End If
                                 Else
-                                    If order.Attributes.GetNamedItem("orderState").Value = "0" Then
+                                    If order.OrderState = EveApi.MarketOrderState.Active Then
                                         Dim bOrder As New Node
                                         adtBuyOrders.Nodes.Add(bOrder)
                                         bOrder.CreateCells()
-                                        Dim itemID As Integer = CInt(order.Attributes.GetNamedItem("typeID").Value)
+                                        Dim itemID As Integer = order.TypeId
                                         Dim itemName As String
                                         If StaticData.Types.ContainsKey(itemID) = True Then
                                             itemName = StaticData.Types(itemID).Name
@@ -1678,19 +1669,20 @@ Namespace Forms
                                             itemName = "Unknown Item ID:" & itemID
                                         End If
                                         bOrder.Text = itemName
-                                        Dim quantity As Double = Double.Parse(order.Attributes.GetNamedItem("volRemaining").Value, _culture)
-                                        bOrder.Cells(1).Text = quantity.ToString("N0") & " / " & CDbl(order.Attributes.GetNamedItem("volEntered").Value).ToString("N0")
-                                        Dim price As Double = Double.Parse(order.Attributes.GetNamedItem("price").Value, NumberStyles.Any, _culture)
-                                        bOrder.Cells(2).Text = price.ToString("N2")
+                                        Dim quantity As Double = order.QuantityRemaining
+                                        bOrder.Cells(1).Text = quantity.ToInvariantString("N0") & " / " & order.QuantityEntered.ToInvariantString("N0")
+                                        Dim price As Double = order.Price
+                                        bOrder.Cells(2).Text = price.ToInvariantString("N2")
                                         Dim loc As String
-                                        If StaticData.Stations.ContainsKey(CInt(order.Attributes.GetNamedItem("stationID").Value)) = True Then
-                                            loc = StaticData.Stations(CInt(order.Attributes.GetNamedItem("stationID").Value)).StationName
+                                        Dim temp As Station
+                                        If StaticData.Stations.TryGetValue(order.StationId, temp) = True Then
+                                            loc = temp.StationName
                                         Else
-                                            loc = "StationID: " & order.Attributes.GetNamedItem("stationID").Value
+                                            loc = "StationID: " & order.StationId.ToInvariantString()
                                         End If
                                         bOrder.Cells(3).Text = loc
-                                        bOrder.Cells(4).Tag = CInt(order.Attributes.GetNamedItem("range").Value)
-                                        Select Case CInt(order.Attributes.GetNamedItem("range").Value)
+                                        bOrder.Cells(4).Tag = order.Range
+                                        Select Case order.Range
                                             Case -1
                                                 bOrder.Cells(4).Text = "Station"
                                             Case 0
@@ -1698,12 +1690,12 @@ Namespace Forms
                                             Case 32767
                                                 bOrder.Cells(4).Text = "EveGalaticRegion"
                                             Case Is > 0, Is < 32767
-                                                bOrder.Cells(4).Text = order.Attributes.GetNamedItem("range").Value & " Jumps"
+                                                bOrder.Cells(4).Text = order.Range & " Jumps"
                                         End Select
-                                        bOrder.Cells(5).Text = Double.Parse(order.Attributes.GetNamedItem("minVolume").Value, _culture).ToString("N0")
-                                        Dim issueDate As Date = DateTime.ParseExact(order.Attributes.GetNamedItem("issued").Value, PrismTimeFormat, _culture, DateTimeStyles.None)
+                                        bOrder.Cells(5).Text = order.MinQuantity.ToInvariantString("N0")
+                                        Dim issueDate As Date = order.DateIssued.ToLocalTime().DateTime
                                         Dim orderExpires As TimeSpan = issueDate - Now
-                                        orderExpires = orderExpires.Add(New TimeSpan(CInt(order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
+                                        orderExpires = orderExpires.Add(order.Duration)
                                         bOrder.Cells(6).Tag = orderExpires
                                         If orderExpires.TotalSeconds <= 0 Then
                                             bOrder.Cells(6).Text = "Expired!"
@@ -1711,7 +1703,7 @@ Namespace Forms
                                             bOrder.Cells(6).Text = SkillFunctions.TimeToString(orderExpires.TotalSeconds, False)
                                         End If
                                         buyTotal = buyTotal + quantity * price
-                                        totalEscrow = totalEscrow + Double.Parse(order.Attributes.GetNamedItem("escrow").Value, _culture)
+                                        totalEscrow = totalEscrow + order.Escrow
                                         totalOrders = totalOrders + 1
                                     End If
                                 End If

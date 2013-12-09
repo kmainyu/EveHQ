@@ -440,6 +440,9 @@ namespace EveHQ.EveApi
                 cacheKey, ApiConstants.SixtyMinuteCache, ProcessStandingsResponse);
         }
 
+        //TODO: Wallet methods require support for wallet divisions
+
+
         public EveServiceResponse<IEnumerable<WalletJournalEntry>> WalletJournal(string keyId, string vCode, int characterId, long? fromId = null, int? rowCount = null)
         {
             return RunAsyncMethod(WalletJournalAsync, keyId, vCode, characterId, fromId, rowCount);
@@ -534,40 +537,40 @@ namespace EveHQ.EveApi
             }
 
             return (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let date = row.Attribute("transactionDateTime").Value.ToDateTimeOffset(0)
-                let transactionId = row.Attribute("transactionID").Value.ToInt32()
-                let quantity = row.Attribute("quantity").Value.ToInt32()
-                let typeName = row.Attribute("typeName").Value
-                let typeId = row.Attribute("typeID").Value.ToInt32()
-                let price = row.Attribute("price").Value.ToDouble()
-                let clientId = row.Attribute("clientID").Value.ToInt32()
-                let clientName = row.Attribute("clientName").Value
-                let stationId = row.Attribute("stationID").Value.ToInt32()
-                let stationNane = row.Attribute("stationName").Value
-                let transactionType = row.Attribute("transactionType").Value
-                let transactionFor = row.Attribute("transactionFor").Value
-                let journalEntryId =
-                    row.Attribute("journalTransactionID") != null
-                        ? row.Attribute("journalTransactionID").Value.ToInt64()
-                        : 0
-                select
-                    new WalletTransaction
-                    {
-                        ClientId = clientId,
-                        ClientName = clientName,
-                        Price = price,
-                        Quantity = quantity,
-                        StationId = stationId,
-                        StationName = stationNane,
-                        TransactionDateTime = date,
-                        TransactionFor = transactionFor,
-                        TransactionId = transactionId,
-                        TransactionType = transactionType,
-                        TypeId = typeId,
-                        TypeName = typeName,
-                        WalletJournalEntryId = journalEntryId
-                    });
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let date = row.Attribute("transactionDateTime").Value.ToDateTimeOffset(0)
+                    let transactionId = row.Attribute("transactionID").Value.ToInt32()
+                    let quantity = row.Attribute("quantity").Value.ToInt32()
+                    let typeName = row.Attribute("typeName").Value
+                    let typeId = row.Attribute("typeID").Value.ToInt32()
+                    let price = row.Attribute("price").Value.ToDouble()
+                    let clientId = row.Attribute("clientID").Value.ToInt32()
+                    let clientName = row.Attribute("clientName").Value
+                    let stationId = row.Attribute("stationID").Value.ToInt32()
+                    let stationNane = row.Attribute("stationName").Value
+                    let transactionType = row.Attribute("transactionType").Value
+                    let transactionFor = row.Attribute("transactionFor").Value
+                    let journalEntryId =
+                        row.Attribute("journalTransactionID") != null
+                            ? row.Attribute("journalTransactionID").Value.ToInt64()
+                            : 0
+                    select
+                        new WalletTransaction
+                        {
+                            ClientId = clientId,
+                            ClientName = clientName,
+                            Price = price,
+                            Quantity = quantity,
+                            StationId = stationId,
+                            StationName = stationNane,
+                            TransactionDateTime = date,
+                            TransactionFor = transactionFor,
+                            TransactionId = transactionId,
+                            TransactionType = transactionType,
+                            TypeId = typeId,
+                            TypeName = typeName,
+                            WalletJournalEntryId = journalEntryId
+                        });
         }
 
         /// <summary>The process wallet journal response.</summary>
@@ -581,39 +584,39 @@ namespace EveHQ.EveApi
             }
 
             return (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let date = row.Attribute("date").Value.ToDateTimeOffset(0)
-                let refId = row.Attribute("refID").Value.ToInt64()
-                let refType = row.Attribute("refTypeID").Value.ToInt32()
-                let firstName = row.Attribute("ownerName1").Value
-                let firstId = row.Attribute("ownerID1").Value.ToInt32()
-                let secondName = row.Attribute("ownerName2").Value
-                let secondId = row.Attribute("ownerID2").Value.ToInt32()
-                let argName = row.Attribute("argName1").Value
-                let argId = row.Attribute("argID1").Value.ToInt32()
-                let amount = row.Attribute("amount").Value.ToDouble()
-                let balance = row.Attribute("balance").Value.ToDouble()
-                let reason = row.Attribute("reason").Value
-                let taxReceiverId = row.Attribute("taxReceiverID").Value.ToInt32()
-                let taxAmount = row.Attribute("taxAmount").Value.ToDouble()
-                select
-                    new WalletJournalEntry
-                    {
-                        Amount = amount,
-                        ArgumentId = argId,
-                        ArgumentName = argName,
-                        Balance = balance,
-                        Date = date,
-                        FirstPartyId = firstId,
-                        FirstPartyName = firstName,
-                        Reason = reason,
-                        ReferenceType = refType,
-                        RefId = refId,
-                        SecondPartyId = secondId,
-                        SecondPartyName = secondName,
-                        TaxAmount = taxAmount,
-                        TaxReceiverId = taxReceiverId
-                    });
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let date = row.Attribute("date").Value.ToDateTimeOffset(0)
+                    let refId = row.Attribute("refID").Value.ToInt64()
+                    let refType = row.Attribute("refTypeID").Value.ToInt32()
+                    let firstName = row.Attribute("ownerName1").Value
+                    let firstId = row.Attribute("ownerID1").Value.ToInt32()
+                    let secondName = row.Attribute("ownerName2").Value
+                    let secondId = row.Attribute("ownerID2").Value.ToInt32()
+                    let argName = row.Attribute("argName1").Value
+                    let argId = row.Attribute("argID1").Value.ToInt32()
+                    let amount = row.Attribute("amount").Value.ToDouble()
+                    let balance = row.Attribute("balance").Value.ToDouble()
+                    let reason = row.Attribute("reason").Value
+                    let taxReceiverId = row.Attribute("taxReceiverID").Value.ToInt32()
+                    let taxAmount = row.Attribute("taxAmount").Value.ToDouble()
+                    select
+                        new WalletJournalEntry
+                        {
+                            Amount = amount,
+                            ArgumentId = argId,
+                            ArgumentName = argName,
+                            Balance = balance,
+                            Date = date,
+                            FirstPartyId = firstId,
+                            FirstPartyName = firstName,
+                            Reason = reason,
+                            ReferenceType = refType,
+                            RefId = refId,
+                            SecondPartyId = secondId,
+                            SecondPartyName = secondName,
+                            TaxAmount = taxAmount,
+                            TaxReceiverId = taxReceiverId
+                        });
         }
 
         /// <summary>The process standings response.</summary>
@@ -627,13 +630,13 @@ namespace EveHQ.EveApi
             }
 
             return (from standings in result.Elements("characterNPCStandings")
-                from rowset in standings.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let type = rowset.Attribute("name").Value.ToEnum<NpcType>()
-                let fromId = row.Attribute("fromID").Value.ToInt32()
-                let fromName = row.Attribute("fromName").Value
-                let standing = row.Attribute("standing").Value.ToDouble()
-                select new NpcStanding {FromId = fromId, FromName = fromName, Kind = type, Standing = standing});
+                    from rowset in standings.Elements(ApiConstants.Rowset)
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let type = rowset.Attribute("name").Value.ToEnum<NpcType>()
+                    let fromId = row.Attribute("fromID").Value.ToInt32()
+                    let fromName = row.Attribute("fromName").Value
+                    let standing = row.Attribute("standing").Value.ToDouble()
+                    select new NpcStanding { FromId = fromId, FromName = fromName, Kind = type, Standing = standing });
         }
 
         /// <summary>The process skill queue response.</summary>
@@ -647,25 +650,25 @@ namespace EveHQ.EveApi
             }
 
             return (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let position = row.Attribute("queuePosition").Value.ToInt32()
-                let type = row.Attribute("typeID").Value.ToInt32()
-                let level = row.Attribute("level").Value.ToInt32()
-                let startSP = row.Attribute("startSP").Value.ToInt32()
-                let endSP = row.Attribute("endSP").Value.ToInt32()
-                let startTime = row.Attribute("startTime").Value.ToDateTimeOffset(0)
-                let endTime = row.Attribute("endTime").Value.ToDateTimeOffset(0)
-                select
-                    new QueuedSkill
-                    {
-                        EndSP = endSP,
-                        EndTime = endTime,
-                        Level = level,
-                        QueuePosition = position,
-                        StartSP = startSP,
-                        StartTime = startTime,
-                        TypeId = type
-                    });
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let position = row.Attribute("queuePosition").Value.ToInt32()
+                    let type = row.Attribute("typeID").Value.ToInt32()
+                    let level = row.Attribute("level").Value.ToInt32()
+                    let startSP = row.Attribute("startSP").Value.ToInt32()
+                    let endSP = row.Attribute("endSP").Value.ToInt32()
+                    let startTime = row.Attribute("startTime").Value.ToDateTimeOffset(0)
+                    let endTime = row.Attribute("endTime").Value.ToDateTimeOffset(0)
+                    select
+                        new QueuedSkill
+                        {
+                            EndSP = endSP,
+                            EndTime = endTime,
+                            Level = level,
+                            QueuePosition = position,
+                            StartSP = startSP,
+                            StartTime = startTime,
+                            TypeId = type
+                        });
         }
 
         /// <summary>The process skill in training response.</summary>
@@ -707,21 +710,21 @@ namespace EveHQ.EveApi
             }
 
             return (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let agent = row.Attribute("agentID").Value.ToInt32()
-                let skillType = row.Attribute("skillTypeID").Value.ToInt32()
-                let startDate = row.Attribute("researchStartDate").Value.ToDateTimeOffset(0)
-                let pointsPerDay = row.Attribute("pointsPerDay").Value.ToDouble()
-                let pointsRemaining = row.Attribute("remainderPoints").Value.ToDouble()
-                select
-                    new Research
-                    {
-                        AgentId = agent,
-                        PointsPerDay = pointsPerDay,
-                        RemainingPoints = pointsRemaining,
-                        ResearchStartDate = startDate,
-                        SkillTypeId = skillType
-                    });
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let agent = row.Attribute("agentID").Value.ToInt32()
+                    let skillType = row.Attribute("skillTypeID").Value.ToInt32()
+                    let startDate = row.Attribute("researchStartDate").Value.ToDateTimeOffset(0)
+                    let pointsPerDay = row.Attribute("pointsPerDay").Value.ToDouble()
+                    let pointsRemaining = row.Attribute("remainderPoints").Value.ToDouble()
+                    select
+                        new Research
+                        {
+                            AgentId = agent,
+                            PointsPerDay = pointsPerDay,
+                            RemainingPoints = pointsRemaining,
+                            ResearchStartDate = startDate,
+                            SkillTypeId = skillType
+                        });
         }
 
         /// <summary>Processes the notifications response.</summary>
@@ -735,21 +738,21 @@ namespace EveHQ.EveApi
             }
 
             return (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let bidId = row.Attribute("bidID").Value.ToInt64()
-                let contractId = row.Attribute("contractID").Value.ToInt64()
-                let bidder = row.Attribute("bidderID").Value.ToInt64()
-                let date = row.Attribute("dateBid").Value.ToDateTimeOffset(0)
-                let amount = row.Attribute("amount").Value.ToDouble()
-                select
-                    new ContractBid
-                    {
-                        Amount = amount,
-                        BidDateTime = date,
-                        BidderId = bidder,
-                        BidId = bidId,
-                        ContractId = contractId
-                    });
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let bidId = row.Attribute("bidID").Value.ToInt64()
+                    let contractId = row.Attribute("contractID").Value.ToInt64()
+                    let bidder = row.Attribute("bidderID").Value.ToInt64()
+                    let date = row.Attribute("dateBid").Value.ToDateTimeOffset(0)
+                    let amount = row.Attribute("amount").Value.ToDouble()
+                    select
+                        new ContractBid
+                        {
+                            Amount = amount,
+                            BidDateTime = date,
+                            BidderId = bidder,
+                            BidId = bidId,
+                            ContractId = contractId
+                        });
         }
 
         /// <summary>Processes the medals xml</summary>
@@ -763,28 +766,28 @@ namespace EveHQ.EveApi
             }
 
             return (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let medalId = row.Attribute("medalID").Value.ToInt32()
-                let reason = row.Attribute("reason").Value
-                let status = row.Attribute("status").Value
-                let issuerId = row.Attribute("issuerID").Value.ToInt32()
-                let issued = row.Attribute("issued").Value.ToDateTimeOffset(0)
-                let corpId = row.Attribute("corporationID") != null ? row.Attribute("corporationID").Value.ToInt32() : 0
-                let title = row.Attribute("title") != null ? row.Attribute("title").Value : string.Empty
-                let description =
-                    row.Attribute("description") != null ? row.Attribute("description").Value : string.Empty
-                select
-                    new Medal
-                    {
-                        MedalId = medalId,
-                        Reason = reason,
-                        Status = status,
-                        IssuerId = issuerId,
-                        DateIssued = issued,
-                        CorporationId = corpId,
-                        Title = title,
-                        Description = description
-                    });
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let medalId = row.Attribute("medalID").Value.ToInt32()
+                    let reason = row.Attribute("reason").Value
+                    let status = row.Attribute("status").Value
+                    let issuerId = row.Attribute("issuerID").Value.ToInt32()
+                    let issued = row.Attribute("issued").Value.ToDateTimeOffset(0)
+                    let corpId = row.Attribute("corporationID") != null ? row.Attribute("corporationID").Value.ToInt32() : 0
+                    let title = row.Attribute("title") != null ? row.Attribute("title").Value : string.Empty
+                    let description =
+                        row.Attribute("description") != null ? row.Attribute("description").Value : string.Empty
+                    select
+                        new Medal
+                        {
+                            MedalId = medalId,
+                            Reason = reason,
+                            Status = status,
+                            IssuerId = issuerId,
+                            DateIssued = issued,
+                            CorporationId = corpId,
+                            Title = title,
+                            Description = description
+                        });
         }
 
         /// <summary>Processes the market order xml into objects.</summary>
@@ -798,42 +801,42 @@ namespace EveHQ.EveApi
             }
 
             return (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let orderId = row.Attribute("orderID").Value.ToInt32()
-                let charId = row.Attribute("charID").Value.ToInt32()
-                let stationId = row.Attribute("stationID").Value.ToInt32()
-                let quantityEntered = row.Attribute("volEntered").Value.ToInt32()
-                let quantityRemaining = row.Attribute("volRemaining").Value.ToInt32()
-                let minVolumn = row.Attribute("minVolume").Value.ToInt32()
-                let orderState =
-                    (MarketOrderState) Enum.Parse(typeof (MarketOrderState), row.Attribute("orderState").Value)
-                let typeId = row.Attribute("typeID").Value.ToInt32()
-                let range = row.Attribute("range").Value.ToInt32()
-                let accountKey = row.Attribute("accountKey").Value.ToInt32()
-                let duration = TimeSpan.FromDays(row.Attribute("duration").Value.ToInt32())
-                let escrow = row.Attribute("escrow").Value.ToDouble()
-                let price = row.Attribute("price").Value.ToDouble()
-                let isBuyOrder = row.Attribute("bid").Value.ToBoolean()
-                let dateIssued = row.Attribute("issued").Value.ToDateTimeOffset(0)
-                select
-                    new MarketOrder
-                    {
-                        OrderId = orderId,
-                        CharId = charId,
-                        StationId = stationId,
-                        QuantityEntered = quantityEntered,
-                        QuantityRemaining = quantityRemaining,
-                        MinQuantity = minVolumn,
-                        OrderState = orderState,
-                        TypeId = typeId,
-                        Range = range,
-                        AccountKey = accountKey,
-                        Duration = duration,
-                        Escrow = escrow,
-                        Price = price,
-                        IsBuyOrder = isBuyOrder,
-                        DateIssued = dateIssued
-                    });
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let orderId = row.Attribute("orderID").Value.ToInt32()
+                    let charId = row.Attribute("charID").Value.ToInt32()
+                    let stationId = row.Attribute("stationID").Value.ToInt32()
+                    let quantityEntered = row.Attribute("volEntered").Value.ToInt32()
+                    let quantityRemaining = row.Attribute("volRemaining").Value.ToInt32()
+                    let minVolumn = row.Attribute("minVolume").Value.ToInt32()
+                    let orderState =
+                        (MarketOrderState)Enum.Parse(typeof(MarketOrderState), row.Attribute("orderState").Value)
+                    let typeId = row.Attribute("typeID").Value.ToInt32()
+                    let range = row.Attribute("range").Value.ToInt32()
+                    let accountKey = row.Attribute("accountKey").Value.ToInt32()
+                    let duration = TimeSpan.FromDays(row.Attribute("duration").Value.ToInt32())
+                    let escrow = row.Attribute("escrow").Value.ToDouble()
+                    let price = row.Attribute("price").Value.ToDouble()
+                    let isBuyOrder = row.Attribute("bid").Value.ToBoolean()
+                    let dateIssued = row.Attribute("issued").Value.ToDateTimeOffset(0)
+                    select
+                        new MarketOrder
+                        {
+                            OrderId = orderId,
+                            CharId = charId,
+                            StationId = stationId,
+                            QuantityEntered = quantityEntered,
+                            QuantityRemaining = quantityRemaining,
+                            MinQuantity = minVolumn,
+                            OrderState = orderState,
+                            TypeId = typeId,
+                            Range = range,
+                            AccountKey = accountKey,
+                            Duration = duration,
+                            Escrow = escrow,
+                            Price = price,
+                            IsBuyOrder = isBuyOrder,
+                            DateIssued = dateIssued
+                        });
         }
 
         /// <summary>Processes the xml response from the web service for the industry jobs method.</summary>
@@ -847,76 +850,76 @@ namespace EveHQ.EveApi
             }
 
             IEnumerable<IndustryJob> jobs = (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let jobId = row.Attribute("jobID").Value.ToInt64()
-                let assemblyLineId = row.Attribute("assemblyLineID").Value.ToInt64()
+                                             from row in rowset.Elements(ApiConstants.Row)
+                                             let jobId = row.Attribute("jobID").Value.ToInt64()
+                                             let assemblyLineId = row.Attribute("assemblyLineID").Value.ToInt64()
                                              let containerId = row.Attribute("containerID").Value.ToInt64()
                                              let installedItemId = row.Attribute("installedItemID").Value.ToInt64()
                                              let installedItemLocationId = row.Attribute("installedItemLocationID").Value.ToInt64()
                                              let installedItemQuantity = row.Attribute("installedItemQuantity").Value.ToInt32()
                                              let installedItemProductionLevel = row.Attribute("installedItemProductivityLevel").Value.ToInt32()
                                              let installedItemMaterialLevel = row.Attribute("installedItemMaterialLevel").Value.ToInt32()
-                let installedItemLicensedProductionRunsRemaining =
-                    row.Attribute("installedItemLicensedProductionRunsRemaining").Value.ToInt32()
+                                             let installedItemLicensedProductionRunsRemaining =
+                                                 row.Attribute("installedItemLicensedProductionRunsRemaining").Value.ToInt32()
                                              let outputLocationId = row.Attribute("outputLocationID").Value.ToInt64()
                                              let installerId = row.Attribute("installerID").Value.ToInt64()
-                let runs = row.Attribute("runs").Value.ToInt32()
-                let licensedProductionRuns = row.Attribute("licensedProductionRuns").Value.ToInt32()
-                                             let installedInSolarSystemId = row.Attribute("installedInSolarSystemID").Value.ToInt64()
+                                             let runs = row.Attribute("runs").Value.ToInt32()
+                                             let licensedProductionRuns = row.Attribute("licensedProductionRuns").Value.ToInt32()
+                                             let installedInSolarSystemId = row.Attribute("installedInSolarSystemID").Value.ToInt32()
                                              let containerLocationId = row.Attribute("containerLocationID").Value.ToInt64()
-                let materialMultiplier = row.Attribute("materialMultiplier").Value.ToDouble()
-                let charMaterialMultiplier = row.Attribute("charMaterialMultiplier").Value.ToDouble()
-                let timeMultiplier = row.Attribute("timeMultiplier").Value.ToDouble()
-                let charTimeMultiplier = row.Attribute("charTimeMultiplier").Value.ToDouble()
-                                             let installedItemTypeId = row.Attribute("installedItemTypeID").Value.ToInt64()
-                let outputTypeId = row.Attribute("outputTypeID").Value.ToInt32()
-                let containerTypeId = row.Attribute("containerTypeID").Value.ToInt64()
-                let installedItemCopy = row.Attribute("installedItemCopy").Value.ToBoolean()
-                let completed = row.Attribute("completed").Value.ToBoolean()
-                let completedSuccessfully = row.Attribute("completedSuccessfully").Value.ToBoolean()
-                let installedItemFlag = row.Attribute("installedItemFlag").Value.ToBoolean()
-                let outputFlag = row.Attribute("outputFlag").Value.ToInt32()
-                let activityId = row.Attribute("activityID").Value.ToInt32()
-                let installTime = row.Attribute("installTime").Value.ToDateTimeOffset(0)
-                let beginProductionTime = row.Attribute("beginProductionTime").Value.ToDateTimeOffset(0)
-                let endProductionTime = row.Attribute("endProductionTime").Value.ToDateTimeOffset(0)
-                let pauseProductionTime = row.Attribute("pauseProductionTime").Value.ToDateTimeOffset(0)
-                select
-                    new IndustryJob
-                    {
-                        JobId = jobId,
-                        AssemblyLineId = assemblyLineId,
-                        ContainerId = containerId,
-                        InstalledItemId = installedItemId,
-                        InstalledItemLocationId = installedItemLocationId,
-                        InstalledItemQuantity = installedItemQuantity,
-                        InstalledItemProductivityLevel = installedItemProductionLevel,
-                        InstalledItemMaterialLevel = installedItemMaterialLevel,
-                        InstalledItemLicensedProductionRunsRemaining = installedItemLicensedProductionRunsRemaining,
-                        OutputLocationId = outputLocationId,
-                        InstallerId = installerId,
-                        Runs = runs,
-                        LicensedProductionRuns = licensedProductionRuns,
-                        InstalledInSolarSystemId = installedInSolarSystemId,
-                        ContainerLocationId = containerLocationId,
-                        MaterialMultiplier = materialMultiplier,
-                        CharMaterialMultiplier = charMaterialMultiplier,
-                        TimeMultiplier = timeMultiplier,
-                        CharTimeMultiplier = charTimeMultiplier,
-                        InstalledItemTypeId = installedItemTypeId,
-                        OutputTypeId = outputTypeId,
-                        ContainerTypeId = containerTypeId,
-                        InstalledItemCopy = installedItemCopy,
-                        Completed = completed,
-                        CompletedSuccessfully = completedSuccessfully,
-                        InstalledItemFlag = installedItemFlag,
-                        OutputFlag = outputFlag,
-                        ActivityId = activityId,
-                        InstallTime = installTime,
-                        BeginProductionTime = beginProductionTime,
-                        EndProductionTime = endProductionTime,
-                        PauseProductionTime = pauseProductionTime
-                    });
+                                             let materialMultiplier = row.Attribute("materialMultiplier").Value.ToDouble()
+                                             let charMaterialMultiplier = row.Attribute("charMaterialMultiplier").Value.ToDouble()
+                                             let timeMultiplier = row.Attribute("timeMultiplier").Value.ToDouble()
+                                             let charTimeMultiplier = row.Attribute("charTimeMultiplier").Value.ToDouble()
+                                             let installedItemTypeId = row.Attribute("installedItemTypeID").Value.ToInt32()
+                                             let outputTypeId = row.Attribute("outputTypeID").Value.ToInt32()
+                                             let containerTypeId = row.Attribute("containerTypeID").Value.ToInt64()
+                                             let installedItemCopy = row.Attribute("installedItemCopy").Value.ToBoolean()
+                                             let completed = row.Attribute("completed").Value.ToBoolean()
+                                             let completedSuccessfully = row.Attribute("completedSuccessfully").Value.ToBoolean()
+                                             let installedItemFlag = row.Attribute("installedItemFlag").Value.ToBoolean()
+                                             let outputFlag = row.Attribute("outputFlag").Value.ToInt32()
+                                             let activityId = row.Attribute("activityID").Value.ToInt32()
+                                             let installTime = row.Attribute("installTime").Value.ToDateTimeOffset(0)
+                                             let beginProductionTime = row.Attribute("beginProductionTime").Value.ToDateTimeOffset(0)
+                                             let endProductionTime = row.Attribute("endProductionTime").Value.ToDateTimeOffset(0)
+                                             let pauseProductionTime = row.Attribute("pauseProductionTime").Value.ToDateTimeOffset(0)
+                                             select
+                                                 new IndustryJob
+                                                 {
+                                                     JobId = jobId,
+                                                     AssemblyLineId = assemblyLineId,
+                                                     ContainerId = containerId,
+                                                     InstalledItemId = installedItemId,
+                                                     InstalledItemLocationId = installedItemLocationId,
+                                                     InstalledItemQuantity = installedItemQuantity,
+                                                     InstalledItemProductivityLevel = installedItemProductionLevel,
+                                                     InstalledItemMaterialLevel = installedItemMaterialLevel,
+                                                     InstalledItemLicensedProductionRunsRemaining = installedItemLicensedProductionRunsRemaining,
+                                                     OutputLocationId = outputLocationId,
+                                                     InstallerId = installerId,
+                                                     Runs = runs,
+                                                     LicensedProductionRuns = licensedProductionRuns,
+                                                     InstalledInSolarSystemId = installedInSolarSystemId,
+                                                     ContainerLocationId = containerLocationId,
+                                                     MaterialMultiplier = materialMultiplier,
+                                                     CharMaterialMultiplier = charMaterialMultiplier,
+                                                     TimeMultiplier = timeMultiplier,
+                                                     CharTimeMultiplier = charTimeMultiplier,
+                                                     InstalledItemTypeId = installedItemTypeId,
+                                                     OutputTypeId = outputTypeId,
+                                                     ContainerTypeId = containerTypeId,
+                                                     InstalledItemCopy = installedItemCopy,
+                                                     Completed = completed,
+                                                     CompletedSuccessfully = completedSuccessfully,
+                                                     InstalledItemFlag = installedItemFlag,
+                                                     OutputFlag = outputFlag,
+                                                     ActivityId = activityId,
+                                                     InstallTime = installTime,
+                                                     BeginProductionTime = beginProductionTime,
+                                                     EndProductionTime = endProductionTime,
+                                                     PauseProductionTime = pauseProductionTime
+                                                 });
 
             return jobs;
         }
@@ -974,24 +977,24 @@ namespace EveHQ.EveApi
             }
 
             return (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let record = row.Attribute("recordID").Value.ToInt64()
-                let type = row.Attribute("typeID").Value.ToInt32()
-                let quantity = row.Attribute("quantity").Value.ToInt64()
-                let rawQuantity =
-                    row.Attribute("rawQuantity") != null ? row.Attribute("rawQuantity").Value.ToInt32() : -1
-                let single = row.Attribute("singleton").Value.ToBoolean()
-                let included = row.Attribute("included").Value.ToBoolean()
-                select
-                    new ContractItem
-                    {
-                        IsIncluded = included,
-                        IsSingleton = single,
-                        Quantity = quantity,
-                        RawQuantity = rawQuantity,
-                        RecordId = record,
-                        TypeId = type
-                    });
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let record = row.Attribute("recordID").Value.ToInt64()
+                    let type = row.Attribute("typeID").Value.ToInt32()
+                    let quantity = row.Attribute("quantity").Value.ToInt64()
+                    let rawQuantity =
+                        row.Attribute("rawQuantity") != null ? row.Attribute("rawQuantity").Value.ToInt32() : -1
+                    let single = row.Attribute("singleton").Value.ToBoolean()
+                    let included = row.Attribute("included").Value.ToBoolean()
+                    select
+                        new ContractItem
+                        {
+                            IsIncluded = included,
+                            IsSingleton = single,
+                            Quantity = quantity,
+                            RawQuantity = rawQuantity,
+                            RecordId = record,
+                            TypeId = type
+                        });
         }
 
         /// <summary>Processes the response for the Contracts method.</summary>
@@ -1008,71 +1011,71 @@ namespace EveHQ.EveApi
             ContractAvailability tempAvail;
             DateTime tempDate;
             IEnumerable<Contract> contracts = (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let contractId = int.Parse(row.Attribute("contractID").Value)
-                let issuerId = int.Parse(row.Attribute("issuerID").Value)
-                let issuerCorpId = int.Parse(row.Attribute("issuerCorpID").Value)
-                let assigneeId = int.Parse(row.Attribute("assigneeID").Value)
-                let acceptorId = int.Parse(row.Attribute("acceptorID").Value)
-                let startStationId = int.Parse(row.Attribute("startStationID").Value)
-                let endStationId = int.Parse(row.Attribute("endStationID").Value)
-                let type = Enum.TryParse(row.Attribute("type").Value, out tempType) ? tempType : ContractType.Unknown
-                let status =
-                    Enum.TryParse(row.Attribute("status").Value, out tempStatus) ? tempStatus : ContractStatus.Unknown
-                let title = row.Attribute("title").Value
-                let forCorp = int.Parse(row.Attribute("forCorp").Value) == 1
-                let availability =
-                    Enum.TryParse(row.Attribute("availability").Value, out tempAvail)
-                        ? tempAvail
-                        : ContractAvailability.Unknown
-                let dateIssued =
-                    DateTime.TryParse(row.Attribute("dateIssued").Value, out tempDate)
-                        ? new DateTimeOffset(tempDate, TimeSpan.Zero)
-                        : DateTimeOffset.MinValue
-                let dateExpired =
-                    DateTime.TryParse(row.Attribute("dateExpired").Value, out tempDate)
-                        ? new DateTimeOffset(tempDate, TimeSpan.Zero)
-                        : DateTimeOffset.MinValue
-                let dateAccepted =
-                    DateTime.TryParse(row.Attribute("dateAccepted").Value, out tempDate)
-                        ? new DateTimeOffset(tempDate, TimeSpan.Zero)
-                        : DateTimeOffset.MinValue
-                let dateCompleted =
-                    DateTime.TryParse(row.Attribute("dateCompleted").Value, out tempDate)
-                        ? new DateTimeOffset(tempDate, TimeSpan.Zero)
-                        : DateTimeOffset.MinValue
-                let numDate = int.Parse(row.Attribute("numDays").Value)
-                let price = double.Parse(row.Attribute("price").Value)
-                let reward = double.Parse(row.Attribute("reward").Value)
-                let collateral = double.Parse(row.Attribute("collateral").Value)
-                let buyout = double.Parse(row.Attribute("buyout").Value)
-                let volume = double.Parse(row.Attribute("volume").Value)
-                select
-                    new Contract
-                    {
-                        ContractId = contractId,
-                        IssuerId = issuerId,
-                        IssuserCorpId = issuerCorpId,
-                        AssigneeId = assigneeId,
-                        AcceptorId = acceptorId,
-                        StartStationId = startStationId,
-                        EndStationId = endStationId,
-                        Type = type,
-                        Status = status,
-                        Title = title,
-                        ForCorp = forCorp,
-                        Availability = availability,
-                        DateIssued = dateIssued,
-                        DateExpired = dateExpired,
-                        DateAccepted = dateAccepted,
-                        NumberOfDays = numDate,
-                        DateCompleted = dateCompleted,
-                        Price = price,
-                        Reward = reward,
-                        Collateral = collateral,
-                        Buyout = buyout,
-                        Volume = volume
-                    });
+                                               from row in rowset.Elements(ApiConstants.Row)
+                                               let contractId = int.Parse(row.Attribute("contractID").Value)
+                                               let issuerId = int.Parse(row.Attribute("issuerID").Value)
+                                               let issuerCorpId = int.Parse(row.Attribute("issuerCorpID").Value)
+                                               let assigneeId = int.Parse(row.Attribute("assigneeID").Value)
+                                               let acceptorId = int.Parse(row.Attribute("acceptorID").Value)
+                                               let startStationId = int.Parse(row.Attribute("startStationID").Value)
+                                               let endStationId = int.Parse(row.Attribute("endStationID").Value)
+                                               let type = Enum.TryParse(row.Attribute("type").Value, out tempType) ? tempType : ContractType.Unknown
+                                               let status =
+                                                   Enum.TryParse(row.Attribute("status").Value, out tempStatus) ? tempStatus : ContractStatus.Unknown
+                                               let title = row.Attribute("title").Value
+                                               let forCorp = int.Parse(row.Attribute("forCorp").Value) == 1
+                                               let availability =
+                                                   Enum.TryParse(row.Attribute("availability").Value, out tempAvail)
+                                                       ? tempAvail
+                                                       : ContractAvailability.Unknown
+                                               let dateIssued =
+                                                   DateTime.TryParse(row.Attribute("dateIssued").Value, out tempDate)
+                                                       ? new DateTimeOffset(tempDate, TimeSpan.Zero)
+                                                       : DateTimeOffset.MinValue
+                                               let dateExpired =
+                                                   DateTime.TryParse(row.Attribute("dateExpired").Value, out tempDate)
+                                                       ? new DateTimeOffset(tempDate, TimeSpan.Zero)
+                                                       : DateTimeOffset.MinValue
+                                               let dateAccepted =
+                                                   DateTime.TryParse(row.Attribute("dateAccepted").Value, out tempDate)
+                                                       ? new DateTimeOffset(tempDate, TimeSpan.Zero)
+                                                       : DateTimeOffset.MinValue
+                                               let dateCompleted =
+                                                   DateTime.TryParse(row.Attribute("dateCompleted").Value, out tempDate)
+                                                       ? new DateTimeOffset(tempDate, TimeSpan.Zero)
+                                                       : DateTimeOffset.MinValue
+                                               let numDate = int.Parse(row.Attribute("numDays").Value)
+                                               let price = double.Parse(row.Attribute("price").Value)
+                                               let reward = double.Parse(row.Attribute("reward").Value)
+                                               let collateral = double.Parse(row.Attribute("collateral").Value)
+                                               let buyout = double.Parse(row.Attribute("buyout").Value)
+                                               let volume = double.Parse(row.Attribute("volume").Value)
+                                               select
+                                                   new Contract
+                                                   {
+                                                       ContractId = contractId,
+                                                       IssuerId = issuerId,
+                                                       IssuserCorpId = issuerCorpId,
+                                                       AssigneeId = assigneeId,
+                                                       AcceptorId = acceptorId,
+                                                       StartStationId = startStationId,
+                                                       EndStationId = endStationId,
+                                                       Type = type,
+                                                       Status = status,
+                                                       Title = title,
+                                                       ForCorp = forCorp,
+                                                       Availability = availability,
+                                                       DateIssued = dateIssued,
+                                                       DateExpired = dateExpired,
+                                                       DateAccepted = dateAccepted,
+                                                       NumberOfDays = numDate,
+                                                       DateCompleted = dateCompleted,
+                                                       Price = price,
+                                                       Reward = reward,
+                                                       Collateral = collateral,
+                                                       Buyout = buyout,
+                                                       Volume = volume
+                                                   });
 
             return contracts;
         }
@@ -1088,23 +1091,23 @@ namespace EveHQ.EveApi
             }
 
             IEnumerable<ContactNotification> notifications = (from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let notificationId = int.Parse(row.Attribute("notificationID").Value)
-                let senderId = int.Parse(row.Attribute("senderID").Value)
-                let senderName = row.Attribute("senderName").Value
-                let sentDate =
-                    new DateTimeOffset(DateTime.Parse(row.Attribute("sentDate").Value, CultureInfo.InvariantCulture),
-                        TimeSpan.Zero)
-                let messageData = row.Attribute("messageData").Value
-                select
-                    new ContactNotification
-                    {
-                        NotificationId = notificationId,
-                        SenderId = senderId,
-                        SenderName = senderName,
-                        SentDate = sentDate,
-                        MessageData = messageData
-                    });
+                                                              from row in rowset.Elements(ApiConstants.Row)
+                                                              let notificationId = int.Parse(row.Attribute("notificationID").Value)
+                                                              let senderId = int.Parse(row.Attribute("senderID").Value)
+                                                              let senderName = row.Attribute("senderName").Value
+                                                              let sentDate =
+                                                                  new DateTimeOffset(DateTime.Parse(row.Attribute("sentDate").Value, CultureInfo.InvariantCulture),
+                                                                      TimeSpan.Zero)
+                                                              let messageData = row.Attribute("messageData").Value
+                                                              select
+                                                                  new ContactNotification
+                                                                  {
+                                                                      NotificationId = notificationId,
+                                                                      SenderId = senderId,
+                                                                      SenderName = senderName,
+                                                                      SentDate = sentDate,
+                                                                      MessageData = messageData
+                                                                  });
             return notifications;
         }
 
@@ -1121,22 +1124,22 @@ namespace EveHQ.EveApi
             // convert the xml into collections of objects.
             // only the personal list has the "inWatchlist" attribute...others defaulted to false    
             return from rowset in result.Elements(ApiConstants.Rowset)
-                from row in rowset.Elements(ApiConstants.Row)
-                let contactId = int.Parse(row.Attribute("contactID").Value)
-                let contactName = row.Attribute("contactName").Value
-                let isInWatchList =
-                    row.Attributes("inWatchlist").Any() && bool.Parse(row.Attribute("inWatchlist").Value)
-                let standing = int.Parse(row.Attribute("standing").Value)
-                let kind = rowset.Attribute("name").Value.ToEnum<ContactType>()
-                select
-                    new Contact
-                    {
-                        ContactId = contactId,
-                        ContactType = kind,
-                        ContactName = contactName,
-                        IsInWatchList = isInWatchList,
-                        Standing = standing
-                    };
+                   from row in rowset.Elements(ApiConstants.Row)
+                   let contactId = int.Parse(row.Attribute("contactID").Value)
+                   let contactName = row.Attribute("contactName").Value
+                   let isInWatchList =
+                       row.Attributes("inWatchlist").Any() && bool.Parse(row.Attribute("inWatchlist").Value)
+                   let standing = int.Parse(row.Attribute("standing").Value)
+                   let kind = rowset.Attribute("name").Value.ToEnum<ContactType>()
+                   select
+                       new Contact
+                       {
+                           ContactId = contactId,
+                           ContactType = kind,
+                           ContactName = contactName,
+                           IsInWatchList = isInWatchList,
+                           Standing = standing
+                       };
         }
 
         /// <summary>Parses the asset list response xml into C# objects.</summary>
@@ -1172,7 +1175,7 @@ namespace EveHQ.EveApi
                     int accountId = row.Attribute(ApiConstants.AccountId).Value.ToInt32();
                     int accountKey = row.Attribute(ApiConstants.AccountKey).Value.ToInt32();
                     double balance = row.Attribute(ApiConstants.Balance).Value.ToDouble();
-                    return new AccountBalance {AccountId = accountId, AccountKey = accountKey, Balance = balance};
+                    return new AccountBalance { AccountId = accountId, AccountKey = accountKey, Balance = balance };
                 });
         }
 
@@ -1182,7 +1185,7 @@ namespace EveHQ.EveApi
         /// <returns>an AssetItem.</returns>
         private static AssetItem CreateItemFromRow(XElement row, int parentId)
         {
-            int itemId, locationId, typeId, quantity, flag,rawQuantity;
+            int itemId, locationId, typeId, quantity, flag, rawQuantity;
             bool single;
 
             XAttribute item = row.Attribute(ApiConstants.ItemId);

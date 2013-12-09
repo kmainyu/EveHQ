@@ -65,7 +65,7 @@ namespace EveHQ.EveApi
         public int LicensedProductionRuns { get; set; }
 
         /// <summary>Gets the installed in solar system id.</summary>
-        public long InstalledInSolarSystemId { get; set; }
+        public int InstalledInSolarSystemId { get; set; }
 
         /// <summary>Gets the container location id.</summary>
         public long ContainerLocationId { get; set; }
