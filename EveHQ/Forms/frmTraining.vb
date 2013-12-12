@@ -910,7 +910,7 @@ Namespace Forms
                         results.Add(newSkill.Name)
                     End If
                 Next
-                results.Sort(StringComparer.InvariantCulture)
+                results.Sort()
 
                 adtSkillList.BeginUpdate()
                 adtSkillList.Nodes.Clear()

@@ -208,7 +208,7 @@ Namespace Forms
                                         Else
                                             ' Default = HQF
                                             skillNode.Style = _standardSkillStyle
-                                            If ShowOnlyModified = True Then
+                                            If showOnlyModified = True Then
                                                 groupNode.Nodes.Remove(skillNode)
                                             End If
                                         End If
@@ -216,6 +216,7 @@ Namespace Forms
                                 End If
                             End If
                         Next
+                        groupNode.Nodes.Sort()
                     End If
                 Next
                 ' Remove parents with no children
@@ -228,6 +229,7 @@ Namespace Forms
                 For Each parentItem As Node In delList
                     adtSkills.Nodes.Remove(parentItem)
                 Next
+                adtSkills.Nodes.Sort()
                 If adtSkills.Nodes.Count = 0 Then
                     adtSkills.Nodes.Add(New Node("(No Skills Modified)"))
                 End If
