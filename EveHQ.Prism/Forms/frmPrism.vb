@@ -642,7 +642,7 @@ Namespace Forms
 
         Private Function CanUseApiV2(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
             Dim account As EveHQAccount = pOwner.Account
-            If account.ApiKeySystem = APIKeySystems.Version2 Then
+            If account.APIAccountStatus = APIAccountStatuses.Active And account.ApiKeySystem = APIKeySystems.Version2 Then
                 Select Case account.APIKeyType
                     Case APIKeyTypes.Corporation
                         Select Case apiType
