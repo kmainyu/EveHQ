@@ -1635,7 +1635,7 @@ Namespace Forms
                 If lvwDepend.SelectedItems.Count <> 0 Then
                     Dim item As ListViewItem = lvwDepend.SelectedItems(0)
                     Dim itemName As String = item.Text
-                    Dim itemID As String = item.Tag.ToString
+                    Dim itemID As String = item.Name
 
                     If item.Group.Name = "Cat16" Then
                         mnuViewItemDetails.Visible = True
