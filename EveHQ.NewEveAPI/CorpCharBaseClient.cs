@@ -255,9 +255,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<FactionalWarfareStats>> FactionalWarfareStatistics(string keyId, string vCode,
             int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Against(keyId.IsNullOrWhiteSpace());
+            Guard.Against(vCode.IsNullOrWhiteSpace());
+            Guard.Against(characterId == 0);
 
             const string MethodPath = "{0}/FacWarStats.xml.aspx";
             const string CacheKeyFormat = "CharacterFacWarStats{0}_{1}";
@@ -282,9 +282,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<IndustryJob>>> IndustryJobsAsync(string keyId, string vCode,
             int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Against(keyId.IsNullOrWhiteSpace());
+            Guard.Against(vCode.IsNullOrWhiteSpace());
+            Guard.Against(characterId <= 0);
 
             const string MethodPath = "{0}/IndustryJobs.xml.aspx";
             const string CacheKeyFormat = "CharacterIndustryJobs{0}_{1}";
@@ -309,9 +309,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<MarketOrder>>> MarketOrdersAsync(string keyId, string vCode,
             int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/MarketOrders.xml.aspx";
             const string CacheKeyFormat = "CharacterMarketOrders{0}_{1}";
@@ -329,9 +329,9 @@ namespace EveHQ.EveApi
         /// <returns>a collection of medals.</returns>
         public Task<EveServiceResponse<IEnumerable<Medal>>> Medals(string keyId, string vCode, int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/Medals.xml.aspx";
             const string CacheKeyFormat = "CharacterMedals{0}_{1}";
@@ -349,9 +349,9 @@ namespace EveHQ.EveApi
         /// <returns>The <see cref="Task" />.</returns>
         public Task<EveServiceResponse<IEnumerable<Research>>> Research(string keyId, string vCode, int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/Research.xml.aspx";
             const string CacheKeyFormat = "CharacterResearch{0}_{1}";
@@ -369,9 +369,9 @@ namespace EveHQ.EveApi
         /// <returns>The <see cref="Task" />.</returns>
         public Task<EveServiceResponse<SkillInTraining>> SkillInTraining(string keyId, string vCode, int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/SkillInTraining.xml.aspx";
             const string CacheKeyFormat = "SkillInTraining{0}_{1}";
@@ -400,9 +400,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<QueuedSkill>>> SkillQueueAsync(string keyId, string vCode,
             int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/SkillQueue.xml.aspx";
             const string CacheKeyFormat = "SkillQueue{0}_{1}";
@@ -427,9 +427,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<NpcStanding>>> NPCStandingsAsync(string keyId, string vCode,
             int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/Standings.xml.aspx";
             const string CacheKeyFormat = "CharacterNpcStandings{0}_{1}";
@@ -443,34 +443,37 @@ namespace EveHQ.EveApi
         //TODO: Wallet methods require support for wallet divisions
 
 
-        public EveServiceResponse<IEnumerable<WalletJournalEntry>> WalletJournal(string keyId, string vCode, int characterId, long? fromId = null, int? rowCount = null)
+        public EveServiceResponse<IEnumerable<WalletJournalEntry>> WalletJournal(string keyId, string vCode, int characterId, int accountKey, long? fromId = null, int? rowCount = null)
         {
-            return RunAsyncMethod(WalletJournalAsync, keyId, vCode, characterId, fromId, rowCount);
+            return RunAsyncMethod(WalletJournalAsync, keyId, vCode, characterId, accountKey, fromId, rowCount);
         }
 
         /// <summary>The wallet journal.</summary>
         /// <param name="keyId">The key id.</param>
         /// <param name="vCode">The v code.</param>
         /// <param name="characterId">The character id.</param>
+        /// <param name="accountKey"></param>
         /// <param name="fromId">The from id.</param>
         /// <param name="rowCount">The row count.</param>
         /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<WalletJournalEntry>>> WalletJournalAsync(string keyId, string vCode,
-            int characterId, long? fromId = null, int? rowCount = null)
+        public Task<EveServiceResponse<IEnumerable<WalletJournalEntry>>> WalletJournalAsync(string keyId, string vCode, int characterId, int accountKey, long? fromId = null, int? rowCount = null)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
-            System.Diagnostics.Contracts.Contract.Requires(rowCount == null || rowCount.Value > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
+            Guard.Ensure(rowCount == null || rowCount.Value > 0);
 
             const string MethodPath = "{0}/WalletJournal.xml.aspx";
             const string CacheKeyFormat = "WalletJournal{0}_{1}";
 
             const string FromId = "fromID";
             const string RowCount = "rowCount";
+            const string AccountKey = "accountKey";
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
+
+            apiParams[AccountKey] = accountKey.ToInvariantString();
 
             if (fromId != null)
             {
@@ -485,38 +488,43 @@ namespace EveHQ.EveApi
                 cacheKey, ApiConstants.SixtyMinuteCache, ProcessWalletJournalResponse);
         }
 
-        public EveServiceResponse<IEnumerable<WalletTransaction>> WalletTransactions(string keyId, string vCode,
-            int characterId, long? fromId = null, int? rowCount = null)
+        public EveServiceResponse<IEnumerable<WalletTransaction>> WalletTransactions(string keyId, string vCode, int characterId, int accountKey, long? fromId = null, int? rowCount = null)
         {
-            return RunAsyncMethod(WalletTransactionsAsync, keyId, vCode, characterId, fromId, rowCount);
+            return RunAsyncMethod(WalletTransactionsAsync, keyId, vCode, characterId, accountKey, fromId, rowCount);
         }
+
         /// <summary>The wallet transactions.</summary>
         /// <param name="keyId">The key id.</param>
         /// <param name="vCode">The v code.</param>
         /// <param name="characterId">The character id.</param>
+        /// <param name="accountKey"></param>
         /// <param name="fromId">The from id.</param>
         /// <param name="rowCount">The row count.</param>
         /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<WalletTransaction>>> WalletTransactionsAsync(string keyId, string vCode,
-            int characterId, long? fromId = null, int? rowCount = null)
+        public Task<EveServiceResponse<IEnumerable<WalletTransaction>>> WalletTransactionsAsync(string keyId, string vCode, int characterId, int accountKey, long? fromId = null, int? rowCount = null)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
-            System.Diagnostics.Contracts.Contract.Requires(rowCount == null || rowCount.Value > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
+            Guard.Ensure(rowCount == null || rowCount.Value > 0);
 
             const string MethodPath = "{0}/WalletTransactions.xml.aspx";
             const string CacheKeyFormat = "WalletTransactions{0}_{1}";
 
             const string FromId = "fromID";
             const string RowCount = "rowCount";
+            const string AccountKey = "accountKey";
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
+
+            apiParams[AccountKey] = accountKey.ToInvariantString();
+
             if (fromId != null)
             {
                 apiParams[FromId] = fromId.Value.ToInvariantString();
             }
+
             if (rowCount != null)
             {
                 apiParams[RowCount] = rowCount.Value.ToInvariantString();

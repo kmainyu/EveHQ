@@ -146,5 +146,52 @@ namespace EveHQ.Tests.Api
 
             }
         }
+
+        [Test]
+        public static void AllianceListTest()
+        {
+            var url = new Uri("https://api.eveonline.com/eve/AllianceList.xml.aspx");
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+               IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\AllianceList.xml"));
+            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            {
+                var task = client.Eve.AllianceListAsync();
+                task.Wait();
+
+                ApiTestHelpers.BasicSuccessResultValidations(task);
+
+                var result = task.Result.ResultData.ToList();
+
+                var rabbits = result[1];
+
+                Assert.AreEqual("The Dead Rabbits", rabbits.Name);
+                Assert.AreEqual("TL.DR", rabbits.ShortName);
+                Assert.AreEqual(1, rabbits.MemberCorps.Count());
+            }
+        }
+
+        [Test]
+        public static void RefTypeTest()
+        {
+            var url = new Uri("https://api.eveonline.com/eve/RefTypes.xml.aspx");
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\RefTypes.xml"));
+            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            {
+                var task = client.Eve.RefTypesAsync();
+                task.Wait();
+
+                ApiTestHelpers.BasicSuccessResultValidations(task);
+
+                var result = task.Result.ResultData.ToList();
+
+                var rabbits = result[21];
+
+                Assert.AreEqual("Mission Completed", rabbits.Name);
+                Assert.AreEqual(22, rabbits.Id);
+            }
+        }
     }
 }

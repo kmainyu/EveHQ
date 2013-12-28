@@ -396,7 +396,7 @@ Namespace Forms
                     Call CheckApiResult(jobsResponse, pOwner, CorpRepType.Jobs)
 
                     ' Check for char journal
-                    Dim walletResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32())
+                    Dim walletResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32(), 1000)
                     Call CheckApiResult(walletResponse, pOwner, CorpRepType.WalletJournal)
 
                     ' Check for char orders
@@ -404,7 +404,7 @@ Namespace Forms
                     Call CheckApiResult(ordersResponse, pOwner, CorpRepType.Orders)
 
                     ' Check for char transactions
-                    Dim transactionsResponse = HQ.ApiProvider.Character.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32())
+                    Dim transactionsResponse = HQ.ApiProvider.Character.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32(), 1000)
 
                     Call CheckApiResult(transactionsResponse, pOwner, CorpRepType.WalletTransactions)
 
@@ -472,7 +472,7 @@ Namespace Forms
 
                 ' Check for corp transactions
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
-                Dim transactions = HQ.ApiProvider.Corporation.WalletTransactions(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32())
+                Dim transactions = HQ.ApiProvider.Corporation.WalletTransactions(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), 1000)
                 Call CheckApiResult(transactions, pOwner, CorpRepType.WalletTransactions)
 
                 ' Check for corp contracts
@@ -927,7 +927,7 @@ Namespace Forms
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    journalResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), lastRefID, 1000)
+                                    journalResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, lastRefID)
 
                                     'apixml = apireq.GetAPIXML(APITypes.WalletJournalChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, lastRefID, MaxAPIJournals, APIReturnMethods.ReturnStandard)
                                 Loop Until retries >= MaxAPIRetries Or journalResponse.IsSuccess
@@ -1320,7 +1320,7 @@ Namespace Forms
                                         Dim retries As Integer = 0
                                         Do
                                             retries += 1
-                                            corpJournal = HQ.ApiProvider.Corporation.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), lastRefID, MaxAPIJournals)
+                                            corpJournal = HQ.ApiProvider.Corporation.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), divID, lastRefID, MaxAPIJournals)
                                             ' apixml = apireq.GetAPIXML(APITypes.WalletJournalCorp, pilotAccount.ToAPIAccount, ownerID, divID, lastRefID, MaxAPIJournals, APIReturnMethods.ReturnStandard)
                                         Loop Until retries >= MaxAPIRetries Or corpJournal.IsSuccess
 
@@ -1439,7 +1439,7 @@ Namespace Forms
                                     Dim retries As Integer = 0
                                     Do
                                         retries += 1
-                                        corpTransactions = HQ.ApiProvider.Corporation.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID))
+                                        corpTransactions = HQ.ApiProvider.Corporation.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), divID)
                                     Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
 
                                     ' Write the journal to the database!

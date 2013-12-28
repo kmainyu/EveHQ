@@ -53,9 +53,9 @@ namespace EveHQ.EveApi
 
         public Task<EveServiceResponse<CorporateData>> CorporationSheetAsync(string keyId, string vCode, int corpId = 0)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(corpId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(corpId > 0);
 
             const string MethodPath = "{0}/CorporationSheet.xml.aspx";
             const string CacheKeyFormat = "CorporationSheet{0}";

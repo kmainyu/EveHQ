@@ -82,8 +82,8 @@ namespace EveHQ.EveApi
 
         public EveServiceResponse<Account> AccountStatus(string keyId, string vCode)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
             return RunAsyncMethod(AccountStatusAsync, keyId, vCode);
         }
@@ -96,8 +96,8 @@ namespace EveHQ.EveApi
         /// <returns>An account object</returns>
         public Task<EveServiceResponse<Account>> AccountStatusAsync(string keyId, string vCode)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
             string cacheKey = AccountStatusCacheKeyFormat.FormatInvariant(keyId);
 
@@ -106,15 +106,15 @@ namespace EveHQ.EveApi
 
         public EveServiceResponse<ApiKeyInfo> ApiKeyInfo(string keyId, string vCode)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
             return RunAsyncMethod(ApiKeyInfoAsync, keyId, vCode);
         }
 
         public Task<EveServiceResponse<ApiKeyInfo>> ApiKeyInfoAsync(string keyId, string vCode)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
             string cacheKey = ApiKeyInfoCacheKeyFormat.FormatInvariant(keyId);
 
@@ -129,8 +129,8 @@ namespace EveHQ.EveApi
         /// <returns>A Service Response object, containing the collection of Characters.</returns>
         public EveServiceResponse<IEnumerable<AccountCharacter>> Characters(string keyId, string vCode)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
             return RunAsyncMethod(CharactersAsync, keyId, vCode);
         }
 
@@ -142,8 +142,8 @@ namespace EveHQ.EveApi
         /// <returns>A Service Response object, containing the collection of Characters.</returns>
         public Task<EveServiceResponse<IEnumerable<AccountCharacter>>> CharactersAsync(string keyId, string vCode)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
             string cacheKey = CharacterCacheKeyFormat.FormatInvariant(keyId);
 

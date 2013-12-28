@@ -52,9 +52,9 @@ namespace EveHQ.EveApi
         /// <returns>A collection of attendees for the event.</returns>
         public Task<EveServiceResponse<IEnumerable<CalendarEventAttendee>>> CalendarEventAttendees(string keyId, string vCode, int characterId, int eventId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/CalendarEventAttendees.xml.aspx";
             const string CacheKeyFormat = "Calendar_EventAttendees{0}_{1}_{2}";
@@ -84,9 +84,9 @@ namespace EveHQ.EveApi
         /// <returns>The given character's data.</returns>
         public Task<EveServiceResponse<CharacterData>> CharacterSheetAsync(string keyId, string vCode, int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "/char/CharacterSheet.xml.aspx";
             const string CacheKeyFormat = "CharacterSheet{0}_{1}";
@@ -113,9 +113,9 @@ namespace EveHQ.EveApi
         /// <returns>a collection of mailing lists</returns>
         public Task<EveServiceResponse<IEnumerable<MailingList>>> MailingListsAsync(string keyId, string vCode, int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/mailinglists.xml.aspx";
             const string CacheKeyFormat = "CharacterMailingList{0}_{1}";
@@ -144,11 +144,11 @@ namespace EveHQ.EveApi
         /// <returns>a collection of mail bodies</returns>
         public Task<EveServiceResponse<IEnumerable<MailBody>>> MailBodiesAsync(string keyId, string vCode, int characterId, IEnumerable<int> ids)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
-            System.Diagnostics.Contracts.Contract.Requires(ids != null);
-            System.Diagnostics.Contracts.Contract.Requires(ids.Any());
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
+            Guard.Ensure(ids != null);
+            Guard.Ensure(ids.Any());
 
             const string MethodPath = "{0}/MailBodies.xml.aspx";
             const string CacheKeyFormat = "CharacterMailBodies{0}_{1}_{2}";
@@ -179,9 +179,9 @@ namespace EveHQ.EveApi
         /// <returns>A collection of mail headers </returns>
         public Task<EveServiceResponse<IEnumerable<MailHeader>>> MailMessagesAsync(string keyId, string vCode, int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/MailMessages.xml.aspx";
             const string CacheKeyFormat = "CharacterMailMessages{0}_{1}";
@@ -208,9 +208,9 @@ namespace EveHQ.EveApi
         /// <returns>The <see cref="Task"/>.</returns>
         public Task<EveServiceResponse<IEnumerable<Notification>>> NotificationsAsync(string keyId, string vCode, int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/Notifications.xml.aspx";
             const string CacheKeyFormat = "CharacterNotifications{0}_{1}";
@@ -233,9 +233,9 @@ namespace EveHQ.EveApi
         /// <returns>The <see cref="Task"/>.</returns>
         public Task<EveServiceResponse<IEnumerable<NotificationText>>> NotificationTextsAsync(string keyId, string vCode, int characterId, IEnumerable<long> notificationIds)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/NotificationTexts.xml.aspx";
             const string CacheKeyFormat = "NotificationTexts{0}_{1}_{2}";
@@ -254,9 +254,9 @@ namespace EveHQ.EveApi
         /// <returns>The <see cref="Task"/>.</returns>
         public Task<EveServiceResponse<IEnumerable<UpcomingCalendarEvent>>> UpcomingCalendarEvents(string keyId, string vCode, int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(!keyId.IsNullOrWhiteSpace());
+            Guard.Ensure(!vCode.IsNullOrWhiteSpace());
+            Guard.Ensure(characterId > 0);
 
             const string MethodPath = "{0}/UpcomingCalendarEvents.xml.aspx";
             const string CacheKeyFormat = "UpcomingCalendarEvents{0}_{1}";

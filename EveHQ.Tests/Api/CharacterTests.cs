@@ -188,7 +188,7 @@ namespace EveHQ.Tests.Api
                 Assert.AreEqual(797400947, resultData[2].ContactId);
                 Assert.AreEqual("CCP Garthagk", resultData[2].ContactName);
                 Assert.AreEqual(false, resultData[2].IsInWatchList);
-               // Assert.AreEqual(ContactType.CorporateContactList, resultData[2].ContactType);
+                // Assert.AreEqual(ContactType.CorporateContactList, resultData[2].ContactType);
                 Assert.AreEqual(-10, resultData[2].Standing);
             }
         }
@@ -427,7 +427,7 @@ namespace EveHQ.Tests.Api
         {
             var url = new Uri("https://api.eveonline.com/char/Research.xml.aspx");
             const int characterId = 123456;
-            
+
             Dictionary<string, string> data = ApiTestHelpers.GetBaseTestParams();
 
             data.Add(ApiConstants.CharacterId, characterId.ToString(CultureInfo.InvariantCulture));
@@ -444,9 +444,9 @@ namespace EveHQ.Tests.Api
                 Assert.AreEqual(4, result.Count);
                 Assert.IsTrue(result[1].AgentId == 3011154);
                 Assert.IsTrue(result[1].SkillTypeId == 11452);
-                Assert.IsTrue(double.Equals(result[1].RemainingPoints,33.0962187499972));
+                Assert.IsTrue(double.Equals(result[1].RemainingPoints, 33.0962187499972));
                 Assert.IsTrue(double.Equals(result[1].PointsPerDay, 65.66));
-                Assert.IsTrue(result[1].ResearchStartDate == new DateTimeOffset(2009,09,02,06,49,35,TimeSpan.Zero));
+                Assert.IsTrue(result[1].ResearchStartDate == new DateTimeOffset(2009, 09, 02, 06, 49, 35, TimeSpan.Zero));
             }
         }
 
@@ -550,7 +550,7 @@ namespace EveHQ.Tests.Api
                 Assert.AreEqual(1000064, standing.FromId);
                 Assert.AreEqual("Carthum Conglomerate", standing.FromName);
                 Assert.AreEqual(0.34, standing.Standing);
-                
+
             }
         }
 
@@ -580,10 +580,10 @@ namespace EveHQ.Tests.Api
 
                 var newEvent = events[0];
 
-                
+
                 Assert.AreEqual(93264, newEvent.EventId);
                 Assert.AreEqual(1, newEvent.OwnerId);
-                Assert.AreEqual(new DateTimeOffset(2011,03,26,09,00,00,TimeSpan.Zero), newEvent.EventDate);
+                Assert.AreEqual(new DateTimeOffset(2011, 03, 26, 09, 00, 00, TimeSpan.Zero), newEvent.EventDate);
                 Assert.AreEqual("EVE Online Fanfest 2011", newEvent.EventTitle);
                 Assert.AreEqual(TimeSpan.Zero, newEvent.Duration);
                 Assert.AreEqual(false, newEvent.IsImportant);
@@ -600,6 +600,7 @@ namespace EveHQ.Tests.Api
             const int characterId = 123456;
 
             Dictionary<string, string> data = ApiTestHelpers.GetBaseTestParams();
+            data["accountKey"] = "1000";
 
             data.Add(ApiConstants.CharacterId, characterId.ToString(CultureInfo.InvariantCulture));
 
@@ -607,7 +608,7 @@ namespace EveHQ.Tests.Api
 
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.WalletJournalAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                var task = client.Character.WalletJournalAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId, 1000);
                 task.Wait();
                 ApiTestHelpers.BasicSuccessResultValidations(task);
 
@@ -619,7 +620,7 @@ namespace EveHQ.Tests.Api
                 var entry = entries[8];
 
 
-                Assert.AreEqual(new DateTimeOffset(2008,08,20,05,19,00,TimeSpan.Zero), entry.Date);
+                Assert.AreEqual(new DateTimeOffset(2008, 08, 20, 05, 19, 00, TimeSpan.Zero), entry.Date);
                 Assert.AreEqual(1572531630, entry.RefId);
                 Assert.AreEqual(33, entry.ReferenceType);
                 Assert.AreEqual("anonymous", entry.FirstPartyName);
@@ -641,6 +642,7 @@ namespace EveHQ.Tests.Api
             const int characterId = 123456;
 
             Dictionary<string, string> data = ApiTestHelpers.GetBaseTestParams();
+            data["accountKey"] = "1000";
 
             data.Add(ApiConstants.CharacterId, characterId.ToString(CultureInfo.InvariantCulture));
 
@@ -648,7 +650,7 @@ namespace EveHQ.Tests.Api
 
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.WalletTransactionsAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                var task = client.Character.WalletTransactionsAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId, 1000);
                 task.Wait();
                 ApiTestHelpers.BasicSuccessResultValidations(task);
 
@@ -707,7 +709,7 @@ namespace EveHQ.Tests.Api
                 var item = items[0];
 
 
-                
+
                 Assert.AreEqual(600515136, item.RecordId);
 
                 Assert.AreEqual(12067, item.TypeId);
@@ -716,7 +718,7 @@ namespace EveHQ.Tests.Api
                 Assert.AreEqual(false, item.IsSingleton);
                 Assert.AreEqual(true, item.IsIncluded);
 
-                
+
 
             }
         }

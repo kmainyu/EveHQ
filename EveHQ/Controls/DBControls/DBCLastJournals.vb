@@ -121,7 +121,7 @@ Namespace Controls.DBControls
                 Dim transA As Double
                 Dim transB As Double
 
-                Dim journalData = HQ.ApiProvider.Character.WalletJournal(cAccount.UserID, cAccount.APIKey, CInt(cCharID))
+                Dim journalData = HQ.ApiProvider.Character.WalletJournal(cAccount.UserID, cAccount.APIKey, CInt(cCharID), 1000)
                 'Parse the XML document
                 If journalData.IsSuccess Then
                     ' Get transactions

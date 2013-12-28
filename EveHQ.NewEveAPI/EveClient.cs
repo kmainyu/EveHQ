@@ -1,11 +1,11 @@
 ﻿// ===========================================================================
 // <copyright file="EveClient.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
-//  Copyright © 2005-2012  EveHQ Development Team
+//  Copyright © 2005-2013  EveHQ Development Team
 //  This file (EveClient.cs), is part of EveHQ.
 //  EveHQ is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //  EveHQ is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -69,7 +69,7 @@ namespace EveHQ.EveApi
         /// <returns>An async task reference.</returns>
         public Task<EveServiceResponse<IEnumerable<CharacterName>>> CharacterNameAsync(IEnumerable<long> ids)
         {
-            System.Diagnostics.Contracts.Contract.Requires(ids != null);
+            Guard.Ensure(ids != null);
 
             List<long> checkedIds = ids.Distinct().ToList(); // remove duplicates
 
@@ -86,10 +86,12 @@ namespace EveHQ.EveApi
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams.Add(ApiConstants.Ids, string.Join(",", checkedIds.Select(id => id.ToInvariantString())));
 
-            return this.GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterNameResult);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterNameResult);
         }
 
-
+        /// <summary>The character id.</summary>
+        /// <param name="names">The names.</param>
+        /// <returns>The <see cref="EveServiceResponse"/>.</returns>
         public EveServiceResponse<IEnumerable<CharacterName>> CharacterId(IEnumerable<string> names)
         {
             Task<EveServiceResponse<IEnumerable<CharacterName>>> task = CharacterIdAsync(names);
@@ -97,9 +99,13 @@ namespace EveHQ.EveApi
             return task.Result;
         }
 
+        /// <summary>The character id async.</summary>
+        /// <param name="names">The names.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        /// <exception cref="ArgumentException"></exception>
         public Task<EveServiceResponse<IEnumerable<CharacterName>>> CharacterIdAsync(IEnumerable<string> names)
         {
-            System.Diagnostics.Contracts.Contract.Requires(names != null);
+            Guard.Ensure(names != null);
 
             List<string> checkedNames = names.Distinct().ToList(); // remove duplicates
 
@@ -116,34 +122,133 @@ namespace EveHQ.EveApi
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams.Add(paramName, string.Join(",", checkedNames.Select(name => name)));
 
-            return this.GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterNameResult);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterNameResult);
         }
 
+        /// <summary>The character info async.</summary>
+        /// <param name="characterId">The character id.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
         public Task<EveServiceResponse<CharacterInfo>> CharacterInfoAsync(int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Ensure(characterId > 0);
             const string MethodPath = "{0}/CharacterInfo.xml.aspx";
             const string CacheKeyFormat = "Eve_CharacterInfo{0}";
-            
+
             string cacheKey = CacheKeyFormat.FormatInvariant(characterId);
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams.Add(ApiConstants.CharacterId, characterId.ToInvariantString());
 
-            return this.GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterInfoResult);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterInfoResult);
         }
 
+        /// <summary>The character info.</summary>
+        /// <param name="characterId">The character id.</param>
+        /// <returns>The <see cref="EveServiceResponse"/>.</returns>
         public EveServiceResponse<CharacterInfo> CharacterInfo(int characterId)
         {
-            var task = CharacterInfoAsync(characterId);
+            Task<EveServiceResponse<CharacterInfo>> task = CharacterInfoAsync(characterId);
             task.Wait();
             return task.Result;
         }
+
+
+        public EveServiceResponse<IEnumerable<AllianceData>> AllianceList()
+        {
+            return RunAsyncMethod(AllianceListAsync);
+        }
+
+
+        public Task<EveServiceResponse<IEnumerable<AllianceData>>> AllianceListAsync()
+        {
+
+            const string MethodPath = "{0}/AllianceList.xml.aspx";
+            const string CacheKeyFormat = "AllianceList";
+
+            string cacheKey = CacheKeyFormat.FormatInvariant();
+
+            IDictionary<string, string> apiParams = new Dictionary<string, string>();
+
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseAllianceListResponse);
+        }
+
+        public EveServiceResponse<IEnumerable<RefType>> RefTypes()
+        {
+            return RunAsyncMethod(RefTypesAsync);
+        }
+
+        public Task<EveServiceResponse<IEnumerable<RefType>>> RefTypesAsync()
+        {
+
+            const string MethodPath = "{0}/RefTypes.xml.aspx";
+            const string CacheKeyFormat = "RefTypes";
+
+            string cacheKey = CacheKeyFormat.FormatInvariant();
+
+            IDictionary<string, string> apiParams = new Dictionary<string, string>();
+
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseReferenceTypesResponse);
+        }
+
 
 
         #endregion
 
         #region Methods
 
+        private static IEnumerable<RefType> ParseReferenceTypesResponse(XElement result)
+        {
+            if (result == null)
+            {
+                return null; // return null... no data.
+            }
+
+
+            return
+                (from rowset in result.Elements(ApiConstants.Rowset)
+                 from row in rowset.Elements(ApiConstants.Row)
+                 let name = row.Attribute("refTypeName").Value
+                 let id = row.Attribute("refTypeID").Value.ToInt32()
+                     select new RefType(){ Id=id, Name = name});
+        }
+
+        private static IEnumerable<AllianceData> ParseAllianceListResponse(XElement result)
+        {
+            if (result == null)
+            {
+                return null; // return null... no data.
+            }
+
+           return (from rowset in result.Elements(ApiConstants.Rowset)
+                             from row in rowset.Elements(ApiConstants.Row)
+                             let name = row.Attribute(ApiConstants.Name).Value
+                             let ticker = row.Attribute("shortName").Value
+                             let allianceId = row.Attribute("allianceID").Value.ToInt32()
+                             let execCorp = row.Attribute("executorCorpID").Value.ToInt32()
+                             let memberCount = row.Attribute("memberCount").Value.ToInt32()
+                             let startDate = row.Attribute("startDate").Value.ToDateTimeOffset(0)
+                             let corps = GetCorpData(row.Element(ApiConstants.Rowset))
+                             select new AllianceData() { Id= allianceId, Name = name, ShortName = ticker, ExecutorCorpId = execCorp, MemberCorps = corps,MemberCount = memberCount, StartDate = startDate});
+            
+        }
+
+        private static IEnumerable<AllianceCorpData> GetCorpData(XElement memberRowSet)
+        {
+            if (memberRowSet == null)
+            {
+                return null; // return null... no data.
+            }
+
+
+            return (from row in memberRowSet.Elements(ApiConstants.Row)
+                    let corpId = row.Attribute(ApiConstants.CorporationId).Value.ToInt32()
+                    let joinDate = row.Attribute("startDate").Value.ToDateTimeOffset(0)
+                    select new AllianceCorpData() { CorporationId = corpId, JoinedDate = joinDate });
+
+        }
+
+        /// <summary>The parse character info result.</summary>
+        /// <param name="results">The results.</param>
+        /// <returns>The <see cref="CharacterInfo"/>.</returns>
         private static CharacterInfo ParseCharacterInfoResult(XElement results)
         {
             if (results == null)
@@ -178,10 +283,10 @@ namespace EveHQ.EveApi
             }
 
             return from rowset in results.Elements(ApiConstants.Rowset)
-                    from row in rowset.Elements(ApiConstants.Row)
-                    let name = row.Attribute("name").Value
-                    let id = row.Attribute("characterID").Value.ToInt64()
-                    select new CharacterName() { Id = id, Name = name };
+                   from row in rowset.Elements(ApiConstants.Row)
+                   let name = row.Attribute("name").Value
+                   let id = row.Attribute("characterID").Value.ToInt64()
+                   select new CharacterName { Id = id, Name = name };
         }
 
         #endregion

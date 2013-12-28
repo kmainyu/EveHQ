@@ -173,6 +173,15 @@ namespace EveHQ.EveApi
             return _cache.Get<EveServiceResponse<T>>(key);
         }
 
+        protected EveServiceResponse<TReturn> RunAsyncMethod<TReturn>(Func<Task<EveServiceResponse<TReturn>>> apiTask) where TReturn : class
+        {
+            var task = apiTask();
+            task.Wait();
+            return task.Result;
+        }
+
+
+
         protected EveServiceResponse<TReturn> RunAsyncMethod<T1, T2, TReturn>(Func<T1, T2, Task<EveServiceResponse<TReturn>>> apiTask, T1 param1, T2 param2) where TReturn : class
         {
             var task = apiTask(param1, param2);
@@ -196,6 +205,13 @@ namespace EveHQ.EveApi
         protected EveServiceResponse<TReturn> RunAsyncMethod<T1, T2, T3, T4, T5, TReturn>(Func<T1, T2, T3, T4, T5, Task<EveServiceResponse<TReturn>>> apiTask, T1 param1, T2 param2, T3 param3, T4 param4, T5 param5) where TReturn : class
         {
             var task = apiTask(param1, param2, param3, param4, param5);
+            task.Wait();
+            return task.Result;
+        }
+
+        protected EveServiceResponse<TReturn> RunAsyncMethod<T1, T2, T3, T4, T5, T6, TReturn>(Func<T1, T2, T3, T4, T5, T6, Task<EveServiceResponse<TReturn>>> apiTask, T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6) where TReturn : class
+        {
+            var task = apiTask(param1, param2, param3, param4, param5,param6);
             task.Wait();
             return task.Result;
         }

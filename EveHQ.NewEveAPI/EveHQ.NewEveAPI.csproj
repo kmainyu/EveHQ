@@ -116,6 +116,7 @@
     <Compile Include="CorpClient.cs" />
     <Compile Include="Entities\Account.cs" />
     <Compile Include="Entities\AccountBalance.cs" />
+    <Compile Include="Entities\AllianceData.cs" />
     <Compile Include="Entities\ApiKeyInfo.cs" />
     <Compile Include="Entities\AssetItem.cs" />
     <Compile Include="Entities\AttendeeResponseType.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Entities\QueuedSkill.cs" />
     <Compile Include="Entities\Research.cs" />
     <Compile Include="Entities\SkillInTraining.cs" />
+    <Compile Include="Entities\TransactionReference.cs" />
     <Compile Include="Entities\UpcomingCalendarEvent.cs" />
     <Compile Include="Entities\WalletJournalEntry.cs" />
     <Compile Include="Entities\WalletTransaction.cs" />

@@ -18,7 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports DevComponents.AdvTree
-Imports EveHQ.EveAPI
+Imports EveHQ.EveApi
 Imports EveHQ.Core
 Imports DevComponents.DotNetBar
 Imports System.Globalization
@@ -118,7 +118,7 @@ Namespace Controls.DBControls
 
                 'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
                 'transactionsXML = apiReq.GetAPIXML(APITypes.WalletTransChar, cAccount.ToAPIAccount, cCharID, accountKey, beforeRefID, APIReturnMethods.ReturnStandard)
-                Dim transactions = HQ.ApiProvider.Character.WalletTransactions(cAccount.UserID, cAccount.APIKey, cCharID.ToInt32())
+                Dim transactions = HQ.ApiProvider.Character.WalletTransactions(cAccount.UserID, cAccount.APIKey, cCharID.ToInt32(), AccountKey)
 
                 'Parse the XML document
                 If transactions IsNot Nothing Then
@@ -170,4 +170,4 @@ Namespace Controls.DBControls
             Call UpdateTransactions()
         End Sub
     End Class
-End NameSpace
+End Namespace
