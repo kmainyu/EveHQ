@@ -1940,10 +1940,10 @@ Namespace Controls
                         If subLoc.Contents.Any() Then
                             modList = subLoc.Contents
                             For Each mods In modList
-                                Dim itemID As Integer = mods.ItemId
+                                Dim typeId As Integer = mods.TypeId
                                 Dim itemName As String
-                                If StaticData.Types.ContainsKey(itemID) = True Then
-                                    Dim itemData As EveType = StaticData.Types(itemID)
+                                If StaticData.Types.ContainsKey(typeId) = True Then
+                                    Dim itemData As EveType = StaticData.Types(typeId)
                                     itemName = itemData.Name
                                     catID = itemData.Category.ToString
                                     Dim flagID As Integer = mods.Flag

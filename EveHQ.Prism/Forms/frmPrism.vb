@@ -777,7 +777,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim charAssets As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
+                        Dim charAssets As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
                         Dim pilotAccount As EveHQAccount = pOwner.Account
 
                         ' Check for valid API Usage
@@ -859,7 +859,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim charIndustry As EveServiceResponse(Of IEnumerable(Of EveApi.IndustryJob))
+                        Dim charIndustry As EveServiceResponse(Of IEnumerable(Of EveAPI.IndustryJob))
                         Dim pilotAccount As EveHQAccount = pOwner.Account
 
 
@@ -1072,7 +1072,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim contracts As EveServiceResponse(Of IEnumerable(Of EveApi.Contract))
+                        Dim contracts As EveServiceResponse(Of IEnumerable(Of EveAPI.Contract))
 
 
                         Dim pilotAccount As EveHQAccount = pOwner.Account
@@ -1129,7 +1129,7 @@ Namespace Forms
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(Sub() CheckApiResult(Of EveApi.CharacterData)(Nothing, pOwner, CorpRepType.CorpSheet))
+                            Invoke(Sub() CheckApiResult(Of EveAPI.CharacterData)(Nothing, pOwner, CorpRepType.CorpSheet))
                         End If
 
                     End If
@@ -1152,7 +1152,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim corpAssets As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
+                        Dim corpAssets As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Assets)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
                         ' Check for valid API Usage
@@ -1173,7 +1173,7 @@ Namespace Forms
                             Invoke(Sub() CheckApiResult(corpAssets, cOwner, CorpRepType.Assets))
                         End If
 
-                    
+
 
                         ' Update the display
                         If IsHandleCreated = True Then
@@ -1242,12 +1242,12 @@ Namespace Forms
             For Each pOwner As PrismOwner In PlugInData.PrismOwners.Values
                 Try
                     If pOwner.IsCorp = True Then
-                        Dim corpJobs As EveServiceResponse(Of IEnumerable(Of EveApi.IndustryJob))
+                        Dim corpJobs As EveServiceResponse(Of IEnumerable(Of EveAPI.IndustryJob))
 
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Jobs)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Jobs)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
-                            
+
                             ' Check for valid API Usage
                             If CanUseAPI(pOwner, CorpRepType.Jobs) = True Then
 
@@ -1346,7 +1346,7 @@ Namespace Forms
 
                                 Next
 
-                                
+
                             End If
 
                         End If
@@ -1376,11 +1376,11 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim corpOrders As New EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
+                        Dim corpOrders As New EveServiceResponse(Of IEnumerable(Of EveAPI.MarketOrder))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Orders)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
-                           
+
                             ' Check for valid API Usage
                             If CanUseAPI(pOwner, CorpRepType.Orders) = True Then
 
@@ -1440,7 +1440,7 @@ Namespace Forms
                                     Do
                                         retries += 1
                                         corpTransactions = HQ.ApiProvider.Corporation.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID))
-                                        Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                    Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
 
                                     ' Write the journal to the database!
                                     Call PrismDataFunctions.WriteWalletTransactionsToDB(corpTransactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, divID)
@@ -1475,9 +1475,9 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim corpContacts As EveServiceResponse(Of IEnumerable(Of EveApi.Contract))
+                        Dim corpContacts As EveServiceResponse(Of IEnumerable(Of EveAPI.Contract))
 
-                        Dim contractItems As EveServiceResponse(Of IEnumerable(Of EveApi.ContractItem))
+                        Dim contractItems As EveServiceResponse(Of IEnumerable(Of EveAPI.ContractItem))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Contracts)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Contracts)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
@@ -1495,7 +1495,7 @@ Namespace Forms
                                 ' Write the contractIDs to the database
                                 If corpContacts.IsSuccess Then
                                     Call PrismDataFunctions.WriteContractIdsToDB(corpContacts.ResultData)
-                                
+
                                     For Each contractItem In corpContacts.ResultData
                                         Dim contractID As Long = contractItem.ContractId
                                         retries = 0
@@ -1540,7 +1540,7 @@ Namespace Forms
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.CorpSheet)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
 
-                          
+
                             ' Check for valid API Usage
                             If CanUseAPI(pOwner, CorpRepType.CorpSheet) = True Then
 
@@ -1600,7 +1600,7 @@ Namespace Forms
                     pOwner = PlugInData.PrismOwners(cboOrdersOwner.SelectedItem.ToString)
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Orders)
                     Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
-                    Dim marketOrders As EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
+                    Dim marketOrders As EveServiceResponse(Of IEnumerable(Of EveAPI.MarketOrder))
                     Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
                     If ownerAccount IsNot Nothing Then
@@ -1620,7 +1620,7 @@ Namespace Forms
                             adtSellOrders.Nodes.Clear()
                             For Each order In marketOrders.ResultData
                                 If order.IsBuyOrder = False Then
-                                    If order.OrderState = EveApi.MarketOrderState.Active Then
+                                    If order.OrderState = EveAPI.MarketOrderState.Active Then
                                         Dim sOrder As New Node
                                         adtSellOrders.Nodes.Add(sOrder)
                                         sOrder.CreateCells()
@@ -1657,7 +1657,7 @@ Namespace Forms
                                         totalOrders = totalOrders + 1
                                     End If
                                 Else
-                                    If order.OrderState = EveApi.MarketOrderState.Active Then
+                                    If order.OrderState = EveAPI.MarketOrderState.Active Then
                                         Dim bOrder As New Node
                                         adtBuyOrders.Nodes.Add(bOrder)
                                         bOrder.CreateCells()
@@ -2138,31 +2138,16 @@ Namespace Forms
 
                     pOwner = PlugInData.PrismOwners(cboJournalOwners.Text)
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.CorpSheet)
-                    Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.CorpSheet)
 
                     If ownerAccount IsNot Nothing Then
-
                         If pOwner.IsCorp = True Then
-                            Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                            Dim corpXML As XmlDocument = apireq.GetAPIXML(APITypes.CorpSheet, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
-                            If corpXML IsNot Nothing Then
-                                Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                                If errlist.Count = 0 Then
-                                    ' No errors so parse the files
-                                    Dim divList As XmlNodeList = corpXML.SelectNodes("/eveapi/result/rowset")
-                                    For Each div As XmlNode In divList
-                                        Select Case div.Attributes.GetNamedItem("name").Value
-                                            Case "walletDivisions"
-                                                For Each divName As XmlNode In div.ChildNodes
-                                                    cboWalletJournalDivision.Items.Add(divName.Attributes.GetNamedItem("description").Value)
-                                                Next
-                                        End Select
-                                    Next
-                                Else
-                                    For div As Integer = 1000 To 1006
-                                        cboWalletJournalDivision.Items.Add(div.ToString.Trim)
-                                    Next
-                                End If
+                            Dim corpSheet = HQ.ApiProvider.Corporation.CorporationSheet(ownerAccount.UserID, ownerAccount.APIKey)
+
+                            If corpSheet.IsSuccess Then
+                                ' No errors so parse the files
+                                For Each div In corpSheet.ResultData.WalletDivisions
+                                    cboWalletJournalDivision.Items.Add(div.Description)
+                                Next
                             Else
                                 For div As Integer = 1000 To 1006
                                     cboWalletJournalDivision.Items.Add(div.ToString.Trim)
@@ -2772,31 +2757,15 @@ Namespace Forms
 
                     pOwner = PlugInData.PrismOwners(cboTransactionOwner.Text)
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.CorpSheet)
-                    Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.CorpSheet)
 
                     If ownerAccount IsNot Nothing Then
 
                         If pOwner.IsCorp = True Then
-                            Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                            Dim corpXML As XmlDocument = apireq.GetAPIXML(APITypes.CorpSheet, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
-                            If corpXML IsNot Nothing Then
-                                Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                                If errlist.Count = 0 Then
-                                    ' No errors so parse the files
-                                    Dim divList As XmlNodeList = corpXML.SelectNodes("/eveapi/result/rowset")
-                                    For Each div As XmlNode In divList
-                                        Select Case div.Attributes.GetNamedItem("name").Value
-                                            Case "walletDivisions"
-                                                For Each divName As XmlNode In div.ChildNodes
-                                                    cboWalletTransDivision.Items.Add(divName.Attributes.GetNamedItem("description").Value)
-                                                Next
-                                        End Select
-                                    Next
-                                Else
-                                    For div As Integer = 1000 To 1006
-                                        cboWalletTransDivision.Items.Add(div.ToString.Trim)
-                                    Next
-                                End If
+                            Dim corpsheet = HQ.ApiProvider.Corporation.CorporationSheet(ownerAccount.UserID, ownerAccount.APIKey)
+                            If corpsheet.IsSuccess Then
+                                For Each div In corpsheet.ResultData.WalletDivisions
+                                    cboWalletTransDivision.Items.Add(div.Description)
+                                Next
                             End If
                         Else
                             For div As Integer = 1000 To 1006
@@ -3888,17 +3857,17 @@ Namespace Forms
                     ' Start an owned BPCalc
                     If adtBlueprints.SelectedNodes(0).Tag IsNot Nothing Then
                         Dim bpid As Long = CLng(adtBlueprints.SelectedNodes(0).Tag)
-                        Dim bpCalc As New frmBPCalculator(PrismSettings.UserSettings.DefaultBPOwner, bpid)
+                        Dim bpCalc As New FrmBPCalculator(PrismSettings.UserSettings.DefaultBPOwner, bpid)
                         Call OpenBPCalculator(bpCalc)
                     End If
                 Else
                     ' Start a standard BPCalc
-                    Dim bpCalc As New frmBPCalculator(bpName)
+                    Dim bpCalc As New FrmBPCalculator(bpName)
                     Call OpenBPCalculator(bpCalc)
                 End If
             ElseIf adtBlueprints.SelectedNodes.Count = 0 Then
                 ' Start a blank BP Calc
-                Dim bpCalc As New frmBPCalculator(chkShowOwnedBPs.Checked)
+                Dim bpCalc As New FrmBPCalculator(chkShowOwnedBPs.Checked)
                 Call OpenBPCalculator(bpCalc)
             End If
         End Sub
@@ -4082,42 +4051,38 @@ Namespace Forms
 
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Assets)
                     Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
-                    Dim assetXML As XmlDocument
-                    Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-
+                    Dim assetData As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
                     If pOwner.IsCorp = True Then
-                        assetXML = apireq.GetAPIXML(APITypes.AssetsCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                        assetData = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                     Else
-                        assetXML = apireq.GetAPIXML(APITypes.AssetsChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                        assetData = HQ.ApiProvider.Character.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                     End If
 
-                    If assetXML IsNot Nothing Then
+                    If assetData.IsSuccess Then
                         Dim assets As New SortedList(Of Long, BlueprintAsset)
-                        Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                        If locList.Count > 0 Then
+                        Dim itemList = assetData.ResultData
+                        If itemList.Count > 0 Then
                             ' Define what we want to obtain
                             Dim categories, groups, types As New ArrayList
                             categories.Add(9) ' Blueprints
-                            For Each loc As XmlNode In locList
-                                Dim locationID As String = loc.Attributes.GetNamedItem("locationID").Value
-                                Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
+                            For Each item In itemList
+                                Dim locationID As String = item.LocationId.ToInvariantString()
+                                Dim flagID As Integer = item.Flag
                                 Dim locationDetails As String = StaticData.ItemMarkers(flagID)
                                 Dim bpcFlag As Boolean = False
                                 ' Check the asset
                                 Dim itemData As EveType
                                 Dim assetID As Long
                                 Dim itemID As Integer
-                                assetID = CLng(loc.Attributes.GetNamedItem("itemID").Value)
-                                itemID = CInt(loc.Attributes.GetNamedItem("typeID").Value)
+                                assetID = item.ItemId
+                                itemID = item.TypeId
                                 If StaticData.Types.ContainsKey(itemID) Then
                                     itemData = StaticData.Types(itemID)
                                     ' Check for BPO/BPC
                                     If itemData.Category = 9 Then
-                                        If loc.Attributes.GetNamedItem("singleton").Value = "1" Then
-                                            If loc.Attributes.GetNamedItem("rawQuantity") IsNot Nothing Then
-                                                If loc.Attributes.GetNamedItem("rawQuantity").Value = "-2" Then
-                                                    bpcFlag = True
-                                                End If
+                                        If item.Singleton Then
+                                            If item.RawQuantity = -2 Then
+                                                bpcFlag = True
                                             End If
                                         End If
                                     End If
@@ -4159,8 +4124,8 @@ Namespace Forms
                                 End If
 
                                 ' Get the location name
-                                If loc.ChildNodes.Count > 0 Then
-                                    Call GetAssetFromNode(loc, categories, groups, types, assets, locationID, locationDetails, pOwner)
+                                If item.Contents.Any() Then
+                                    Call GetAssetFromNode(item, categories, groups, types, assets, locationID, locationDetails, pOwner)
                                 End If
                             Next
                         End If
@@ -4207,29 +4172,27 @@ Namespace Forms
             End If
 
         End Sub
-        Private Sub GetAssetFromNode(ByVal loc As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef assets As SortedList(Of Long, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal prismOwner As PrismOwner)
-            Dim itemList As XmlNodeList = loc.ChildNodes(0).ChildNodes
+        Private Sub GetAssetFromNode(ByVal parentItem As EveAPI.AssetItem, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef assets As SortedList(Of Long, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal prismOwner As PrismOwner)
+            Dim itemList = parentItem.Contents
             Dim itemData As EveType
             Dim assetID As Long
             Dim itemID As Integer
             Dim flagID As Integer
             Dim flagName As String = ""
-            Dim containerID As Long = CLng(loc.Attributes.GetNamedItem("itemID").Value)
-            Dim containerType As Integer = CInt(loc.Attributes.GetNamedItem("typeID").Value)
-            For Each item As XmlNode In itemList
-                assetID = CLng(item.Attributes.GetNamedItem("itemID").Value)
-                itemID = CInt(item.Attributes.GetNamedItem("typeID").Value)
-                flagID = CInt(item.Attributes.GetNamedItem("flag").Value)
+            Dim containerID As Long = parentItem.ItemId
+            Dim containerType As Integer = parentItem.TypeId
+            For Each item In itemList
+                assetID = item.ItemId
+                itemID = item.TypeId
+                flagID = item.Flag
                 Dim bpcFlag As Boolean = False
                 If StaticData.Types.ContainsKey(itemID) Then
                     itemData = StaticData.Types(itemID)
                     ' Check for BPO/BPC
                     If itemData.Category = 9 Then
-                        If item.Attributes.GetNamedItem("singleton").Value = "1" Then
-                            If item.Attributes.GetNamedItem("rawQuantity") IsNot Nothing Then
-                                If item.Attributes.GetNamedItem("rawQuantity").Value = "-2" Then
-                                    bpcFlag = True
-                                End If
+                        If item.Singleton Then
+                            If item.RawQuantity = -2 Then
+                                bpcFlag = True
                             End If
                         End If
                     End If
@@ -4268,7 +4231,7 @@ Namespace Forms
                     End If
                 End If
                 ' Check child items if they exist
-                If item.ChildNodes.Count > 0 Then
+                If item.Contents.Any() Then
                     Call GetAssetFromNode(item, categories, groups, types, assets, locationID, flagName, prismOwner)
                 End If
             Next
@@ -4603,17 +4566,17 @@ Namespace Forms
                     ' Start an owned BPCalc
                     If adtBlueprints.SelectedNodes(0).Tag IsNot Nothing Then
                         Dim bpid As Long = CLng(adtBlueprints.SelectedNodes(0).Tag)
-                        Dim bpCalc As New frmBPCalculator(cboBPOwner.SelectedItem.ToString, bpid)
+                        Dim bpCalc As New FrmBPCalculator(cboBPOwner.SelectedItem.ToString, bpid)
                         Call OpenBPCalculator(bpCalc)
                     End If
                 Else
                     ' Start a standard BPCalc
-                    Dim bpCalc As New frmBPCalculator(bpName)
+                    Dim bpCalc As New FrmBPCalculator(bpName)
                     Call OpenBPCalculator(bpCalc)
                 End If
             ElseIf adtBlueprints.SelectedNodes.Count = 0 Then
                 ' Start a blank BP Calc
-                Dim bpCalc As New frmBPCalculator(chkShowOwnedBPs.Checked)
+                Dim bpCalc As New FrmBPCalculator(chkShowOwnedBPs.Checked)
                 Call OpenBPCalculator(bpCalc)
             End If
         End Sub
@@ -4729,17 +4692,17 @@ Namespace Forms
                     ' Start an owned BPCalc
                     If adtBlueprints.SelectedNodes(0).Tag IsNot Nothing Then
                         Dim bpid As Long = CLng(adtBlueprints.SelectedNodes(0).Tag)
-                        Dim bpCalc As New frmBPCalculator(cboBPOwner.SelectedItem.ToString, bpid)
+                        Dim bpCalc As New FrmBPCalculator(cboBPOwner.SelectedItem.ToString, bpid)
                         Call OpenBPCalculator(bpCalc)
                     End If
                 Else
                     ' Start a standard BPCalc
-                    Dim bpCalc As New frmBPCalculator(bpName)
+                    Dim bpCalc As New FrmBPCalculator(bpName)
                     Call OpenBPCalculator(bpCalc)
                 End If
             ElseIf adtBlueprints.SelectedNodes.Count = 0 Then
                 ' Start a blank BP Calc
-                Dim bpCalc As New frmBPCalculator(chkShowOwnedBPs.Checked)
+                Dim bpCalc As New FrmBPCalculator(chkShowOwnedBPs.Checked)
                 Call OpenBPCalculator(bpCalc)
             End If
         End Sub
@@ -4893,7 +4856,7 @@ Namespace Forms
 
         Private Sub btnBlueprintCalc_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnBlueprintCalc.Click
             ' Start a blank BP Calc
-            Dim bpCalc As New frmBPCalculator(chkShowOwnedBPs.Checked)
+            Dim bpCalc As New FrmBPCalculator(chkShowOwnedBPs.Checked)
             Call OpenBPCalculator(bpCalc)
         End Sub
 
@@ -4978,12 +4941,12 @@ Namespace Forms
                 Case "Item"
                     Dim bpName As String = lblSelectedBP.Tag.ToString
                     ' Start a standard BP Calc
-                    Dim bpCalc As New frmBPCalculator(bpName)
+                    Dim bpCalc As New FrmBPCalculator(bpName)
                     Call OpenBPCalculator(bpCalc)
                 Case "Production"
                     If Jobs.JobList.ContainsKey(keyName) Then
                         Dim pJob As Job = Jobs.JobList(keyName)
-                        Dim bpCalc As New frmBPCalculator(pJob, False)
+                        Dim bpCalc As New FrmBPCalculator(pJob, False)
                         Call OpenBPCalculator(bpCalc)
                     End If
             End Select
@@ -5149,13 +5112,13 @@ Namespace Forms
                     End If
                     If bpid <> 0 Then
                         ' Start a standard BP Calc
-                        Dim bpCalc As New frmBPCalculator(bpName)
+                        Dim bpCalc As New FrmBPCalculator(bpName)
                         Call OpenBPCalculator(bpCalc)
                     End If
                 Case "Production"
                     If Jobs.JobList.ContainsKey(keyName) Then
                         Dim pJob As Job = Jobs.JobList(keyName)
-                        Dim bpCalc As New frmBPCalculator(pJob, False)
+                        Dim bpCalc As New FrmBPCalculator(pJob, False)
                         Call OpenBPCalculator(bpCalc)
                     End If
             End Select
@@ -5267,7 +5230,7 @@ Namespace Forms
         Private Sub adtProdJobs_NodeDoubleClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) Handles adtProdJobs.NodeDoubleClick
             Dim jobName As String = e.Node.Name
             Dim existingJob As Job = Jobs.JobList(jobName)
-            Dim bpCalc As New frmBPCalculator(existingJob, False)
+            Dim bpCalc As New FrmBPCalculator(existingJob, False)
             bpCalc.Location = New Point(CInt(ParentForm.Left + ((ParentForm.Width - bpCalc.Width) / 2)), CInt(ParentForm.Top + ((ParentForm.Height - bpCalc.Height) / 2)))
             bpCalc.Show()
         End Sub
@@ -5433,7 +5396,7 @@ Namespace Forms
             Dim jobName As String = e.Node.Name
             If Jobs.JobList.ContainsKey(jobName) Then
                 Dim existingJob As Job = Jobs.JobList(jobName)
-                Dim bpCalc As New frmBPCalculator(existingJob, True)
+                Dim bpCalc As New FrmBPCalculator(existingJob, True)
                 bpCalc.Location = New Point(CInt(ParentForm.Left + ((ParentForm.Width - bpCalc.Width) / 2)), CInt(ParentForm.Top + ((ParentForm.Height - bpCalc.Height) / 2)))
                 bpCalc.Show()
             End If
@@ -5696,38 +5659,34 @@ Namespace Forms
                     Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
 
                     If ownerAccount IsNot Nothing Then
-
-                        Dim assetXML As XmlDocument
-                        Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+                        Dim assetData As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
                         If pOwner.IsCorp = True Then
-                            assetXML = apireq.GetAPIXML(APITypes.AssetsCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                            assetData = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                         Else
-                            assetXML = apireq.GetAPIXML(APITypes.AssetsChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                            assetData = HQ.ApiProvider.Character.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                         End If
 
-                        If assetXML IsNot Nothing Then
-                            Dim locList As XmlNodeList
-                            Dim loc As XmlNode
-                            locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
+                        If assetData.IsSuccess Then
+                            Dim locList = assetData.ResultData
                             If locList.Count > 0 Then
-                                For Each loc In locList
-                                    Dim itemID As Integer = CInt(loc.Attributes.GetNamedItem("typeID").Value)
-                                    If StaticData.Types.ContainsKey(itemID) = True Then
-                                        Dim groupID As String = StaticData.Types(itemID).Group.ToString
+                                For Each item In locList
+                                    Dim typeId As Integer = item.TypeId
+                                    If StaticData.Types.ContainsKey(typeId) = True Then
+                                        Dim groupID As String = StaticData.Types(typeId).Group.ToString
                                         If CLng(groupID) = 754 Then
 
-                                            Dim quantity As Long = CLng(loc.Attributes.GetNamedItem("quantity").Value)
-                                            If _salvageList.ContainsKey(itemID) = False Then
-                                                _salvageList.Add(itemID, quantity)
+                                            Dim quantity As Long = item.Quantity
+                                            If _salvageList.ContainsKey(typeId) = False Then
+                                                _salvageList.Add(typeId, quantity)
                                             Else
-                                                _salvageList.Item(itemID) = CLng(_salvageList.Item(itemID)) + quantity
+                                                _salvageList.Item(typeId) = CLng(_salvageList.Item(typeId)) + quantity
                                             End If
                                         End If
                                     End If
 
                                     ' Check if this row has child nodes and repeat
-                                    If loc.HasChildNodes = True Then
-                                        Call GetSalvageNode(_salvageList, loc)
+                                    If item.Contents.Any() Then
+                                        Call GetSalvageNode(_salvageList, item)
                                     End If
                                 Next
                             End If
@@ -5736,17 +5695,15 @@ Namespace Forms
                 End If
             Next
         End Sub
-        Private Sub GetSalvageNode(ByVal salvageList As SortedList(Of Integer, Long), ByVal loc As XmlNode)
-            Dim subLocList As XmlNodeList
-            Dim subLoc As XmlNode
-            subLocList = loc.ChildNodes(0).ChildNodes
-            For Each subLoc In subLocList
+        Private Sub GetSalvageNode(ByVal salvageList As SortedList(Of Integer, Long), ByVal parentItem As EveAPI.AssetItem)
+            Dim subLocList = parentItem.Contents
+            For Each item In subLocList
                 Try
-                    Dim itemID As Integer = CInt(subLoc.Attributes.GetNamedItem("typeID").Value)
+                    Dim itemID As Integer = item.TypeId
                     If StaticData.Types.ContainsKey(itemID) = True Then
                         Dim groupID As String = StaticData.Types(itemID).Group.ToString
                         If CLng(groupID) = 754 Then
-                            Dim quantity As Long = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
+                            Dim quantity As Long = item.Quantity
                             If salvageList.ContainsKey(itemID) = False Then
                                 salvageList.Add(itemID, quantity)
                             Else
@@ -5755,8 +5712,8 @@ Namespace Forms
                         End If
                     End If
 
-                    If subLoc.HasChildNodes = True Then
-                        Call GetSalvageNode(salvageList, subLoc)
+                    If item.Contents.Any() Then
+                        Call GetSalvageNode(salvageList, item)
                     End If
 
                 Catch ex As Exception

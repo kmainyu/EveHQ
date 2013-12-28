@@ -17,10 +17,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Software Addicts Studios")]
 [assembly: AssemblyProduct("EveHQ")]
 [assembly: AssemblyCopyright("� EveHQ Development Team 2005-2013")]
-[assembly: AssemblyFileVersion("2.13.4.4561-Beta-")]
-[assembly: AssemblyVersion("2.13.4.4561")]
+[assembly: AssemblyFileVersion("2.13.4.4568-Beta-")]
+[assembly: AssemblyVersion("2.13.4.4568")]
 [assembly: AssemblyConfiguration("Debug")]
-[assembly: AssemblyTrademark("2013-12-08 (Version 2.13.4.4561-Beta-)")]
+[assembly: AssemblyTrademark("2013-12-28 (Version 2.13.4.4568-Beta-)")]
 [assembly: CLSCompliant(false)]
 [assembly: ComVisible(false)]
 

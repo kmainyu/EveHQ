@@ -23,6 +23,7 @@ Imports EveHQ.EveAPI
 Imports EveHQ.Core
 Imports DevComponents.DotNetBar
 Imports System.Xml
+Imports EveHQ.Common.Extensions
 
 Namespace Controls.DBControls
 
@@ -113,7 +114,6 @@ Namespace Controls.DBControls
                 'Get transactions XML
                 Dim numTransactionsDisplay As Integer = nudEntries.Value ' how much transactions to display in listview
 
-                Dim transactionsXML As XmlDocument
                 Dim cPilot As EveHQPilot = HQ.Settings.Pilots(cboPilotList.SelectedItem.ToString)
                 Dim cAccount As EveHQAccount = HQ.Settings.Accounts(cPilot.Account)
                 Dim cCharID As String = cPilot.ID
@@ -121,27 +121,25 @@ Namespace Controls.DBControls
                 Dim transA As Double
                 Dim transB As Double
 
-                Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                transactionsXML = apiReq.GetAPIXML(APITypes.WalletJournalChar, cAccount.ToAPIAccount, cCharID, AccountKey, 0, 256, APIReturnMethods.ReturnStandard)
-
+                Dim journalData = HQ.ApiProvider.Character.WalletJournal(cAccount.UserID, cAccount.APIKey, CInt(cCharID))
                 'Parse the XML document
-                If transactionsXML IsNot Nothing Then
+                If journalData.IsSuccess Then
                     ' Get transactions
-                    Dim transactionList As XmlNodeList
+                    Dim transactionList = journalData.ResultData
 
-                    transactionList = transactionsXML.SelectNodes("/eveapi/result/rowset/row")
-
+                    
                     adtLastTransactions.BeginUpdate()
                     adtLastTransactions.Nodes.Clear()
-                    For currentTransactionCounter As Integer = 0 To Math.Min(numTransactionsDisplay - 1, transactionList.Count - 1)
+                    Dim maxCount = Math.Min(numTransactionsDisplay - 1, transactionList.Count - 1)
+                    For currentTransactionCounter As Integer = 0 To maxCount
                         Dim newTransaction As New Node
-                        Dim transaction As XmlNode = transactionList(currentTransactionCounter)
+                        Dim transaction = transactionList(currentTransactionCounter)
                         If transaction IsNot Nothing Then
-                            Dim transDate As Date = DateTime.ParseExact(transaction.Attributes.GetNamedItem("date").Value, IndustryTimeFormat, _culture, DateTimeStyles.None)
+                            Dim transDate As Date = transaction.Date.DateTime
                             newTransaction.Text = transDate.ToString
-                            newTransaction.Cells.Add(New Cell(_refTypes(transaction.Attributes.GetNamedItem("refTypeID").Value)))
-                            transA = Double.Parse(transaction.Attributes.GetNamedItem("amount").Value, _culture)
-                            transB = Double.Parse(transaction.Attributes.GetNamedItem("balance").Value, _culture)
+                            newTransaction.Cells.Add(New Cell(_refTypes(transaction.ReferenceType.ToInvariantString)))
+                            transA = transaction.Amount
+                            transB = transaction.Balance
                             If transA >= 0 Then
                                 newTransaction.Style = _styleGreen
                                 newTransaction.Cells.Add(New Cell(transA.ToString("N2"), _styleGreenRight))

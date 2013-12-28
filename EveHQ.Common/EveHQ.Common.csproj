@@ -81,6 +81,7 @@
     <Compile Include="GlobalSuppressions.cs">
       <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Guard.cs" />
     <Compile Include="Logging\EveHQTraceLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

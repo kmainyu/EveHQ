@@ -70,9 +70,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<AccountBalance>>> AccountBalanceAsync(string keyId, string vCode,
             int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Against(keyId.IsNullOrWhiteSpace());
+            Guard.Against(vCode.IsNullOrWhiteSpace());
+            Guard.Against(characterId == 0);
 
             const string methodPath = "{0}/AccountBalance.xml.aspx";
             const string cacheKeyFormat = "Character_AccountBalance_{0}_{1}";
@@ -97,9 +97,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<AssetItem>>> AssetListAsync(string keyId, string vCode,
             int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Against(keyId.IsNullOrWhiteSpace());
+            Guard.Against(vCode.IsNullOrWhiteSpace());
+            Guard.Against(characterId == 0);
 
             const string MethodPath = "{0}/AssetList.xml.aspx";
             const string CacheKeyFormat = "Character_AssetList_{0}_{1}";
@@ -124,9 +124,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<Contact>>> ContactListAsync(string keyId, string vCode,
             int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Against(keyId.IsNullOrWhiteSpace());
+            Guard.Against(vCode.IsNullOrWhiteSpace());
+            Guard.Against(characterId == 0);
 
             const string MethodPath = "{0}/ContactList.xml.aspx";
             const string CacheKeyFormat = "ContactList{0}_{1}";
@@ -145,9 +145,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<ContactNotification>>> ContactNotifications(string keyId,
             string vCode, int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Against(keyId.IsNullOrWhiteSpace());
+            Guard.Against(vCode.IsNullOrWhiteSpace());
+            Guard.Against(characterId == 0);
 
             const string MethodPath = "{0}/ContactNotifications.xml.aspx";
             const string CacheKeyFormat = "ContactNotifications{0}_{1}";
@@ -172,9 +172,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<Contract>>> ContractsAsync(string keyId, string vCode, int characterId,
             int contractId = 0)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Against(keyId.IsNullOrWhiteSpace());
+            Guard.Against(vCode.IsNullOrWhiteSpace());
+            Guard.Against(characterId == 0);
 
             const string MethodPath = "{0}/Contracts.xml.aspx";
             const string CacheKeyFormat = "CharacterContracts{0}_{1}";
@@ -208,9 +208,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<ContractItem>>> ContractItemsAsync(string keyId, string vCode,
             int characterId, long contractId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Against(keyId.IsNullOrWhiteSpace());
+            Guard.Against(vCode.IsNullOrWhiteSpace());
+            Guard.Against(characterId == 0);
 
             const string MethodPath = "{0}/ContractItems.xml.aspx";
             const string CacheKeyFormat = "CharacterContractItems{0}_{1}";
@@ -234,9 +234,9 @@ namespace EveHQ.EveApi
         public Task<EveServiceResponse<IEnumerable<ContractBid>>> ContractBids(string keyId, string vCode,
             int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            Guard.Against(keyId.IsNullOrWhiteSpace());
+            Guard.Against(vCode.IsNullOrWhiteSpace());
+            Guard.Against(characterId == 0);
 
             const string MethodPath = "{0}/ContractBids.xml.aspx";
             const string CacheKeyFormat = "CharacterContractBids{0}_{1}";

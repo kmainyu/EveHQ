@@ -32,8 +32,8 @@ namespace EveHQ.EveApi
         /// <summary>
         /// Gets the ID value of the Item. Only guaranteed unique at the time of the asset load.
         /// </summary>
-        public int ItemId { get; set; }
-
+        public long ItemId { get; set; }
+        
         /// <summary>
         /// Gets the Location (sol system or star base) of the item. Not used with items that are inside a container item.
         /// </summary>
@@ -70,6 +70,6 @@ namespace EveHQ.EveApi
         /// <summary>
         /// Gets the containing item, if this item is inside a container.
         /// </summary>
-        public int ParentItemId { get; set; }
+        public long ParentItemId { get; set; }
     }
 }
