@@ -189,7 +189,7 @@ namespace EveHQ.Tests.Api
 
                 var rabbits = result[21];
 
-                Assert.AreEqual("Mission Completed", rabbits.Name);
+                Assert.AreEqual("Mission Completion", rabbits.Name);
                 Assert.AreEqual(22, rabbits.Id);
             }
         }

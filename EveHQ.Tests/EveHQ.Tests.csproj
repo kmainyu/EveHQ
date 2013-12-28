@@ -74,6 +74,7 @@
     <Compile Include="Api\CharacterTests.cs" />
     <Compile Include="Api\EveTests.cs" />
     <Compile Include="Api\MockRequests.cs" />
+    <Compile Include="Api\ServerTests.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -143,6 +144,9 @@
     </Content>
     <Content Include="TestData\Api\Research.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\Api\ServerStatus.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\Api\SkillInTraining.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

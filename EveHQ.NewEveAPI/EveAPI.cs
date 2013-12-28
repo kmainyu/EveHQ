@@ -48,6 +48,8 @@ namespace EveHQ.EveApi
 
         private EveClient _eveClient;
 
+        private ServerClient _serverClient;
+
         /// <summary>Initializes a new instance of the <see cref="EveAPI"/> class.</summary>
         /// <param name="dataCacheFolder">The data cache folder.</param>
         /// <param name="requestProvider"></param>
@@ -111,6 +113,14 @@ namespace EveHQ.EveApi
             }
         }
 
+        public ServerClient Server
+        {
+            get
+            {
+                return _serverClient ?? (_serverClient = new ServerClient(_serviceLocation, _cacheProvider, _requestProvider));
+            }
+        }
+
         public void Dispose()
         {
             if (_accountClient != null)
@@ -131,6 +141,11 @@ namespace EveHQ.EveApi
             if (_eveClient != null)
             {
                 _eveClient.Dispose();
+            }
+
+            if (_serverClient != null)
+            {
+                _serverClient.Dispose();
             }
         }
     }

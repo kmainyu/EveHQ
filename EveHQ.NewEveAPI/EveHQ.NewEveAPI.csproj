@@ -154,6 +154,7 @@
     <Compile Include="Entities\NpcStanding.cs" />
     <Compile Include="Entities\QueuedSkill.cs" />
     <Compile Include="Entities\Research.cs" />
+    <Compile Include="Entities\ServerStatus.cs" />
     <Compile Include="Entities\SkillInTraining.cs" />
     <Compile Include="Entities\TransactionReference.cs" />
     <Compile Include="Entities\UpcomingCalendarEvent.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="CorpCharBaseClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EveHQ.Caching\EveHQ.Caching.csproj">
