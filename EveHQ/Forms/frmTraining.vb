@@ -251,6 +251,7 @@ Namespace Forms
                         RemoveHandler tq.adtQueue.ColumnHeaderMouseDown, AddressOf activeLVW_ColumnClick
                         RemoveHandler tq.adtQueue.SelectionChanged, AddressOf activeLVW_SelectionChanged
                         RemoveHandler tq.QueueUpdated, AddressOf QueueUpdated
+                        RemoveHandler tq.QueueAdded, AddressOf QueueAdded
                     End If
                     tabQueues.Tabs.Remove(ti)
                     ti.Dispose()
@@ -278,6 +279,7 @@ Namespace Forms
                             AddHandler tq.adtQueue.ColumnHeaderMouseDown, AddressOf activeLVW_ColumnClick
                             AddHandler tq.adtQueue.SelectionChanged, AddressOf activeLVW_SelectionChanged
                             AddHandler tq.QueueUpdated, AddressOf QueueUpdated
+                            AddHandler tq.QueueAdded, AddressOf QueueAdded
 
                             Call tq.DrawColumnHeadings()
 
@@ -306,6 +308,12 @@ Namespace Forms
         Private Sub QueueUpdated()
             RedrawOptions()
             DrawQueueSummary()
+        End Sub
+
+        Private Sub QueueAdded()
+            _retainQueue = True
+            SetupQueues()
+            RefreshAllTrainingQueues()
         End Sub
 
         Public Sub RefreshAllTrainingQueues()
@@ -902,7 +910,7 @@ Namespace Forms
                         results.Add(newSkill.Name)
                     End If
                 Next
-                results.Sort(StringComparer.InvariantCulture)
+                results.Sort()
 
                 adtSkillList.BeginUpdate()
                 adtSkillList.Nodes.Clear()
@@ -1627,7 +1635,7 @@ Namespace Forms
                 If lvwDepend.SelectedItems.Count <> 0 Then
                     Dim item As ListViewItem = lvwDepend.SelectedItems(0)
                     Dim itemName As String = item.Text
-                    Dim itemID As String = item.Tag.ToString
+                    Dim itemID As String = item.Name
 
                     If item.Group.Name = "Cat16" Then
                         mnuViewItemDetails.Visible = True

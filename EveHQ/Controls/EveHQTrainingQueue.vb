@@ -27,6 +27,7 @@ Namespace Controls
     Public Class EveHQTrainingQueue
 
         Public Event QueueUpdated()
+        Public Event QueueAdded()
 
 #Region "Class Variables"
 
@@ -846,7 +847,7 @@ Namespace Controls
         End Sub
         Private Sub mnuSplitQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuSplitQueue.Click
             Call SplitQueue()
-            DrawQueue(False)
+            RaiseEvent QueueAdded()
         End Sub
         Private Sub mnuCopySkills_Click(sender As Object, e As EventArgs) Handles mnuCopySkills.Click
             ' Create a custom string to place on the clipboard for copying

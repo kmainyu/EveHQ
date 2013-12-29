@@ -375,9 +375,11 @@ Namespace Forms
             Dim playerCorps As New List(Of String)
             ' Get a list of Corps
             For Each selpilot As EveHQPilot In HQ.Settings.Pilots.Values
-                If StaticData.NpcCorps.ContainsKey(CInt(selpilot.CorpID)) = False Then
-                    If playerCorps.Contains(selpilot.Corp) = False Then
-                        playerCorps.Add(selpilot.Corp)
+                If selpilot.CorpID <> "" Then
+                    If StaticData.NpcCorps.ContainsKey(CInt(selpilot.CorpID)) = False Then
+                        If playerCorps.Contains(selpilot.Corp) = False Then
+                            playerCorps.Add(selpilot.Corp)
+                        End If
                     End If
                 End If
             Next
