@@ -155,6 +155,7 @@
     <Compile Include="Entities\QueuedSkill.cs" />
     <Compile Include="Entities\Research.cs" />
     <Compile Include="Entities\ServerStatus.cs" />
+    <Compile Include="Entities\SkillData.cs" />
     <Compile Include="Entities\SkillInTraining.cs" />
     <Compile Include="Entities\TransactionReference.cs" />
     <Compile Include="Entities\UpcomingCalendarEvent.cs" />

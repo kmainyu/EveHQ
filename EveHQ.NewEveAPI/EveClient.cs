@@ -91,7 +91,6 @@ namespace EveHQ.EveApi
 
         /// <summary>The character id.</summary>
         /// <param name="names">The names.</param>
-        /// <returns>The <see cref="EveServiceResponse"/>.</returns>
         public EveServiceResponse<IEnumerable<CharacterName>> CharacterId(IEnumerable<string> names)
         {
             Task<EveServiceResponse<IEnumerable<CharacterName>>> task = CharacterIdAsync(names);
@@ -143,7 +142,6 @@ namespace EveHQ.EveApi
 
         /// <summary>The character info.</summary>
         /// <param name="characterId">The character id.</param>
-        /// <returns>The <see cref="EveServiceResponse"/>.</returns>
         public EveServiceResponse<CharacterInfo> CharacterInfo(int characterId)
         {
             Task<EveServiceResponse<CharacterInfo>> task = CharacterInfoAsync(characterId);
@@ -189,11 +187,71 @@ namespace EveHQ.EveApi
             return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseReferenceTypesResponse);
         }
 
+        public EveServiceResponse<IEnumerable<SkillGroup>> SkillTree()
+        {
+            return RunAsyncMethod(SkillTreeAsync);
+        }
 
+        public Task<EveServiceResponse<IEnumerable<SkillGroup>>> SkillTreeAsync()
+        {
+            const string MethodPath = "{0}/SkillTree.xml.aspx";
+            const string CacheKeyFormat = "SkillTree";
+
+            string cacheKey = CacheKeyFormat.FormatInvariant();
+
+            IDictionary<string, string> apiParams = new Dictionary<string, string>();
+
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseSkillTreeResponse);
+        }
 
         #endregion
 
         #region Methods
+
+        private static IEnumerable<SkillGroup> ParseSkillTreeResponse(XElement result)
+        {
+            if (result == null)
+            {
+                return null; // return null... no data.
+            }
+
+            return (from groupRowset in result.Elements(ApiConstants.Rowset)
+                    from groupRow in groupRowset.Elements(ApiConstants.Row)
+                    let groupId = groupRow.Attribute("groupID").Value.ToInt32()
+                    let groupName = groupRow.Attribute("groupName").Value
+                    select new SkillGroup() { GroupID = groupId, GroupName = groupName, Skills = GetGroupSkills(groupRow) });                   
+        }
+
+
+        private static IEnumerable<SkillData> GetGroupSkills(XElement groupRow)
+        {
+            
+                return from rowSet in groupRow.Elements(ApiConstants.Rowset)
+                    from row in rowSet.Elements(ApiConstants.Row)
+                    let groupId = row.Attribute("groupID").Value.ToInt32()
+                    let published = row.Attribute("published").Value.ToBoolean()
+                    let typeId = row.Attribute("typeID").Value.ToInt32()
+                    let name = row.Attribute("typeName").Value
+                    let desc = row.Element("description").Value
+                    let rank = row.Element("rank").Value.ToInt32()
+                    let reqAttrib = row.Element("requiredAttributes")
+                    let priAttrib = reqAttrib.Element("primaryAttribute").Value
+                    let secAttrib = reqAttrib.Element("secondaryAttribute").Value
+                    let reqSkills =
+                        row.Elements(ApiConstants.Rowset)
+                        .Where(e => e.Attribute("name").Value == "requiredSkills")
+                        .Elements(ApiConstants.Row)
+                        .Select(r => new ReqSkillData() { Level = r.Attribute("skillLevel").Value.ToInt32(), TypeId = r.Attribute("typeID").Value.ToInt32() })
+                    let trialTrainElement =
+                        row.Elements(ApiConstants.Rowset)
+                        .Where(e => e.Attribute("name").Value == "skillBonusCollection")
+                        .Elements(ApiConstants.Row)
+                        .FirstOrDefault(r => r.Attribute("bonusType").Value == "canNotBeTrainedOnTrial")
+                       let cannotBeTrainedOnTrial = trialTrainElement != null && trialTrainElement.Attribute("bonusValue").Value.ToBoolean()
+                    select new SkillData() { CannotBeTrainedOnTrial = cannotBeTrainedOnTrial, Description = desc, GroupId = groupId, Name = name, PrimaryAttribute = priAttrib, Published = published, Rank = rank, RequiredSkills = reqSkills, SecondaryAttribute = secAttrib, TypeId = typeId};
+
+        }
+
 
         private static IEnumerable<RefType> ParseReferenceTypesResponse(XElement result)
         {

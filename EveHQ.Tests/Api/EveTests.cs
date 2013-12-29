@@ -190,8 +190,32 @@ namespace EveHQ.Tests.Api
                 var rabbits = result[21];
 
                 Assert.AreEqual("Mission Completion", rabbits.Name);
-                Assert.AreEqual(22, rabbits.Id);
+                Assert.AreEqual(21, rabbits.Id);
+            }
+        }
+
+        [Test]
+        public static void SkillTreeTest()
+        {
+            var url = new Uri("https://api.eveonline.com/eve/SkillTree.xml.aspx");
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\SkillTree.xml"));
+            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            {
+                var task = client.Eve.SkillTreeAsync();
+                task.Wait();
+
+                ApiTestHelpers.BasicSuccessResultValidations(task);
+
+                var result = task.Result.ResultData.ToList();
+
+                Assert.AreEqual(3, result[0].Skills.ToList()[0].Rank);
+                Assert.AreEqual(true, result[0].Skills.ToList()[0].CannotBeTrainedOnTrial);
+
+                Assert.AreEqual(3, result[0].Skills.ToList()[1].RequiredSkills.ToList()[1].Level);
             }
         }
     }
 }
+ 
