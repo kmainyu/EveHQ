@@ -204,9 +204,47 @@ namespace EveHQ.EveApi
             return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseSkillTreeResponse);
         }
 
+
+        public EveServiceResponse<IEnumerable<ConquerableStation>> ConquerableStationList()
+        {
+            return RunAsyncMethod(ConquerableStationListAsync);
+        }
+
+        public Task<EveServiceResponse<IEnumerable<ConquerableStation>>> ConquerableStationListAsync()
+        {
+            const string MethodPath = "{0}/ConquerableStationList.xml.aspx";
+            const string CacheKeyFormat = "ConquerableStationList";
+
+            string cacheKey = CacheKeyFormat.FormatInvariant();
+
+            IDictionary<string, string> apiParams = new Dictionary<string, string>();
+
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseConquerableStationListResponse);
+        }
+
+
         #endregion
 
         #region Methods
+
+
+        private static IEnumerable<ConquerableStation> ParseConquerableStationListResponse(XElement result)
+        {
+            if (result == null)
+            {
+                return null; // return null... no data.
+            }
+
+            return (from rowSet in result.Elements(ApiConstants.Rowset)
+                    from row in rowSet.Elements(ApiConstants.Row)
+                    let id = row.Attribute("stationID").Value.ToInt32()
+                    let name = row.Attribute("stationName").Value
+                    let type = row.Attribute("stationTypeID").Value.ToInt32()
+                    let systemId = row.Attribute("solarSystemID").Value.ToInt32()
+                    let corpId = row.Attribute("corporationID").Value.ToInt32()
+                    let corpName = row.Attribute("corporationName").Value
+                    select new ConquerableStation() { CorporationId = corpId, CorporationName = corpName, Id = id, Name = name, SolarSystemId = systemId, StationTypeId = type });
+        }
 
         private static IEnumerable<SkillGroup> ParseSkillTreeResponse(XElement result)
         {

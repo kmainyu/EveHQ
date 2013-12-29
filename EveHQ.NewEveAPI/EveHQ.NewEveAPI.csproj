@@ -130,6 +130,7 @@
     <Compile Include="Entities\CharacterInfo.cs" />
     <Compile Include="Entities\CharacterName.cs" />
     <Compile Include="Entities\CharacterSkillRecord.cs" />
+    <Compile Include="Entities\ConquerableStation.cs" />
     <Compile Include="Entities\Contact.cs" />
     <Compile Include="Entities\ContactNotification.cs" />
     <Compile Include="Entities\Contract.cs" />

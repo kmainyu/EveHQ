@@ -216,6 +216,27 @@ namespace EveHQ.Tests.Api
                 Assert.AreEqual(3, result[0].Skills.ToList()[1].RequiredSkills.ToList()[1].Level);
             }
         }
+
+
+        [Test]
+        public static void ConquerableStationListTest()
+        {
+            var url = new Uri("https://api.eveonline.com/eve/ConquerableStationList.xml.aspx");
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\ConquerableStations.xml"));
+            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            {
+                var task = client.Eve.ConquerableStationListAsync();
+                task.Wait();
+
+                ApiTestHelpers.BasicSuccessResultValidations(task);
+
+                var result = task.Result.ResultData.ToList();
+
+                Assert.AreEqual(60014862, result[0].Id);
+            }
+        }
     }
 }
  

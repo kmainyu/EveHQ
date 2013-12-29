@@ -240,42 +240,38 @@ Public Class PlugInData
     End Function
     Public Sub CheckForConqXMLFile()
         ' Check for the Conquerable XML file in the cache
-        Dim stationXML As XmlDocument
-        Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-        stationXML = apiReq.GetAPIXML(APITypes.Conquerables, APIReturnMethods.ReturnStandard)
-        If stationXML IsNot Nothing Then
-            Call ParseConquerableXML(stationXML)
+        Dim stations = HQ.ApiProvider.Eve.ConquerableStationList()
+        If stations.IsSuccess Then
+            Call ParseConquerableXML(stations.ResultData)
         End If
     End Sub
-    Public Shared Sub ParseConquerableXML(ByVal stationXML As XmlDocument)
-        Dim locList As XmlNodeList
-        Dim loc As XmlNode
+    Public Shared Sub ParseConquerableXML(ByVal stations As IEnumerable(Of ConquerableStation))
+        
         Dim stationID As Integer
-        locList = stationXML.SelectNodes("/eveapi/result/rowset/row")
-        If locList.Count > 0 Then
+        If stations.Any() Then
             Corps.Clear()
-            For Each loc In locList
-                stationID = CInt((loc.Attributes.GetNamedItem("stationID").Value))
+            For Each station In stations
+                stationID = station.Id
                 ' This is an outpost so needs adding to the station list if it's not there
                 If StaticData.Stations.ContainsKey(stationID) = False Then
                     Dim cStation As New Station
-                    cStation.StationId = CInt(stationID)
-                    cStation.StationName = (loc.Attributes.GetNamedItem("stationName").Value)
-                    cStation.SystemId = CInt(loc.Attributes.GetNamedItem("solarSystemID").Value)
+                    cStation.StationId = stationID
+                    cStation.StationName = station.Name
+                    cStation.SystemId = station.SolarSystemId
                     Dim system As SolarSystem = StaticData.SolarSystems(cStation.SystemId)
                     cStation.StationName &= " (" & system.Name & ", " & StaticData.Regions(system.RegionId) & ")"
-                    cStation.CorpId = CInt(loc.Attributes.GetNamedItem("corporationID").Value)
+                    cStation.CorpId = station.CorporationId
                     StaticData.Stations.Add(cStation.StationId, cStation)
                 Else
                     Dim cStation As Station = StaticData.Stations(stationID)
-                    cStation.SystemId = CInt(loc.Attributes.GetNamedItem("solarSystemID").Value)
+                    cStation.SystemId = station.SolarSystemId
                     Dim system As SolarSystem = StaticData.SolarSystems(cStation.SystemId)
                     cStation.StationName &= " (" & system.Name & ", " & StaticData.Regions(system.RegionId) & ")"
-                    cStation.CorpId = CInt(loc.Attributes.GetNamedItem("corporationID").Value)
+                    cStation.CorpId = station.CorporationId
                 End If
                 ' Add the corp if not already entered
-                If Corps.ContainsKey(CStr(loc.Attributes.GetNamedItem("corporationID").Value)) = False Then
-                    Corps.Add(CStr(loc.Attributes.GetNamedItem("corporationID").Value), CStr(loc.Attributes.GetNamedItem("corporationName").Value))
+                If Corps.ContainsKey(station.CorporationId.ToInvariantString()) = False Then
+                    Corps.Add(station.CorporationId.ToInvariantString(), station.CorporationName)
                 End If
             Next
         End If
