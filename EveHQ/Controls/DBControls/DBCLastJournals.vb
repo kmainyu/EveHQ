@@ -175,40 +175,26 @@ Namespace Controls.DBControls
         Public Function LoadRefTypes() As Boolean
             Try
                 ' Dimension variables
-                Dim refDetails As XmlNodeList
-                Dim refNode As XmlNode
-                Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-                Dim refXML As XmlDocument = apiReq.GetAPIXML(APITypes.RefTypes, APIReturnMethods.ReturnStandard)
-                If refXML Is Nothing Then
-                    ' Problem with the API server so let's use our resources to populate it
-                    Try
-                        refXML = New XmlDocument
-                        refXML.LoadXml(My.Resources.RefTypes.ToString)
-                    Catch ex As Exception
-                        MessageBox.Show("There was an error loading the RefTypes API and it would appear there is a problem with the local copy. Please try again later.", "Last Journal Widget Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        Return False
-                    End Try
-                End If
-                Dim errlist As XmlNodeList = refXML.SelectNodes("/eveapi/error")
-                If errlist.Count = 0 Then
-                    refDetails = refXML.SelectNodes("/eveapi/result/rowset/row")
-                    If refDetails IsNot Nothing Then
+                Dim refData = HQ.ApiProvider.Eve.RefTypes()
+                If refData.EveErrorCode = 0 Then
+
+                    If refData.IsSuccess Then
                         _refTypes.Clear()
-                        For Each refNode In refDetails
-                            _refTypes.Add(refNode.Attributes.GetNamedItem("refTypeID").Value, refNode.Attributes.GetNamedItem("refTypeName").Value)
+                        For Each refNode In refData.ResultData
+                            _refTypes.Add(refNode.Id.ToInvariantString(), refNode.Name)
                         Next
                     End If
                 Else
-                    Dim errNode As XmlNode = errlist(0)
                     ' Get error code
-                    Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                    Dim errMsg As String = errNode.InnerText
+                    Dim errCode As String = refData.EveErrorCode.ToInvariantString()
+                    Dim errMsg As String = refData.EveErrorText
                     MessageBox.Show("The RefTypes API returned error " & errCode & ": " & errMsg, "RefTypes Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Return False
                 End If
                 Return True
             Catch e As Exception
                 MessageBox.Show("There was an error loading the RefTypes API. The error was: " & e.Message, "Last Journal Widget Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Trace.TraceError(e.FormatException())
                 Return False
             End Try
         End Function

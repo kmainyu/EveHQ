@@ -19,7 +19,7 @@
 '=========================================================================
 Imports EveHQ.Prism.BPCalc
 Imports EveHQ.Prism.Classes
-Imports EveHQ.EveAPI
+Imports EveHQ.EveApi
 Imports EveHQ.EveData
 Imports EveHQ.Core
 Imports System.Net
@@ -27,6 +27,7 @@ Imports System.Windows.Forms
 Imports System.Xml
 Imports System.IO
 Imports EveHQ.Prism.Forms
+Imports EveHQ.Common.Extensions
 Imports Newtonsoft.Json
 
 ' ReSharper disable once CheckNamespace - for binary serialization compatability
@@ -44,7 +45,7 @@ Public Class PlugInData
     Public Shared CategoryNames As New SortedList(Of String, Integer) ' catName, catID
     Public Shared Decryptors As New SortedList(Of String, BPCalc.Decryptor)
     Public Shared PrismOwners As New SortedList(Of String, PrismOwner)
-    Private _activeForm As frmPrism
+    Private _activeForm As FrmPrism
     Private Const OwnerBlueprintsFileName As String = "OwnerBlueprints.json"
     Private Shared ReadOnly LockObj As New Object
 
@@ -92,7 +93,7 @@ Public Class PlugInData
     End Function
 
     Public Function RunEveHQPlugIn() As Form Implements IEveHQPlugIn.RunEveHQPlugIn
-        _activeForm = New frmPrism()
+        _activeForm = New FrmPrism()
         Return _activeForm
     End Function
 
@@ -217,34 +218,17 @@ Public Class PlugInData
     Public Function LoadRefTypes() As Boolean
         Try
             ' Dimension variables
-            Dim refDetails As XmlNodeList
-            Dim refNode As XmlNode
-            Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-            Dim refXML As XmlDocument = apiReq.GetAPIXML(APITypes.RefTypes, APIReturnMethods.ReturnStandard)
-            If refXML Is Nothing Then
-                ' Problem with the API server so let's use our resources to populate it
-                Try
-                    refXML = New XmlDocument
-                    refXML.LoadXml(My.Resources.RefTypes.ToString)
-                Catch ex As Exception
-                    MessageBox.Show("There was an error loading the RefTypes API and it would appear there is a problem with the local copy. Please try again later.", "Prism RefTypes Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Return False
-                End Try
-            End If
-            Dim errlist As XmlNodeList = refXML.SelectNodes("/eveapi/error")
-            If errlist.Count = 0 Then
-                refDetails = refXML.SelectNodes("/eveapi/result/rowset/row")
-                If refDetails IsNot Nothing Then
-                    RefTypes.Clear()
-                    For Each refNode In refDetails
-                        RefTypes.Add(refNode.Attributes.GetNamedItem("refTypeID").Value, refNode.Attributes.GetNamedItem("refTypeName").Value)
-                    Next
-                End If
+            Dim refData = HQ.ApiProvider.Eve.RefTypes()
+
+            If refData.IsSuccess Then
+                RefTypes.Clear()
+                For Each refNode In refData.ResultData
+                    RefTypes.Add(refNode.Id.ToInvariantString(), refNode.Name)
+                Next
             Else
-                Dim errNode As XmlNode = errlist(0)
                 ' Get error code
-                Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                Dim errMsg As String = errNode.InnerText
+                Dim errCode As String = refData.EveErrorCode.ToInvariantString()
+                Dim errMsg As String = refData.EveErrorText
                 MessageBox.Show("The RefTypes API returned error " & errCode & ": " & errMsg, "RefTypes Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Return False
             End If
@@ -303,7 +287,7 @@ Public Class PlugInData
 
     Public Shared Sub LoadOwnerBlueprints()
 
-        SyncLock frmPrism.LockObj
+        SyncLock FrmPrism.LockObj
 
             If My.Computer.FileSystem.FileExists(Path.Combine(PrismSettings.PrismFolder, "OwnerBlueprints.json")) = True Then
                 Try

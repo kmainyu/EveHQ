@@ -402,29 +402,28 @@ Public Class SkillFunctions
     Public Shared Sub LoadEveSkillDataFromAPI()
         Try
             ' Get the XML data from the API
-            Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-            Dim skillXML As XmlDocument = apiReq.GetAPIXML(APITypes.SkillTree, APIReturnMethods.BypassCache)
+            Dim skillData = HQ.ApiProvider.Eve.SkillTree()
             ' Load the skills!
-            If skillXML IsNot Nothing Then
-                Dim skillDetails As XmlNodeList
-                Dim skill As XmlNode
-                skillDetails = skillXML.SelectNodes("/eveapi/result/rowset/row/rowset/row")
-                For Each skill In skillDetails
-                    If HQ.SkillListID.ContainsKey(CInt(skill.Attributes.GetNamedItem("typeID").Value)) = False Then
+            If skillData.IsSuccess Then
+
+
+                Dim skills = skillData.ResultData.SelectMany(Function(group) group.Skills)
+                For Each skill In skills
+                    If HQ.SkillListID.ContainsKey(skill.TypeId) = False Then
                         Dim newSkill As New EveSkill
-                        newSkill.ID = CInt(skill.Attributes.GetNamedItem("typeID").Value)
-                        newSkill.Name = skill.Attributes.GetNamedItem("typeName").Value
-                        newSkill.GroupID = CInt(skill.Attributes.GetNamedItem("groupID").Value)
-                        newSkill.Published = CBool(skill.Attributes.GetNamedItem("published").Value)
-                        newSkill.Description = skill.ChildNodes(0).InnerText
-                        newSkill.Rank = CInt(skill.ChildNodes(1).InnerText)
-                        If skill.ChildNodes(2).ChildNodes.Count <> 0 Then
-                            For skillNode As Integer = 0 To skill.ChildNodes(2).ChildNodes.Count - 1
-                                newSkill.PreReqSkills.Add(CInt(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("typeID").Value), CInt(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("skillLevel").Value))
+                        newSkill.ID = skill.TypeId
+                        newSkill.Name = skill.Name
+                        newSkill.GroupID = skill.GroupId
+                        newSkill.Published = skill.Published
+                        newSkill.Description = skill.Description
+                        newSkill.Rank = skill.Rank
+                        If skill.RequiredSkills.Any() Then
+                            For Each reqSkill In skill.RequiredSkills
+                                newSkill.PreReqSkills.Add(reqSkill.TypeId, reqSkill.Level)
                             Next
                         End If
-                        newSkill.PA = StrConv(skill.ChildNodes(3).SelectSingleNode("primaryAttribute").InnerText, VbStrConv.ProperCase)
-                        newSkill.SA = StrConv(skill.ChildNodes(3).SelectSingleNode("secondaryAttribute").InnerText, VbStrConv.ProperCase)
+                        newSkill.Pa = StrConv(skill.PrimaryAttribute, VbStrConv.ProperCase)
+                        newSkill.Sa = StrConv(skill.SecondaryAttribute, VbStrConv.ProperCase)
                         ' Calculate the levels
                         For a As Integer = 0 To 5
                             newSkill.LevelUp(a) = CInt(CalculateSPLevel(newSkill.Rank, a))
@@ -433,23 +432,22 @@ Public Class SkillFunctions
                         HQ.SkillListID.Add(newSkill.ID, newSkill)
                         HQ.SkillListName.Add(newSkill.Name, newSkill)
                     Else
-                        Dim newSkill As EveSkill = HQ.SkillListID(CInt(skill.Attributes.GetNamedItem("typeID").Value))
-                        If skill.Attributes.GetNamedItem("typeName").Value <> newSkill.Name Then
+                        Dim newSkill As EveSkill = HQ.SkillListID(skill.TypeId)
+                        If skill.Name <> newSkill.Name Then
                             ' Need to update the skill details because CCP changed them!
-                            newSkill.ID = CInt(skill.Attributes.GetNamedItem("typeID").Value)
-                            newSkill.Name = skill.Attributes.GetNamedItem("typeName").Value
-                            newSkill.GroupID = CInt(skill.Attributes.GetNamedItem("groupID").Value)
-                            newSkill.Published = CBool(skill.Attributes.GetNamedItem("published").Value)
-                            newSkill.Description = skill.ChildNodes(0).InnerText
-                            newSkill.Published = True
-                            newSkill.Rank = CInt(skill.ChildNodes(1).InnerText)
-                            If skill.ChildNodes(2).ChildNodes.Count <> 0 Then
-                                For skillNode As Integer = 0 To skill.ChildNodes(2).ChildNodes.Count - 1
-                                    newSkill.PreReqSkills.Add(CInt(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("typeID").Value), CInt(skill.ChildNodes(2).ChildNodes(skillNode).Attributes.GetNamedItem("skillLevel").Value))
+                             newSkill.ID = skill.TypeId
+                            newSkill.Name = skill.Name
+                            newSkill.GroupID = skill.GroupId
+                            newSkill.Published = skill.Published
+                            newSkill.Description = skill.Description
+                            newSkill.Rank = skill.Rank
+                            If skill.RequiredSkills.Any() Then
+                                For Each reqSkill In skill.RequiredSkills
+                                    newSkill.PreReqSkills.Add(reqSkill.TypeId, reqSkill.Level)
                                 Next
                             End If
-                            newSkill.PA = StrConv(skill.ChildNodes(3).SelectSingleNode("primaryAttribute").InnerText, VbStrConv.ProperCase)
-                            newSkill.SA = StrConv(skill.ChildNodes(3).SelectSingleNode("secondaryAttribute").InnerText, VbStrConv.ProperCase)
+                            newSkill.Pa = StrConv(skill.PrimaryAttribute, VbStrConv.ProperCase)
+                            newSkill.Sa = StrConv(skill.SecondaryAttribute, VbStrConv.ProperCase)
                             ' Calculate the levels
                             For a As Integer = 0 To 5
                                 newSkill.LevelUp(a) = CInt(CalculateSPLevel(newSkill.Rank, a))

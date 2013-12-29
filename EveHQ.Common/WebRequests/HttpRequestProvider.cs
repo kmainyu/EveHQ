@@ -144,7 +144,7 @@ namespace EveHQ.Common
         System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "validated by extension method.")]
         public Task<HttpResponseMessage> PostAsync(Uri target, string postContent, string contentType)
         {
-            if (target != null && !postContent.IsNullOrWhiteSpace())
+            if (target != null)
             {
                 var handler = new HttpClientHandler();
 
@@ -172,7 +172,7 @@ namespace EveHQ.Common
 
                 var requestClient = new HttpClient(handler);
 
-                var content = new StringContent(postContent, Encoding.UTF8, contentType);
+                HttpContent content = !postContent.IsNullOrWhiteSpace() ? new StringContent(postContent, Encoding.UTF8, contentType) : null;
 
                 return requestClient.PostAsync(target, content);
             }
