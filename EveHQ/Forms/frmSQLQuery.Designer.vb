@@ -29,7 +29,6 @@
             Me.colQueryName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.panelText = New DevComponents.DotNetBar.PanelEx()
             Me.lblRowCount = New DevComponents.DotNetBar.LabelX()
-            Me.radCustomData = New DevComponents.DotNetBar.Controls.CheckBoxX()
             Me.lblQueryAmended = New DevComponents.DotNetBar.LabelX()
             Me.txtQuery = New DevComponents.DotNetBar.Controls.TextBoxX()
             Me.lblQueryText = New DevComponents.DotNetBar.LabelX()
@@ -79,7 +78,6 @@
             Me.panelText.CanvasColor = System.Drawing.SystemColors.Control
             Me.panelText.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
             Me.panelText.Controls.Add(Me.lblRowCount)
-            Me.panelText.Controls.Add(Me.radCustomData)
             Me.panelText.Controls.Add(Me.lblQueryAmended)
             Me.panelText.Controls.Add(Me.txtQuery)
             Me.panelText.Controls.Add(Me.lblQueryText)
@@ -110,24 +108,6 @@
             Me.lblRowCount.TabIndex = 10
             Me.lblRowCount.Text = "Record Count: n/a"
             '
-            'radCustomData
-            '
-            Me.radCustomData.AutoSize = True
-            '
-            '
-            '
-            Me.radCustomData.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.radCustomData.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-            Me.radCustomData.Checked = True
-            Me.radCustomData.CheckState = System.Windows.Forms.CheckState.Checked
-            Me.radCustomData.CheckValue = "Y"
-            Me.radCustomData.Location = New System.Drawing.Point(6, 33)
-            Me.radCustomData.Name = "radCustomData"
-            Me.radCustomData.Size = New System.Drawing.Size(140, 16)
-            Me.radCustomData.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.radCustomData.TabIndex = 9
-            Me.radCustomData.Text = "Query Custom Database"
-            '
             'lblQueryAmended
             '
             Me.lblQueryAmended.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -154,11 +134,13 @@
             '
             Me.txtQuery.Border.Class = "TextBoxBorder"
             Me.txtQuery.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.txtQuery.Location = New System.Drawing.Point(6, 55)
+            Me.txtQuery.Location = New System.Drawing.Point(6, 34)
             Me.txtQuery.Multiline = True
             Me.txtQuery.Name = "txtQuery"
-            Me.txtQuery.Size = New System.Drawing.Size(1068, 97)
+            Me.txtQuery.Size = New System.Drawing.Size(1068, 118)
             Me.txtQuery.TabIndex = 1
+            Me.txtQuery.WatermarkColor = System.Drawing.Color.Silver
+            Me.txtQuery.WatermarkText = "Enter SQL to process here..."
             '
             'lblQueryText
             '
@@ -175,30 +157,30 @@
             '
             'ExpandableSplitter1
             '
-            Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.ExpandableSplitter1.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.ExpandableSplitter1.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
             Me.ExpandableSplitter1.Dock = System.Windows.Forms.DockStyle.Top
             Me.ExpandableSplitter1.Expandable = False
-            Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.ExpandableSplitter1.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.ExpandableSplitter1.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.ExpandableSplitter1.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
             Me.ExpandableSplitter1.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.ExpandableSplitter1.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.ExpandableSplitter1.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.ExpandableSplitter1.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
             Me.ExpandableSplitter1.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
             Me.ExpandableSplitter1.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
             Me.ExpandableSplitter1.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.ExpandableSplitter1.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.ExpandableSplitter1.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.ExpandableSplitter1.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.ExpandableSplitter1.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.ExpandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.ExpandableSplitter1.Location = New System.Drawing.Point(227, 174)
             Me.ExpandableSplitter1.Name = "ExpandableSplitter1"
@@ -427,7 +409,6 @@
         Friend WithEvents rbQuery As DevComponents.DotNetBar.RibbonBar
         Friend WithEvents btnExecute As DevComponents.DotNetBar.ButtonItem
         Friend WithEvents btnSave As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents radCustomData As DevComponents.DotNetBar.Controls.CheckBoxX
         Friend WithEvents lblRowCount As DevComponents.DotNetBar.LabelX
     End Class
 End NameSpace
