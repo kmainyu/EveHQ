@@ -1035,9 +1035,9 @@ Namespace Forms
             Me.gbPilots.Controls.Add(Me.btnDeletePilot)
             Me.gbPilots.Controls.Add(Me.btnAddPilot)
             Me.gbPilots.Controls.Add(Me.lvwPilots)
-            Me.gbPilots.Location = New System.Drawing.Point(211, 355)
+            Me.gbPilots.Location = New System.Drawing.Point(195, 9)
             Me.gbPilots.Name = "gbPilots"
-            Me.gbPilots.Size = New System.Drawing.Size(146, 100)
+            Me.gbPilots.Size = New System.Drawing.Size(706, 506)
             Me.gbPilots.TabIndex = 17
             Me.gbPilots.TabStop = False
             Me.gbPilots.Text = "Pilot Management"
@@ -1091,7 +1091,7 @@ Namespace Forms
             Me.lvwPilots.GridLines = True
             Me.lvwPilots.Location = New System.Drawing.Point(12, 19)
             Me.lvwPilots.Name = "lvwPilots"
-            Me.lvwPilots.Size = New System.Drawing.Size(398, 75)
+            Me.lvwPilots.Size = New System.Drawing.Size(398, 481)
             Me.lvwPilots.Sorting = System.Windows.Forms.SortOrder.Ascending
             Me.lvwPilots.TabIndex = 18
             Me.lvwPilots.UseCompatibleStateImageBehavior = False
@@ -2921,6 +2921,7 @@ Namespace Forms
             '
             Me.panelSettings.CanvasColor = System.Drawing.SystemColors.Control
             Me.panelSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.panelSettings.Controls.Add(Me.gbPilots)
             Me.panelSettings.Controls.Add(Me.gbItemOverrides)
             Me.panelSettings.Controls.Add(Me.gbGeneral)
             Me.panelSettings.Controls.Add(Me.gbTrainingQueue)
@@ -2933,7 +2934,6 @@ Namespace Forms
             Me.panelSettings.Controls.Add(Me.gbIGB)
             Me.panelSettings.Controls.Add(Me.gbProxyServer)
             Me.panelSettings.Controls.Add(Me.gbEmail)
-            Me.panelSettings.Controls.Add(Me.gbPilots)
             Me.panelSettings.Controls.Add(Me.gbTaskbarIcon)
             Me.panelSettings.Controls.Add(Me.gbPlugIns)
             Me.panelSettings.Controls.Add(Me.gpNav)
@@ -2969,9 +2969,9 @@ Namespace Forms
             Me.gbItemOverrides.Controls.Add(Me._itemOverrideMinPrice)
             Me.gbItemOverrides.Controls.Add(Me._itemOverrideAvgPrice)
             Me.gbItemOverrides.Controls.Add(Me._itemOverrideMaxPrice)
-            Me.gbItemOverrides.Location = New System.Drawing.Point(195, 12)
+            Me.gbItemOverrides.Location = New System.Drawing.Point(710, 446)
             Me.gbItemOverrides.Name = "gbItemOverrides"
-            Me.gbItemOverrides.Size = New System.Drawing.Size(706, 501)
+            Me.gbItemOverrides.Size = New System.Drawing.Size(125, 27)
             Me.gbItemOverrides.TabIndex = 36
             Me.gbItemOverrides.TabStop = False
             Me.gbItemOverrides.Text = "Item Market Data Overrides"

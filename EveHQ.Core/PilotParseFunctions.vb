@@ -62,13 +62,15 @@ Public Class PilotParseFunctions
                 newPilot.PImplantM = oldPilot.PImplantM
                 newPilot.WImplantM = oldPilot.WImplantM
                 newPilot.ActiveQueueName = oldPilot.ActiveQueueName
-                newPilot.ActiveQueue = CType(oldPilot.ActiveQueue.Clone, EveHQSkillQueue)
+                If oldPilot.ActiveQueue IsNot Nothing Then
+                    newPilot.ActiveQueue = CType(oldPilot.ActiveQueue.Clone, EveHQSkillQueue)
+                End If
                 newPilot.Active = oldPilot.Active
                 newPilot.PrimaryQueue = oldPilot.PrimaryQueue
                 newPilot.Standings = oldPilot.Standings
                 newPilot.TrainingQueues = oldPilot.TrainingQueues
                 ' Check if the old pilot has an account if using manual mode!!
-                If oldPilot.Account <> "" And newPilot.Account = "" Then
+                If oldPilot.Account <> String.Empty And newPilot.Account = String.Empty Then
                     newPilot.Account = oldPilot.Account
                     newPilot.AccountPosition = oldPilot.AccountPosition
                 End If
