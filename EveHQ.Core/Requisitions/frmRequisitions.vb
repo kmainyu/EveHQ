@@ -187,12 +187,14 @@ Namespace Requisitions
                 reqNode.Text = newReq.Name & "<font color=""#BBBBBB""> (" & newReq.Requestor & " - " & newReq.Orders.Count.ToString("N0") & IIf(newReq.Orders.Count = 1, " item)", " items)").ToString & "</font>"
                 reqNode.Name = newReq.Name
                 For Each newOrder As RequisitionOrder In newReq.Orders.Values
-                    Dim item As EveType = StaticData.Types(CInt(newOrder.ItemID))
-                    Dim orderNode As New Node
-                    orderNode.Text = newOrder.ItemName
-                    orderNode.Name = newOrder.ItemName
-                    orderNode.Image = ImageHandler.GetImage(item.Id, 20)
-                    reqNode.Nodes.Add(orderNode)
+                    If StaticData.Types.ContainsKey(CInt(newOrder.ItemID)) Then
+                        Dim item As EveType = StaticData.Types(CInt(newOrder.ItemID))
+                        Dim orderNode As New Node
+                        orderNode.Text = newOrder.ItemName
+                        orderNode.Name = newOrder.ItemName
+                        orderNode.Image = ImageHandler.GetImage(item.Id, 20)
+                        reqNode.Nodes.Add(orderNode)
+                    End If
                 Next
                 adtReqs.Nodes.Add(reqNode)
                 If _selectedReqName = newReq.Name Then
