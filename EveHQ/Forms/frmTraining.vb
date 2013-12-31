@@ -1751,6 +1751,7 @@ Namespace Forms
                     Next
                 Next
                 Dim curSkill As EveHQSkillQueueItem
+                Dim removeList As New List(Of String)
                 For Each curSkill In newQueue.Queue.Values
                     If _displayPilot.PilotSkills.ContainsKey(curSkill.Name) Then
                         Dim toLevel As Integer = curSkill.ToLevel
@@ -1758,11 +1759,16 @@ Namespace Forms
                         Dim pilotLevel As Integer = mySkill.Level
                         If pilotLevel >= toLevel Then
                             Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
-                            newQueue.Queue.Remove(oldKey)
+                            removeList.Add(oldKey)
                         End If
                     End If
                 Next
-                Dim arrQueue As ArrayList = SkillQueueFunctions.BuildQueue(_displayPilot, newQueue, True, True)
+                For Each item As String In removeList
+                    If newQueue.Queue.ContainsKey(item) Then
+                        newQueue.Queue.Remove(item)
+                    End If
+                Next
+                Dim arrQueue As ArrayList = SkillQueueFunctions.BuildQueue(_displayPilot, newQueue, False, True)
                 Dim qItem As SortedQueueItem
                 Dim qTime As Double = 0
                 For Each qItem In arrQueue
