@@ -27,11 +27,11 @@ Imports Newtonsoft.Json
 Namespace Forms
 
     Public Class FrmCharCreate
-        Dim _sRaceID As Integer = 0
-        Dim _sRaceName As String = ""
-        Dim _sBloodName As String = ""
-        ReadOnly _skillsRace As Collection = New Collection
-        ReadOnly _eveRaces As SortedList = New SortedList
+        Dim _raceID As Integer = 0
+        Dim _raceName As String = ""
+        Dim _bloodName As String = ""
+        ReadOnly _skillsRace As New Collection
+        ReadOnly _eveRaces As New SortedList(Of String, Integer)
 
         Private Sub frmCharCreate_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
@@ -39,6 +39,13 @@ Namespace Forms
             _eveRaces.Add("Minmatar", 2)
             _eveRaces.Add("Amarr", 4)
             _eveRaces.Add("Gallente", 8)
+
+            cboRace.BeginUpdate()
+            cboRace.Items.Clear()
+            For Each race As String In _eveRaces.Keys
+                cboRace.Items.Add(race)
+            Next
+            cboRace.EndUpdate()
 
         End Sub
 
@@ -48,22 +55,22 @@ Namespace Forms
             If cboRace.SelectedIndex > -1 Then
                 Select Case cboRace.SelectedItem.ToString
                     Case "Amarr"
-                        _sBloodName = "Amarr"
+                        _bloodName = "Amarr"
                     Case "Caldari"
-                        _sBloodName = "Deteis"
+                        _bloodName = "Deteis"
                     Case "Gallente"
-                        _sBloodName = "Gallente"
+                        _bloodName = "Gallente"
                     Case "Minmatar"
-                        _sBloodName = "Brutor"
+                        _bloodName = "Brutor"
                 End Select
             End If
 
 
             ' Store the raceID and raceName
-            _sRaceName = CStr(cboRace.SelectedItem)
-            _sRaceID = CInt(_eveRaces.Item(_sRaceName))
+            _raceName = CStr(cboRace.SelectedItem)
+            _raceID = CInt(_eveRaces.Item(_raceName))
 
-            Call CalcRaceSkills(CStr(_sRaceID))
+            Call CalcRaceSkills(CStr(_raceID))
 
             ' Set the list of skills & attributes
             lvwSkills.Items.Clear()
@@ -155,8 +162,8 @@ Namespace Forms
                 MessageBox.Show("Pilot name already exists. Please choose an alternative name.", "Pilot Already Exists", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-            nPilot.Race = _sRaceName
-            nPilot.BloodLine = _sBloodName
+            nPilot.Race = _raceName
+            nPilot.Blood = _bloodName
             nPilot.Charisma = CInt(nudC.Value)
             nPilot.Intelligence = CInt(nudI.Value)
             nPilot.Memory = CInt(nudM.Value)

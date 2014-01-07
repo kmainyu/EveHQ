@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Windows.Forms.DataVisualization.Charting
+Imports System.Windows.Forms
 
 Namespace Forms
 
@@ -55,7 +56,7 @@ Namespace Forms
             Chart1.Series("Ships").MarkerSize = 15
             Chart1.Series("Ships").MarkerStyle = MarkerStyle.Cross
             Chart1.Series("LockTime").XAxisType = AxisType.Primary
-            Chart1.Series("Ships").XAxisType = AxisType.Secondary
+            Chart1.Series("Ships").XAxisType = AxisType.Primary
             Chart1.ChartAreas("Default").AxisX.Minimum = 0
             Chart1.ChartAreas("Default").AxisX.Maximum = 500
             Chart1.ChartAreas("Default").AxisY.Minimum = 0
@@ -64,7 +65,12 @@ Namespace Forms
             Chart1.ChartAreas("Default").AxisX2.Maximum = 500
             Chart1.ChartAreas("Default").AxisY2.Minimum = 0
             Chart1.ChartAreas("Default").AxisY2.Maximum = Int(LockTime(10)) + 1
-
+            Chart1.ChartAreas("Default").AxisX.LabelStyle.Format = "N2"
+            Chart1.ChartAreas("Default").AxisY.LabelStyle.Format = "N2"
+            Chart1.ChartAreas("Default").CursorX.Interval = 0
+            Chart1.ChartAreas("Default").CursorY.Interval = 0
+            Chart1.Series("LockTime").ToolTip = "Sig Radius: #VALXm\nLock Time: #VALYs"
+           
             Chart1.Titles(0).Text = "Targeting Speed Analysis - " & _cShipType.Name & " (" & _cShipType.ScanResolution.ToString("N2") & "mm)"
 
             Dim p As Double, x As Double, y As Double
@@ -103,7 +109,7 @@ Namespace Forms
                     Case 300 ' Myrmidon
                         Dim sp As New DataPoint
                         sp.SetValueXY(x, y)
-                        sp.Label = "Myrmisdon"
+                        sp.Label = "Myrmidon"
                         Chart1.Series("Ships").Points.Add(sp)
                     Case 400 ' Megathron
                         Dim sp As New DataPoint
@@ -120,8 +126,34 @@ Namespace Forms
         End Function
 
         Private Function LockTime(ByVal sigRadius As Double) As Double
-            Return ((40000 / _cShipType.ScanResolution) / (Asinh(sigRadius) ^ 2)) ' Lock time
+            Return Math.Round(((40000 / _cShipType.ScanResolution) / (Asinh(sigRadius) ^ 2)), 2) ' Lock time
         End Function
+
+        Private Sub mnuResetZoom_Click(sender As System.Object, e As EventArgs) Handles mnuResetZoom.Click
+            Chart1.ChartAreas("Default").AxisX.ScaleView.ZoomReset(0)
+            Chart1.ChartAreas("Default").AxisY.ScaleView.ZoomReset(0)
+            Chart1.ChartAreas("Default").CursorX.SelectionStart = Double.NaN
+            Chart1.ChartAreas("Default").CursorY.SelectionEnd = Double.NaN
+        End Sub
+
+        Private Sub mnuSaveImage_Click(sender As System.Object, e As EventArgs) Handles mnuSaveImage.Click
+            Try
+                Chart1.SaveImage(IO.Path.Combine(Core.HQ.ReportFolder, Chart1.Titles(0).Text & ".png"), Drawing.Imaging.ImageFormat.Png)
+                MessageBox.Show("Image successfully saved into the EveHQ report folder.", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Catch ex As Exception
+                MessageBox.Show("There was an error saving the image: " & ex.Message, "Save Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End Sub
+
+        Private Sub Chart1_AxisScrollBarClicked(sender As Object, e As DataVisualization.Charting.ScrollBarEventArgs) Handles Chart1.AxisScrollBarClicked
+            If (e.ButtonType = ScrollBarButtonType.ZoomReset) Then
+                e.IsHandled = True
+                Chart1.ChartAreas("Default").AxisX.ScaleView.ZoomReset(0)
+                Chart1.ChartAreas("Default").AxisY.ScaleView.ZoomReset(0)
+                Chart1.ChartAreas("Default").CursorX.SelectionStart = Double.NaN
+                Chart1.ChartAreas("Default").CursorY.SelectionEnd = Double.NaN
+            End If
+        End Sub
 
     End Class
 End NameSpace
