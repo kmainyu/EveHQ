@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("Software Addicts Studios")]
 [assembly: AssemblyProduct("EveHQ")]
-[assembly: AssemblyCopyright("� EveHQ Development Team 2005-2013")]
+[assembly: AssemblyCopyright("� EveHQ Development Team 2005-2014")]
 [assembly: AssemblyFileVersion("2.13.4.$REVNUM$-Beta-")]
 [assembly: AssemblyVersion("2.13.4.$REVNUM$")]
 [assembly: AssemblyConfiguration("Debug")]

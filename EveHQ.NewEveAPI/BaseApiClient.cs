@@ -85,7 +85,7 @@ namespace EveHQ.EveApi
             GC.SuppressFinalize(this);
         }
 
-        protected internal Task<EveServiceResponse<T>> GetServiceResponseAsync<T>(string keyId, string vCode, int characterId, string servicePath, IDictionary<string, string> callParams, string cacheKey, int defaultCacheSeconds, Func<XElement, T> xmlParseDelegate)
+        protected internal Task<EveServiceResponse<T>> GetServiceResponseAsync<T>(string keyId, string vCode, int characterId, string servicePath, IDictionary<string, string> callParams, string cacheKey, int defaultCacheSeconds, ResponseMode responseMode, Func<XElement, T> xmlParseDelegate)
             where T : class
         {
             if (callParams == null)
@@ -108,7 +108,7 @@ namespace EveHQ.EveApi
                 callParams.Add(ApiConstants.CharacterId, characterId.ToInvariantString());
             }
 
-            return this.GetServiceResponseAsync(servicePath, callParams, cacheKey, defaultCacheSeconds, xmlParseDelegate);
+            return this.GetServiceResponseAsync(servicePath, callParams, cacheKey, defaultCacheSeconds, responseMode, xmlParseDelegate);
         }
 
         /// <summary>
@@ -119,9 +119,10 @@ namespace EveHQ.EveApi
         /// <param name="callParams">A collection of name/value parameters to send on the request.</param>
         /// <param name="cacheKey">key used for caching data</param>
         /// <param name="defaultCacheSeconds">how long to cache data if service doesn't provide a value</param>
+        /// <param name="responseMode"></param>
         /// <param name="xmlParseDelegate">the delegate for parsing the xml.</param>
         /// <returns>A reference to the async task.</returns>
-        protected internal Task<EveServiceResponse<T>> GetServiceResponseAsync<T>(string servicePath, IDictionary<string, string> callParams, string cacheKey, int defaultCacheSeconds, Func<XElement, T> xmlParseDelegate)
+        protected internal Task<EveServiceResponse<T>> GetServiceResponseAsync<T>(string servicePath, IDictionary<string, string> callParams, string cacheKey, int defaultCacheSeconds, ResponseMode responseMode, Func<XElement, T> xmlParseDelegate)
             where T : class
         {
             Uri temp;
@@ -131,21 +132,41 @@ namespace EveHQ.EveApi
             }
 
             // check cache for data and return if cached data exists and is still valid.
-            CacheItem<EveServiceResponse<T>> resultData = GetCacheEntry<T>(cacheKey);
+            CacheItem<EveServiceResponse<T>> resultData = null;
+
+            if (responseMode != ResponseMode.BypassCache)
+            {
+                resultData = GetCacheEntry<T>(cacheKey);
+            }
 
             Task<EveServiceResponse<T>> resultTask;
 
-            if (resultData != null)
+            if (responseMode == ResponseMode.CacheOnly)
             {
-                if (resultData.IsDirty)
+                if (resultData == null)
                 {
-                    Task.Factory.TryRun(() => _provider.PostAsync(temp, callParams).ContinueWith(webTask => ProcessServiceResponse(webTask, cacheKey, defaultCacheSeconds, xmlParseDelegate)));
+                    resultData = new CacheItem<EveServiceResponse<T>>();
+                    resultData.Data = new EveServiceResponse<T>();
+                    resultData.CacheUntil = new DateTimeOffset();
                 }
+
                 resultTask = ReturnCachedResponse(resultData);
             }
             else
             {
-                resultTask = _provider.PostAsync(temp, callParams).ContinueWith(webTask => ProcessServiceResponse(webTask, cacheKey, defaultCacheSeconds, xmlParseDelegate));
+                if (resultData != null && (!resultData.IsDirty || (resultData.IsDirty && responseMode != ResponseMode.WaitOnRefresh) ))
+                {
+                    if (resultData.IsDirty)
+                    {
+                        Task.Factory.TryRun(() => _provider.PostAsync(temp, callParams).ContinueWith(webTask => ProcessServiceResponse(webTask, cacheKey, defaultCacheSeconds, xmlParseDelegate)));
+                    }
+                    resultTask = ReturnCachedResponse(resultData);
+                }
+                else
+                {
+
+                    resultTask = _provider.PostAsync(temp, callParams).ContinueWith(webTask => ProcessServiceResponse(webTask, cacheKey, defaultCacheSeconds, xmlParseDelegate));
+                }
             }
 
             return resultTask;
@@ -180,6 +201,12 @@ namespace EveHQ.EveApi
             return task.Result;
         }
 
+        protected EveServiceResponse<TReturn> RunAsyncMethod<T1, TReturn>(Func<T1, Task<EveServiceResponse<TReturn>>> apiTask, T1 param1) where TReturn : class
+        {
+            var task = apiTask(param1);
+            task.Wait();
+            return task.Result;
+        }
 
 
         protected EveServiceResponse<TReturn> RunAsyncMethod<T1, T2, TReturn>(Func<T1, T2, Task<EveServiceResponse<TReturn>>> apiTask, T1 param1, T2 param2) where TReturn : class
@@ -211,7 +238,14 @@ namespace EveHQ.EveApi
 
         protected EveServiceResponse<TReturn> RunAsyncMethod<T1, T2, T3, T4, T5, T6, TReturn>(Func<T1, T2, T3, T4, T5, T6, Task<EveServiceResponse<TReturn>>> apiTask, T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6) where TReturn : class
         {
-            var task = apiTask(param1, param2, param3, param4, param5,param6);
+            var task = apiTask(param1, param2, param3, param4, param5, param6);
+            task.Wait();
+            return task.Result;
+        }
+
+        protected EveServiceResponse<TReturn> RunAsyncMethod<T1, T2, T3, T4, T5, T6, T7, TReturn>(Func<T1, T2, T3, T4, T5, T6, T7, Task<EveServiceResponse<TReturn>>> apiTask, T1 param1, T2 param2, T3 param3, T4 param4, T5 param5, T6 param6, T7 param7) where TReturn : class
+        {
+            var task = apiTask(param1, param2, param3, param4, param5, param6, param7);
             task.Wait();
             return task.Result;
         }

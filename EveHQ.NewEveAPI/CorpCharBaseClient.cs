@@ -1,51 +1,46 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="CorpCharBaseClient.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
-//  Copyright © 2005-2012  EveHQ Development Team
-//  
-//  This file (InformationClient.cs), is part of EveHQ.
-// 
+//  Copyright © 2005-2013  EveHQ Development Team
+//  This file (CorpCharBaseClient.cs), is part of EveHQ.
 //  EveHQ is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-// 
 //  EveHQ is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
-
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using EveHQ.Caching;
-using EveHQ.Common;
-using EveHQ.Common.Extensions;
-
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.EveApi
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Xml.Linq;
+
+    using EveHQ.Caching;
+    using EveHQ.Common;
+    using EveHQ.Common.Extensions;
+
     /// <summary>The information client.</summary>
     public abstract class CorpCharBaseClient : BaseApiClient
     {
         /// <summary>The _path prefix.</summary>
         private readonly string _pathPrefix;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="CorpCharBaseClient" /> class. Initializes a new instance of the
-        ///     CharacterClient class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the <see cref="CorpCharBaseClient"/> class. Initializes a new instance of the
+        ///     CharacterClient class.</summary>
         /// <param name="eveServiceLocation">location of the eve API web service</param>
         /// <param name="cacheProvider">root folder used for caching.</param>
         /// <param name="requestProvider">Request provider to use for this instance.</param>
         /// <param name="pathPrefix">prefix to add to url paths in requests</param>
-        protected internal CorpCharBaseClient(string eveServiceLocation, ICacheProvider cacheProvider,
-            IHttpRequestProvider requestProvider, string pathPrefix)
+        protected internal CorpCharBaseClient(string eveServiceLocation, ICacheProvider cacheProvider, IHttpRequestProvider requestProvider, string pathPrefix)
             : base(eveServiceLocation, cacheProvider, requestProvider)
         {
             _pathPrefix = pathPrefix;
@@ -54,21 +49,30 @@ namespace EveHQ.EveApi
         /// <summary>Gets the path prefix.</summary>
         protected string PathPrefix
         {
-            get { return _pathPrefix; }
+            get
+            {
+                return _pathPrefix;
+            }
         }
 
-        public EveServiceResponse<IEnumerable<AccountBalance>> AccountBalance(string keyId, string vCode, int characterId)
+        /// <summary>The account balance.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<AccountBalance>> AccountBalance(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(AccountBalanceAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(AccountBalanceAsync, keyId, vCode, characterId, responseMode);
         }
 
         /// <summary>Gets the balance of a character.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>Account balances.</returns>
-        public Task<EveServiceResponse<IEnumerable<AccountBalance>>> AccountBalanceAsync(string keyId, string vCode,
-            int characterId)
+        public Task<EveServiceResponse<IEnumerable<AccountBalance>>> AccountBalanceAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Against(keyId.IsNullOrWhiteSpace());
             Guard.Against(vCode.IsNullOrWhiteSpace());
@@ -79,23 +83,27 @@ namespace EveHQ.EveApi
 
             string cacheKey = cacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, methodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ParseBalanceResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, methodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseBalanceResponse);
         }
 
-
-        public EveServiceResponse<IEnumerable<AssetItem>> AssetList(string keyId, string vCode, int characterId)
+        /// <summary>The asset list.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<AssetItem>> AssetList(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(AssetListAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(AssetListAsync, keyId, vCode, characterId, responseMode);
         }
 
         /// <summary>Retrieves the given character's asset list.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>An enumerable collection of all items in the characters assets.</returns>
-        public Task<EveServiceResponse<IEnumerable<AssetItem>>> AssetListAsync(string keyId, string vCode,
-            int characterId)
+        public Task<EveServiceResponse<IEnumerable<AssetItem>>> AssetListAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Against(keyId.IsNullOrWhiteSpace());
             Guard.Against(vCode.IsNullOrWhiteSpace());
@@ -106,23 +114,27 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixHourCache, ParseAssetListResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixHourCache, responseMode, ParseAssetListResponse);
         }
 
-        public EveServiceResponse<IEnumerable<Contact>> ContactList(string keyId, string vCode, int characterId)
+        /// <summary>The contact list.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<Contact>> ContactList(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(ContactListAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(ContactListAsync, keyId, vCode, characterId, responseMode);
         }
-
 
         /// <summary>Retrieves the character's contact list</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The contact list for the given character</returns>
-        public Task<EveServiceResponse<IEnumerable<Contact>>> ContactListAsync(string keyId, string vCode,
-            int characterId)
+        public Task<EveServiceResponse<IEnumerable<Contact>>> ContactListAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Against(keyId.IsNullOrWhiteSpace());
             Guard.Against(vCode.IsNullOrWhiteSpace());
@@ -133,17 +145,16 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ParseContactListResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseContactListResponse);
         }
 
         /// <summary>Retrieves the collection of notifications from contacts.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The notification list for the given character</returns>
-        public Task<EveServiceResponse<IEnumerable<ContactNotification>>> ContactNotifications(string keyId,
-            string vCode, int characterId)
+        public Task<EveServiceResponse<IEnumerable<ContactNotification>>> ContactNotifications(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Against(keyId.IsNullOrWhiteSpace());
             Guard.Against(vCode.IsNullOrWhiteSpace());
@@ -154,23 +165,29 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ParseContactNotificationResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseContactNotificationResponse);
         }
 
-        public EveServiceResponse<IEnumerable<Contract>> Contracts(string keyId, string vCode, int characterId,
-            int contractId = 0)
+        /// <summary>The contracts.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="contractId">The contract id.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<Contract>> Contracts(string keyId, string vCode, int characterId, int contractId = 0, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(ContractsAsync, keyId, vCode, characterId, contractId);
+            return RunAsyncMethod(ContractsAsync, keyId, vCode, characterId, contractId, responseMode);
         }
+
         /// <summary>Retrieves the list of contracts</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <param name="contractId">[OPTIONAL] Only supply a value &gt; 0 if interested in a single contract.</param>
-        /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<Contract>>> ContractsAsync(string keyId, string vCode, int characterId,
-            int contractId = 0)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<Contract>>> ContractsAsync(string keyId, string vCode, int characterId, int contractId = 0, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Against(keyId.IsNullOrWhiteSpace());
             Guard.Against(vCode.IsNullOrWhiteSpace());
@@ -188,25 +205,29 @@ namespace EveHQ.EveApi
                 apiParams[ContractId] = contractId.ToInvariantString();
             }
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams,
-                cacheKey, ApiConstants.SixtyMinuteCache, ParseContractResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseContractResponse);
         }
 
-        public EveServiceResponse<IEnumerable<ContractItem>> ContractItems(string keyId, string vCode, int characterId,
-            long contractId)
+        /// <summary>The contract items.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="contractId">The contract id.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<ContractItem>> ContractItems(string keyId, string vCode, int characterId, long contractId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(ContractItemsAsync, keyId, vCode, characterId, contractId);
+            return RunAsyncMethod(ContractItemsAsync, keyId, vCode, characterId, contractId, responseMode);
         }
-
 
         /// <summary>Retrieves the list of contracts</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <param name="contractId">Contract ID to get items for.</param>
-        /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<ContractItem>>> ContractItemsAsync(string keyId, string vCode,
-            int characterId, long contractId)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<ContractItem>>> ContractItemsAsync(string keyId, string vCode, int characterId, long contractId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Against(keyId.IsNullOrWhiteSpace());
             Guard.Against(vCode.IsNullOrWhiteSpace());
@@ -222,17 +243,16 @@ namespace EveHQ.EveApi
             const string ContractId = "contractID";
             apiParams[ContractId] = contractId.ToInvariantString();
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams,
-                cacheKey, ApiConstants.SixtyMinuteCache, ParseContractItemResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseContractItemResponse);
         }
 
         /// <summary>Gets the character's factional warfare statistics.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>Factional warfare data.</returns>
-        public Task<EveServiceResponse<IEnumerable<ContractBid>>> ContractBids(string keyId, string vCode,
-            int characterId)
+        public Task<EveServiceResponse<IEnumerable<ContractBid>>> ContractBids(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Against(keyId.IsNullOrWhiteSpace());
             Guard.Against(vCode.IsNullOrWhiteSpace());
@@ -243,17 +263,16 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ProcessContractBidsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessContractBidsResponse);
         }
 
         /// <summary>Gets the character's factional warfare statistics.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>Factional warfare data.</returns>
-        public Task<EveServiceResponse<FactionalWarfareStats>> FactionalWarfareStatistics(string keyId, string vCode,
-            int characterId)
+        public Task<EveServiceResponse<FactionalWarfareStats>> FactionalWarfareStatistics(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Against(keyId.IsNullOrWhiteSpace());
             Guard.Against(vCode.IsNullOrWhiteSpace());
@@ -264,23 +283,27 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ParseFacWarfareResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseFacWarfareResponse);
         }
 
-        public EveServiceResponse<IEnumerable<IndustryJob>> IndustryJobs(string keyId, string vCode,
-            int characterId)
+        /// <summary>The industry jobs.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<IndustryJob>> IndustryJobs(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(IndustryJobsAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(IndustryJobsAsync, keyId, vCode, characterId, responseMode);
         }
 
         /// <summary>Gets the Industry Jobs for the given user.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>A collection of Industry Job data.</returns>
-        public Task<EveServiceResponse<IEnumerable<IndustryJob>>> IndustryJobsAsync(string keyId, string vCode,
-            int characterId)
+        public Task<EveServiceResponse<IEnumerable<IndustryJob>>> IndustryJobsAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Against(keyId.IsNullOrWhiteSpace());
             Guard.Against(vCode.IsNullOrWhiteSpace());
@@ -291,23 +314,27 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ParseIndustryJobsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseIndustryJobsResponse);
         }
 
-        public EveServiceResponse<IEnumerable<MarketOrder>> MarketOrders(string keyId, string vCode, int characterId)
+        /// <summary>The market orders.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<MarketOrder>> MarketOrders(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(MarketOrdersAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(MarketOrdersAsync, keyId, vCode, characterId, responseMode);
         }
-
 
         /// <summary>Retrieves the market orders for the character.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>a collection of market orders</returns>
-        public Task<EveServiceResponse<IEnumerable<MarketOrder>>> MarketOrdersAsync(string keyId, string vCode,
-            int characterId)
+        public Task<EveServiceResponse<IEnumerable<MarketOrder>>> MarketOrdersAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -318,16 +345,16 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ProcessMarketOrdersResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessMarketOrdersResponse);
         }
 
         /// <summary>Retrieves a collection of a character's medals</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>a collection of medals.</returns>
-        public Task<EveServiceResponse<IEnumerable<Medal>>> Medals(string keyId, string vCode, int characterId)
+        public Task<EveServiceResponse<IEnumerable<Medal>>> Medals(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -338,16 +365,16 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ProcessMedalsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessMedalsResponse);
         }
 
         /// <summary>The research.</summary>
         /// <param name="keyId">The key id.</param>
         /// <param name="vCode">The v code.</param>
         /// <param name="characterId">The character id.</param>
-        /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<Research>>> Research(string keyId, string vCode, int characterId)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<Research>>> Research(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -358,16 +385,16 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ProcessResearchResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessResearchResponse);
         }
 
         /// <summary>The skill in training.</summary>
         /// <param name="keyId">The key id.</param>
         /// <param name="vCode">The v code.</param>
         /// <param name="characterId">The character id.</param>
-        /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<SkillInTraining>> SkillInTraining(string keyId, string vCode, int characterId)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<SkillInTraining>> SkillInTraining(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -378,27 +405,27 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ProcessSkillInTrainingResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessSkillInTrainingResponse);
         }
 
         /// <summary>The skill queue.</summary>
         /// <param name="keyId">The key id.</param>
         /// <param name="vCode">The v code.</param>
         /// <param name="characterId">The character id.</param>
-        /// <returns>The <see cref="Task" />.</returns>
-        public EveServiceResponse<IEnumerable<QueuedSkill>> SkillQueue(string keyId, string vCode, int characterId)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public EveServiceResponse<IEnumerable<QueuedSkill>> SkillQueue(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(SkillQueueAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(SkillQueueAsync, keyId, vCode, characterId, responseMode);
         }
 
         /// <summary>The skill queue.</summary>
         /// <param name="keyId">The key id.</param>
         /// <param name="vCode">The v code.</param>
         /// <param name="characterId">The character id.</param>
-        /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<QueuedSkill>>> SkillQueueAsync(string keyId, string vCode,
-            int characterId)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<QueuedSkill>>> SkillQueueAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -409,23 +436,27 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ProcessSkillQueueResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessSkillQueueResponse);
         }
 
-
-        public EveServiceResponse<IEnumerable<NpcStanding>> NPCStandings(string keyId, string vCode, int characterId)
+        /// <summary>The npc standings.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<NpcStanding>> NPCStandings(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(NPCStandingsAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(NPCStandingsAsync, keyId, vCode, characterId, responseMode);
         }
 
         /// <summary>The standings.</summary>
         /// <param name="keyId">The key id.</param>
         /// <param name="vCode">The v code.</param>
         /// <param name="characterId">The character id.</param>
-        /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<NpcStanding>>> NPCStandingsAsync(string keyId, string vCode,
-            int characterId)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<NpcStanding>>> NPCStandingsAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -436,16 +467,30 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null,
-                cacheKey, ApiConstants.SixtyMinuteCache, ProcessStandingsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessStandingsResponse);
         }
 
-        //TODO: Wallet methods require support for wallet divisions
+        // TODO: Wallet methods require support for wallet divisions
 
-
-        public EveServiceResponse<IEnumerable<WalletJournalEntry>> WalletJournal(string keyId, string vCode, int characterId, int accountKey, long? fromId = null, int? rowCount = null)
+        /// <summary>The wallet journal.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="accountKey">The account key.</param>
+        /// <param name="fromId">The from id.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<WalletJournalEntry>> WalletJournal(
+            string keyId, 
+            string vCode, 
+            int characterId, 
+            int accountKey, 
+            long? fromId = null, 
+            int? rowCount = null, 
+            ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(WalletJournalAsync, keyId, vCode, characterId, accountKey, fromId, rowCount);
+            return RunAsyncMethod(WalletJournalAsync, keyId, vCode, characterId, accountKey, fromId, rowCount, responseMode);
         }
 
         /// <summary>The wallet journal.</summary>
@@ -455,8 +500,16 @@ namespace EveHQ.EveApi
         /// <param name="accountKey"></param>
         /// <param name="fromId">The from id.</param>
         /// <param name="rowCount">The row count.</param>
-        /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<WalletJournalEntry>>> WalletJournalAsync(string keyId, string vCode, int characterId, int accountKey, long? fromId = null, int? rowCount = null)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<WalletJournalEntry>>> WalletJournalAsync(
+            string keyId, 
+            string vCode, 
+            int characterId, 
+            int accountKey, 
+            long? fromId = null, 
+            int? rowCount = null, 
+            ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -479,18 +532,34 @@ namespace EveHQ.EveApi
             {
                 apiParams[FromId] = fromId.Value.ToInvariantString();
             }
+
             if (rowCount != null)
             {
                 apiParams[RowCount] = rowCount.Value.ToInvariantString();
             }
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams,
-                cacheKey, ApiConstants.SixtyMinuteCache, ProcessWalletJournalResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessWalletJournalResponse);
         }
 
-        public EveServiceResponse<IEnumerable<WalletTransaction>> WalletTransactions(string keyId, string vCode, int characterId, int accountKey, long? fromId = null, int? rowCount = null)
+        /// <summary>The wallet transactions.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="accountKey">The account key.</param>
+        /// <param name="fromId">The from id.</param>
+        /// <param name="rowCount">The row count.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<WalletTransaction>> WalletTransactions(
+            string keyId, 
+            string vCode, 
+            int characterId, 
+            int accountKey, 
+            long? fromId = null, 
+            int? rowCount = null, 
+            ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(WalletTransactionsAsync, keyId, vCode, characterId, accountKey, fromId, rowCount);
+            return RunAsyncMethod(WalletTransactionsAsync, keyId, vCode, characterId, accountKey, fromId, rowCount, responseMode);
         }
 
         /// <summary>The wallet transactions.</summary>
@@ -500,8 +569,16 @@ namespace EveHQ.EveApi
         /// <param name="accountKey"></param>
         /// <param name="fromId">The from id.</param>
         /// <param name="rowCount">The row count.</param>
-        /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<WalletTransaction>>> WalletTransactionsAsync(string keyId, string vCode, int characterId, int accountKey, long? fromId = null, int? rowCount = null)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<WalletTransaction>>> WalletTransactionsAsync(
+            string keyId, 
+            string vCode, 
+            int characterId, 
+            int accountKey, 
+            long? fromId = null, 
+            int? rowCount = null, 
+            ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -530,8 +607,7 @@ namespace EveHQ.EveApi
                 apiParams[RowCount] = rowCount.Value.ToInvariantString();
             }
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams,
-                cacheKey, ApiConstants.SixtyMinuteCache, ProcessWalletTransctionResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessWalletTransctionResponse);
         }
 
         /// <summary>The process wallet journal response.</summary>
@@ -541,10 +617,10 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new WalletTransaction[0]; //empty collection
+                return new WalletTransaction[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let date = row.Attribute("transactionDateTime").Value.ToDateTimeOffset(0)
                     let transactionId = row.Attribute("transactionID").Value.ToInt32()
@@ -558,27 +634,24 @@ namespace EveHQ.EveApi
                     let stationNane = row.Attribute("stationName").Value
                     let transactionType = row.Attribute("transactionType").Value
                     let transactionFor = row.Attribute("transactionFor").Value
-                    let journalEntryId =
-                        row.Attribute("journalTransactionID") != null
-                            ? row.Attribute("journalTransactionID").Value.ToInt64()
-                            : 0
+                    let journalEntryId = row.Attribute("journalTransactionID") != null ? row.Attribute("journalTransactionID").Value.ToInt64() : 0
                     select
                         new WalletTransaction
-                        {
-                            ClientId = clientId,
-                            ClientName = clientName,
-                            Price = price,
-                            Quantity = quantity,
-                            StationId = stationId,
-                            StationName = stationNane,
-                            TransactionDateTime = date,
-                            TransactionFor = transactionFor,
-                            TransactionId = transactionId,
-                            TransactionType = transactionType,
-                            TypeId = typeId,
-                            TypeName = typeName,
-                            WalletJournalEntryId = journalEntryId
-                        });
+                            {
+                                ClientId = clientId, 
+                                ClientName = clientName, 
+                                Price = price, 
+                                Quantity = quantity, 
+                                StationId = stationId, 
+                                StationName = stationNane, 
+                                TransactionDateTime = date, 
+                                TransactionFor = transactionFor, 
+                                TransactionId = transactionId, 
+                                TransactionType = transactionType, 
+                                TypeId = typeId, 
+                                TypeName = typeName, 
+                                WalletJournalEntryId = journalEntryId
+                            };
         }
 
         /// <summary>The process wallet journal response.</summary>
@@ -588,10 +661,10 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new WalletJournalEntry[0]; //empty collection
+                return new WalletJournalEntry[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let date = row.Attribute("date").Value.ToDateTimeOffset(0)
                     let refId = row.Attribute("refID").Value.ToInt64()
@@ -609,22 +682,22 @@ namespace EveHQ.EveApi
                     let taxAmount = row.Attribute("taxAmount").Value.ToDouble()
                     select
                         new WalletJournalEntry
-                        {
-                            Amount = amount,
-                            ArgumentId = argId,
-                            ArgumentName = argName,
-                            Balance = balance,
-                            Date = date,
-                            FirstPartyId = firstId,
-                            FirstPartyName = firstName,
-                            Reason = reason,
-                            ReferenceType = refType,
-                            RefId = refId,
-                            SecondPartyId = secondId,
-                            SecondPartyName = secondName,
-                            TaxAmount = taxAmount,
-                            TaxReceiverId = taxReceiverId
-                        });
+                            {
+                                Amount = amount, 
+                                ArgumentId = argId, 
+                                ArgumentName = argName, 
+                                Balance = balance, 
+                                Date = date, 
+                                FirstPartyId = firstId, 
+                                FirstPartyName = firstName, 
+                                Reason = reason, 
+                                ReferenceType = refType, 
+                                RefId = refId, 
+                                SecondPartyId = secondId, 
+                                SecondPartyName = secondName, 
+                                TaxAmount = taxAmount, 
+                                TaxReceiverId = taxReceiverId
+                            };
         }
 
         /// <summary>The process standings response.</summary>
@@ -634,17 +707,17 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new NpcStanding[0]; //empty collection
+                return new NpcStanding[0]; // empty collection
             }
 
-            return (from standings in result.Elements("characterNPCStandings")
+            return from standings in result.Elements("characterNPCStandings")
                     from rowset in standings.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let type = rowset.Attribute("name").Value.ToEnum<NpcType>()
                     let fromId = row.Attribute("fromID").Value.ToInt32()
                     let fromName = row.Attribute("fromName").Value
                     let standing = row.Attribute("standing").Value.ToDouble()
-                    select new NpcStanding { FromId = fromId, FromName = fromName, Kind = type, Standing = standing });
+                    select new NpcStanding { FromId = fromId, FromName = fromName, Kind = type, Standing = standing };
         }
 
         /// <summary>The process skill queue response.</summary>
@@ -654,10 +727,10 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new QueuedSkill[0]; //empty collection
+                return new QueuedSkill[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let position = row.Attribute("queuePosition").Value.ToInt32()
                     let type = row.Attribute("typeID").Value.ToInt32()
@@ -666,27 +739,17 @@ namespace EveHQ.EveApi
                     let endSP = row.Attribute("endSP").Value.ToInt32()
                     let startTime = row.Attribute("startTime").Value.ToDateTimeOffset(0)
                     let endTime = row.Attribute("endTime").Value.ToDateTimeOffset(0)
-                    select
-                        new QueuedSkill
-                        {
-                            EndSP = endSP,
-                            EndTime = endTime,
-                            Level = level,
-                            QueuePosition = position,
-                            StartSP = startSP,
-                            StartTime = startTime,
-                            TypeId = type
-                        });
+                    select new QueuedSkill { EndSP = endSP, EndTime = endTime, Level = level, QueuePosition = position, StartSP = startSP, StartTime = startTime, TypeId = type };
         }
 
         /// <summary>The process skill in training response.</summary>
         /// <param name="result">The result.</param>
-        /// <returns>The <see cref="EveApi.SkillInTraining" />.</returns>
+        /// <returns>The <see cref="EveApi.SkillInTraining"/>.</returns>
         private static SkillInTraining ProcessSkillInTrainingResponse(XElement result)
         {
             if (result == null)
             {
-                return null; //empty
+                return null; // empty
             }
 
             var skill = new SkillInTraining();
@@ -714,25 +777,17 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new Research[0]; //empty collection
+                return new Research[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let agent = row.Attribute("agentID").Value.ToInt32()
                     let skillType = row.Attribute("skillTypeID").Value.ToInt32()
                     let startDate = row.Attribute("researchStartDate").Value.ToDateTimeOffset(0)
                     let pointsPerDay = row.Attribute("pointsPerDay").Value.ToDouble()
                     let pointsRemaining = row.Attribute("remainderPoints").Value.ToDouble()
-                    select
-                        new Research
-                        {
-                            AgentId = agent,
-                            PointsPerDay = pointsPerDay,
-                            RemainingPoints = pointsRemaining,
-                            ResearchStartDate = startDate,
-                            SkillTypeId = skillType
-                        });
+                    select new Research { AgentId = agent, PointsPerDay = pointsPerDay, RemainingPoints = pointsRemaining, ResearchStartDate = startDate, SkillTypeId = skillType };
         }
 
         /// <summary>Processes the notifications response.</summary>
@@ -742,25 +797,17 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new ContractBid[0]; //empty collection
+                return new ContractBid[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let bidId = row.Attribute("bidID").Value.ToInt64()
                     let contractId = row.Attribute("contractID").Value.ToInt64()
                     let bidder = row.Attribute("bidderID").Value.ToInt64()
                     let date = row.Attribute("dateBid").Value.ToDateTimeOffset(0)
                     let amount = row.Attribute("amount").Value.ToDouble()
-                    select
-                        new ContractBid
-                        {
-                            Amount = amount,
-                            BidDateTime = date,
-                            BidderId = bidder,
-                            BidId = bidId,
-                            ContractId = contractId
-                        });
+                    select new ContractBid { Amount = amount, BidDateTime = date, BidderId = bidder, BidId = bidId, ContractId = contractId };
         }
 
         /// <summary>Processes the medals xml</summary>
@@ -770,10 +817,10 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new Medal[0]; //empty collection
+                return new Medal[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let medalId = row.Attribute("medalID").Value.ToInt32()
                     let reason = row.Attribute("reason").Value
@@ -782,20 +829,8 @@ namespace EveHQ.EveApi
                     let issued = row.Attribute("issued").Value.ToDateTimeOffset(0)
                     let corpId = row.Attribute("corporationID") != null ? row.Attribute("corporationID").Value.ToInt32() : 0
                     let title = row.Attribute("title") != null ? row.Attribute("title").Value : string.Empty
-                    let description =
-                        row.Attribute("description") != null ? row.Attribute("description").Value : string.Empty
-                    select
-                        new Medal
-                        {
-                            MedalId = medalId,
-                            Reason = reason,
-                            Status = status,
-                            IssuerId = issuerId,
-                            DateIssued = issued,
-                            CorporationId = corpId,
-                            Title = title,
-                            Description = description
-                        });
+                    let description = row.Attribute("description") != null ? row.Attribute("description").Value : string.Empty
+                    select new Medal { MedalId = medalId, Reason = reason, Status = status, IssuerId = issuerId, DateIssued = issued, CorporationId = corpId, Title = title, Description = description };
         }
 
         /// <summary>Processes the market order xml into objects.</summary>
@@ -805,10 +840,10 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new MarketOrder[0]; //empty collection
+                return new MarketOrder[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let orderId = row.Attribute("orderID").Value.ToInt32()
                     let charId = row.Attribute("charID").Value.ToInt32()
@@ -816,8 +851,7 @@ namespace EveHQ.EveApi
                     let quantityEntered = row.Attribute("volEntered").Value.ToInt32()
                     let quantityRemaining = row.Attribute("volRemaining").Value.ToInt32()
                     let minVolumn = row.Attribute("minVolume").Value.ToInt32()
-                    let orderState =
-                        (MarketOrderState)Enum.Parse(typeof(MarketOrderState), row.Attribute("orderState").Value)
+                    let orderState = (MarketOrderState)Enum.Parse(typeof(MarketOrderState), row.Attribute("orderState").Value)
                     let typeId = row.Attribute("typeID").Value.ToInt32()
                     let range = row.Attribute("range").Value.ToInt32()
                     let accountKey = row.Attribute("accountKey").Value.ToInt32()
@@ -828,23 +862,23 @@ namespace EveHQ.EveApi
                     let dateIssued = row.Attribute("issued").Value.ToDateTimeOffset(0)
                     select
                         new MarketOrder
-                        {
-                            OrderId = orderId,
-                            CharId = charId,
-                            StationId = stationId,
-                            QuantityEntered = quantityEntered,
-                            QuantityRemaining = quantityRemaining,
-                            MinQuantity = minVolumn,
-                            OrderState = orderState,
-                            TypeId = typeId,
-                            Range = range,
-                            AccountKey = accountKey,
-                            Duration = duration,
-                            Escrow = escrow,
-                            Price = price,
-                            IsBuyOrder = isBuyOrder,
-                            DateIssued = dateIssued
-                        });
+                            {
+                                OrderId = orderId, 
+                                CharId = charId, 
+                                StationId = stationId, 
+                                QuantityEntered = quantityEntered, 
+                                QuantityRemaining = quantityRemaining, 
+                                MinQuantity = minVolumn, 
+                                OrderState = orderState, 
+                                TypeId = typeId, 
+                                Range = range, 
+                                AccountKey = accountKey, 
+                                Duration = duration, 
+                                Escrow = escrow, 
+                                Price = price, 
+                                IsBuyOrder = isBuyOrder, 
+                                DateIssued = dateIssued
+                            };
         }
 
         /// <summary>Processes the xml response from the web service for the industry jobs method.</summary>
@@ -854,10 +888,10 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new IndustryJob[0]; //empty collection
+                return new IndustryJob[0]; // empty collection
             }
 
-            IEnumerable<IndustryJob> jobs = (from rowset in result.Elements(ApiConstants.Rowset)
+            IEnumerable<IndustryJob> jobs = from rowset in result.Elements(ApiConstants.Rowset)
                                              from row in rowset.Elements(ApiConstants.Row)
                                              let jobId = row.Attribute("jobID").Value.ToInt64()
                                              let assemblyLineId = row.Attribute("assemblyLineID").Value.ToInt64()
@@ -867,8 +901,7 @@ namespace EveHQ.EveApi
                                              let installedItemQuantity = row.Attribute("installedItemQuantity").Value.ToInt32()
                                              let installedItemProductionLevel = row.Attribute("installedItemProductivityLevel").Value.ToInt32()
                                              let installedItemMaterialLevel = row.Attribute("installedItemMaterialLevel").Value.ToInt32()
-                                             let installedItemLicensedProductionRunsRemaining =
-                                                 row.Attribute("installedItemLicensedProductionRunsRemaining").Value.ToInt32()
+                                             let installedItemLicensedProductionRunsRemaining = row.Attribute("installedItemLicensedProductionRunsRemaining").Value.ToInt32()
                                              let outputLocationId = row.Attribute("outputLocationID").Value.ToInt64()
                                              let installerId = row.Attribute("installerID").Value.ToInt64()
                                              let runs = row.Attribute("runs").Value.ToInt32()
@@ -894,40 +927,40 @@ namespace EveHQ.EveApi
                                              let pauseProductionTime = row.Attribute("pauseProductionTime").Value.ToDateTimeOffset(0)
                                              select
                                                  new IndustryJob
-                                                 {
-                                                     JobId = jobId,
-                                                     AssemblyLineId = assemblyLineId,
-                                                     ContainerId = containerId,
-                                                     InstalledItemId = installedItemId,
-                                                     InstalledItemLocationId = installedItemLocationId,
-                                                     InstalledItemQuantity = installedItemQuantity,
-                                                     InstalledItemProductivityLevel = installedItemProductionLevel,
-                                                     InstalledItemMaterialLevel = installedItemMaterialLevel,
-                                                     InstalledItemLicensedProductionRunsRemaining = installedItemLicensedProductionRunsRemaining,
-                                                     OutputLocationId = outputLocationId,
-                                                     InstallerId = installerId,
-                                                     Runs = runs,
-                                                     LicensedProductionRuns = licensedProductionRuns,
-                                                     InstalledInSolarSystemId = installedInSolarSystemId,
-                                                     ContainerLocationId = containerLocationId,
-                                                     MaterialMultiplier = materialMultiplier,
-                                                     CharMaterialMultiplier = charMaterialMultiplier,
-                                                     TimeMultiplier = timeMultiplier,
-                                                     CharTimeMultiplier = charTimeMultiplier,
-                                                     InstalledItemTypeId = installedItemTypeId,
-                                                     OutputTypeId = outputTypeId,
-                                                     ContainerTypeId = containerTypeId,
-                                                     InstalledItemCopy = installedItemCopy,
-                                                     Completed = completed,
-                                                     CompletedSuccessfully = completedSuccessfully,
-                                                     InstalledItemFlag = installedItemFlag,
-                                                     OutputFlag = outputFlag,
-                                                     ActivityId = activityId,
-                                                     InstallTime = installTime,
-                                                     BeginProductionTime = beginProductionTime,
-                                                     EndProductionTime = endProductionTime,
-                                                     PauseProductionTime = pauseProductionTime
-                                                 });
+                                                     {
+                                                         JobId = jobId, 
+                                                         AssemblyLineId = assemblyLineId, 
+                                                         ContainerId = containerId, 
+                                                         InstalledItemId = installedItemId, 
+                                                         InstalledItemLocationId = installedItemLocationId, 
+                                                         InstalledItemQuantity = installedItemQuantity, 
+                                                         InstalledItemProductivityLevel = installedItemProductionLevel, 
+                                                         InstalledItemMaterialLevel = installedItemMaterialLevel, 
+                                                         InstalledItemLicensedProductionRunsRemaining = installedItemLicensedProductionRunsRemaining, 
+                                                         OutputLocationId = outputLocationId, 
+                                                         InstallerId = installerId, 
+                                                         Runs = runs, 
+                                                         LicensedProductionRuns = licensedProductionRuns, 
+                                                         InstalledInSolarSystemId = installedInSolarSystemId, 
+                                                         ContainerLocationId = containerLocationId, 
+                                                         MaterialMultiplier = materialMultiplier, 
+                                                         CharMaterialMultiplier = charMaterialMultiplier, 
+                                                         TimeMultiplier = timeMultiplier, 
+                                                         CharTimeMultiplier = charTimeMultiplier, 
+                                                         InstalledItemTypeId = installedItemTypeId, 
+                                                         OutputTypeId = outputTypeId, 
+                                                         ContainerTypeId = containerTypeId, 
+                                                         InstalledItemCopy = installedItemCopy, 
+                                                         Completed = completed, 
+                                                         CompletedSuccessfully = completedSuccessfully, 
+                                                         InstalledItemFlag = installedItemFlag, 
+                                                         OutputFlag = outputFlag, 
+                                                         ActivityId = activityId, 
+                                                         InstallTime = installTime, 
+                                                         BeginProductionTime = beginProductionTime, 
+                                                         EndProductionTime = endProductionTime, 
+                                                         PauseProductionTime = pauseProductionTime
+                                                     };
 
             return jobs;
         }
@@ -957,21 +990,20 @@ namespace EveHQ.EveApi
             int victoryPointsTotal = result.Element("victoryPointsTotal").Value.ToInt32();
 
             // ReSharper restore PossibleNullReferenceException
-
             return new FactionalWarfareStats
-            {
-                FactionId = factionId,
-                FactionName = factionName,
-                Enlisted = enlisted,
-                CurrentRank = currentRank,
-                HighestRank = highestRank,
-                KillsYesterday = killsYesterday,
-                KillsLastWeek = killsLastWeek,
-                KillsTotal = killsTotal,
-                VictoryPointsYesterday = victoryPointsYesterday,
-                VictoryPointsLastWeek = victoryPointsLastWeek,
-                VictoryPointsTotal = victoryPointsTotal
-            };
+                       {
+                           FactionId = factionId, 
+                           FactionName = factionName, 
+                           Enlisted = enlisted, 
+                           CurrentRank = currentRank, 
+                           HighestRank = highestRank, 
+                           KillsYesterday = killsYesterday, 
+                           KillsLastWeek = killsLastWeek, 
+                           KillsTotal = killsTotal, 
+                           VictoryPointsYesterday = victoryPointsYesterday, 
+                           VictoryPointsLastWeek = victoryPointsLastWeek, 
+                           VictoryPointsTotal = victoryPointsTotal
+                       };
         }
 
         /// <summary>Processes the response for the Contracts method.</summary>
@@ -984,25 +1016,15 @@ namespace EveHQ.EveApi
                 return new ContractItem[0]; // return empty collection... no data.
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let record = row.Attribute("recordID").Value.ToInt64()
                     let type = row.Attribute("typeID").Value.ToInt32()
                     let quantity = row.Attribute("quantity").Value.ToInt64()
-                    let rawQuantity =
-                        row.Attribute("rawQuantity") != null ? row.Attribute("rawQuantity").Value.ToInt32() : -1
+                    let rawQuantity = row.Attribute("rawQuantity") != null ? row.Attribute("rawQuantity").Value.ToInt32() : -1
                     let single = row.Attribute("singleton").Value.ToBoolean()
                     let included = row.Attribute("included").Value.ToBoolean()
-                    select
-                        new ContractItem
-                        {
-                            IsIncluded = included,
-                            IsSingleton = single,
-                            Quantity = quantity,
-                            RawQuantity = rawQuantity,
-                            RecordId = record,
-                            TypeId = type
-                        });
+                    select new ContractItem { IsIncluded = included, IsSingleton = single, Quantity = quantity, RawQuantity = rawQuantity, RecordId = record, TypeId = type };
         }
 
         /// <summary>Processes the response for the Contracts method.</summary>
@@ -1014,11 +1036,12 @@ namespace EveHQ.EveApi
             {
                 return new Contract[0]; // return empty collection... no data.
             }
+
             ContractType tempType;
             ContractStatus tempStatus;
             ContractAvailability tempAvail;
             DateTime tempDate;
-            IEnumerable<Contract> contracts = (from rowset in result.Elements(ApiConstants.Rowset)
+            IEnumerable<Contract> contracts = from rowset in result.Elements(ApiConstants.Rowset)
                                                from row in rowset.Elements(ApiConstants.Row)
                                                let contractId = int.Parse(row.Attribute("contractID").Value)
                                                let issuerId = int.Parse(row.Attribute("issuerID").Value)
@@ -1028,30 +1051,14 @@ namespace EveHQ.EveApi
                                                let startStationId = int.Parse(row.Attribute("startStationID").Value)
                                                let endStationId = int.Parse(row.Attribute("endStationID").Value)
                                                let type = Enum.TryParse(row.Attribute("type").Value, out tempType) ? tempType : ContractType.Unknown
-                                               let status =
-                                                   Enum.TryParse(row.Attribute("status").Value, out tempStatus) ? tempStatus : ContractStatus.Unknown
+                                               let status = Enum.TryParse(row.Attribute("status").Value, out tempStatus) ? tempStatus : ContractStatus.Unknown
                                                let title = row.Attribute("title").Value
                                                let forCorp = int.Parse(row.Attribute("forCorp").Value) == 1
-                                               let availability =
-                                                   Enum.TryParse(row.Attribute("availability").Value, out tempAvail)
-                                                       ? tempAvail
-                                                       : ContractAvailability.Unknown
-                                               let dateIssued =
-                                                   DateTime.TryParse(row.Attribute("dateIssued").Value, out tempDate)
-                                                       ? new DateTimeOffset(tempDate, TimeSpan.Zero)
-                                                       : DateTimeOffset.MinValue
-                                               let dateExpired =
-                                                   DateTime.TryParse(row.Attribute("dateExpired").Value, out tempDate)
-                                                       ? new DateTimeOffset(tempDate, TimeSpan.Zero)
-                                                       : DateTimeOffset.MinValue
-                                               let dateAccepted =
-                                                   DateTime.TryParse(row.Attribute("dateAccepted").Value, out tempDate)
-                                                       ? new DateTimeOffset(tempDate, TimeSpan.Zero)
-                                                       : DateTimeOffset.MinValue
-                                               let dateCompleted =
-                                                   DateTime.TryParse(row.Attribute("dateCompleted").Value, out tempDate)
-                                                       ? new DateTimeOffset(tempDate, TimeSpan.Zero)
-                                                       : DateTimeOffset.MinValue
+                                               let availability = Enum.TryParse(row.Attribute("availability").Value, out tempAvail) ? tempAvail : ContractAvailability.Unknown
+                                               let dateIssued = DateTime.TryParse(row.Attribute("dateIssued").Value, out tempDate) ? new DateTimeOffset(tempDate, TimeSpan.Zero) : DateTimeOffset.MinValue
+                                               let dateExpired = DateTime.TryParse(row.Attribute("dateExpired").Value, out tempDate) ? new DateTimeOffset(tempDate, TimeSpan.Zero) : DateTimeOffset.MinValue
+                                               let dateAccepted = DateTime.TryParse(row.Attribute("dateAccepted").Value, out tempDate) ? new DateTimeOffset(tempDate, TimeSpan.Zero) : DateTimeOffset.MinValue
+                                               let dateCompleted = DateTime.TryParse(row.Attribute("dateCompleted").Value, out tempDate) ? new DateTimeOffset(tempDate, TimeSpan.Zero) : DateTimeOffset.MinValue
                                                let numDate = int.Parse(row.Attribute("numDays").Value)
                                                let price = double.Parse(row.Attribute("price").Value)
                                                let reward = double.Parse(row.Attribute("reward").Value)
@@ -1060,30 +1067,30 @@ namespace EveHQ.EveApi
                                                let volume = double.Parse(row.Attribute("volume").Value)
                                                select
                                                    new Contract
-                                                   {
-                                                       ContractId = contractId,
-                                                       IssuerId = issuerId,
-                                                       IssuserCorpId = issuerCorpId,
-                                                       AssigneeId = assigneeId,
-                                                       AcceptorId = acceptorId,
-                                                       StartStationId = startStationId,
-                                                       EndStationId = endStationId,
-                                                       Type = type,
-                                                       Status = status,
-                                                       Title = title,
-                                                       ForCorp = forCorp,
-                                                       Availability = availability,
-                                                       DateIssued = dateIssued,
-                                                       DateExpired = dateExpired,
-                                                       DateAccepted = dateAccepted,
-                                                       NumberOfDays = numDate,
-                                                       DateCompleted = dateCompleted,
-                                                       Price = price,
-                                                       Reward = reward,
-                                                       Collateral = collateral,
-                                                       Buyout = buyout,
-                                                       Volume = volume
-                                                   });
+                                                       {
+                                                           ContractId = contractId, 
+                                                           IssuerId = issuerId, 
+                                                           IssuserCorpId = issuerCorpId, 
+                                                           AssigneeId = assigneeId, 
+                                                           AcceptorId = acceptorId, 
+                                                           StartStationId = startStationId, 
+                                                           EndStationId = endStationId, 
+                                                           Type = type, 
+                                                           Status = status, 
+                                                           Title = title, 
+                                                           ForCorp = forCorp, 
+                                                           Availability = availability, 
+                                                           DateIssued = dateIssued, 
+                                                           DateExpired = dateExpired, 
+                                                           DateAccepted = dateAccepted, 
+                                                           NumberOfDays = numDate, 
+                                                           DateCompleted = dateCompleted, 
+                                                           Price = price, 
+                                                           Reward = reward, 
+                                                           Collateral = collateral, 
+                                                           Buyout = buyout, 
+                                                           Volume = volume
+                                                       };
 
             return contracts;
         }
@@ -1098,24 +1105,22 @@ namespace EveHQ.EveApi
                 return new ContactNotification[0]; // return empty collection... no data.
             }
 
-            IEnumerable<ContactNotification> notifications = (from rowset in result.Elements(ApiConstants.Rowset)
+            IEnumerable<ContactNotification> notifications = from rowset in result.Elements(ApiConstants.Rowset)
                                                               from row in rowset.Elements(ApiConstants.Row)
                                                               let notificationId = int.Parse(row.Attribute("notificationID").Value)
                                                               let senderId = int.Parse(row.Attribute("senderID").Value)
                                                               let senderName = row.Attribute("senderName").Value
-                                                              let sentDate =
-                                                                  new DateTimeOffset(DateTime.Parse(row.Attribute("sentDate").Value, CultureInfo.InvariantCulture),
-                                                                      TimeSpan.Zero)
+                                                              let sentDate = new DateTimeOffset(DateTime.Parse(row.Attribute("sentDate").Value, CultureInfo.InvariantCulture), TimeSpan.Zero)
                                                               let messageData = row.Attribute("messageData").Value
                                                               select
                                                                   new ContactNotification
-                                                                  {
-                                                                      NotificationId = notificationId,
-                                                                      SenderId = senderId,
-                                                                      SenderName = senderName,
-                                                                      SentDate = sentDate,
-                                                                      MessageData = messageData
-                                                                  });
+                                                                      {
+                                                                          NotificationId = notificationId, 
+                                                                          SenderId = senderId, 
+                                                                          SenderName = senderName, 
+                                                                          SentDate = sentDate, 
+                                                                          MessageData = messageData
+                                                                      };
             return notifications;
         }
 
@@ -1135,19 +1140,10 @@ namespace EveHQ.EveApi
                    from row in rowset.Elements(ApiConstants.Row)
                    let contactId = int.Parse(row.Attribute("contactID").Value)
                    let contactName = row.Attribute("contactName").Value
-                   let isInWatchList =
-                       row.Attributes("inWatchlist").Any() && bool.Parse(row.Attribute("inWatchlist").Value)
+                   let isInWatchList = row.Attributes("inWatchlist").Any() && bool.Parse(row.Attribute("inWatchlist").Value)
                    let standing = int.Parse(row.Attribute("standing").Value)
                    let kind = rowset.Attribute("name").Value.ToEnum<ContactType>()
-                   select
-                       new Contact
-                       {
-                           ContactId = contactId,
-                           ContactType = kind,
-                           ContactName = contactName,
-                           IsInWatchList = isInWatchList,
-                           Standing = standing
-                       };
+                   select new Contact { ContactId = contactId, ContactType = kind, ContactName = contactName, IsInWatchList = isInWatchList, Standing = standing };
         }
 
         /// <summary>Parses the asset list response xml into C# objects.</summary>
@@ -1179,12 +1175,12 @@ namespace EveHQ.EveApi
 
             return rowset.Elements().Select(
                 row =>
-                {
-                    int accountId = row.Attribute(ApiConstants.AccountId).Value.ToInt32();
-                    int accountKey = row.Attribute(ApiConstants.AccountKey).Value.ToInt32();
-                    double balance = row.Attribute(ApiConstants.Balance).Value.ToDouble();
-                    return new AccountBalance { AccountId = accountId, AccountKey = accountKey, Balance = balance };
-                });
+                    {
+                        int accountId = row.Attribute(ApiConstants.AccountId).Value.ToInt32();
+                        int accountKey = row.Attribute(ApiConstants.AccountKey).Value.ToInt32();
+                        double balance = row.Attribute(ApiConstants.Balance).Value.ToDouble();
+                        return new AccountBalance { AccountId = accountId, AccountKey = accountKey, Balance = balance };
+                    });
         }
 
         /// <summary>Creates a single AssetItem from xml.</summary>
@@ -1221,17 +1217,17 @@ namespace EveHQ.EveApi
             }
 
             return new AssetItem
-            {
-                ItemId = itemId,
-                LocationId = locationId,
-                TypeId = typeId,
-                Quantity = quantity,
-                RawQuantity = rawQuantity,
-                Flag = flag,
-                Singleton = single,
-                Contents = children,
-                ParentItemId = parentId
-            };
+                       {
+                           ItemId = itemId, 
+                           LocationId = locationId, 
+                           TypeId = typeId, 
+                           Quantity = quantity, 
+                           RawQuantity = rawQuantity, 
+                           Flag = flag, 
+                           Singleton = single, 
+                           Contents = children, 
+                           ParentItemId = parentId
+                       };
         }
     }
 }

@@ -26,12 +26,12 @@ namespace EveHQ.EveApi
         {
         }
 
-        public EveServiceResponse<ServerStatus> ServerStatus()
+        public EveServiceResponse<ServerStatus> ServerStatus(ResponseMode responseMode = ResponseMode.Normal)
         {
-          return RunAsyncMethod(ServerStatusAsync);
+            return RunAsyncMethod(ServerStatusAsync, responseMode);
         }
 
-        public Task<EveServiceResponse<ServerStatus>> ServerStatusAsync()
+        public Task<EveServiceResponse<ServerStatus>> ServerStatusAsync(ResponseMode responseMode = ResponseMode.Normal)
         {
 
             const string MethodPath = "{0}/ServerStatus.xml.aspx";
@@ -41,7 +41,7 @@ namespace EveHQ.EveApi
 
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
 
-            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseServerStatusResponse);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseServerStatusResponse);
         }
 
 

@@ -20,11 +20,11 @@ Imports System.Runtime.InteropServices
  Assembly: AssemblyDescription("Eve Online game tool"),  _
  Assembly: AssemblyCompany("Indicium Technologies"),  _
  Assembly: AssemblyProduct("EveHQ"),  _
- Assembly: AssemblyCopyright("� EveHQ Development Team 2005-2013"),  _
- Assembly: AssemblyFileVersion("2.13.4.4579-Beta-"),  _
- Assembly: AssemblyVersion("2.13.4.4579"),  _
+ Assembly: AssemblyCopyright("� EveHQ Development Team 2005-2014"),  _
+ Assembly: AssemblyFileVersion("2.13.4.4581-Beta-"),  _
+ Assembly: AssemblyVersion("2.13.4.4581"),  _
  Assembly: AssemblyConfiguration("Debug"),  _
- Assembly: AssemblyTrademark("2013-12-29 (Version 2.13.4.4579-Beta-)"),  _
+ Assembly: AssemblyTrademark("2014-01-07 (Version 2.13.4.4581-Beta-)"),  _
  Assembly: CLSCompliant(false),  _
  Assembly: ComVisible(false),  _
  Assembly: Guid("b7c44f01-f50a-4c18-9c54-f9f8293f21c5")> 

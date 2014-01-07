@@ -46,29 +46,28 @@ namespace EveHQ.EveApi
         }
 
 
-        public EveServiceResponse<CorporateData> CorporationSheet(string keyId, string vCode, int corpId = 0)
+        public EveServiceResponse<CorporateData> CorporationSheet(string keyId, string vCode, int corpId = 0, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(CorporationSheetAsync, keyId, vCode, corpId);
+            return RunAsyncMethod(CorporationSheetAsync, keyId, vCode, corpId, responseMode);
         }
 
-        public Task<EveServiceResponse<CorporateData>> CorporationSheetAsync(string keyId, string vCode, int corpId = 0)
+        public Task<EveServiceResponse<CorporateData>> CorporationSheetAsync(string keyId, string vCode, int corpId = 0, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
-            Guard.Ensure(corpId > 0);
 
             const string MethodPath = "{0}/CorporationSheet.xml.aspx";
             const string CacheKeyFormat = "CorporationSheet{0}";
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, corpId > 0 ? "_{0}".FormatInvariant(corpId) : string.Empty);
 
-              IDictionary<string, string> apiParams = new Dictionary<string, string>();
+            IDictionary<string, string> apiParams = new Dictionary<string, string>();
             if (corpId > 0)
             {
                 apiParams["corporationID"] = corpId.ToInvariantString();
             }
 
-            return GetServiceResponseAsync(keyId, vCode, 0, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ProcessCorporationSheetResponse);
+            return GetServiceResponseAsync(keyId, vCode, 0, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessCorporationSheetResponse);
         }
 
 
@@ -102,9 +101,9 @@ namespace EveHQ.EveApi
                              where rowsets.Attribute("name").Value == "divisons"
                              select new CorporateDivision() { AccountKey = rows.Attribute("accountKey").Value.ToInt32(), Description = rows.Attribute("description").Value };
             data.WalletDivisions = from rowsets in results.Elements("rowset")
-                             from rows in rowsets.Descendants()
+                                   from rows in rowsets.Descendants()
                                    where rowsets.Attribute("name").Value == "walletDivisions"
-                             select new CorporateDivision() { AccountKey = rows.Attribute("accountKey").Value.ToInt32(), Description = rows.Attribute("description").Value };
+                                   select new CorporateDivision() { AccountKey = rows.Attribute("accountKey").Value.ToInt32(), Description = rows.Attribute("description").Value };
 
             var logoXml = results.Element("logo");
             var logo = new CorporateLogo()

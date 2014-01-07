@@ -16,11 +16,11 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("Software Addicts Studios")]
 [assembly: AssemblyProduct("EveHQ")]
-[assembly: AssemblyCopyright("� EveHQ Development Team 2005-2013")]
-[assembly: AssemblyFileVersion("2.13.4.4579-Beta-")]
-[assembly: AssemblyVersion("2.13.4.4579")]
+[assembly: AssemblyCopyright("� EveHQ Development Team 2005-2014")]
+[assembly: AssemblyFileVersion("2.13.4.4581-Beta-")]
+[assembly: AssemblyVersion("2.13.4.4581")]
 [assembly: AssemblyConfiguration("Debug")]
-[assembly: AssemblyTrademark("2013-12-29 (Version 2.13.4.4579-Beta-)")]
+[assembly: AssemblyTrademark("2014-01-02 (Version 2.13.4.4581-Beta-)")]
 [assembly: CLSCompliant(false)]
 [assembly: ComVisible(false)]
 

@@ -31,7 +31,7 @@ Public Class HQ
     Private Declare Auto Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal procHandle As IntPtr, ByVal min As Int32, ByVal max As Int32) As Boolean
 
     Public Shared MainForm As Form
-    Public Shared TempPilots As New SortedList(Of String, EveHQPilot)
+    Private Shared tempPilots1 As New SortedList(Of String, EveHQPilot)
     Public Shared TempCorps As New SortedList(Of String, Corporation)
     Public Shared MyIGB As New IGB
     Public Shared MyTqServer As EveServer = New EveServer
@@ -80,7 +80,7 @@ Public Class HQ
     Private Shared _marketStatDataProvider As IMarketStatDataProvider
     Private Shared _marketOrderDataProvider As IMarketOrderDataProvider
     Private Shared ReadOnly MarketCacheProcessorMinTime As DateTime = DateTime.Now.AddHours(-1)
-    Private Shared _marketDataReceivers As IEnumerable(Of IMarketDataReceiver)
+    Private Shared marketDataReceivers As IEnumerable(Of IMarketDataReceiver)
     Private Shared _marketCacheUploader As MarketUploader
     Private Shared _tickerItemList As New List(Of Integer)
     Private Shared _loggingStream As Stream
@@ -157,8 +157,8 @@ Public Class HQ
     Public Shared Property MarketCacheUploader As MarketUploader
         Get
             If _marketCacheUploader Is Nothing Then
-                _marketDataReceivers = {CType(GetEveCentralMarketInstance(), IMarketDataReceiver), New EveMarketDataRelayProvider(New HttpRequestProvider(HQ.ProxyDetails))}
-                _marketCacheUploader = New MarketUploader(MarketCacheProcessorMinTime, _marketDataReceivers, Nothing)
+                marketDataReceivers = {CType(GetEveCentralMarketInstance(), IMarketDataReceiver), New EveMarketDataRelayProvider(New HttpRequestProvider(HQ.ProxyDetails))}
+                _marketCacheUploader = New MarketUploader(MarketCacheProcessorMinTime, marketDataReceivers, Nothing)
             End If
 
             Return _marketCacheUploader
@@ -218,7 +218,7 @@ Public Class HQ
         End Set
     End Property
 
- Public Shared ReadOnly Property ProxyDetails As WebProxyDetails
+    Public Shared ReadOnly Property ProxyDetails As WebProxyDetails
         Get
             If (Settings.ProxyRequired) Then
 
@@ -254,13 +254,22 @@ Public Class HQ
         End Get
     End Property
 
-    Public Shared ReadOnly Property ApiProvider As EveApi.EveAPI
+    Public Shared ReadOnly Property ApiProvider As EveAPI.EveAPI
         Get
             If _apiProvider Is Nothing Then
-                _apiProvider = New EveApi.EveAPI(ApiCacheFolder, New HttpRequestProvider(ProxyDetails))
+                _apiProvider = New EveAPI.EveAPI(ApiCacheFolder, New HttpRequestProvider(ProxyDetails))
             End If
             Return _apiProvider
         End Get
+    End Property
+
+    Public Shared Property TempPilots As SortedList(Of String, EveHQPilot)
+        Get
+            Return tempPilots1
+        End Get
+        Set(value As SortedList(Of String, EveHQPilot))
+            tempPilots1 = value
+        End Set
     End Property
 
 

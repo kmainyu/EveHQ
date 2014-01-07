@@ -56,18 +56,20 @@ namespace EveHQ.EveApi
 
         /// <summary>Converts an array of character Ids into names</summary>
         /// <param name="ids"></param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The response object.</returns>
-        public EveServiceResponse<IEnumerable<CharacterName>> CharacterName(IEnumerable<long> ids)
+        public EveServiceResponse<IEnumerable<CharacterName>> CharacterName(IEnumerable<long> ids, ResponseMode responseMode = ResponseMode.Normal)
         {
-            Task<EveServiceResponse<IEnumerable<CharacterName>>> task = CharacterNameAsync(ids);
+            Task<EveServiceResponse<IEnumerable<CharacterName>>> task = CharacterNameAsync(ids, responseMode);
             task.Wait();
             return task.Result;
         }
 
         /// <summary>Converts an array of character Ids into names</summary>
         /// <param name="ids"></param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>An async task reference.</returns>
-        public Task<EveServiceResponse<IEnumerable<CharacterName>>> CharacterNameAsync(IEnumerable<long> ids)
+        public Task<EveServiceResponse<IEnumerable<CharacterName>>> CharacterNameAsync(IEnumerable<long> ids, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(ids != null);
 
@@ -86,23 +88,26 @@ namespace EveHQ.EveApi
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams.Add(ApiConstants.Ids, string.Join(",", checkedIds.Select(id => id.ToInvariantString())));
 
-            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterNameResult);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseCharacterNameResult);
         }
 
         /// <summary>The character id.</summary>
         /// <param name="names">The names.</param>
-        public EveServiceResponse<IEnumerable<CharacterName>> CharacterId(IEnumerable<string> names)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<CharacterName>> CharacterId(IEnumerable<string> names, ResponseMode responseMode = ResponseMode.Normal)
         {
-            Task<EveServiceResponse<IEnumerable<CharacterName>>> task = CharacterIdAsync(names);
+            Task<EveServiceResponse<IEnumerable<CharacterName>>> task = CharacterIdAsync(names, responseMode);
             task.Wait();
             return task.Result;
         }
 
         /// <summary>The character id async.</summary>
         /// <param name="names">The names.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The <see cref="Task"/>.</returns>
         /// <exception cref="ArgumentException"></exception>
-        public Task<EveServiceResponse<IEnumerable<CharacterName>>> CharacterIdAsync(IEnumerable<string> names)
+        public Task<EveServiceResponse<IEnumerable<CharacterName>>> CharacterIdAsync(IEnumerable<string> names, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(names != null);
 
@@ -121,13 +126,14 @@ namespace EveHQ.EveApi
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams.Add(paramName, string.Join(",", checkedNames.Select(name => name)));
 
-            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterNameResult);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseCharacterNameResult);
         }
 
         /// <summary>The character info async.</summary>
         /// <param name="characterId">The character id.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        public Task<EveServiceResponse<CharacterInfo>> CharacterInfoAsync(int characterId)
+        public Task<EveServiceResponse<CharacterInfo>> CharacterInfoAsync(int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(characterId > 0);
             const string MethodPath = "{0}/CharacterInfo.xml.aspx";
@@ -137,28 +143,33 @@ namespace EveHQ.EveApi
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams.Add(ApiConstants.CharacterId, characterId.ToInvariantString());
 
-            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterInfoResult);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseCharacterInfoResult);
         }
 
         /// <summary>The character info.</summary>
         /// <param name="characterId">The character id.</param>
-        public EveServiceResponse<CharacterInfo> CharacterInfo(int characterId)
+        /// <param name="responseMode">The response Mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<CharacterInfo> CharacterInfo(int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            Task<EveServiceResponse<CharacterInfo>> task = CharacterInfoAsync(characterId);
+            Task<EveServiceResponse<CharacterInfo>> task = CharacterInfoAsync(characterId, responseMode);
             task.Wait();
             return task.Result;
         }
 
-
-        public EveServiceResponse<IEnumerable<AllianceData>> AllianceList()
+        /// <summary>The alliance list.</summary>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<AllianceData>> AllianceList(ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(AllianceListAsync);
+            return RunAsyncMethod(AllianceListAsync, responseMode);
         }
 
-
-        public Task<EveServiceResponse<IEnumerable<AllianceData>>> AllianceListAsync()
+        /// <summary>The alliance list async.</summary>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<AllianceData>>> AllianceListAsync(ResponseMode responseMode = ResponseMode.Normal)
         {
-
             const string MethodPath = "{0}/AllianceList.xml.aspx";
             const string CacheKeyFormat = "AllianceList";
 
@@ -166,17 +177,22 @@ namespace EveHQ.EveApi
 
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
 
-            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseAllianceListResponse);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseAllianceListResponse);
         }
 
-        public EveServiceResponse<IEnumerable<RefType>> RefTypes()
+        /// <summary>The ref types.</summary>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<RefType>> RefTypes(ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(RefTypesAsync);
+            return RunAsyncMethod(RefTypesAsync, responseMode);
         }
 
-        public Task<EveServiceResponse<IEnumerable<RefType>>> RefTypesAsync()
+        /// <summary>The ref types async.</summary>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<RefType>>> RefTypesAsync(ResponseMode responseMode = ResponseMode.Normal)
         {
-
             const string MethodPath = "{0}/RefTypes.xml.aspx";
             const string CacheKeyFormat = "RefTypes";
 
@@ -184,15 +200,21 @@ namespace EveHQ.EveApi
 
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
 
-            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseReferenceTypesResponse);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseReferenceTypesResponse);
         }
 
-        public EveServiceResponse<IEnumerable<SkillGroup>> SkillTree()
+        /// <summary>The skill tree.</summary>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<SkillGroup>> SkillTree(ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(SkillTreeAsync);
+            return RunAsyncMethod(SkillTreeAsync, responseMode);
         }
 
-        public Task<EveServiceResponse<IEnumerable<SkillGroup>>> SkillTreeAsync()
+        /// <summary>The skill tree async.</summary>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<SkillGroup>>> SkillTreeAsync(ResponseMode responseMode = ResponseMode.Normal)
         {
             const string MethodPath = "{0}/SkillTree.xml.aspx";
             const string CacheKeyFormat = "SkillTree";
@@ -201,16 +223,21 @@ namespace EveHQ.EveApi
 
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
 
-            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseSkillTreeResponse);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseSkillTreeResponse);
         }
 
-
-        public EveServiceResponse<IEnumerable<ConquerableStation>> ConquerableStationList()
+        /// <summary>The conquerable station list.</summary>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<ConquerableStation>> ConquerableStationList(ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(ConquerableStationListAsync);
+            return RunAsyncMethod(ConquerableStationListAsync, responseMode);
         }
 
-        public Task<EveServiceResponse<IEnumerable<ConquerableStation>>> ConquerableStationListAsync()
+        /// <summary>The conquerable station list async.</summary>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<ConquerableStation>>> ConquerableStationListAsync(ResponseMode responseMode = ResponseMode.Normal)
         {
             const string MethodPath = "{0}/ConquerableStationList.xml.aspx";
             const string CacheKeyFormat = "ConquerableStationList";
@@ -219,15 +246,16 @@ namespace EveHQ.EveApi
 
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
 
-            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseConquerableStationListResponse);
+            return GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseConquerableStationListResponse);
         }
-
 
         #endregion
 
         #region Methods
 
-
+        /// <summary>The parse conquerable station list response.</summary>
+        /// <param name="result">The result.</param>
+        /// <returns>The <see cref="IEnumerable"/>.</returns>
         private static IEnumerable<ConquerableStation> ParseConquerableStationListResponse(XElement result)
         {
             if (result == null)
@@ -235,7 +263,7 @@ namespace EveHQ.EveApi
                 return null; // return null... no data.
             }
 
-            return (from rowSet in result.Elements(ApiConstants.Rowset)
+            return from rowSet in result.Elements(ApiConstants.Rowset)
                     from row in rowSet.Elements(ApiConstants.Row)
                     let id = row.Attribute("stationID").Value.ToInt32()
                     let name = row.Attribute("stationName").Value
@@ -243,9 +271,12 @@ namespace EveHQ.EveApi
                     let systemId = row.Attribute("solarSystemID").Value.ToInt32()
                     let corpId = row.Attribute("corporationID").Value.ToInt32()
                     let corpName = row.Attribute("corporationName").Value
-                    select new ConquerableStation() { CorporationId = corpId, CorporationName = corpName, Id = id, Name = name, SolarSystemId = systemId, StationTypeId = type });
+                    select new ConquerableStation { CorporationId = corpId, CorporationName = corpName, Id = id, Name = name, SolarSystemId = systemId, StationTypeId = type };
         }
 
+        /// <summary>The parse skill tree response.</summary>
+        /// <param name="result">The result.</param>
+        /// <returns>The <see cref="IEnumerable"/>.</returns>
         private static IEnumerable<SkillGroup> ParseSkillTreeResponse(XElement result)
         {
             if (result == null)
@@ -253,44 +284,59 @@ namespace EveHQ.EveApi
                 return null; // return null... no data.
             }
 
-            return (from groupRowset in result.Elements(ApiConstants.Rowset)
+            return from groupRowset in result.Elements(ApiConstants.Rowset)
                     from groupRow in groupRowset.Elements(ApiConstants.Row)
                     let groupId = groupRow.Attribute("groupID").Value.ToInt32()
                     let groupName = groupRow.Attribute("groupName").Value
-                    select new SkillGroup() { GroupID = groupId, GroupName = groupName, Skills = GetGroupSkills(groupRow) });                   
+                    select new SkillGroup { GroupID = groupId, GroupName = groupName, Skills = GetGroupSkills(groupRow) };
         }
 
-
+        /// <summary>The get group skills.</summary>
+        /// <param name="groupRow">The group row.</param>
+        /// <returns>The <see cref="IEnumerable"/>.</returns>
         private static IEnumerable<SkillData> GetGroupSkills(XElement groupRow)
         {
-            
-                return from rowSet in groupRow.Elements(ApiConstants.Rowset)
-                    from row in rowSet.Elements(ApiConstants.Row)
-                    let groupId = row.Attribute("groupID").Value.ToInt32()
-                    let published = row.Attribute("published").Value.ToBoolean()
-                    let typeId = row.Attribute("typeID").Value.ToInt32()
-                    let name = row.Attribute("typeName").Value
-                    let desc = row.Element("description").Value
-                    let rank = row.Element("rank").Value.ToInt32()
-                    let reqAttrib = row.Element("requiredAttributes")
-                    let priAttrib = reqAttrib.Element("primaryAttribute").Value
-                    let secAttrib = reqAttrib.Element("secondaryAttribute").Value
-                    let reqSkills =
-                        row.Elements(ApiConstants.Rowset)
-                        .Where(e => e.Attribute("name").Value == "requiredSkills")
-                        .Elements(ApiConstants.Row)
-                        .Select(r => new ReqSkillData() { Level = r.Attribute("skillLevel").Value.ToInt32(), TypeId = r.Attribute("typeID").Value.ToInt32() })
-                    let trialTrainElement =
-                        row.Elements(ApiConstants.Rowset)
-                        .Where(e => e.Attribute("name").Value == "skillBonusCollection")
-                        .Elements(ApiConstants.Row)
-                        .FirstOrDefault(r => r.Attribute("bonusType").Value == "canNotBeTrainedOnTrial")
-                       let cannotBeTrainedOnTrial = trialTrainElement != null && trialTrainElement.Attribute("bonusValue").Value.ToBoolean()
-                    select new SkillData() { CannotBeTrainedOnTrial = cannotBeTrainedOnTrial, Description = desc, GroupId = groupId, Name = name, PrimaryAttribute = priAttrib, Published = published, Rank = rank, RequiredSkills = reqSkills, SecondaryAttribute = secAttrib, TypeId = typeId};
-
+            return from rowSet in groupRow.Elements(ApiConstants.Rowset)
+                   from row in rowSet.Elements(ApiConstants.Row)
+                   let groupId = row.Attribute("groupID").Value.ToInt32()
+                   let published = row.Attribute("published").Value.ToBoolean()
+                   let typeId = row.Attribute("typeID").Value.ToInt32()
+                   let name = row.Attribute("typeName").Value
+                   let desc = row.Element("description").Value
+                   let rank = row.Element("rank").Value.ToInt32()
+                   let reqAttrib = row.Element("requiredAttributes")
+                   let priAttrib = reqAttrib.Element("primaryAttribute").Value
+                   let secAttrib = reqAttrib.Element("secondaryAttribute").Value
+                   let reqSkills =
+                       row.Elements(ApiConstants.Rowset)
+                       .Where(e => e.Attribute("name").Value == "requiredSkills")
+                       .Elements(ApiConstants.Row)
+                       .Select(r => new ReqSkillData { Level = r.Attribute("skillLevel").Value.ToInt32(), TypeId = r.Attribute("typeID").Value.ToInt32() })
+                   let trialTrainElement =
+                       row.Elements(ApiConstants.Rowset)
+                       .Where(e => e.Attribute("name").Value == "skillBonusCollection")
+                       .Elements(ApiConstants.Row)
+                       .FirstOrDefault(r => r.Attribute("bonusType").Value == "canNotBeTrainedOnTrial")
+                   let cannotBeTrainedOnTrial = trialTrainElement != null && trialTrainElement.Attribute("bonusValue").Value.ToBoolean()
+                   select
+                       new SkillData
+                           {
+                               CannotBeTrainedOnTrial = cannotBeTrainedOnTrial, 
+                               Description = desc, 
+                               GroupId = groupId, 
+                               Name = name, 
+                               PrimaryAttribute = priAttrib, 
+                               Published = published, 
+                               Rank = rank, 
+                               RequiredSkills = reqSkills, 
+                               SecondaryAttribute = secAttrib, 
+                               TypeId = typeId
+                           };
         }
 
-
+        /// <summary>The parse reference types response.</summary>
+        /// <param name="result">The result.</param>
+        /// <returns>The <see cref="IEnumerable"/>.</returns>
         private static IEnumerable<RefType> ParseReferenceTypesResponse(XElement result)
         {
             if (result == null)
@@ -298,15 +344,16 @@ namespace EveHQ.EveApi
                 return null; // return null... no data.
             }
 
-
-            return
-                (from rowset in result.Elements(ApiConstants.Rowset)
-                 from row in rowset.Elements(ApiConstants.Row)
-                 let name = row.Attribute("refTypeName").Value
-                 let id = row.Attribute("refTypeID").Value.ToInt32()
-                     select new RefType(){ Id=id, Name = name});
+            return from rowset in result.Elements(ApiConstants.Rowset)
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let name = row.Attribute("refTypeName").Value
+                    let id = row.Attribute("refTypeID").Value.ToInt32()
+                    select new RefType { Id = id, Name = name };
         }
 
+        /// <summary>The parse alliance list response.</summary>
+        /// <param name="result">The result.</param>
+        /// <returns>The <see cref="IEnumerable"/>.</returns>
         private static IEnumerable<AllianceData> ParseAllianceListResponse(XElement result)
         {
             if (result == null)
@@ -314,19 +361,21 @@ namespace EveHQ.EveApi
                 return null; // return null... no data.
             }
 
-           return (from rowset in result.Elements(ApiConstants.Rowset)
-                             from row in rowset.Elements(ApiConstants.Row)
-                             let name = row.Attribute(ApiConstants.Name).Value
-                             let ticker = row.Attribute("shortName").Value
-                             let allianceId = row.Attribute("allianceID").Value.ToInt32()
-                             let execCorp = row.Attribute("executorCorpID").Value.ToInt32()
-                             let memberCount = row.Attribute("memberCount").Value.ToInt32()
-                             let startDate = row.Attribute("startDate").Value.ToDateTimeOffset(0)
-                             let corps = GetCorpData(row.Element(ApiConstants.Rowset))
-                             select new AllianceData() { Id= allianceId, Name = name, ShortName = ticker, ExecutorCorpId = execCorp, MemberCorps = corps,MemberCount = memberCount, StartDate = startDate});
-            
+            return from rowset in result.Elements(ApiConstants.Rowset)
+                    from row in rowset.Elements(ApiConstants.Row)
+                    let name = row.Attribute(ApiConstants.Name).Value
+                    let ticker = row.Attribute("shortName").Value
+                    let allianceId = row.Attribute("allianceID").Value.ToInt32()
+                    let execCorp = row.Attribute("executorCorpID").Value.ToInt32()
+                    let memberCount = row.Attribute("memberCount").Value.ToInt32()
+                    let startDate = row.Attribute("startDate").Value.ToDateTimeOffset(0)
+                    let corps = GetCorpData(row.Element(ApiConstants.Rowset))
+                    select new AllianceData { Id = allianceId, Name = name, ShortName = ticker, ExecutorCorpId = execCorp, MemberCorps = corps, MemberCount = memberCount, StartDate = startDate };
         }
 
+        /// <summary>The get corp data.</summary>
+        /// <param name="memberRowSet">The member row set.</param>
+        /// <returns>The <see cref="IEnumerable"/>.</returns>
         private static IEnumerable<AllianceCorpData> GetCorpData(XElement memberRowSet)
         {
             if (memberRowSet == null)
@@ -334,12 +383,10 @@ namespace EveHQ.EveApi
                 return null; // return null... no data.
             }
 
-
-            return (from row in memberRowSet.Elements(ApiConstants.Row)
+            return from row in memberRowSet.Elements(ApiConstants.Row)
                     let corpId = row.Attribute(ApiConstants.CorporationId).Value.ToInt32()
                     let joinDate = row.Attribute("startDate").Value.ToDateTimeOffset(0)
-                    select new AllianceCorpData() { CorporationId = corpId, JoinedDate = joinDate });
-
+                    select new AllianceCorpData { CorporationId = corpId, JoinedDate = joinDate };
         }
 
         /// <summary>The parse character info result.</summary>

@@ -80,12 +80,12 @@ namespace EveHQ.EveApi
         }
 
 
-        public EveServiceResponse<Account> AccountStatus(string keyId, string vCode)
+        public EveServiceResponse<Account> AccountStatus(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
-            return RunAsyncMethod(AccountStatusAsync, keyId, vCode);
+            return RunAsyncMethod(AccountStatusAsync, keyId, vCode, responseMode);
         }
 
         /// <summary>
@@ -93,32 +93,33 @@ namespace EveHQ.EveApi
         /// </summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
+        /// <param name="responseMode"></param>
         /// <returns>An account object</returns>
-        public Task<EveServiceResponse<Account>> AccountStatusAsync(string keyId, string vCode)
+        public Task<EveServiceResponse<Account>> AccountStatusAsync(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
             string cacheKey = AccountStatusCacheKeyFormat.FormatInvariant(keyId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, 0, AccountStatusPath, null, cacheKey, ApiConstants.SixtyMinuteCache, ParseAccountXml);
+            return this.GetServiceResponseAsync(keyId, vCode, 0, AccountStatusPath, null, cacheKey, ApiConstants.SixtyMinuteCache,responseMode, ParseAccountXml);
         }
 
-        public EveServiceResponse<ApiKeyInfo> ApiKeyInfo(string keyId, string vCode)
+        public EveServiceResponse<ApiKeyInfo> ApiKeyInfo(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
-            return RunAsyncMethod(ApiKeyInfoAsync, keyId, vCode);
+            return RunAsyncMethod(ApiKeyInfoAsync, keyId, vCode, responseMode);
         }
 
-        public Task<EveServiceResponse<ApiKeyInfo>> ApiKeyInfoAsync(string keyId, string vCode)
+        public Task<EveServiceResponse<ApiKeyInfo>> ApiKeyInfoAsync(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
             string cacheKey = ApiKeyInfoCacheKeyFormat.FormatInvariant(keyId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, 0, ApiKeyInfoPath, null, cacheKey, ApiConstants.FiveMinuteCache, ParseApiKeyInfoXml);
+            return this.GetServiceResponseAsync(keyId, vCode, 0, ApiKeyInfoPath, null, cacheKey, ApiConstants.FiveMinuteCache,responseMode, ParseApiKeyInfoXml);
         }
 
         /// <summary>
@@ -126,12 +127,13 @@ namespace EveHQ.EveApi
         /// </summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
+        /// <param name="responseMode"></param>
         /// <returns>A Service Response object, containing the collection of Characters.</returns>
-        public EveServiceResponse<IEnumerable<AccountCharacter>> Characters(string keyId, string vCode)
+        public EveServiceResponse<IEnumerable<AccountCharacter>> Characters(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
-            return RunAsyncMethod(CharactersAsync, keyId, vCode);
+            return RunAsyncMethod(CharactersAsync, keyId, vCode,responseMode);
         }
 
         /// <summary>
@@ -139,15 +141,16 @@ namespace EveHQ.EveApi
         /// </summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
+        /// <param name="responseMode"></param>
         /// <returns>A Service Response object, containing the collection of Characters.</returns>
-        public Task<EveServiceResponse<IEnumerable<AccountCharacter>>> CharactersAsync(string keyId, string vCode)
+        public Task<EveServiceResponse<IEnumerable<AccountCharacter>>> CharactersAsync(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
             string cacheKey = CharacterCacheKeyFormat.FormatInvariant(keyId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, 0, CharactersPath, null, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharactersXml);
+            return this.GetServiceResponseAsync(keyId, vCode, 0, CharactersPath, null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseCharactersXml);
         }
 
         /// <summary>

@@ -49,8 +49,9 @@ namespace EveHQ.EveApi
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <param name="eventId">The eventID to query</param>
+        /// <param name="responseMode"></param>
         /// <returns>A collection of attendees for the event.</returns>
-        public Task<EveServiceResponse<IEnumerable<CalendarEventAttendee>>> CalendarEventAttendees(string keyId, string vCode, int characterId, int eventId)
+        public Task<EveServiceResponse<IEnumerable<CalendarEventAttendee>>> CalendarEventAttendees(string keyId, string vCode, int characterId, int eventId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -64,25 +65,27 @@ namespace EveHQ.EveApi
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams[ApiConstants.EventId] = eventId.ToInvariantString();
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCalendarEventAttendeesResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseCalendarEventAttendeesResponse);
         }
 
         /// <summary>Retrieves the Character Sheet data from the Eve web service.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The given character's data.</returns>
-        public EveServiceResponse<CharacterData> CharacterSheet(string keyId, string vCode, int characterId)
+        public EveServiceResponse<CharacterData> CharacterSheet(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(CharacterSheetAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(CharacterSheetAsync, keyId, vCode, characterId, responseMode);
         }
 
         /// <summary>Retrieves the Character Sheet data from the Eve web service.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The given character's data.</returns>
-        public Task<EveServiceResponse<CharacterData>> CharacterSheetAsync(string keyId, string vCode, int characterId)
+        public Task<EveServiceResponse<CharacterData>> CharacterSheetAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -93,25 +96,27 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterSheetResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseCharacterSheetResponse);
         }
 
         /// <summary>Gets a collection of mailing lists the user belongs to.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>a collection of mailing lists</returns>
-        public EveServiceResponse<IEnumerable<MailingList>> MailingLists(string keyId, string vCode, int characterId)
+        public EveServiceResponse<IEnumerable<MailingList>> MailingLists(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(MailingListsAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(MailingListsAsync, keyId, vCode, characterId, responseMode);
         }
 
         /// <summary>Gets a collection of mailing lists the user belongs to.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>a collection of mailing lists</returns>
-        public Task<EveServiceResponse<IEnumerable<MailingList>>> MailingListsAsync(string keyId, string vCode, int characterId)
+        public Task<EveServiceResponse<IEnumerable<MailingList>>> MailingListsAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -122,7 +127,7 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ParseMailingListsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseMailingListsResponse);
         }
 
         /// <summary>Retrieves the mail bodies for given IDs</summary>
@@ -130,10 +135,11 @@ namespace EveHQ.EveApi
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <param name="ids">The id values to get the mail bodies for</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>a collection of mail bodies</returns>
-        public EveServiceResponse<IEnumerable<MailBody>> MailBodies(string keyId, string vCode, int characterId, IEnumerable<int> ids)
+        public EveServiceResponse<IEnumerable<MailBody>> MailBodies(string keyId, string vCode, int characterId, IEnumerable<int> ids, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(MailBodiesAsync, keyId, vCode, characterId, ids);
+            return RunAsyncMethod(MailBodiesAsync, keyId, vCode, characterId, ids, responseMode);
         }
 
         /// <summary>Retrieves the mail bodies for given IDs</summary>
@@ -141,8 +147,9 @@ namespace EveHQ.EveApi
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <param name="ids">The id values to get the mail bodies for</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>a collection of mail bodies</returns>
-        public Task<EveServiceResponse<IEnumerable<MailBody>>> MailBodiesAsync(string keyId, string vCode, int characterId, IEnumerable<int> ids)
+        public Task<EveServiceResponse<IEnumerable<MailBody>>> MailBodiesAsync(string keyId, string vCode, int characterId, IEnumerable<int> ids, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -159,25 +166,27 @@ namespace EveHQ.EveApi
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams[ApiConstants.Ids] = string.Join(",", ids.Select(id => id.ToInvariantString()));
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ProcessMailBodyResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessMailBodyResponse);
         }
 
         /// <summary>Retrieves the collection of mail message headers from the eve web service</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>A collection of mail headers </returns>
-        public EveServiceResponse<IEnumerable<MailHeader>> MailMessages(string keyId, string vCode, int characterId)
+        public EveServiceResponse<IEnumerable<MailHeader>> MailMessages(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(MailMessagesAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(MailMessagesAsync, keyId, vCode, characterId, responseMode);
         }
 
         /// <summary>Retrieves the collection of mail message headers from the eve web service</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>A collection of mail headers </returns>
-        public Task<EveServiceResponse<IEnumerable<MailHeader>>> MailMessagesAsync(string keyId, string vCode, int characterId)
+        public Task<EveServiceResponse<IEnumerable<MailHeader>>> MailMessagesAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -188,25 +197,27 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ProcessMailMessagesResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessMailMessagesResponse);
         }
 
         /// <summary>Gets the collection of notification for the user.</summary>
         /// <param name="keyId"></param>
         /// <param name="vCode"></param>
         /// <param name="characterId"></param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        public EveServiceResponse<IEnumerable<Notification>> Notifications(string keyId, string vCode, int characterId)
+        public EveServiceResponse<IEnumerable<Notification>> Notifications(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
-            return RunAsyncMethod(NotificationsAsync, keyId, vCode, characterId);
+            return RunAsyncMethod(NotificationsAsync, keyId, vCode, characterId, responseMode);
         }
 
         /// <summary>Gets the collection of notification for the user.</summary>
         /// <param name="keyId"></param>
         /// <param name="vCode"></param>
         /// <param name="characterId"></param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        public Task<EveServiceResponse<IEnumerable<Notification>>> NotificationsAsync(string keyId, string vCode, int characterId)
+        public Task<EveServiceResponse<IEnumerable<Notification>>> NotificationsAsync(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -217,12 +228,7 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ProcessNotificationsResponse);
-        }
-
-        public EveServiceResponse<IEnumerable<NotificationText>> NotificationTexts(string keyId, string vCode, int characterId, IEnumerable<long> notificationIds)
-        {
-            return RunAsyncMethod(NotificationTextsAsync, keyId, vCode, characterId, notificationIds);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessNotificationsResponse);
         }
 
         /// <summary>The notification texts.</summary>
@@ -230,8 +236,26 @@ namespace EveHQ.EveApi
         /// <param name="vCode">The v code.</param>
         /// <param name="characterId">The character id.</param>
         /// <param name="notificationIds">The notification ids.</param>
+        /// <param name="responseMode">The response mode.</param>
+        /// <returns></returns>
+        public EveServiceResponse<IEnumerable<NotificationText>> NotificationTexts(string keyId, string vCode, int characterId, IEnumerable<long> notificationIds, ResponseMode responseMode = ResponseMode.Normal)
+        {
+            return RunAsyncMethod(NotificationTextsAsync, keyId, vCode, characterId, notificationIds, responseMode);
+        }
+
+        /// <summary>The notification texts.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <param name="notificationIds">The notification ids.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        public Task<EveServiceResponse<IEnumerable<NotificationText>>> NotificationTextsAsync(string keyId, string vCode, int characterId, IEnumerable<long> notificationIds)
+        public Task<EveServiceResponse<IEnumerable<NotificationText>>> NotificationTextsAsync(
+            string keyId, 
+            string vCode, 
+            int characterId, 
+            IEnumerable<long> notificationIds, 
+            ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -244,15 +268,16 @@ namespace EveHQ.EveApi
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams[ApiConstants.Ids] = string.Join(",", notificationIds.Select(id => id.ToInvariantString()));
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ProcessNotificationTextsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessNotificationTextsResponse);
         }
 
         /// <summary>The upcoming calendar events.</summary>
         /// <param name="keyId">The key id.</param>
         /// <param name="vCode">The v code.</param>
         /// <param name="characterId">The character id.</param>
+        /// <param name="responseMode">The response Mode.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        public Task<EveServiceResponse<IEnumerable<UpcomingCalendarEvent>>> UpcomingCalendarEvents(string keyId, string vCode, int characterId)
+        public Task<EveServiceResponse<IEnumerable<UpcomingCalendarEvent>>> UpcomingCalendarEvents(string keyId, string vCode, int characterId, ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -263,7 +288,7 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ProcessUpcomingCalendarEventsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessUpcomingCalendarEventsResponse);
         }
 
         /// <summary>Parses the Eve web service response for the CharacterSheet method.</summary>
@@ -322,9 +347,9 @@ namespace EveHQ.EveApi
                         row =>
                         new CharacterSkillRecord
                             {
-                                SkillId = int.Parse(row.Attribute("typeID").Value),
-                                SkillPoints = int.Parse(row.Attribute("skillpoints").Value),
-                                Level = int.Parse(row.Attribute("level").Value),
+                                SkillId = int.Parse(row.Attribute("typeID").Value), 
+                                SkillPoints = int.Parse(row.Attribute("skillpoints").Value), 
+                                Level = int.Parse(row.Attribute("level").Value), 
                                 Published = int.Parse(row.Attribute("published").Value) == 1
                             });
 
@@ -348,36 +373,36 @@ namespace EveHQ.EveApi
             // pack it into to the entity type and return.
             return new CharacterData
                        {
-                           CharacterId = characterId,
-                           Name = name,
-                           BirthDate = birthDate,
-                           Race = race,
-                           BloodLine = bloodline,
-                           Ancestry = ancestry,
-                           Gender = gender,
-                           CorporationName = corporationName,
-                           CorporationId = corporationId,
-                           AllianceName = allianceName,
-                           AllianceId = allianceId,
-                           CloneName = cloneName,
-                           CloneSkillPoints = cloneSkillpoints,
-                           Balance = balance,
-                           MemoryBonus = memoryBonus,
-                           PerceptionBonus = perceptionBonus,
-                           WillpowerBonus = willpowerBonus,
-                           IntelligenceBonus = intelligenceBonus,
-                           CharismaBonus = charismaBonus,
-                           Intelligence = intelligence,
-                           Memory = memory,
-                           Charisma = charisma,
-                           Perception = perception,
-                           Willpower = willpower,
-                           Skills = skills,
-                           Certificates = certificates,
-                           CorporationRoles = corpRoles,
-                           CorporationRolesAtHq = corpRolesAtHq,
-                           CorporationRolesAtBase = corpRolesAtBase,
-                           CorporationRolesAtOthers = corpRolesAtOther,
+                           CharacterId = characterId, 
+                           Name = name, 
+                           BirthDate = birthDate, 
+                           Race = race, 
+                           BloodLine = bloodline, 
+                           Ancestry = ancestry, 
+                           Gender = gender, 
+                           CorporationName = corporationName, 
+                           CorporationId = corporationId, 
+                           AllianceName = allianceName, 
+                           AllianceId = allianceId, 
+                           CloneName = cloneName, 
+                           CloneSkillPoints = cloneSkillpoints, 
+                           Balance = balance, 
+                           MemoryBonus = memoryBonus, 
+                           PerceptionBonus = perceptionBonus, 
+                           WillpowerBonus = willpowerBonus, 
+                           IntelligenceBonus = intelligenceBonus, 
+                           CharismaBonus = charismaBonus, 
+                           Intelligence = intelligence, 
+                           Memory = memory, 
+                           Charisma = charisma, 
+                           Perception = perception, 
+                           Willpower = willpower, 
+                           Skills = skills, 
+                           Certificates = certificates, 
+                           CorporationRoles = corpRoles, 
+                           CorporationRolesAtHq = corpRolesAtHq, 
+                           CorporationRolesAtBase = corpRolesAtBase, 
+                           CorporationRolesAtOthers = corpRolesAtOther, 
                            CorporationTitles = corpTitles
                        };
         }
@@ -406,7 +431,7 @@ namespace EveHQ.EveApi
             int temp;
             if (enhancer == null)
             {
-                return new AttributeEnhancer { Name = "", Value = 0 };
+                return new AttributeEnhancer { Name = string.Empty, Value = 0 };
             }
 
             return new AttributeEnhancer { Name = enhancer.Element("augmentatorName").Value, Value = int.TryParse(enhancer.Element("augmentatorValue").Value, out temp) ? temp : 0 };
@@ -436,14 +461,14 @@ namespace EveHQ.EveApi
                    select
                        new UpcomingCalendarEvent
                            {
-                               Duration = duration,
-                               EventDate = eventDate,
-                               EventId = eventId,
-                               EventText = eventText,
-                               EventTitle = eventTitle,
-                               IsImportant = importance,
-                               OwnerId = ownerId,
-                               OwnerName = ownerName,
+                               Duration = duration, 
+                               EventDate = eventDate, 
+                               EventId = eventId, 
+                               EventText = eventText, 
+                               EventTitle = eventTitle, 
+                               IsImportant = importance, 
+                               OwnerId = ownerId, 
+                               OwnerName = ownerName, 
                                Response = response
                            };
         }
@@ -507,12 +532,12 @@ namespace EveHQ.EveApi
                    select
                        new MailHeader
                            {
-                               MessageId = messageId,
-                               SenderId = senderId,
-                               SentDate = sentDate,
-                               Title = title,
-                               ToCorpOrAllianceId = toCorpOrAllianceId,
-                               ToCharacterIds = toCharacterIds,
+                               MessageId = messageId, 
+                               SenderId = senderId, 
+                               SentDate = sentDate, 
+                               Title = title, 
+                               ToCorpOrAllianceId = toCorpOrAllianceId, 
+                               ToCharacterIds = toCharacterIds, 
                                ToListListIds = toListIds
                            };
         }
@@ -565,20 +590,20 @@ namespace EveHQ.EveApi
 
             return rowset.Elements(ApiConstants.Row).Select(
                 row =>
-                {
-                    XAttribute idAttribute = row.Attribute(ApiConstants.CharacterId);
-                    XAttribute nameAttribute = row.Attribute(ApiConstants.CharacterName);
-                    XAttribute responseAttribute = row.Attribute(ApiConstants.Response);
+                    {
+                        XAttribute idAttribute = row.Attribute(ApiConstants.CharacterId);
+                        XAttribute nameAttribute = row.Attribute(ApiConstants.CharacterName);
+                        XAttribute responseAttribute = row.Attribute(ApiConstants.Response);
 
-                    int charId;
-                    AttendeeResponseType response;
+                        int charId;
+                        AttendeeResponseType response;
 
-                    charId = int.TryParse(idAttribute.Value, out charId) ? charId : 0;
-                    string charName = nameAttribute != null ? nameAttribute.Value : string.Empty;
-                    response = Enum.TryParse(responseAttribute.Value, out response) ? response : AttendeeResponseType.Invalid;
+                        charId = int.TryParse(idAttribute.Value, out charId) ? charId : 0;
+                        string charName = nameAttribute != null ? nameAttribute.Value : string.Empty;
+                        response = Enum.TryParse(responseAttribute.Value, out response) ? response : AttendeeResponseType.Invalid;
 
-                    return new CalendarEventAttendee { CharacterId = charId, CharacterName = charName, Response = response };
-                });
+                        return new CalendarEventAttendee { CharacterId = charId, CharacterName = charName, Response = response };
+                    });
         }
     }
 }

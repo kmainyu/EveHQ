@@ -118,19 +118,11 @@ Public Class EveHQAccount
     End Function
 
     Public Function CanUseCharacterAPI(characterAPIToCheck As CharacterAccessMasks) As Boolean
-        If Math.Abs((AccessMask And CLng(Math.Pow(2, CDbl(characterAPIToCheck)))) - Math.Pow(2, characterAPIToCheck)) < 0.01 Then
-            Return True
-        Else
-            Return False
-        End If
+        Return AccessMasks.HasCharacterPermissions(AccessMask, characterAPIToCheck)
     End Function
 
     Public Function CanUseCorporateAPI(corporateAPIToCheck As CorporateAccessMasks) As Boolean
-        If Math.Abs((AccessMask And CLng(Math.Pow(2, CDbl(corporateAPIToCheck)))) - Math.Pow(2, corporateAPIToCheck)) < 0.01 Then
-            Return True
-        Else
-            Return False
-        End If
+        Return AccessMasks.HasCorpPermissions(AccessMask, corporateAPIToCheck)
     End Function
 
 End Class
