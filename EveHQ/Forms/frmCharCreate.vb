@@ -163,7 +163,7 @@ Namespace Forms
                 Exit Sub
             End If
             nPilot.Race = _raceName
-            nPilot.Blood = _bloodName
+            nPilot.BloodLine = _bloodName
             nPilot.Charisma = CInt(nudC.Value)
             nPilot.Intelligence = CInt(nudI.Value)
             nPilot.Memory = CInt(nudM.Value)
