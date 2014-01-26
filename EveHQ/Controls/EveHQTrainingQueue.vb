@@ -146,7 +146,7 @@ Namespace Controls
             ch.SortingEnabled = False
             ch.Name = "Name" : ch.Width.Absolute = 180
             adtQueue.Columns.Add(ch)
-          
+
             ' Add subitems based on the user selected columns
             Dim colName As String
             For Each col As String In Core.HQ.Settings.UserQueueColumns
@@ -206,7 +206,7 @@ Namespace Controls
 
             If _queuePilot.PilotSkills.Count <> 0 Then
 
-               ' Define node background colours
+                ' Define node background colours
                 Dim styleCurrentTraining As ElementStyle = adtQueue.Styles(0).Copy
                 Dim styleIsPreReq As ElementStyle = adtQueue.Styles(0).Copy
                 Dim styleHasPreReq As ElementStyle = adtQueue.Styles(0).Copy

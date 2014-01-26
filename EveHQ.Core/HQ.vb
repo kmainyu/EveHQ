@@ -20,17 +20,18 @@
 Imports System.Windows.Forms
 Imports EveHQ.Common
 Imports DevComponents.DotNetBar
-Imports EveHQ.EveAPI
+Imports EveHQ.EveApi
 Imports EveHQ.Market
 Imports System.IO
 Imports EveHQ.Common.Logging
+Imports EveHQ.Common.Extensions
 Imports EveHQ.Market.MarketServices
 
 Public Class HQ
     Private Declare Auto Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal procHandle As IntPtr, ByVal min As Int32, ByVal max As Int32) As Boolean
 
     Public Shared MainForm As Form
-    Public Shared TempPilots As New SortedList(Of String, EveHQPilot)
+    Private Shared tempPilots1 As New SortedList(Of String, EveHQPilot)
     Public Shared TempCorps As New SortedList(Of String, Corporation)
     Public Shared MyIGB As New IGB
     Public Shared MyTqServer As EveServer = New EveServer
@@ -79,12 +80,18 @@ Public Class HQ
     Private Shared _marketStatDataProvider As IMarketStatDataProvider
     Private Shared _marketOrderDataProvider As IMarketOrderDataProvider
     Private Shared ReadOnly MarketCacheProcessorMinTime As DateTime = DateTime.Now.AddHours(-1)
-    Private Shared _marketDataReceivers As IEnumerable(Of IMarketDataReceiver)
+    Private Shared marketDataReceivers As IEnumerable(Of IMarketDataReceiver)
     Private Shared _marketCacheUploader As MarketUploader
     Private Shared _tickerItemList As New List(Of Integer)
     Private Shared _loggingStream As Stream
     Private Shared _eveHqTracer As EveHQTraceLogger
+    Private Shared _proxyDetails As WebProxyDetails
+    Private Shared _apiProvider As EveAPI.EveAPI
     Private Shared _updateLocation As String
+    Private Shared _plugins As Dictionary(Of String, EveHQPlugIn)
+    Private Shared _eveCentralProvider As EveCentralMarketDataProvider
+    Private Shared _eveHqProvider As EveHQMarketDataProvider
+    Private Const ApiCacheFolderName As String = "ApiCache"
 
 
     Shared Sub New()
@@ -128,6 +135,8 @@ Public Class HQ
         End Set
     End Property
 
+
+
     Public Shared Property MarketStatDataProvider As IMarketStatDataProvider
         Get
             If _marketStatDataProvider Is Nothing Then
@@ -148,8 +157,8 @@ Public Class HQ
     Public Shared Property MarketCacheUploader As MarketUploader
         Get
             If _marketCacheUploader Is Nothing Then
-                _marketDataReceivers = {CType(GetEveCentralMarketInstance(), IMarketDataReceiver), New EveMarketDataRelayProvider(HttpRequestProvider.Default)}
-                _marketCacheUploader = New MarketUploader(MarketCacheProcessorMinTime, _marketDataReceivers, Nothing)
+                marketDataReceivers = {CType(GetEveCentralMarketInstance(), IMarketDataReceiver), New EveMarketDataRelayProvider(New HttpRequestProvider(HQ.ProxyDetails))}
+                _marketCacheUploader = New MarketUploader(MarketCacheProcessorMinTime, marketDataReceivers, Nothing)
             End If
 
             Return _marketCacheUploader
@@ -200,14 +209,35 @@ Public Class HQ
         End Set
     End Property
 
-    Public Shared Property EveHqTracer As EveHqTraceLogger
+    Public Shared Property EveHqTracer As EveHQTraceLogger
         Get
             Return _eveHqTracer
         End Get
-        Set(value As EveHqTraceLogger)
+        Set(value As EveHQTraceLogger)
             _eveHqTracer = value
         End Set
     End Property
+
+    Public Shared ReadOnly Property ProxyDetails As WebProxyDetails
+        Get
+            If (Settings.ProxyRequired) Then
+
+                If _proxyDetails Is Nothing Then
+                    _proxyDetails = New WebProxyDetails()
+                    _proxyDetails.ProxyPassword = Settings.ProxyPassword
+                    _proxyDetails.ProxyServerAddress = New Uri("{0}:{1}".FormatInvariant(Settings.ProxyServer, Settings.ProxyPort))
+                    _proxyDetails.ProxyUserName = Settings.ProxyUsername
+                    _proxyDetails.UseBasicAuth = Settings.ProxyUseBasic
+                    _proxyDetails.UseDefaultCredential = Settings.ProxyUseDefault
+                End If
+
+                Return _proxyDetails
+            End If
+            Return Nothing
+        End Get
+    End Property
+
+
 
     Public Shared Property UpdateLocation As String
         Get
@@ -217,6 +247,31 @@ Public Class HQ
             _updateLocation = value
         End Set
     End Property
+
+    Public Shared ReadOnly Property ApiCacheFolder As String
+        Get
+            Return Path.Combine(AppDataFolder, ApiCacheFolderName)
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property ApiProvider As EveAPI.EveAPI
+        Get
+            If _apiProvider Is Nothing Then
+                _apiProvider = New EveAPI.EveAPI(ApiCacheFolder, New HttpRequestProvider(ProxyDetails))
+            End If
+            Return _apiProvider
+        End Get
+    End Property
+
+    Public Shared Property TempPilots As SortedList(Of String, EveHQPilot)
+        Get
+            Return tempPilots1
+        End Get
+        Set(value As SortedList(Of String, EveHQPilot))
+            tempPilots1 = value
+        End Set
+    End Property
+
 
     Public Shared Sub ReduceMemory()
         GC.Collect()
@@ -254,27 +309,26 @@ Public Class HQ
         Return Nothing
     End Function
 
-    Private Shared _eveCentralProvider As EveCentralMarketDataProvider
+
     Public Shared Function GetEveCentralMarketInstance() As EveCentralMarketDataProvider
         If _eveCentralProvider Is Nothing Then
             If (Settings.ProxyRequired) Then
-                _eveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"), HttpRequestProvider.Default, New UriBuilder(Settings.ProxyServer).Uri, Settings.ProxyUseDefault, Settings.ProxyUsername, Settings.ProxyPassword, Settings.ProxyUseBasic)
+
+                _eveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(AppDataFolder, "MarketCache\EveCentral"), New HttpRequestProvider(ProxyDetails))
             Else
-                _eveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"), HttpRequestProvider.Default)
+                _eveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(AppDataFolder, "MarketCache\EveCentral"), New HttpRequestProvider(Nothing))
             End If
         End If
         Return _eveCentralProvider
     End Function
 
-    Private Shared _eveHqProvider As EveHQMarketDataProvider
-    Private Shared _plugins As Dictionary(Of String, EveHQPlugIn)
-
+   
     Public Shared Function GetEveHqMarketInstance() As EveHQMarketDataProvider
         If _eveHqProvider Is Nothing Then
             If (Settings.ProxyRequired) Then
-                _eveHqProvider = New EveHQMarketDataProvider(Path.Combine(AppDataFolder, "MarketCache\EveHq"), HttpRequestProvider.Default, New UriBuilder(Settings.ProxyServer).Uri, Settings.ProxyUseDefault, Settings.ProxyUsername, Settings.ProxyPassword, Settings.ProxyUseBasic)
+                _eveHqProvider = New EveHQMarketDataProvider(Path.Combine(AppDataFolder, "MarketCache\EveHq"), New HttpRequestProvider(ProxyDetails))
             Else
-                _eveHqProvider = New EveHQMarketDataProvider(Path.Combine(AppDataFolder, "MarketCache\EveHq"), HttpRequestProvider.Default)
+                _eveHqProvider = New EveHQMarketDataProvider(Path.Combine(AppDataFolder, "MarketCache\EveHq"), New HttpRequestProvider(ProxyDetails))
             End If
         End If
         Return _eveHqProvider

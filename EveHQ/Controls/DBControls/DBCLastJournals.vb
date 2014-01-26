@@ -23,6 +23,7 @@ Imports EveHQ.EveAPI
 Imports EveHQ.Core
 Imports DevComponents.DotNetBar
 Imports System.Xml
+Imports EveHQ.Common.Extensions
 
 Namespace Controls.DBControls
 
@@ -113,7 +114,6 @@ Namespace Controls.DBControls
                 'Get transactions XML
                 Dim numTransactionsDisplay As Integer = nudEntries.Value ' how much transactions to display in listview
 
-                Dim transactionsXML As XmlDocument
                 Dim cPilot As EveHQPilot = HQ.Settings.Pilots(cboPilotList.SelectedItem.ToString)
                 Dim cAccount As EveHQAccount = HQ.Settings.Accounts(cPilot.Account)
                 Dim cCharID As String = cPilot.ID
@@ -121,27 +121,25 @@ Namespace Controls.DBControls
                 Dim transA As Double
                 Dim transB As Double
 
-                Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                transactionsXML = apiReq.GetAPIXML(APITypes.WalletJournalChar, cAccount.ToAPIAccount, cCharID, AccountKey, 0, 256, APIReturnMethods.ReturnStandard)
-
+                Dim journalData = HQ.ApiProvider.Character.WalletJournal(cAccount.UserID, cAccount.APIKey, CInt(cCharID), 1000)
                 'Parse the XML document
-                If transactionsXML IsNot Nothing Then
+                If journalData.IsSuccess Then
                     ' Get transactions
-                    Dim transactionList As XmlNodeList
+                    Dim transactionList = journalData.ResultData
 
-                    transactionList = transactionsXML.SelectNodes("/eveapi/result/rowset/row")
-
+                    
                     adtLastTransactions.BeginUpdate()
                     adtLastTransactions.Nodes.Clear()
-                    For currentTransactionCounter As Integer = 0 To Math.Min(numTransactionsDisplay - 1, transactionList.Count - 1)
+                    Dim maxCount = Math.Min(numTransactionsDisplay - 1, transactionList.Count - 1)
+                    For currentTransactionCounter As Integer = 0 To maxCount
                         Dim newTransaction As New Node
-                        Dim transaction As XmlNode = transactionList(currentTransactionCounter)
+                        Dim transaction = transactionList(currentTransactionCounter)
                         If transaction IsNot Nothing Then
-                            Dim transDate As Date = DateTime.ParseExact(transaction.Attributes.GetNamedItem("date").Value, IndustryTimeFormat, _culture, DateTimeStyles.None)
+                            Dim transDate As Date = transaction.Date.DateTime
                             newTransaction.Text = transDate.ToString
-                            newTransaction.Cells.Add(New Cell(_refTypes(transaction.Attributes.GetNamedItem("refTypeID").Value)))
-                            transA = Double.Parse(transaction.Attributes.GetNamedItem("amount").Value, _culture)
-                            transB = Double.Parse(transaction.Attributes.GetNamedItem("balance").Value, _culture)
+                            newTransaction.Cells.Add(New Cell(_refTypes(transaction.ReferenceType.ToInvariantString)))
+                            transA = transaction.Amount
+                            transB = transaction.Balance
                             If transA >= 0 Then
                                 newTransaction.Style = _styleGreen
                                 newTransaction.Cells.Add(New Cell(transA.ToString("N2"), _styleGreenRight))
@@ -177,40 +175,26 @@ Namespace Controls.DBControls
         Public Function LoadRefTypes() As Boolean
             Try
                 ' Dimension variables
-                Dim refDetails As XmlNodeList
-                Dim refNode As XmlNode
-                Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-                Dim refXML As XmlDocument = apiReq.GetAPIXML(APITypes.RefTypes, APIReturnMethods.ReturnStandard)
-                If refXML Is Nothing Then
-                    ' Problem with the API server so let's use our resources to populate it
-                    Try
-                        refXML = New XmlDocument
-                        refXML.LoadXml(My.Resources.RefTypes.ToString)
-                    Catch ex As Exception
-                        MessageBox.Show("There was an error loading the RefTypes API and it would appear there is a problem with the local copy. Please try again later.", "Last Journal Widget Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        Return False
-                    End Try
-                End If
-                Dim errlist As XmlNodeList = refXML.SelectNodes("/eveapi/error")
-                If errlist.Count = 0 Then
-                    refDetails = refXML.SelectNodes("/eveapi/result/rowset/row")
-                    If refDetails IsNot Nothing Then
+                Dim refData = HQ.ApiProvider.Eve.RefTypes()
+                If refData.EveErrorCode = 0 Then
+
+                    If refData.IsSuccess Then
                         _refTypes.Clear()
-                        For Each refNode In refDetails
-                            _refTypes.Add(refNode.Attributes.GetNamedItem("refTypeID").Value, refNode.Attributes.GetNamedItem("refTypeName").Value)
+                        For Each refNode In refData.ResultData
+                            _refTypes.Add(refNode.Id.ToInvariantString(), refNode.Name)
                         Next
                     End If
                 Else
-                    Dim errNode As XmlNode = errlist(0)
                     ' Get error code
-                    Dim errCode As String = errNode.Attributes.GetNamedItem("code").Value
-                    Dim errMsg As String = errNode.InnerText
+                    Dim errCode As String = refData.EveErrorCode.ToInvariantString()
+                    Dim errMsg As String = refData.EveErrorText
                     MessageBox.Show("The RefTypes API returned error " & errCode & ": " & errMsg, "RefTypes Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Return False
                 End If
                 Return True
             Catch e As Exception
                 MessageBox.Show("There was an error loading the RefTypes API. The error was: " & e.Message, "Last Journal Widget Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Trace.TraceError(e.FormatException())
                 Return False
             End Try
         End Function

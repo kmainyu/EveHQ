@@ -48,12 +48,11 @@ Public Class EveServer
 
     Public Sub GetServerStatus()
         Try
-            Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-            Dim statusXML As XmlDocument = apiReq.GetAPIXML(APITypes.ServerStatus, APIReturnMethods.BypassCache)
-            If statusXML IsNot Nothing Then
-                Dim statusDetails As XmlNodeList = statusXML.SelectNodes("/eveapi/result")
-                Dim serverIsUp As Boolean = CBool(statusDetails(0).ChildNodes(0).InnerText)
-                Dim serverPlayers As Integer = CInt(statusDetails(0).ChildNodes(1).InnerText)
+            Dim serverInfo = HQ.ApiProvider.Server.ServerStatus()
+            If serverInfo.IsSuccess Then
+
+                Dim serverIsUp As Boolean = serverInfo.ResultData.IsServerOpen
+                Dim serverPlayers As Integer = serverInfo.ResultData.OnlinePlayers
                 If serverIsUp = True Then
                     Status = ServerStatus.Up
                     Players = serverPlayers

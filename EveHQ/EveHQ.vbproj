@@ -769,6 +769,10 @@
       <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
       <Name>EveHQ.Market</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EveHQ.NewEveAPI\EveHQ.NewEveAPI.csproj">
+      <Project>{7caaeb13-6eb8-482c-b63c-f78cb30b2289}</Project>
+      <Name>EveHQ.NewEveAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon09_09_grey.png" />
@@ -929,6 +933,12 @@
     <HgVersionFile TemplateFile="My Project\AssemblyInfo.template.vb" DestinationFile="My Project\AssemblyInfo.vb" />
   </Target>-->
   <Target Name="AfterBuild">
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

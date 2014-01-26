@@ -17,14 +17,14 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports EveHQ.EveData
-Imports EveHQ.EveAPI
-Imports EveHQ.Core
 Imports System.Globalization
+Imports EveHQ.EveData
+Imports EveHQ.EveApi
+Imports EveHQ.Core
 Imports System.Xml
+Imports EveHQ.Common.Extensions
 
 Namespace Controls.DBControls
-
     Public Class DBCMarketOrders
         Public Sub New()
 
@@ -51,13 +51,7 @@ Namespace Controls.DBControls
             End Get
         End Property
 
-#Region "Custom Control Variables"
-
         Dim _defaultPilotName As String = ""
-
-#End Region
-
-#Region "Custom Control Properties"
 
         Public Property DefaultPilotName() As String
             Get
@@ -78,16 +72,8 @@ Namespace Controls.DBControls
             End Set
         End Property
 
-#End Region
-
-#Region "Class Variables"
-
         Private Const IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
         ReadOnly _culture As CultureInfo = New CultureInfo("en-GB")
-
-#End Region
-
-#Region "Market Routines"
 
         Private Sub ParseOrders()
             ' Get the owner we will use
@@ -99,135 +85,132 @@ Namespace Controls.DBControls
                 Dim orderXML As XmlDocument
                 Dim selPilot As EveHQPilot = HQ.Settings.Pilots(owner)
                 Dim pilotAccount As EveHQAccount = HQ.Settings.Accounts.Item(selPilot.Account)
-                Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension,HQ.cacheFolder)
-                orderXML = apiReq.GetAPIXML(APITypes.OrdersChar, pilotAccount.ToAPIAccount, selPilot.ID,APIReturnMethods.ReturnStandard)
-                If orderXML IsNot Nothing Then
-                    Dim orders As XmlNodeList = orderXML.SelectNodes("/eveapi/result/rowset/row")
+
+                Dim ordersResponse As EveServiceResponse(Of IEnumerable(Of MarketOrder)) =
+                        HQ.ApiProvider.Character.MarketOrders(pilotAccount.UserID, pilotAccount.APIKey,
+                                                              Integer.Parse(selPilot.ID))
+
+                If ordersResponse.ResultData IsNot Nothing Then
+
                     clvBuyOrders.BeginUpdate()
                     clvSellOrders.BeginUpdate()
                     clvBuyOrders.Items.Clear()
                     clvSellOrders.Items.Clear()
-                    For Each order As XmlNode In orders
-                        If order.Attributes.GetNamedItem("bid").Value = "0" Then
-                            If order.Attributes.GetNamedItem("orderState").Value = "0" Then
+                    For Each order As MarketOrder In ordersResponse.ResultData
+                        If order.IsBuyOrder = False Then
+
+                            If order.OrderState = MarketOrderState.Active Then
                                 Dim sOrder As New ListViewItem
                                 clvSellOrders.Items.Add(sOrder)
-                                Dim itemID As Integer = CInt(order.Attributes.GetNamedItem("typeID").Value)
+
                                 Dim itemName As String
-                                If StaticData.Types.ContainsKey(itemID) = True Then
-                                    itemName = StaticData.Types(itemID).Name
+                                Dim itemType As EveType
+                                If StaticData.Types.TryGetValue(order.TypeId, itemType) = True Then
+                                    itemName = itemType.Name
                                 Else
-                                    itemName = "Unknown Item ID:" & itemID
+                                    itemName = "Unknown Item ID:" & order.TypeId.ToInvariantString()
                                 End If
                                 sOrder.Text = itemName
-                                Dim quantity As Double = Double.Parse(order.Attributes.GetNamedItem("volRemaining").Value,
-                                                                      _culture)
+                                Dim quantity As Double = order.QuantityRemaining
                                 sOrder.SubItems.Add(
                                     quantity.ToString("N0") & " / " &
-                                    CDbl(order.Attributes.GetNamedItem("volEntered").Value).ToString("N0"))
-                                Dim price As Double = Double.Parse(order.Attributes.GetNamedItem("price").Value,
-                                                                   NumberStyles.Any, _culture)
+                                    order.QuantityEntered.ToString("N0"))
+                                Dim price As Double = order.Price
                                 sOrder.SubItems.Add(price.ToString("N2"))
                                 Dim loc As String
-                                loc = StaticData.GetLocationName(CInt(order.Attributes.GetNamedItem("stationID").Value))
+                                loc = StaticData.GetLocationName(order.StationId)
                                 sOrder.SubItems.Add(loc)
-                                Dim issueDate As Date = DateTime.ParseExact(order.Attributes.GetNamedItem("issued").Value,
-                                                                            IndustryTimeFormat, _culture, DateTimeStyles.None)
+                                Dim issueDate As Date = order.DateIssued.DateTime
                                 Dim orderExpires As TimeSpan = issueDate - Now
                                 orderExpires =
-                                    orderExpires.Add(New TimeSpan(CInt(order.Attributes.GetNamedItem("duration").Value), 0,
-                                                                  0, 0))
+                                    orderExpires.Add(order.Duration)
                                 If orderExpires.TotalSeconds <= 0 Then
                                     sOrder.SubItems.Add("Expired!")
                                 Else
                                     sOrder.SubItems.Add(SkillFunctions.TimeToString(orderExpires.TotalSeconds, False))
                                 End If
                                 sOrder.SubItems(4).Tag = orderExpires
-                                sellTotal = sellTotal + quantity * price
+                                sellTotal = sellTotal + quantity*price
                                 totalOrders = totalOrders + 1
-                            ElseIf order.Attributes.GetNamedItem("orderState").Value = "2" Then
+                            ElseIf order.OrderState = MarketOrderState.Expired Then
                                 Dim sOrder As New ListViewItem
                                 clvRecentlySold.Items.Add(sOrder)
-                                Dim itemID As Integer = CInt(order.Attributes.GetNamedItem("typeID").Value)
+                                Dim itemID As String = order.TypeId.ToInvariantString()
                                 Dim itemName As String
-                                If StaticData.Types.ContainsKey(itemID) = True Then
-                                    itemName = StaticData.Types(itemID).Name
+                                Dim itemType As EveType
+                                If StaticData.Types.TryGetValue(order.TypeId, itemType) = True Then
+                                    itemName = itemType.Name
                                 Else
-                                    itemName = "Unknown Item ID:" & itemID
+                                    itemName = "Unknown Item ID:" & order.TypeId.ToInvariantString()
                                 End If
                                 sOrder.Text = itemName
-                                Dim quantity As Double = Double.Parse(order.Attributes.GetNamedItem("volRemaining").Value,
-                                                                      _culture)
+                                Dim quantity As Double = order.QuantityRemaining
                                 sOrder.SubItems.Add(
                                     quantity.ToString("N0") & " / " &
-                                    CDbl(order.Attributes.GetNamedItem("volEntered").Value).ToString("N0"))
-                                Dim price As Double = Double.Parse(order.Attributes.GetNamedItem("price").Value,
-                                                                   NumberStyles.Any, _culture)
+                                    order.QuantityEntered.ToString("N0"))
+                                Dim price As Double = order.Price
                                 sOrder.SubItems.Add(price.ToString("N2"))
                                 Dim loc As String
-                                loc = StaticData.GetLocationName(CInt(order.Attributes.GetNamedItem("stationID").Value))
+                                loc = StaticData.GetLocationName(order.StationId)
                                 sOrder.SubItems.Add(loc)
                             End If
                         Else
-                            If order.Attributes.GetNamedItem("orderState").Value = "0" Then
+                            If order.OrderState = MarketOrderState.Active Then
                                 Dim bOrder As New ListViewItem
                                 clvBuyOrders.Items.Add(bOrder)
-                                Dim itemID As Integer = CInt(order.Attributes.GetNamedItem("typeID").Value)
+                                Dim itemID As String = order.TypeId.ToInvariantString
                                 Dim itemName As String
-                                If StaticData.Types.ContainsKey(itemID) = True Then
-                                    itemName = StaticData.Types(itemID).Name
+                                Dim itemType As EveType
+                                If StaticData.Types.TryGetValue(order.TypeId, itemType) = True Then
+                                    itemName = itemType.Name
                                 Else
-                                    itemName = "Unknown Item ID:" & itemID
+                                    itemName = "Unknown Item ID:" & order.TypeId.ToInvariantString()
                                 End If
                                 bOrder.Text = itemName
-                                Dim quantity As Double = Double.Parse(order.Attributes.GetNamedItem("volRemaining").Value,
-                                                                      _culture)
+                                Dim quantity As Double = order.QuantityRemaining
+
                                 bOrder.SubItems.Add(
                                     quantity.ToString("N0") & " / " &
-                                    CDbl(order.Attributes.GetNamedItem("volEntered").Value).ToString("N0"))
-                                Dim price As Double = Double.Parse(order.Attributes.GetNamedItem("price").Value,
-                                                                   NumberStyles.Any, _culture)
+                                    order.QuantityEntered.ToString("N0"))
+                                Dim price As Double = order.Price
                                 bOrder.SubItems.Add(price.ToString("N2"))
                                 Dim loc As String
-                                loc = StaticData.GetLocationName(CInt(order.Attributes.GetNamedItem("stationID").Value))
+                                loc = StaticData.GetLocationName(order.StationId)
                                 bOrder.SubItems.Add(loc)
-                                Dim issueDate As Date = DateTime.ParseExact(order.Attributes.GetNamedItem("issued").Value,
-                                                                            IndustryTimeFormat, _culture, DateTimeStyles.None)
+                                Dim issueDate As Date = order.DateIssued.DateTime
                                 Dim orderExpires As TimeSpan = issueDate - Now
                                 orderExpires =
-                                    orderExpires.Add(New TimeSpan(CInt(order.Attributes.GetNamedItem("duration").Value), 0,
-                                                                  0, 0))
+                                    orderExpires.Add(order.Duration)
                                 If orderExpires.TotalSeconds <= 0 Then
                                     bOrder.SubItems.Add("Expired!")
                                 Else
                                     bOrder.SubItems.Add(SkillFunctions.TimeToString(orderExpires.TotalSeconds, False))
                                 End If
                                 bOrder.SubItems(4).Tag = orderExpires
-                                buyTotal = buyTotal + quantity * price
-                                totalEscrow = totalEscrow +
-                                              Double.Parse(order.Attributes.GetNamedItem("escrow").Value, _culture)
+                                buyTotal = buyTotal + quantity*price
+                                totalEscrow = totalEscrow + order.Escrow
+
                                 totalOrders = totalOrders + 1
-                            ElseIf order.Attributes.GetNamedItem("orderState").Value = "2" Then
+                            ElseIf order.OrderState = MarketOrderState.Expired Then
                                 Dim bOrder As New ListViewItem
                                 clvRecentlyBought.Items.Add(bOrder)
-                                Dim itemID As Integer = CInt(order.Attributes.GetNamedItem("typeID").Value)
+                                Dim itemID As String = order.TypeId.ToInvariantString()
                                 Dim itemName As String
-                                If StaticData.Types.ContainsKey(itemID) = True Then
-                                    itemName = StaticData.Types(itemID).Name
+                                Dim itemType As EveType
+                                If StaticData.Types.TryGetValue(order.TypeId, itemType) = True Then
+                                    itemName = itemType.Name
                                 Else
-                                    itemName = "Unknown Item ID:" & itemID
+                                    itemName = "Unknown Item ID:" & order.TypeId.ToInvariantString()
                                 End If
                                 bOrder.Text = itemName
-                                Dim quantity As Double = Double.Parse(order.Attributes.GetNamedItem("volRemaining").Value,
-                                                                      _culture)
+                                Dim quantity As Double = order.QuantityRemaining
                                 bOrder.SubItems.Add(
                                     quantity.ToString("N0") & " / " &
-                                    CDbl(order.Attributes.GetNamedItem("volEntered").Value).ToString("N0"))
-                                Dim price As Double = Double.Parse(order.Attributes.GetNamedItem("price").Value,
-                                                                   NumberStyles.Any, _culture)
+                                    order.QuantityEntered.ToString("N0"))
+                                Dim price As Double = order.Price
                                 bOrder.SubItems.Add(price.ToString("N2"))
                                 Dim loc As String
-                                loc = StaticData.GetLocationName(CInt(order.Attributes.GetNamedItem("stationID").Value))
+                                loc = StaticData.GetLocationName(order.StationId)
                                 bOrder.SubItems.Add(loc)
                             End If
                         End If
@@ -248,18 +231,19 @@ Namespace Controls.DBControls
                     clvSellOrders.EndUpdate()
                 End If
 
-                Dim maxorders As Integer = 5 + (selPilot.KeySkills(KeySkill.Trade) * 4) +
-                                           (selPilot.KeySkills(KeySkill.Tycoon) * 32) +
-                                           (selPilot.KeySkills(KeySkill.Retail) * 8) +
-                                           (selPilot.KeySkills(KeySkill.Wholesale) * 16)
+                Dim maxorders As Integer = 5 + (selPilot.KeySkills(KeySkill.Trade)*4) +
+                                           (selPilot.KeySkills(KeySkill.Tycoon)*32) +
+                                           (selPilot.KeySkills(KeySkill.Retail)*8) +
+                                           (selPilot.KeySkills(KeySkill.Wholesale)*16)
                 Dim cover As Double = buyTotal - totalEscrow
-                Dim transTax As Double = 1 * (1.5 - 0.15 * (selPilot.KeySkills(KeySkill.Accounting)))
-                Dim brokerFee As Double = 1 * (1 - 0.05 * (selPilot.KeySkills(KeySkill.BrokerRelations)))
+                Dim transTax As Double = 1*(1.5 - 0.15*(selPilot.KeySkills(KeySkill.Accounting)))
+                Dim brokerFee As Double = 1*(1 - 0.05*(selPilot.KeySkills(KeySkill.BrokerRelations)))
                 lblTotalOrders.Text = maxorders.ToString
                 lblOrders.Text = (maxorders - totalOrders).ToString
                 lblSellTotal.Text = sellTotal.ToString("N2") & " isk"
                 lblBuyTotal.Text = buyTotal.ToString("N2") & " isk"
-                lblEscrow.Text = totalEscrow.ToString("N2") & " isk (additional " + cover.ToString("N2") & " isk to cover)"
+                lblEscrow.Text = totalEscrow.ToString("N2") & " isk (additional " + cover.ToString("N2") &
+                                 " isk to cover)"
                 lblAskRange.Text = GetOrderRange(selPilot.KeySkills(KeySkill.Procurement))
                 lblBidRange.Text = GetOrderRange(selPilot.KeySkills(KeySkill.Marketing))
                 lblModRange.Text = GetOrderRange(selPilot.KeySkills(KeySkill.Daytrading))
@@ -307,9 +291,8 @@ Namespace Controls.DBControls
             End Select
         End Function
 
-#End Region
-
-        Private Sub cboOwner_SelectedValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboOwner.SelectedValueChanged
+        Private Sub cboOwner_SelectedValueChanged(ByVal sender As Object, ByVal e As EventArgs) _
+            Handles cboOwner.SelectedValueChanged
             Call ParseOrders()
         End Sub
 

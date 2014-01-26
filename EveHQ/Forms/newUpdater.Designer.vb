@@ -44,14 +44,14 @@ Namespace Forms
             Me._downloadProgress.Text = "0%"
             Me._downloadProgress.TextVisible = True
             '
-            '_statusDetail
+        '_statusDetail
             '
-            Me._statusDetail.AutoSize = True
-            Me._statusDetail.Location = New System.Drawing.Point(21, 85)
-            Me._statusDetail.Name = "_statusDetail"
-            Me._statusDetail.Size = New System.Drawing.Size(380, 13)
-            Me._statusDetail.TabIndex = 1
-            Me._statusDetail.Text = "https://bitbucket.org/EveHQ/evehq/downloads/evehq-2.12.3.2256-setup.exe"
+        Me._statusDetail.AutoSize = True
+        Me._statusDetail.Location = New System.Drawing.Point(21, 85)
+        Me._statusDetail.Name = "_statusDetail"
+        Me._statusDetail.Size = New System.Drawing.Size(380, 13)
+        Me._statusDetail.TabIndex = 1
+        Me._statusDetail.Text = "https://bitbucket.org/EveHQ/evehq/downloads/evehq-2.12.3.2256-setup.exe"
             '
             '_continueButton
             '
@@ -79,7 +79,7 @@ Namespace Forms
             Me.ClientSize = New System.Drawing.Size(423, 148)
             Me.Controls.Add(Me._statusHeader)
             Me.Controls.Add(Me._continueButton)
-            Me.Controls.Add(Me._statusDetail)
+        Me.Controls.Add(Me._statusDetail)
             Me.Controls.Add(Me._downloadProgress)
             Me.DoubleBuffered = True
             Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)

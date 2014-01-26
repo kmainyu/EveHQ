@@ -1,11 +1,11 @@
 ﻿// ===========================================================================
 // <copyright file="EveCentralMarketDataProvider.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
-//  Copyright © 2005-2012  EveHQ Development Team
+//  Copyright © 2005-2013  EveHQ Development Team
 //  This file (EveCentralMarketDataProvider.cs), is part of EveHQ.
 //  EveHQ is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //  EveHQ is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,7 +23,7 @@ namespace EveHQ.Market.MarketServices
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web;
     using System.Xml.Linq;
@@ -38,8 +38,6 @@ namespace EveHQ.Market.MarketServices
     /// </summary>
     public class EveCentralMarketDataProvider : IMarketStatDataProvider, IMarketDataReceiver, IMarketOrderDataProvider
     {
-        #region Constants
-
         /// <summary>The eve central base url.</summary>
         private const string EveCentralBaseUrl = "http://api.eve-central.com/api/";
 
@@ -78,49 +76,26 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The use system.</summary>
         private const string UseSystem = "usesystem";
 
-        #endregion
-
-        #region Fields
-
         /// <summary>The _cache ttl.</summary>
         private readonly TimeSpan _cacheTtl = TimeSpan.FromHours(1);
 
         /// <summary>The _market order cache.</summary>
         private readonly ICacheProvider _marketOrderCache;
 
-        /// <summary>The _proxy password.</summary>
-        private readonly string _proxyPassword;
-
-        /// <summary>The _proxy server address.</summary>
-        private readonly Uri _proxyServerAddress;
-
-        /// <summary>The _proxy user name.</summary>
-        private readonly string _proxyUserName;
-
         /// <summary>The _region data cache.</summary>
         private readonly ICacheProvider _regionDataCache;
+
+        /// <summary>The _request provider.</summary>
+        private readonly IHttpRequestProvider _requestProvider;
 
         /// <summary>The _upload key.</summary>
         private readonly UploadKey _uploadKey = new UploadKey { Key = "0", Name = "Eve-Central" };
 
-        /// <summary>The _use basic auth.</summary>
-        private readonly bool _useBasicAuth;
-
-        /// <summary>The _use default credential.</summary>
-        private readonly bool _useDefaultCredential;
-
         /// <summary>The _next upload attempt.</summary>
         private DateTimeOffset _nextUploadAttempt;
 
-        /// <summary>The _request provider.</summary>
-        private IHttpRequestProvider _requestProvider;
-
         /// <summary>The _upload service online.</summary>
         private bool _uploadServiceOnline;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
@@ -131,35 +106,6 @@ namespace EveHQ.Market.MarketServices
             _marketOrderCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, "MarketOrders"));
             _requestProvider = requestProvider;
         }
-
-        /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
-        /// <param name="cacheRootFolder">The cache root folder.</param>
-        /// <param name="requestProvider">The request Provider.</param>
-        /// <param name="proxyServerAddress">The proxy Server Address.</param>
-        /// <param name="useDefaultCredential">The use Default Credential.</param>
-        /// <param name="proxyUserName">The proxy User Name.</param>
-        /// <param name="proxyPassword">The proxy Password.</param>
-        /// <param name="useBasicAuth">The use Basic Auth.</param>
-        public EveCentralMarketDataProvider(
-            string cacheRootFolder, 
-            IHttpRequestProvider requestProvider, 
-            Uri proxyServerAddress, 
-            bool useDefaultCredential, 
-            string proxyUserName, 
-            string proxyPassword, 
-            bool useBasicAuth)
-            : this(cacheRootFolder, requestProvider)
-        {
-            _proxyServerAddress = proxyServerAddress;
-            _useDefaultCredential = useDefaultCredential;
-            _proxyUserName = proxyUserName;
-            _proxyPassword = proxyPassword;
-            _useBasicAuth = useBasicAuth;
-        }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>Gets the name.</summary>
         public static string Name
@@ -179,57 +125,12 @@ namespace EveHQ.Market.MarketServices
             }
         }
 
-        /// <summary>Gets a value indicating whether limited region selection.</summary>
-        public bool LimitedRegionSelection
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        /// <summary>Gets a value indicating whether limited system selection.</summary>
-        public bool LimitedSystemSelection
-        {
-            get
-            {
-                return false;
-            }
-        }
-
         /// <summary>Gets the next attempt.</summary>
         public DateTimeOffset NextAttempt
         {
             get
             {
                 return _nextUploadAttempt;
-            }
-        }
-
-        /// <summary>Gets the provider name.</summary>
-        public string ProviderName
-        {
-            get
-            {
-                return Name;
-            }
-        }
-
-        /// <summary>Gets the supported regions.</summary>
-        public IEnumerable<int> SupportedRegions
-        {
-            get
-            {
-                return new int[0];
-            }
-        }
-
-        /// <summary>Gets the supported systems.</summary>
-        public IEnumerable<int> SupportedSystems
-        {
-            get
-            {
-                return new int[0];
             }
         }
 
@@ -242,9 +143,35 @@ namespace EveHQ.Market.MarketServices
             }
         }
 
-        #endregion
+        /// <summary>Attempts to upload the data values to the receiver</summary>
+        /// <param name="marketData">The market data JSON string.</param>
+        /// <returns>A reference to the Async Task.</returns>
+        public Task UploadMarketData(string marketData)
+        {
+            // creat the URL for the request
+            var requestUri = new Uri(EveCentralBaseUrl + UploadApi);
+            var paramData = new NameValueCollection { { UdfPostParameterName, HttpUtility.UrlEncode(marketData) } };
 
-        #region Public Methods and Operators
+            // send the request and return the task handle after checking the return of the web request
+            return _requestProvider.PostAsync(requestUri, paramData).ContinueWith(
+                task =>
+                    {
+                        if (task.IsCompleted && !task.IsCanceled && !task.IsFaulted && task.Exception == null && task.Result != null && task.Result.IsSuccessStatusCode)
+                        {
+                            // success
+                            _uploadServiceOnline = true;
+                            _nextUploadAttempt = DateTimeOffset.Now;
+                        }
+                        else
+                        {
+                            // there was something wrong... disable this receiver for a while.
+                            _uploadServiceOnline = false;
+                            _nextUploadAttempt = DateTimeOffset.Now.AddHours(1);
+                        }
+
+                        return task;
+                    });
+        }
 
         /// <summary>Gets the current market orders for the item, using the region, system and quantity constraints</summary>
         /// <param name="itemTypeId">The item ID to query</param>
@@ -278,19 +205,15 @@ namespace EveHQ.Market.MarketServices
                         {
                             // make the request for the types we don't have valid caches for
                             NameValueCollection requestParameters = CreateMarketRequestParameters(new[] { itemTypeId }, regionList, systemId ?? 0, minQuantity);
-                            Task<WebResponse> requestTask = _requestProvider.PostAsync(
-                                new Uri(EveCentralBaseUrl + QuickLookApi), 
-                                requestParameters, 
-                                _proxyServerAddress, 
-                                _useDefaultCredential, 
-                                _proxyUserName, 
-                                _proxyPassword, 
-                                _useBasicAuth);
+                            Task<HttpResponseMessage> requestTask = _requestProvider.PostAsync(new Uri(EveCentralBaseUrl + QuickLookApi), requestParameters);
+
                             requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
                             if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null && requestTask.Result != null)
                             {
-                                using (Stream stream = requestTask.Result.GetResponseStream())
+                                Task<Stream> contentStreamTask = requestTask.Result.Content.ReadAsStreamAsync();
+                                contentStreamTask.Wait();
+                                using (Stream stream = contentStreamTask.Result)
                                 {
                                     try
                                     {
@@ -318,6 +241,51 @@ namespace EveHQ.Market.MarketServices
                     });
         }
 
+        /// <summary>Gets a value indicating whether limited region selection.</summary>
+        public bool LimitedRegionSelection
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        /// <summary>Gets a value indicating whether limited system selection.</summary>
+        public bool LimitedSystemSelection
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        /// <summary>Gets the provider name.</summary>
+        public string ProviderName
+        {
+            get
+            {
+                return Name;
+            }
+        }
+
+        /// <summary>Gets the supported regions.</summary>
+        public IEnumerable<int> SupportedRegions
+        {
+            get
+            {
+                return new int[0];
+            }
+        }
+
+        /// <summary>Gets the supported systems.</summary>
+        public IEnumerable<int> SupportedSystems
+        {
+            get
+            {
+                return new int[0];
+            }
+        }
+
         /// <summary>The get region based order stats.</summary>
         /// <param name="typeIds">The type ids.</param>
         /// <param name="includeRegions">Include these regions.</param>
@@ -335,8 +303,8 @@ namespace EveHQ.Market.MarketServices
                         var typesToRequest = new List<int>();
                         string cacheKey;
                         var dirtyCache = new Dictionary<int, ItemOrderStats>();
-                        IList<int> regionList;
-
+                        includeRegions = includeRegions ?? new List<int>();
+                        IList<int> regionList = includeRegions as IList<int> ?? includeRegions.ToList();
                         if (includeRegions != null)
                         {
                             regionList = includeRegions as IList<int> ?? includeRegions.ToList();
@@ -395,42 +363,6 @@ namespace EveHQ.Market.MarketServices
                         return cachedItems;
                     });
         }
-
-        /// <summary>Attempts to upload the data values to the receiver</summary>
-        /// <param name="marketData">The market data JSON string.</param>
-        /// <returns>A reference to the Async Task.</returns>
-        public Task UploadMarketData(string marketData)
-        {
-            // creat the URL for the request
-            var requestUri = new Uri(EveCentralBaseUrl + UploadApi);
-            var paramData = new NameValueCollection { { UdfPostParameterName, HttpUtility.UrlEncode(marketData) } };
-
-            // send the request and return the task handle after checking the return of the web request
-            return _requestProvider.PostAsync(requestUri, paramData, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth).ContinueWith(
-                task =>
-                    {
-                        HttpWebResponse httpResponse;
-                        if (task.IsCompleted && !task.IsCanceled && !task.IsFaulted && task.Exception == null && task.Result != null && (httpResponse = task.Result as HttpWebResponse) != null
-                            && httpResponse.StatusCode == HttpStatusCode.OK)
-                        {
-                            // success
-                            _uploadServiceOnline = true;
-                            _nextUploadAttempt = DateTimeOffset.Now;
-                        }
-                        else
-                        {
-                            // there was something wrong... disable this receiver for a while.
-                            _uploadServiceOnline = false;
-                            _nextUploadAttempt = DateTimeOffset.Now.AddHours(1);
-                        }
-
-                        return task;
-                    });
-        }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>Calculates the cache key to use.</summary>
         /// <param name="ids">The ids.</param>
@@ -618,19 +550,15 @@ namespace EveHQ.Market.MarketServices
             // make the request for the types we don't have valid caches for
             NameValueCollection requestParameters = CreateMarketRequestParameters(typesToRequest, includeRegions, systemId, minQuantity);
 
-            Task<WebResponse> requestTask = _requestProvider.PostAsync(
-                new Uri(EveCentralBaseUrl + MarketStatApi), 
-                requestParameters, 
-                _proxyServerAddress, 
-                _useDefaultCredential, 
-                _proxyUserName, 
-                _proxyPassword, 
-                _useBasicAuth);
+            Task<HttpResponseMessage> requestTask = _requestProvider.PostAsync(new Uri(EveCentralBaseUrl + MarketStatApi), requestParameters);
             requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
             if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
             {
-                using (Stream stream = requestTask.Result.GetResponseStream())
+                Task<Stream> contentStreamTask = requestTask.Result.Content.ReadAsStreamAsync();
+                contentStreamTask.Wait();
+
+                using (Stream stream = contentStreamTask.Result)
                 {
                     try
                     {
@@ -640,6 +568,8 @@ namespace EveHQ.Market.MarketServices
                         // cache it.
                         foreach (ItemOrderStats item in retrievedItems)
                         {
+                            _regionDataCache.Add(ItemKeyFormat.FormatInvariant(item.ItemTypeId, cacheKey), item, DateTimeOffset.Now.Add(_cacheTtl));
+                            resultItems.Add(item);
                             _regionDataCache.Add(ItemKeyFormat.FormatInvariant(item.ItemTypeId, cacheKey), item, DateTimeOffset.Now.Add(_cacheTtl));
                             resultItems.Add(item);
                         }
@@ -654,7 +584,5 @@ namespace EveHQ.Market.MarketServices
 
             return resultItems;
         }
-
-        #endregion
     }
 }

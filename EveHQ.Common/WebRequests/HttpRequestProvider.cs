@@ -20,8 +20,6 @@ namespace EveHQ.Common
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
-    using System.Diagnostics;
-    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -34,41 +32,31 @@ namespace EveHQ.Common
     /// <summary>
     ///     Provider class for making Http requests.
     /// </summary>
-    public class HttpRequestProvider : IHttpRequestProvider
+    public sealed class HttpRequestProvider : IHttpRequestProvider
     {
         #region Static Fields
-
-        /// <summary>The default provider instance.</summary>
-        private static readonly HttpRequestProvider DefaultProviderInstance = new HttpRequestProvider(); // type initializer will make this on first use.
 
         /// <summary>
         ///     user agent value to send along on requests for provider collection.
         /// </summary>
-        private static readonly string UserAgent = "EveHQ v" + Assembly.GetExecutingAssembly().GetName().Version;
+        //  private static readonly string UserAgent = "EveHQ v" + Assembly.GetExecutingAssembly().GetName().Version;
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>The _proxy info.</summary>
+        private readonly WebProxyDetails _proxyInfo;
 
         #endregion
 
         #region Constructors and Destructors
 
-        /// <summary>Prevents a default instance of the <see cref="HttpRequestProvider" /> class from being created.</summary>
-        private HttpRequestProvider()
+        /// <summary>Initializes a new instance of the <see cref="HttpRequestProvider"/> class.</summary>
+        /// <param name="proxyInfo">The proxy info.</param>
+        public HttpRequestProvider(WebProxyDetails proxyInfo)
         {
-            // prevents instance creation
-        }
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        ///     Gets the default http request provider.
-        /// </summary>
-        public static HttpRequestProvider Default
-        {
-            get
-            {
-                return DefaultProviderInstance;
-            }
+            _proxyInfo = proxyInfo;
         }
 
         #endregion
@@ -77,68 +65,45 @@ namespace EveHQ.Common
 
         /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
         /// <param name="target">The target URL.</param>
-        /// <param name="proxyServerAddress">The proxy Server Address.</param>
-        /// <param name="useDefaultCredential">The use Default Credential.</param>
-        /// <param name="proxyUserName">The proxy User Name.</param>
-        /// <param name="proxyPassword">The proxy Password.</param>
-        /// <param name="useBasicAuth">The use Basic Auth.</param>
         /// <returns>The asynchronouse task instance</returns>
-        public Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+        public Task<HttpResponseMessage> GetAsync(Uri target)
         {
-            return GetAsync(target, proxyServerAddress, useDefaultCredential, proxyUserName, proxyPassword, useBasicAuth, null, HttpCompletionOption.ResponseContentRead);
+            return GetAsync(target, null, HttpCompletionOption.ResponseContentRead);
         }
 
         /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
         /// <param name="target">The target URL.</param>
-        /// <param name="proxyServerAddress">The proxy Server Address.</param>
-        /// <param name="useDefaultCredential">The use Default Credential.</param>
-        /// <param name="proxyUserName">The proxy User Name.</param>
-        /// <param name="proxyPassword">The proxy Password.</param>
-        /// <param name="useBasicAuth">The use Basic Auth.</param>
         /// <param name="acceptContentType">The accept Content Type.</param>
         /// <returns>The asynchronouse task instance</returns>
-        public Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth, string acceptContentType)
+        public Task<HttpResponseMessage> GetAsync(Uri target, string acceptContentType)
         {
-            return GetAsync(target, proxyServerAddress, useDefaultCredential, proxyUserName, proxyPassword, useBasicAuth, acceptContentType, HttpCompletionOption.ResponseContentRead);
+            return GetAsync(target, acceptContentType, HttpCompletionOption.ResponseContentRead);
         }
 
         /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
         /// <param name="target">The target URL.</param>
-        /// <param name="proxyServerAddress">The proxy Server Address.</param>
-        /// <param name="useDefaultCredential">The use Default Credential.</param>
-        /// <param name="proxyUserName">The proxy User Name.</param>
-        /// <param name="proxyPassword">The proxy Password.</param>
-        /// <param name="useBasicAuth">The use Basic Auth.</param>
         /// <param name="acceptContentType">The accept Content Type.</param>
         /// <param name="completionOption">The completion Option.</param>
         /// <returns>The asynchronouse task instance</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Handler is used by the async task, and cannot be disposed early.")]
-        public Task<HttpResponseMessage> GetAsync(
-            Uri target, 
-            Uri proxyServerAddress, 
-            bool useDefaultCredential, 
-            string proxyUserName, 
-            string proxyPassword, 
-            bool useBasicAuth, 
-            string acceptContentType, 
-            HttpCompletionOption completionOption)
+        public Task<HttpResponseMessage> GetAsync(Uri target, string acceptContentType, HttpCompletionOption completionOption)
         {
             if (target != null)
             {
                 var handler = new HttpClientHandler();
 
-                if (proxyServerAddress != null)
+                if (_proxyInfo != null && _proxyInfo.ProxyServerAddress != null)
                 {
                     // set proxy if required.
-                    var proxy = new WebProxy(proxyServerAddress);
-                    if (useDefaultCredential)
+                    var proxy = new WebProxy(_proxyInfo.ProxyServerAddress);
+                    if (_proxyInfo.UseDefaultCredential)
                     {
                         proxy.UseDefaultCredentials = true;
                     }
                     else
                     {
-                        var credential = new NetworkCredential(proxyUserName, proxyPassword);
-                        proxy.Credentials = useBasicAuth ? credential.GetCredential(proxyServerAddress, "Basic") : credential;
+                        var credential = new NetworkCredential(_proxyInfo.ProxyUserName, _proxyInfo.ProxyPassword);
+                        proxy.Credentials = _proxyInfo.UseBasicAuth ? credential.GetCredential(_proxyInfo.ProxyServerAddress, "Basic") : credential;
                     }
 
                     handler.Proxy = proxy;
@@ -161,96 +126,65 @@ namespace EveHQ.Common
             return Task<HttpResponseMessage>.Factory.StartNew(() => null);
         }
 
-        /// <summary>Executes an HTTP POST request to the provided url.</summary>
-        /// <param name="target">The target URL.</param>
-        /// <param name="postContent">The string content to send as the payload.</param>
-        /// <returns>The asynchronouse task instance</returns>
-        public Task<WebResponse> PostAsync(Uri target, string postContent)
+        /// <summary>The post async.</summary>
+        /// <param name="target">The target.</param>
+        /// <param name="postContent">The post content.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<HttpResponseMessage> PostAsync(Uri target, string postContent)
         {
-            return PostAsync(target, postContent, null, false, null, null, false);
+            return PostAsync(target, postContent, "text/plain");
         }
 
         /// <summary>Executes an HTTP POST request to the provided url.</summary>
         /// <param name="target">The target URL.</param>
         /// <param name="postContent">The string content to send as the payload.</param>
-        /// <param name="proxyServerAddress">The proxy Server Address.</param>
-        /// <param name="useDefaultCredential">The use Default Credential.</param>
-        /// <param name="proxyUserName">The proxy User Name.</param>
-        /// <param name="proxyPassword">The proxy Password.</param>
-        /// <param name="useBasicAuth">The use Basic Auth.</param>
+        /// <param name="contentType">The content Type.</param>
         /// <returns>The asynchronouse task instance</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "validated by extension method.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Catching for logging purposes.")]
-        public Task<WebResponse> PostAsync(Uri target, string postContent, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the handler for async operations would cause the operation to fail."),
+        System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "validated by extension method.")]
+        public Task<HttpResponseMessage> PostAsync(Uri target, string postContent, string contentType)
         {
-            if (target != null && !postContent.IsNullOrWhiteSpace())
+            if (target != null)
             {
-                // TODO: Update this to use HTTP Client.
-                var request = WebRequest.Create(target) as HttpWebRequest;
+                var handler = new HttpClientHandler();
 
                 // This is never null
-                if (proxyServerAddress != null)
+                if (_proxyInfo != null && _proxyInfo.ProxyServerAddress != null)
                 {
                     // set proxy if required.
-                    var proxy = new WebProxy(proxyServerAddress);
-                    if (useDefaultCredential)
+                    var proxy = new WebProxy(_proxyInfo.ProxyServerAddress);
+                    if (_proxyInfo.UseDefaultCredential)
                     {
                         proxy.UseDefaultCredentials = true;
                     }
                     else
                     {
-                        var credential = new NetworkCredential(proxyUserName, proxyPassword);
-                        proxy.Credentials = useBasicAuth ? credential.GetCredential(proxyServerAddress, "Basic") : credential;
+                        var credential = new NetworkCredential(_proxyInfo.ProxyUserName, _proxyInfo.ProxyPassword);
+                        proxy.Credentials = _proxyInfo.UseBasicAuth ? credential.GetCredential(_proxyInfo.ProxyServerAddress, "Basic") : credential;
                     }
 
-                    request.Proxy = proxy;
+                    handler.Proxy = proxy;
+                    handler.UseProxy = true;
                 }
 
-                request.Method = "POST";
-                request.UserAgent = UserAgent;
-                request.ContentType = "application/x-www-form-urlencoded";
+                handler.AutomaticDecompression = DecompressionMethods.GZip;
+                handler.AllowAutoRedirect = true;
 
-                request.ContentLength = postContent.Length;
-                Stream reqStream = request.GetRequestStream();
+                var requestClient = new HttpClient(handler);
 
-                byte[] dataBytes = Encoding.UTF8.GetBytes(postContent);
+                HttpContent content = !postContent.IsNullOrWhiteSpace() ? new StringContent(postContent, Encoding.UTF8, contentType) : null;
 
-                reqStream.Write(dataBytes, 0, dataBytes.Length);
-                reqStream.Flush();
-                reqStream.Close();
-
-                return Task<WebResponse>.Factory.FromAsync(
-                    request.BeginGetResponse, 
-                    ticket =>
-                        {
-                            WebResponse response = null;
-                            try
-                            {
-                                response = request.EndGetResponse(ticket);
-                            }
-                            catch (Exception ex)
-                            {
-                                Trace.TraceError("Error with web request to {0} : {1}".FormatInvariant(target, ex.Message));
-                            }
-
-                            return response;
-                        }, 
-                    null);
+                return requestClient.PostAsync(target, content);
             }
 
-            return Task<WebResponse>.Factory.StartNew(() => null);
+            return Task<HttpResponseMessage>.Factory.StartNew(() => null);
         }
 
         /// <summary>Executes an HTTP POST request to the provided url.</summary>
         /// <param name="target">The target URL.</param>
         /// <param name="postData">A name/value collection to send as the form data.</param>
-        /// <param name="proxyServerAddress">The proxy Server Address.</param>
-        /// <param name="useDefaultCredential">The use Default Credential.</param>
-        /// <param name="proxyUserName">The proxy User Name.</param>
-        /// <param name="proxyPassword">The proxy Password.</param>
-        /// <param name="useBasicAuth">The use Basic Auth.</param>
         /// <returns>The asynchronouse task instance</returns>
-        public Task<WebResponse> PostAsync(Uri target, NameValueCollection postData, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+        public Task<HttpResponseMessage> PostAsync(Uri target, NameValueCollection postData)
         {
             var data = new List<string>();
 
@@ -264,7 +198,28 @@ namespace EveHQ.Common
 
             string paramData = string.Join("&", data.ToArray());
 
-            return PostAsync(target, paramData, proxyServerAddress, useDefaultCredential, proxyUserName, proxyPassword, useBasicAuth);
+            return PostAsync(target, paramData, "application/x-www-form-urlencoded");
+        }
+
+        /// <summary>The post async.</summary>
+        /// <param name="target">The target.</param>
+        /// <param name="postData">The post data.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<HttpResponseMessage> PostAsync(Uri target, IDictionary<string, string> postData)
+        {
+            var data = new List<string>();
+
+            if (postData != null)
+            {
+                foreach (string key in postData.Keys)
+                {
+                    data.AddRange(postData[key].Split(',').Select(value => key + "=" + value).ToArray());
+                }
+            }
+
+            string paramData = string.Join("&", data.ToArray());
+
+            return PostAsync(target, paramData, "application/x-www-form-urlencoded");
         }
 
         #endregion

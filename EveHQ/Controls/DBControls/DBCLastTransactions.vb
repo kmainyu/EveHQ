@@ -18,11 +18,12 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports DevComponents.AdvTree
-Imports EveHQ.EveAPI
+Imports EveHQ.EveApi
 Imports EveHQ.Core
 Imports DevComponents.DotNetBar
 Imports System.Globalization
 Imports System.Xml
+Imports EveHQ.Common.Extensions
 
 Namespace Controls.DBControls
 
@@ -108,43 +109,39 @@ Namespace Controls.DBControls
             If cboPilotList.SelectedItem IsNot Nothing Then
                 'Get transactions XML
                 Dim numTransactionsDisplay As Integer = nudEntries.Value ' how much transactions to display in listview/
-                Dim transactionsXML As XmlDocument
+
                 Dim cPilot As EveHQPilot = HQ.Settings.Pilots(cboPilotList.SelectedItem.ToString)
                 Dim cAccount As EveHQAccount = HQ.Settings.Accounts(cPilot.Account)
                 Dim cCharID As String = cPilot.ID
                 Const AccountKey As Integer = 1000
                 Const BeforeRefID As String = ""
 
-                Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                transactionsXML = apiReq.GetAPIXML(APITypes.WalletTransChar, cAccount.ToAPIAccount, cCharID, AccountKey, BeforeRefID, APIReturnMethods.ReturnStandard)
+                'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                'transactionsXML = apiReq.GetAPIXML(APITypes.WalletTransChar, cAccount.ToAPIAccount, cCharID, accountKey, beforeRefID, APIReturnMethods.ReturnStandard)
+                Dim transactions = HQ.ApiProvider.Character.WalletTransactions(cAccount.UserID, cAccount.APIKey, cCharID.ToInt32(), AccountKey)
 
                 'Parse the XML document
-                If transactionsXML IsNot Nothing Then
+                If transactions IsNot Nothing Then
                     ' Get transactions
-                    Dim transactionList As XmlNodeList
-
-                    transactionList = transactionsXML.SelectNodes("/eveapi/result/rowset/row")
-                    Dim sortedTransactions As New List(Of XmlNode)
-                    For Each transaction As XmlNode In transactionList
-                        sortedTransactions.Add(transaction)
-                    Next
+                    Dim transactionList = transactions.ResultData
+                    Dim sortedTransactions As List(Of WalletTransaction) = transactionList.ToList()
 
                     adtLastTransactions.BeginUpdate()
                     adtLastTransactions.Nodes.Clear()
                     For currentTransactionCounter As Integer = 0 To Math.Min(numTransactionsDisplay - 1, sortedTransactions.Count - 1)
                         Dim newTransaction As New Node
-                        Dim transaction As XmlNode = sortedTransactions(currentTransactionCounter)
+                        Dim transaction As WalletTransaction = sortedTransactions(currentTransactionCounter)
                         If transaction IsNot Nothing Then
-                            newTransaction.Text = transaction.Attributes.GetNamedItem("transactionDateTime").Value
-                            newTransaction.Name = transaction.Attributes.GetNamedItem("typeName").Value & currentTransactionCounter.ToString
-                            newTransaction.Cells.Add(New Cell(transaction.Attributes.GetNamedItem("typeName").Value))
-                            newTransaction.Cells.Add(New Cell(CLng(transaction.Attributes.GetNamedItem("quantity").Value).ToString("N0")))
-                            If transaction.Attributes.GetNamedItem("transactionType").Value = "sell" Then
+                            newTransaction.Text = transaction.TransactionDateTime.DateTime.ToInvariantString()
+                            newTransaction.Name = transaction.TypeName & currentTransactionCounter.ToInvariantString()
+                            newTransaction.Cells.Add(New Cell(transaction.TypeName))
+                            newTransaction.Cells.Add(New Cell(transaction.Quantity.ToInvariantString("N0")))
+                            If transaction.TransactionType = "sell" Then
                                 newTransaction.Style = _styleGreen
-                                newTransaction.Cells.Add(New Cell(Double.Parse(transaction.Attributes.GetNamedItem("price").Value, _culture).ToString("N2"), _styleGreenRight))
+                                newTransaction.Cells.Add(New Cell(transaction.Price.ToInvariantString("N2"), _styleGreenRight))
                             Else
                                 newTransaction.Style = _styleRed
-                                newTransaction.Cells.Add(New Cell(Double.Parse(transaction.Attributes.GetNamedItem("price").Value, _culture).ToString("N2"), _styleRedRight))
+                                newTransaction.Cells.Add(New Cell(transaction.Price.ToInvariantString("N2"), _styleRedRight))
                             End If
                             adtLastTransactions.Nodes.Add(newTransaction)
                         End If
@@ -173,4 +170,4 @@ Namespace Controls.DBControls
             Call UpdateTransactions()
         End Sub
     End Class
-End NameSpace
+End Namespace

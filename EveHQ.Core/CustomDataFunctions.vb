@@ -23,6 +23,7 @@ Imports System.Data.SQLite
 Imports System.Windows.Forms
 Imports System.Text
 Imports System.Xml
+Imports EveHQ.Common.Extensions
 
 ''' <summary>
 ''' Class for handling the custom database - based on SQLite format
@@ -983,50 +984,42 @@ Public Class CustomDataFunctions
                 If reqIDList.Count > 0 Then
 
                     HQ.WriteLogEvent("Rebuilding Required ID List for sending to the API")
-                    strID = New StringBuilder
-                    For Each id As String In reqIDList
-                        strID.Append("," & id)
-                    Next
-                    If strID.Length > 1 Then
-                        strID.Remove(0, 1)
-                    End If
+                    Dim idsToQuery = reqIDList.Select(Function(s) s.ToInt64())
+
                     HQ.WriteLogEvent("Finishing building list of " & reqIDList.Count.ToString & " IDs for the API")
 
                     ' Send this to the API if we have something!
                     HQ.WriteLogEvent("Requesting ID List From the API: " & strID.ToString)
-                    Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-                    Dim idxml As XmlDocument = apiReq.GetAPIXML(APITypes.IDToName, strID.ToString, APIReturnMethods.ReturnActual)
+                    'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                    'Dim idxml As XmlDocument = apiReq.GetAPIXML(APITypes.IDToName, strID.ToString, APIReturnMethods.ReturnActual)
+                    Dim nameResponse = HQ.ApiProvider.Eve.CharacterName(idsToQuery)
                     ' Parse this XML
                     Dim finalIDs As New SortedList(Of Long, String)
-                    Dim idList As XmlNodeList
-                    Dim idNode As XmlNode
+
                     Dim eveID As Long
                     Dim eveName As String
-                    If idxml IsNot Nothing Then
-                        idList = idxml.SelectNodes("/eveapi/result/rowset/row")
-                        If idList.Count > 0 Then
-                            HQ.WriteLogEvent("Parsing " & idList.Count.ToString & " IDs in the XML file")
-                            For Each idNode In idList
-                                eveID = CLng(idNode.Attributes.GetNamedItem("characterID").Value)
-                                eveName = idNode.Attributes.GetNamedItem("name").Value
-                                If finalIDs.ContainsKey(eveID) = False Then
-                                    finalIDs.Add(eveID, eveName)
-                                End If
-                            Next
-                        Else
-                            If apiReq.LastAPIError > 0 Then
-                                HQ.WriteLogEvent("Error " & apiReq.LastAPIError.ToString & " returned by the API!")
+
+                    Dim idList = nameResponse.ResultData
+                    If nameResponse.IsSuccess Then
+                        HQ.WriteLogEvent("Parsing " & idList.Count.ToString & " IDs in the XML file")
+                        For Each idNode In idList
+                            eveID = idNode.Id
+                            eveName = idNode.Name
+                            If finalIDs.ContainsKey(eveID) = False Then
+                                finalIDs.Add(eveID, eveName)
                             End If
-                        End If
-
-                        ' Add all the data to the database
-                        HQ.WriteLogEvent("Committing data to the eveIDToName database table")
-                        Call CommitEveIDListToDB(finalIDs)
-
+                        Next
                     Else
-                        HQ.WriteLogEvent("ID XML returned nothing from the API")
+                        If nameResponse.EveErrorCode > 0 Then
+                            HQ.WriteLogEvent("Error " & nameResponse.EveErrorText & " returned by the API!")
+                        End If
                     End If
-                Else
+
+                    ' Add all the data to the database
+                    HQ.WriteLogEvent("Committing data to the eveIDToName database table")
+                    Call CommitEveIDListToDB(finalIDs)
+
+
                     HQ.WriteLogEvent("All IDs present in the database, no request required to the API")
                 End If
 
@@ -1049,23 +1042,19 @@ Public Class CustomDataFunctions
         If accountName <> "" Then
             Dim mAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
             ' Send this to the API
-            Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-            Dim idxml As XmlDocument = apiReq.GetAPIXML(APITypes.MailingLists, mAccount.ToAPIAccount, mPilot.ID, APIReturnMethods.ReturnStandard)
+            Dim mailingListResponse As EveServiceResponse(Of IEnumerable(Of MailingList)) = HQ.ApiProvider.Character.MailingLists(mAccount.UserID, mAccount.APIKey, Int32.Parse(mPilot.ID))
+            
             ' Parse this XML
-            Dim idList As XmlNodeList
-            Dim idNode As XmlNode
-            Dim eveID As Long
-            Dim eveName As String
-            idList = idxml.SelectNodes("/eveapi/result/rowset/row")
-            If idList.Count > 0 Then
-                For Each idNode In idList
-                    eveID = CLng(idNode.Attributes.GetNamedItem("listID").Value)
-                    eveName = idNode.Attributes.GetNamedItem("displayName").Value
-                    If finalIDs.ContainsKey(eveID) = False Then
-                        finalIDs.Add(eveID, eveName)
-                    End If
-                Next
+            If mailingListResponse.IsSuccess Then
+                Dim mailingLists As IEnumerable(Of MailingList) = mailingListResponse.ResultData
+
+                If mailingLists.Any() Then
+                    For Each list As MailingList In From list1 In mailingLists Where finalIDs.ContainsKey(list1.ListId) = False
+                        finalIDs.Add(list.ListId, list.DisplayName)
+                    Next
+                End If
             End If
+
             ' Add all the data to the database
             Call CommitEveIDListToDB(finalIDs)
         End If

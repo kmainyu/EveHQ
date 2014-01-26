@@ -29,6 +29,7 @@ Imports System.Xml
 Imports System.Threading.Tasks
 Imports System.Text
 Imports EveHQ.Core.Requisitions
+Imports EveHQ.Common.Extensions
 
 Namespace Controls
 
@@ -658,21 +659,20 @@ Namespace Controls
 
                     If ownerAccount IsNot Nothing Then
 
-                        Dim assetXML As XmlDocument
-                        Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+                        Dim assetData As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
                         If owner.IsCorp = True Then
-                            assetXML = apiReq.GetAPIXML(APITypes.AssetsCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                            assetData = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                         Else
-                            assetXML = apiReq.GetAPIXML(APITypes.AssetsChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                            assetData = HQ.ApiProvider.Character.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                         End If
 
-                        If assetXML IsNot Nothing Then
-                            Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                            If locList.Count > 0 Then
+                        If assetData IsNot Nothing Then
+
+                            If assetData.IsSuccess Then
                                 ' Define what we want to obtain
                                 Dim categories, groups As New ArrayList
-                                For Each loc As XmlNode In locList
-                                    Call GetAssetQuantitesFromNode(loc, loc, categories, groups, _ownedResources)
+                                For Each item In assetData.ResultData
+                                    Call GetAssetQuantitesFromNode(item, item, categories, groups, _ownedResources)
                                 Next
                             End If
                         End If
@@ -682,34 +682,35 @@ Namespace Controls
 
         End Sub
 
-        Private Sub GetAssetQuantitesFromNode(ByVal root As XmlNode, ByVal item As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByRef assets As SortedList(Of Integer, SortedList(Of String, Long)))
+        Private Sub GetAssetQuantitesFromNode(ByVal root As EveAPI.AssetItem, ByVal item As EveAPI.AssetItem, ByVal categories As ArrayList, ByVal groups As ArrayList, ByRef assets As SortedList(Of Integer, SortedList(Of String, Long)))
             Dim itemData As EveType
-            Dim itemID As Integer = CInt(item.Attributes.GetNamedItem("typeID").Value)
+            Dim itemID As Integer = item.TypeId
+            Dim locationKey = root.LocationId.ToInvariantString()
             If StaticData.Types.ContainsKey(itemID) Then
                 itemData = StaticData.Types(itemID)
                 If categories.Contains(itemData.Category) Or groups.Contains(itemData.Group) Or _groupResources.ContainsKey(itemData.Id) Or _swapResources.ContainsKey(itemData.Id) Then
                     ' Check if the item is in the list
-                    If Assets.ContainsKey(itemData.Id) = False Then
+                    If assets.ContainsKey(itemData.Id) = False Then
                         Dim locations As New SortedList(Of String, Long)
-                        locations.Add(root.Attributes.GetNamedItem("locationID").Value, CLng(item.Attributes.GetNamedItem("quantity").Value))
-                        locations.Add("TotalOwned", CLng(item.Attributes.GetNamedItem("quantity").Value))
-                        Assets.Add(itemData.Id, locations)
+                        locations.Add(locationKey, item.Quantity)
+                        locations.Add("TotalOwned", item.Quantity)
+                        assets.Add(itemData.Id, locations)
                     Else
-                        Dim locations As SortedList(Of String, Long) = Assets(itemData.Id)
-                        If locations.ContainsKey(root.Attributes.GetNamedItem("locationID").Value) = False Then
-                            locations.Add(root.Attributes.GetNamedItem("locationID").Value, CLng(item.Attributes.GetNamedItem("quantity").Value))
-                            locations("TotalOwned") += CLng(item.Attributes.GetNamedItem("quantity").Value)
+                        Dim locations As SortedList(Of String, Long) = assets(itemData.Id)
+                        If locations.ContainsKey(locationKey) = False Then
+                            locations.Add(locationKey, item.Quantity)
+                            locations("TotalOwned") += item.Quantity
                         Else
-                            locations(root.Attributes.GetNamedItem("locationID").Value) += CLng(item.Attributes.GetNamedItem("quantity").Value)
-                            locations("TotalOwned") += CLng(item.Attributes.GetNamedItem("quantity").Value)
+                            locations(locationKey) += item.Quantity
+                            locations("TotalOwned") += item.Quantity
                         End If
                     End If
                 End If
             End If
             ' Check child items if they exist
-            If item.ChildNodes.Count > 0 Then
-                For Each subitem As XmlNode In item.ChildNodes(0).ChildNodes
-                    Call GetAssetQuantitesFromNode(root, subitem, categories, groups, Assets)
+            If item.Contents IsNot Nothing Then
+                For Each subitem In item.Contents
+                    Call GetAssetQuantitesFromNode(root, subitem, categories, groups, assets)
                 Next
             End If
         End Sub

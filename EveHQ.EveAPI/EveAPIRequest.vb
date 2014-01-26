@@ -270,7 +270,8 @@ Public Class EveAPIRequest
     ''' <param name="apiReturnMethod">The particular method used to obtain the XML file</param>
     ''' <returns>An XMLDocument containing the request API data</returns>
     ''' <remarks></remarks>
-    Public Overloads Function GetAPIXML(ByVal apiType As APITypes, ByVal apiAccount As EveAPIAccount, ByVal apiReturnMethod As APIReturnMethods) As XmlDocument
+    <Obsolete>
+    Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
         Dim remoteURL As String
         Dim postdata As String
         postdata = "keyID=" & APIAccount.UserID & "&vCode=" & APIAccount.APIKey
@@ -908,7 +909,7 @@ Public Class EveAPIRequest
     ''' <remarks></remarks>
     Private Function ConvertEveTimeToLocal(ByVal eveTime As Date) As Date
         ' Calculate the local time and UTC offset.
-        Return TimeZone.CurrentTimeZone.ToLocalTime(EveTime)
+        Return TimeZone.CurrentTimeZone.ToLocalTime(eveTime)
     End Function
 
 
@@ -934,10 +935,10 @@ Public Class EveAPIRequest
     ''' <param name="serverInfo">The API server details used for access to the API</param>
     ''' <remarks></remarks>
     Public Sub New(ByVal serverInfo As APIServerInfo)
-        If ServerInfo.UseAPIRS = True Then
-            APIServerAddress = ServerInfo.APIRSServer
+        If serverInfo.UseAPIRS = True Then
+            APIServerAddress = serverInfo.APIRSServer
         Else
-            APIServerAddress = ServerInfo.CCPServer
+            APIServerAddress = serverInfo.CCPServer
         End If
         ProxyServer = Nothing
         APIFileExtension = ""
@@ -998,7 +999,7 @@ Public Class EveAPIRequest
             APIServerAddress = serverInfo.CCPServer
         End If
         ProxyServer = proxyDetails
-        APIFileExtension = FileExtension
+        APIFileExtension = fileExtension
         APICacheLocation = ""
         _cAPILastResult = APIResults.NotYetProcessed
     End Sub
@@ -1019,7 +1020,7 @@ Public Class EveAPIRequest
         End If
         ProxyServer = Nothing
         APIFileExtension = fileExtension
-        APICacheLocation = CacheLocation
+        APICacheLocation = cacheLocation
         _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 
@@ -1040,7 +1041,7 @@ Public Class EveAPIRequest
         End If
         ProxyServer = proxyDetails
         APIFileExtension = fileExtension
-        APICacheLocation = CacheLocation
+        APICacheLocation = cacheLocation
         _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 
@@ -1196,66 +1197,66 @@ End Enum
 ''' A list of all available APIs for characters together with official access masks represented as the log of the actual mask
 ''' </summary>
 ''' <remarks></remarks>
-Public Enum CharacterAccessMasks As Long
-    AccountBalances = 0
-    AssetList = 1
-    CalendarEventAttendees = 2
-    CharacterSheet = 3
-    ContactList = 4
-    ContactNotifications = 5
-    FacWarStats = 6
-    IndustryJobs = 7
-    KillLog = 8
-    MailBodies = 9
-    MailingLists = 10
-    MailMessages = 11
-    MarketOrders = 12
-    Medals = 13
-    Notifications = 14
-    NotificationText = 15
-    Research = 16
-    SkillInTraining = 17
-    SkillQueue = 18
-    Standings = 19
-    UpcomingCalendarEvents = 20
-    WalletJournal = 21
-    WalletTransactions = 22
-    CharacterInfoPrivate = 23
-    CharacterInfoPublic = 24
-    AccountStatus = 25
-    Contracts = 26
-End Enum
+'Public Enum CharacterAccessMasks As Long
+'    AccountBalances = 0
+'    AssetList = 1
+'    CalendarEventAttendees = 2
+'    CharacterSheet = 3
+'    ContactList = 4
+'    ContactNotifications = 5
+'    FacWarStats = 6
+'    IndustryJobs = 7
+'    KillLog = 8
+'    MailBodies = 9
+'    MailingLists = 10
+'    MailMessages = 11
+'    MarketOrders = 12
+'    Medals = 13
+'    Notifications = 14
+'    NotificationText = 15
+'    Research = 16
+'    SkillInTraining = 17
+'    SkillQueue = 18
+'    Standings = 19
+'    UpcomingCalendarEvents = 20
+'    WalletJournal = 21
+'    WalletTransactions = 22
+'    CharacterInfoPrivate = 23
+'    CharacterInfoPublic = 24
+'    AccountStatus = 25
+'    Contracts = 26
+'End Enum
 
-''' <summary>
-''' A list of all available APIs for corporations together with official access masks represented as the log of the actual mask 
-''' </summary>
-''' <remarks></remarks>
-Public Enum CorporateAccessMasks As Long
-    AccountBalances = 0
-    AssetList = 1
-    MemberMedals = 2
-    CorporationSheet = 3
-    ContactList = 4
-    ContainerLog = 5
-    FacWarStats = 6
-    IndustryJobs = 7
-    KillLog = 8
-    MemberSecurity = 9
-    MemberSecurityLog = 10
-    MemberTracking = 11
-    MarketOrders = 12
-    Medals = 13
-    OutpostList = 14
-    OutpostServiceList = 15
-    Shareholders = 16
-    StarbaseDetail = 17
-    Standings = 18
-    StarbaseList = 19
-    WalletJournal = 20
-    WalletTransactions = 21
-    Titles = 22
-    Contracts = 23
-End Enum
+' ''' <summary>
+' ''' A list of all available APIs for corporations together with official access masks represented as the log of the actual mask 
+' ''' </summary>
+' ''' <remarks></remarks>
+'Public Enum CorporateAccessMasks As Long
+'    AccountBalances = 0
+'    AssetList = 1
+'    MemberMedals = 2
+'    CorporationSheet = 3
+'    ContactList = 4
+'    ContainerLog = 5
+'    FacWarStats = 6
+'    IndustryJobs = 7
+'    KillLog = 8
+'    MemberSecurity = 9
+'    MemberSecurityLog = 10
+'    MemberTracking = 11
+'    MarketOrders = 12
+'    Medals = 13
+'    OutpostList = 14
+'    OutpostServiceList = 15
+'    Shareholders = 16
+'    StarbaseDetail = 17
+'    Standings = 18
+'    StarbaseList = 19
+'    WalletJournal = 20
+'    WalletTransactions = 21
+'    Titles = 22
+'    Contracts = 23
+'End Enum
 
 ''' <summary>
 ''' A list of status codes as a result of processing an API Request

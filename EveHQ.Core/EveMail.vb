@@ -74,79 +74,63 @@ Public Class EveMail
                         mailingListIDs = CustomDataFunctions.WriteMailingListIDsToDatabase(mPilot)
                         ' Make a call to the API to fetch the EveMail
                         RaiseEvent MailProgress("Fetching EveMails for " & mPilot.Name & "...")
-                        Dim mailXML As XmlDocument
-                        Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                        mailXML = apiReq.GetAPIXML(APITypes.MailMessages, mAccount.ToAPIAccount, mPilot.ID, APIReturnMethods.ReturnStandard)
-                        If mailXML IsNot Nothing Then
+                    Dim mailMessages As EveServiceResponse(Of IEnumerable(Of MailHeader)) = HQ.ApiProvider.Character.MailMessages(mAccount.UserID, mAccount.APIKey, Integer.Parse(mPilot.ID))
+                    If mailMessages.ResultData IsNot Nothing Then
                             ' Stage 2: Populate the class with our EveMails
-                            If mailXML.SelectNodes("/eveapi/error").Count = 0 Then
-                                Dim mailList As XmlNodeList
-                                Dim mail As XmlNode
-                                mailList = mailXML.SelectNodes("/eveapi/result/rowset/row")
-                                If mailList.Count > 0 Then
-                                    Dim mailIDs As New List(Of String)
-                                    For Each mail In mailList
-                                        Dim nMail As New EveMailMessage
-                                        nMail.OriginatorID = CLng(mPilot.ID)
-                                        nMail.MessageID = CLng(mail.Attributes.GetNamedItem("messageID").Value)
-                                        nMail.SenderID = CLng(mail.Attributes.GetNamedItem("senderID").Value)
-                                        nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, _culture, DateTimeStyles.None)
-                                        nMail.MessageTitle = mail.Attributes.GetNamedItem("title").Value
-                                        nMail.ToCharacterIDs = mail.Attributes.GetNamedItem("toCharacterIDs").Value
-                                        nMail.ToCorpAllianceIDs = mail.Attributes.GetNamedItem("toCorpOrAllianceID").Value
-                                        nMail.ToListIDs = mail.Attributes.GetNamedItem("toListID").Value
-                                        ' Set mail flag according to whether the pilot is the sender i.e. flag sent mail as read
-                                        If nMail.SenderID = nMail.OriginatorID Then
-                                            nMail.ReadFlag = True
-                                        Else
-                                            nMail.ReadFlag = False
-                                        End If
-                                        nMail.MessageKey = nMail.MessageID.ToString & "_" & nMail.OriginatorID.ToString
-                                        If mails.ContainsKey(nMail.MessageKey) = False Then
-                                            mails.Add(nMail.MessageKey, nMail)
-                                        End If
-                                        mailIDs.Add(nMail.MessageID.ToString)
-                                    Next
-                                    ' Get the mail bodies
-                                    If mailIDs.Count > 0 Then
-                                        Dim strID As New StringBuilder
-                                        For Each id As String In mailIDs
-                                            strID.Append("," & id)
-                                        Next
-                                        strID.Remove(0, 1)
-                                        Dim idList As String = strID.ToString
-                                        Dim bodyXML As XmlDocument
-                                        Dim bodyReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                                        bodyXML = bodyReq.GetAPIXML(APITypes.MailBodies, mAccount.ToAPIAccount, mPilot.ID, idList, APIReturnMethods.ReturnActual)
-                                        If bodyXML IsNot Nothing Then
-                                            If bodyXML.SelectNodes("/eveapi/error").Count = 0 Then
-                                                Dim bodyList As XmlNodeList
-                                                Dim body As XmlNode
-                                                bodyList = bodyXML.SelectNodes("/eveapi/result/rowset/row")
-                                                If bodyList.Count > 0 Then
-                                                    For Each body In bodyList
-                                                        Dim searchKey As String = body.Attributes.GetNamedItem("messageID").Value & "_" & mPilot.ID
-                                                        If mails.ContainsKey(searchKey) = True Then
-                                                            mails(searchKey).MessageBody = body.ChildNodes(0).InnerText
-                                                        End If
-                                                    Next
+
+                        If mailMessages.ResultData.Any() Then
+                            Dim mailIDs As New List(Of String)
+                            For Each message As MailHeader In mailMessages.ResultData
+                                Dim nMail As New EveHQ.Core.EveMailMessage
+                                nMail.OriginatorID = CLng(mPilot.ID)
+                                nMail.MessageID = message.MessageId
+                                nMail.SenderID = message.SenderId
+                                nMail.MessageDate = message.SentDate.DateTime
+                                nMail.MessageTitle = message.Title
+                                nMail.ToCharacterIDs = String.Join(",", message.ToCharacterIds())
+                                nMail.ToCorpAllianceIDs = String.Join(",", message.ToCorpOrAllianceId)
+                                nMail.ToListIDs = String.Join(",", message.ToListListIds())
+                                ' Set mail flag according to whether the pilot is the sender i.e. flag sent mail as read
+                                If nMail.SenderID = nMail.OriginatorID Then
+                                    nMail.ReadFlag = True
+                                Else
+                                    nMail.ReadFlag = False
+                                End If
+                                nMail.MessageKey = nMail.MessageID.ToString & "_" & nMail.OriginatorID.ToString
+                                If mails.ContainsKey(nMail.MessageKey) = False Then
+                                    mails.Add(nMail.MessageKey, nMail)
+                                End If
+                                mailIDs.Add(nMail.MessageID.ToString)
+                            Next
+                            ' Get the mail bodies
+                            If mailIDs.Count > 0 Then
+                                Dim idsToQuery As List(Of Integer) = (From id In mailIDs Select Integer.Parse(id)).ToList()
+
+                                Dim bodies As EveServiceResponse(Of IEnumerable(Of MailBody)) = HQ.ApiProvider.Character.MailBodies(mAccount.UserID, mAccount.APIKey, Integer.Parse(mPilot.ID), idsToQuery)
+
+                                
+                                If bodies IsNot Nothing Then
+                                    If bodies.ResultData IsNot Nothing Then
+                                        If bodies.ResultData.Any() Then
+                                            For Each body As MailBody In bodies.ResultData
+                                                Dim searchKey As String = body.MessageId & "_" & mPilot.ID
+                                                If mails.ContainsKey(searchKey) = True Then
+                                                    mails(searchKey).MessageBody = body.Body
                                                 End If
-                                            End If
+                                            Next
                                         End If
                                     End If
                                 End If
-
-                                ' Set the cache time
-                                Dim cacheList As XmlNodeList
-                                Dim cache As XmlNode
-                                cacheList = mailXML.SelectNodes("/eveapi/cachedUntil")
-                                cache = cacheList(0)
-                                Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, _culture, DateTimeStyles.None)
-                                If cacheTime < HQ.NextAutoMailAPITime And cacheTime > Now Then
-                                    HQ.NextAutoMailAPITime = cacheTime
-                                End If
                             End If
                         End If
+
+                        ' Set the cache time
+                        Dim cacheTime As Date = mailMessages.CacheUntil.DateTime
+                        If cacheTime < HQ.NextAutoMailAPITime And cacheTime > Now Then
+                            HQ.NextAutoMailAPITime = cacheTime
+                        End If
+                    End If
+
                     End If
                 End If
             Next
@@ -273,53 +257,44 @@ Public Class EveMail
                         Dim mAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
                         ' Make a call to the API to fetch the EveMail
                         RaiseEvent MailProgress("Fetching Eve Notifications for " & mPilot.Name & "...")
-                        Dim mailXML As XmlDocument
-                        Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                        mailXML = apiReq.GetAPIXML(APITypes.Notifications, mAccount.ToAPIAccount, mPilot.ID, APIReturnMethods.ReturnStandard)
-                        If mailXML IsNot Nothing Then
-                            If mailXML.SelectNodes("/eveapi/error").Count = 0 Then
-                                ' Stage 2: Populate the class with our EveMails
-                                Dim mailList As XmlNodeList
-                                Dim mail As XmlNode
-                                mailList = mailXML.SelectNodes("/eveapi/result/rowset/row")
-                                If mailList.Count > 0 Then
-                                    Dim mailIDs As New List(Of String)
-                                    For Each mail In mailList
+
+                    Dim notifications As EveServiceResponse(Of IEnumerable(Of Notification)) = HQ.ApiProvider.Character.Notifications(mAccount.UserID, mAccount.APIKey, Integer.Parse(mPilot.ID))
+
+                    If notifications IsNot Nothing Then
+                        If notifications.ResultData IsNot Nothing Then
+                            If notifications.ResultData.Any() Then
+                                Dim notificationIds As New List(Of String)
+                                For Each notification As Notification In notifications.ResultData
                                         Dim nMail As New EveNotification
                                         nMail.OriginatorID = CLng(mPilot.ID)
-                                        nMail.MessageID = CLng(mail.Attributes.GetNamedItem("notificationID").Value)
-                                        nMail.SenderID = CLng(mail.Attributes.GetNamedItem("senderID").Value)
-                                        nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, _culture, DateTimeStyles.None)
-                                        nMail.TypeID = CLng(mail.Attributes.GetNamedItem("typeID").Value)
-                                        nMail.ReadFlag = CBool(mail.Attributes.GetNamedItem("read").Value)
+                                    nMail.MessageID = notification.NotificationId
+                                    nMail.SenderID = notification.SenderId
+                                    nMail.MessageDate = notification.SentDate.DateTime
+                                    nMail.TypeID = notification.TypeId
+                                    nMail.ReadFlag = notification.IsRead
                                         nMail.MessageKey = nMail.MessageID.ToString & "_" & nMail.OriginatorID.ToString
                                         If notices.ContainsKey(nMail.MessageKey) = False Then
                                             notices.Add(nMail.MessageKey, nMail)
                                         End If
-                                        mailIDs.Add(nMail.MessageID.ToString)
+                                    notificationIds.Add(nMail.MessageID.ToString)
                                     Next
 
                                     ' Get the notification bodies
-                                    If mailIDs.Count > 0 Then
-                                        Dim strID As New StringBuilder
-                                        For Each id As String In mailIDs
-                                            strID.Append("," & id)
-                                        Next
-                                        strID.Remove(0, 1)
-                                        Dim idList As String = strID.ToString
-                                        Dim bodyXML As XmlDocument
-                                        Dim bodyReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                                        bodyXML = bodyReq.GetAPIXML(APITypes.NotificationTexts, mAccount.ToAPIAccount, mPilot.ID, idList, APIReturnMethods.ReturnActual)
-                                        If bodyXML IsNot Nothing Then
-                                            If bodyXML.SelectNodes("/eveapi/error").Count = 0 Then
-                                                Dim bodyList As XmlNodeList
-                                                Dim body As XmlNode
-                                                bodyList = bodyXML.SelectNodes("/eveapi/result/rowset/row")
-                                                If bodyList.Count > 0 Then
-                                                    For Each body In bodyList
-                                                        Dim searchKey As String = body.Attributes.GetNamedItem("notificationID").Value & "_" & mPilot.ID
+                                If notificationIds.Count > 0 Then
+
+                                    Dim idsToQuery As List(Of Long) = (From id In notificationIds Select Long.Parse(id)).ToList()
+
+                                    Dim notificationTextResponse As EveServiceResponse(Of IEnumerable(Of NotificationText)) = HQ.ApiProvider.Character.NotificationTexts(mAccount.UserID, mAccount.APIKey, Integer.Parse(mPilot.ID), idsToQuery)
+
+                                    If notificationTextResponse IsNot Nothing Then
+                                        If notificationTextResponse.IsSuccess And notificationTextResponse.ResultData IsNot Nothing Then
+                                            
+                                            If notificationTextResponse.ResultData.Any() Then
+
+                                                For Each body As NotificationText In notificationTextResponse.ResultData
+                                                    Dim searchKey As String = body.NotificationId & "_" & mPilot.ID
                                                         If notices.ContainsKey(searchKey) = True Then
-                                                            notices(searchKey).MessageBody = body.ChildNodes(0).InnerText
+                                                        notices(searchKey).MessageBody = body.Text
                                                         End If
                                                     Next
                                                 End If
@@ -329,11 +304,7 @@ Public Class EveMail
 
                                 End If
                                 ' Set the cache time
-                                Dim cacheList As XmlNodeList
-                                Dim cache As XmlNode
-                                cacheList = mailXML.SelectNodes("/eveapi/cachedUntil")
-                                cache = cacheList(0)
-                                Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, _culture, DateTimeStyles.None)
+                            Dim cacheTime As Date = notifications.CacheUntil.DateTime
                                 If cacheTime < HQ.NextAutoMailAPITime And cacheTime > Now Then
                                     HQ.NextAutoMailAPITime = cacheTime
                                 End If

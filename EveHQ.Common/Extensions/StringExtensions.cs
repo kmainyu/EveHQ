@@ -129,6 +129,21 @@ namespace EveHQ.Common.Extensions
             return 0;
         }
 
+        /// <summary>Converts the string into an Enumerator Type.</summary>
+        /// <param name="word">The word.</param>
+        /// <typeparam name="T">type to convert to</typeparam>
+        /// <returns>An instance of the type</returns>
+        public static T ToEnum<T>(this string word) where T : struct
+        {
+            T value;
+            if (Enum.TryParse(word, out value))
+            {
+                return value;
+            }
+
+            return default(T);
+        }
+
         #endregion
     }
 }

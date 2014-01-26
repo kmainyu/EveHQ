@@ -19,14 +19,12 @@
 '=========================================================================
 
 Imports EveHQ.EveData
+Imports EveHQ.EveApi
 Imports EveHQ.Market
 Imports System.Threading.Tasks
 Imports EveHQ.Common.Extensions
 
 Public Class DataFunctions
-
-#Region "Pricing Functions"
-
     Public Shared Function GetPrice(ByVal itemID As Integer) As Double
         Return GetPrice(itemID, MarketMetric.Default, MarketTransactionKind.Default)
     End Function
@@ -75,7 +73,7 @@ Public Class DataFunctions
                 Dim filteredIdNumbers As IEnumerable(Of Integer) = (From itemId In itemIDs Where StaticData.Types.ContainsKey(itemId))
 
                 Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In filteredIdNumbers Where StaticData.Types(itemId).MarketGroupId <> 0 Select itemId).ToList
-                
+
                 If itemIdNumbersToRequest Is Nothing Then
                     itemIdNumbersToRequest = New List(Of Integer)
                 End If
@@ -212,6 +210,4 @@ Public Class DataFunctions
 
         Return itemPrices
     End Function
-
-#End Region
 End Class

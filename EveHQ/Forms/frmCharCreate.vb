@@ -21,6 +21,8 @@ Imports EveHQ.Core.CoreReports
 Imports EveHQ.EveAPI
 Imports EveHQ.Core
 Imports System.IO
+Imports EveHQ.Common.Extensions
+Imports Newtonsoft.Json
 
 Namespace Forms
 
@@ -145,8 +147,9 @@ Namespace Forms
         Private Sub btnAddPilot_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddPilot.Click
 
             ' Create a new pilot
-            Dim nPilot As New EveHQPilot
-            nPilot.ID = lblCharID.Text
+            Dim nPilot As New CharacterData
+
+            nPilot.CharacterId = lblCharID.Text.ToInt32()
             ' Check name isn't blank
             If txtCharName.Text.Trim = "" Then
                 MessageBox.Show("Please ensure you have entered a pilot name before importing into EveHQ.", "Pilot Name Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -160,53 +163,81 @@ Namespace Forms
                 Exit Sub
             End If
             nPilot.Race = _raceName
-            nPilot.Blood = _bloodName
-            nPilot.CAtt = CInt(nudC.Value)
-            nPilot.IntAtt = CInt(nudI.Value)
-            nPilot.MAtt = CInt(nudM.Value)
-            nPilot.PAtt = CInt(nudP.Value)
-            nPilot.WAtt = CInt(nudW.Value)
-            nPilot.Isk = 0
-            nPilot.Active = True
-            nPilot.Corp = "EveHQ Import Corp"
-            nPilot.CorpID = "1000000"
+            nPilot.BloodLine = _bloodName
+            nPilot.Charisma = CInt(nudC.Value)
+            nPilot.Intelligence = CInt(nudI.Value)
+            nPilot.Memory = CInt(nudM.Value)
+            nPilot.Perception = CInt(nudP.Value)
+            nPilot.Willpower = CInt(nudW.Value)
+            nPilot.Balance = 0
+            'nPilot. = True
+            nPilot.CorporationName = "EveHQ Import Corp"
+            nPilot.CorporationId = 1000000
             nPilot.Gender = "Male"
             nPilot.CloneName = "Clone Grade Alpha"
-            nPilot.CloneSP = 900000
+            nPilot.CloneSkillPoints = 900000
+
+            Dim skills As New List(Of CharacterSkillRecord)
+
             For Each skillItem As ListViewItem In lvwSkills.Items
-                Dim pilotSkill As New EveHQPilotSkill
-                pilotSkill.ID = CInt(skillItem.Name)
-                pilotSkill.Name = skillItem.Text
+                Dim pilotSkill As New CharacterSkillRecord
+                pilotSkill.SkillId = CInt(skillItem.Name)
+
                 pilotSkill.Level = CInt(skillItem.SubItems(1).Text)
-                pilotSkill.SP = CInt(skillItem.SubItems(2).Text)
-                nPilot.PilotSkills.Add(pilotSkill.Name, pilotSkill)
+                pilotSkill.SkillPoints = CInt(skillItem.SubItems(2).Text)
+                skills.Add(pilotSkill)
             Next
-            nPilot.Updated = True
+            nPilot.Skills = skills
 
-            ' Write the XML files
-            Dim xmlFile As String = Path.Combine(HQ.CacheFolder, "EveHQAPI_" & APITypes.CharacterSheet.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml")
-            Dim txmlFile As String = Path.Combine(HQ.CacheFolder, "EveHQAPI_" & APITypes.SkillQueue.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml")
-            Dim strXML As String
-            Dim writer As StreamWriter
+            'nPilot.Updated = True
 
-            ' Write Character XML
-            strXML = ""
-            strXML &= Reports.CurrentPilotXML_New(nPilot)
-            writer = New StreamWriter(xmlFile)
-            writer.Write(strXML)
-            writer.Flush()
-            writer.Close()
+            ' Write the json files
+            Dim xmlFile As String = Path.Combine(HQ.ApiCacheFolder, "CharacterSheet0" & "_" & nPilot.CharacterId & ".json.txt")
+            Dim txmlFile As String = Path.Combine(HQ.ApiCacheFolder, "SkillQueue0" & "_" & nPilot.CharacterId & ".json.txt")
 
+            'Dim writer As StreamWriter
+
+            ' Write Character JSON
+            Dim fakeServiceResponse As New EveServiceResponse(Of CharacterData)
+            fakeServiceResponse.ResultData = nPilot
+            fakeServiceResponse.CacheUntil = DateTimeOffset.Now.AddYears(10)
+            fakeServiceResponse.HttpStatusCode = Net.HttpStatusCode.OK
+            fakeServiceResponse.IsSuccessfulHttpStatus = True
+            fakeServiceResponse.EveErrorCode = 0
+
+
+
+            Dim charData As String = JsonConvert.SerializeObject(fakeServiceResponse)
+
+            ' Write fake training JSON
+            Dim fakeTrainingResponse As New EveServiceResponse(Of IEnumerable(Of QueuedSkill))
+            fakeTrainingResponse.ResultData = New List(Of QueuedSkill)
+            fakeTrainingResponse.CacheUntil = DateTimeOffset.Now.AddYears(10)
+            fakeTrainingResponse.HttpStatusCode = Net.HttpStatusCode.OK
+            fakeTrainingResponse.IsSuccessfulHttpStatus = True
+            fakeTrainingResponse.EveErrorCode = 0
+
+            Dim trainingData As String = JsonConvert.SerializeObject(fakeTrainingResponse)
+
+            'strXML = ""
+            'strXML &= Reports.CurrentPilotXML_New(nPilot)
+            Using writer As New StreamWriter(xmlFile)
+
+                writer.Write(charData)
+                writer.Flush()
+                writer.Close()
+
+            End Using
             ' Write Training XML
-            strXML = ""
-            strXML &= Reports.CurrentTrainingXML_New(nPilot)
-            writer = New StreamWriter(txmlFile)
-            writer.Write(strXML)
-            writer.Flush()
-            writer.Close()
+          
+            Using writer As New StreamWriter(txmlFile)
+                writer.Write(trainingData)
+                writer.Flush()
+                writer.Close()
+            End Using
 
             ' Import the data!
-            Call PilotParseFunctions.ImportPilotFromXML(xmlFile, txmlFile)
+            Call PilotParseFunctions.ImportPilotFromXML(fakeServiceResponse, fakeTrainingResponse)
 
             ' Refresh the list of pilots in EveHQ
             PilotParseFunctions.StartPilotRefresh = True
