@@ -15,7 +15,7 @@
 995,Ammunition & Charges\Frequency Crystals\Faction Crystals\Large
 996,Ammunition & Charges\Frequency Crystals\Faction Crystals\Medium
 997,Ammunition & Charges\Frequency Crystals\Faction Crystals\Small
-1599,Ammunition & Charges\Frequency Crystals\Orbital Bombardment
+1599,Ammunition & Charges\Frequency Crystals\Orbital Strike
 0,Ammunition & Charges\Frequency Crystals\Standard Crystals
 503,Ammunition & Charges\Frequency Crystals\Standard Crystals\Extra Large
 105,Ammunition & Charges\Frequency Crystals\Standard Crystals\Large
@@ -35,7 +35,7 @@
 991,Ammunition & Charges\Hybrid Charges\Faction Charges\Large
 992,Ammunition & Charges\Hybrid Charges\Faction Charges\Medium
 993,Ammunition & Charges\Hybrid Charges\Faction Charges\Small
-1600,Ammunition & Charges\Hybrid Charges\Orbital Bombardment
+1600,Ammunition & Charges\Hybrid Charges\Orbital Strike
 0,Ammunition & Charges\Hybrid Charges\Standard Charges
 504,Ammunition & Charges\Hybrid Charges\Standard Charges\Extra Large
 106,Ammunition & Charges\Hybrid Charges\Standard Charges\Large
@@ -102,7 +102,7 @@
 987,Ammunition & Charges\Projectile Ammo\Faction Ammo\Large
 988,Ammunition & Charges\Projectile Ammo\Faction Ammo\Medium
 989,Ammunition & Charges\Projectile Ammo\Faction Ammo\Small
-1598,Ammunition & Charges\Projectile Ammo\Orbital Bombardment
+1598,Ammunition & Charges\Projectile Ammo\Orbital Strike
 0,Ammunition & Charges\Projectile Ammo\Standard Ammo
 502,Ammunition & Charges\Projectile Ammo\Standard Ammo\Extra Large
 109,Ammunition & Charges\Projectile Ammo\Standard Ammo\Large
@@ -196,18 +196,6 @@
 1766,Implants & Boosters\Implants\Skill Hardwiring\Targeting Implants\Implant Slot 08
 0,Ship Equipment
 760,Ship Equipment\Civilian Modules
-0,Ship Equipment\Deployable Equipment
-0,Ship Equipment\Deployable Equipment\Cargo Containers
-1652,Ship Equipment\Deployable Equipment\Cargo Containers\Audit Log Containers
-1653,Ship Equipment\Deployable Equipment\Cargo Containers\Freight Containers
-1651,Ship Equipment\Deployable Equipment\Cargo Containers\Secure Containers
-1657,Ship Equipment\Deployable Equipment\Cargo Containers\Standard Containers
-1658,Ship Equipment\Deployable Equipment\Cargo Containers\Station Containers
-1832,Ship Equipment\Deployable Equipment\Mobile Cynosural Inhibitors
-1831,Ship Equipment\Deployable Equipment\Mobile Depots
-1835,Ship Equipment\Deployable Equipment\Mobile Siphon Units
-1833,Ship Equipment\Deployable Equipment\Mobile Tractor Units
-405,Ship Equipment\Deployable Equipment\Warp Disruption Fields 
 938,Ship Equipment\Drone Upgrades
 0,Ship Equipment\Electronic Warfare
 0,Ship Equipment\Electronic Warfare\ECCM
@@ -317,7 +305,7 @@
 1687,Ship Equipment\Hull & Armor \Energized Armor Layering
 0,Ship Equipment\Hull & Armor \Energized Plating
 1686,Ship Equipment\Hull & Armor \Energized Plating\Energized Adaptive Plating
-1684,Ship Equipment\Hull & Armor \Energized Plating\Energized Em Plating
+1684,Ship Equipment\Hull & Armor \Energized Plating\Energized EM Plating
 1682,Ship Equipment\Hull & Armor \Energized Plating\Energized Explosive Plating
 1685,Ship Equipment\Hull & Armor \Energized Plating\Energized Kinetic Plating
 1683,Ship Equipment\Hull & Armor \Energized Plating\Energized Thermal Plating

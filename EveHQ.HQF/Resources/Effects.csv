@@ -573,55 +573,90 @@
 151,1,3327,70,3,6,0,1,0,0,Spaceship Command
 #,1,19719,0,0,0,0,1,0,0,Transport Ships
 # OVERLOADING ATTRIBUTE MAPPING,,,,,,,,,,
-1223,2,46,20,6,0,0,0,0,8,AB/MWD Speed Bonus
+# ARMOR,,,,,,,,,,
+1230,2,1199,84,6,0,0,0,0,8,Ancillary Armor Rep Amount
+1206,2,1199,73,6,0,0,0,0,8,Ancillary Armor Rep Duration
 1208,2,328,984,6,0,0,0,0,8,Armor Hardener - EM
 1208,2,328,985,6,0,0,0,0,8,Armor Hardener - Exp
 1208,2,328,986,6,0,0,0,0,8,Armor Hardener - Kin
 1208,2,328,987,6,0,0,0,0,8,Armor Hardener - Therm
-1206,2,325,73,6,0,0,0,0,8,Remote Armor Rep Duration
-1230,2,62,84,6,0,0,0,0,8,Armor Rep Amount Bonus
+1230,2,62,84,6,0,0,0,0,8,Armor Rep Amount
 1206,2,62,73,6,0,0,0,0,8,Armor Rep Duration
-1230,2,1199,84,6,0,0,0,0,8,Ancillary Armor Rep Amount Bonus
-1206,2,1199,73,6,0,0,0,0,8,Ancillary Armor Rep Duration
-1206,2,76,73,6,0,0,0,0,8,Cap Booster Duration
-1226,2,202,1027,6,0,0,0,0,8,ECCM Strength Bonus - Grav
-1226,2,202,1028,6,0,0,0,0,8,ECCM Strength Bonus - Ladar
-1226,2,202,1029,6,0,0,0,0,8,ECCM Strength Bonus - Mag
-1226,2,202,1030,6,0,0,0,0,8,ECCM Strength Bonus - Radar
-1225,2,201,238,6,0,0,0,0,8,ECM Strength Bonus - Grav
-1225,2,201,239,6,0,0,0,0,8,ECM Strength Bonus - Ladar
-1225,2,201,240,6,0,0,0,0,8,ECM Strength Bonus - Mag
-1225,2,201,241,6,0,0,0,0,8,ECM Strength Bonus - Radar
-1206,2,71,73,6,0,0,0,0,8,Energy Neut Duration
-1206,2,67,73,6,0,0,0,0,8,Energy Transfer Duration
-1206,2,68,73,6,0,0,0,0,8,Energy Vampire Duration
-1205,2,53,10011,6,0,0,0,0,8,Energy Weapon ROF Bonus
-1210,2,53,10014,6,0,0,0,0,8,Energy Weapon Damage Bonus
-1206,2,63,73,6,0,0,0,0,8,Hull Rep Duration
-1205,2,74,10012,6,0,0,0,0,8,Hybrid Weapon ROF Bonus
-1210,2,74,10015,6,0,0,0,0,8,Hybrid Weapon Damage Bonus
-1205,2,511,51,6,0,0,0,0,8,Rapid Light Launcher ROF Bonus
-1205,2,1245,51,6,0,0,0,0,8,Rapid Heavy Launcher ROF Bonus
-1205,2,524,51,6,0,0,0,0,8,Citadel Launcher ROF Bonus
-1205,2,506,51,6,0,0,0,0,8,Cruise Launcher ROF Bonus
-1205,2,510,51,6,0,0,0,0,8,Heavy Launcher ROF Bonus
-1205,2,771,51,6,0,0,0,0,8,Heavy Assault Launcher ROF Bonus
-1205,2,507,51,6,0,0,0,0,8,Rocket Launcher ROF Bonus
-1205,2,508,51,6,0,0,0,0,8,Torpedo Launcher ROF Bonus
-1205,2,509,51,6,0,0,0,0,8,Light Launcher ROF Bonus
-1205,2,55,10013,6,0,0,0,0,8,Projectile Weapon ROF Bonus
-1210,2,55,10016,6,0,0,0,0,8,Projectile Weapon Damage Bonus
-1231,2,40,68,6,0,0,0,0,8,Shield Booster Boost Amount
-1206,2,40,73,6,0,0,0,0,8,Shield Booster Duration
+1206,2,325,73,6,0,0,0,0,8,Remote Armor Rep Duration
+# SHIELD,,,,,,,,,,
 1231,2,1156,68,6,0,0,0,0,8,Ancillary Shield Booster Boost Amount
 1206,2,1156,73,6,0,0,0,0,8,Ancillary Shield Booster Duration
+1231,2,40,68,6,0,0,0,0,8,Shield Booster Boost Amount
+1206,2,40,73,6,0,0,0,0,8,Shield Booster Duration
 1208,2,77,984,6,0,0,0,0,8,Shield Hardener - EM
 1208,2,77,985,6,0,0,0,0,8,Shield Hardener - Exp
 1208,2,77,986,6,0,0,0,0,8,Shield Hardener - Kin
 1208,2,77,987,6,0,0,0,0,8,Shield Hardener - Therm
 1206,2,41,73,6,0,0,0,0,8,Shield Transporter Duration
-1222,2,65,54,6,0,0,0,0,8,Stasis Web Range Bonus
-1222,2,52,54,6,0,0,0,0,8,Warp Scrambler Range Bonus
+# EWAR,,,,,,,,,,
+1226,2,202,1027,6,0,0,0,0,8,ECCM Strength - Grav
+1226,2,202,1028,6,0,0,0,0,8,ECCM Strength - Ladar
+1226,2,202,1029,6,0,0,0,0,8,ECCM Strength - Mag
+1226,2,202,1030,6,0,0,0,0,8,ECCM Strength - Radar
+1225,2,80,238,6,0,0,0,0,8,ECM Burst Strength - Grav
+1225,2,80,239,6,0,0,0,0,8,ECM Burst Strength - Ladar
+1225,2,80,240,6,0,0,0,0,8,ECM Burst Strength - Mag
+1225,2,80,241,6,0,0,0,0,8,ECM Burst Strength - Radar
+1225,2,201,238,6,0,0,0,0,8,ECM Strength - Grav
+1225,2,201,239,6,0,0,0,0,8,ECM Strength - Ladar
+1225,2,201,240,6,0,0,0,0,8,ECM Strength - Mag
+1225,2,201,241,6,0,0,0,0,8,ECM Strength - Radar
+1206,2,71,73,6,0,0,0,0,8,Energy Neut Duration
+1206,2,68,73,6,0,0,0,0,8,Energy Vampire Duration
+1226,2,289,1027,6,0,0,0,0,8,Remote ECCM Strength - Grav
+1226,2,289,1028,6,0,0,0,0,8,Remote ECCM Strength - Ladar
+1226,2,289,1029,6,0,0,0,0,8,Remote ECCM Strength - Mag
+1226,2,289,1030,6,0,0,0,0,8,Remote ECCM Strength - Radar
+1936,2,208,309,6,0,0,0,0,8,Remote Sensor Damp - Max Targeting Range
+1936,2,208,566,6,0,0,0,0,8,Remote Sensor Damp - Scan Resolution
+1222,2,65,54,6,0,0,0,0,8,Stasis Web Range
+1937,2,379,554,6,0,0,0,0,8,Target Painter Strength
+1935,2,291,349,6,0,0,0,0,8,Tracking Disruptor - Falloff
+1935,2,291,351,6,0,0,0,0,8,Tracking Disruptor - Optimal Range
+1935,2,291,767,6,0,0,0,0,8,Tracking Disruptor - Tracking Speed
+1222,2,52,54,6,0,0,0,0,8,Warp Scrambler Range
+# WEAPONS,,,,,,,,,,
+1205,2,524,51,6,0,0,0,0,8,Citadel Launcher ROF
+1205,2,506,51,6,0,0,0,0,8,Cruise Launcher ROF
+1205,2,53,10011,6,0,0,0,0,8,Energy Weapon ROF
+1210,2,53,10014,6,0,0,0,0,8,Energy Weapon Damage
+1205,2,510,51,6,0,0,0,0,8,Heavy Launcher ROF
+1205,2,771,51,6,0,0,0,0,8,Heavy Assault Launcher ROF
+1205,2,74,10012,6,0,0,0,0,8,Hybrid Weapon ROF
+1210,2,74,10015,6,0,0,0,0,8,Hybrid Weapon Damage
+1205,2,509,51,6,0,0,0,0,8,Light Launcher ROF
+1205,2,55,10013,6,0,0,0,0,8,Projectile Weapon ROF
+1210,2,55,10016,6,0,0,0,0,8,Projectile Weapon Damage
+1205,2,511,51,6,0,0,0,0,8,Rapid Light Launcher ROF
+1205,2,1245,51,6,0,0,0,0,8,Rapid Heavy Launcher ROF
+1205,2,507,51,6,0,0,0,0,8,Rocket Launcher ROF
+1206,2,72,73,6,0,0,0,0,8,Smartbomb ROF
+1205,2,508,51,6,0,0,0,0,8,Torpedo Launcher ROF
+# MISC,,,,,,,,,,
+1223,2,46,20,6,0,0,0,0,8,AB/MWD Speed
+1206,2,76,73,6,0,0,0,0,8,Cap Booster Duration
+1206,2,67,73,6,0,0,0,0,8,Energy Transfer Duration
+1206,2,63,73,6,0,0,0,0,8,Hull Rep Duration
+1205,2,589,51,6,0,0,0,0,8,Interdiction Sphere Launcher ROF
+1935,2,646,349,6,0,0,0,0,8,Omni Tracking Link - Falloff
+1935,2,646,351,6,0,0,0,0,8,Omni Tracking Link - Optimal Range
+1935,2,646,767,6,0,0,0,0,8,Omni Tracking Link - Tracking Speed
+1936,2,290,309,6,0,0,0,0,8,Remote Sensor Booster - Max Targeting Range
+1936,2,290,566,6,0,0,0,0,8,Remote Sensor Booster - Scan Resolution
+1935,2,209,349,6,0,0,0,0,8,Remote Tracking Computer - Falloff
+1935,2,209,351,6,0,0,0,0,8,Remote Tracking Computer - Optimal Range
+1935,2,209,767,6,0,0,0,0,8,Remote Tracking Computer - Tracking Speed
+1936,2,212,309,6,0,0,0,0,8,Sensor Booster - Max Targeting Range
+1936,2,212,566,6,0,0,0,0,8,Sensor Booster - Scan Resolution
+1181,2,1154,73,6,0,0,0,0,8,Target Spectrum Breaker Duration
+1935,2,213,349,6,0,0,0,0,8,Tracking Computer - Falloff
+1935,2,213,351,6,0,0,0,0,8,Tracking Computer - Optimal Range
+1935,2,213,767,6,0,0,0,0,8,Tracking Computer - Tracking Speed
 # MODULE ATTRIBUTE MAPPING,,,,,,,,,,
 # FITTING,,,,,,,,,,
 50,0,0,49,3,6,0,0,1,14,CPU -> CPU_Used
@@ -717,11 +752,12 @@
 # DRONES,,,,,,,,,,
 # DRONE UPGRADES,,,,,,,,,,
 353,2,407,10005,3,6,0,0,1,4,Drone Control Unit - Drone Bonus
-1255,2,645,64,2,100;101;1159,1,0,0,15,Drone Damage Amplifier
-459,2,647,10007,3,6,0,0,1,15,Drone Link Augmenter - Drone Control Range Bonus
-567,2,644,37,2,100;101;544;639;640;641;1159,3,0,0,15,Drone Navigation Computer - Drone Velocity
-243,2,646,54,2,100;101;544;639;640;641;1159,2,0,5,15,Omni Tracking Link - Optimal Range
-244,2,646,160,2,100,2,0,5,15,Omni Tracking Link - Tracking Speed
+1255,2,645,64,2,100;101;1159,1,0,0,14,Drone Damage Amplifier
+459,2,647,10007,3,6,0,0,1,14,Drone Link Augmenter - Drone Control Range Bonus
+567,2,644,37,2,100;101;544;639;640;641;1159,3,0,0,14,Drone Navigation Computer - Drone Velocity
+351,2,646,54,2,100;101;544;639;640;641;1159,2,0,0,12,Omni Tracking Link - Optimal Range
+349,2,646,158,2,100;639,2,0,0,12,Omni Tracking Link - Falloff
+767,2,646,160,2,100,2,0,0,12,Omni Tracking Link - Tracking Speed
 # REMOTE DRONES,,,,,,,,,,
 90,2,544,6,6,0,0,0,8,16,Energy Vampire Drone
 517,2,639,158,2,55;53;74,1,0,5,16,TD Drone - Falloff
@@ -795,8 +831,8 @@
 309,2,290,76,3,6,1,0,0,16,Remote Sensor Booster - Max Targeting Range
 566,2,290,564,3,6,1,0,0,16,Remote Sensor Booster - Scan Resolution
 # Sensor Boosters,,,,,,,,,,
-309,2,212,76,3,6,1,0,0,4,Sensor Booster - Max Targeting Range
-566,2,212,564,3,6,1,0,0,4,Sensor Booster - Scan Resolution
+309,2,212,76,3,6,1,0,0,12,Sensor Booster - Max Targeting Range
+566,2,212,564,3,6,1,0,0,12,Sensor Booster - Scan Resolution
 # Signal Amplifiers,,,,,,,,,,
 235,2,210,192,3,6,0,0,1,14,Signal Amplifier - Max Locked Targets
 309,2,210,76,3,6,1,0,0,14,Signal Amplifier - Max Targeting Range
@@ -1040,14 +1076,14 @@
 1802,1,4294,6,4,1063,0,0,0,4,Remote Hull Repair Cap Use
 1802,1,4294,6,4,910,0,0,0,4,Energy Transfer Cap Use
 # Tracking Computers,,,,,,,,,,
-349,2,213,158,2,55;53;74,1,0,0,4,Falloff
-351,2,213,54,2,55;53;74,1,0,0,4,Optimal Range
-767,2,213,160,2,55;53;74,1,0,0,4,Tracking Speed
+349,2,213,158,2,55;53;74,1,0,0,12,Falloff
+351,2,213,54,2,55;53;74,1,0,0,12,Optimal Range
+767,2,213,160,2,55;53;74,1,0,0,12,Tracking Speed
 # Tracking Enhancers,,,,,,,,,,
 349,2,211,158,2,55;53;74,1,0,0,14,Falloff
 351,2,211,54,2,55;53;74,1,0,0,14,Optimal Range
 767,2,211,160,2,55;53;74,1,0,0,14,Tracking Speed
-# Tracking Links,,,,,,,,,,
+# Remote Tracking Computers,,,,,,,,,,
 349,2,209,158,2,55;53;74,1,0,0,16,Falloff
 351,2,209,54,2,55;53;74,1,0,0,16,Optimal Range
 767,2,209,160,2,55;53;74,1,0,0,16,Tracking Speed

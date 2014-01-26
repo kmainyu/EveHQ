@@ -3493,7 +3493,18 @@ $Ù+Ù+shieldBoostAmplifierActive
 Ú,Ú,shipHybridOptimalGD1
 -Û,(Û,#eliteBonusInterdictorsMWDSigRadius2
 Ü,Ü,shipSHTOptimalBonusGF
+2Ý,-Ý,(shipBonusRemoteRepairAmountPirateFaction
+/Þ,*Þ,%shipBonusLETOptimalRangePirateFaction
 7å,2å,-eliteBonusMaraudersHeavyMissileDamageExpRole1
 7æ,2æ,-eliteBonusMaraudersHeavyMissileDamageKinRole1
 6ç,1ç,,eliteBonusMaraudersHeavyMissileDamageEMRole1
 9è,4è,/eliteBonusMaraudersHeavyMissileDamageThermRole1
+1é,,é,'shipScanProbeStrengthBonusPirateFaction
+2ê,-ê,(shipBonusRemoteRepairRangePirateFaction2
+(ì,#ì,shipBonusDreadCitadelTorpRofC1
+*í,%í, shipBonusDreadCitadelCruiseRofC1
+)ú,$ú,overloadSelfTrackingModuleBonus
+'ý,"ý,overloadSelfSensorModuleBonus
+"þ,þ,overloadSelfPainterBonus
+$…-…-droneTrackingComputerBonus
+ˆ-ˆ-EssWarpScramble
