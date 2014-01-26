@@ -101,6 +101,8 @@ SectionIn RO
   File "..\BuildOutput\Debug\EveHQ.Core.pdb"
   File "..\BuildOutput\Debug\EveHQ.EveAPI.dll"
   File "..\BuildOutput\Debug\EveHQ.EveAPI.pdb"
+  File "..\BuildOutput\Debug\EveHQ.EveAPI.Legacy.dll"
+  File "..\BuildOutput\Debug\EveHQ.EveAPI.Legacy.pdb"
   File "..\BuildOutput\Debug\EveHQ.EveData.dll"
   File "..\BuildOutput\Debug\EveHQ.EveData.pdb"
   File "..\BuildOutput\Debug\EveHQ.exe"

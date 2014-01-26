@@ -21,10 +21,10 @@ Imports System.Runtime.InteropServices
  Assembly: AssemblyCompany("Indicium Technologies"),  _
  Assembly: AssemblyProduct("EveHQ"),  _
  Assembly: AssemblyCopyright("� EveHQ Development Team 2005-2014"),  _
- Assembly: AssemblyFileVersion("2.13.4.4588-Beta-"),  _
- Assembly: AssemblyVersion("2.13.4.4588"),  _
- Assembly: AssemblyConfiguration("Debug"),  _
- Assembly: AssemblyTrademark("2014-01-07 (Version 2.13.4.4588-Beta-)"),  _
+ Assembly: AssemblyFileVersion("2.13.4.4591"),  _
+ Assembly: AssemblyVersion("2.13.4.4591"),  _
+ Assembly: AssemblyConfiguration("Release"),  _
+ Assembly: AssemblyTrademark("2014-01-26 (Version 2.13.4.4591)"),  _
  Assembly: CLSCompliant(false),  _
  Assembly: ComVisible(false),  _
  Assembly: Guid("2a2a4c0d-33da-4486-9090-d76d8010aaca")> 
