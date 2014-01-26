@@ -190,9 +190,10 @@ Navigation–
 ‘‘Caldari
 ’’Gallente
 ““Minmatar
- ””Deployable Equipment	
+"””Deployable Structuresİ
 $••Warp Disruption Fields ”
-!––Deployable EquipmentÑ
+"––Deployable Structuresº
+
 #——Warp Disruption Fields–
 ˜˜InterceptorsÌ
 ššAmarr˜
@@ -265,7 +266,8 @@ $ÕÕStandard BattlecruisersŞ
 ÙÙMinmatarÕ
  ÛÛManufacture & Research
 ÜÜIce Products‰
-+İ&İ!Starbase & Sovereignty Structures
+İİ
+Structures
 ŞŞControl Towers…
 
 ßßMissile Batteriesà
@@ -1058,29 +1060,25 @@ $¸
 ¹
 Advanced Commodities´
 
--º
-(º
-!Starbase & Sovereignty Structures
+º
+º
+
+Structures
 »
 »
-Control Towersº
-
+Control Towers±
 ¼
 ¼
-Assembly Arraysº
-
+Assembly Arrays±
 $½
 ½
-Corporate Hangar Arraysº
-
+Corporate Hangar Arrays±
 '¾
 "¾
-Cynosural Generator Arraysº
-
+Cynosural Generator Arrays±
 %¿
  ¿
-Cynosural System Jammersº
-
+Cynosural System Jammers±
 )À
 $À
 Electronic Warfare Batteriesş
@@ -1089,8 +1087,7 @@ $½
 Energy Neutralization Batteriesş
 Â
 Â
-Jump Bridgeº
-
+Jump Bridge±
 Ã
 Ã
 Hybrid Batteriesş
@@ -1105,24 +1102,19 @@ $½
 Projectile Batteriesş
 Ç
 Ç
-Reactorsº
-
+Reactors±
 #È
 È
-Moon Harvesting Arraysº
-
+Moon Harvesting Arrays±
 É
 É
-Refining Arraysº
-
+Refining Arrays±
 $Ê
 Ê
-Shield Hardening Arraysº
-
+Shield Hardening Arrays±
 Ë
 Ë
-Silosº
-
+Silos±
 #Ì
 Ì
 Sovereignty Structuresº
@@ -1135,8 +1127,7 @@ $Ê
 Nanite Repair PasteÓ
  Ï
 Ï
-Mobile Laboratoriesº
-
+Mobile Laboratories±
 Ñ
 Ñ
 Frigates
@@ -1346,10 +1337,8 @@ $ß
 ûûLight Scout Dronesú
  üüMedium Scout Dronesú
 ııSentry Dronesú
-şşWeapon Batteriesº
-
-$ÿÿShip Maintenance Arraysº
-
+şşWeapon Batteries±
+$ÿÿShip Maintenance Arrays±
 €€Armor RepairersÖ
 Hull RepairersÖ
 "‚‚Remote Hull RepairersÖ
@@ -1410,12 +1399,12 @@ $··Construction Components 
 ººGallente·
 »»Minmatar·
 +¼&¼Outpost Construction Platforms‹
-¾¾Orbital Bombardmentc
-¿¿Orbital Bombardmente
-ÀÀOrbital Bombardmentd
- ÁÁOrbital Bombardment¬
- ÂÂOrbital Bombardment­
- ÃÃOrbital Bombardment«
+¾¾Orbital Strikec
+¿¿Orbital Strikee
+ÀÀOrbital Striked
+ÁÁOrbital Strike¬
+ÂÂOrbital Strike­
+ÃÃOrbital Strike«
 ÊÊAmarr SubsystemsØ
 (Ë#ËAmarr Electronic SubsystemsÊ
 !ÌÌSpecial Edition Ships
@@ -1479,7 +1468,7 @@ $Kinetic Armor Hardeners—
 ‘‘EM Armor Hardeners—
 (’#’Energized Explosive Plating
 &“!“Energized Thermal Plating
-!””Energized Em Plating
+!””Energized EM Plating
 &•!•Energized Kinetic Plating
 '–"–Energized Adaptive Plating
 $——Energized Armor Layering
@@ -1496,8 +1485,7 @@ $——Energized Armor Layering
 +¢&¢Special Edition BattlecruisersÌ
 %£ £Special Edition CruisersÌ
 ¤¤Security Tags
-#¥¥Personal Hangar Arraysº
-
+#¥¥Personal Hangar Arrays±
 #¦¦Personal Hangar Arrays…
 
 #§§Faction BattlecruisersŞ
@@ -1620,6 +1608,14 @@ Subsystems–
 (­#­Special Edition Recon ShipsÌ
 '®"®Special Edition Covert OpsÌ
 !°°Covert Research Tools
+ ±±Starbase structuresº
+
+$²²Mobile Micro Jump Units–
+#³³Mobile Scan Inhibitors–
+$´´Mobile Micro Jump Units”
+#µµMobile Scan Inhibitors”
+%¶ ¶Bounty Reimbursement Tags
++·&·Encounter Surveillance Systems”
 ±®±®Infantry Gear
 •Ê•ÊGrenadesŸÊ
 ™Ê™ÊAugmentations±®
@@ -1638,8 +1634,8 @@ Forge Guns‘œ
 ¦Ê¦Ê	Nanohives›Ê
 §Ê§ÊDrop Uplinks›Ê
 ¨Ê¨ÊRepair Tools›Ê
- «Ê«ÊDropsuit Modules±®
-¬Ê¬ÊVehicle Modules±®
+ «Ê«ÊDropsuit Modulesÿ­
+¬Ê¬ÊVehicle Modulesÿ­
 ­Ê­ÊShield«Ê
 ®Ê®ÊArmor«Ê
 ¯Ê¯ÊBiotics«Ê
@@ -1666,9 +1662,7 @@ Propulsion¬Ê
 õÊõÊ	DropshipsÊ
 ùÊùÊStandardóÊ
 €Ë€ËStandardôÊ
-…Ë…Ë	LogisticsôÊ
 ‡Ë‡ËStandardõÊ
-ŒËŒË	LogisticsõÊ
 ‘Ë‘ËWeaponryáÊ
 ”Ë”ËWeapons‘Ë
  ªËªËDropsuit CommandáÊ
@@ -1733,17 +1727,11 @@ Propulsion¬Ê
 !‚Ñ‚ÑDamage Amplifiers²Ê
 ŒÑŒÑArmor Plates´Ê
 ÑÑArmor Repairers´Ê
-!’Ñ’ÑResistance Plates´Ê
 •Ñ•ÑCPU UpgradesµÊ
-&–Ñ –ÑDamage Control Systems¶Ê
 —Ñ—ÑMobile CRUs¶Ê
 #šÑšÑPower Grid Upgrades¶Ê
-(›Ñ"›ÑPower Diagnostic Systems¶Ê
 %œÑœÑAfterburners (Aerial)·Ê
 ÑÑBoosts (Ground)·Ê
-)Ñ#ÑOverdrives (All Vehicles)·Ê
-% Ñ ÑResistance Amplifiers³Ê
-#¤Ñ¤ÑShield Regenerators³Ê
 !¥Ñ¥ÑDamage Amplifiers¸Ê
 §Ñ§ÑShield Boosters³Ê
 ®Ñ®ÑBlasterÊ
@@ -1752,8 +1740,6 @@ Propulsion¬Ê
 ¹Ñ¹ÑLarge®Ñ
 ºÑºÑSmallÈÊ
 »Ñ»ÑLargeÈÊ
-&¼Ñ ¼ÑRemote Armor Repairers´Ê
-#½Ñ½ÑShield Transporters³Ê
 æÑæÑBoosters™Ê
  îÑîÑPassive BoostersæÑ
 ïÑïÑActive BoostersæÑ
@@ -1804,17 +1790,9 @@ Propulsion¬Ê
 ÔàÔà	PrototypeÑà
 (ßá"ßáHybrid Damage Amplifiers¥Ñ
 )àá#àáMissile Damage Amplifiers¥Ñ
-#ãáãáLarge Hybrid Damageßá
-&äá äáSystemic Hybrid Damageßá
-#åáåáSmall Hybrid Damageßá
-'æá!æáSystemic Missile Damageàá
-$çáçáLarge Missile Damageàá
-$èáèáSmall Missile Damageàá
-"éáéáPassive Heat Sinks¸Ê
-êáêáSpool Reduction¸Ê
-"ëáëáTracking Enhancers¸Ê
-"ìáìáTracking Computers¸Ê
-!íáíáActive Heat Sinks¸Ê
+)ãá#ãáBlaster Damage Amplifiersßá
+)åá#åáRailgun Damage Amplifiersßá
+)èá#èáMissile Damage Amplifiersàá
  õáõáShield Hardeners³Ê
 ´ä´äScannersµÊ
 àäàäStandard»Ñ
@@ -1835,28 +1813,15 @@ $èáèáSmall Missile Damageàá
 óäóäStandardÍÊ
 ôäôäAdvancedÍÊ
 õäõä	PrototypeÍÊ
- şäşäActive Heatsinksíá
-ÿäÿä	Heatsinkséá
-$€å€åSpool Time Reductionêá
-*å$åTracking Computer (Active)ìá
-+‚å%‚åTracking Enhancer (Passive)ëá
-(şå"şåArmor Resistance Plating’Ñ
 €æ€æArmor Hardenersæ
 ææArmor Hardeners´Ê
-"¨–¨–180mm Armor PlatesŒÑ
 "©–©–120mm Armor PlatesŒÑ
 !ª–ª–60mm Armor PlatesŒÑ
-®—®—Light¼Ñ
-¯—¯—Heavy¼Ñ
 °—°—LightÑ
 ±—±—HeavyÑ
  ²—²—Shield Extenders³Ê
-%¶—¶—Resistance Amplifiers Ñ
-#·—·—Shield Regenerators¤Ñ
 ¸—¸—Light§Ñ
 ¹—¹—Heavy§Ñ
-º—º—Light½Ñ
-»—»—Heavy½Ñ
  ¼—¼—Shield Hardenersõá
 À—À—Heavy²—
 Á—Á—Light²—
@@ -1893,8 +1858,6 @@ $€å€åSpool Time Reductionêá
 ÌŸÌŸStandardËŸ
 ÍŸÍŸAdvancedËŸ
 ÎŸÎŸ	PrototypeËŸ
-Ø¡Ø¡EnforceróÊ
-İ¡İ¡ScoutôÊ
 à¡à¡AssaultõÊ
 Õ¢Õ¢BasicŒœ
 Ö¢Ö¢StandardÕ¢
@@ -1908,7 +1871,7 @@ $€å€åSpool Time Reductionêá
 Ş¢Ş¢Standardİ¢
 ß¢ß¢Advancedİ¢
 à¢à¢	Prototypeİ¢
-ï¢ï¢Featured fits±®
+ï¢ï¢Packaged Fits±®
 ğ¢ğ¢Scoutûª
 ñ¢ñ¢Assaultûª
 ò¢ò¢Heavyûª
@@ -1927,9 +1890,106 @@ $€å€åSpool Time Reductionêá
 â¥â¥	PrototypeŞ¥
 !¸§¸§Dropsuit UpgradesáÊ
  ¹§¹§Vehicle UpgradesáÊ
+Å©Å©Combat Riflesœ
+Æ©Æ©StandardÅ©
+Ç©Ç©AdvancedÅ©
+È©È©	PrototypeÅ©
+É©É©Rail Riflesœ
+Ê©Ê©StandardÉ©
+Ë©Ë©AdvancedÉ©
+Ì©Ì©	PrototypeÉ©
+$ÊªÊªAmmo Expansion Units¸Ê
+,Ëª&ËªBlaster Ammo Expansion UnitsÊª
+5Ìª/Ìª%Missile Launcher Ammo Expansion UnitsÊª
+,Íª&ÍªRailgun Ammo Expansion UnitsÊª
 úªúªFitted Vehiclesï¢
  ûªûªFitted Dropsuitsï¢
 üªüª	Logisticsûª
 ıªıªDropshipúª
 *şª$şªLight Attack Vehicle (LAV)úª
 *ÿª$ÿªHeavy Attack Vehicle (HAV)úª
+««««Loyalty Store±®
+¬«¬«Gallente Store««
+­«­«Amarr Store««
+®«®«Minmatar Store««
+¯«¯«Caldari Store««
+%Å«Å«Faction Booster AmarræÑ
+İ¬İ¬	Dropsuits¬«
+Ş¬Ş¬	Dropsuits­«
+ß¬ß¬	Dropsuits®«
+á¬á¬	Dropsuits¯«
+ â¬â¬Dropsuit Weapons¬«
+ ã¬ã¬Dropsuit Weapons­«
+ ä¬ä¬Dropsuit Weapons®«
+ å¬å¬Dropsuit Weapons¯«
+æ¬æ¬Vehicles¬«
+é¬é¬Vehicles¯«
+ê¬ê¬Vehicle Turrets¬«
+í¬í¬Vehicle Turrets¯«
+ î¬î¬Dropsuit Modules¬«
+ ï¬ï¬Dropsuit Modules­«
+ ñ¬ñ¬Dropsuit Modules®«
+ ò¬ò¬Dropsuit Modules¯«
+õ¬õ¬StandardŞ¬
+ö¬ö¬AdvancedŞ¬
+÷¬÷¬	PrototypeŞ¬
+ø¬ø¬Standardİ¬
+ù¬ù¬Advancedİ¬
+ú¬ú¬	Prototypeİ¬
+û¬û¬Standardß¬
+ü¬ü¬Advancedß¬
+ı¬ı¬	Prototypeß¬
+ş¬ş¬Standardá¬
+ÿ¬ÿ¬Advancedá¬
+€­€­	Prototypeá¬
+­­Standardæ¬
+‚­‚­Standardê¬
+ƒ­ƒ­Advancedê¬
+„­„­	Prototypeê¬
+…­…­Standardí¬
+†­†­Advancedí¬
+‡­‡­	Prototypeí¬
+ˆ­ˆ­Standardé¬
+‹­‹­Standardå¬
+Œ­Œ­Advancedå¬
+­­	Prototypeå¬
+­­Standardâ¬
+­­Advancedâ¬
+­­	Prototypeâ¬
+­­­­Standardî¬
+®­®­Advancedî¬
+¯­¯­	Prototypeî¬
+±­±­Standardã¬
+²­²­Advancedã¬
+³­³­	Prototypeã¬
+´­´­	Equipment¬«
+µ­µ­Standard´­
+¶­¶­Advanced´­
+·­·­	Prototype´­
+¸­¸­	Equipment­«
+º­º­Advanced¸­
+»­»­	Prototype¸­
+¼­¼­Standardï¬
+½­½­Advancedï¬
+¿­¿­	Prototypeï¬
+À­À­Standardä¬
+Á­Á­Advancedä¬
+Â­Â­	Prototypeä¬
+Ã­Ã­	Equipment®«
+Ä­Ä­StandardÃ­
+Å­Å­AdvancedÃ­
+Æ­Æ­	PrototypeÃ­
+Ç­Ç­Standardñ¬
+È­È­Advancedñ¬
+É­É­	Prototypeñ¬
+Ê­Ê­	Equipment¯«
+Ë­Ë­StandardÊ­
+Ì­Ì­AdvancedÊ­
+Í­Í­	PrototypeÊ­
+Î­Î­Standardò¬
+Ï­Ï­Advancedò¬
+Ğ­Ğ­	Prototypeò¬
+ÿ­ÿ­Modules±®
+'®!®Faction Booster CaldariæÑ
+(®"®Faction Booster GallenteæÑ
+(®"®Faction Booster MinmataræÑ

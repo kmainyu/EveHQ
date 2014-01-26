@@ -69,6 +69,7 @@ Battleships\Faction Battleships\Navy Faction\Typhoon Fleet Issue
 Battleships\Faction Battleships\Pirate Faction
 Battleships\Faction Battleships\Pirate Faction\Bhaalgorn
 Battleships\Faction Battleships\Pirate Faction\Machariel
+Battleships\Faction Battleships\Pirate Faction\Nestor
 Battleships\Faction Battleships\Pirate Faction\Nightmare
 Battleships\Faction Battleships\Pirate Faction\Rattlesnake
 Battleships\Faction Battleships\Pirate Faction\Vindicator
@@ -416,8 +417,6 @@ Shuttles\Amarr
 Shuttles\Amarr\Amarr Shuttle
 Shuttles\Caldari
 Shuttles\Caldari\Caldari Shuttle
-Shuttles\Faction
-Shuttles\Faction\Leopard
 Shuttles\Faction Shuttles
 Shuttles\Faction Shuttles\Goru's Shuttle
 Shuttles\Faction Shuttles\Guristas Shuttle
@@ -482,3 +481,4 @@ Special Edition Ships\Special Edition Recon Ships\Moracha
 Special Edition Ships\Special Edition Shuttles
 Special Edition Ships\Special Edition Shuttles\Apotheosis
 Special Edition Ships\Special Edition Shuttles\Interbus Shuttle
+Special Edition Ships\Special Edition Shuttles\Leopard
