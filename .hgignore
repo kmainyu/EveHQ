@@ -16,3 +16,6 @@ Ref/EveCache.Net/EveCache.dll
 EveHQ.NewEveAPI/StyleCop.Cache
 EveHQ.NewEveAPI/EveHQ.NewEveAPI.csproj.DotSettings
 EveHQ.NewEveAPI/EveHQ.EveAPI.csproj.DotSettings
+syntax: glob
+EveHQ.Common/StyleCop.Cache
+EveHQ.Caching/StyleCop.Cache
