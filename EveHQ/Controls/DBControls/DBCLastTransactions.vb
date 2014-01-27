@@ -121,7 +121,7 @@ Namespace Controls.DBControls
                 Dim transactions = HQ.ApiProvider.Character.WalletTransactions(cAccount.UserID, cAccount.APIKey, cCharID.ToInt32(), AccountKey)
 
                 'Parse the XML document
-                If transactions IsNot Nothing Then
+                If transactions.IsSuccess Then
                     ' Get transactions
                     Dim transactionList = transactions.ResultData
                     Dim sortedTransactions As List(Of WalletTransaction) = transactionList.ToList()

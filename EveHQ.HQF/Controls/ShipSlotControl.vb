@@ -431,7 +431,7 @@ Namespace Controls
             adtSlots.BeginUpdate()
             adtSlots.Nodes.Clear()
 
-            Const Shiz As Integer = 24
+            Const ImageSize As Integer = 24
             Dim hiSlotStyle As ElementStyle = adtSlots.Styles("SlotStyle").Copy
             Dim midSlotStyle As ElementStyle = adtSlots.Styles("SlotStyle").Copy
             Dim lowSlotStyle As ElementStyle = adtSlots.Styles("SlotStyle").Copy
@@ -448,7 +448,7 @@ Namespace Controls
                 Dim parentNode As New Node("High Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "8"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgHiSlot, Shiz, Shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgHiSlot, ImageSize, ImageSize)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.HiSlots
                     Dim slotNode As New Node("", hiSlotStyle)
@@ -467,7 +467,7 @@ Namespace Controls
                 Dim parentNode As New Node("Mid Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "4"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgMidSlot, Shiz, Shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgMidSlot, ImageSize, ImageSize)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.MidSlots
                     Dim slotNode As New Node("", midSlotStyle)
@@ -486,7 +486,7 @@ Namespace Controls
                 Dim parentNode As New Node("Low Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "2"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgLowSlot, Shiz, Shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgLowSlot, ImageSize, ImageSize)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.LowSlots
                     Dim slotNode As New Node("", lowSlotStyle)
@@ -505,7 +505,7 @@ Namespace Controls
                 Dim parentNode As New Node("Rig Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "1"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgRigSlot, Shiz, Shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgRigSlot, ImageSize, ImageSize)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.RigSlots
                     Dim slotNode As New Node("", rigSlotStyle)
@@ -524,7 +524,7 @@ Namespace Controls
                 Dim parentNode As New Node("Subsystem Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "16"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgSubSlot, Shiz, Shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgSubSlot, ImageSize, ImageSize)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.SubSlots
                     Dim slotNode As New Node("", subSlotStyle)
