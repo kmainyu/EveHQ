@@ -77,17 +77,51 @@ Public Class EveHQBackup
                 zip.AddFile(Path.Combine(HQ.AppDataFolder, "EveHQData.db3"), "")
 
                 'TODO: Plugin backup should be a delegate method that can be called to get files for backup
-                zip.AddFile(Path.Combine(HQ.AppDataFolder, "HQF", "Fittings.json"), "HQF")
-                zip.AddFile(Path.Combine(HQ.AppDataFolder, "HQF", "HQFDamageProfiles.json"), "HQF")
-                zip.AddFile(Path.Combine(HQ.AppDataFolder, "HQF", "HQFPilotSettings.json"), "HQF")
-                zip.AddFile(Path.Combine(HQ.AppDataFolder, "HQF", "HQFDefenceProfiles.json"), "HQF")
-                zip.AddFile(Path.Combine(HQ.AppDataFolder, "HQF", "HQFSettings.json"), "HQF")
+                Dim fittingsFile = Path.Combine(HQ.AppDataFolder, "HQF", "Fittings.json")
+                If (File.Exists(fittingsFile)) Then
+                    zip.AddFile(fittingsFile, "HQF")
+                End If
 
-                zip.AddFile(Path.Combine(HQ.AppDataFolder, "Prism", "BatchJobs.json"), "Prism")
-                zip.AddFile(Path.Combine(HQ.AppDataFolder, "Prism", "OwnerBlueprints.json"), "Prism")
-                zip.AddFile(Path.Combine(HQ.AppDataFolder, "Prism", "PrismSettings.json"), "Prism")
-                zip.AddFile(Path.Combine(HQ.AppDataFolder, "Prism", "ProductionJobs.json"), "Prism")
+                Dim damageProfiles = Path.Combine(HQ.AppDataFolder, "HQF", "HQFDamageProfiles.json")
+                If (File.Exists(damageProfiles)) Then
+                    zip.AddFile(damageProfiles, "HQF")
+                End If
 
+                Dim pilotSettings = Path.Combine(HQ.AppDataFolder, "HQF", "HQFPilotSettings.json")
+                If (File.Exists(pilotSettings)) Then
+                    zip.AddFile(pilotSettings, "HQF")
+                End If
+
+                Dim defenceProfiles = Path.Combine(HQ.AppDataFolder, "HQF", "HQFDefenceProfiles.json")
+                If (File.Exists(defenceProfiles)) Then
+                    zip.AddFile(defenceProfiles, "HQF")
+                End If
+
+                Dim hqSettings = Path.Combine(HQ.AppDataFolder, "HQF", "HQFSettings.json")
+                If (File.Exists(hqSettings)) Then
+                    zip.AddFile(hqSettings, "HQF")
+                End If
+
+                'Prism data files
+                Dim batchJobs = Path.Combine(HQ.AppDataFolder, "Prism", "BatchJobs.json")
+                If (File.Exists(batchJobs)) Then
+                    zip.AddFile(batchJobs, "Prism")
+                End If
+
+                Dim blueprints = Path.Combine(HQ.AppDataFolder, "Prism", "OwnerBlueprints.json")
+                If (File.Exists(blueprints)) Then
+                    zip.AddFile(blueprints, "Prism")
+                End If
+
+                Dim prismSettings = Path.Combine(HQ.AppDataFolder, "Prism", "PrismSettings.json")
+                If (File.Exists(prismSettings)) Then
+                    zip.AddFile(prismSettings, "Prism")
+                End If
+
+                Dim productionJobs = Path.Combine(HQ.AppDataFolder, "Prism", "ProductionJobs.json")
+                If (File.Exists(productionJobs)) Then
+                    zip.AddFile(productionJobs, "Prism")
+                End If
 
                 zip.Save()
                 ' Update backup details
