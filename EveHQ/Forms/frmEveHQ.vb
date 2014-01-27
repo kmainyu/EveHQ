@@ -3258,7 +3258,9 @@ Namespace Forms
             End If
 
             ' tailor trainging block layout display to best suit the experience
-            If Bar1.Docked And Bar1.Height < 120 Then
+            If Bar1.Docked And (Bar1.DockSide = eDockSide.Bottom Or Bar1.DockSide = eDockSide.Top) And Bar1.Height < 120 Then
+                trainingBlockLayout.Dock = DockStyle.None
+            ElseIf Bar1.Docked And (Bar1.DockSide = eDockSide.Left Or Bar1.DockSide = eDockSide.Right) And Bar1.Width < 400 Then
                 trainingBlockLayout.Dock = DockStyle.None
             Else
                 trainingBlockLayout.Dock = DockStyle.Fill

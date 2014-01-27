@@ -391,9 +391,9 @@ Namespace Forms
             '
             Me.RibbonControl1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.RibbonControl1.CaptionVisible = True
-            Me.RibbonControl1.Controls.Add(Me.rpCore)
-            Me.RibbonControl1.Controls.Add(Me.rpPlugins)
             Me.RibbonControl1.Controls.Add(Me.rpReports)
+            Me.RibbonControl1.Controls.Add(Me.rpPlugins)
+            Me.RibbonControl1.Controls.Add(Me.rpCore)
             Me.RibbonControl1.Dock = System.Windows.Forms.DockStyle.Top
             Me.RibbonControl1.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.rtiCore, Me.rtiPlugins, Me.rtiReports, Me.btnTheme})
             Me.RibbonControl1.KeyTipsFont = New System.Drawing.Font("Tahoma", 7.0!)
@@ -451,6 +451,7 @@ Namespace Forms
             '
             Me.rpCore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rpCore.TabIndex = 1
+            Me.rpCore.Visible = False
             '
             'rbHelp
             '
@@ -954,7 +955,6 @@ Namespace Forms
             '
             Me.rpReports.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rpReports.TabIndex = 3
-            Me.rpReports.Visible = False
             '
             'rbCharts
             '
@@ -1544,6 +1544,7 @@ Namespace Forms
             Me.btnStdAlloyReport.SubItemsExpandWidth = 14
             Me.SuperTooltip1.SetSuperTooltip(Me.btnStdAlloyReport, New DevComponents.DotNetBar.SuperTooltipInfo("", "Alloy Composition Report (HTML)", "Shows the mineral breakdown of drone alloys." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnStdAlloyReport.Text = "Alloy Composition"
+            Me.btnStdAlloyReport.Visible = False
             '
             'btnStdAsteroidReport
             '
@@ -1555,6 +1556,7 @@ Namespace Forms
             Me.SuperTooltip1.SetSuperTooltip(Me.btnStdAsteroidReport, New DevComponents.DotNetBar.SuperTooltipInfo("", "Asteroid Composition Report (HTML)", "Shows the mineral composition of various asteroids. Also includes details of comp" & _
                 "ressed ores.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnStdAsteroidReport.Text = "Asteroid Composition"
+            Me.btnStdAsteroidReport.Visible = False
             '
             'btnStdIceReport
             '
@@ -1566,6 +1568,7 @@ Namespace Forms
             Me.SuperTooltip1.SetSuperTooltip(Me.btnStdIceReport, New DevComponents.DotNetBar.SuperTooltipInfo("", "Ice Composition Report (HTML)", "Shows the breakdown of each of the various Ice blocks. Also contains details of c" & _
                 "ompressed Ice.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnStdIceReport.Text = "Ice Composition"
+            Me.btnStdIceReport.Visible = False
             '
             'rbReportOptions
             '
@@ -1704,7 +1707,6 @@ Namespace Forms
             '
             'rtiCore
             '
-            Me.rtiCore.Checked = True
             Me.rtiCore.Name = "rtiCore"
             Me.rtiCore.Panel = Me.rpCore
             Me.rtiCore.Text = "Core"
@@ -1717,6 +1719,7 @@ Namespace Forms
             '
             'rtiReports
             '
+            Me.rtiReports.Checked = True
             Me.rtiReports.Name = "rtiReports"
             Me.rtiReports.Panel = Me.rpReports
             Me.rtiReports.Text = "Reports"
