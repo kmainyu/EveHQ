@@ -24,13 +24,14 @@ Imports System.Net
 Imports System.Windows.Forms
 Imports System.IO
 Imports EveHQ.HQF.Forms
+Imports EveHQ.Common.Extensions
 Imports ProtoBuf
 
 Public Class PlugInData
     Implements IEveHQPlugIn
 
     Public Shared ModuleChanges As New SortedList(Of String, String)
-    Private _activeForm As frmHQF
+    Private _activeForm As FrmHQF
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -38,7 +39,7 @@ Public Class PlugInData
         Select Case dataType
             Case 0 ' Fitting Protocol
                 ' Check for fitting protocol
-                Dim fb As New frmFittingBrowser
+                Dim fb As New FrmFittingBrowser
                 fb.DNAFit = ParseFittingLink(CStr(data))
                 fb.TopMost = True
                 fb.Show()
@@ -60,7 +61,7 @@ Public Class PlugInData
                 My.Computer.FileSystem.CreateDirectory(PluginSettings.HQFFolder)
             End If
 
-            PluginSettings.HQFCacheFolder = HQ.coreCacheFolder
+            PluginSettings.HQFCacheFolder = HQ.CoreCacheFolder
 
             Dim mods() As String = My.Resources.ModuleChanges.Split(ControlChars.CrLf.ToCharArray)
             ModuleChanges.Clear()
@@ -198,8 +199,8 @@ Public Class PlugInData
             Return True
 
         Catch ex As Exception
-            MessageBox.Show("Error in the EveHQ.HQF startup routine: " & ex.Message)
-
+            Trace.TraceError(ex.FormatException())
+            Throw
         End Try
     End Function
 
@@ -217,7 +218,7 @@ Public Class PlugInData
                         End If
                     End If
                 End If
-            End If     
+            End If
         Next
         ImageHandler.MetaIcons.Clear()
         For idx As Integer = 0 To 32
@@ -263,7 +264,7 @@ Public Class PlugInData
     End Function
 
     Public Function RunEveHQPlugIn() As Form Implements IEveHQPlugIn.RunEveHQPlugIn
-        _activeForm = New frmHQF()
+        _activeForm = New FrmHQF()
         Return _activeForm
     End Function
 
@@ -318,7 +319,7 @@ Public Class PlugInData
                         shipDNA.Modules.Add(fModule.ID)
                     End If
                 End If
-           End If
+            End If
         Next
 
         If parts.Length > 1 Then
