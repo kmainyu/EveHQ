@@ -1071,7 +1071,7 @@
 1202,1,4294,73,4,1063,0,0,0,4,Remote Hull Repair Duration Bonus
 1203,1,4294,90,4,910,0,0,0,4,Energy Transfer Bonus
 1204,1,4294,73,4,910,0,0,0,4,Energy Transfer Duration Bonus
-1802,1,4294,6,4,778,0,0,0,4,Shield Transporter Cap Use
+1802,1,4294,6,4,600,0,0,0,4,Shield Transporter Cap Use
 1802,1,4294,6,4,1056,0,0,0,4,Remote Armor Repair Cap Use
 1802,1,4294,6,4,1063,0,0,0,4,Remote Hull Repair Cap Use
 1802,1,4294,6,4,910,0,0,0,4,Energy Transfer Cap Use
