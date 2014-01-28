@@ -1343,31 +1343,17 @@ Imports System.Runtime.Serialization
     End Sub
     Private Function CollectModules(ByVal newShip As Ship) As Ship
         newShip.SlotCollection.Clear()
-        For Each remoteObject As Object In newShip.RemoteSlotCollection
-            If TypeOf remoteObject Is ShipModule Then
-                newShip.SlotCollection.Add(CType(remoteObject, ShipModule))
-            Else
-                Dim remoteDrones As DroneBayItem = CType(remoteObject, DroneBayItem)
-                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
-                For drone As Integer = 1 To remoteDrones.Quantity
-                    newShip.SlotCollection.Add(remoteDrones.DroneType)
-                Next
-            End If
+        For Each remoteObject As ShipModule In newShip.RemoteSlotCollection
+            newShip.SlotCollection.Add(remoteObject)
         Next
-        For Each fleetObject As Object In newShip.FleetSlotCollection
-            If TypeOf fleetObject Is ShipModule Then
-                newShip.SlotCollection.Add(CType(fleetObject, ShipModule))
-            End If
+        For Each fleetObject As ShipModule In newShip.FleetSlotCollection
+            newShip.SlotCollection.Add(fleetObject)
         Next
-        For Each enviroObject As Object In newShip.EnviroSlotCollection
-            If TypeOf enviroObject Is ShipModule Then
-                newShip.SlotCollection.Add(CType(enviroObject, ShipModule))
-            End If
+        For Each enviroObject As ShipModule In newShip.EnviroSlotCollection
+            newShip.SlotCollection.Add(enviroObject)
         Next
-        For Each boosterObject As Object In newShip.BoosterSlotCollection
-            If TypeOf boosterObject Is ShipModule Then
-                newShip.SlotCollection.Add(CType(boosterObject, ShipModule))
-            End If
+        For Each boosterObject As ShipModule In newShip.BoosterSlotCollection
+            newShip.SlotCollection.Add(boosterObject)
         Next
         For slot As Integer = 1 To newShip.HiSlots
             If newShip.HiSlot(slot) IsNot Nothing Then

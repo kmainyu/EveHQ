@@ -229,6 +229,7 @@ End Class
 Public Enum ModuleEnum
 
     ' itemIDs (see invTypes)
+    ItemBastionModuleI = 33400
     ItemCommandProcessorI = 11014
     ItemLegionCovertReconfiguration = 30120
     ItemLegionWarfareProcessor = 29967
