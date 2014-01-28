@@ -128,20 +128,20 @@ Namespace Forms
                 newAmmo = New ListViewItem
                 newAmmo.Text = newMod.LoadedCharge.Name
                 newAmmo.SubItems.Add(newMod.CapUsage.ToString("N2"))
-                If newMod.Attributes.ContainsKey(AttributeEnum.ModuleFalloff) Then
-                    newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleOptimalRange).ToString("N2"))
-                Else
-                    newAmmo.SubItems.Add("0")
+                If newMod.IsTurret = True Then
+                    newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleOptimalRange).ToString("N0"))
+                Else ' If it's not a turret it must be a launcher
+                    newAmmo.SubItems.Add((newMod.LoadedCharge.Attributes(AttributeEnum.ModuleMaxFlightTime) * newMod.LoadedCharge.Attributes(AttributeEnum.ModuleMaxVelocity)).ToString("N0"))
                 End If
                 If newMod.Attributes.ContainsKey(AttributeEnum.ModuleFalloff) Then
-                    newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleFalloff).ToString("N2"))
+                    newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleFalloff).ToString("N0"))
                 Else
                     newAmmo.SubItems.Add("0")
                 End If
                 If newMod.Attributes.ContainsKey(AttributeEnum.ModuleTrackingSpeed) Then
-                    newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleTrackingSpeed).ToString("N2"))
+                    newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleTrackingSpeed).ToString("N4"))
                 Else
-                    newAmmo.SubItems.Add("0.00000")
+                    newAmmo.SubItems.Add("0.00")
                 End If
                 newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleEMDamage).ToString("N2"))
                 newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleExpDamage).ToString("N2"))
