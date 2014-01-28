@@ -81,6 +81,8 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The _request provider.</summary>
         private readonly IHttpRequestProvider _requestProvider;
 
+        private static bool downloadError = false;
+
         /// <summary>Initializes a new instance of the <see cref="EveHQMarketDataProvider"/> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
         /// <param name="requestProvider">The request Provider.</param>
@@ -207,16 +209,18 @@ namespace EveHQ.Market.MarketServices
 
                         _priceCache.Add(ItemKeyFormat.FormatInvariant(marketLocation), locationData, DateTimeOffset.Now.Add(_cacheTtl));
 
-                        MessageBox.Show(Resources.NewMarketData, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Trace.TraceInformation(Resources.NewMarketData);
+                        // MessageBox.Show(Resources.NewMarketData, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         _priceCache.Add(lastDownloadKey, DateTimeOffset.Now, DateTimeOffset.Now.Add(_cacheTtl));
                     }
+                    downloadError = false;
                 }
                 catch (Exception e)
                 {
                     // log it.
                     Trace.TraceError(e.FormatException());
-                    if (MessageBox.Show(Resources.ErrorDownloadingData, Resources.ErrorCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                    if (!downloadError && MessageBox.Show(Resources.ErrorDownloadingData, Resources.ErrorCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
                     {
                         retry = true;
                     }
@@ -225,6 +229,7 @@ namespace EveHQ.Market.MarketServices
                         string lastDownloadKey = LastDownloadTs.FormatInvariant(marketLocation);
                         _priceCache.Add(lastDownloadKey, DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(30));
                     }
+                    downloadError = true;
                 }
             }
 
@@ -241,10 +246,10 @@ namespace EveHQ.Market.MarketServices
         {
             // TODO: In EveHQ 3, this must be done by a messaging provider, so we can message the user on the UI from the backside code.
             // For EveHQ 2.x ... we'll ignore SoC to get it working.
-            if (MessageBox.Show(Resources.DataNotInitialized, Resources.NoMarketDataCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
-                DownloadLatestData(marketLocation);
-            }
+            // if (MessageBox.Show(Resources.DataNotInitialized, Resources.NoMarketDataCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            // {
+            DownloadLatestData(marketLocation);
+            //  }
         }
 
         /// <summary>The last market update.</summary>
