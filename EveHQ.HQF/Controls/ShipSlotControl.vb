@@ -103,7 +103,7 @@ Namespace Controls
             InitializeComponent()
 
             ' Set the parent fitting
-            _parentFitting = ShipFit
+            _parentFitting = shipFit
 
             ' Set the associated ShipInfoControl
             _currentInfo = ParentFitting.ShipInfoCtrl
@@ -190,7 +190,7 @@ Namespace Controls
                 RedrawCargoBay()
                 RedrawShipBay()
                 UpdateBoosterSlots()
-                UpdateWormholeUI()
+                UpdateWormholeUi()
                 UpdateNotes()
                 UpdateTags()
                 Call UpdatePrices()
@@ -578,9 +578,9 @@ Namespace Controls
                                     slotNode.Cells.Add(New Cell(""))
                                 End If
                             Case "CPU"
-                                slotNode.Cells.Add(New Cell(shipMod.CPU.ToString("N2")))
+                                slotNode.Cells.Add(New Cell(shipMod.Cpu.ToString("N2")))
                             Case "PG"
-                                slotNode.Cells.Add(New Cell(shipMod.PG.ToString("N2")))
+                                slotNode.Cells.Add(New Cell(shipMod.Pg.ToString("N2")))
                             Case "Calib"
                                 slotNode.Cells.Add(New Cell(shipMod.Calibration.ToString("N2")))
                             Case "Price"
@@ -642,14 +642,14 @@ Namespace Controls
                                     slotNode.Cells.Add(New Cell(""))
                                 End If
                             Case "ROF"
-                                If shipMod.Attributes.ContainsKey(AttributeEnum.ModuleROF) Then
-                                    slotNode.Cells.Add(New Cell(shipMod.Attributes(AttributeEnum.ModuleROF).ToString("N2")))
-                                ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleEnergyROF) Then
-                                    slotNode.Cells.Add(New Cell(shipMod.Attributes(AttributeEnum.ModuleEnergyROF).ToString("N2")))
-                                ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleHybridROF) Then
-                                    slotNode.Cells.Add(New Cell(shipMod.Attributes(AttributeEnum.ModuleHybridROF).ToString("N2")))
-                                ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleProjectileROF) Then
-                                    slotNode.Cells.Add(New Cell(shipMod.Attributes(AttributeEnum.ModuleProjectileROF).ToString("N2")))
+                                If shipMod.Attributes.ContainsKey(AttributeEnum.ModuleRof) Then
+                                    slotNode.Cells.Add(New Cell(shipMod.Attributes(AttributeEnum.ModuleRof).ToString("N2")))
+                                ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleEnergyRof) Then
+                                    slotNode.Cells.Add(New Cell(shipMod.Attributes(AttributeEnum.ModuleEnergyRof).ToString("N2")))
+                                ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleHybridRof) Then
+                                    slotNode.Cells.Add(New Cell(shipMod.Attributes(AttributeEnum.ModuleHybridRof).ToString("N2")))
+                                ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleProjectileRof) Then
+                                    slotNode.Cells.Add(New Cell(shipMod.Attributes(AttributeEnum.ModuleProjectileRof).ToString("N2")))
                                 Else
                                     slotNode.Cells.Add(New Cell(""))
                                 End If
@@ -747,10 +747,10 @@ Namespace Controls
                             End If
                             idx += 1
                         Case "CPU"
-                            slotNode.Cells(idx).Text = shipMod.CPU.ToString("N2")
+                            slotNode.Cells(idx).Text = shipMod.Cpu.ToString("N2")
                             idx += 1
                         Case "PG"
-                            slotNode.Cells(idx).Text = shipMod.PG.ToString("N2")
+                            slotNode.Cells(idx).Text = shipMod.Pg.ToString("N2")
                             idx += 1
                         Case "Calib"
                             slotNode.Cells(idx).Text = shipMod.Calibration.ToString("N2")
@@ -830,14 +830,14 @@ Namespace Controls
                             End If
                             idx += 1
                         Case "ROF"
-                            If shipMod.Attributes.ContainsKey(AttributeEnum.ModuleROF) Then
-                                slotNode.Cells(idx).Text = shipMod.Attributes(AttributeEnum.ModuleROF).ToString("N2")
-                            ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleEnergyROF) Then
-                                slotNode.Cells(idx).Text = shipMod.Attributes(AttributeEnum.ModuleEnergyROF).ToString("N2")
-                            ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleHybridROF) Then
-                                slotNode.Cells(idx).Text = shipMod.Attributes(AttributeEnum.ModuleHybridROF).ToString("N2")
-                            ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleProjectileROF) Then
-                                slotNode.Cells(idx).Text = shipMod.Attributes(AttributeEnum.ModuleProjectileROF).ToString("N2")
+                            If shipMod.Attributes.ContainsKey(AttributeEnum.ModuleRof) Then
+                                slotNode.Cells(idx).Text = shipMod.Attributes(AttributeEnum.ModuleRof).ToString("N2")
+                            ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleEnergyRof) Then
+                                slotNode.Cells(idx).Text = shipMod.Attributes(AttributeEnum.ModuleEnergyRof).ToString("N2")
+                            ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleHybridRof) Then
+                                slotNode.Cells(idx).Text = shipMod.Attributes(AttributeEnum.ModuleHybridRof).ToString("N2")
+                            ElseIf shipMod.Attributes.ContainsKey(AttributeEnum.ModuleProjectileRof) Then
+                                slotNode.Cells(idx).Text = shipMod.Attributes(AttributeEnum.ModuleProjectileRof).ToString("N2")
                             Else
                                 slotNode.Cells(idx).Text = ""
                             End If
@@ -997,27 +997,27 @@ Namespace Controls
         End Sub
 
         Private Sub UpdateMruModules(ByVal modName As String)
-            If PluginSettings.HQFSettings.MRUModules.Count < PluginSettings.HQFSettings.MRULimit Then
+            If PluginSettings.HQFSettings.MruModules.Count < PluginSettings.HQFSettings.MruLimit Then
                 ' If the MRU list isn't full
-                If PluginSettings.HQFSettings.MRUModules.Contains(modName) = False Then
+                If PluginSettings.HQFSettings.MruModules.Contains(modName) = False Then
                     ' If the module isn't already in the list
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 Else
                     ' If it is in the list, remove it and add it at the end
-                    PluginSettings.HQFSettings.MRUModules.Remove(modName)
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.Remove(modName)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 End If
             Else
-                If PluginSettings.HQFSettings.MRUModules.Contains(modName) = False Then
-                    For m As Integer = 0 To PluginSettings.HQFSettings.MRULimit - 2
-                        PluginSettings.HQFSettings.MRUModules(m) = PluginSettings.HQFSettings.MRUModules(m + 1)
+                If PluginSettings.HQFSettings.MruModules.Contains(modName) = False Then
+                    For m As Integer = 0 To PluginSettings.HQFSettings.MruLimit - 2
+                        PluginSettings.HQFSettings.MruModules(m) = PluginSettings.HQFSettings.MruModules(m + 1)
                     Next
-                    PluginSettings.HQFSettings.MRUModules.RemoveAt(PluginSettings.HQFSettings.MRULimit - 1)
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.RemoveAt(PluginSettings.HQFSettings.MruLimit - 1)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 Else
                     ' If it is in the list, remove it and add it at the end
-                    PluginSettings.HQFSettings.MRUModules.Remove(modName)
-                    PluginSettings.HQFSettings.MRUModules.Add(modName)
+                    PluginSettings.HQFSettings.MruModules.Remove(modName)
+                    PluginSettings.HQFSettings.MruModules.Add(modName)
                 End If
             End If
         End Sub
@@ -1127,7 +1127,7 @@ Namespace Controls
                 End If
 
                 ' Do new routine for handling module state changes
-                Select Case KeyMode
+                Select Case keyMode
                     Case 0 ' No additional keys
                         If _
                             currentstate = ModuleStates.Offline Or currentstate = ModuleStates.Inactive Or
@@ -1459,7 +1459,7 @@ Namespace Controls
                         End If
 
                     End If
-                    If SuppressUndo = False Then
+                    If suppressUndo = False Then
                         If selMod.LoadedCharge IsNot Nothing Then
                             UndoStack.Push(New UndoInfo(UndoInfo.TransType.RemoveModule, slotType, slotNo, selMod.Name,
                                                            selMod.LoadedCharge.Name, slotNo, "", ""))
@@ -2524,7 +2524,7 @@ Namespace Controls
                 Case SlotTypes.Subsystem
                     loadedModule = ParentFitting.BaseShip.SubSlot(slotNo)
             End Select
-            If SuppressUndo = False Then
+            If suppressUndo = False Then
                 UndoStack.Push(New UndoInfo(UndoInfo.TransType.RemoveCharge, slotType, slotNo, loadedModule.Name, loadedModule.LoadedCharge.Name, slotNo, loadedModule.Name, ""))
             End If
             loadedModule.LoadedCharge = Nothing
@@ -2564,7 +2564,7 @@ Namespace Controls
                 If loadedModule.LoadedCharge IsNot Nothing Then
                     oldChargeName = loadedModule.LoadedCharge.Name
                 End If
-                loadedModule.LoadedCharge = Charge
+                loadedModule.LoadedCharge = charge
                 If suppressUndo = False Then
                     UndoStack.Push(New UndoInfo(UndoInfo.TransType.AddCharge, slotType, slotNo, loadedModule.Name, oldChargeName, slotNo, loadedModule.Name, loadedModule.LoadedCharge.Name))
                 End If
@@ -2969,8 +2969,8 @@ Namespace Controls
                     Dim idx As Integer = CInt(selItem.Name)
                     Dim cbi As CargoBayItem = ParentFitting.BaseShip.CargoBayItems.Item(idx)
                     Using newSelectForm As New FrmSelectQuantity
-                        newSelectForm.fittedShip = ParentFitting.FittedShip
-                        newSelectForm.CBI = cbi
+                        newSelectForm.FittedShip = ParentFitting.FittedShip
+                        newSelectForm.Cbi = cbi
                         newSelectForm.BayType = FrmSelectQuantity.BayTypes.CargoBay
                         newSelectForm.IsSplit = False
                         newSelectForm.nudQuantity.Minimum = 1
@@ -3026,9 +3026,9 @@ Namespace Controls
                     Dim idx As Integer = CInt(selItem.Name)
                     Dim cbi As CargoBayItem = ParentFitting.BaseShip.CargoBayItems.Item(idx)
                     Using newSelectForm As New FrmSelectQuantity
-                        newSelectForm.fittedShip = ParentFitting.FittedShip
-                        newSelectForm.currentShip = ParentFitting.BaseShip
-                        newSelectForm.CBI = cbi
+                        newSelectForm.FittedShip = ParentFitting.FittedShip
+                        newSelectForm.CurrentShip = ParentFitting.BaseShip
+                        newSelectForm.Cbi = cbi
                         newSelectForm.BayType = FrmSelectQuantity.BayTypes.CargoBay
                         newSelectForm.IsSplit = True
                         newSelectForm.nudQuantity.Value = 1
@@ -3445,19 +3445,26 @@ Namespace Controls
                     Dim remoteDrones As DroneBayItem = CType(e.Item.Tag, DroneBayItem)
                     remoteMod = remoteDrones.DroneType
                 End If
-                If remoteMod.DatabaseGroup <> 68 And remoteMod.DatabaseGroup <> 71 And remoteMod.DatabaseGroup <> 544 Then
+                If remoteMod.DatabaseGroup <> ModuleEnum.GroupEnergyVampires And remoteMod.DatabaseGroup <> ModuleEnum.GroupEnergyNeutralizers And remoteMod.DatabaseGroup <> ModuleEnum.GroupEnergyNeutralizerDrones Then
                     For Each cMod As ShipModule In ParentFitting.FittedShip.SlotCollection
-                        If cMod.ID = 20280 And cMod.ModuleState = ModuleStates.Active Then
+                        If (cMod.ID = ModuleEnum.ItemSiegeModuleI Or cMod.ID = ModuleEnum.ItemSiegeModuleT2) And cMod.ModuleState = ModuleStates.Active Then
                             MessageBox.Show(
                                 "You cannot apply remote effects from " & remoteMod.Name & " while the " &
                                 ParentFitting.BaseShip.Name & " is in Siege Mode!", "Remote Effect Not Permitted",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information)
                             e.Item.Checked = False
                             Exit Sub
-                        ElseIf cMod.ID = 27951 And cMod.ModuleState = ModuleStates.Active Then
+                        ElseIf (cMod.ID = ModuleEnum.ItemTriageModuleI Or cMod.ID = ModuleEnum.ItemTriageModuleT2) And cMod.ModuleState = ModuleStates.Active Then
                             MessageBox.Show(
                                 "You cannot apply remote effects from " & remoteMod.Name & " while the " &
                                 ParentFitting.BaseShip.Name & " is in Triage Mode!", "Remote Effect Not Permitted",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            e.Item.Checked = False
+                            Exit Sub
+                        ElseIf cMod.ID = ModuleEnum.ItemBastionModuleI And cMod.ModuleState = ModuleStates.Active Then
+                            MessageBox.Show(
+                                "You cannot apply remote effects from " & remoteMod.Name & " while the " &
+                                ParentFitting.BaseShip.Name & " is in Bastion Mode!", "Remote Effect Not Permitted",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information)
                             e.Item.Checked = False
                             Exit Sub
@@ -3468,7 +3475,14 @@ Namespace Controls
             If lvwRemoteEffects.Tag.ToString <> "Refresh" Then
                 ParentFitting.BaseShip.RemoteSlotCollection.Clear()
                 For Each item As ListViewItem In lvwRemoteEffects.CheckedItems
-                    ParentFitting.BaseShip.RemoteSlotCollection.Add(CType(item.Tag, ShipModule))
+                    If TypeOf item.Tag Is ShipModule Then
+                        ParentFitting.BaseShip.RemoteSlotCollection.Add(CType(item.Tag, ShipModule))
+                    Else
+                        Dim remoteDrones As DroneBayItem = CType(item.Tag, DroneBayItem)
+                        For drone = 1 To remoteDrones.Quantity
+                            ParentFitting.BaseShip.RemoteSlotCollection.Add(remoteDrones.DroneType)
+                        Next
+                    End If
                 Next
                 ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
             End If
@@ -3589,7 +3603,7 @@ Namespace Controls
                 If cboSCShip.SelectedIndex = -1 Then
                     Call CalculateFleetEffects()
                 Else
-                    Call UpdateSCShipEffects()
+                    Call UpdateScShipEffects()
                 End If
             End If
         End Sub
@@ -3605,7 +3619,7 @@ Namespace Controls
                 If cboWCShip.SelectedIndex = -1 Then
                     Call CalculateFleetEffects()
                 Else
-                    Call UpdateWCShipEffects()
+                    Call UpdateWcShipEffects()
                 End If
             End If
         End Sub
@@ -3621,7 +3635,7 @@ Namespace Controls
                 If cboFCShip.SelectedIndex = -1 Then
                     Call CalculateFleetEffects()
                 Else
-                    Call UpdateFCShipEffects()
+                    Call UpdateFcShipEffects()
                 End If
             End If
         End Sub
@@ -3749,32 +3763,32 @@ Namespace Controls
 
         Private Sub cboSCShip_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles cboSCShip.SelectedIndexChanged
-            Call UpdateSCShipEffects()
+            Call UpdateScShipEffects()
         End Sub
 
         Private Sub cboWCShip_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles cboWCShip.SelectedIndexChanged
-            Call UpdateWCShipEffects()
+            Call UpdateWcShipEffects()
         End Sub
 
         Private Sub cboFCShip_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles cboFCShip.SelectedIndexChanged
-            Call UpdateFCShipEffects()
+            Call UpdateFcShipEffects()
         End Sub
 
         Private Sub chkSCActive_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkSCActive.CheckedChanged
-            Call UpdateSCShipEffects()
+            Call UpdateScShipEffects()
         End Sub
 
         Private Sub chkWCActive_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkWCActive.CheckedChanged
-            Call UpdateWCShipEffects()
+            Call UpdateWcShipEffects()
         End Sub
 
         Private Sub chkFCActive_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkFCActive.CheckedChanged
-            Call UpdateFCShipEffects()
+            Call UpdateFcShipEffects()
         End Sub
 
         Private Sub UpdateScShipEffects()
@@ -4369,7 +4383,7 @@ Namespace Controls
                 Next
                 ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
             End If
-            BuildBoosterSkills(cb, ParentButton, idx)
+            BuildBoosterSkills(cb, parentButton, idx)
         End Sub
 
 #End Region
@@ -4734,8 +4748,8 @@ Namespace Controls
                 relModuleSkills.Sort()
                 If relModuleSkills.Count > 0 Then
                     ' Add the Main menu item
-                    ParentButton.SubItems("btnAlterSkills" & idx.ToString).Text = "Alter Relevant Skills"
-                    ParentButton.SubItems("btnAlterSkills" & idx.ToString).SubItems.Clear()
+                    parentButton.SubItems("btnAlterSkills" & idx.ToString).Text = "Alter Relevant Skills"
+                    parentButton.SubItems("btnAlterSkills" & idx.ToString).SubItems.Clear()
                     For Each relSkill As String In relModuleSkills
                         Dim newRelSkill As New ButtonItem
                         newRelSkill.Name = relSkill
@@ -4768,7 +4782,7 @@ Namespace Controls
                         newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
                         AddHandler newRelSkillDefault.Click, AddressOf SetPilotBoosterSkillLevel
                         newRelSkill.SubItems.Add(newRelSkillDefault)
-                        ParentButton.SubItems("btnAlterSkills" & idx.ToString).SubItems.Add(newRelSkill)
+                        parentButton.SubItems("btnAlterSkills" & idx.ToString).SubItems.Add(newRelSkill)
                     Next
                 End If
             End If
@@ -4779,7 +4793,7 @@ Namespace Controls
                 Dim sModule As ShipModule = CType(cb.Tag, ShipModule)
                 For Each bModule As ShipModule In ParentFitting.FittedShip.BoosterSlotCollection
                     If sModule.Name = bModule.Name Then
-                        Dim showInfo As New frmShowInfo
+                        Dim showInfo As New FrmShowInfo
                         Dim hPilot As EveHQPilot
                         If _currentInfo IsNot Nothing Then
                             hPilot = HQ.Settings.Pilots(_currentInfo.cboPilots.SelectedItem.ToString)
@@ -4803,7 +4817,7 @@ Namespace Controls
                 ToolTip1.SetToolTip(cb, "")
                 'Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
                 tcpBoosters.Refresh()
-                Call ApplyBoosters(cb, parentButton, ButtonIdx)
+                Call ApplyBoosters(cb, parentButton, buttonIdx)
             End If
         End Sub
 
@@ -4980,7 +4994,7 @@ Namespace Controls
             _slotType = newSlotType
             _newSlotNo = slotNo
             _newModName = modName
-            _newChargeName = ChargeName
+            _newChargeName = chargeName
             _chargeOnly = isChargeOnly
         End Sub
 
@@ -4989,7 +5003,7 @@ Namespace Controls
             _transaction = transactionType
             _slotType = newSlotType
             _oldSlotNo = slotNo1
-            _newSlotNo = SlotNo2
+            _newSlotNo = slotNo2
             _chargeOnly = False
         End Sub
 
