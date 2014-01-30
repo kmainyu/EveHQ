@@ -19,10 +19,13 @@ namespace EveHQ.Caching
 {
     using System;
     using System.Collections.Concurrent;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Text;
+
+    using EveHQ.Common.Extensions;
 
     using Newtonsoft.Json;
 
@@ -160,11 +163,19 @@ namespace EveHQ.Caching
 
             string fullPath = Path.Combine(_rootPath, fileName);
 
-            using (var stream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.Read))
+            try
             {
-                byte[] dataBytes = Encoding.UTF8.GetBytes(stringData);
-                stream.Write(dataBytes, 0, dataBytes.Length);
-                stream.Flush();
+                using (var stream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.Read))
+                {
+                    byte[] dataBytes = Encoding.UTF8.GetBytes(stringData);
+                    stream.Write(dataBytes, 0, dataBytes.Length);
+                    stream.Flush();
+                }
+            }
+            catch (Exception e)
+            {
+               // supress the exception since we have the data in memory, but log the occurance
+                Trace.TraceWarning(e.FormatException());
             }
         }
 

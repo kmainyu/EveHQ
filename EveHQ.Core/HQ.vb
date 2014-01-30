@@ -20,7 +20,7 @@
 Imports System.Windows.Forms
 Imports EveHQ.Common
 Imports DevComponents.DotNetBar
-Imports EveHQ.EveApi
+Imports EveHQ.EveAPI
 Imports EveHQ.Market
 Imports System.IO
 Imports EveHQ.Common.Logging
@@ -225,7 +225,13 @@ Public Class HQ
                 If _proxyDetails Is Nothing Then
                     _proxyDetails = New WebProxyDetails()
                     _proxyDetails.ProxyPassword = Settings.ProxyPassword
-                    _proxyDetails.ProxyServerAddress = New Uri("{0}:{1}".FormatInvariant(Settings.ProxyServer, Settings.ProxyPort))
+                    Dim scheme As String
+                    If Settings.ProxyServer.StartsWith("http://") Then
+                        scheme = String.Empty
+                    Else
+                        scheme = "http://"
+                    End If
+                    _proxyDetails.ProxyServerAddress = New Uri(scheme + Settings.ProxyServer)
                     _proxyDetails.ProxyUserName = Settings.ProxyUsername
                     _proxyDetails.UseBasicAuth = Settings.ProxyUseBasic
                     _proxyDetails.UseDefaultCredential = Settings.ProxyUseDefault
@@ -289,9 +295,9 @@ Public Class HQ
         Dim ts As TimeSpan = EveHQLogTimer.Elapsed
         ' Format and display the TimeSpan value.
         Dim elapsedTime As String = String.Format("{0:00}:{1:00}:{2:00}.{3:000}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds)
-        EventText = "[" & elapsedTime & "]" & " " & EventText
+        eventText = "[" & elapsedTime & "]" & " " & eventText
         Try
-            Trace.WriteLine(EventText, "Information")
+            Trace.WriteLine(eventText, "Information")
         Catch e As Exception
             ' Don't bother reporting this
         End Try
@@ -322,7 +328,7 @@ Public Class HQ
         Return _eveCentralProvider
     End Function
 
-   
+
     Public Shared Function GetEveHqMarketInstance() As EveHQMarketDataProvider
         If _eveHqProvider Is Nothing Then
             If (Settings.ProxyRequired) Then
