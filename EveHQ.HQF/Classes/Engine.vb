@@ -357,18 +357,22 @@ Public Class Engine
                         newEffect.AffectedID.Add(CInt(effectData(5)))
                     End If
                     newEffect.CalcType = CType(effectData(6), EffectCalcType)
-                    Dim cImplant As ShipModule = Implants.ImplantList(newEffect.ImplantName)
-                    newEffect.Value = CDbl(cImplant.Attributes(CInt(effectData(0))))
-                    newEffect.IsGang = CBool(effectData(8))
-                    If effectData(9).Contains(";") = True Then
-                        ids = effectData(9).Split(";".ToCharArray)
-                        For Each id As String In ids
-                            newEffect.Groups.Add(id)
-                        Next
-                    Else
-                        newEffect.Groups.Add(effectData(9))
+                    Dim cImplant As ShipModule
+                    ' Fix for EVEHQ-520. Check to see if the implant exists still before trying to get its attributes.
+                    ' Implants are known to be renamed in updates.
+                    If Implants.ImplantList.TryGetValue(newEffect.ImplantName, cImplant) Then
+                        newEffect.Value = CDbl(cImplant.Attributes(CInt(effectData(0))))
+                        newEffect.IsGang = CBool(effectData(8))
+                        If effectData(9).Contains(";") = True Then
+                            ids = effectData(9).Split(";".ToCharArray)
+                            For Each id As String In ids
+                                newEffect.Groups.Add(id)
+                            Next
+                        Else
+                            newEffect.Groups.Add(effectData(9))
+                        End If
+                        implantEffectClassList.Add(newEffect)
                     End If
-                    implantEffectClassList.Add(newEffect)
                 Next
             End If
         Next
