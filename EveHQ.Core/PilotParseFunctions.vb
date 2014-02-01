@@ -570,7 +570,7 @@ Public Class PilotParseFunctions
             If skills.Any() Then
                 ' Get the first node i.e. the current training skill
                 skillTraining = skills.First()
-                queuedTraining = skills.Skip(1)
+                queuedTraining = skills
             End If
 
             ' Check if a training file has been loaded!
