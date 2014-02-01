@@ -28,7 +28,7 @@ namespace EveHQ.EveApi
     public sealed class Contract
     {
         /// <summary>Gets the contract id.</summary>
-        public int ContractId { get; set; }
+        public long ContractId { get; set; }
 
         /// <summary>Gets the issuer id.</summary>
         public int IssuerId { get; set; }

@@ -27,10 +27,10 @@ Namespace Classes
     Public Class Contract
         Public ContractID As Long
         Public Owner As String
-        Public IssuerID As Long
-        Public IssuerCorpID As Long
-        Public AssigneeID As Long
-        Public AcceptorID As Long
+        Public IssuerID As Integer
+        Public IssuerCorpID As Integer
+        Public AssigneeID As Integer
+        Public AcceptorID As Integer
         Public StartStationID As Integer
         Public EndStationID As Integer
         Public Type As ContractTypes

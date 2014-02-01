@@ -1040,31 +1040,30 @@ namespace EveHQ.EveApi
             ContractType tempType;
             ContractStatus tempStatus;
             ContractAvailability tempAvail;
-            DateTime tempDate;
             IEnumerable<Contract> contracts = from rowset in result.Elements(ApiConstants.Rowset)
-                                               from row in rowset.Elements(ApiConstants.Row)
-                                               let contractId = int.Parse(row.Attribute("contractID").Value)
-                                               let issuerId = int.Parse(row.Attribute("issuerID").Value)
-                                               let issuerCorpId = int.Parse(row.Attribute("issuerCorpID").Value)
-                                               let assigneeId = int.Parse(row.Attribute("assigneeID").Value)
-                                               let acceptorId = int.Parse(row.Attribute("acceptorID").Value)
-                                               let startStationId = int.Parse(row.Attribute("startStationID").Value)
-                                               let endStationId = int.Parse(row.Attribute("endStationID").Value)
-                                               let type = Enum.TryParse(row.Attribute("type").Value, out tempType) ? tempType : ContractType.Unknown
-                                               let status = Enum.TryParse(row.Attribute("status").Value, out tempStatus) ? tempStatus : ContractStatus.Unknown
+                                              from row in rowset.Elements(ApiConstants.Row)
+                                              let contractId = row.TryAttribute("contractID").Value.ToInt64()
+                                              let issuerId = row.TryAttribute("issuerID").Value.ToInt32()
+                                              let issuerCorpId = row.TryAttribute("issuerCorpID").Value.ToInt32()
+                                              let assigneeId = row.TryAttribute("assigneeID").Value.ToInt32()
+                                              let acceptorId = row.TryAttribute("acceptorID").Value.ToInt32()
+                                              let startStationId = row.TryAttribute("startStationID").Value.ToInt32()
+                                              let endStationId = row.TryAttribute("endStationID").Value.ToInt32()
+                                              let type = Enum.TryParse(row.TryAttribute("type").Value, out tempType) ? tempType : ContractType.Unknown
+                                              let status = Enum.TryParse(row.TryAttribute("status").Value, out tempStatus) ? tempStatus : ContractStatus.Unknown
                                                let title = row.Attribute("title").Value
-                                               let forCorp = int.Parse(row.Attribute("forCorp").Value) == 1
-                                               let availability = Enum.TryParse(row.Attribute("availability").Value, out tempAvail) ? tempAvail : ContractAvailability.Unknown
-                                               let dateIssued = DateTime.TryParse(row.Attribute("dateIssued").Value, out tempDate) ? new DateTimeOffset(tempDate, TimeSpan.Zero) : DateTimeOffset.MinValue
-                                               let dateExpired = DateTime.TryParse(row.Attribute("dateExpired").Value, out tempDate) ? new DateTimeOffset(tempDate, TimeSpan.Zero) : DateTimeOffset.MinValue
-                                               let dateAccepted = DateTime.TryParse(row.Attribute("dateAccepted").Value, out tempDate) ? new DateTimeOffset(tempDate, TimeSpan.Zero) : DateTimeOffset.MinValue
-                                               let dateCompleted = DateTime.TryParse(row.Attribute("dateCompleted").Value, out tempDate) ? new DateTimeOffset(tempDate, TimeSpan.Zero) : DateTimeOffset.MinValue
-                                               let numDate = int.Parse(row.Attribute("numDays").Value)
-                                               let price = double.Parse(row.Attribute("price").Value)
-                                               let reward = double.Parse(row.Attribute("reward").Value)
-                                               let collateral = double.Parse(row.Attribute("collateral").Value)
-                                               let buyout = double.Parse(row.Attribute("buyout").Value)
-                                               let volume = double.Parse(row.Attribute("volume").Value)
+                                              let forCorp = int.Parse(row.TryAttribute("forCorp").Value) == 1
+                                              let availability = Enum.TryParse(row.TryAttribute("availability").Value, out tempAvail) ? tempAvail : ContractAvailability.Unknown
+                                              let dateIssued = row.TryAttribute("dateIssued").Value.ToDateTimeOffset(0)
+                                              let dateExpired = row.TryAttribute("dateExpired").Value.ToDateTimeOffset(0)
+                                              let dateAccepted = row.TryAttribute("dateAccepted").Value.ToDateTimeOffset(0)
+                                              let dateCompleted = row.TryAttribute("dateCompleted").Value.ToDateTimeOffset(0)
+                                              let numDate = row.TryAttribute("numDays").Value.ToInt32()
+                                              let price = row.TryAttribute("price").Value.ToDouble()
+                                              let reward = row.TryAttribute("reward").Value.ToDouble()
+                                              let collateral =row.TryAttribute("collateral").Value.ToDouble()
+                                              let buyout = row.TryAttribute("buyout").Value.ToDouble()
+                                              let volume = row.TryAttribute("volume").Value.ToDouble()
                                                select
                                                    new Contract
                                                        {
