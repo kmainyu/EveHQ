@@ -301,28 +301,24 @@ namespace EveHQ.EveApi
                 return null; // return null... no data.
             }
 
-            int characterId, corporationId, allianceId, cloneSkillpoints, intelligence, willpower, perception, memory, charisma;
-            double balance;
-            DateTimeOffset birthDate;
-
             // ReSharper disable PossibleNullReferenceException
             // disabled null checks on resharper, because the xml contract expects these not to be null, and if they are an exception should be fired (and caught in base class processing)
-            characterId = int.TryParse(results.Element(ApiConstants.CharacterId).Value, out characterId) ? characterId : 0;
+            int characterId = results.Element(ApiConstants.CharacterId).Value.ToInt32();
             string name = results.Element(ApiConstants.Name).Value;
-            birthDate = DateTimeOffset.TryParse(results.Element("DoB").Value, out birthDate) ? new DateTimeOffset(birthDate.DateTime, TimeSpan.Zero) : DateTimeOffset.MinValue;
+            DateTimeOffset birthDate = results.Element("DoB").Value.ToDateTimeOffset(0);
             string race = results.Element("race").Value;
             string bloodline = results.Element("bloodLine").Value;
             string ancestry = results.Element("ancestry").Value;
             string gender = results.Element("gender").Value;
             string corporationName = results.Element(ApiConstants.CorporationName).Value;
-            corporationId = int.TryParse(results.Element(ApiConstants.CorporationId).Value, out corporationId) ? corporationId : 0;
+            int corporationId = results.Element(ApiConstants.CorporationId).Value.ToInt32();
             XElement alliance;
             string allianceName = (alliance = results.Element("allianceName")) != null ? alliance.Value : string.Empty;
             XElement allianceIdNode;
-            allianceId = int.TryParse((allianceIdNode = results.Element("allianceID")) != null ? allianceIdNode.Value : string.Empty, out allianceId) ? allianceId : 0;
+            int allianceId = (allianceIdNode = results.Element("allianceID")) != null ? allianceIdNode.Value.ToInt32() : 0;
             string cloneName = results.Element("cloneName").Value;
-            cloneSkillpoints = int.TryParse(results.Element("cloneSkillPoints").Value, out cloneSkillpoints) ? cloneSkillpoints : 0;
-            balance = double.TryParse(results.Element("balance").Value, out balance) ? balance : 0;
+            int cloneSkillpoints = results.Element("cloneSkillPoints").Value.ToInt32();
+            double balance = results.Element("balance").Value.ToDouble();
             XElement enhancers = results.Element("attributeEnhancers");
             AttributeEnhancer memoryBonus = GetEnhancer(enhancers, "memoryBonus");
             AttributeEnhancer perceptionBonus = GetEnhancer(enhancers, "perceptionBonus");
@@ -330,11 +326,11 @@ namespace EveHQ.EveApi
             AttributeEnhancer intelligenceBonus = GetEnhancer(enhancers, "intelligenceBonus");
             AttributeEnhancer charismaBonus = GetEnhancer(enhancers, "charismaBonus");
             XElement attributes = results.Element("attributes");
-            intelligence = int.TryParse(attributes.Element("intelligence").Value, out intelligence) ? intelligence : 0;
-            willpower = int.TryParse(attributes.Element("willpower").Value, out willpower) ? willpower : 0;
-            perception = int.TryParse(attributes.Element("perception").Value, out perception) ? perception : 0;
-            memory = int.TryParse(attributes.Element("memory").Value, out memory) ? memory : 0;
-            charisma = int.TryParse(attributes.Element("charisma").Value, out charisma) ? charisma : 0;
+            int intelligence = attributes.Element("intelligence").Value.ToInt32();
+            int willpower = attributes.Element("willpower").Value.ToInt32();
+            int perception = attributes.Element("perception").Value.ToInt32();
+            int memory = attributes.Element("memory").Value.ToInt32();
+            int charisma = attributes.Element("charisma").Value.ToInt32();
 
             // ReSharper restore PossibleNullReferenceException
 
