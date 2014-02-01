@@ -368,7 +368,11 @@ Namespace Forms
 
             ' Set up items
             For Each cSkill As EveHQPilotSkill In _displayPilot.PilotSkills.Values
-                Dim baseSkill As EveSkill = HQ.SkillListName(cSkill.Name)
+                Dim baseSkill As EveSkill
+                If HQ.SkillListName.TryGetValue(cSkill.Name, baseSkill) = False Then
+                    Trace.TraceWarning("Unknown skill '{0}' found in pilot '{1}'.", cSkill.Name, _displayPilot.Name)
+                    Continue For
+                End If
                 Try
                     Dim groupClv As Node = CType(groupStructure(CStr(cSkill.GroupID)), Node)
                     Dim newClvItem As New Node
