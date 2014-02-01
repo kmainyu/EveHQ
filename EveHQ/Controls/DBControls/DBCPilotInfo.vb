@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports EveHQ.Core
+Imports EveHQ.Common.Extensions
 
 Namespace Controls.DBControls
     Public Class DBCPilotInfo
@@ -100,7 +101,7 @@ Namespace Controls.DBControls
                 ' Update the info
                 pbPilot.Image = ImageHandler.GetPortraitImage(_pilot.ID)
                 lblCorp.Text = "Member of " & _pilot.Corp
-                lblIsk.Text = "Balance: " & _pilot.Isk.ToString("N2")
+                lblIsk.Text = "Balance: " & _pilot.Isk.ToInvariantString("N2")
                 Call UpdateTrainingInfo()
             Else
                 ' Clear the info
@@ -161,12 +162,12 @@ Namespace Controls.DBControls
 
         Private Sub lblTraining_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblTraining.LinkClicked
             Forms.FrmTraining.DisplayPilotName = _pilot.Name
-            Forms.frmEveHQ.OpenSkillTrainingForm()
+            Forms.FrmEveHQ.OpenSkillTrainingForm()
         End Sub
 
         Private Sub lblPilot_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblPilot.LinkClicked
             Forms.FrmPilot.DisplayPilotName = _pilot.Name
-            Forms.frmEveHQ.OpenPilotInfoForm()
+            Forms.FrmEveHQ.OpenPilotInfoForm()
         End Sub
 
 #End Region
