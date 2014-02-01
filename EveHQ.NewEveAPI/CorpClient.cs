@@ -112,9 +112,9 @@ namespace EveHQ.EveApi
                                Color1 = logoXml.Element("color1").Value.ToInt32(),
                                Color2 = logoXml.Element("color2").Value.ToInt32(),
                                Color3 = logoXml.Element("color3").Value.ToInt32(),
-                               Shape1 = logoXml.Element("color1").Value.ToInt32(),
+                               Shape1 = logoXml.Element("shape1").Value.ToInt32(),
                                Shape2 = logoXml.Element("shape2").Value.ToInt32(),
-                               Shape3 = logoXml.Element("shape").Value.ToInt32()
+                               Shape3 = logoXml.Element("shape3").Value.ToInt32()
                            };
             data.Logo = logo;
 
