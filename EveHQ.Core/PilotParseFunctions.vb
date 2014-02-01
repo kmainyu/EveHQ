@@ -721,7 +721,7 @@ Public Class PilotParseFunctions
             cPilot.CorpRoles.Add(CType(roleNode.RoleId, CorporationRoles))
         Next
 
-
+        cPilot.QualifiedCertificates = RetrieveCertificates(cPilot)
 
 
         ' If missing skills were identified then report that fact!
