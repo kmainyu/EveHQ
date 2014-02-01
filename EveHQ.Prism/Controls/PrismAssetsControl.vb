@@ -1369,9 +1369,9 @@ Namespace Controls
                     Else
                         ordersResponse = HQ.ApiProvider.Character.MarketOrders(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                     End If
-                    If ordersResponse IsNot Nothing Then
+                    If ordersResponse.IsSuccess Then
 
-                        For Each order As EveAPI.MarketOrder In ordersResponse.ResultData
+                        For Each order As EveApi.MarketOrder In ordersResponse.ResultData
                             Dim newOrder As New Classes.MarketOrder
                             newOrder.OrderID = order.OrderId
                             newOrder.CharID = order.CharId
