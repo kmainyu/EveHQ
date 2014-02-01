@@ -621,8 +621,8 @@ Namespace Forms
                 cboIndustrySkill.SelectedIndex = 0
             End If
             ' Update PE Skill
-            If _bpPilot.PilotSkills.ContainsKey("Production Efficiency") = True Then
-                cboProdEffSkill.SelectedIndex = _bpPilot.PilotSkills("Production Efficiency").Level
+            If _bpPilot.PilotSkills.ContainsKey("Material Efficiency") = True Then
+                cboProdEffSkill.SelectedIndex = _bpPilot.PilotSkills("Material Efficiency").Level
             Else
                 cboProdEffSkill.SelectedIndex = 0
             End If
