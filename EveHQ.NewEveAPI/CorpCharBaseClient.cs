@@ -1187,9 +1187,10 @@ namespace EveHQ.EveApi
         /// <param name="row">row describing the item.</param>
         /// <param name="parentId">parent id if applicable, otherwise 0.</param>
         /// <returns>an AssetItem.</returns>
-        private static AssetItem CreateItemFromRow(XElement row, int parentId)
+        private static AssetItem CreateItemFromRow(XElement row, long parentId)
         {
-            int itemId, locationId, typeId, quantity, flag, rawQuantity;
+            long itemId,  quantity, rawQuantity;
+            int typeId, locationId, flag;
             bool single;
 
             XAttribute item = row.Attribute(ApiConstants.ItemId);
@@ -1200,13 +1201,13 @@ namespace EveHQ.EveApi
             XAttribute flagAttrib = row.Attribute(ApiConstants.Flag);
             XAttribute singleton = row.Attribute(ApiConstants.Singleton);
 
-            itemId = item != null && int.TryParse(item.Value, out itemId) ? itemId : 0;
-            locationId = location != null && int.TryParse(location.Value, out locationId) ? locationId : 0;
-            typeId = type != null && int.TryParse(type.Value, out typeId) ? typeId : 0;
-            quantity = count != null && int.TryParse(count.Value, out quantity) ? quantity : 0;
-            rawQuantity = rawCount != null ? rawCount.Value.ToInt32() : 0;
-            flag = flagAttrib != null && int.TryParse(flagAttrib.Value, out flag) ? flag : 0;
-            single = singleton != null && bool.TryParse(singleton.Value, out single) && single;
+            itemId = item != null ? item.Value.ToInt64() : 0;
+            locationId = location != null ? location.Value.ToInt32() : 0;
+            typeId = type != null ? type.Value.ToInt32(): 0;
+            quantity = count != null ? count.Value.ToInt64() : 0;
+            rawQuantity = rawCount != null ? rawCount.Value.ToInt64() : 0;
+            flag = flagAttrib != null ?flagAttrib.Value.ToInt32() : 0;
+            single = singleton != null && singleton.Value.ToBoolean();
 
             // check to see if there are children.
             XElement childRowset = row.Element(ApiConstants.Rowset);

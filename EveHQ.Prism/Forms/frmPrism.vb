@@ -31,7 +31,7 @@ Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
 Imports EveHQ.Core
 Imports EveHQ.Core.Requisitions
-Imports EveHQ.EveAPI
+Imports EveHQ.EveApi
 Imports EveHQ.EveData
 Imports EveHQ.Prism.BPCalc
 Imports EveHQ.Prism.Classes
@@ -379,7 +379,7 @@ Namespace Forms
         Private Sub CheckCharXMLFiles(ByVal pOwner As PrismOwner)
 
             If pOwner.IsCorp = False Then
-                Const ResponseMode As EveAPI.ResponseMode = EveAPI.ResponseMode.CacheOnly
+                Const ResponseMode As EveApi.ResponseMode = EveApi.ResponseMode.CacheOnly
                 If HQ.Settings.Pilots.ContainsKey(pOwner.Name) = True Then
                     Dim selPilot As EveHQPilot = HQ.Settings.Pilots(pOwner.Name)
                     Dim pilotAccount As EveHQAccount = pOwner.Account
@@ -441,7 +441,7 @@ Namespace Forms
                 Dim corpAccount As EveHQAccount = pOwner.Account
 
 
-                Const ResponseMode As EveAPI.ResponseMode = EveAPI.ResponseMode.CacheOnly
+                Const ResponseMode As EveApi.ResponseMode = EveApi.ResponseMode.CacheOnly
 
                 Dim ownerID As String
 
@@ -463,7 +463,7 @@ Namespace Forms
                 ' Check for corp journal
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletJournal)
 
-                Dim journal = HQ.ApiProvider.Corporation.WalletJournal(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), 1000, 0, 256, ResponseMode)
+                Dim journal = HQ.ApiProvider.Corporation.WalletJournal(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), 1000, Nothing, Nothing, ResponseMode)
                 Call CheckApiResult(journal, pOwner, CorpRepType.WalletJournal)
 
                 ' Check for corp orders
@@ -473,7 +473,7 @@ Namespace Forms
 
                 ' Check for corp transactions
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
-                Dim transactions = HQ.ApiProvider.Corporation.WalletTransactions(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), 1000, 0, Nothing, ResponseMode)
+                Dim transactions = HQ.ApiProvider.Corporation.WalletTransactions(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), 1000, Nothing, Nothing, ResponseMode)
                 Call CheckApiResult(transactions, pOwner, CorpRepType.WalletTransactions)
 
                 ' Check for corp contracts
@@ -778,7 +778,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim charAssets As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
+                        Dim charAssets As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
                         Dim pilotAccount As EveHQAccount = pOwner.Account
 
                         ' Check for valid API Usage
@@ -860,7 +860,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim charIndustry As EveServiceResponse(Of IEnumerable(Of EveAPI.IndustryJob))
+                        Dim charIndustry As EveServiceResponse(Of IEnumerable(Of EveApi.IndustryJob))
                         Dim pilotAccount As EveHQAccount = pOwner.Account
 
 
@@ -928,7 +928,7 @@ Namespace Forms
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    journalResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, lastRefID, Nothing, ResponseMode.WaitOnRefresh)
+                                    journalResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, lastRefID, Nothing, ResponseMode.BypassCache)
 
                                     'apixml = apireq.GetAPIXML(APITypes.WalletJournalChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, lastRefID, MaxAPIJournals, APIReturnMethods.ReturnStandard)
                                 Loop Until retries >= MaxAPIRetries Or journalResponse.IsSuccess
@@ -984,7 +984,7 @@ Namespace Forms
 
                         Dim pilotAccount As EveHQAccount = pOwner.Account
 
-                        Dim orders As EveServiceResponse(Of IEnumerable(Of EveAPI.MarketOrder))
+                        Dim orders As EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
                         ' Check for valid API Usage
                         If CanUseAPI(pOwner, CorpRepType.Orders) = True Then
 
@@ -1038,7 +1038,7 @@ Namespace Forms
                             Dim retries As Integer = 0
                             Do
                                 retries += 1
-                                transactions = HQ.ApiProvider.Character.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, Nothing, Nothing, ResponseMode.WaitOnRefresh)
+                                transactions = HQ.ApiProvider.Character.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, Nothing, Nothing, ResponseMode.BypassCache)
 
                             Loop Until retries >= MaxAPIRetries Or transactions.IsSuccess
 
@@ -1073,7 +1073,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim contracts As EveServiceResponse(Of IEnumerable(Of EveAPI.Contract))
+                        Dim contracts As EveServiceResponse(Of IEnumerable(Of EveApi.Contract))
 
 
                         Dim pilotAccount As EveHQAccount = pOwner.Account
@@ -1130,7 +1130,7 @@ Namespace Forms
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(Sub() CheckApiResult(Of EveAPI.CharacterData)(Nothing, pOwner, CorpRepType.CorpSheet))
+                            Invoke(Sub() CheckApiResult(Of EveApi.CharacterData)(Nothing, pOwner, CorpRepType.CorpSheet))
                         End If
 
                     End If
@@ -1153,7 +1153,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim corpAssets As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
+                        Dim corpAssets As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Assets)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
                         ' Check for valid API Usage
@@ -1243,7 +1243,7 @@ Namespace Forms
             For Each pOwner As PrismOwner In PlugInData.PrismOwners.Values
                 Try
                     If pOwner.IsCorp = True Then
-                        Dim corpJobs As EveServiceResponse(Of IEnumerable(Of EveAPI.IndustryJob))
+                        Dim corpJobs As EveServiceResponse(Of IEnumerable(Of EveApi.IndustryJob))
 
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Jobs)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Jobs)
@@ -1321,7 +1321,7 @@ Namespace Forms
                                         Dim retries As Integer = 0
                                         Do
                                             retries += 1
-                                            corpJournal = HQ.ApiProvider.Corporation.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), divID, lastRefID, MaxAPIJournals, ResponseMode.WaitOnRefresh)
+                                            corpJournal = HQ.ApiProvider.Corporation.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), divID, lastRefID, MaxAPIJournals, ResponseMode.BypassCache)
                                             ' apixml = apireq.GetAPIXML(APITypes.WalletJournalCorp, pilotAccount.ToAPIAccount, ownerID, divID, lastRefID, MaxAPIJournals, APIReturnMethods.ReturnStandard)
                                         Loop Until retries >= MaxAPIRetries Or corpJournal.IsSuccess
 
@@ -1377,7 +1377,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim corpOrders As New EveServiceResponse(Of IEnumerable(Of EveAPI.MarketOrder))
+                        Dim corpOrders As New EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Orders)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
@@ -1428,7 +1428,6 @@ Namespace Forms
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.WalletTransactions)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
-                            Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
                             ' Check for valid API Usage
                             If CanUseAPI(pOwner, CorpRepType.WalletTransactions) = True Then
@@ -1439,8 +1438,8 @@ Namespace Forms
                                     Dim retries As Integer = 0
                                     Do
                                         retries += 1
-                                        corpTransactions = HQ.ApiProvider.Corporation.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), divID, Nothing, Nothing, ResponseMode.WaitOnRefresh)
-                                    Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
+                                        corpTransactions = HQ.ApiProvider.Corporation.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), divID, Nothing, Nothing, ResponseMode.BypassCache)
+                                    Loop Until retries >= MaxAPIRetries Or corpTransactions.IsSuccess
 
                                     ' Write the journal to the database!
                                     Call PrismDataFunctions.WriteWalletTransactionsToDB(corpTransactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, divID)
@@ -1475,9 +1474,9 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim corpContacts As EveServiceResponse(Of IEnumerable(Of EveAPI.Contract))
+                        Dim corpContacts As EveServiceResponse(Of IEnumerable(Of EveApi.Contract))
 
-                        Dim contractItems As EveServiceResponse(Of IEnumerable(Of EveAPI.ContractItem))
+                        Dim contractItems As EveServiceResponse(Of IEnumerable(Of EveApi.ContractItem))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Contracts)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Contracts)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
@@ -1600,7 +1599,7 @@ Namespace Forms
                     pOwner = PlugInData.PrismOwners(cboOrdersOwner.SelectedItem.ToString)
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Orders)
                     Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
-                    Dim marketOrders As EveServiceResponse(Of IEnumerable(Of EveAPI.MarketOrder))
+                    Dim marketOrders As EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
                     Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
                     If ownerAccount IsNot Nothing Then
@@ -1620,7 +1619,7 @@ Namespace Forms
                             adtSellOrders.Nodes.Clear()
                             For Each order In marketOrders.ResultData
                                 If order.IsBuyOrder = False Then
-                                    If order.OrderState = EveAPI.MarketOrderState.Active Then
+                                    If order.OrderState = EveApi.MarketOrderState.Active Then
                                         Dim sOrder As New Node
                                         adtSellOrders.Nodes.Add(sOrder)
                                         sOrder.CreateCells()
@@ -1657,7 +1656,7 @@ Namespace Forms
                                         totalOrders = totalOrders + 1
                                     End If
                                 Else
-                                    If order.OrderState = EveAPI.MarketOrderState.Active Then
+                                    If order.OrderState = EveApi.MarketOrderState.Active Then
                                         Dim bOrder As New Node
                                         adtBuyOrders.Nodes.Add(bOrder)
                                         bOrder.CreateCells()
@@ -4051,7 +4050,7 @@ Namespace Forms
 
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Assets)
                     Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
-                    Dim assetData As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
+                    Dim assetData As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
                     If pOwner.IsCorp = True Then
                         assetData = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                     Else
@@ -4124,8 +4123,10 @@ Namespace Forms
                                 End If
 
                                 ' Get the location name
-                                If item.Contents.Any() Then
-                                    Call GetAssetFromNode(item, categories, groups, types, assets, locationID, locationDetails, pOwner)
+                                If item.Contents IsNot Nothing Then
+                                    If item.Contents.Any() Then
+                                        Call GetAssetFromNode(item, categories, groups, types, assets, locationID, locationDetails, pOwner)
+                                    End If
                                 End If
                             Next
                         End If
@@ -4172,7 +4173,7 @@ Namespace Forms
             End If
 
         End Sub
-        Private Sub GetAssetFromNode(ByVal parentItem As EveAPI.AssetItem, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef assets As SortedList(Of Long, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal prismOwner As PrismOwner)
+        Private Sub GetAssetFromNode(ByVal parentItem As EveApi.AssetItem, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef assets As SortedList(Of Long, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal prismOwner As PrismOwner)
             Dim itemList = parentItem.Contents
             Dim itemData As EveType
             Dim assetID As Long
@@ -4231,8 +4232,10 @@ Namespace Forms
                     End If
                 End If
                 ' Check child items if they exist
-                If item.Contents.Any() Then
-                    Call GetAssetFromNode(item, categories, groups, types, assets, locationID, flagName, prismOwner)
+                If item.Contents IsNot Nothing Then
+                    If item.Contents.Any() Then
+                        Call GetAssetFromNode(item, categories, groups, types, assets, locationID, flagName, prismOwner)
+                    End If
                 End If
             Next
         End Sub
@@ -5659,7 +5662,7 @@ Namespace Forms
                     Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
 
                     If ownerAccount IsNot Nothing Then
-                        Dim assetData As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
+                        Dim assetData As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
                         If pOwner.IsCorp = True Then
                             assetData = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                         Else
@@ -5697,7 +5700,7 @@ Namespace Forms
                 End If
             Next
         End Sub
-        Private Sub GetSalvageNode(ByVal salvageList As SortedList(Of Integer, Long), ByVal parentItem As EveAPI.AssetItem)
+        Private Sub GetSalvageNode(ByVal salvageList As SortedList(Of Integer, Long), ByVal parentItem As EveApi.AssetItem)
             Dim subLocList = parentItem.Contents
             For Each item In subLocList
                 Try
