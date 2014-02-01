@@ -674,9 +674,9 @@ Namespace Forms
         Me.lblPESkill.AutoSize = true
         Me.lblPESkill.Location = New System.Drawing.Point(4, 27)
         Me.lblPESkill.Name = "lblPESkill"
-        Me.lblPESkill.Size = New System.Drawing.Size(54, 13)
-        Me.lblPESkill.TabIndex = 5
-        Me.lblPESkill.Text = "Prod. Eff:"
+            Me.lblPESkill.Size = New System.Drawing.Size(50, 13)
+            Me.lblPESkill.TabIndex = 5
+            Me.lblPESkill.Text = "Mat. Eff:"
         Me.ToolTip1.SetToolTip(Me.lblPESkill, "Reduces manufacturing waste material")
         '
         'lblIndustrySkill
