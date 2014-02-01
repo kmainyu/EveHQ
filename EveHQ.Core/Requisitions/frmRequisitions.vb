@@ -21,7 +21,7 @@ Imports DevComponents.AdvTree
 Imports System.Windows.Forms
 Imports DevComponents.DotNetBar
 Imports EveHQ.EveData
-Imports EveHQ.EveApi
+Imports EveHQ.EveAPI
 Imports System.Xml
 Imports System.Threading.Tasks
 Imports EveHQ.Common.Extensions
@@ -170,9 +170,9 @@ Namespace Requisitions
 
         Private Sub ResetFilter()
             txtSearch.Text = ""
-            cboRequestor.SelectedIndex = - 1
-            cboRequisition.SelectedIndex = - 1
-            cboSource.SelectedIndex = - 1
+            cboRequestor.SelectedIndex = -1
+            cboRequisition.SelectedIndex = -1
+            cboSource.SelectedIndex = -1
             Call ApplyFilter()
         End Sub
 
@@ -320,7 +320,7 @@ Namespace Requisitions
                 mlCell.StyleNormal = numberStyle
                 orderNode.Cells.Add(mlCell)
                 ' Add Volume cell
-                Dim vCell As New Cell((item.Volume*order.ItemQuantity).ToString("N2"))
+                Dim vCell As New Cell((item.Volume * order.ItemQuantity).ToString("N2"))
                 vCell.StyleNormal = numberStyle
                 orderNode.Cells.Add(vCell)
                 Dim ucCell As New Cell("Processing...")
@@ -354,17 +354,17 @@ Namespace Requisitions
                 sCell.StyleNormal = numberStyle
                 orderNode.Cells.Add(sCell)
                 ' Add Surplus Cost cell
-                Dim scCell As New Cell((unitCost*(Math.Max(order.ItemQuantity - orderOwned, 0))).ToString("N2"))
+                Dim scCell As New Cell((unitCost * (Math.Max(order.ItemQuantity - orderOwned, 0))).ToString("N2"))
                 scCell.StyleNormal = numberStyle
                 orderNode.Cells.Add(scCell)
                 ' Add Node to the list
                 adtOrders.Nodes.Add(orderNode)
                 totalItems += order.ItemQuantity
                 totalItemsReqd += Math.Max(order.ItemQuantity - orderOwned, 0)
-                totalVolume += item.Volume*order.ItemQuantity
-                totalVolumeReqd += (item.Volume*(Math.Max(order.ItemQuantity - orderOwned, 0)))
-                totalCost += (unitCost*order.ItemQuantity)
-                totalCostReqd += (unitCost*(Math.Max(order.ItemQuantity - orderOwned, 0)))
+                totalVolume += item.Volume * order.ItemQuantity
+                totalVolumeReqd += (item.Volume * (Math.Max(order.ItemQuantity - orderOwned, 0)))
+                totalCost += (unitCost * order.ItemQuantity)
+                totalCostReqd += (unitCost * (Math.Max(order.ItemQuantity - orderOwned, 0)))
             Next
             adtOrders.EndUpdate()
             ' Update summary information
@@ -375,35 +375,35 @@ Namespace Requisitions
 
             ' Update Pricing from task
             priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of Integer, Double)))
-                If IsHandleCreated Then
-                    Dim priceData As Dictionary(Of Integer, Double) = currentTask.Result
-                    ' cut over to main thread
-                    Invoke(Sub()
-                        For Each row As Node In adtOrders.Nodes
-                            Dim price As Double
-                            Dim quantity As Long
-                            If (priceData.TryGetValue(StaticData.TypeNames(row.Name), price)) Then
-                                row.Cells(4).Text = price.ToInvariantString("F2")
-                                Long.TryParse(row.Cells(1).Text, quantity)
-                                row.Cells(5).Text = (price*quantity).ToInvariantString("F2")
+                                       If IsHandleCreated Then
+                                           Dim priceData As Dictionary(Of Integer, Double) = currentTask.Result
+                                           ' cut over to main thread
+                                           Invoke(Sub()
+                                                      For Each row As Node In adtOrders.Nodes
+                                                          Dim price As Double
+                                                          Dim quantity As Long
+                                                          If (priceData.TryGetValue(StaticData.TypeNames(row.Name), price)) Then
+                                                              row.Cells(4).Text = price.ToInvariantString("F2")
+                                                              Long.TryParse(row.Cells(1).Text, quantity)
+                                                              row.Cells(5).Text = (price * quantity).ToInvariantString("F2")
 
-                              End If
-                            Dim asset As New RequisitionAsset
-                            Dim owned As Long = 0
-                            If (_ownedAssets.TryGetValue(row.Text, asset)) Then
-                                owned = asset.TotalQuantity
-                              End If
-                            totalCost += (price*quantity)
-                            totalCostReqd += (price*(Math.Max(quantity - owned, 0)))
-                        Next
-                        lblTotalItems.Text = totalItems.ToString("N0") & " (" & totalItemsReqd.ToString("N0") & ")"
-                        lblTotalCost.Text = "Total: " & totalCost.ToString("N2") & " ISK" & ControlChars.CrLf & "Reqd: " &
-                                            totalCostReqd.ToString("N2") & " ISK"
-                        lblTotalVolume.Text = "Total: " & totalVolume.ToString("N2") & " m³" & ControlChars.CrLf &
-                                              "Reqd: " & totalVolumeReqd.ToString("N2") & " m³"
-                              End Sub)
-                                      End If
-                                      End Sub)
+                                                          End If
+                                                          Dim asset As New RequisitionAsset
+                                                          Dim owned As Long = 0
+                                                          If (_ownedAssets.TryGetValue(row.Text, asset)) Then
+                                                              owned = asset.TotalQuantity
+                                                          End If
+                                                          totalCost += (price * quantity)
+                                                          totalCostReqd += (price * (Math.Max(quantity - owned, 0)))
+                                                      Next
+                                                      lblTotalItems.Text = totalItems.ToString("N0") & " (" & totalItemsReqd.ToString("N0") & ")"
+                                                      lblTotalCost.Text = "Total: " & totalCost.ToString("N2") & " ISK" & ControlChars.CrLf & "Reqd: " &
+                                                                          totalCostReqd.ToString("N2") & " ISK"
+                                                      lblTotalVolume.Text = "Total: " & totalVolume.ToString("N2") & " m³" & ControlChars.CrLf &
+                                                                            "Reqd: " & totalVolumeReqd.ToString("N2") & " m³"
+                                                  End Sub)
+                                       End If
+                                   End Sub)
         End Sub
 
         Private Sub btnDeleteReq_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteReq.Click
@@ -543,11 +543,11 @@ Namespace Requisitions
                 ' Parse the Assets XML
                 Dim assests As EveServiceResponse(Of IEnumerable(Of AssetItem))
                 If isCorp = True Then
-                    assests = HQ.ApiProvider.Corporation.AssetList(AssetAccount.userID, AssetAccount.APIKey,
-                                                                   Integer.Parse(OwnerID))
+                    assests = HQ.ApiProvider.Corporation.AssetList(assetAccount.UserID, assetAccount.APIKey,
+                                                                   Integer.Parse(ownerID))
                 Else
-                    assests = HQ.ApiProvider.Character.AssetList(AssetAccount.userID, AssetAccount.APIKey,
-                                                                 Integer.Parse(OwnerID))
+                    assests = HQ.ApiProvider.Character.AssetList(assetAccount.UserID, assetAccount.APIKey,
+                                                                 Integer.Parse(ownerID))
                 End If
                 If assests.ResultData IsNot Nothing Then
                     If assests.ResultData.Any() Then
@@ -608,10 +608,12 @@ Namespace Requisitions
                     End If
                 End If
                 ' Check child items if they exist
-                If item.Contents.Count > 0 Then
-                    For Each subitem As AssetItem In item.Contents
-                        Call GetAssetQuantitesFromNode(subitem, locationID, categories, groups, Assets)
-                    Next
+                If item.Contents IsNot Nothing Then
+                    If item.Contents.Count > 0 Then
+                        For Each subitem As AssetItem In item.Contents
+                            Call GetAssetQuantitesFromNode(subitem, locationID, categories, groups, Assets)
+                        Next
+                    End If
                 End If
             End If
         End Sub
