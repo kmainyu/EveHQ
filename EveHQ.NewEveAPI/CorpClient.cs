@@ -98,7 +98,7 @@ namespace EveHQ.EveApi
             data.Shares = results.Element("shares").Value.ToInt32();
             data.Divisions = from rowsets in results.Elements("rowset")
                              from rows in rowsets.Descendants()
-                             where rowsets.Attribute("name").Value == "divisons"
+                             where rowsets.Attribute("name").Value == "divisions"
                              select new CorporateDivision() { AccountKey = rows.Attribute("accountKey").Value.ToInt32(), Description = rows.Attribute("description").Value };
             data.WalletDivisions = from rowsets in results.Elements("rowset")
                                    from rows in rowsets.Descendants()
