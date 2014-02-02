@@ -622,19 +622,19 @@ namespace EveHQ.EveApi
 
             return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
-                    let date = row.Attribute("transactionDateTime").Value.ToDateTimeOffset(0)
-                    let transactionId = row.Attribute("transactionID").Value.ToInt32()
-                    let quantity = row.Attribute("quantity").Value.ToInt32()
-                    let typeName = row.Attribute("typeName").Value
-                    let typeId = row.Attribute("typeID").Value.ToInt32()
-                    let price = row.Attribute("price").Value.ToDouble()
-                    let clientId = row.Attribute("clientID").Value.ToInt32()
-                    let clientName = row.Attribute("clientName").Value
-                    let stationId = row.Attribute("stationID").Value.ToInt32()
-                    let stationNane = row.Attribute("stationName").Value
-                    let transactionType = row.Attribute("transactionType").Value
-                    let transactionFor = row.Attribute("transactionFor").Value
-                    let journalEntryId = row.Attribute("journalTransactionID") != null ? row.Attribute("journalTransactionID").Value.ToInt64() : 0
+                   let date = row.TryAttribute("transactionDateTime").Value.ToDateTimeOffset(0)
+                   let transactionId = row.TryAttribute("transactionID").Value.ToInt32()
+                   let quantity = row.TryAttribute("quantity").Value.ToInt32()
+                   let typeName = row.TryAttribute("typeName").Value
+                   let typeId = row.TryAttribute("typeID").Value.ToInt32()
+                   let price = row.TryAttribute("price").Value.ToDouble()
+                   let clientId = row.TryAttribute("clientID").Value.ToInt32()
+                   let clientName = row.TryAttribute("clientName").Value
+                   let stationId = row.TryAttribute("stationID").Value.ToInt32()
+                   let stationNane = row.TryAttribute("stationName").Value
+                   let transactionType = row.TryAttribute("transactionType").Value
+                   let transactionFor = row.TryAttribute("transactionFor").Value
+                   let journalEntryId = row.TryAttribute("journalTransactionID").Value.ToInt64() 
                     select
                         new WalletTransaction
                             {
@@ -666,20 +666,20 @@ namespace EveHQ.EveApi
 
             return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
-                    let date = row.Attribute("date").Value.ToDateTimeOffset(0)
-                    let refId = row.Attribute("refID").Value.ToInt64()
-                    let refType = row.Attribute("refTypeID").Value.ToInt32()
-                    let firstName = row.Attribute("ownerName1").Value
-                    let firstId = row.Attribute("ownerID1").Value.ToInt32()
-                    let secondName = row.Attribute("ownerName2").Value
-                    let secondId = row.Attribute("ownerID2").Value.ToInt32()
-                    let argName = row.Attribute("argName1").Value
-                    let argId = row.Attribute("argID1").Value.ToInt32()
-                    let amount = row.Attribute("amount").Value.ToDouble()
-                    let balance = row.Attribute("balance").Value.ToDouble()
-                    let reason = row.Attribute("reason").Value
-                    let taxReceiverId = row.Attribute("taxReceiverID").Value.ToInt32()
-                    let taxAmount = row.Attribute("taxAmount").Value.ToDouble()
+                    let date = row.TryAttribute("date").Value.ToDateTimeOffset(0)
+                   let refId = row.TryAttribute("refID").Value.ToInt64()
+                   let refType = row.TryAttribute("refTypeID").Value.ToInt32()
+                   let firstName = row.TryAttribute("ownerName1").Value
+                   let firstId = row.TryAttribute("ownerID1").Value.ToInt32()
+                   let secondName = row.TryAttribute("ownerName2").Value
+                   let secondId = row.TryAttribute("ownerID2").Value.ToInt32()
+                   let argName = row.TryAttribute("argName1").Value
+                   let argId = row.TryAttribute("argID1").Value.ToInt32()
+                   let amount = row.TryAttribute("amount").Value.ToDouble()
+                   let balance = row.TryAttribute("balance").Value.ToDouble()
+                   let reason = row.TryAttribute("reason").Value
+                   let taxReceiverId = row.TryAttribute("taxReceiverID").Value.ToInt32()
+                   let taxAmount = row.TryAttribute("taxAmount").Value.ToDouble()
                     select
                         new WalletJournalEntry
                             {
