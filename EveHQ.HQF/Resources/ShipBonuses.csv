@@ -1101,7 +1101,7 @@
 12021,1,28609,103,2,899,0,1,0,5,15,Warp Disruption Field Range
 # Phoenix,,,,,,,,,,,
 19726,1,20530,117,2,476;1019,0,1,0,5,15,Kinetic Citadel Missile Damage
-19726,1,20530,51,2,511;524;506;510;771;507;508;509;1245,0,1,0,-5,15,Missile Launcher ROF
+19726,1,20530,51,2,524,0,1,0,-5,15,Citadel Launcher ROF
 # Pilgrim,,,,,,,,,,,
 11965,1,3335,351,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Optimal Range
 11965,1,3335,767,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Tracking

@@ -1660,7 +1660,8 @@
 294,1,15461,54,2,55;53;74,0,0,0,15,Improved Frentix - Turret Optimal Range Bonus
 1079,1,15464,482,3,6,0,0,0,15,Improved Mindflood - Capacitor Bonus
 349,1,10165,158,2,55;53;74,0,0,0,15,Improved Soothsayer - Turret Falloff Bonus
-554,1,15458,552,3,6,0,0,0,15,Improved Xinstict - Sig Radius Bonus
+554,1,15458,552,3,6,0,0,0,15,Improved Xinstinct - Sig Radius Bonus
+548,1,32248,68,2,40;1156,0,0,0,15,Nugoehuvi Synth Blue Pill - Shield Boost Bonus
 548,1,9950,68,2,40;1156,0,0,0,15,Standard Blue Pill - Shield Boost Bonus
 848,1,9947,654,2,654;656;655;653;648;657;772;476;1019;386;396;395;394;385;384;387;89,0,0,0,15,Standard Crash - Explosion Radius Bonus
 767,1,15466,160,2,55;53;74,0,0,0,15,Standard Drop - Tracking Speed Bonus
@@ -1668,7 +1669,7 @@
 294,1,15460,54,2,55;53;74,0,0,0,15,Standard Frentix - Turret Optimal Range Bonus
 1079,1,15463,482,3,6,0,0,0,15,Standard Mindflood - Capacitor Bonus
 349,1,10164,158,2,55;53;74,0,0,0,15,Standard Soothsayer - Turret Falloff Bonus
-554,1,15457,552,3,6,0,0,0,15,Standard Xinstict - Sig Radius Bonus
+554,1,15457,552,3,6,0,0,0,15,Standard Xinstinct - Sig Radius Bonus
 548,1,10156,68,2,40;1156,0,0,0,15,Strong Blue Pill - Shield Boost Bonus
 848,1,10152,654,2,654;656;655;653;648;657;772;476;1019;386;396;395;394;385;384;387;89,0,0,0,15,Strong Crash - Explosion Radius Bonus
 767,1,15478,160,2,55;53;74,0,0,0,15,Strong Drop - Tracking Speed Bonus
@@ -1676,7 +1677,7 @@
 294,1,15462,54,2,55;53;74,0,0,0,15,Strong Frentix - Turret Optimal Range Bonus
 1079,1,15465,482,3,6,0,0,0,15,Strong Mindflood - Capacitor Bonus
 349,1,10166,158,2,55;53;74,0,0,0,15,Strong Soothsayer - Turret Falloff Bonus
-554,1,15459,552,3,6,0,0,0,15,Strong Xinstict - Sig Radius Bonus
+554,1,15459,552,3,6,0,0,0,15,Strong Xinstinct - Sig Radius Bonus
 548,1,28670,68,2,40;1156,0,0,0,15,Synth Blue Pill - Shield Boost Bonus
 848,1,28672,654,2,654;656;655;653;648;657;772;476;1019;386;396;395;394;385;384;387;89,0,0,0,15,Synth Crash - Explosion Radius Bonus
 767,1,28674,160,2,55;53;74,0,0,0,15,Synth Drop - Tracking Speed Bonus
@@ -1684,6 +1685,6 @@
 294,1,28678,54,2,55;53;74,0,0,0,15,Synth Frentix - Turret Optimal Range Bonus
 1079,1,28680,482,3,6,0,0,0,15,Synth Mindflood - Capacitor Bonus
 349,1,28684,158,2,55;53;74,0,0,0,15,Synth Soothsayer - Turret Falloff Bonus
-554,1,28682,552,3,6,0,0,0,15,Synth Xinstict - Sig Radius Bonus
+554,1,28682,552,3,6,0,0,0,15,Synth Xinstinct - Sig Radius Bonus
 315,1,3898,37,3,6,0,0,0,15,Quafe Zero - Velocity Bonus
-566,1,3898,564,3,6,0,0,0,15,Quafe Zero - Velocity Bonus
+566,1,3898,564,3,6,0,0,0,15,Quafe Zero - Scan Res Bonus
