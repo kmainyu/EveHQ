@@ -586,13 +586,13 @@ namespace EveHQ.EveApi
             Guard.Ensure(rowCount == null || rowCount.Value > 0);
 
             const string MethodPath = "{0}/WalletTransactions.xml.aspx";
-            const string CacheKeyFormat = "WalletTransactions{0}_{1}";
+            const string CacheKeyFormat = "WalletTransactions{0}_{1}{2}{3}{4}";
 
             const string FromId = "fromID";
             const string RowCount = "rowCount";
             const string AccountKey = "accountKey";
 
-            string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
+            
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
 
             apiParams[AccountKey] = accountKey.ToInvariantString();
@@ -606,6 +606,8 @@ namespace EveHQ.EveApi
             {
                 apiParams[RowCount] = rowCount.Value.ToInvariantString();
             }
+
+            string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId, accountKey, fromId.HasValue ? fromId.Value.ToInvariantString() : string.Empty, rowCount.HasValue ? rowCount.Value.ToInvariantString() : string.Empty);
 
             return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ProcessWalletTransctionResponse);
         }
@@ -623,7 +625,7 @@ namespace EveHQ.EveApi
             return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                    let date = row.TryAttribute("transactionDateTime").Value.ToDateTimeOffset(0)
-                   let transactionId = row.TryAttribute("transactionID").Value.ToInt32()
+                   let transactionId = row.TryAttribute("transactionID").Value.ToInt64()
                    let quantity = row.TryAttribute("quantity").Value.ToInt32()
                    let typeName = row.TryAttribute("typeName").Value
                    let typeId = row.TryAttribute("typeID").Value.ToInt32()

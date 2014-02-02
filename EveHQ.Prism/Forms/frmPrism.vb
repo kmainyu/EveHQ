@@ -801,6 +801,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Character Assets data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -842,6 +843,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Character Balances data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -889,6 +891,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Character Jobs data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -964,6 +967,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Character Journal data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1005,6 +1009,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Character Orders data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1023,38 +1028,46 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        ' Setup the array of transactions
-                        Const TransID As String = ""
-
                         Dim transactions As EveServiceResponse(Of IEnumerable(Of WalletTransaction))
 
                         Dim pilotAccount As EveHQAccount = pOwner.Account
 
-
+                        Dim lastTransID As Long? = 0
+                        Dim exhausted As Boolean = False
                         ' Check for valid API Usage
                         If CanUseAPI(pOwner, CorpRepType.WalletTransactions) = True Then
-
-                            ' Make a call to the EveHQ.Core.API to fetch the transactions
-                            Dim retries As Integer = 0
                             Do
-                                retries += 1
-                                transactions = HQ.ApiProvider.Character.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, Nothing, Nothing, ResponseMode.BypassCache)
+                                ' Make a call to the EveHQ.Core.API to fetch the transactions
+                                Dim retries As Integer = 0
+                                Do
+                                    retries += 1
+                                    transactions = HQ.ApiProvider.Character.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, lastTransID, MaxAPIJournals, ResponseMode.BypassCache)
 
-                            Loop Until retries >= MaxAPIRetries Or transactions.IsSuccess
+                                Loop Until retries >= MaxAPIRetries Or transactions.IsSuccess
 
-                            ' Write the journal to the database!
-                            If transactions.IsSuccess Then
-                                Call PrismDataFunctions.WriteWalletTransactionsToDB(transactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, 1000)
-                            End If
+                                ' Write the journal to the database!
+                                If transactions.IsSuccess Then
+                                    Dim affected = PrismDataFunctions.WriteWalletTransactionsToDB(transactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, 1000)
+                                    If affected > 0 Then
+                                        lastTransID = transactions.ResultData.First().TransactionId
+                                        exhausted = False
+                                    Else
+                                        exhausted = True
+                                    End If
+                                Else
+                                    exhausted = True
+                                End If
+                            Loop Until exhausted = True
                         End If
 
-                        ' Update the display
-                        If IsHandleCreated = True Then
-                            Invoke(Sub() CheckApiResult(transactions, pOwner, CorpRepType.WalletTransactions))
-                        End If
+                    ' Update the display
+                    If IsHandleCreated = True Then
+                        Invoke(Sub() CheckApiResult(transactions, pOwner, CorpRepType.WalletTransactions))
+                    End If
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Character Transactions data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1110,6 +1123,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Character Contracts data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1135,6 +1149,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Null Corp Sheet data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1183,6 +1198,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Corporate Assets data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1226,6 +1242,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Corporate Balances data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1278,6 +1295,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Corporate Jobs data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1359,6 +1377,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Corporate Journal data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1403,6 +1422,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Corporate Orders data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1421,29 +1441,39 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        ' Setup the array of transactions
-                        Const TransID As String = ""
-
                         Dim corpTransactions As EveServiceResponse(Of IEnumerable(Of WalletTransaction))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.WalletTransactions)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
                         If pilotAccount IsNot Nothing And ownerID <> "" Then
-
+                            Dim walletExhausted As Boolean
+                            Dim lastID As Long? = Nothing
                             ' Check for valid API Usage
                             If CanUseAPI(pOwner, CorpRepType.WalletTransactions) = True Then
 
                                 For divID As Integer = 1006 To 1000 Step -1
 
-                                    ' Make a call to the EveHQ.Core.API to fetch the transactions
-                                    Dim retries As Integer = 0
                                     Do
-                                        retries += 1
-                                        corpTransactions = HQ.ApiProvider.Corporation.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), divID, Nothing, Nothing, ResponseMode.BypassCache)
-                                    Loop Until retries >= MaxAPIRetries Or corpTransactions.IsSuccess
+                                        ' Make a call to the EveHQ.Core.API to fetch the transactions
+                                        Dim retries As Integer = 0
+                                        Do
+                                            retries += 1
+                                            corpTransactions = HQ.ApiProvider.Corporation.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), divID, lastID, MaxAPIJournals, ResponseMode.BypassCache)
+                                        Loop Until retries >= MaxAPIRetries Or corpTransactions.IsSuccess
 
-                                    ' Write the journal to the database!
-                                    Call PrismDataFunctions.WriteWalletTransactionsToDB(corpTransactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, divID)
+                                        If corpTransactions.IsSuccess Then
 
+                                            ' Write the journal to the database!
+                                            Dim affected = PrismDataFunctions.WriteWalletTransactionsToDB(corpTransactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, divID)
+                                            If affected > 0 Then
+                                                lastID = corpTransactions.ResultData.First().TransactionId
+                                                walletExhausted = False
+                                            Else
+                                                walletExhausted = True
+                                            End If
+                                        Else
+                                            walletExhausted = True
+                                        End If
+                                    Loop Until walletExhausted = True
                                 Next
                             End If
 
@@ -1456,6 +1486,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Corporate Transactions data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1514,6 +1545,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Corporate Contracts data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf
@@ -1560,6 +1592,7 @@ Namespace Forms
 
                     End If
                 Catch e As Exception
+                    Trace.TraceError(e.FormatException())
                     Dim msg As String = "An error occured while processing the Corporation Sheet data for " & pOwner.Name & ControlChars.CrLf
                     msg &= "The specific error was: " & e.Message & ControlChars.CrLf
                     msg &= "The stacktrace was: " & e.StackTrace & ControlChars.CrLf

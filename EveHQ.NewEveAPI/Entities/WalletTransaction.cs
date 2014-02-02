@@ -29,7 +29,7 @@ namespace EveHQ.EveApi
         public DateTimeOffset TransactionDateTime { get; set; }
 
         /// <summary>Gets or sets the transaction id.</summary>
-        public int TransactionId { get; set; }
+        public long TransactionId { get; set; }
 
         /// <summary>Gets or sets the quantity.</summary>
         public int Quantity { get; set; }
