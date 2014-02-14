@@ -27,4 +27,5 @@ Public Class YAMLType
     Public Property IconID As Integer
     Public Property IconName As String
     Public Property Masteries As IDictionary(Of Integer, List(Of Integer))
+    Public Property Traits As Dictionary(Of Integer, List(Of String))
 End Class

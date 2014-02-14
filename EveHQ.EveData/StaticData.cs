@@ -163,6 +163,11 @@ namespace EveHQ.EveData
         private static Dictionary<int, Station> stations = new Dictionary<int, Station>();
 
         /// <summary>
+        ///     The ship traits.
+        /// </summary>
+        private static Dictionary<int, Dictionary<int, List<string>>> traits = new Dictionary<int, Dictionary<int, List<string>>>();
+
+        /// <summary>
         ///     The type attributes.
         /// </summary>
         private static List<TypeAttrib> typeAttributes = new List<TypeAttrib>();
@@ -458,6 +463,17 @@ namespace EveHQ.EveData
             get
             {
                 return regions;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the ship traits.
+        /// </summary>
+        public static Dictionary<int, Dictionary<int, List<string>>> Traits
+        {
+            get
+            {
+                return traits;
             }
         }
 
@@ -984,6 +1000,14 @@ namespace EveHQ.EveData
                 }
 
                 Trace.TraceInformation(" *** Masteries Finished Loading");
+
+                // Ship Traits
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Traits.dat"), FileMode.Open, FileAccess.Read))
+                {
+                    traits = Serializer.Deserialize<Dictionary<int, Dictionary<int, List<string>>>>(s);
+                }
+
+                Trace.TraceInformation(" *** Ship Traits Finished Loading");
 
                 // Regions
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "Regions.dat"), FileMode.Open, FileAccess.Read))

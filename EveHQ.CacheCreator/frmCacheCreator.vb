@@ -215,7 +215,7 @@ Public Class FrmCacheCreator
                         Dim dataItem = TryCast(entry.Value, YamlMappingNode)
                         If dataItem IsNot Nothing Then
                             For Each subEntry In dataItem.Children
-                                ' Get the key and value of th sub entry
+                                ' Get the key and value of the sub entry
                                 Dim keyName As String = CType(subEntry.Key, YamlScalarNode).Value
                                 ' Do something based on the key
                                 Select Case keyName
@@ -223,13 +223,50 @@ Public Class FrmCacheCreator
                                         ' Set the icon item
                                         yamlItem.IconID = CInt(CType(subEntry.Value, YamlScalarNode).Value)
                                     Case "masteries"
-                                        ' set the various collections of certificates needed for each level of master
+                                        ' Set the various collections of certificates needed for each level of mastery
                                         yamlItem.Masteries = New Dictionary(Of Integer, List(Of Integer))
                                         Dim masteryLevels = CType(subEntry.Value, YamlMappingNode)
                                         For Each level In masteryLevels.Children
                                             Dim levelID = CInt(CType(level.Key, YamlScalarNode).Value)
                                             Dim certs = CType(level.Value, YamlSequenceNode).Children.Select(Function(node) CInt(CType(node, YamlScalarNode).Value)).ToList()
                                             yamlItem.Masteries.Add(levelID, certs)
+                                        Next
+                                    Case "traits"
+                                        ' Set ship traits texts for each ship skill
+                                        yamlItem.Traits = New Dictionary(Of Integer, List(Of String))()
+                                        Dim traits = CType(subEntry.Value, YamlMappingNode)
+                                        For Each skill In traits.Children
+                                            Dim skillID = CInt(CType(skill.Key, YamlScalarNode).Value)
+                                            Dim bonusStrings As List(Of String) = New List(Of String)
+                                            For Each index In CType(skill.Value, YamlMappingNode).Children
+                                                Dim partBonus As String = ""
+                                                Dim partBonusText As String = ""
+                                                Dim partUnitID As String = ""
+                                                For Each bonusPart In CType(index.Value, YamlMappingNode).Children
+                                                    Select Case CType(bonusPart.Key, YamlScalarNode).Value
+                                                        Case "bonus"
+                                                            partBonus = CType(bonusPart.Value, YamlScalarNode).Value
+                                                        Case "bonusText"
+                                                            partBonusText = CType(bonusPart.Value, YamlScalarNode).Value
+                                                        Case "unitID"
+                                                            Select Case CType(bonusPart.Value, YamlScalarNode).Value
+                                                                Case "105"
+                                                                    partUnitID = "%"
+                                                                Case "139"
+                                                                    partUnitID = "+"
+                                                                Case "9"
+                                                                    partUnitID = "m³"
+                                                                Case "1"
+                                                                    partUnitID = "m"
+                                                            End Select
+                                                    End Select
+                                                Next
+                                                If partBonus & partUnitID = "" Then
+                                                    partUnitID = "·"
+                                                End If
+                                                bonusStrings.Add(partBonus & partUnitID & " " & partBonusText)
+                                            Next
+                                            yamlItem.Traits.Add(skillID, bonusStrings)
                                         Next
                                 End Select
                             Next
@@ -264,6 +301,7 @@ Public Class FrmCacheCreator
         Call LoadCerts()
         Call LoadCertRecs()
         Call LoadMasteries()
+        Call LoadTraits()
         Call LoadUnlocks() ' Populates 4 data classes here
 
         Call LoadRegions()
@@ -304,6 +342,14 @@ Public Class FrmCacheCreator
 
             Next
             StaticData.Masteries.Add(mastery.TypeId, mastery)
+        Next
+    End Sub
+
+    Private Sub LoadTraits()
+        StaticData.Traits.Clear()
+
+        For Each type In yamlTypes.Values.Where(Function(i) i.Traits IsNot Nothing)
+            StaticData.Traits.Add(type.TypeID, type.Traits)
         Next
     End Sub
 
@@ -480,7 +526,7 @@ Public Class FrmCacheCreator
             newCert.GradesAndSkills.Add(CertificateGrade.Improved, New SortedList(Of Integer, Integer))
             newCert.GradesAndSkills.Add(CertificateGrade.Advanced, New SortedList(Of Integer, Integer))
             newCert.GradesAndSkills.Add(CertificateGrade.Elite, New SortedList(Of Integer, Integer))
-                                      
+
             newCert.Id = cert.CertID
             newCert.Description = cert.Description
             newCert.GroupId = cert.GroupID
@@ -1241,9 +1287,15 @@ Public Class FrmCacheCreator
         s.Flush()
         s.Close()
 
-        'Masteries
+        ' Masteries
         s = New FileStream(Path.Combine(coreCacheFolder, "Masteries.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.Masteries)
+        s.Flush()
+        s.Close()
+
+        ' Ship Traits
+        s = New FileStream(Path.Combine(coreCacheFolder, "Traits.dat"), FileMode.Create)
+        Serializer.Serialize(s, StaticData.Traits)
         s.Flush()
         s.Close()
 

@@ -2239,22 +2239,28 @@ Namespace Controls
         End Sub
 
         Private Sub pbShipInfo_MouseHover(ByVal sender As Object, ByVal e As EventArgs) Handles pbShipInfo.MouseHover
-            Dim description As String = ParentFitting.BaseShip.Description
-
-            ' adjust bare LFs to be CRLFs
-            ' turn already existing CRLFs into LFs first so they don't end up CRCRLFs
-            description = description.Replace(vbCrLf, vbLf).Replace(vbLf, vbCrLf)
-
-            'use CRLFs instead of <br> tags 
-            description = description.Replace("<br>", vbCrLf)
-
-            ' remove double spaces and spaces before CRLFs
-            description = description.Replace("  ", " ").Replace(" " & vbCrLf, vbCrLf)
+            Dim traits As String = ""
+            For Each skillTraitList In StaticData.Traits(ParentFitting.BaseShip.ID)
+                Dim skillID As Integer = skillTraitList.Key
+                If skillID = -1 Then
+                    traits &= "Role Bonus:" & vbCrLf
+                Else
+                    If StaticData.Types.ContainsKey(skillID) Then
+                        traits &= StaticData.Types(skillID).Name & " bonuses (per skill level):" & vbCrLf
+                    Else
+                        Continue For
+                    End If
+                End If
+                For Each bonus In skillTraitList.Value
+                    traits &= "    " & bonus & vbCrLf
+                Next
+                traits &= vbCrLf
+            Next
 
             Dim charlist As List(Of Char) = New List(Of Char)
             Dim skip As Boolean
             ' remove any HTML markup/format tags
-            For Each letter As Char In description
+            For Each letter As Char In traits
                 If letter = "<" Then
                     skip = True
                 ElseIf letter = ">" Then
