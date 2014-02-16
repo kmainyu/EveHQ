@@ -34,6 +34,9 @@
             Me.TabControlPanel4 = New DevComponents.DotNetBar.TabControlPanel()
             Me.lblDescription = New DevComponents.DotNetBar.LabelX()
             Me.tiDescription = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel15 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.lblTraits = New DevComponents.DotNetBar.LabelX()
+            Me.tiTraits = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel12 = New DevComponents.DotNetBar.TabControlPanel()
             Me.adtComponents = New DevComponents.AdvTree.AdvTree()
             Me.colComponentName = New DevComponents.AdvTree.ColumnHeader()
@@ -179,6 +182,7 @@
             CType(Me.adtCategories, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel14.SuspendLayout()
             CType(Me.adtGroups, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.TabControlPanel15.SuspendLayout()
             Me.SuspendLayout()
             '
             'barStatus
@@ -266,6 +270,7 @@
             Me.tcIB.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
             Me.tcIB.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
             Me.tcIB.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+            Me.tcIB.Controls.Add(Me.TabControlPanel15)
             Me.tcIB.Controls.Add(Me.TabControlPanel4)
             Me.tcIB.Controls.Add(Me.TabControlPanel9)
             Me.tcIB.Controls.Add(Me.TabControlPanel12)
@@ -284,6 +289,7 @@
             Me.tcIB.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
             Me.tcIB.TabIndex = 48
             Me.tcIB.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
+            Me.tcIB.Tabs.Add(Me.tiTraits)
             Me.tcIB.Tabs.Add(Me.tiDescription)
             Me.tcIB.Tabs.Add(Me.tiAttributes)
             Me.tcIB.Tabs.Add(Me.tiFitting)
@@ -293,6 +299,46 @@
             Me.tcIB.Tabs.Add(Me.tiVariations)
             Me.tcIB.Tabs.Add(Me.tiMaterials)
             Me.tcIB.Tabs.Add(Me.tiComponent)
+            '
+            'TabControlPanel15
+            '
+            Me.TabControlPanel15.Controls.Add(Me.lblTraits)
+            Me.TabControlPanel15.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel15.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel15.Name = "TabControlPanel15"
+            Me.TabControlPanel15.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel15.Size = New System.Drawing.Size(701, 592)
+            Me.TabControlPanel15.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel15.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel15.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel15.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel15.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel15.Style.GradientAngle = 90
+            Me.TabControlPanel15.TabIndex = 15
+            Me.TabControlPanel15.TabItem = Me.tiTraits
+            '
+            'lblTraits
+            '
+            Me.lblTraits.BackColor = System.Drawing.Color.Transparent
+            Me.lblTraits.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.lblTraits.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.lblTraits.Location = New System.Drawing.Point(1, 1)
+            Me.lblTraits.Name = "lblTraits"
+            Me.lblTraits.PaddingBottom = 5
+            Me.lblTraits.PaddingLeft = 5
+            Me.lblTraits.PaddingRight = 5
+            Me.lblTraits.PaddingTop = 5
+            Me.lblTraits.Size = New System.Drawing.Size(699, 590)
+            Me.lblTraits.TabIndex = 0
+            Me.lblTraits.TextLineAlignment = System.Drawing.StringAlignment.Near
+            Me.lblTraits.WordWrap = True
+            '
+            'tiTraits
+            '
+            Me.tiTraits.AttachedControl = Me.TabControlPanel15
+            Me.tiTraits.Name = "tiTraits"
+            Me.tiTraits.Text = "Traits"
             '
             'TabControlPanel4
             '
@@ -315,9 +361,6 @@
             'lblDescription
             '
             Me.lblDescription.BackColor = System.Drawing.Color.Transparent
-            '
-            '
-            '
             Me.lblDescription.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.lblDescription.Dock = System.Windows.Forms.DockStyle.Fill
             Me.lblDescription.Location = New System.Drawing.Point(1, 1)
@@ -1710,6 +1753,7 @@
             CType(Me.adtCategories, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControlPanel14.ResumeLayout(False)
             CType(Me.adtGroups, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.TabControlPanel15.ResumeLayout(False)
             Me.ResumeLayout(False)
 
         End Sub
@@ -1831,5 +1875,8 @@
         Friend WithEvents NodeConnector12 As DevComponents.AdvTree.NodeConnector
         Friend WithEvents ElementStyle14 As DevComponents.DotNetBar.ElementStyle
         Friend WithEvents tabGroups As DevComponents.DotNetBar.TabItem
+        Friend WithEvents TabControlPanel15 As DevComponents.DotNetBar.TabControlPanel
+        Friend WithEvents tiTraits As DevComponents.DotNetBar.TabItem
+        Friend WithEvents lblTraits As DevComponents.DotNetBar.LabelX
     End Class
 End NameSpace

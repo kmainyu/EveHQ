@@ -49,6 +49,9 @@ Namespace Forms
             Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
             Me.lblDescription = New DevComponents.DotNetBar.LabelX()
             Me.tabDescription = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel6 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.lblTraits = New DevComponents.DotNetBar.LabelX()
+            Me.tabTraits = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
             Me.tvwReqs = New DevComponents.AdvTree.AdvTree()
             Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
@@ -67,6 +70,7 @@ Namespace Forms
             Me.TabControlPanel4.SuspendLayout()
             CType(Me.adtAffects, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel1.SuspendLayout()
+            Me.TabControlPanel6.SuspendLayout()
             Me.TabControlPanel3.SuspendLayout()
             CType(Me.tvwReqs, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel2.SuspendLayout()
@@ -174,17 +178,19 @@ Namespace Forms
             Me.tabShowInfo.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
             Me.tabShowInfo.Controls.Add(Me.TabControlPanel4)
             Me.tabShowInfo.Controls.Add(Me.TabControlPanel5)
+            Me.tabShowInfo.Controls.Add(Me.TabControlPanel6)
             Me.tabShowInfo.Controls.Add(Me.TabControlPanel1)
             Me.tabShowInfo.Controls.Add(Me.TabControlPanel3)
             Me.tabShowInfo.Controls.Add(Me.TabControlPanel2)
             Me.tabShowInfo.Location = New System.Drawing.Point(11, 86)
             Me.tabShowInfo.Name = "tabShowInfo"
             Me.tabShowInfo.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-            Me.tabShowInfo.SelectedTabIndex = 1
+            Me.tabShowInfo.SelectedTabIndex = 6
             Me.tabShowInfo.Size = New System.Drawing.Size(561, 464)
             Me.tabShowInfo.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
             Me.tabShowInfo.TabIndex = 18
             Me.tabShowInfo.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
+            Me.tabShowInfo.Tabs.Add(Me.tabTraits)
             Me.tabShowInfo.Tabs.Add(Me.tabDescription)
             Me.tabShowInfo.Tabs.Add(Me.tabAttributes)
             Me.tabShowInfo.Tabs.Add(Me.tabSkills)
@@ -349,6 +355,42 @@ Namespace Forms
             Me.tabAffects.Name = "tabAffects"
             Me.tabAffects.Text = "Affected By"
             '
+            'TabControlPanel6
+            '
+            Me.TabControlPanel6.Controls.Add(Me.lblTraits)
+            Me.TabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel6.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel6.Name = "TabControlPanel6"
+            Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel6.Size = New System.Drawing.Size(561, 441)
+            Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel6.Style.GradientAngle = 90
+            Me.TabControlPanel6.TabIndex = 6
+            Me.TabControlPanel6.TabItem = Me.tabTraits
+            '
+            'lblTraits
+            '
+            Me.lblTraits.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.lblTraits.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.lblTraits.Location = New System.Drawing.Point(1, 1)
+            Me.lblTraits.Name = "lblTraits"
+            Me.lblTraits.PaddingBottom = 10
+            Me.lblTraits.Size = New System.Drawing.Size(559, 439)
+            Me.lblTraits.TabIndex = 0
+            Me.lblTraits.TextLineAlignment = System.Drawing.StringAlignment.Near
+            Me.lblTraits.WordWrap = True
+            '
+            'tabTraits
+            '
+            Me.tabTraits.AttachedControl = Me.TabControlPanel6
+            Me.tabTraits.Name = "tabTraits"
+            Me.tabTraits.Text = "Traits"
+            '
             'TabControlPanel1
             '
             Me.TabControlPanel1.Controls.Add(Me.lblDescription)
@@ -368,9 +410,6 @@ Namespace Forms
             Me.TabControlPanel1.TabItem = Me.tabDescription
             '
             'lblDescription
-            '
-            '
-            '
             '
             Me.lblDescription.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.lblDescription.Dock = System.Windows.Forms.DockStyle.Fill
@@ -521,6 +560,7 @@ Namespace Forms
             Me.TabControlPanel4.ResumeLayout(False)
             CType(Me.adtAffects, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControlPanel1.ResumeLayout(False)
+            Me.TabControlPanel6.ResumeLayout(False)
             Me.TabControlPanel3.ResumeLayout(False)
             CType(Me.tvwReqs, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControlPanel2.ResumeLayout(False)
@@ -565,5 +605,8 @@ Namespace Forms
         Friend WithEvents colAffectedAttribute As DevComponents.AdvTree.ColumnHeader
         Friend WithEvents NodeConnector3 As DevComponents.AdvTree.NodeConnector
         Friend WithEvents ElementStyle3 As DevComponents.DotNetBar.ElementStyle
+        Friend WithEvents TabControlPanel6 As DevComponents.DotNetBar.TabControlPanel
+        Friend WithEvents tabTraits As DevComponents.DotNetBar.TabItem
+        Friend WithEvents lblTraits As DevComponents.DotNetBar.LabelX
     End Class
-End NameSpace
+End Namespace

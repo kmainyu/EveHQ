@@ -22,6 +22,7 @@ Option Strict Off
 Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
 Imports System.Drawing
+Imports EveHQ.EveData
 Imports EveHQ.Core
 Imports System.Windows.Forms
 Imports System.IO
@@ -29,7 +30,7 @@ Imports System.Text.RegularExpressions
 Imports MarkupLinkClickEventArgs = DevComponents.DotNetBar.MarkupLinkClickEventArgs
 
 Namespace Forms
-    
+
     Public Class FrmShowInfo
         Dim _itemType As Object
         Dim _itemName As String = ""
@@ -60,7 +61,7 @@ Namespace Forms
             End If
 
             ' Get image from cache 
-            Dim imgFilename As String = Path.Combine(HQ.imageCacheFolder, _hPilot.ID & ".png")
+            Dim imgFilename As String = Path.Combine(HQ.ImageCacheFolder, _hPilot.ID & ".png")
             If My.Computer.FileSystem.FileExists(imgFilename) = True Then
                 pbPilot.ImageLocation = imgFilename
             Else
@@ -71,6 +72,7 @@ Namespace Forms
             Text = "Info - " & itemObject.Name
             lblItemName.Text = itemObject.Name
 
+            Call PrepareTraits(_itemType)
             Call PrepareDescription(_itemType)
             Call GenerateSkills(_itemType)
             Call ShowAttributes(_itemType)
@@ -249,6 +251,56 @@ Namespace Forms
                     Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
                 Next
             End If
+        End Sub
+
+        Public Shared Function ComposeTraits(ByVal shipID As Integer) As String
+
+            Dim traits As String = ""
+            If StaticData.Traits.ContainsKey(shipID) Then
+                For Each skillTraitList In StaticData.Traits(shipID)
+                    Dim skillID As Integer = skillTraitList.Key
+                    If skillID = -1 Then
+                        traits &= "<b>Role Bonus:</b>" & vbCrLf
+                    Else
+                        If StaticData.Types.ContainsKey(skillID) Then
+                            traits &= "<b><a href=showinfo:" & skillID & ">" & StaticData.Types(skillID).Name & "</a> bonuses (per skill level):</b>" & vbCrLf
+                        Else
+                            Continue For
+                        End If
+                    End If
+                    For Each bonus In skillTraitList.Value
+                        traits &= "    " & bonus & vbCrLf
+                    Next
+                    traits &= vbCrLf
+                Next
+            End If
+            Return traits
+
+        End Function
+
+        Private Sub PrepareTraits(ByVal itemObject As Object)
+
+            Dim traits As String = ""
+            If TypeOf (itemObject) Is Ship Then
+                traits = ComposeTraits(CType(itemObject, Ship).ID)
+            End If
+
+            If traits = "" Then
+                tabShowInfo.Tabs.Remove(tabTraits)
+                Exit Sub
+            End If
+
+            ' Need to replace the CRLF with HTML to display correctly in all cases
+            traits = traits.Replace(ControlChars.CrLf, "<br />").Replace("<br>", "<br />")
+
+            ' Identify internal CCP "showinfo" links and replace with something that we can actually use internally for EveHQ :)
+            Dim matches As MatchCollection = Regex.Matches(traits, "<a\shref=(?<url>.*?)>(?<text>.*?)</a>")
+            For Each m As Match In matches
+                Dim typeID As String = m.Groups("url").Value.TrimStart("<showinfo:".ToCharArray)
+                traits = traits.Replace(m.Value, "<a href='http://" & typeID & "'>" & m.Groups("text").Value & "</a>")
+            Next
+            lblTraits.Text = traits
+
         End Sub
 
         Private Sub PrepareDescription(ByVal item As Object)
@@ -442,6 +494,13 @@ Namespace Forms
         End Sub
 
         Private Sub lblDescription_MarkupLinkClick(sender As Object, e As MarkupLinkClickEventArgs) Handles lblDescription.MarkupLinkClick
+            Dim typeID As String = e.HRef.TrimStart("http://".ToCharArray)
+            Using myIB As New ItemBrowser.FrmIB(typeID)
+                myIB.ShowDialog()
+            End Using
+        End Sub
+
+        Private Sub lblTraits_MarkupLinkClick(sender As Object, e As MarkupLinkClickEventArgs) Handles lblTraits.MarkupLinkClick
             Dim typeID As String = e.HRef.TrimStart("http://".ToCharArray)
             Using myIB As New ItemBrowser.FrmIB(typeID)
                 myIB.ShowDialog()

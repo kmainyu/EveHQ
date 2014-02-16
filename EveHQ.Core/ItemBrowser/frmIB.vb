@@ -385,6 +385,9 @@ Namespace ItemBrowser
                 lblItemName.Text = _item.Name
                 Text = "EveHQ Item Browser - " & _item.Name
 
+                ' Display the traits
+                DisplayTraits(typeID)
+
                 ' Display the description
                 DisplayDescription(_item.Description)
 
@@ -435,6 +438,49 @@ Namespace ItemBrowser
             Else
                 MessageBox.Show("Unable to find item with ID of " & typeID.ToString, "Unknown Item!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
+
+        End Sub
+
+        Private Sub DisplayTraits(shipID As Integer)
+
+            Dim traits As String = ""
+            If StaticData.Traits.ContainsKey(shipID) Then
+                For Each skillTraitList In StaticData.Traits(shipID)
+                    Dim skillID As Integer = skillTraitList.Key
+                    If skillID = -1 Then
+                        traits &= "<b>Role Bonus:</b>" & vbCrLf
+                    Else
+                        If StaticData.Types.ContainsKey(skillID) Then
+                            traits &= "<b><a href=showinfo:" & skillID & ">" & StaticData.Types(skillID).Name & "</a> bonuses (per skill level):</b>" & vbCrLf
+                        Else
+                            Continue For
+                        End If
+                    End If
+                    For Each bonus In skillTraitList.Value
+                        traits &= "    " & bonus & vbCrLf
+                    Next
+                    traits &= vbCrLf
+                Next
+            End If
+
+            ' Update the tab
+            If traits = "" Then
+                tiTraits.Visible = False
+                Exit Sub
+            Else
+                tiTraits.Visible = True
+            End If
+
+            ' Need to replace the CRLF with HTML to display correctly in all cases
+            traits = traits.Replace(ControlChars.CrLf, "<br />").Replace("<br>", "<br />")
+
+            ' Identify internal CCP "showinfo" links and replace with something that we can actually use internally for EveHQ :)
+            Dim matches As MatchCollection = Regex.Matches(traits, "<a\shref=(?<url>.*?)>(?<text>.*?)</a>")
+            For Each m As Match In matches
+                Dim typeID As String = m.Groups("url").Value.TrimStart("<showinfo:".ToCharArray)
+                traits = traits.Replace(m.Value, "<a href='http://" & typeID & "'>" & m.Groups("text").Value & "</a>")
+            Next
+            lblTraits.Text = traits
 
         End Sub
 
@@ -1115,6 +1161,13 @@ Namespace ItemBrowser
         End Sub
 
         Private Sub lblDescription_MarkupLinkClick(sender As Object, e As MarkupLinkClickEventArgs) Handles lblDescription.MarkupLinkClick
+            Dim typeID As String = e.HRef.TrimStart("http://".ToCharArray)
+            If StaticData.TypeNames.ContainsValue(CInt(typeID)) = True Then
+                Call DisplayItem(CInt(typeID), True)
+            End If
+        End Sub
+
+        Private Sub lblTraits_MarkupLinkClick(sender As Object, e As MarkupLinkClickEventArgs) Handles lblTraits.MarkupLinkClick
             Dim typeID As String = e.HRef.TrimStart("http://".ToCharArray)
             If StaticData.TypeNames.ContainsValue(CInt(typeID)) = True Then
                 Call DisplayItem(CInt(typeID), True)

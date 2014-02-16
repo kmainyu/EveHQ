@@ -2239,23 +2239,7 @@ Namespace Controls
         End Sub
 
         Private Sub pbShipInfo_MouseHover(ByVal sender As Object, ByVal e As EventArgs) Handles pbShipInfo.MouseHover
-            Dim traits As String = ""
-            For Each skillTraitList In StaticData.Traits(ParentFitting.BaseShip.ID)
-                Dim skillID As Integer = skillTraitList.Key
-                If skillID = -1 Then
-                    traits &= "Role Bonus:" & vbCrLf
-                Else
-                    If StaticData.Types.ContainsKey(skillID) Then
-                        traits &= StaticData.Types(skillID).Name & " bonuses (per skill level):" & vbCrLf
-                    Else
-                        Continue For
-                    End If
-                End If
-                For Each bonus In skillTraitList.Value
-                    traits &= "    " & bonus & vbCrLf
-                Next
-                traits &= vbCrLf
-            Next
+            Dim traits As String = FrmShowInfo.ComposeTraits(ParentFitting.BaseShip.ID)
 
             Dim charlist As List(Of Char) = New List(Of Char)
             Dim skip As Boolean
