@@ -217,6 +217,10 @@
       <Link>StaticData\Systems.dat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Traits.dat">
+      <Link>StaticData\Traits.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\EveHQ.Data\StaticData\TypeAttributes.dat">
       <Link>StaticData\TypeAttributes.dat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

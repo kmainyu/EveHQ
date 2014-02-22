@@ -154,12 +154,9 @@ namespace EveHQ.EveApi
             }
             else
             {
-                if (resultData != null && (!resultData.IsDirty || (resultData.IsDirty && responseMode != ResponseMode.WaitOnRefresh) ))
+                if (resultData != null && responseMode != ResponseMode.BypassCache)
                 {
-                    if (resultData.IsDirty)
-                    {
-                        Task.Factory.TryRun(() => _provider.PostAsync(temp, callParams).ContinueWith(webTask => ProcessServiceResponse(webTask, cacheKey, defaultCacheSeconds, xmlParseDelegate)));
-                    }
+                   
                     resultTask = ReturnCachedResponse(resultData);
                 }
                 else
@@ -325,7 +322,7 @@ namespace EveHQ.EveApi
             DateTimeOffset cacheTime = DateTimeOffset.Now.AddSeconds(defaultCacheSeconds);
             int eveErrorCode = 0;
             string eveErrorText = string.Empty;
-            if (webTask.IsFaulted)
+            if (webTask.Exception != null)
             {
                 faultError = webTask.Exception;
             }
