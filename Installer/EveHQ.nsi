@@ -176,6 +176,7 @@ SectionIn RO
 	File "..\BuildOutput\Release\StaticData\SkillUnlocks.dat"
 	File "..\BuildOutput\Release\StaticData\Stations.dat"
 	File "..\BuildOutput\Release\StaticData\Systems.dat"
+		File "..\BuildOutput\Release\StaticData\Traits.dat"
   File "..\BuildOutput\Release\StaticData\TypeAttributes.dat"
   File "..\BuildOutput\Release\StaticData\TypeEffects.dat"
   File "..\BuildOutput\Release\StaticData\TypeMaterials.dat"
