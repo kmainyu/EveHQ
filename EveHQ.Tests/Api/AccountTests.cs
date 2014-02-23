@@ -1,38 +1,60 @@
-﻿//  ========================================================================
-//  EveHQ - An Eve-Online™ character assistance application
-//  Copyright © 2005-2012  EveHQ Development Team
+﻿// ==============================================================================
+// 
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2014  EveHQ Development Team
+//   
+// This file is part of EveHQ.
 //  
-//  This file (AccountTests.cs), is part of EveHQ.
+// The source code for EveHQ is free and you may redistribute 
+// it and/or modify it under the terms of the MIT License. 
 // 
-//  EveHQ is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 2 of the License, or
-//  (at your option) any later version.
+// Refer to the NOTICES file in the root folder of EVEHQ source
+// project for details of 3rd party components that are covered
+// under their own, separate licenses.
 // 
-//  EveHQ is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the MIT 
+// license below for details.
 // 
-//  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+// ------------------------------------------------------------------------------
+// 
+// The MIT License (MIT)
+// 
+// Copyright © 2005-2014  EveHQ Development Team
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+// 
+// ==============================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using EveHQ.Common;
+using EveHQ.EveApi;
+using NUnit.Framework;
 
 namespace EveHQ.Tests.Api
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using EveHQ.Common;
-    using EveHQ.EveApi;
-
-    using NUnit.Framework;
-
     /// <summary>
-    /// Unit tests for the Eve Account API methods
+    ///     Unit tests for the Eve Account API methods
     /// </summary>
     [TestFixture]
     public static class AccountTests
@@ -47,7 +69,7 @@ namespace EveHQ.Tests.Api
             "<?xml version='1.0' encoding='UTF-8'?><eveapi version=\"2\"><currentTime>2007-12-12 11:48:50</currentTime><result><rowset name=\"characters\" key=\"characterID\" columns=\"name,characterID,corporationName,corporationID\"><row name=\"Mary\" characterID=\"150267069\" corporationName=\"Starbase Anchoring Corp\" corporationID=\"150279367\" /><row name=\"Marcus\" characterID=\"150302299\" corporationName=\"Marcus Corp\" corporationID=\"150333466\" /><row name=\"Dieniafire\" characterID=\"150340823\" corporationName=\"center for Advanced Studies\" corporationID=\"1000169\" /></rowset></result><cachedUntil>2007-12-12 12:48:50</cachedUntil></eveapi>";
 
         /// <summary>
-        /// A test for processing the result from the AccountStatus method of the EveAPI
+        ///     A test for processing the result from the AccountStatus method of the EveAPI
         /// </summary>
         [Test]
         public static void AccountStatusTest()
@@ -58,10 +80,13 @@ namespace EveHQ.Tests.Api
             IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, AccountStatusXml);
 
             // create the client to test
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
             {
                 // call the method
-                Task<EveServiceResponse<Account>> asyncTask = client.Account.AccountStatusAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue);
+                Task<EveServiceResponse<Account>> asyncTask =
+                    client.Account.AccountStatusAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue);
 
                 // wait on the task
                 asyncTask.Wait();
@@ -69,15 +94,17 @@ namespace EveHQ.Tests.Api
                 ApiTestHelpers.BasicSuccessResultValidations(asyncTask);
                 EveServiceResponse<Account> result = asyncTask.Result;
                 Assert.AreEqual(new DateTimeOffset(2011, 9, 25, 03, 57, 50, TimeSpan.Zero), result.CacheUntil);
-                Assert.AreEqual(new DateTimeOffset(2011, 10, 20, 13, 22, 57, TimeSpan.Zero), result.ResultData.ExpiryDate);
-                Assert.AreEqual(new DateTimeOffset(2008, 02, 09, 19, 51, 00, TimeSpan.Zero), result.ResultData.CreateDate);
+                Assert.AreEqual(new DateTimeOffset(2011, 10, 20, 13, 22, 57, TimeSpan.Zero),
+                    result.ResultData.ExpiryDate);
+                Assert.AreEqual(new DateTimeOffset(2008, 02, 09, 19, 51, 00, TimeSpan.Zero),
+                    result.ResultData.CreateDate);
                 Assert.AreEqual(1371, result.ResultData.LogOnCount);
                 Assert.AreEqual(TimeSpan.FromMinutes(245488), result.ResultData.LoggedInTime);
             }
         }
 
         /// <summary>
-        /// Test for processing the xml result of the ApiKeyInfo method.
+        ///     Test for processing the xml result of the ApiKeyInfo method.
         /// </summary>
         [Test]
         public static void ApiKeyInfoTest()
@@ -88,10 +115,13 @@ namespace EveHQ.Tests.Api
             IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiKeyInfoXml);
 
             // create the client to test
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
             {
                 // call the method
-                Task<EveServiceResponse<ApiKeyInfo>> asyncTask = client.Account.ApiKeyInfoAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue);
+                Task<EveServiceResponse<ApiKeyInfo>> asyncTask =
+                    client.Account.ApiKeyInfoAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue);
 
                 // wait on the task
                 asyncTask.Wait();
@@ -103,12 +133,16 @@ namespace EveHQ.Tests.Api
                 Assert.AreEqual(134217727, result.ResultData.AccessMask);
                 Assert.AreEqual(ApiKeyType.Account, result.ResultData.ApiType);
                 Assert.AreEqual(3, result.ResultData.Characters.Count());
-                Assert.IsNotNull(result.ResultData.Characters.FirstOrDefault(item => item.Name == "RTC'3" && item.CharacterId == 154432700 && item.CorporationName == "RTC'3 Corp" && item.CorporationId == 98000179));
+                Assert.IsNotNull(
+                    result.ResultData.Characters.FirstOrDefault(
+                        item =>
+                            item.Name == "RTC'3" && item.CharacterId == 154432700 &&
+                            item.CorporationName == "RTC'3 Corp" && item.CorporationId == 98000179));
             }
         }
 
         /// <summary>
-        /// Tests the processing of the EveAPI characters method.
+        ///     Tests the processing of the EveAPI characters method.
         /// </summary>
         [Test]
         public static void CharactersTest()
@@ -119,10 +153,13 @@ namespace EveHQ.Tests.Api
             IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, CharactersXml);
 
             // create the client to test
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
             {
                 // call the method
-                Task<EveServiceResponse<IEnumerable<AccountCharacter>>> asyncTask = client.Account.CharactersAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue);
+                Task<EveServiceResponse<IEnumerable<AccountCharacter>>> asyncTask =
+                    client.Account.CharactersAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue);
 
                 // wait on the task
                 asyncTask.Wait();
@@ -133,10 +170,21 @@ namespace EveHQ.Tests.Api
                 Assert.AreEqual(new DateTimeOffset(2007, 12, 12, 12, 48, 50, TimeSpan.Zero), result.CacheUntil);
 
                 Assert.AreEqual(3, result.ResultData.Count());
-                Assert.IsNotNull(result.ResultData.FirstOrDefault(item => item.Name == "Mary" && item.CharacterId == 150267069 && item.CorporationName == "Starbase Anchoring Corp" && item.CorporationId == 150279367));
-                Assert.IsNotNull(result.ResultData.FirstOrDefault(item => item.Name == "Marcus" && item.CharacterId == 150302299 && item.CorporationName == "Marcus Corp" && item.CorporationId == 150333466));
                 Assert.IsNotNull(
-                    result.ResultData.FirstOrDefault(item => item.Name == "Dieniafire" && item.CharacterId == 150340823 && item.CorporationName == "center for Advanced Studies" && item.CorporationId == 1000169));
+                    result.ResultData.FirstOrDefault(
+                        item =>
+                            item.Name == "Mary" && item.CharacterId == 150267069 &&
+                            item.CorporationName == "Starbase Anchoring Corp" && item.CorporationId == 150279367));
+                Assert.IsNotNull(
+                    result.ResultData.FirstOrDefault(
+                        item =>
+                            item.Name == "Marcus" && item.CharacterId == 150302299 &&
+                            item.CorporationName == "Marcus Corp" && item.CorporationId == 150333466));
+                Assert.IsNotNull(
+                    result.ResultData.FirstOrDefault(
+                        item =>
+                            item.Name == "Dieniafire" && item.CharacterId == 150340823 &&
+                            item.CorporationName == "center for Advanced Studies" && item.CorporationId == 1000169));
             }
         }
     }

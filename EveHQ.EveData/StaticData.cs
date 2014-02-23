@@ -1,33 +1,59 @@
-﻿// ===========================================================================
-// <copyright file="StaticData.cs" company="EveHQ Development Team">
-//  EveHQ - An Eve-Online™ character assistance application
-//  Copyright © 2005-2013  EveHQ Development Team
-//  This file (StaticData.cs), is part of EveHQ.
-//  EveHQ is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//  EveHQ is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
-// </copyright>
-// ============================================================================
+﻿// ==============================================================================
+// 
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2014  EveHQ Development Team
+//   
+// This file is part of EveHQ.
+//  
+// The source code for EveHQ is free and you may redistribute 
+// it and/or modify it under the terms of the MIT License. 
+// 
+// Refer to the NOTICES file in the root folder of EVEHQ source
+// project for details of 3rd party components that are covered
+// under their own, separate licenses.
+// 
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the MIT 
+// license below for details.
+// 
+// ------------------------------------------------------------------------------
+// 
+// The MIT License (MIT)
+// 
+// Copyright © 2005-2014  EveHQ Development Team
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+// 
+// ==============================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using EveHQ.Common.Extensions;
+using ProtoBuf;
+
 namespace EveHQ.EveData
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-
-    using Common.Extensions;
-
-    using ProtoBuf;
-
     // TODO: using static classes does not promote a good separation of concerns or DI coding pattern. Refactor this into an instance that can be passed around at a later date.
 
     /// <summary>
@@ -45,12 +71,14 @@ namespace EveHQ.EveData
         /// <summary>
         ///     The assembly arrays.
         /// </summary>
-        private static SortedList<string, AssemblyArray> assemblyArrays = new SortedList<string, AssemblyArray>(); // typeName, AssemblyArray
+        private static SortedList<string, AssemblyArray> assemblyArrays = new SortedList<string, AssemblyArray>();
+            // typeName, AssemblyArray
 
         /// <summary>
         ///     The attribute types.
         /// </summary>
-        private static SortedList<int, AttributeType> attributeTypes = new SortedList<int, AttributeType>(); // attributeID, AttributeType
+        private static SortedList<int, AttributeType> attributeTypes = new SortedList<int, AttributeType>();
+            // attributeID, AttributeType
 
         /// <summary>
         ///     The attribute units.
@@ -60,7 +88,8 @@ namespace EveHQ.EveData
         /// <summary>
         ///     The blueprints.
         /// </summary>
-        private static SortedList<int, Blueprint> blueprints = new SortedList<int, Blueprint>(); // typeID, BlueprintType
+        private static SortedList<int, Blueprint> blueprints = new SortedList<int, Blueprint>();
+            // typeID, BlueprintType
 
         /// <summary>
         ///     The cert unlock skills.
@@ -70,12 +99,14 @@ namespace EveHQ.EveData
         /// <summary>
         ///     The certificate categories.
         /// </summary>
-        private static SortedList<string, CertificateCategory> certificateCategories = new SortedList<string, CertificateCategory>();
+        private static SortedList<string, CertificateCategory> certificateCategories =
+            new SortedList<string, CertificateCategory>();
 
         /// <summary>
         ///     The certificate recommendations.
         /// </summary>
-        private static List<CertificateRecommendation> certificateRecommendations = new List<CertificateRecommendation>();
+        private static List<CertificateRecommendation> certificateRecommendations =
+            new List<CertificateRecommendation>();
 
         /// <summary>
         ///     The certificates.
@@ -95,7 +126,8 @@ namespace EveHQ.EveData
         /// <summary>
         ///     The effect types.
         /// </summary>
-        private static SortedList<int, EffectType> effectTypes = new SortedList<int, EffectType>(); // effectID, EffectType
+        private static SortedList<int, EffectType> effectTypes = new SortedList<int, EffectType>();
+            // effectID, EffectType
 
         /// <summary>
         ///     The group cats.
@@ -110,7 +142,8 @@ namespace EveHQ.EveData
         /// <summary>
         ///     The item market groups.
         /// </summary>
-        private static SortedList<string, string> itemMarketGroups = new SortedList<string, string>(); // typeID, marketGroupID
+        private static SortedList<string, string> itemMarketGroups = new SortedList<string, string>();
+            // typeID, marketGroupID
 
         /// <summary>
         ///     The item unlocks.
@@ -120,12 +153,14 @@ namespace EveHQ.EveData
         /// <summary>
         ///     The market groups.
         /// </summary>
-        private static SortedList<int, MarketGroup> marketGroups = new SortedList<int, MarketGroup>(); // typeID, MarketGroup
+        private static SortedList<int, MarketGroup> marketGroups = new SortedList<int, MarketGroup>();
+            // typeID, MarketGroup
 
         /// <summary>
-        ///  The item masteries
+        ///     The item masteries
         /// </summary>
-        private static SortedList<int, Mastery> masteries = new SortedList<int, Mastery>(); // typeID, masteryRank,requiredCerts
+        private static SortedList<int, Mastery> masteries = new SortedList<int, Mastery>();
+            // typeID, masteryRank,requiredCerts
 
         /// <summary>
         ///     The meta groups.
@@ -165,7 +200,8 @@ namespace EveHQ.EveData
         /// <summary>
         ///     The ship traits.
         /// </summary>
-        private static Dictionary<int, Dictionary<int, List<string>>> traits = new Dictionary<int, Dictionary<int, List<string>>>();
+        private static Dictionary<int, Dictionary<int, List<string>>> traits =
+            new Dictionary<int, Dictionary<int, List<string>>>();
 
         /// <summary>
         ///     The type attributes.
@@ -211,10 +247,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static Dictionary<int, Agent> Agents
         {
-            get
-            {
-                return agents;
-            }
+            get { return agents; }
         }
 
         /// <summary>
@@ -223,10 +256,7 @@ namespace EveHQ.EveData
         public static SortedList<string, AssemblyArray> AssemblyArrays
         {
             // typeName, AssemblyArray
-            get
-            {
-                return assemblyArrays;
-            }
+            get { return assemblyArrays; }
         }
 
         /// <summary>
@@ -235,10 +265,7 @@ namespace EveHQ.EveData
         public static SortedList<int, AttributeType> AttributeTypes
         {
             // attributeID, AttributeType
-            get
-            {
-                return attributeTypes;
-            }
+            get { return attributeTypes; }
         }
 
         /// <summary>
@@ -247,10 +274,7 @@ namespace EveHQ.EveData
         public static SortedList<int, string> AttributeUnits
         {
             // unitID, DisplayName
-            get
-            {
-                return attributeUnits;
-            }
+            get { return attributeUnits; }
         }
 
         /// <summary>
@@ -259,10 +283,7 @@ namespace EveHQ.EveData
         public static SortedList<int, Blueprint> Blueprints
         {
             // typeID, BlueprintType
-            get
-            {
-                return blueprints;
-            }
+            get { return blueprints; }
         }
 
         /// <summary>
@@ -270,10 +291,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static SortedList<string, List<int>> CertUnlockSkills
         {
-            get
-            {
-                return certUnlockSkills;
-            }
+            get { return certUnlockSkills; }
         }
 
         /// <summary>
@@ -281,10 +299,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static SortedList<string, CertificateCategory> CertificateCategories
         {
-            get
-            {
-                return certificateCategories;
-            }
+            get { return certificateCategories; }
         }
 
         /// <summary>
@@ -292,10 +307,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static List<CertificateRecommendation> CertificateRecommendations
         {
-            get
-            {
-                return certificateRecommendations;
-            }
+            get { return certificateRecommendations; }
         }
 
         /// <summary>
@@ -303,10 +315,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static SortedList<int, Certificate> Certificates
         {
-            get
-            {
-                return certificates;
-            }
+            get { return certificates; }
         }
 
         /// <summary>
@@ -314,10 +323,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static Dictionary<int, string> Constellations
         {
-            get
-            {
-                return constellations;
-            }
+            get { return constellations; }
         }
 
         /// <summary>
@@ -330,10 +336,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static Dictionary<int, string> Divisions
         {
-            get
-            {
-                return divisions;
-            }
+            get { return divisions; }
         }
 
         /// <summary>
@@ -342,10 +345,7 @@ namespace EveHQ.EveData
         public static SortedList<int, EffectType> EffectTypes
         {
             // effectID, EffectType
-            get
-            {
-                return effectTypes;
-            }
+            get { return effectTypes; }
         }
 
         /// <summary>
@@ -354,10 +354,7 @@ namespace EveHQ.EveData
         public static SortedList<int, int> GroupCats
         {
             // groupID, catID
-            get
-            {
-                return groupCats;
-            }
+            get { return groupCats; }
         }
 
         /// <summary>
@@ -366,10 +363,7 @@ namespace EveHQ.EveData
         public static SortedList<int, string> ItemMarkers
         {
             // flagID, flagName
-            get
-            {
-                return itemMarkers;
-            }
+            get { return itemMarkers; }
         }
 
         /// <summary>
@@ -378,10 +372,7 @@ namespace EveHQ.EveData
         public static SortedList<string, string> ItemMarketGroups
         {
             // typeID, marketGroupID
-            get
-            {
-                return itemMarketGroups;
-            }
+            get { return itemMarketGroups; }
         }
 
         /// <summary>
@@ -389,10 +380,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static SortedList<string, List<string>> ItemUnlocks
         {
-            get
-            {
-                return itemUnlocks;
-            }
+            get { return itemUnlocks; }
         }
 
         /// <summary>
@@ -401,22 +389,16 @@ namespace EveHQ.EveData
         public static SortedList<int, MarketGroup> MarketGroups
         {
             // typeID, MarketGroup
-            get
-            {
-                return marketGroups;
-            }
+            get { return marketGroups; }
         }
 
         /// <summary>
-        /// Gets the masteries.
+        ///     Gets the masteries.
         /// </summary>
         public static SortedList<int, Mastery> Masteries
         {
             // typeID, rank, requiredCerts
-            get
-            {
-                return masteries;
-            }
+            get { return masteries; }
         }
 
         /// <summary>
@@ -425,10 +407,7 @@ namespace EveHQ.EveData
         public static SortedList<int, string> MetaGroups
         {
             // metaGroupID, metaGroupName
-            get
-            {
-                return metaGroups;
-            }
+            get { return metaGroups; }
         }
 
         /// <summary>
@@ -437,10 +416,7 @@ namespace EveHQ.EveData
         public static SortedList<int, MetaType> MetaTypes
         {
             // typeID, MetaItem
-            get
-            {
-                return metaTypes;
-            }
+            get { return metaTypes; }
         }
 
         /// <summary>
@@ -449,10 +425,7 @@ namespace EveHQ.EveData
         public static SortedList<int, string> NpcCorps
         {
             // corpID, corpName
-            get
-            {
-                return npcCorps;
-            }
+            get { return npcCorps; }
         }
 
         /// <summary>
@@ -460,10 +433,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static Dictionary<int, string> Regions
         {
-            get
-            {
-                return regions;
-            }
+            get { return regions; }
         }
 
         /// <summary>
@@ -471,10 +441,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static Dictionary<int, Dictionary<int, List<string>>> Traits
         {
-            get
-            {
-                return traits;
-            }
+            get { return traits; }
         }
 
         /// <summary>
@@ -482,10 +449,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static SortedList<string, List<string>> SkillUnlocks
         {
-            get
-            {
-                return skillUnlocks;
-            }
+            get { return skillUnlocks; }
         }
 
         /// <summary>
@@ -493,10 +457,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static Dictionary<int, SolarSystem> SolarSystems
         {
-            get
-            {
-                return solarSystems;
-            }
+            get { return solarSystems; }
         }
 
         /// <summary>
@@ -504,10 +465,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static Dictionary<int, Station> Stations
         {
-            get
-            {
-                return stations;
-            }
+            get { return stations; }
         }
 
         /// <summary>
@@ -515,10 +473,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static List<TypeAttrib> TypeAttributes
         {
-            get
-            {
-                return typeAttributes;
-            }
+            get { return typeAttributes; }
         }
 
         /// <summary>
@@ -527,10 +482,7 @@ namespace EveHQ.EveData
         public static SortedList<int, string> TypeCats
         {
             // catID, catName
-            get
-            {
-                return typeCats;
-            }
+            get { return typeCats; }
         }
 
         /// <summary>
@@ -538,10 +490,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static List<TypeEffect> TypeEffects
         {
-            get
-            {
-                return typeEffects;
-            }
+            get { return typeEffects; }
         }
 
         /// <summary>
@@ -550,10 +499,7 @@ namespace EveHQ.EveData
         public static SortedList<int, string> TypeGroups
         {
             // groupID, groupName
-            get
-            {
-                return typeGroups;
-            }
+            get { return typeGroups; }
         }
 
         /// <summary>
@@ -562,10 +508,7 @@ namespace EveHQ.EveData
         public static SortedList<string, int> TypeNames
         {
             // typeName, typeID
-            get
-            {
-                return typeNames;
-            }
+            get { return typeNames; }
         }
 
         /// <summary>
@@ -574,10 +517,7 @@ namespace EveHQ.EveData
         public static SortedList<int, EveType> Types
         {
             // typeID, EveType
-            get
-            {
-                return types;
-            }
+            get { return types; }
         }
 
         /// <summary>
@@ -585,10 +525,7 @@ namespace EveHQ.EveData
         /// </summary>
         public static Dictionary<int, TypeMaterial> TypeMaterials
         {
-            get
-            {
-                return typeMaterials;
-            }
+            get { return typeMaterials; }
         }
 
         #endregion
@@ -608,19 +545,19 @@ namespace EveHQ.EveData
             switch (AttributeTypes[att.Id].UnitId)
             {
                 case 108:
-                    att.Value = 100 - (att.Value * 100);
+                    att.Value = 100 - (att.Value*100);
                     att.DisplayValue = Convert.ToString(att.Value, CultureInfo.CurrentCulture);
                     break;
                 case 109:
-                    att.Value = (att.Value * 100) - 100;
+                    att.Value = (att.Value*100) - 100;
                     att.DisplayValue = Convert.ToString(att.Value, CultureInfo.CurrentCulture);
                     break;
                 case 111:
-                    att.Value = (att.Value - 1) * 100;
+                    att.Value = (att.Value - 1)*100;
                     att.DisplayValue = Convert.ToString(att.Value, CultureInfo.CurrentCulture);
                     break;
                 case 101:
-                    att.Value = att.Value / 1000;
+                    att.Value = att.Value/1000;
                     att.DisplayValue = Convert.ToString(att.Value, CultureInfo.CurrentCulture);
                     break;
                 case 115:
@@ -633,11 +570,11 @@ namespace EveHQ.EveData
 
                     // typeID
                     att.DisplayValue = "Unknown";
-                    if (Types.ContainsKey(Convert.ToInt32(att.Value))) 
+                    if (Types.ContainsKey(Convert.ToInt32(att.Value)))
                     {
                         att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name;
                     }
-                    
+
                     att.Unit = string.Empty;
                     break;
                 case 119:
@@ -657,20 +594,25 @@ namespace EveHQ.EveData
         public static SortedList<int, ItemAttribData> GetAttributeDataForItem(int typeId)
         {
             // Fetch the attributes for the item
-            var atts = (from ta in TypeAttributes where ta.TypeId == typeId select new ItemAttrib { Id = ta.AttributeId, Value = ta.Value }).ToList();
+            List<ItemAttrib> atts =
+                (from ta in TypeAttributes
+                    where ta.TypeId == typeId
+                    select new ItemAttrib {Id = ta.AttributeId, Value = ta.Value}).ToList();
 
             // Prepare the attribute data
             var attributeList = new SortedList<int, ItemAttribData>();
 
-            foreach (var att in atts)
+            foreach (ItemAttrib att in atts)
             {
-                attributeList.Add(att.Id, new ItemAttribData(att.Id, att.Value, AttributeTypes[att.Id].DisplayName, " " + AttributeUnits[AttributeTypes[att.Id].UnitId]));
+                attributeList.Add(att.Id,
+                    new ItemAttribData(att.Id, att.Value, AttributeTypes[att.Id].DisplayName,
+                        " " + AttributeUnits[AttributeTypes[att.Id].UnitId]));
             }
 
             // Process attribute data
             var attributesToAdd = new SortedList<int, ItemAttribData>();
 
-            foreach (var att in attributeList.Values)
+            foreach (ItemAttribData att in attributeList.Values)
             {
                 CorrectAttributeValue(att);
 
@@ -683,7 +625,7 @@ namespace EveHQ.EveData
                     case 1285:
                     case 1289:
                     case 1290:
-                        var skillLevelAttribute = 0;
+                        int skillLevelAttribute = 0;
                         switch (att.Id)
                         {
                             case 182:
@@ -709,8 +651,12 @@ namespace EveHQ.EveData
                         // Fix cases where there is no skill level data for the skill in the CCP data
                         if (attributeList.ContainsKey(skillLevelAttribute) == false)
                         {
-                            attributesToAdd.Add(skillLevelAttribute, new ItemAttribData(skillLevelAttribute, 0, string.Empty, string.Empty));
-                            att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name + " (Level " + attributesToAdd[skillLevelAttribute].Value.ToString("N0", CultureInfo.CurrentCulture)
+                            attributesToAdd.Add(skillLevelAttribute,
+                                new ItemAttribData(skillLevelAttribute, 0, string.Empty, string.Empty));
+                            att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name +
+                                               " (Level " +
+                                               attributesToAdd[skillLevelAttribute].Value.ToString("N0",
+                                                   CultureInfo.CurrentCulture)
                                                + ")";
                         }
                         else
@@ -721,7 +667,9 @@ namespace EveHQ.EveData
                                 att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name;
                             }
 
-                            att.DisplayValue += " (Level " + attributeList[skillLevelAttribute].Value.ToString("N0", CultureInfo.CurrentCulture) + ")";
+                            att.DisplayValue += " (Level " +
+                                                attributeList[skillLevelAttribute].Value.ToString("N0",
+                                                    CultureInfo.CurrentCulture) + ")";
                         }
 
                         break;
@@ -729,7 +677,7 @@ namespace EveHQ.EveData
             }
 
             // Add in new attributes we need for skill levels
-            foreach (var iba in attributesToAdd.Values)
+            foreach (ItemAttribData iba in attributesToAdd.Values)
             {
                 attributeList.Add(iba.Id, iba);
             }
@@ -742,7 +690,7 @@ namespace EveHQ.EveData
         /// <returns>An integer representing the blueprint type ID</returns>
         public static int GetBPTypeId(int productId)
         {
-            var itemIDs = (from bt in Blueprints.Values where bt.ProductId == productId select bt.Id).ToList();
+            List<int> itemIDs = (from bt in Blueprints.Values where bt.ProductId == productId select bt.Id).ToList();
 
             if (itemIDs.Count > 0)
             {
@@ -770,7 +718,7 @@ namespace EveHQ.EveData
 
         /// <summary>Gets the name of an Eve location from the location ID</summary>
         /// <param name="locationId">The location id.</param>
-        /// <returns>The <see cref="string"/>.</returns>
+        /// <returns>The <see cref="string" />.</returns>
         public static string GetLocationName(int locationId)
         {
             if (locationId >= 66000000)
@@ -825,7 +773,7 @@ namespace EveHQ.EveData
         public static SortedList<string, int> GetSortedItemListInGroup(int groupId)
         {
             var items = new SortedList<string, int>();
-            foreach (var item in GetItemsInGroup(groupId))
+            foreach (EveType item in GetItemsInGroup(groupId))
             {
                 items.Add(item.Name, item.Id);
             }
@@ -853,7 +801,7 @@ namespace EveHQ.EveData
         public static List<int> GetVariationsForItem(int typeId)
         {
             // Fetch the parent item ID for this item
-            var parentTypeId = typeId;
+            int parentTypeId = typeId;
             MetaType metaType;
             if (MetaTypes.TryGetValue(typeId, out metaType))
             {
@@ -861,7 +809,7 @@ namespace EveHQ.EveData
             }
 
             // Fetch all items with this same parent ID
-            var itemIDs = (from mt in MetaTypes.Values where mt.ParentId == parentTypeId select mt.Id).ToList();
+            List<int> itemIDs = (from mt in MetaTypes.Values where mt.ParentId == parentTypeId select mt.Id).ToList();
 
             // Add the current item if it is the parent item
             if (itemIDs.Contains(parentTypeId) == false)
@@ -890,7 +838,9 @@ namespace EveHQ.EveData
                 // Get files from dump
 
                 // Item List
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemList.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "ItemList.dat"), FileMode.Open, FileAccess.Read)
+                    )
                 {
                     typeNames = Serializer.Deserialize<SortedList<string, int>>(s);
                 }
@@ -898,7 +848,8 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Item List Finished Loading");
 
                 // Item Data
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Items.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Items.dat"), FileMode.Open, FileAccess.Read))
                 {
                     types = Serializer.Deserialize<SortedList<int, EveType>>(s);
                 }
@@ -906,7 +857,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Items Finished Loading");
 
                 // Item Groups
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemGroups.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "ItemGroups.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     typeGroups = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
@@ -914,7 +867,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Item Groups Finished Loading");
 
                 // Items Cats
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemCats.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "ItemCats.dat"), FileMode.Open, FileAccess.Read)
+                    )
                 {
                     typeCats = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
@@ -922,7 +877,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Item Categories Finished Loading");
 
                 // Group Cats
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "GroupCats.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "GroupCats.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     groupCats = Serializer.Deserialize<SortedList<int, int>>(s);
                 }
@@ -930,7 +887,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Group Categories Finished Loading");
 
                 // Market Groups
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "MarketGroups.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "MarketGroups.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     marketGroups = Serializer.Deserialize<SortedList<int, MarketGroup>>(s);
                 }
@@ -938,7 +897,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Market Groups Finished Loading");
 
                 // Item Market Groups
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemMarketGroups.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "ItemMarketGroups.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     itemMarketGroups = Serializer.Deserialize<SortedList<string, string>>(s);
                 }
@@ -946,7 +907,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Market Groups Finished Loading");
 
                 // Cert Categories
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertCats.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "CertCats.dat"), FileMode.Open, FileAccess.Read)
+                    )
                 {
                     certificateCategories = Serializer.Deserialize<SortedList<string, CertificateCategory>>(s);
                 }
@@ -954,7 +917,8 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Certificate Categories Finished Loading");
 
                 // Certs
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Certs.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Certs.dat"), FileMode.Open, FileAccess.Read))
                 {
                     certificates = Serializer.Deserialize<SortedList<int, Certificate>>(s);
                 }
@@ -962,7 +926,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Certificates Finished Loading");
 
                 // Cert Recommendations
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertRec.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "CertRec.dat"), FileMode.Open, FileAccess.Read)
+                    )
                 {
                     certificateRecommendations = Serializer.Deserialize<List<CertificateRecommendation>>(s);
                 }
@@ -970,7 +936,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Certificate Recommendations Finished Loading");
 
                 // Unlocks
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemUnlocks.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "ItemUnlocks.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     itemUnlocks = Serializer.Deserialize<SortedList<string, List<string>>>(s);
                 }
@@ -978,7 +946,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Item Unlocks Finished Loading");
 
                 // SkillUnlocks
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "SkillUnlocks.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "SkillUnlocks.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     skillUnlocks = Serializer.Deserialize<SortedList<string, List<string>>>(s);
                 }
@@ -986,7 +956,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Skill Unlocks Finished Loading");
 
                 // CertSkills
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertSkills.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "CertSkills.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     certUnlockSkills = Serializer.Deserialize<SortedList<string, List<int>>>(s);
                 }
@@ -994,7 +966,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Certificate Skills Finished Loading");
 
                 // Masteries
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Masteries.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Masteries.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     masteries = Serializer.Deserialize<SortedList<int, Mastery>>(s);
                 }
@@ -1002,7 +976,8 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Masteries Finished Loading");
 
                 // Ship Traits
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Traits.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Traits.dat"), FileMode.Open, FileAccess.Read))
                 {
                     traits = Serializer.Deserialize<Dictionary<int, Dictionary<int, List<string>>>>(s);
                 }
@@ -1010,7 +985,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Ship Traits Finished Loading");
 
                 // Regions
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Regions.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Regions.dat"), FileMode.Open, FileAccess.Read)
+                    )
                 {
                     regions = Serializer.Deserialize<Dictionary<int, string>>(s);
                 }
@@ -1018,7 +995,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Regions Finished Loading");
 
                 // Constellations
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Constellations.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Constellations.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     constellations = Serializer.Deserialize<Dictionary<int, string>>(s);
                 }
@@ -1026,7 +1005,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Constellations Finished Loading");
 
                 // SolarSystems
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Systems.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Systems.dat"), FileMode.Open, FileAccess.Read)
+                    )
                 {
                     solarSystems = Serializer.Deserialize<Dictionary<int, SolarSystem>>(s);
                 }
@@ -1034,7 +1015,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Solar Systems Finished Loading");
 
                 // Stations
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Stations.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Stations.dat"), FileMode.Open, FileAccess.Read)
+                    )
                 {
                     stations = Serializer.Deserialize<Dictionary<int, Station>>(s);
                 }
@@ -1042,7 +1025,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Stations Finished Loading");
 
                 // Divisions
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Divisions.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Divisions.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     divisions = Serializer.Deserialize<Dictionary<int, string>>(s);
                 }
@@ -1050,7 +1035,8 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Divisions Finished Loading");
 
                 // Agents
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Agents.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Agents.dat"), FileMode.Open, FileAccess.Read))
                 {
                     agents = Serializer.Deserialize<Dictionary<int, Agent>>(s);
                 }
@@ -1058,7 +1044,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Agents Finished Loading");
 
                 // Attribute Types
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "AttributeTypes.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "AttributeTypes.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     attributeTypes = Serializer.Deserialize<SortedList<int, AttributeType>>(s);
                 }
@@ -1066,7 +1054,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Attribute Types Finished Loading");
 
                 // Type Attributes
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "TypeAttributes.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "TypeAttributes.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     typeAttributes = Serializer.Deserialize<List<TypeAttrib>>(s);
                 }
@@ -1074,7 +1064,8 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Type Attributes Finished Loading");
 
                 // Attribute Units
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Units.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Units.dat"), FileMode.Open, FileAccess.Read))
                 {
                     attributeUnits = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
@@ -1082,7 +1073,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Units Finished Loading");
 
                 // Effect Types
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "EffectTypes.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "EffectTypes.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     effectTypes = Serializer.Deserialize<SortedList<int, EffectType>>(s);
                 }
@@ -1090,7 +1083,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Effect Types Finished Loading");
 
                 // Type Effects
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "TypeEffects.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "TypeEffects.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     typeEffects = Serializer.Deserialize<List<TypeEffect>>(s);
                 }
@@ -1098,7 +1093,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Type Effects Finished Loading");
 
                 // Meta Groups
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "MetaGroups.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "MetaGroups.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     metaGroups = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
@@ -1106,7 +1103,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Meta Groups Finished Loading");
 
                 // Meta Types
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "MetaTypes.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "MetaTypes.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     metaTypes = Serializer.Deserialize<SortedList<int, MetaType>>(s);
                 }
@@ -1114,7 +1113,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Meta Types Finished Loading");
 
                 // Type Materials
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "TypeMaterials.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "TypeMaterials.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     typeMaterials = Serializer.Deserialize<Dictionary<int, TypeMaterial>>(s);
                 }
@@ -1122,7 +1123,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Type Materials Finished Loading");
 
                 // Blueprint Types
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Blueprints.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "Blueprints.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     blueprints = Serializer.Deserialize<SortedList<int, Blueprint>>(s);
                 }
@@ -1130,7 +1133,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Blueprints Finished Loading");
 
                 // Assembly Arrays
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "AssemblyArrays.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "AssemblyArrays.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     assemblyArrays = Serializer.Deserialize<SortedList<string, AssemblyArray>>(s);
                 }
@@ -1138,7 +1143,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Assembly Arrays Finished Loading");
 
                 // NPC Corps
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "NPCCorps.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "NPCCorps.dat"), FileMode.Open, FileAccess.Read)
+                    )
                 {
                     npcCorps = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
@@ -1146,7 +1153,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** NPC Corps Finished Loading");
 
                 // Item Flags
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemFlags.dat"), FileMode.Open, FileAccess.Read))
+                using (
+                    var s = new FileStream(Path.Combine(coreCacheFolder, "ItemFlags.dat"), FileMode.Open,
+                        FileAccess.Read))
                 {
                     itemMarkers = Serializer.Deserialize<SortedList<int, string>>(s);
                 }

@@ -406,11 +406,6 @@
     <None Include="Resources\EveHQ_LCDLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ExternalLibs\DevComponents.DotNetBar2.dll" />
-    <Content Include="ExternalLibs\GammaJul.LgLcd.dll" />
-    <Content Include="ExternalLibs\GammaJul.LgLcd.Native32.dll" />
-    <Content Include="ExternalLibs\GammaJul.LgLcd.Native64.dll" />
-    <Content Include="ExternalLibs\System.Data.SqlServerCe.dll" />
     <None Include="Resources\ArrowDown.png" />
     <None Include="Resources\ArrowUp.png" />
     <None Include="Resources\Info32.png" />

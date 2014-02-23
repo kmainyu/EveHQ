@@ -1,42 +1,191 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="EveTests.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
+﻿// ==============================================================================
+// 
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2014  EveHQ Development Team
+//   
+// This file is part of EveHQ.
+//  
+// The source code for EveHQ is free and you may redistribute 
+// it and/or modify it under the terms of the MIT License. 
+// 
+// Refer to the NOTICES file in the root folder of EVEHQ source
+// project for details of 3rd party components that are covered
+// under their own, separate licenses.
+// 
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the MIT 
+// license below for details.
+// 
+// ------------------------------------------------------------------------------
+// 
+// The MIT License (MIT)
+// 
+// Copyright © 2005-2014  EveHQ Development Team
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+// 
+// ==============================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using EveHQ.Common;
+using EveHQ.EveApi;
+using NUnit.Framework;
 
 namespace EveHQ.Tests.Api
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text;
-
-    using EveHQ.Common;
-    using EveHQ.EveApi;
-
-    using NUnit.Framework;
-
     /// <summary>
-    /// TODO: Update summary.
+    ///     TODO: Update summary.
     /// </summary>
     [TestFixture]
     public static class EveTests
     {
         [Test]
+        public static void AllianceListTest()
+        {
+            var url = new Uri("https://api.eveonline.com/eve/AllianceList.xml.aspx");
+            var data = new Dictionary<string, string>();
+
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data,
+                ApiTestHelpers.GetXmlData("TestData\\Api\\AllianceList.xml"));
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
+            {
+                Task<EveServiceResponse<IEnumerable<AllianceData>>> task = client.Eve.AllianceListAsync();
+                task.Wait();
+
+                ApiTestHelpers.BasicSuccessResultValidations(task);
+
+                List<AllianceData> result = task.Result.ResultData.ToList();
+
+                AllianceData rabbits = result[1];
+
+                Assert.AreEqual("The Dead Rabbits", rabbits.Name);
+                Assert.AreEqual("TL.DR", rabbits.ShortName);
+                Assert.AreEqual(1, rabbits.MemberCorps.Count());
+            }
+        }
+
+        [Test]
+        public static void BasicErrorParsingTest()
+        {
+            var url = new Uri("https://api.eveonline.com/eve/CharacterID.xml.aspx");
+
+            var names = new[] {"CCP Garthahk"};
+            var data = new Dictionary<string, string>();
+            data.Add(ApiConstants.Names, string.Join(",", names));
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data,
+                ApiTestHelpers.GetXmlData("TestData\\Api\\GenericError.xml"));
+
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
+            {
+                Task<EveServiceResponse<IEnumerable<CharacterName>>> task = client.Eve.CharacterIdAsync(names);
+                task.Wait();
+
+                ApiTestHelpers.BasicSuccessResultValidations(task);
+
+                EveServiceResponse<IEnumerable<CharacterName>> result = task.Result;
+
+                Assert.AreEqual(222, result.EveErrorCode);
+                Assert.AreEqual("Key has expired. Contact key owner for access renewal.", result.EveErrorText);
+            }
+        }
+
+        [Test]
+        public static void CharacterIdTest()
+        {
+            var url = new Uri("https://api.eveonline.com/eve/CharacterID.xml.aspx");
+
+            var names = new[] {"CCP Garthahk"};
+            var data = new Dictionary<string, string>();
+            data.Add(ApiConstants.Names, string.Join(",", names));
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data,
+                ApiTestHelpers.GetXmlData("TestData\\Api\\CharacterId.xml"));
+
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
+            {
+                Task<EveServiceResponse<IEnumerable<CharacterName>>> task = client.Eve.CharacterIdAsync(names);
+                task.Wait();
+
+                ApiTestHelpers.BasicSuccessResultValidations(task);
+
+                EveServiceResponse<IEnumerable<CharacterName>> result = task.Result;
+
+                Assert.AreEqual(1, result.ResultData.Count());
+                Assert.AreEqual("CCP Garthagk", result.ResultData.First().Name);
+                Assert.AreEqual(797400947, result.ResultData.First().Id);
+            }
+        }
+
+        [Test]
+        public static void CharacterInfoTest()
+        {
+            var url = new Uri("https://api.eveonline.com/eve/CharacterInfo.xml.aspx");
+
+
+            var data = new Dictionary<string, string>();
+            data.Add(ApiConstants.CharacterId, "1643072492");
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data,
+                ApiTestHelpers.GetXmlData("TestData\\Api\\CharacterInfo.xml"));
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
+            {
+                Task<EveServiceResponse<CharacterInfo>> task = client.Eve.CharacterInfoAsync(1643072492);
+                task.Wait();
+
+                ApiTestHelpers.BasicSuccessResultValidations(task);
+
+                EveServiceResponse<CharacterInfo> result = task.Result;
+                Assert.AreEqual("Catari Taga", result.ResultData.CharacterName);
+
+                Assert.AreEqual(1923227030, result.ResultData.AllianceId);
+
+                Assert.AreEqual(0.0, result.ResultData.SecurityStatus);
+            }
+        }
+
+        [Test]
         public static void CharacterNameTest()
         {
             // setup mock data and parameters.
             var url = new Uri("https://api.eveonline.com/eve/CharacterName.xml.aspx");
-            var ids = new[] { 797400947L, 1188435724L };
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            var ids = new[] {797400947L, 1188435724L};
+            var data = new Dictionary<string, string>();
             data.Add(ApiConstants.Ids, string.Join(",", ids));
-            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\CharacterName.xml"));
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data,
+                ApiTestHelpers.GetXmlData("TestData\\Api\\CharacterName.xml"));
 
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
             {
-                var result = client.Eve.CharacterName(ids);
-                
+                EveServiceResponse<IEnumerable<CharacterName>> result = client.Eve.CharacterName(ids);
+
                 Assert.IsTrue(result.IsSuccessfulHttpStatus);
                 Assert.IsFalse(result.IsFaulted);
                 Assert.IsNull(result.ServiceException);
@@ -52,122 +201,49 @@ namespace EveHQ.Tests.Api
         {
             // setup mock data and parameters.
             var url = new Uri("https://api.eveonline.com/eve/CharacterName.xml.aspx");
-            var ids = new[] { 797400947L, 1188435724L };
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            var ids = new[] {797400947L, 1188435724L};
+            var data = new Dictionary<string, string>();
             data.Add(ApiConstants.Ids, string.Join(",", ids));
-            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\CharacterName.xml"));
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data,
+                ApiTestHelpers.GetXmlData("TestData\\Api\\CharacterName.xml"));
 
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
             {
-                var task = client.Eve.CharacterNameAsync(ids);
+                Task<EveServiceResponse<IEnumerable<CharacterName>>> task = client.Eve.CharacterNameAsync(ids);
                 task.Wait();
 
                 ApiTestHelpers.BasicSuccessResultValidations(task);
 
-                var result = task.Result;
-                
+                EveServiceResponse<IEnumerable<CharacterName>> result = task.Result;
+
                 Assert.AreEqual(2, result.ResultData.Count());
                 Assert.AreEqual("CCP Prism X", result.ResultData.Skip(1).First().Name);
             }
         }
 
         [Test]
-        public static void CharacterIdTest()
+        public static void ConquerableStationListTest()
         {
-            var url = new Uri("https://api.eveonline.com/eve/CharacterID.xml.aspx");
-         
-            var names = new[] {"CCP Garthahk" };
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            data.Add(ApiConstants.Names, string.Join(",", names));
-            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\CharacterId.xml"));
+            var url = new Uri("https://api.eveonline.com/eve/ConquerableStationList.xml.aspx");
+            var data = new Dictionary<string, string>();
 
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data,
+                ApiTestHelpers.GetXmlData("TestData\\Api\\ConquerableStations.xml"));
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
             {
-                var task = client.Eve.CharacterIdAsync(names);
+                Task<EveServiceResponse<IEnumerable<ConquerableStation>>> task =
+                    client.Eve.ConquerableStationListAsync();
                 task.Wait();
 
                 ApiTestHelpers.BasicSuccessResultValidations(task);
 
-                var result = task.Result;
+                List<ConquerableStation> result = task.Result.ResultData.ToList();
 
-                Assert.AreEqual(1, result.ResultData.Count());
-                Assert.AreEqual("CCP Garthagk", result.ResultData.First().Name);
-                Assert.AreEqual(797400947, result.ResultData.First().Id);
-            }
-        }
-
-
-        [Test]
-        public static void BasicErrorParsingTest()
-        {
-            var url = new Uri("https://api.eveonline.com/eve/CharacterID.xml.aspx");
-
-            var names = new[] { "CCP Garthahk" };
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            data.Add(ApiConstants.Names, string.Join(",", names));
-            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\GenericError.xml"));
-
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
-            {
-                var task = client.Eve.CharacterIdAsync(names);
-                task.Wait();
-
-                ApiTestHelpers.BasicSuccessResultValidations(task);
-
-                var result = task.Result;
-
-                Assert.AreEqual(222, result.EveErrorCode);
-                Assert.AreEqual("Key has expired. Contact key owner for access renewal.", result.EveErrorText);
-            }
-        }
-
-        [Test]
-        public static void CharacterInfoTest()
-        {
-            var url = new Uri("https://api.eveonline.com/eve/CharacterInfo.xml.aspx");
-
-            
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            data.Add(ApiConstants.CharacterId, "1643072492");
-            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\CharacterInfo.xml"));
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
-            {
-                var task = client.Eve.CharacterInfoAsync(1643072492);
-                task.Wait();
-
-                ApiTestHelpers.BasicSuccessResultValidations(task);
-
-                var result = task.Result;
-                Assert.AreEqual("Catari Taga", result.ResultData.CharacterName);
-
-                Assert.AreEqual(1923227030, result.ResultData.AllianceId);
-
-                Assert.AreEqual(0.0, result.ResultData.SecurityStatus);
-
-            }
-        }
-
-        [Test]
-        public static void AllianceListTest()
-        {
-            var url = new Uri("https://api.eveonline.com/eve/AllianceList.xml.aspx");
-            Dictionary<string, string> data = new Dictionary<string, string>();
-
-               IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\AllianceList.xml"));
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
-            {
-                var task = client.Eve.AllianceListAsync();
-                task.Wait();
-
-                ApiTestHelpers.BasicSuccessResultValidations(task);
-
-                var result = task.Result.ResultData.ToList();
-
-                var rabbits = result[1];
-
-                Assert.AreEqual("The Dead Rabbits", rabbits.Name);
-                Assert.AreEqual("TL.DR", rabbits.ShortName);
-                Assert.AreEqual(1, rabbits.MemberCorps.Count());
+                Assert.AreEqual(60014862, result[0].Id);
             }
         }
 
@@ -175,19 +251,22 @@ namespace EveHQ.Tests.Api
         public static void RefTypeTest()
         {
             var url = new Uri("https://api.eveonline.com/eve/RefTypes.xml.aspx");
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            var data = new Dictionary<string, string>();
 
-            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\RefTypes.xml"));
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data,
+                ApiTestHelpers.GetXmlData("TestData\\Api\\RefTypes.xml"));
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
             {
-                var task = client.Eve.RefTypesAsync();
+                Task<EveServiceResponse<IEnumerable<RefType>>> task = client.Eve.RefTypesAsync();
                 task.Wait();
 
                 ApiTestHelpers.BasicSuccessResultValidations(task);
 
-                var result = task.Result.ResultData.ToList();
+                List<RefType> result = task.Result.ResultData.ToList();
 
-                var rabbits = result[21];
+                RefType rabbits = result[21];
 
                 Assert.AreEqual("Mission Completion", rabbits.Name);
                 Assert.AreEqual(21, rabbits.Id);
@@ -198,17 +277,20 @@ namespace EveHQ.Tests.Api
         public static void SkillTreeTest()
         {
             var url = new Uri("https://api.eveonline.com/eve/SkillTree.xml.aspx");
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            var data = new Dictionary<string, string>();
 
-            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\SkillTree.xml"));
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data,
+                ApiTestHelpers.GetXmlData("TestData\\Api\\SkillTree.xml"));
+            using (
+                var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(),
+                    mockProvider))
             {
-                var task = client.Eve.SkillTreeAsync();
+                Task<EveServiceResponse<IEnumerable<SkillGroup>>> task = client.Eve.SkillTreeAsync();
                 task.Wait();
 
                 ApiTestHelpers.BasicSuccessResultValidations(task);
 
-                var result = task.Result.ResultData.ToList();
+                List<SkillGroup> result = task.Result.ResultData.ToList();
 
                 Assert.AreEqual(3, result[0].Skills.ToList()[0].Rank);
                 Assert.AreEqual(true, result[0].Skills.ToList()[0].CannotBeTrainedOnTrial);
@@ -216,27 +298,5 @@ namespace EveHQ.Tests.Api
                 Assert.AreEqual(3, result[0].Skills.ToList()[1].RequiredSkills.ToList()[1].Level);
             }
         }
-
-
-        [Test]
-        public static void ConquerableStationListTest()
-        {
-            var url = new Uri("https://api.eveonline.com/eve/ConquerableStationList.xml.aspx");
-            Dictionary<string, string> data = new Dictionary<string, string>();
-
-            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\ConquerableStations.xml"));
-            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
-            {
-                var task = client.Eve.ConquerableStationListAsync();
-                task.Wait();
-
-                ApiTestHelpers.BasicSuccessResultValidations(task);
-
-                var result = task.Result.ResultData.ToList();
-
-                Assert.AreEqual(60014862, result[0].Id);
-            }
-        }
     }
 }
- 

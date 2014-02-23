@@ -1,42 +1,68 @@
-﻿// ===========================================================================
-// <copyright file="EveHQMarketDataProvider.cs" company="EveHQ Development Team">
-//  EveHQ - An Eve-Online™ character assistance application
-//  Copyright © 2005-2013  EveHQ Development Team
-//  This file (EveHQMarketDataProvider.cs), is part of EveHQ.
-//  EveHQ is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
-//  EveHQ is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
-// </copyright>
-// ============================================================================
+﻿// ==============================================================================
+// 
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2014  EveHQ Development Team
+//   
+// This file is part of EveHQ.
+//  
+// The source code for EveHQ is free and you may redistribute 
+// it and/or modify it under the terms of the MIT License. 
+// 
+// Refer to the NOTICES file in the root folder of EVEHQ source
+// project for details of 3rd party components that are covered
+// under their own, separate licenses.
+// 
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the MIT 
+// license below for details.
+// 
+// ------------------------------------------------------------------------------
+// 
+// The MIT License (MIT)
+// 
+// Copyright © 2005-2014  EveHQ Development Team
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+// 
+// ==============================================================================
+
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using EveHQ.Caching;
+using EveHQ.Common;
+using EveHQ.Common.Extensions;
+using EveHQ.Market.Properties;
+using Ionic.Zip;
+using Newtonsoft.Json;
+
 namespace EveHQ.Market.MarketServices
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
-
-    using EveHQ.Caching;
-    using EveHQ.Common;
-    using EveHQ.Common.Extensions;
-    using EveHQ.Market.Properties;
-
-    using Ionic.Zip;
-
-    using Newtonsoft.Json;
-
     /// <summary>
     ///     Market data provider, utilizing the EveHQ Market Data Service.
     /// </summary>
@@ -67,10 +93,13 @@ namespace EveHQ.Market.MarketServices
         private static readonly object InitLockObj = new object();
 
         /// <summary>The location cache.</summary>
-        private static readonly ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>> LocationCache = new ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>>();
+        private static readonly ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>> LocationCache =
+            new ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>>();
 
         /// <summary>The download in progres.</summary>
         private static bool downloadInProgres;
+
+        private static bool downloadError;
 
         /// <summary>The _cache ttl.</summary>
         private readonly TimeSpan _cacheTtl = TimeSpan.FromHours(12);
@@ -81,9 +110,7 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The _request provider.</summary>
         private readonly IHttpRequestProvider _requestProvider;
 
-        private static bool downloadError = false;
-
-        /// <summary>Initializes a new instance of the <see cref="EveHQMarketDataProvider"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EveHQMarketDataProvider" /> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
         /// <param name="requestProvider">The request Provider.</param>
         public EveHQMarketDataProvider(string cacheRootFolder, IHttpRequestProvider requestProvider)
@@ -95,55 +122,37 @@ namespace EveHQ.Market.MarketServices
         /// <summary>Gets the name.</summary>
         public static string Name
         {
-            get
-            {
-                return "EveHQ (Bulk Download)";
-            }
+            get { return "EveHQ (Bulk Download)"; }
         }
 
         /// <summary>Gets a value indicating whether limited region selection.</summary>
         public bool LimitedRegionSelection
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
 
         /// <summary>Gets a value indicating whether limited system selection.</summary>
         public bool LimitedSystemSelection
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
 
         /// <summary>Gets the provider name.</summary>
         public string ProviderName
         {
-            get
-            {
-                return Name;
-            }
+            get { return Name; }
         }
 
         /// <summary>Gets the supported regions.</summary>
         public IEnumerable<int> SupportedRegions
         {
-            get
-            {
-                return new[] { 10000002 };
-            }
+            get { return new[] {10000002}; }
         }
 
         /// <summary>Gets the supported systems.</summary>
         public IEnumerable<int> SupportedSystems
         {
-            get
-            {
-                return new[] { 30000142 };
-            }
+            get { return new[] {30000142}; }
         }
 
         /// <summary>The get order stats.</summary>
@@ -151,22 +160,28 @@ namespace EveHQ.Market.MarketServices
         /// <param name="includeRegions">The include regions.</param>
         /// <param name="systemId">The system id.</param>
         /// <param name="minQuantity">The min quantity.</param>
-        /// <returns>The <see cref="Task"/>.</returns>
-        public Task<IEnumerable<ItemOrderStats>> GetOrderStats(IEnumerable<int> typeIds, IEnumerable<int> includeRegions, int? systemId, int minQuantity)
+        /// <returns>The <see cref="Task" />.</returns>
+        public Task<IEnumerable<ItemOrderStats>> GetOrderStats(IEnumerable<int> typeIds, IEnumerable<int> includeRegions,
+            int? systemId, int minQuantity)
         {
-            return Task<IEnumerable<ItemOrderStats>>.Factory.TryRun(() => RetrievePriceData(typeIds, includeRegions, systemId));
+            return
+                Task<IEnumerable<ItemOrderStats>>.Factory.TryRun(
+                    () => RetrievePriceData(typeIds, includeRegions, systemId));
         }
 
         /// <summary>The download data.</summary>
         /// <param name="entityId">The entity id.</param>
-        /// <returns>The <see cref="IEnumerable"/>.</returns>
+        /// <returns>The <see cref="IEnumerable" />.</returns>
         private IEnumerable<ItemOrderStats> DownloadData(int entityId)
         {
             IEnumerable<ItemOrderStats> results = null;
-            Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(new Uri(EveHqMarketDataDumpsLocation.FormatInvariant(entityId.ToInvariantString())));
+            Task<HttpResponseMessage> requestTask =
+                _requestProvider.GetAsync(
+                    new Uri(EveHqMarketDataDumpsLocation.FormatInvariant(entityId.ToInvariantString())));
             requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
-            if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+            if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted &&
+                requestTask.Exception == null)
             {
                 Task<Stream> readTask = requestTask.Result.Content.ReadAsStreamAsync();
                 readTask.Wait();
@@ -188,8 +203,10 @@ namespace EveHQ.Market.MarketServices
 
         /// <summary>The download latest data.</summary>
         /// <param name="marketLocation">The market Location.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "EveHQ is not globalized yet.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Caught for logging purposes, and so the user can be alerted for retry.")]
+        [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions",
+            Justification = "EveHQ is not globalized yet.")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification = "Caught for logging purposes, and so the user can be alerted for retry.")]
         private void DownloadLatestData(int marketLocation)
         {
             bool retry = false;
@@ -207,7 +224,8 @@ namespace EveHQ.Market.MarketServices
                     {
                         IEnumerable<ItemOrderStats> locationData = DownloadData(marketLocation);
 
-                        _priceCache.Add(ItemKeyFormat.FormatInvariant(marketLocation), locationData, DateTimeOffset.Now.Add(_cacheTtl));
+                        _priceCache.Add(ItemKeyFormat.FormatInvariant(marketLocation), locationData,
+                            DateTimeOffset.Now.Add(_cacheTtl));
 
                         Trace.TraceInformation(Resources.NewMarketData);
                         // MessageBox.Show(Resources.NewMarketData, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -220,7 +238,9 @@ namespace EveHQ.Market.MarketServices
                 {
                     // log it.
                     Trace.TraceError(e.FormatException());
-                    if (!downloadError && MessageBox.Show(Resources.ErrorDownloadingData, Resources.ErrorCaption, MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                    if (!downloadError &&
+                        MessageBox.Show(Resources.ErrorDownloadingData, Resources.ErrorCaption, MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Error) == DialogResult.Yes)
                     {
                         retry = true;
                     }
@@ -241,7 +261,8 @@ namespace EveHQ.Market.MarketServices
 
         /// <summary>The initialize data cache.</summary>
         /// <param name="marketLocation">The market Location.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "EveHQ is not globalized yet.")]
+        [SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions",
+            Justification = "EveHQ is not globalized yet.")]
         private void InitializeDataCache(int marketLocation)
         {
             // TODO: In EveHQ 3, this must be done by a messaging provider, so we can message the user on the UI from the backside code.
@@ -254,14 +275,17 @@ namespace EveHQ.Market.MarketServices
 
         /// <summary>The last market update.</summary>
         /// <param name="marketLocationId">The market location id.</param>
-        /// <returns>The <see cref="MarketLocationData"/>.</returns>
+        /// <returns>The <see cref="MarketLocationData" />.</returns>
         private MarketLocationData LastMarketUpdate(int marketLocationId)
         {
-            Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()), "application/json");
+            Task<HttpResponseMessage> requestTask =
+                _requestProvider.GetAsync(new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()),
+                    "application/json");
 
             requestTask.Wait();
             MarketLocationData results = null;
-            if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+            if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled &&
+                !requestTask.IsFaulted && requestTask.Exception == null)
             {
                 Task<string> readTask = requestTask.Result.Content.ReadAsStringAsync();
                 readTask.Wait();
@@ -276,11 +300,14 @@ namespace EveHQ.Market.MarketServices
         /// <param name="typeIds">The type ids.</param>
         /// <param name="includeRegions">The include regions.</param>
         /// <param name="systemId">The system id.</param>
-        /// <returns>The <see cref="IEnumerable"/>.</returns>
-        private IEnumerable<ItemOrderStats> RetrievePriceData(IEnumerable<int> typeIds, IEnumerable<int> includeRegions, int? systemId)
+        /// <returns>The <see cref="IEnumerable" />.</returns>
+        private IEnumerable<ItemOrderStats> RetrievePriceData(IEnumerable<int> typeIds, IEnumerable<int> includeRegions,
+            int? systemId)
         {
             // check that we've had some download of data in the cache
-            int marketLocation = systemId.HasValue ? systemId.Value : includeRegions != null ? includeRegions.FirstOrDefault() : 0;
+            int marketLocation = systemId.HasValue
+                ? systemId.Value
+                : includeRegions != null ? includeRegions.FirstOrDefault() : 0;
             string lastDownloadKey = LastDownloadTs.FormatInvariant(marketLocation);
             CacheItem<DateTimeOffset> lastDownload = _priceCache.Get<DateTimeOffset>(lastDownloadKey);
             if (lastDownload == null)
@@ -327,7 +354,9 @@ namespace EveHQ.Market.MarketServices
             var cachedResults = new List<ItemOrderStats>();
             if (marketData != null && marketData.Data != null)
             {
-                cachedResults.AddRange(typeIds.Select(type => marketData.Data.FirstOrDefault(t => t.ItemTypeId == type)).Where(stats => stats != null));
+                cachedResults.AddRange(
+                    typeIds.Select(type => marketData.Data.FirstOrDefault(t => t.ItemTypeId == type))
+                        .Where(stats => stats != null));
             }
 
             // if the lastDownload result is dirty, it's time to queue up a background download of the data.

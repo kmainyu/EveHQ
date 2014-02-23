@@ -3,7 +3,7 @@
 // EveHQ - An Eve-Online™ character assistance application
 // Copyright © 2005-2014  EveHQ Development Team
 //   
-// This file (ApiConstants.cs), is part of EveHQ.
+// This file is part of EveHQ.
 //  
 // The source code for EveHQ is free and you may redistribute 
 // it and/or modify it under the terms of the MIT License. 

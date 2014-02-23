@@ -1,86 +1,110 @@
-﻿//  ========================================================================
-//  EveHQ - An Eve-Online™ character assistance application
-//  Copyright © 2005-2012  EveHQ Development Team
+﻿// ==============================================================================
+// 
+// EveHQ - An Eve-Online™ character assistance application
+// Copyright © 2005-2014  EveHQ Development Team
+//   
+// This file is part of EveHQ.
 //  
-//  This file (AccountClient.cs), is part of EveHQ.
+// The source code for EveHQ is free and you may redistribute 
+// it and/or modify it under the terms of the MIT License. 
 // 
-//  EveHQ is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 2 of the License, or
-//  (at your option) any later version.
+// Refer to the NOTICES file in the root folder of EVEHQ source
+// project for details of 3rd party components that are covered
+// under their own, separate licenses.
 // 
-//  EveHQ is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+// EveHQ is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the MIT 
+// license below for details.
 // 
-//  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+// ------------------------------------------------------------------------------
+// 
+// The MIT License (MIT)
+// 
+// Copyright © 2005-2014  EveHQ Development Team
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+// 
+// ==============================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using EveHQ.Caching;
+using EveHQ.Common;
+using EveHQ.Common.Extensions;
 
 namespace EveHQ.EveApi
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Diagnostics.Contracts;
-    using System.Globalization;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using System.Xml.Linq;
-
-    using EveHQ.Caching;
-    using EveHQ.Common;
-    using EveHQ.Common.Extensions;
-
     /// <summary>
-    /// Client class for interacting with the Account API methods of the EVE Web Service.
+    ///     Client class for interacting with the Account API methods of the EVE Web Service.
     /// </summary>
     public sealed class AccountClient : BaseApiClient
     {
         /// <summary>
-        /// Account status cache key
+        ///     Account status cache key
         /// </summary>
         private const string AccountStatusCacheKeyFormat = "AccountStatus_{0}";
 
         /// <summary>
-        /// Path to Account status method.
+        ///     Path to Account status method.
         /// </summary>
         private const string AccountStatusPath = "/account/AccountStatus.xml.aspx";
 
         /// <summary>
-        /// Format for cache file name .
+        ///     Format for cache file name .
         /// </summary>
         private const string ApiKeyInfoCacheKeyFormat = "ApiKeyInfo_{0}";
 
         /// <summary>
-        /// Path to ApiKeyInfo method
+        ///     Path to ApiKeyInfo method
         /// </summary>
         private const string ApiKeyInfoPath = "/account/APIKeyInfo.xml.aspx";
 
         /// <summary>
-        /// Format for the cache key used for the characters data.
+        ///     Format for the cache key used for the characters data.
         /// </summary>
         private const string CharacterCacheKeyFormat = "Characters_{0}";
 
         /// <summary>
-        /// Path to the Characters method on the web service
+        ///     Path to the Characters method on the web service
         /// </summary>
         private const string CharactersPath = "/account/Characters.xml.aspx";
 
         /// <summary>
-        /// Initializes a new instance of the AccountClient class.
+        ///     Initializes a new instance of the AccountClient class.
         /// </summary>
         /// <param name="eveServiceLocation">location of the eve API web service</param>
         /// <param name="cacheProvider">root folder used for caching.</param>
         /// <param name="requestProvider">Request provider to use for this instance.</param>
-        internal AccountClient(string eveServiceLocation, ICacheProvider cacheProvider, IHttpRequestProvider requestProvider)
+        internal AccountClient(string eveServiceLocation, ICacheProvider cacheProvider,
+            IHttpRequestProvider requestProvider)
             : base(eveServiceLocation, cacheProvider, requestProvider)
         {
         }
 
 
-        public EveServiceResponse<Account> AccountStatus(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
+        public EveServiceResponse<Account> AccountStatus(string keyId, string vCode,
+            ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
@@ -89,72 +113,80 @@ namespace EveHQ.EveApi
         }
 
         /// <summary>
-        /// Gets the status of an account user. 
+        ///     Gets the status of an account user.
         /// </summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="responseMode"></param>
         /// <returns>An account object</returns>
-        public Task<EveServiceResponse<Account>> AccountStatusAsync(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
+        public Task<EveServiceResponse<Account>> AccountStatusAsync(string keyId, string vCode,
+            ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
             string cacheKey = AccountStatusCacheKeyFormat.FormatInvariant(keyId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, 0, AccountStatusPath, null, cacheKey, ApiConstants.SixtyMinuteCache,responseMode, ParseAccountXml);
+            return GetServiceResponseAsync(keyId, vCode, 0, AccountStatusPath, null, cacheKey,
+                ApiConstants.SixtyMinuteCache, responseMode, ParseAccountXml);
         }
 
-        public EveServiceResponse<ApiKeyInfo> ApiKeyInfo(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
+        public EveServiceResponse<ApiKeyInfo> ApiKeyInfo(string keyId, string vCode,
+            ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
             return RunAsyncMethod(ApiKeyInfoAsync, keyId, vCode, responseMode);
         }
 
-        public Task<EveServiceResponse<ApiKeyInfo>> ApiKeyInfoAsync(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
+        public Task<EveServiceResponse<ApiKeyInfo>> ApiKeyInfoAsync(string keyId, string vCode,
+            ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
             string cacheKey = ApiKeyInfoCacheKeyFormat.FormatInvariant(keyId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, 0, ApiKeyInfoPath, null, cacheKey, ApiConstants.FiveMinuteCache,responseMode, ParseApiKeyInfoXml);
+            return GetServiceResponseAsync(keyId, vCode, 0, ApiKeyInfoPath, null, cacheKey, ApiConstants.FiveMinuteCache,
+                responseMode, ParseApiKeyInfoXml);
         }
 
         /// <summary>
-        /// Gets the list of characters on the given account.
+        ///     Gets the list of characters on the given account.
         /// </summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="responseMode"></param>
         /// <returns>A Service Response object, containing the collection of Characters.</returns>
-        public EveServiceResponse<IEnumerable<AccountCharacter>> Characters(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
+        public EveServiceResponse<IEnumerable<AccountCharacter>> Characters(string keyId, string vCode,
+            ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
-            return RunAsyncMethod(CharactersAsync, keyId, vCode,responseMode);
+            return RunAsyncMethod(CharactersAsync, keyId, vCode, responseMode);
         }
 
         /// <summary>
-        /// Gets the list of characters on the given account.
+        ///     Gets the list of characters on the given account.
         /// </summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="responseMode"></param>
         /// <returns>A Service Response object, containing the collection of Characters.</returns>
-        public Task<EveServiceResponse<IEnumerable<AccountCharacter>>> CharactersAsync(string keyId, string vCode, ResponseMode responseMode = ResponseMode.Normal)
+        public Task<EveServiceResponse<IEnumerable<AccountCharacter>>> CharactersAsync(string keyId, string vCode,
+            ResponseMode responseMode = ResponseMode.Normal)
         {
             Guard.Ensure(!keyId.IsNullOrWhiteSpace());
             Guard.Ensure(!vCode.IsNullOrWhiteSpace());
 
             string cacheKey = CharacterCacheKeyFormat.FormatInvariant(keyId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, 0, CharactersPath, null, cacheKey, ApiConstants.SixtyMinuteCache, responseMode, ParseCharactersXml);
+            return GetServiceResponseAsync(keyId, vCode, 0, CharactersPath, null, cacheKey,
+                ApiConstants.SixtyMinuteCache, responseMode, ParseCharactersXml);
         }
 
         /// <summary>
-        /// Gets a character collection from the rowset.
+        ///     Gets a character collection from the rowset.
         /// </summary>
         /// <param name="rowset"></param>
         /// <returns></returns>
@@ -168,13 +200,18 @@ namespace EveHQ.EveApi
                     int characterId = row.Attribute(ApiConstants.CharacterId).Value.ToInt32();
                     string corpName = row.Attribute(ApiConstants.CorporationName).Value;
                     int corpid = row.Attribute(ApiConstants.CorporationId).Value.ToInt32();
-                    return new AccountCharacter() { CharacterId = characterId, CorporationId = corpid, CorporationName = corpName, Name = name };
-
+                    return new AccountCharacter
+                    {
+                        CharacterId = characterId,
+                        CorporationId = corpid,
+                        CorporationName = corpName,
+                        Name = name
+                    };
                 });
         }
 
         /// <summary>
-        /// Parses the account xml
+        ///     Parses the account xml
         /// </summary>
         /// <param name="results">root node of the results</param>
         /// <returns>An account object</returns>
@@ -194,31 +231,47 @@ namespace EveHQ.EveApi
                         userId = int.TryParse(children.Value, out tempNumber) ? tempNumber : 0;
                         break;
                     case ApiConstants.PaidUntil:
-                        expiry = DateTimeOffset.TryParse(children.Value, out tempDate) ? new DateTimeOffset(tempDate.DateTime, TimeSpan.FromHours(0)) : default(DateTimeOffset);
+                        expiry = DateTimeOffset.TryParse(children.Value, out tempDate)
+                            ? new DateTimeOffset(tempDate.DateTime, TimeSpan.FromHours(0))
+                            : default(DateTimeOffset);
                         break;
                     case ApiConstants.CreateDate:
-                        created = DateTimeOffset.TryParse(children.Value, out tempDate) ? new DateTimeOffset(tempDate.DateTime, TimeSpan.FromHours(0)) : default(DateTimeOffset);
+                        created = DateTimeOffset.TryParse(children.Value, out tempDate)
+                            ? new DateTimeOffset(tempDate.DateTime, TimeSpan.FromHours(0))
+                            : default(DateTimeOffset);
                         break;
                     case ApiConstants.LogonCount:
                         logonCount = int.TryParse(children.Value, out tempNumber) ? tempNumber : 0;
                         break;
                     case ApiConstants.LogonMinutes:
-                        loggedinMinutes = int.TryParse(children.Value, out tempNumber) ? TimeSpan.FromMinutes(tempNumber) : TimeSpan.Zero;
+                        loggedinMinutes = int.TryParse(children.Value, out tempNumber)
+                            ? TimeSpan.FromMinutes(tempNumber)
+                            : TimeSpan.Zero;
                         break;
                 }
             }
 
-            return new Account() { UserId = userId, ExpiryDate = expiry, CreateDate = created, LogOnCount = logonCount, LoggedInTime = loggedinMinutes };
+            return new Account
+            {
+                UserId = userId,
+                ExpiryDate = expiry,
+                CreateDate = created,
+                LogOnCount = logonCount,
+                LoggedInTime = loggedinMinutes
+            };
         }
 
         /// <summary>
-        /// Parses the api key information from xml
+        ///     Parses the api key information from xml
         /// </summary>
         /// <param name="result">xml data node</param>
         /// <returns>api key information</returns>
-        [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "System.Enum.TryParse<EveHQ.EveApi.ApiKeyType>(System.String,EveHQ.EveApi.ApiKeyType@)",
+        [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults",
+            MessageId = "System.Enum.TryParse<EveHQ.EveApi.ApiKeyType>(System.String,EveHQ.EveApi.ApiKeyType@)",
             Justification = "the return of the method isn't important in this usage.")]
-        [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "System.Int32.TryParse(System.String,System.Int32@)", Justification = "the return of the method isn't important in this usage."
+        [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults",
+            MessageId = "System.Int32.TryParse(System.String,System.Int32@)",
+            Justification = "the return of the method isn't important in this usage."
             )]
         private static ApiKeyInfo ParseApiKeyInfoXml(XElement result)
         {
@@ -245,7 +298,9 @@ namespace EveHQ.EveApi
                             break;
                         case "expires":
                             DateTime temp;
-                            expiry = DateTime.TryParse(attribute.Value, out temp) ? new DateTimeOffset(temp, TimeSpan.Zero) : default(DateTimeOffset);
+                            expiry = DateTime.TryParse(attribute.Value, out temp)
+                                ? new DateTimeOffset(temp, TimeSpan.Zero)
+                                : default(DateTimeOffset);
                             break;
                     }
                 }
@@ -257,14 +312,14 @@ namespace EveHQ.EveApi
                     chars = GetCharactersFromRowSet(characterSet);
                 }
 
-                keyInfo = new ApiKeyInfo() { AccessMask = accessMask, ApiType = type, Expires = expiry, Characters = chars };
+                keyInfo = new ApiKeyInfo {AccessMask = accessMask, ApiType = type, Expires = expiry, Characters = chars};
             }
 
             return keyInfo;
         }
 
         /// <summary>
-        /// Parses the character data set from the web service.
+        ///     Parses the character data set from the web service.
         /// </summary>
         /// <param name="results">root of the results xml.</param>
         /// <returns>A collection of Characters.</returns>
