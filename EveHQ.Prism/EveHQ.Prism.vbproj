@@ -149,7 +149,6 @@
     <Compile Include="BPCalc\Decryptor.vb" />
     <Compile Include="_Deprecated\InventionJob.vb" />
     <Compile Include="_Deprecated\ProductionJob.vb" />
-    <Compile Include="_Deprecated\ProductionJobs.vb" />
     <Compile Include="Classes\PrismReports.vb" />
     <Compile Include="Classes\WalletJournalItem.vb" />
     <Compile Include="Controls\BPMEControl.Designer.vb">
