@@ -1731,8 +1731,10 @@ Imports System.Runtime.Serialization
                         Dim repAmount As Double
                         If cModule.Attributes.ContainsKey(AttributeEnum.ModuleShieldHPRepaired) = True Then
                             repAmount = cModule.Attributes(AttributeEnum.ModuleShieldHPRepaired)
-                        Else
+                        ElseIf cModule.Attributes.ContainsKey(AttributeEnum.ModuleArmorHPRepaired) = True Then
                             repAmount = cModule.Attributes(AttributeEnum.ModuleArmorHPRepaired)
+                        Else
+                            repAmount = cModule.Attributes(AttributeEnum.ModuleHullHPRepaired)
                         End If
                         cModule.Attributes(AttributeEnum.ModuleTransferRate) = repAmount / cModule.Attributes(AttributeEnum.ModuleActivationTime)
                         newShip.Attributes(AttributeEnum.ShipDroneTransferRate) += cModule.Attributes(AttributeEnum.ModuleTransferRate) * dbi.Quantity

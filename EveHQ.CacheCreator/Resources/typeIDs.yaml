@@ -112,11 +112,11 @@
     radius: 15351.0
     soundID: 14
 56:
-    graphicID: 239
+    graphicID: 2307
     radius: 23836.0
     soundID: 27
 57:
-    graphicID: 240
+    graphicID: 2306
     radius: 27072.0
     soundID: 14
 58:
@@ -648,7 +648,7 @@
     graphicID: 20081
     iconID: 169
 503:
-    graphicID: 20073
+    graphicID: 170
     iconID: 170
 506:
     iconID: 90
@@ -1098,9 +1098,9 @@
                     damage
                 unitID: 105
             2:
-                bonus: 7.5
+                bonus: 10
                 bonusText: bonus to <a href=showinfo:3302>Small Projectile Turret</a>
-                    tracking speed
+                    falloff
                 unitID: 105
 588:
     factionID: 500002
@@ -1716,7 +1716,7 @@
             1:
                 bonus: 5
                 bonusText: bonus to <a href=showinfo:3321>Light Missile</a> and <a
-                    href=showinfo:3320>Rocket</a> damage
+                    href=showinfo:3320>Rocket</a> rate of fire
                 unitID: 105
             2:
                 bonus: 7.5
@@ -1910,8 +1910,8 @@
         3330:
             1:
                 bonus: 5
-                bonusText: bonus to kinetic <a href=showinfo:3321>Light Missile</a>
-                    and <a href=showinfo:3320>Rocket</a> damage
+                bonusText: bonus to <a href=showinfo:3321>Light Missile</a> and <a
+                    href=showinfo:3320>Rocket</a> damage
                 unitID: 105
             2:
                 bonus: 10
@@ -2285,12 +2285,10 @@
                 unitID: 105
 610:
     factionID: 500005
-    graphicID: 332
     radius: 60.0
     soundID: 20083
 611:
     factionID: 500005
-    graphicID: 333
     radius: 38.0
     soundID: 20083
 613:
@@ -3303,7 +3301,7 @@
                     effectiveness
                 unitID: 105
             2:
-                bonus: 10
+                bonus: 7.5
                 bonusText: bonus to <a href=showinfo:3433>Remote Sensor Dampener</a>
                     optimal range and falloff
                 unitID: 105
@@ -3871,7 +3869,6 @@
                 unitID: 105
 647:
     factionID: 500005
-    graphicID: 331
     radius: 500.0
     soundID: 20081
 648:
@@ -4286,7 +4283,6 @@
                 unitID: 105
 658:
     factionID: 500005
-    graphicID: 334
     radius: 506.0
     soundID: 20083
 670:
@@ -4634,10 +4630,8 @@
     graphicID: 323
 956:
     graphicID: 324
-957:
-    graphicID: 332
-958:
-    graphicID: 333
+957: {}
+958: {}
 960:
     graphicID: 339
 961:
@@ -4698,8 +4692,7 @@
     graphicID: 327
 992:
     graphicID: 328
-993:
-    graphicID: 334
+993: {}
 994:
     graphicID: 50
 995:
@@ -4711,8 +4704,7 @@
     graphicID: 301
 999:
     graphicID: 318
-1001:
-    graphicID: 331
+1001: {}
 1002: {}
 1010:
     iconID: 1044
@@ -6590,7 +6582,7 @@
     radius: 15.0
 2465: {}
 2466:
-    graphicID: 1105
+    graphicID: 20261
     radius: 15.0
 2467: {}
 2468:
@@ -6847,7 +6839,7 @@
 2595:
     iconID: 2038
 2596:
-    graphicID: 1209
+    graphicID: 16
     iconID: 1209
 2597:
     iconID: 1192
@@ -6890,12 +6882,12 @@
 2617:
     iconID: 1361
 2618:
-    graphicID: 1209
+    graphicID: 16
     iconID: 1209
 2619:
     iconID: 1366
 2620:
-    graphicID: 1209
+    graphicID: 16
     iconID: 1209
 2621:
     graphicID: 20040
@@ -6913,7 +6905,7 @@
 2627:
     iconID: 1184
 2628:
-    graphicID: 1209
+    graphicID: 16
     iconID: 1209
 2629:
     graphicID: 20051
@@ -7577,8 +7569,7 @@
         - 119
     radius: 450.0
     soundID: 20066
-2864:
-    graphicID: 334
+2864: {}
 2865:
     graphicID: 11277
     iconID: 379
@@ -9094,7 +9085,7 @@
     iconID: 1173
     radius: 10.0
 3468:
-    graphicID: 1209
+    graphicID: 16
     iconID: 1209
     radius: 5.0
 3469:
@@ -9316,7 +9307,7 @@
             1:
                 bonus: 50
                 bonusText: bonus to <a href=showinfo:24572>Capital Remote Capacitor
-                    Transmitter</a> and <a href=showinfo:24572>Capital Remote Shield
+                    Transmitter</a> and <a href=showinfo:24571>Capital Remote Shield
                     Booster</a> range
                 unitID: 105
             2:
@@ -10578,7 +10569,7 @@
     radius: 30758.0
     soundID: 18
 3865:
-    graphicID: 1252
+    graphicID: 2308
     radius: 45151.0
     soundID: 25
 3866:
@@ -10631,7 +10622,6 @@
     soundID: 32
 3878:
     factionID: 500005
-    graphicID: 1264
     radius: 252.0
     soundID: 20083
 3880:
@@ -13894,7 +13884,7 @@
     iconID: 1370
 9854:
     factionID: 500005
-    graphicID: 1372
+    graphicID: 1375
     radius: 500.0
     soundID: 20083
 9856:
@@ -13951,7 +13941,7 @@
     graphicID: 3772
     radius: 12832.0
 9877:
-    graphicID: 3773
+    graphicID: 3392
     radius: 15321.0
 9878:
     graphicID: 3774
@@ -14663,13 +14653,13 @@
     graphicID: 1717
     radius: 9213.0
 10257:
-    graphicID: 1713
+    graphicID: 3306
     radius: 625.0
 10258:
-    graphicID: 1715
+    graphicID: 3305
     radius: 594.0
 10260:
-    graphicID: 1714
+    graphicID: 3304
     radius: 579.0
 10261:
     graphicID: 16
@@ -15195,7 +15185,7 @@
     radius: 39.0
 11011:
     factionID: 500004
-    graphicID: 11861
+    graphicID: 1814
     masteries:
         0:
         - 96
@@ -19578,7 +19568,7 @@
             1:
                 bonus: 150
                 bonusText: bonus to <a href=showinfo:3422>Remote Shield Booster</a>
-                    and <a href=showinfo:3433>Remote Sensor Booster</a> range
+                    and <a href=showinfo:3433>Remote Tracking Computer</a> range
                 unitID: 105
             2:
                 bonus: 20
@@ -19588,7 +19578,7 @@
         12096:
             1:
                 bonus: 10
-                bonusText: bonus to <a href=showinfo:3433>Remote Sensor Booster</a>
+                bonusText: bonus to <a href=showinfo:3433>Remote Tracking Computer</a>
                     effectiveness
                 unitID: 105
             2:
@@ -19828,7 +19818,7 @@
             1:
                 bonus: 150
                 bonusText: bonus to <a href=showinfo:16069>Remote Armor Repairer</a>
-                    and <a href=showinfo:3433>Remote Sensor Booster</a> range
+                    and <a href=showinfo:3433>Remote Tracking Computer</a> range
                 unitID: 105
             2:
                 bonus: 20
@@ -19843,7 +19833,7 @@
                 unitID: 105
             2:
                 bonus: 10
-                bonusText: bonus to <a href=showinfo:3433>Remote Sensor Booster</a>
+                bonusText: bonus to <a href=showinfo:3433>Remote Tracking Computer</a>
                     effectiveness
                 unitID: 105
 11990:
@@ -21418,7 +21408,7 @@
     graphicID: 2300
     radius: 506.0
 12240:
-    graphicID: 2597
+    graphicID: 2601
     radius: 911.0
 12241:
     iconID: 33
@@ -26648,7 +26638,7 @@
     graphicID: 1744
     radius: 40.0
 15579:
-    graphicID: 2135
+    graphicID: 1793
     radius: 47.0
 15580:
     graphicID: 1807
@@ -29502,7 +29492,7 @@
     graphicID: 2603
     radius: 366.0
 16697:
-    graphicID: 2604
+    graphicID: 2603
     radius: 366.0
 16698:
     graphicID: 345
@@ -31147,22 +31137,22 @@
     graphicID: 2613
     radius: 629.0
 17181:
-    graphicID: 2614
+    graphicID: 2615
     radius: 629.0
 17182:
     graphicID: 2615
     radius: 629.0
 17184:
-    graphicID: 2616
+    graphicID: 2617
     radius: 750.0
 17185:
     graphicID: 2617
     radius: 750.0
 17186:
-    graphicID: 2618
+    graphicID: 2617
     radius: 750.0
 17187:
-    graphicID: 2619
+    graphicID: 2617
     radius: 750.0
 17188:
     graphicID: 2379
@@ -32296,7 +32286,7 @@
     soundID: 31
 17634:
     factionID: 500001
-    graphicID: 2637
+    graphicID: 1786
     masteries:
         0:
         - 96
@@ -32358,7 +32348,7 @@
     graphicID: 49
 17636:
     factionID: 500001
-    graphicID: 2638
+    graphicID: 2123
     masteries:
         0:
         - 96
@@ -32613,7 +32603,7 @@
     iconID: 107
     radius: 60.0
 17701:
-    graphicID: 2621
+    graphicID: 2609
     radius: 629.0
 17703:
     factionID: 500003
@@ -33587,7 +33577,7 @@
     graphicID: 1216
     radius: 400.0
 17773:
-    graphicID: 2622
+    graphicID: 2603
     radius: 366.0
 17774:
     graphicID: 2723
@@ -34737,7 +34727,7 @@
     radius: 1263.0
     soundID: 31
 17982:
-    graphicID: 2624
+    graphicID: 2598
     radius: 907.0
 17983:
     iconID: 2038
@@ -37028,7 +37018,7 @@
     radius: 13436.0
     soundID: 28
 19758:
-    graphicID: 1716
+    graphicID: 3303
     radius: 594.0
 19759:
     iconID: 33
@@ -37883,7 +37873,7 @@
     graphicID: 2642
     radius: 250.0
 20334:
-    graphicID: 2638
+    graphicID: 2123
     radius: 250.0
 20335:
     graphicID: 2139
@@ -37937,7 +37927,7 @@
     graphicID: 61
     radius: 42.0
 20370:
-    graphicID: 2638
+    graphicID: 2123
     radius: 250.0
 20371:
     iconID: 2224
@@ -42021,13 +42011,13 @@
     graphicID: 60
     radius: 36.159999999999997
 22186:
-    graphicID: 2146
+    graphicID: 1807
     radius: 36.159999999999997
 22187:
-    graphicID: 2146
+    graphicID: 1807
     radius: 36.159999999999997
 22188:
-    graphicID: 2146
+    graphicID: 1807
     radius: 36.159999999999997
 22189:
     graphicID: 300
@@ -44780,12 +44770,12 @@
             1:
                 bonus: 50
                 bonusText: bonus to <a href=showinfo:24568>Capital Remote Armor Repairer</a>
-                    and <a href=showinfo:24572>Capital Remote Shield Booster</a> range
+                    and <a href=showinfo:24571>Capital Remote Shield Booster</a> range
                 unitID: 105
             2:
                 bonus: 7.5
                 bonusText: bonus to <a href=showinfo:24568>Capital Remote Armor Repairer</a>
-                    and <a href=showinfo:24572>Capital Remote Shield Booster</a> amount
+                    and <a href=showinfo:24571>Capital Remote Shield Booster</a> amount
                 unitID: 105
             3:
                 bonusText: Can deploy 3 additional <a href=showinfo:23069>Fighters</a>
@@ -47133,7 +47123,7 @@
 23718:
     iconID: 1084
 23719:
-    graphicID: 2955
+    graphicID: 1104
     radius: 15.0
 23720:
     iconID: 1084
@@ -47800,7 +47790,7 @@
             1:
                 bonus: 50
                 bonusText: bonus to <a href=showinfo:24568>Capital Remote Armor Repairer</a>
-                    and <a href=showinfo:24572>Capital Remote Shield Booster</a> range
+                    and <a href=showinfo:24571>Capital Remote Shield Booster</a> range
                 unitID: 105
             2:
                 bonus: 5
@@ -47885,7 +47875,7 @@
             1:
                 bonus: 50
                 bonusText: bonus to <a href=showinfo:24568>Capital Remote Armor Repairer</a>
-                    and <a href=showinfo:24572>Capital Remote Shield Booster</a> range
+                    and <a href=showinfo:24571>Capital Remote Shield Booster</a> range
                 unitID: 105
             2:
                 bonus: 5
@@ -47974,7 +47964,7 @@
             1:
                 bonus: 50
                 bonusText: bonus to <a href=showinfo:24572>Capital Remote Capacitor
-                    Transmitter</a> and <a href=showinfo:24572>Capital Remote Shield
+                    Transmitter</a> and <a href=showinfo:24571>Capital Remote Shield
                     Booster</a> range
                 unitID: 105
             2:
@@ -48060,7 +48050,7 @@
             1:
                 bonus: 50
                 bonusText: bonus to <a href=showinfo:24572>Capital Remote Capacitor
-                    Transmitter</a> and <a href=showinfo:24572>Capital Remote Shield
+                    Transmitter</a> and <a href=showinfo:24571>Capital Remote Shield
                     Booster</a> range
                 unitID: 105
             2:
@@ -49895,12 +49885,12 @@
             1:
                 bonus: 50
                 bonusText: bonus to <a href=showinfo:24568>Capital Remote Armor Repairer</a>
-                    and <a href=showinfo:24572>Capital Remote Shield Booster</a> range
+                    and <a href=showinfo:24571>Capital Remote Shield Booster</a> range
                 unitID: 105
             2:
                 bonus: 7.5
                 bonusText: bonus to <a href=showinfo:24568>Capital Remote Armor Repairer</a>
-                    and <a href=showinfo:24572>Capital Remote Shield Booster</a> amount
+                    and <a href=showinfo:24571>Capital Remote Shield Booster</a> amount
                 unitID: 105
             3:
                 bonusText: Can deploy 1 additional <a href=showinfo:3436>Drone</a>
@@ -51040,7 +51030,7 @@
 24764:
     iconID: 33
 24765:
-    graphicID: 2135
+    graphicID: 1793
     radius: 47.0
 24766:
     iconID: 2536
@@ -51529,10 +51519,10 @@
     graphicID: 1791
     radius: 50.0
 25041:
-    graphicID: 1879
+    graphicID: 1898
     radius: 50.0
 25042:
-    graphicID: 1879
+    graphicID: 1898
     radius: 50.0
 25043:
     graphicID: 1784
@@ -51836,7 +51826,7 @@
 25235:
     iconID: 33
 25236:
-    graphicID: 3065
+    graphicID: 3225
     radius: 100.0
 25237:
     iconID: 2664
@@ -51851,32 +51841,32 @@
 25243:
     iconID: 2665
 25244:
-    graphicID: 3066
+    graphicID: 3224
     radius: 100.0
 25245:
-    graphicID: 3067
+    graphicID: 3222
     radius: 100.0
 25246:
-    graphicID: 3068
+    graphicID: 3223
     radius: 100.0
 25247:
-    graphicID: 3069
+    graphicID: 3218
     radius: 100.0
 25248:
-    graphicID: 3070
+    graphicID: 3221
     radius: 100.0
 25249:
-    graphicID: 3071
+    graphicID: 3220
     radius: 100.0
 25250:
-    graphicID: 3064
+    graphicID: 3219
     radius: 100.0
 25251:
     iconID: 2665
 25252:
     iconID: 2664
 25255:
-    graphicID: 2135
+    graphicID: 1793
     radius: 47.0
 25266:
     graphicID: 11143
@@ -52078,12 +52068,12 @@
     radius: 12748.0
     soundID: 13
 25363:
-    graphicID: 2637
+    graphicID: 1786
     radius: 221.05000000000001
 25364:
     iconID: 2302
 25365:
-    graphicID: 2637
+    graphicID: 1786
     radius: 221.05000000000001
 25366:
     iconID: 2040
@@ -54476,7 +54466,7 @@
 26466:
     iconID: 2038
 26467:
-    graphicID: 3065
+    graphicID: 3225
     radius: 100.0
 26468:
     graphicID: 3124
@@ -56955,16 +56945,16 @@
     graphicID: 2753
     radius: 400.0
 27560:
-    graphicID: 2622
+    graphicID: 2603
     radius: 366.0
 27562:
-    graphicID: 2622
+    graphicID: 2603
     radius: 366.0
 27563:
-    graphicID: 2614
+    graphicID: 2615
     radius: 629.0
 27565:
-    graphicID: 2614
+    graphicID: 2615
     radius: 629.0
 27567:
     graphicID: 2615
@@ -57105,10 +57095,10 @@
     graphicID: 2603
     radius: 366.0
 27641:
-    graphicID: 2604
+    graphicID: 2603
     radius: 366.0
 27643:
-    graphicID: 2604
+    graphicID: 2603
     radius: 366.0
 27644:
     graphicID: 1216
@@ -57135,17 +57125,17 @@
     graphicID: 1216
     radius: 400.0
 27656:
-    graphicID: 1714
+    graphicID: 3304
     radius: 579.0
 27657:
     iconID: 21
 27658:
-    graphicID: 1714
+    graphicID: 3304
     radius: 579.0
 27659:
     iconID: 21
 27660:
-    graphicID: 1714
+    graphicID: 3304
     radius: 579.0
 27661:
     iconID: 21
@@ -57180,7 +57170,7 @@
     graphicID: 2612
     radius: 629.0
 27673:
-    graphicID: 2621
+    graphicID: 2609
     radius: 629.0
 27674:
     graphicID: 2615
@@ -62102,7 +62092,7 @@
     graphicID: 1060
     radius: 400.0
 29387:
-    graphicID: 3391
+    graphicID: 3772
     radius: 42489.0
 29388:
     graphicID: 3392
@@ -64595,7 +64585,7 @@
 30448:
     radius: 1.0
 30449:
-    graphicID: 3065
+    graphicID: 3225
     radius: 100.0
 30451:
     graphicID: 3595
@@ -65173,7 +65163,7 @@
 30759:
     iconID: 2536
 30760:
-    graphicID: 2135
+    graphicID: 1793
     radius: 47.0
 30761:
     iconID: 2537
@@ -65288,7 +65278,7 @@
     radius: 918.0
     soundID: 14
 30806:
-    graphicID: 3701
+    graphicID: 3534
     radius: 500.0
 30807:
     graphicID: 3702
@@ -68718,7 +68708,7 @@
     graphicID: 297
 32307:
     factionID: 500004
-    graphicID: 3816
+    graphicID: 2138
     masteries:
         0:
         - 96
@@ -72028,6 +72018,8 @@
     iconID: 2885
 33326:
     iconID: 2885
+33327:
+    iconID: 0
 33328:
     factionID: 500005
     graphicID: 20307
@@ -72038,15 +72030,9 @@
     radius: 1.0
 33330:
     iconID: 1033
-33331:
-    iconID: 1033
 33332:
     iconID: 1033
-33333:
-    iconID: 1033
 33334:
-    iconID: 1033
-33335:
     iconID: 1033
 33336:
     iconID: 2664
@@ -72224,6 +72210,8 @@
     iconID: 33
 33400:
     iconID: 21075
+33401:
+    iconID: 21
 33403:
     iconID: 2096
     radius: 1.0
@@ -72596,7 +72584,7 @@
                     amount
                 unitID: 105
             5:
-                bonus: 100
+                bonus: 200
                 bonusText: bonus to <a href=showinfo:16069>Remote Armor Repairer</a>
                     range
                 unitID: 105
@@ -72742,6 +72730,8 @@
     radius: 14.0
 33514:
     graphicID: 317
+33515:
+    iconID: 0
 33516:
     iconID: 2053
     radius: 1.0
@@ -72960,12 +72950,18 @@
 33587:
     graphicID: 20438
     soundID: 20150
+33588:
+    iconID: 0
 33589:
     graphicID: 20439
     soundID: 20152
+33590:
+    iconID: 0
 33591:
     graphicID: 20450
     soundID: 20151
+33592:
+    iconID: 0
 33595:
     graphicID: 20447
     soundID: 20154
@@ -72999,3 +72995,2137 @@
     soundID: 20154
 33612:
     iconID: 21098
+33621:
+    graphicID: 1211
+    radius: 1.0
+33622:
+    graphicID: 1266
+    radius: 4634.0
+33623:
+    graphicID: 20470
+    masteries:
+        0:
+        - 96
+        - 65
+        - 99
+        - 138
+        - 80
+        - 150
+        - 89
+        - 93
+        1:
+        - 96
+        - 65
+        - 99
+        - 138
+        - 80
+        - 150
+        - 89
+        - 93
+        2:
+        - 96
+        - 65
+        - 99
+        - 138
+        - 80
+        - 150
+        - 89
+        - 93
+        3:
+        - 96
+        - 65
+        - 99
+        - 138
+        - 80
+        - 150
+        - 89
+        - 93
+        4:
+        - 96
+        - 65
+        - 99
+        - 138
+        - 80
+        - 117
+        - 150
+        - 89
+        - 93
+    traits:
+        3339:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3309>Large Energy Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 4
+                bonusText: bonus to all armor resistances
+                unitID: 105
+33624:
+    graphicID: 297
+33625:
+    graphicID: 20469
+    masteries:
+        0:
+        - 96
+        - 65
+        - 99
+        - 138
+        - 80
+        - 150
+        - 89
+        - 93
+        1:
+        - 96
+        - 65
+        - 99
+        - 138
+        - 80
+        - 150
+        - 89
+        - 93
+        2:
+        - 96
+        - 65
+        - 99
+        - 138
+        - 80
+        - 150
+        - 89
+        - 93
+        3:
+        - 96
+        - 65
+        - 99
+        - 138
+        - 80
+        - 150
+        - 89
+        - 93
+        4:
+        - 96
+        - 65
+        - 99
+        - 138
+        - 80
+        - 117
+        - 150
+        - 89
+        - 93
+    traits:
+        3339:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3309>Large Energy Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 4
+                bonusText: bonus to all armor resistances
+                unitID: 105
+33626:
+    graphicID: 297
+33627:
+    graphicID: 20471
+    masteries:
+        0:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 139
+        - 80
+        - 85
+        - 150
+        1:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 139
+        - 80
+        - 85
+        - 150
+        2:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 139
+        - 80
+        - 85
+        - 150
+        3:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 139
+        - 80
+        - 85
+        - 150
+        4:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 139
+        - 80
+        - 85
+        - 118
+        - 150
+    traits:
+        3338:
+            1:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:3307>Large Hybrid Turret</a>
+                    optimal range
+                unitID: 105
+            2:
+                bonus: 4
+                bonusText: bonus to all shield resistances
+                unitID: 105
+33628:
+    graphicID: 43
+33629:
+    graphicID: 20472
+    masteries:
+        0:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 139
+        - 80
+        - 85
+        - 150
+        1:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 139
+        - 80
+        - 85
+        - 150
+        2:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 139
+        - 80
+        - 85
+        - 150
+        3:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 139
+        - 80
+        - 85
+        - 150
+        4:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 139
+        - 80
+        - 85
+        - 118
+        - 150
+    traits:
+        3338:
+            1:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:3307>Large Hybrid Turret</a>
+                    optimal range
+                unitID: 105
+            2:
+                bonus: 4
+                bonusText: bonus to all shield resistances
+                unitID: 105
+33630:
+    graphicID: 43
+33631:
+    graphicID: 20473
+    masteries:
+        0:
+        - 96
+        - 99
+        - 133
+        - 73
+        - 138
+        - 141
+        - 85
+        - 150
+        1:
+        - 96
+        - 99
+        - 133
+        - 73
+        - 138
+        - 141
+        - 85
+        - 150
+        2:
+        - 96
+        - 99
+        - 133
+        - 73
+        - 138
+        - 141
+        - 85
+        - 150
+        3:
+        - 96
+        - 99
+        - 133
+        - 73
+        - 138
+        - 141
+        - 85
+        - 150
+        4:
+        - 96
+        - 99
+        - 133
+        - 73
+        - 138
+        - 141
+        - 85
+        - 118
+        - 150
+    traits:
+        3337:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3308>Large Projectile Turret</a>
+                    rate of fire
+                unitID: 105
+            2:
+                bonus: 7.5
+                bonusText: bonus to <a href=showinfo:3416>Shield Booster</a> amount
+                unitID: 105
+33632:
+    graphicID: 48
+33633:
+    graphicID: 20474
+    masteries:
+        0:
+        - 96
+        - 99
+        - 133
+        - 73
+        - 138
+        - 141
+        - 85
+        - 150
+        1:
+        - 96
+        - 99
+        - 133
+        - 73
+        - 138
+        - 141
+        - 85
+        - 150
+        2:
+        - 96
+        - 99
+        - 133
+        - 73
+        - 138
+        - 141
+        - 85
+        - 150
+        3:
+        - 96
+        - 99
+        - 133
+        - 73
+        - 138
+        - 141
+        - 85
+        - 150
+        4:
+        - 96
+        - 99
+        - 133
+        - 73
+        - 138
+        - 141
+        - 85
+        - 118
+        - 150
+    traits:
+        3337:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3308>Large Projectile Turret</a>
+                    rate of fire
+                unitID: 105
+            2:
+                bonus: 7.5
+                bonusText: bonus to <a href=showinfo:3416>Shield Booster</a> amount
+                unitID: 105
+33634:
+    graphicID: 48
+33635:
+    graphicID: 20475
+    masteries:
+        0:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 140
+        - 150
+        - 89
+        - 133
+        1:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 140
+        - 150
+        - 89
+        - 133
+        2:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 140
+        - 150
+        - 89
+        - 133
+        3:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 140
+        - 150
+        - 89
+        - 133
+        4:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 140
+        - 117
+        - 150
+        - 89
+        - 133
+    traits:
+        3336:
+            1:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:3307>Large Hybrid Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 7.5
+                bonusText: bonus to <a href=showinfo:3393>Armor Repairer</a> amount
+                unitID: 105
+33636:
+    graphicID: 64
+33637:
+    graphicID: 20476
+    masteries:
+        0:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 140
+        - 150
+        - 89
+        - 133
+        1:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 140
+        - 150
+        - 89
+        - 133
+        2:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 140
+        - 150
+        - 89
+        - 133
+        3:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 140
+        - 150
+        - 89
+        - 133
+        4:
+        - 96
+        - 99
+        - 69
+        - 138
+        - 140
+        - 117
+        - 150
+        - 89
+        - 133
+    traits:
+        3336:
+            1:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:3307>Large Hybrid Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 7.5
+                bonusText: bonus to <a href=showinfo:3393>Armor Repairer</a> amount
+                unitID: 105
+33638:
+    graphicID: 64
+33639:
+    graphicID: 20462
+    masteries:
+        0:
+        - 64
+        - 96
+        - 99
+        - 80
+        - 150
+        - 89
+        - 93
+        - 94
+        1:
+        - 64
+        - 96
+        - 99
+        - 80
+        - 150
+        - 89
+        - 93
+        - 94
+        2:
+        - 64
+        - 96
+        - 99
+        - 80
+        - 150
+        - 89
+        - 93
+        - 94
+        3:
+        - 64
+        - 96
+        - 99
+        - 80
+        - 150
+        - 89
+        - 93
+        - 94
+        4:
+        - 64
+        - 96
+        - 99
+        - 80
+        - 117
+        - 150
+        - 89
+        - 93
+        - 94
+    traits:
+        3335:
+            1:
+                bonus: 10
+                bonusText: reduction in <a href=showinfo:3306>Medium Energy Turret</a>
+                    activation cost
+                unitID: 105
+            2:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3306>Medium Energy Turret</a>
+                    rate of fire
+                unitID: 105
+33640:
+    graphicID: 1065
+33641:
+    graphicID: 20463
+    masteries:
+        0:
+        - 64
+        - 96
+        - 99
+        - 80
+        - 150
+        - 89
+        - 93
+        - 94
+        1:
+        - 64
+        - 96
+        - 99
+        - 80
+        - 150
+        - 89
+        - 93
+        - 94
+        2:
+        - 64
+        - 96
+        - 99
+        - 80
+        - 150
+        - 89
+        - 93
+        - 94
+        3:
+        - 64
+        - 96
+        - 99
+        - 80
+        - 150
+        - 89
+        - 93
+        - 94
+        4:
+        - 64
+        - 96
+        - 99
+        - 80
+        - 117
+        - 150
+        - 89
+        - 93
+        - 94
+    traits:
+        3335:
+            1:
+                bonus: 10
+                bonusText: reduction in <a href=showinfo:3306>Medium Energy Turret</a>
+                    activation cost
+                unitID: 105
+            2:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3306>Medium Energy Turret</a>
+                    rate of fire
+                unitID: 105
+33642:
+    graphicID: 1065
+33643:
+    graphicID: 20464
+    masteries:
+        0:
+        - 96
+        - 99
+        - 150
+        - 139
+        - 76
+        - 85
+        - 94
+        1:
+        - 96
+        - 99
+        - 150
+        - 139
+        - 76
+        - 85
+        - 94
+        2:
+        - 96
+        - 99
+        - 150
+        - 139
+        - 76
+        - 85
+        - 94
+        3:
+        - 96
+        - 99
+        - 150
+        - 139
+        - 76
+        - 85
+        - 94
+        4:
+        - 96
+        - 99
+        - 150
+        - 139
+        - 76
+        - 85
+        - 118
+        - 94
+    traits:
+        3334:
+            1:
+                bonus: 5
+                bonusText: bonus to Rapid <a href=showinfo:3321>Light Missile</a>,
+                    <a href=showinfo:3324>Heavy Missile</a> and <a href=showinfo:25719>Heavy
+                    Assault Missile</a> Launcher rate of fire
+                unitID: 105
+            2:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:3321>Light Missile</a>, <a href=showinfo:3324>Heavy
+                    Missile</a> and <a href=showinfo:25719>Heavy Assault Missile</a>
+                    max velocity
+                unitID: 105
+33644:
+    graphicID: 42
+33645:
+    graphicID: 1954
+    masteries:
+        0:
+        - 96
+        - 99
+        - 150
+        - 139
+        - 76
+        - 85
+        - 94
+        1:
+        - 96
+        - 99
+        - 150
+        - 139
+        - 76
+        - 85
+        - 94
+        2:
+        - 96
+        - 99
+        - 150
+        - 139
+        - 76
+        - 85
+        - 94
+        3:
+        - 96
+        - 99
+        - 150
+        - 139
+        - 76
+        - 85
+        - 94
+        4:
+        - 96
+        - 99
+        - 150
+        - 139
+        - 76
+        - 85
+        - 118
+        - 94
+    traits:
+        3334:
+            1:
+                bonus: 5
+                bonusText: bonus to Rapid <a href=showinfo:3321>Light Missile</a>,
+                    <a href=showinfo:3324>Heavy Missile</a> and <a href=showinfo:25719>Heavy
+                    Assault Missile</a> Launcher rate of fire
+                unitID: 105
+            2:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:3321>Light Missile</a>, <a href=showinfo:3324>Heavy
+                    Missile</a> and <a href=showinfo:25719>Heavy Assault Missile</a>
+                    max velocity
+                unitID: 105
+33646:
+    graphicID: 42
+33647:
+    graphicID: 20465
+    masteries:
+        0:
+        - 96
+        - 99
+        - 150
+        - 72
+        - 141
+        - 85
+        - 94
+        1:
+        - 96
+        - 99
+        - 150
+        - 72
+        - 141
+        - 85
+        - 94
+        2:
+        - 96
+        - 99
+        - 150
+        - 72
+        - 141
+        - 85
+        - 94
+        3:
+        - 96
+        - 99
+        - 150
+        - 72
+        - 141
+        - 85
+        - 94
+        4:
+        - 96
+        - 99
+        - 150
+        - 72
+        - 141
+        - 85
+        - 118
+        - 94
+    traits:
+        3333:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3305>Medium Projectile Turret</a>
+                    rate of fire
+                unitID: 105
+            2:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:3305>Medium Projectile Turret</a>
+                    falloff
+                unitID: 105
+33648:
+    graphicID: 47
+33649:
+    graphicID: 20466
+    masteries:
+        0:
+        - 96
+        - 99
+        - 150
+        - 72
+        - 141
+        - 85
+        - 94
+        1:
+        - 96
+        - 99
+        - 150
+        - 72
+        - 141
+        - 85
+        - 94
+        2:
+        - 96
+        - 99
+        - 150
+        - 72
+        - 141
+        - 85
+        - 94
+        3:
+        - 96
+        - 99
+        - 150
+        - 72
+        - 141
+        - 85
+        - 94
+        4:
+        - 96
+        - 99
+        - 150
+        - 72
+        - 141
+        - 85
+        - 118
+        - 94
+    traits:
+        3333:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3305>Medium Projectile Turret</a>
+                    rate of fire
+                unitID: 105
+            2:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:3305>Medium Projectile Turret</a>
+                    falloff
+                unitID: 105
+33650:
+    graphicID: 47
+33651:
+    graphicID: 20468
+    masteries:
+        0:
+        - 96
+        - 99
+        - 68
+        - 140
+        - 80
+        - 150
+        - 89
+        - 94
+        1:
+        - 96
+        - 99
+        - 68
+        - 140
+        - 80
+        - 150
+        - 89
+        - 94
+        2:
+        - 96
+        - 99
+        - 68
+        - 140
+        - 80
+        - 150
+        - 89
+        - 94
+        3:
+        - 96
+        - 99
+        - 68
+        - 140
+        - 80
+        - 150
+        - 89
+        - 94
+        4:
+        - 96
+        - 99
+        - 68
+        - 140
+        - 80
+        - 117
+        - 150
+        - 89
+        - 94
+    traits:
+        3332:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3304>Medium Hybrid Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 7.5
+                bonusText: bonus to <a href=showinfo:3304>Medium Hybrid Turret</a>
+                    tracking speed
+                unitID: 105
+33652:
+    graphicID: 63
+33653:
+    graphicID: 20467
+    masteries:
+        0:
+        - 96
+        - 99
+        - 68
+        - 140
+        - 80
+        - 150
+        - 89
+        - 94
+        1:
+        - 96
+        - 99
+        - 68
+        - 140
+        - 80
+        - 150
+        - 89
+        - 94
+        2:
+        - 96
+        - 99
+        - 68
+        - 140
+        - 80
+        - 150
+        - 89
+        - 94
+        3:
+        - 96
+        - 99
+        - 68
+        - 140
+        - 80
+        - 150
+        - 89
+        - 94
+        4:
+        - 96
+        - 99
+        - 68
+        - 140
+        - 80
+        - 117
+        - 150
+        - 89
+        - 94
+    traits:
+        3332:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3304>Medium Hybrid Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 7.5
+                bonusText: bonus to <a href=showinfo:3304>Medium Hybrid Turret</a>
+                    tracking speed
+                unitID: 105
+33654:
+    graphicID: 63
+33655:
+    graphicID: 20451
+    masteries:
+        0:
+        - 96
+        - 99
+        - 50
+        - 150
+        - 89
+        - 93
+        - 94
+        1:
+        - 96
+        - 99
+        - 50
+        - 150
+        - 89
+        - 93
+        - 94
+        2:
+        - 96
+        - 99
+        - 50
+        - 150
+        - 89
+        - 93
+        - 94
+        3:
+        - 96
+        - 99
+        - 50
+        - 150
+        - 89
+        - 93
+        - 94
+        4:
+        - 96
+        - 99
+        - 50
+        - 117
+        - 150
+        - 89
+        - 93
+        - 94
+    traits:
+        3331:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3303>Small Energy Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 4
+                bonusText: bonus to all armor resistances
+                unitID: 105
+33656:
+    graphicID: 300
+33657:
+    graphicID: 20452
+    masteries:
+        0:
+        - 96
+        - 99
+        - 50
+        - 150
+        - 89
+        - 93
+        - 94
+        1:
+        - 96
+        - 99
+        - 50
+        - 150
+        - 89
+        - 93
+        - 94
+        2:
+        - 96
+        - 99
+        - 50
+        - 150
+        - 89
+        - 93
+        - 94
+        3:
+        - 96
+        - 99
+        - 50
+        - 150
+        - 89
+        - 93
+        - 94
+        4:
+        - 96
+        - 99
+        - 50
+        - 117
+        - 150
+        - 89
+        - 93
+        - 94
+    traits:
+        3331:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3303>Small Energy Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 4
+                bonusText: bonus to all armor resistances
+                unitID: 105
+33658:
+    graphicID: 300
+33659:
+    graphicID: 20453
+    masteries:
+        0:
+        - 96
+        - 67
+        - 150
+        - 139
+        - 99
+        - 85
+        - 94
+        1:
+        - 96
+        - 67
+        - 150
+        - 139
+        - 99
+        - 85
+        - 94
+        2:
+        - 96
+        - 67
+        - 150
+        - 139
+        - 99
+        - 85
+        - 94
+        3:
+        - 96
+        - 67
+        - 150
+        - 139
+        - 99
+        - 85
+        - 94
+        4:
+        - 96
+        - 67
+        - 150
+        - 139
+        - 99
+        - 85
+        - 118
+        - 94
+    traits:
+        3330:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3301>Small Hybrid Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 4
+                bonusText: bonus to all shield resistances
+                unitID: 105
+33660:
+    graphicID: 314
+33661:
+    graphicID: 1960
+    masteries:
+        0:
+        - 96
+        - 67
+        - 150
+        - 139
+        - 99
+        - 85
+        - 94
+        1:
+        - 96
+        - 67
+        - 150
+        - 139
+        - 99
+        - 85
+        - 94
+        2:
+        - 96
+        - 67
+        - 150
+        - 139
+        - 99
+        - 85
+        - 94
+        3:
+        - 96
+        - 67
+        - 150
+        - 139
+        - 99
+        - 85
+        - 94
+        4:
+        - 96
+        - 67
+        - 150
+        - 139
+        - 99
+        - 85
+        - 118
+        - 94
+    traits:
+        3330:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3301>Small Hybrid Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 4
+                bonusText: bonus to all shield resistances
+                unitID: 105
+33662:
+    graphicID: 314
+33663:
+    graphicID: 20454
+    masteries:
+        0:
+        - 96
+        - 99
+        - 71
+        - 141
+        - 150
+        - 89
+        - 94
+        1:
+        - 96
+        - 99
+        - 71
+        - 141
+        - 150
+        - 89
+        - 94
+        2:
+        - 96
+        - 99
+        - 71
+        - 141
+        - 150
+        - 89
+        - 94
+        3:
+        - 96
+        - 99
+        - 71
+        - 141
+        - 150
+        - 89
+        - 94
+        4:
+        - 96
+        - 99
+        - 71
+        - 141
+        - 117
+        - 150
+        - 89
+        - 94
+    traits:
+        3329:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3302>Small Projectile Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:3302>Small Projectile Turret</a>
+                    falloff
+                unitID: 105
+33664:
+    graphicID: 46
+33665:
+    graphicID: 20455
+    masteries:
+        0:
+        - 96
+        - 99
+        - 71
+        - 141
+        - 150
+        - 89
+        - 94
+        1:
+        - 96
+        - 99
+        - 71
+        - 141
+        - 150
+        - 89
+        - 94
+        2:
+        - 96
+        - 99
+        - 71
+        - 141
+        - 150
+        - 89
+        - 94
+        3:
+        - 96
+        - 99
+        - 71
+        - 141
+        - 150
+        - 89
+        - 94
+        4:
+        - 96
+        - 99
+        - 71
+        - 141
+        - 117
+        - 150
+        - 89
+        - 94
+    traits:
+        3329:
+            1:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3302>Small Projectile Turret</a>
+                    damage
+                unitID: 105
+            2:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:3302>Small Projectile Turret</a>
+                    falloff
+                unitID: 105
+33666:
+    graphicID: 46
+33667:
+    graphicID: 20456
+    masteries:
+        0:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        1:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        2:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        3:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        4:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 117
+        - 150
+        - 89
+        - 94
+    traits:
+        3328:
+            1:
+                bonus: 7.5
+                bonusText: bonus to <a href=showinfo:3393>Armor Repairer</a> amount
+                unitID: 105
+            2:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3301>Small Hybrid Turret</a>
+                    damage
+                unitID: 105
+33668:
+    graphicID: 61
+33669:
+    graphicID: 20459
+    masteries:
+        0:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        1:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        2:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        3:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        4:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 117
+        - 150
+        - 89
+        - 94
+    traits:
+        3328:
+            1:
+                bonus: 7.5
+                bonusText: bonus to <a href=showinfo:3393>Armor Repairer</a> amount
+                unitID: 105
+            2:
+                bonus: 5
+                bonusText: bonus to <a href=showinfo:3301>Small Hybrid Turret</a>
+                    damage
+                unitID: 105
+33670:
+    graphicID: 61
+33671:
+    graphicID: 20250
+    radius: 15.0
+33672:
+    iconID: 1084
+33673:
+    graphicID: 20605
+    radius: 33.0
+33674:
+    graphicID: 39
+33675:
+    graphicID: 20604
+    radius: 131.0
+33676:
+    graphicID: 303
+33677:
+    graphicID: 66
+    masteries:
+        0:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        1:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        2:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        3:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        4:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 117
+        - 150
+        - 89
+        - 94
+    traits:
+        3328:
+            1:
+                bonus: 7.5
+                bonusText: bonus to <a href=showinfo:3301>Small Hybrid Turret</a>
+                    tracking speed
+                unitID: 105
+            2:
+                bonus: 20
+                bonusText: bonus to <a href=showinfo:3301>Small Hybrid Turret</a>
+                    damage
+                unitID: 105
+33678:
+    graphicID: 60
+33681:
+    graphicID: 20483
+33682:
+    graphicID: 1079
+33683:
+    graphicID: 20601
+    masteries:
+        0:
+        - 96
+        - 106
+        - 140
+        - 80
+        - 85
+        - 94
+        1:
+        - 96
+        - 106
+        - 140
+        - 80
+        - 85
+        - 94
+        2:
+        - 96
+        - 106
+        - 140
+        - 80
+        - 85
+        - 94
+        3:
+        - 96
+        - 106
+        - 140
+        - 80
+        - 85
+        - 94
+        4:
+        - 96
+        - 106
+        - 140
+        - 80
+        - 85
+        - 118
+        - 94
+    traits:
+        -1:
+            1:
+                bonus: 50
+                bonusText: bonus to <a href=showinfo:17482>Strip Miner</a> yield
+                unitID: 105
+            2:
+                bonus: 33.329999999999998
+                bonusText: reduction in <a href=showinfo:16278>Ice Harvester</a> duration
+                    and activation cost
+                unitID: 105
+        17940:
+            1:
+                bonus: 5
+                bonusText: bonus to ship ore hold capacity
+                unitID: 105
+            2:
+                bonus: 4
+                bonusText: bonus to all shield resistances
+                unitID: 105
+        22551:
+            1:
+                bonus: 1
+                bonusText: bonus to <a href=showinfo:17482>Strip Miner</a> yield
+                unitID: 105
+            2:
+                bonus: 1
+                bonusText: reduction in <a href=showinfo:16278>Ice Harvester</a> duration
+                unitID: 105
+33684:
+    graphicID: 46
+33685:
+    graphicID: 20602
+    masteries:
+        0:
+        - 96
+        - 140
+        - 80
+        - 85
+        - 94
+        1:
+        - 96
+        - 140
+        - 80
+        - 85
+        - 94
+        2:
+        - 96
+        - 140
+        - 80
+        - 85
+        - 94
+        3:
+        - 96
+        - 140
+        - 80
+        - 85
+        - 94
+        4:
+        - 96
+        - 140
+        - 110
+        - 80
+        - 85
+        - 118
+        - 94
+    traits:
+        -1:
+            1:
+                bonus: 250
+                bonusText: bonus to <a href=showinfo:24348>Tractor Beam</a> range
+                unitID: 105
+            2:
+                bonus: 100
+                bonusText: bonus to <a href=showinfo:24348>Tractor Beam</a> velocity
+                unitID: 105
+            3:
+                bonus: 500
+                bonusText: bonus to  <a href=showinfo:444>Survey Scanner</a> range
+                unitID: 105
+            4:
+                bonusText: Can use 3 <a href=showinfo:3348>Warfare Link</a> modules
+                    simultaneously
+        29637:
+            1:
+                bonus: 5
+                bonusText: bonus to ship cargo capacity
+                unitID: 105
+            2:
+                bonus: 3
+                bonusText: bonus to <a href=showinfo:22552>Mining Foreman Links</a>
+                    effectiveness
+                unitID: 105
+33686:
+    graphicID: 309
+33687:
+    graphicID: 20603
+    masteries:
+        0:
+        - 96
+        - 133
+        - 140
+        - 145
+        - 149
+        - 86
+        - 88
+        - 95
+        1:
+        - 96
+        - 133
+        - 140
+        - 145
+        - 149
+        - 86
+        - 88
+        - 95
+        2:
+        - 96
+        - 133
+        - 140
+        - 110
+        - 145
+        - 149
+        - 86
+        - 88
+        - 95
+        3:
+        - 96
+        - 133
+        - 140
+        - 110
+        - 145
+        - 149
+        - 86
+        - 88
+        - 95
+        4:
+        - 96
+        - 133
+        - 140
+        - 110
+        - 145
+        - 149
+        - 86
+        - 88
+        - 118
+        - 95
+    traits:
+        -1:
+            1:
+                bonus: 900
+                bonusText: bonus to <a href=showinfo:444>Survey Scanner</a> range
+                unitID: 105
+            2:
+                bonus: 200
+                bonusText: bonus to <a href=showinfo:442>Cargo Scanners</a> range
+                unitID: 105
+            3:
+                bonusText: Can fit <a href=showinfo:28583>Industrial Core</a>
+            4:
+                bonusText: Can fit <a href=showinfo:23735>Clone Vat Bay</a>
+            5:
+                bonusText: Can use 3 <a href=showinfo:3348>Warfare Link</a> modules
+                    simultaneously
+        28374:
+            1:
+                bonus: 5
+                bonusText: reduction in fuel consumption for <a href=showinfo:28583>Industrial
+                    Core</a>
+                unitID: 105
+            2:
+                bonus: 10
+                bonusText: bonus to <a href=showinfo:22552>Mining Foreman Links</a>
+                    effectiveness when using <a href=showinfo:28583>Industrial Core</a>
+                unitID: 105
+            3:
+                bonus: 50
+                bonusText: bonus to <a href=showinfo:24572>Capital Remote Shield Booster</a>
+                    range
+                unitID: 105
+            4:
+                bonus: 20
+                bonusText: bonus to <a href=showinfo:3436>Drone</a> hitpoints and
+                    damage
+                unitID: 105
+33688:
+    graphicID: 309
+33689:
+    graphicID: 20479
+    masteries:
+        0:
+        - 96
+        - 118
+        - 117
+        - 94
+        1:
+        - 96
+        - 118
+        - 117
+        - 94
+        2:
+        - 96
+        - 118
+        - 117
+        - 94
+        3:
+        - 96
+        - 118
+        - 117
+        - 94
+        4:
+        - 96
+        - 118
+        - 117
+        - 94
+    traits:
+        3340:
+            1:
+                bonus: 5
+                bonusText: bonus to ship cargo capacity
+                unitID: 105
+            2:
+                bonus: 5
+                bonusText: bonus to ship max velocity
+                unitID: 105
+33690:
+    graphicID: 328
+33691:
+    graphicID: 20478
+    masteries:
+        0:
+        - 96
+        - 118
+        - 117
+        - 94
+        1:
+        - 96
+        - 118
+        - 117
+        - 94
+        2:
+        - 96
+        - 118
+        - 117
+        - 94
+        3:
+        - 96
+        - 118
+        - 117
+        - 94
+        4:
+        - 96
+        - 118
+        - 117
+        - 94
+    traits:
+        3342:
+            1:
+                bonus: 5
+                bonusText: bonus to ship cargo capacity
+                unitID: 105
+            2:
+                bonus: 5
+                bonusText: bonus to ship max velocity
+                unitID: 105
+33692:
+    graphicID: 52
+33693:
+    graphicID: 20480
+    masteries:
+        0:
+        - 96
+        - 118
+        - 117
+        - 94
+        1:
+        - 96
+        - 118
+        - 117
+        - 94
+        2:
+        - 96
+        - 118
+        - 117
+        - 94
+        3:
+        - 96
+        - 118
+        - 117
+        - 94
+        4:
+        - 96
+        - 118
+        - 117
+        - 94
+    traits:
+        3341:
+            1:
+                bonus: 5
+                bonusText: bonus to ship cargo capacity
+                unitID: 105
+            2:
+                bonus: 5
+                bonusText: bonus to ship max velocity
+                unitID: 105
+33694:
+    graphicID: 309
+33695:
+    graphicID: 20481
+    masteries:
+        0:
+        - 96
+        - 118
+        - 117
+        - 94
+        1:
+        - 96
+        - 118
+        - 117
+        - 94
+        2:
+        - 96
+        - 118
+        - 117
+        - 94
+        3:
+        - 96
+        - 118
+        - 117
+        - 94
+        4:
+        - 96
+        - 118
+        - 117
+        - 94
+    traits:
+        3343:
+            1:
+                bonus: 5
+                bonusText: bonus to ship cargo capacity
+                unitID: 105
+            2:
+                bonus: 5
+                bonusText: bonus to ship max velocity
+                unitID: 105
+33696:
+    graphicID: 1064
+33697:
+    graphicID: 61
+    radius: 41.0
+33698:
+    graphicID: 61
+33700:
+    graphicID: 20387
+    radius: 100.0
+33701:
+    iconID: 0
+33702:
+    graphicID: 20387
+    radius: 100.0
+33703:
+    iconID: 0
+33704:
+    graphicID: 2774
+    radius: 15.0
+33705:
+    iconID: 1084
+33706:
+    graphicID: 1099
+    radius: 15.0
+33707:
+    iconID: 1084
+33708:
+    graphicID: 1115
+    radius: 15.0
+33709:
+    iconID: 1084
+33710:
+    graphicID: 1095
+    radius: 15.0
+33711:
+    iconID: 1084
+33712:
+    graphicID: 1100
+    radius: 15.0
+33713:
+    iconID: 1084
+33714:
+    iconID: 21118
+33715:
+    iconID: 21132
+33716:
+    iconID: 21119
+33717:
+    iconID: 21120
+33718:
+    iconID: 21121
+33719:
+    iconID: 21122
+33720:
+    iconID: 21123
+33721:
+    iconID: 21124
+33722:
+    iconID: 21125
+33723:
+    iconID: 21126
+33724:
+    iconID: 21127
+33725:
+    iconID: 21128
+33726:
+    iconID: 21129
+33727:
+    iconID: 21131
+33728:
+    iconID: 21130
+33729:
+    iconID: 21133
+33730:
+    iconID: 21134
+33731:
+    iconID: 21135
+33732:
+    iconID: 21136
+33733:
+    iconID: 21137
+33734:
+    iconID: 21138
+33735:
+    iconID: 21139
+33736:
+    iconID: 21140
+33737:
+    iconID: 21142
+33738:
+    iconID: 21141
+33739:
+    iconID: 21143
+33740:
+    iconID: 21144
+33741:
+    iconID: 21145
+33742:
+    iconID: 21146
+33743:
+    iconID: 21147
+33744:
+    iconID: 21100
+33745:
+    iconID: 21101
+33746:
+    iconID: 21102
+33747:
+    iconID: 21103
+33748:
+    iconID: 21104
+33749:
+    iconID: 21105
+33750:
+    iconID: 21106
+33751:
+    iconID: 21107
+33752:
+    iconID: 21108
+33753:
+    iconID: 21109
+33754:
+    iconID: 21110
+33755:
+    iconID: 21111
+33756:
+    iconID: 21112
+33757:
+    iconID: 21113
+33758:
+    iconID: 21114
+33759:
+    iconID: 21115
+33760:
+    iconID: 21116
+33761:
+    iconID: 21117
+33762:
+    iconID: 1046
+    radius: 1.0
+33765:
+    graphicID: 20607
+33766:
+    graphicID: 20608
+33767:
+    iconID: 21148
+33768:
+    iconID: 21149
+33769:
+    iconID: 21181
+33770:
+    iconID: 21182
+33771:
+    iconID: 21170
+33772:
+    iconID: 21169
+33773:
+    iconID: 21168
+33774:
+    iconID: 21167
+33775:
+    iconID: 21166
+33776:
+    iconID: 21165
+33777:
+    iconID: 21164
+33778:
+    iconID: 21163
+33779:
+    iconID: 21162
+33780:
+    iconID: 21161
+33781:
+    iconID: 21160
+33782:
+    iconID: 21159
+33783:
+    iconID: 21158
+33784:
+    iconID: 21157
+33785:
+    iconID: 21156
+33786:
+    iconID: 21155
+33787:
+    iconID: 21154
+33788:
+    iconID: 21153
+33789:
+    iconID: 21152
+33790:
+    iconID: 21150
+33791:
+    iconID: 21180
+33792:
+    iconID: 21179
+33793:
+    iconID: 21178
+33794:
+    iconID: 21177
+33795:
+    iconID: 21176
+33796:
+    iconID: 21175
+33797:
+    iconID: 21174
+33798:
+    iconID: 21173
+33799:
+    iconID: 21172
+33800:
+    iconID: 21171
+33803:
+    iconID: 21184
+33804:
+    iconID: 21183
+33805:
+    graphicID: 1052
+    radius: 199.86000000000001
+33806:
+    graphicID: 1058
+    radius: 250.0
+33809:
+    iconID: 21186
