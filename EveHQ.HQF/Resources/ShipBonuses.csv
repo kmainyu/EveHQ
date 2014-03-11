@@ -1553,8 +1553,9 @@
 11365,1,12095,55,1,11365,0,1,0,-5,15,Capacitor Recharge Rate
 11365,0,0,554,2,46,0,0,0,-50,15,MWD Signature Radius Penalty
 # Venture,,,,,,,,,,,
-32880,0,0,77,2,54;737,0,0,0,100,15,Mining Laser & Gas Cloud Harvester Yield
-32880,1,32918,77,2,54,0,1,0,5,15,Mining Laser Yield
+32880,0,0,77,4,1039,0,0,0,100,15,Mining Laser Yield
+32880,0,0,77,2,737,0,0,0,100,15,Gas Cloud Harvester Yield
+32880,1,32918,77,4,1039,0,1,0,5,15,Mining Laser Yield
 32880,1,32918,73,2,737,0,1,0,-5,15,Gas Cloud Harvester Duration
 # Vexor,,,,,,,,,,,
 626,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
