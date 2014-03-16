@@ -72,7 +72,7 @@
 # Arazu,,,,,,,,,,,
 11969,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 11969,1,3332,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
-11969,1,3332,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Res
+11969,1,3332,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Scan Res
 11969,1,22761,54,2,52,0,1,0,20,15,Warp Disruptor Range
 11969,1,22761,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11969,0,0,714,2,658,0,0,0,-80,15,Cyno Field Fuel
@@ -196,10 +196,7 @@
 632,1,3334,54,2,201,0,1,0,12.5,15,ECM Optimal Range
 632,1,3334,158,2,201,0,1,0,12.5,15,ECM Falloff
 # Breacher,,,,,,,,,,,
-598,1,3329,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,EM Missile Damage
-598,1,3329,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,Exp Missile Damage
-598,1,3329,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,Kin Missile Damage
-598,1,3329,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,Therm Missile Damage
+598,1,3329,51,2,511;524;506;510;771;507;508;509;1245,0,1,0,-5,15,Missile ROF
 598,1,3329,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
 # Broadsword,,,,,,,,,,,
 12013,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
@@ -257,9 +254,9 @@
 16240,0,0,54,4,561;564,0,0,0,50,15,Small Hybrid Turret Optimal Range
 # Celestis,,,,,,,,,,,
 633,1,3332,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
-633,1,3332,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Res
-633,1,3332,54,2,208,0,1,0,10,15,Remote Sensor Damp Optimal Range
-633,1,3332,158,2,208,0,1,0,10,15,Remote Sensor Damp Falloff
+633,1,3332,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Scan Res
+633,1,3332,54,2,208,0,1,0,7.5,15,Remote Sensor Damp Optimal Range
+633,1,3332,158,2,208,0,1,0,7.5,15,Remote Sensor Damp Falloff
 # Cerberus,,,,,,,,,,,
 11993,1,3334,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,Kinetic Missile Damage
 11993,1,3334,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,10,15,Missile Velocity
@@ -762,7 +759,7 @@
 11400,0,0,554,2,46,0,0,0,-50,15,MWD Signature Radius Penalty
 # Keres,,,,,,,,,,,
 11174,1,3328,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
-11174,1,3328,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Res
+11174,1,3328,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Scan Res
 11174,1,3328,6,2,208,0,1,0,-10,15,Remote Sensor Damp Cap Use
 11174,1,28615,54,2,52,0,1,0,15,15,Warp Disruptor Range
 11174,1,28615,6,2,52,0,1,0,-10,15,Warp Disruptor Cap Use
@@ -795,7 +792,7 @@
 # Lachesis,,,,,,,,,,,
 11971,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 11971,1,3332,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
-11971,1,3332,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Res
+11971,1,3332,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Scan Res
 11971,1,22761,54,2,52,0,1,0,20,15,Warp Disruptor Range
 11971,1,22761,51,2,511;510,0,1,0,-5,15,Heavy & HAM Launcher ROF
 # Legion,,,,,,,,,,,
@@ -874,7 +871,7 @@
 # Maulus,,,,,,,,,,,
 609,1,3328,6,2,208,0,1,0,-10,15,Remote Sensor Damp Cap Use
 609,1,3328,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
-609,1,3328,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Res
+609,1,3328,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Scan Res
 # Megathron,,,,,,,,,,,
 641,1,3336,10012,4,563;566,0,1,0,-5,15,Large Hybrid Turret ROF
 641,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
@@ -965,7 +962,7 @@
 33472,1,3336,9,3,18,0,1,0,10,15,Drone Hull HP
 33472,1,3336,64,3,18,0,1,0,10,15,Drone Damage
 33472,0,0,84,2,325,0,0,0,50,15,Remote Armor Repairer Rep Amount
-33472,0,0,54,2,325,0,0,0,100,15,Remote Armor Repairer Range
+33472,0,0,54,2,325,0,0,0,200,15,Remote Armor Repairer Range
 33472,0,0,54,4,569;573,0,0,0,50,15,Large Energy Turret Optimal Range
 33472,0,0,1371,2,479,0,0,0,50,15,Probe Scan Strength Bonus
 33472,0,0,1910,4,1718,0,0,1,10,15,Data & Relic Analyzer Virus Strength
@@ -1254,7 +1251,7 @@
 28844,1,20342,70,1,28844,0,1,0,-5,15,Agility
 # Rifter,,,,,,,,,,,
 587,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
-587,1,3329,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
+587,1,3329,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff
 # Rokh,,,,,,,,,,,
 24688,1,3338,54,4,563;566,0,1,0,10,15,Large Hybrid Turret Optimal Range
 24688,1,3338,271,1,24688,0,1,2,-4,15,Shield EM Resistance
@@ -1541,7 +1538,7 @@
 606,0,0,64,3,18,0,0,0,20,15,Drone Damage
 606,0,0,77,3,18,0,0,0,20,15,Drone Mining Yield
 606,0,0,309,2,208,0,0,0,15,15,Remote Sensor Damp Effect Range
-606,0,0,566,2,208,0,0,0,15,15,Remote Sensor Damp Effect Res
+606,0,0,566,2,208,0,0,0,15,15,Remote Sensor Damp Effect Scan Res
 606,0,0,84,2,62;1199,0,0,0,15,15,Armor Repair Amount
 # Vengeance,,,,,,,,,,,
 11365,1,3331,114,2,387;648,0,1,0,5,15,Rocket Damage - EM
@@ -1556,8 +1553,9 @@
 11365,1,12095,55,1,11365,0,1,0,-5,15,Capacitor Recharge Rate
 11365,0,0,554,2,46,0,0,0,-50,15,MWD Signature Radius Penalty
 # Venture,,,,,,,,,,,
-32880,0,0,77,2,54;737,0,0,0,100,15,Mining Laser & Gas Cloud Harvester Yield
-32880,1,32918,77,2,54,0,1,0,5,15,Mining Laser Yield
+32880,0,0,77,4,1039,0,0,0,100,15,Mining Laser Yield
+32880,0,0,77,2,737,0,0,0,100,15,Gas Cloud Harvester Yield
+32880,1,32918,77,4,1039,0,1,0,5,15,Mining Laser Yield
 32880,1,32918,73,2,737,0,1,0,-5,15,Gas Cloud Harvester Duration
 # Vexor,,,,,,,,,,,
 626,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage

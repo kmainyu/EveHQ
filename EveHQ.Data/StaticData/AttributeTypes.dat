@@ -81,11 +81,11 @@ B]>]kineticDampeningFieldBonuskineticDampeningFieldBonus z(
 
 *k&kexplosionRangeexplosionRange (	
 ,l(ldetonationRangedetonationRange (	
-:m6mkineticDamageResonanceKinetic dmg resistance l(
-:n6nthermalDamageResonanceThermal dmg resistance l(
->o:oexplosiveDamageResonanceExplosive dmg resistance l(
+Bm>mkineticDamageResonanceHull Kinetic Damage Resistance l(
+Bn>nthermalDamageResonanceHull Thermal Damage Resistance l(
+FoBoexplosiveDamageResonance Hull Explosive Damage Resistance l(
 FpBpenergyDamageAbsorptionFactorenergyDamageAbsorptionFactor z(	
-0q,qemDamageResonanceEM dmg resistance l(
+8q4qemDamageResonanceHull EM Damage Resistance l(
 rremDamage	EM damage q(
 -t)texplosiveDamageExplosive damage q(
 )u%ukineticDamageKinetic damage q(
@@ -236,11 +236,11 @@ V˝Q˝#entitySecurityStatusAggressionBonus#entitySecurityStatusAggressionBo
 (à#àshieldChargeshieldCharge z(	
 &â!âarmorHPArmor Hitpoints q(
 'ä"äarmorDamageArmor Damage z(	
-@ã;ãarmorEmDamageResonanceArmor Em Damage Resistance l(
+@ã;ãarmorEmDamageResonanceArmor EM Damage Resistance l(
 NåIåarmorExplosiveDamageResonance!Armor Explosive Damage Resistance l(
 JçEçarmorKineticDamageResonanceArmor Kinetic Damage Resistance l(
 JéEéarmorThermalDamageResonanceArmor Thermal Damage Resistance l(
-Bè=èshieldEmDamageResonanceShield Em Damage Resistance l(
+Bè=èshieldEmDamageResonanceShield EM Damage Resistance l(
 PêKêshieldExplosiveDamageResonance"Shield Explosive Damage Resistance l(
 LëGëshieldKineticDamageResonance Shield Kinetic Damage Resistance l(
 LíGíshieldThermalDamageResonance Shield Thermal Damage Resistance l(
@@ -2040,3 +2040,4 @@ Bç=çsiphonPolyMaterial Polymer Material Siphon % Amount i(
 OèJè#overloadTrackingModuleStrengthBonusOverload Effectiveness Bonus i(
 MêHê!overloadSensorModuleStrengthBonusOverload Effectiveness Bonus i(
 HëCëoverloadPainterStrengthBonusOverload Effectiveness Bonus i(
+=í8íminingAmountBonusBonusMining Amount Bonus Bonus z

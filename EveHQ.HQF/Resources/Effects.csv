@@ -24,6 +24,7 @@
 292,1,12485,64,5,12485,0,1,0,0,Minmatar Drone Specialization
 39,1,3439,68,2,640,0,1,0,0,Repair Drone Operation - Shield
 39,1,3439,84,2,640,0,1,0,0,Repair Drone Operation - Armor
+39,1,3439,83,2,640,0,1,0,0,Repair Drone Operation - Hull
 902,1,3440,902,2,1159,0,1,1,0,Salvage Drone Operation
 459,1,3437,10007,3,6,0,1,1,0,Scout Drone Operation
 292,1,23594,64,4,911,0,1,0,0,Sentry Drone Interfacing
@@ -989,7 +990,7 @@
 64,2,302,10015,2,74,1,0,5,14,Damage Bonus
 # Bastion Module,,,,,,,,,,
 20,1,33400,37,3,6,0,0,0,4,Max Velocity Bonus
-547,1,33400,37,2,656;657;386;89;396,2,0,0,4,Large Missile Velocity Bonus
+547,1,33400,37,2,385;395;655;656;657;386;89;396,2,0,0,4,Heavy & Large Missile Velocity Bonus
 351,1,33400,54,4,563;566;576;579;569;573,1,0,0,4,Large Turret Optimal Bonus
 349,1,33400,158,4,563;566;576;579;569;573,1,0,0,4,Large Turret Falloff Bonus
 548,1,33400,68,2,40;1156,1,0,0,4,Shield Boost Bonus
@@ -1346,6 +1347,7 @@
 434,2,778,77,2,101,0,0,0,15,Drone Mining Augmentor
 39,2,778,68,2,640,0,0,0,15,Drone Repair Augmentor - Shield
 39,2,778,84,2,640,0,0,0,15,Drone Repair Augmentor - Armor
+39,2,778,83,2,640,0,0,0,15,Drone Repair Augmentor - Hull
 294,2,778,54,2,100;101;544;639;640;641;1159,0,0,0,15,Drone Scope Chip
 591,2,778,37,2,100;101;544;639;640;641;1159,3,0,0,15,Drone Speed Augmentor
 292,2,778,64,4,911,1,0,0,15,Sentry Damage Augmentor
