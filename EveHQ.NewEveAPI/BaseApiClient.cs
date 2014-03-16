@@ -185,7 +185,10 @@ namespace EveHQ.EveApi
             }
             else
             {
-                if (resultData != null && responseMode != ResponseMode.BypassCache)
+                // If there is data in cache, check to see if is dirty (old). If it is not dirty return cache data
+                // unless there response mode is set to bypass cache
+                // If the data is dirty or is null... get fresh data from CCP.
+                if (resultData != null && !resultData.IsDirty && responseMode != ResponseMode.BypassCache)
                 {
                     resultTask = ReturnCachedResponse(resultData);
                 }
