@@ -47,7 +47,7 @@ Imports System.ComponentModel
 Imports System.Net.Cache
 Imports System.Data
 Imports EveHQ.EveData
-Imports EveHQ.EveAPI
+Imports EveHQ.EveApi
 Imports EveHQ.Common
 Imports EveHQ.Controls
 Imports EveHQ.Core.CoreReports
@@ -797,7 +797,7 @@ Namespace Forms
                     "Error Closing EveHQ", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             Finally
-                 Trace.Flush()
+                Trace.Flush()
             End Try
         End Sub
 
@@ -1433,29 +1433,39 @@ Namespace Forms
 #Region "Backup Worker routines"
 
         Private Sub tmrBackup_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrBackup.Tick
-            If _backupWorker.IsBusy = False Then
-                If HQ.Settings.BackupAuto = True Then
-                    Dim nextBackup As Date = HQ.Settings.BackupStart
-                    If HQ.Settings.BackupLast > nextBackup Then
-                        nextBackup = HQ.Settings.BackupLast
-                    End If
-                    nextBackup = DateAdd(DateInterval.Day, HQ.Settings.BackupFreq, nextBackup)
-                    If Now >= nextBackup Then
-                        _backupWorker.RunWorkerAsync()
-                    End If
-                End If
-            End If
-            If _eveHQBackupWorker.IsBusy = False Then
-                If HQ.Settings.EveHqBackupMode = 2 Then
-                    Dim nextBackup As Date = HQ.Settings.EveHqBackupStart
-                    If HQ.Settings.EveHqBackupLast > nextBackup Then
-                        nextBackup = HQ.Settings.EveHqBackupLast
-                    End If
-                    nextBackup = DateAdd(DateInterval.Day, HQ.Settings.EveHqBackupFreq, nextBackup)
-                    If Now >= nextBackup Then
-                        _eveHQBackupWorker.RunWorkerAsync()
+            If (HQ.Settings IsNot Nothing) Then
+
+                If (_backupWorker IsNot Nothing) Then
+                    If _backupWorker.IsBusy = False Then
+                        If HQ.Settings.BackupAuto = True Then
+                            Dim nextBackup As Date = HQ.Settings.BackupStart
+                            If HQ.Settings.BackupLast > nextBackup Then
+                                nextBackup = HQ.Settings.BackupLast
+                            End If
+                            nextBackup = DateAdd(DateInterval.Day, HQ.Settings.BackupFreq, nextBackup)
+                            If Now >= nextBackup Then
+                                _backupWorker.RunWorkerAsync()
+                            End If
+                        End If
                     End If
                 End If
+
+                If (_eveHQBackupWorker IsNot Nothing) Then
+
+                    If _eveHQBackupWorker.IsBusy = False Then
+                        If HQ.Settings.EveHqBackupMode = 2 Then
+                            Dim nextBackup As Date = HQ.Settings.EveHqBackupStart
+                            If HQ.Settings.EveHqBackupLast > nextBackup Then
+                                nextBackup = HQ.Settings.EveHqBackupLast
+                            End If
+                            nextBackup = DateAdd(DateInterval.Day, HQ.Settings.EveHqBackupFreq, nextBackup)
+                            If Now >= nextBackup Then
+                                _eveHQBackupWorker.RunWorkerAsync()
+                            End If
+                        End If
+                    End If
+                End If
+
             End If
         End Sub
 
@@ -1594,6 +1604,7 @@ Namespace Forms
                 runPlugInButton.Enabled = False
             Catch ex As Exception
                 MessageBox.Show("Unable to load plugin: " & plugInInfo.Name & ControlChars.CrLf & ex.Message, "Plugin error")
+
                 loadPlugInButton.Enabled = True
                 runPlugInButton.Enabled = False
             End Try

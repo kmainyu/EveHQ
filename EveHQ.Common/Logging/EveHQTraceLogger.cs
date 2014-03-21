@@ -101,6 +101,7 @@ namespace EveHQ.Common.Logging
             {
                 byte[] bytes = GetMessageBytes(message);
                 _outputStream.Write(bytes, 0, bytes.Length);
+                _outputStream.Flush();
             }
         }
 
@@ -120,6 +121,7 @@ namespace EveHQ.Common.Logging
             {
                 byte[] bytes = GetMessageBytes(OutputLineFormat.FormatInvariant(DateTimeOffset.Now, message));
                 _outputStream.Write(bytes, 0, bytes.Length);
+                _outputStream.Flush();
             }
         }
 
