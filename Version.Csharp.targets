@@ -25,7 +25,7 @@
                   OutputFile="Properties\AssemblyInfo.template.cs" 
                   AssemblyTitle="$(AssemblyInfoTitle)"
                   AssemblyDescription="$(AssemblyInfoDescription)"
-                  AssemblyCompany="Software Addicts Studios"
+                  AssemblyCompany="EveHQ Development Team"
                   AssemblyProduct="EveHQ"
                   AssemblyCopyright="� EveHQ Development Team 2005-$(CopyRightYear)"
                   AssemblyFileVersion="$(VersionTxt)" 

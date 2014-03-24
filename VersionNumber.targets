@@ -4,7 +4,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <VersionPreRelease>Beta-$(ChangeId)</VersionPreRelease>
-    <SemanticVersionText>2.13.8</SemanticVersionText>
+    <SemanticVersionText>2.13.9</SemanticVersionText>
   </PropertyGroup>
   <PropertyGroup Condition="'$(IsReleaseBuild)' == 'true' or '$(IsReleaseBuild)' == 'True' or '$(IsReleaseBuild)' == 'TRUE' or '$(IsReleaseBuild)' == '1'">
     <VersionPreRelease></VersionPreRelease>

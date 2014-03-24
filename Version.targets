@@ -24,7 +24,7 @@
                   OutputFile="My Project\AssemblyInfo.template.vb" 
                   AssemblyTitle="$(AssemblyInfoTitle)"
                   AssemblyDescription="$(AssemblyInfoDescription)"
-                  AssemblyCompany="Indicium Technologies"
+                  AssemblyCompany="EveHQ Development Team"
                   AssemblyProduct="EveHQ"
                   AssemblyCopyright="� EveHQ Development Team 2005-$(CopyRightYear)"
                   AssemblyFileVersion="$(VersionTxt)" 
