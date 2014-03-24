@@ -1506,41 +1506,44 @@ Namespace Forms
                         Dim newItem As New ListViewItem
                         Dim toolTipText As New StringBuilder
                         itemData = item.Split(CChar("_"))
-                        catID = StaticData.GroupCats.Item(CInt(itemData(1)))
-                        newItem.Group = lvwDepend.Groups("Cat" & catID)
-                        newItem.Text = StaticData.Types(CInt(itemData(0))).Name
-                        newItem.Name = itemData(0)
-                        newItem.Tag = itemData(0)
-                        Dim skillUnlocked As List(Of String) = StaticData.ItemUnlocks(itemData(0))
-                        Dim allTrained As Boolean = True
-                        For Each skillPair As String In skillUnlocked
-                            skillData = skillPair.Split(CChar("."))
-                            skillName = SkillFunctions.SkillIDToName(CInt(skillData(0)))
-                            If CInt(skillData(0)) <> skillID Then
-                                toolTipText.Append(skillName)
-                                toolTipText.Append(" (Level ")
-                                toolTipText.Append(skillData(1))
-                                toolTipText.Append("), ")
-                            End If
-                            If SkillFunctions.IsSkillTrained(_displayPilot, skillName, CInt(skillData(1))) = False Then
-                                allTrained = False
-                            End If
-                        Next
-                        If toolTipText.Length > 0 Then
-                            toolTipText.Insert(0, "Also Requires: ")
+                        If StaticData.GroupCats.TryGetValue(CInt(itemData(1)), catID) Then
+                            newItem.Group = lvwDepend.Groups("Cat" & catID)
+                            newItem.Text = StaticData.Types(CInt(itemData(0))).Name
+                            newItem.Name = itemData(0)
+                            newItem.Tag = itemData(0)
+                            Dim skillUnlocked As List(Of String)
+                            If StaticData.ItemUnlocks.TryGetValue(itemData(0), skillUnlocked) Then
+                                Dim allTrained As Boolean = True
+                                For Each skillPair As String In skillUnlocked
+                                    skillData = skillPair.Split(CChar("."))
+                                    skillName = SkillFunctions.SkillIDToName(CInt(skillData(0)))
+                                    If CInt(skillData(0)) <> skillID Then
+                                        toolTipText.Append(skillName)
+                                        toolTipText.Append(" (Level ")
+                                        toolTipText.Append(skillData(1))
+                                        toolTipText.Append("), ")
+                                    End If
+                                    If SkillFunctions.IsSkillTrained(_displayPilot, skillName, CInt(skillData(1))) = False Then
+                                        allTrained = False
+                                    End If
+                                Next
+                                If toolTipText.Length > 0 Then
+                                    toolTipText.Insert(0, "Also Requires: ")
 
-                            If toolTipText.ToString().EndsWith(", ", StringComparison.Ordinal) Then
-                                toolTipText.Remove(toolTipText.Length - 2, 2)
+                                    If toolTipText.ToString().EndsWith(", ", StringComparison.Ordinal) Then
+                                        toolTipText.Remove(toolTipText.Length - 2, 2)
+                                    End If
+                                End If
+                                If allTrained = True Then
+                                    newItem.ForeColor = Color.Green
+                                Else
+                                    newItem.ForeColor = Color.Red
+                                End If
+                                newItem.ToolTipText = toolTipText.ToString()
+                                newItem.SubItems.Add("Level " & lvl)
+                                lvwDepend.Items.Add(newItem)
                             End If
                         End If
-                        If allTrained = True Then
-                            newItem.ForeColor = Color.Green
-                        Else
-                            newItem.ForeColor = Color.Red
-                        End If
-                        newItem.ToolTipText = toolTipText.ToString()
-                        newItem.SubItems.Add("Level " & lvl)
-                        lvwDepend.Items.Add(newItem)
                     Next
                 End If
             Next
