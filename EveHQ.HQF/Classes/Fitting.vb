@@ -184,6 +184,10 @@ Imports System.Runtime.Serialization
             Return cPilotName
         End Get
         Set(ByVal value As String)
+            If FittingPilots.HQFPilots Is Nothing Then
+                FittingPilots.HQFPilots = New SortedList(Of String, FittingPilot)()
+            End If
+
             If FittingPilots.HQFPilots.ContainsKey(value) = False Then
                 '  MessageBox.Show("The pilot '" & value & "' is not a listed pilot. The system will now try to use your configured default pilot instead for this fit (" & FittingName & ").", "Unknown Pilot", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 If FittingPilots.HQFPilots.ContainsKey(PluginSettings.HQFSettings.DefaultPilot) Then
