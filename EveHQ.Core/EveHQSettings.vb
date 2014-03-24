@@ -783,6 +783,11 @@ Public Class EveHQSettings
             HQ.Settings = New EveHQSettings
         End If
 
+        If HQ.Settings Is Nothing Then
+            MessageBox.Show("There was an issue loading the settings file: It was empty. Please delete the EveHQSettigns.json file manually and restore from backup.")
+            Return False
+        End If
+
         If showRawData = False Then
 
             ' Reset the update URL to a temp location
