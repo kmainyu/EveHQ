@@ -55,6 +55,8 @@ using EveHQ.Common.Extensions;
 
 namespace EveHQ.EveApi
 {
+    using System.Diagnostics;
+
     /// <summary>
     ///     Object used for interacting with the Eve API web service provided by CCP.
     /// </summary>
@@ -376,39 +378,43 @@ namespace EveHQ.EveApi
             if (webTask.Exception != null)
             {
                 faultError = webTask.Exception;
+                Trace.TraceWarning(faultError.FormatException());
             }
 
-            try
+            if (faultError == null)
             {
-                // Get the xml from the response.
-                XDocument xml = GetXmlFromResponse(webTask.Result);
-                XElement resultsElement;
-                if (xml != null && xml.Root != null && (resultsElement = xml.Root.Element(Result)) != null)
+                try
                 {
-                    // using LINQ convert the XML into the collection of characters.
-                    result = parseXml(resultsElement);
-                    cacheTime = GetCacheExpiryFromResponse(xml.Root, defaultCacheSeconds);
-                }
-                else if (xml != null && xml.Root != null && (resultsElement = xml.Root.Element(Error)) != null)
-                {
-                    // CCP server side error
-                    eveErrorCode = GetErrorCodeFromResponse(resultsElement, ref eveErrorText);
+                    // Get the xml from the response.
+                    XDocument xml = GetXmlFromResponse(webTask.Result);
+                    XElement resultsElement;
+                    if (xml != null && xml.Root != null && (resultsElement = xml.Root.Element(Result)) != null)
+                    {
+                        // using LINQ convert the XML into the collection of characters.
+                        result = parseXml(resultsElement);
+                        cacheTime = GetCacheExpiryFromResponse(xml.Root, defaultCacheSeconds);
+                    }
+                    else if (xml != null && xml.Root != null && (resultsElement = xml.Root.Element(Error)) != null)
+                    {
+                        // CCP server side error
+                        eveErrorCode = GetErrorCodeFromResponse(resultsElement, ref eveErrorText);
 
-                    // because cacheTime in the response is bugged (per http://wiki.eve-id.net/APIv2_Eve_ErrorList_XML ), 
-                    // defaulting cacheTime for 1 hour
-                    cacheTime = DateTimeOffset.Now.AddHours(1);
+                        // because cacheTime in the response is bugged (per http://wiki.eve-id.net/APIv2_Eve_ErrorList_XML ), 
+                        // defaulting cacheTime for 1 hour
+                        cacheTime = DateTimeOffset.Now.AddHours(1);
+                    }
+                    else
+                    {
+                        // shenanigans.
+                        eveErrorCode = 999999;
+                        eveErrorText = "Unknown Error.";
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    // shenanigans.
-                    eveErrorCode = 999999;
-                    eveErrorText = "Unknown Error.";
+                    // catch any of the xml processing errors
+                    faultError = e;
                 }
-            }
-            catch (Exception e)
-            {
-                // catch any of the xml processing errors
-                faultError = e;
             }
 
             // store it.
@@ -423,8 +429,11 @@ namespace EveHQ.EveApi
                 EveErrorText = eveErrorText
             };
 
-            // cache it
-            SetCacheEntry(cacheKey, eveResult);
+            if (faultError == null)
+            {
+                // cache it
+                SetCacheEntry(cacheKey, eveResult);
+            }
 
             return eveResult;
         }
