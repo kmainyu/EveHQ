@@ -785,9 +785,10 @@ Namespace Controls
                             Dim currentIndex As Integer = idx
                             Dim task As Task(Of Double) = DataFunctions.GetPriceAsync(CInt(shipMod.ID))
                             task.ContinueWith(Sub(price As Task(Of Double))
-                                                  If (price.IsCompleted And price.IsFaulted = False) Then
-                                                      'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
-                                                      If IsHandleCreated Then
+                                                  If IsHandleCreated Then
+                                                      If (price.IsCompleted And price.IsFaulted = False) Then
+                                                          'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+
                                                           Invoke(Sub()
                                                                      shipMod.MarketPrice = price.Result
                                                                      slotNode.Cells(currentIndex).Text = shipMod.MarketPrice.ToString("N2")
