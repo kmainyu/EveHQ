@@ -5201,6 +5201,7 @@ Namespace Forms
                 newJob.Name = cJob.JobName
                 newJob.Text = cJob.JobName
                 newJob.Cells.Add(New Cell(cJob.TypeName))
+
                 If cJob.CurrentBlueprint IsNot Nothing Then
                     cJob.Cost = cJob.CalculateCost()
                     Dim product As EveType = StaticData.Types(cJob.CurrentBlueprint.ProductId)
@@ -5208,7 +5209,7 @@ Namespace Forms
                     Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2, MidpointRounding.AwayFromZero)
                     Dim value As Double = prices(cJob.CurrentBlueprint.ProductId)
                     Dim profit As Double = value - unitcosts
-                    Dim rate As Double = profit / ((cJob.RunTime / cJob.Runs) / 3600)
+                    Dim rate As Double = (profit * product.PortionSize) / ((cJob.RunTime / cJob.Runs) / 3600)
                     Dim profitMargin As Double = (profit / value * 100)
                     newJob.Cells.Add(New Cell(profit.ToString("N2")))
                     newJob.Cells.Add(New Cell(rate.ToString("N2")))
