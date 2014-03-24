@@ -51,6 +51,7 @@ Imports EveHQ.Core
 Imports System.Reflection
 Imports System.IO
 Imports System.Runtime.Serialization
+Imports EveHQ.Common.Extensions
 
 ''' <summary>
 ''' Class for holding an instance of a EveHQ HQF fitting used for processing
@@ -727,14 +728,14 @@ Imports System.Runtime.Serialization
         Ship.MapShipAttributes(newShip)
         cFittedShip = newShip
 
-        If ShipSlotCtrl IsNot Nothing And VisualUpdates = True Then
+        If ShipSlotCtrl IsNot Nothing And visualUpdates = True Then
             'Dim SSC As New Threading.Thread(AddressOf ShipSlotCtrl.UpdateAllSlotLocations)
             'SSC.Priority = Threading.ThreadPriority.Highest
             'SSC.Start()
             ShipSlotCtrl.UpdateAllSlotLocations()
         End If
 
-        If ShipInfoCtrl IsNot Nothing And VisualUpdates = True Then
+        If ShipInfoCtrl IsNot Nothing And visualUpdates = True Then
             'Dim SIC As New Threading.Thread(AddressOf ShipInfoCtrl.UpdateInfoDisplay)
             'SIC.Priority = Threading.ThreadPriority.Highest
             'SIC.Start()
@@ -871,7 +872,7 @@ Imports System.Runtime.Serialization
             hImplant = hPilot.ImplantName(slotNo)
             If hImplant <> "" Then
                 ' Go through the attributes
-                If ModuleLists.moduleListName.ContainsKey(hImplant) = True Then
+                If ModuleLists.ModuleListName.ContainsKey(hImplant) = True Then
                     aImplant = ModuleLists.ModuleList(ModuleLists.ModuleListName(hImplant))
                     If Engine.ImplantEffectsMap.Contains(hImplant) = True Then
                         For Each chkEffect As ImplantEffect In CType(Engine.ImplantEffectsMap(hImplant), ArrayList)
@@ -1461,7 +1462,7 @@ Imports System.Runtime.Serialization
                     End If
                 Next
             End If
-            If MapAttributes = True Then
+            If mapAttributes = True Then
                 ShipModule.MapModuleAttributes(aModule)
             End If
         End If
@@ -2096,31 +2097,31 @@ Imports System.Runtime.Serialization
 #Region "Common Private Supporting Fitting Routines"
 
     Private Function ProcessFinalEffectForShip(ByVal newShip As Ship, ByVal fEffect As FinalEffect) As Boolean
-        Select Case FEffect.AffectedType
+        Select Case fEffect.AffectedType
             Case HQFEffectType.All
                 Return True
             Case HQFEffectType.Item
-                If FEffect.AffectedID.Contains(newShip.ID) Then
+                If fEffect.AffectedID.Contains(newShip.ID) Then
                     Return True
                 End If
             Case HQFEffectType.Group
-                If FEffect.AffectedID.Contains(newShip.DatabaseGroup) Then
+                If fEffect.AffectedID.Contains(newShip.DatabaseGroup) Then
                     Return True
                 End If
             Case HQFEffectType.Category
-                If FEffect.AffectedID.Contains(newShip.DatabaseCategory) Then
+                If fEffect.AffectedID.Contains(newShip.DatabaseCategory) Then
                     Return True
                 End If
             Case HQFEffectType.MarketGroup
-                If FEffect.AffectedID.Contains(newShip.MarketGroup) Then
+                If fEffect.AffectedID.Contains(newShip.MarketGroup) Then
                     Return True
                 End If
             Case HQFEffectType.Skill
-                If newShip.RequiredSkills.ContainsKey(SkillFunctions.SkillIDToName(FEffect.AffectedID(0))) Then
+                If newShip.RequiredSkills.ContainsKey(SkillFunctions.SkillIDToName(fEffect.AffectedID(0))) Then
                     Return True
                 End If
             Case HQFEffectType.Attribute
-                If newShip.Attributes.ContainsKey(FEffect.AffectedID(0)) Then
+                If newShip.Attributes.ContainsKey(fEffect.AffectedID(0)) Then
                     Return True
                 End If
         End Select
@@ -2128,38 +2129,38 @@ Imports System.Runtime.Serialization
     End Function
 
     Private Function ProcessFinalEffectForModule(ByVal newModule As ShipModule, ByVal fEffect As FinalEffect) As Boolean
-        Select Case FEffect.AffectedType
+        Select Case fEffect.AffectedType
             Case HQFEffectType.All
                 Return True
             Case HQFEffectType.Item
-                If FEffect.AffectedID.Contains(newModule.ID) Then
+                If fEffect.AffectedID.Contains(newModule.ID) Then
                     Return True
                 End If
             Case HQFEffectType.Group
-                If newModule.ModuleState = ModuleStates.Gang And FEffect.AffectedID.Contains(-CInt(newModule.DatabaseGroup)) Then
+                If newModule.ModuleState = ModuleStates.Gang And fEffect.AffectedID.Contains(-CInt(newModule.DatabaseGroup)) Then
                     Return True
                 End If
-                If FEffect.AffectedID.Contains(newModule.DatabaseGroup) Then
+                If fEffect.AffectedID.Contains(newModule.DatabaseGroup) Then
                     Return True
                 End If
             Case HQFEffectType.Category
-                If FEffect.AffectedID.Contains(newModule.DatabaseCategory) Then
+                If fEffect.AffectedID.Contains(newModule.DatabaseCategory) Then
                     Return True
                 End If
             Case HQFEffectType.MarketGroup
-                If FEffect.AffectedID.Contains(newModule.MarketGroup) Then
+                If fEffect.AffectedID.Contains(newModule.MarketGroup) Then
                     Return True
                 End If
             Case HQFEffectType.Skill
-                If newModule.RequiredSkills.ContainsKey(SkillFunctions.SkillIDToName(FEffect.AffectedID(0))) Then
+                If newModule.RequiredSkills.ContainsKey(SkillFunctions.SkillIDToName(fEffect.AffectedID(0))) Then
                     Return True
                 End If
             Case HQFEffectType.Slot
-                If FEffect.AffectedID.Contains(CInt(newModule.SlotType & newModule.SlotNo)) Then
+                If fEffect.AffectedID.Contains(CInt(newModule.SlotType & newModule.SlotNo)) Then
                     Return True
                 End If
             Case HQFEffectType.Attribute
-                If newModule.Attributes.ContainsKey(FEffect.AffectedID(0)) Then
+                If newModule.Attributes.ContainsKey(fEffect.AffectedID(0)) Then
                     Return True
                 End If
         End Select
@@ -2167,116 +2168,121 @@ Imports System.Runtime.Serialization
     End Function
 
     Private Sub ApplyFinalEffectToShip(ByVal newShip As Ship, ByVal fEffect As FinalEffect, ByVal att As Integer)
-        Dim log As String = Attributes.AttributeQuickList(Att).ToString & "# " & fEffect.Cause
+        If Attributes.AttributeQuickList.ContainsKey(att) = False Then
+            Trace.TraceWarning("Attribute Code " & att.ToInvariantString() & "was not found in AttributeQuickList")
+            Return
+        End If
+
+        Dim log As String = Attributes.AttributeQuickList(att).ToString & "# " & fEffect.Cause
         If newShip.Name = fEffect.Cause Then
             log &= " (Overloading)"
         End If
-        Dim oldAtt As String = newShip.Attributes(Att).ToString()
+        Dim oldAtt As String = newShip.Attributes(att).ToString()
         log &= "# " & oldAtt
         Select Case fEffect.CalcType
             Case EffectCalcType.Percentage
-                newShip.Attributes(Att) = newShip.Attributes(Att) * ((100 + fEffect.AffectedValue) / 100.0)
+                newShip.Attributes(att) = newShip.Attributes(att) * ((100 + fEffect.AffectedValue) / 100.0)
             Case EffectCalcType.Addition
-                newShip.Attributes(Att) = newShip.Attributes(Att) + fEffect.AffectedValue
+                newShip.Attributes(att) = newShip.Attributes(att) + fEffect.AffectedValue
             Case EffectCalcType.Difference ' Used for resistances
                 If fEffect.AffectedValue <= 0 Then
-                    newShip.Attributes(Att) = ((100 - newShip.Attributes(Att)) * (-fEffect.AffectedValue / 100)) + newShip.Attributes(Att)
+                    newShip.Attributes(att) = ((100 - newShip.Attributes(att)) * (-fEffect.AffectedValue / 100)) + newShip.Attributes(att)
                 Else
-                    newShip.Attributes(Att) = (newShip.Attributes(Att) * (-fEffect.AffectedValue / 100)) + newShip.Attributes(Att)
+                    newShip.Attributes(att) = (newShip.Attributes(att) * (-fEffect.AffectedValue / 100)) + newShip.Attributes(att)
                 End If
             Case EffectCalcType.Velocity
-                newShip.Attributes(Att) = newShip.Attributes(Att) + (newShip.Attributes(Att) * (newShip.Attributes(10010) / newShip.Attributes(10002) * (fEffect.AffectedValue / 100)))
+                newShip.Attributes(att) = newShip.Attributes(att) + (newShip.Attributes(att) * (newShip.Attributes(10010) / newShip.Attributes(10002) * (fEffect.AffectedValue / 100)))
             Case EffectCalcType.Absolute
-                newShip.Attributes(Att) = fEffect.AffectedValue
+                newShip.Attributes(att) = fEffect.AffectedValue
             Case EffectCalcType.Multiplier
-                newShip.Attributes(Att) = newShip.Attributes(Att) * fEffect.AffectedValue
+                newShip.Attributes(att) = newShip.Attributes(att) * fEffect.AffectedValue
             Case EffectCalcType.AddPositive
                 If fEffect.AffectedValue > 0 Then
-                    newShip.Attributes(Att) = newShip.Attributes(Att) + fEffect.AffectedValue
+                    newShip.Attributes(att) = newShip.Attributes(att) + fEffect.AffectedValue
                 End If
             Case EffectCalcType.AddNegative
                 If fEffect.AffectedValue < 0 Then
-                    newShip.Attributes(Att) = newShip.Attributes(Att) + fEffect.AffectedValue
+                    newShip.Attributes(att) = newShip.Attributes(att) + fEffect.AffectedValue
                 End If
             Case EffectCalcType.Subtraction
-                newShip.Attributes(Att) = newShip.Attributes(Att) - fEffect.AffectedValue
+                newShip.Attributes(att) = newShip.Attributes(att) - fEffect.AffectedValue
             Case EffectCalcType.CloakedVelocity
-                newShip.Attributes(Att) = -100 + ((100 + newShip.Attributes(Att)) * (fEffect.AffectedValue / 100))
+                newShip.Attributes(att) = -100 + ((100 + newShip.Attributes(att)) * (fEffect.AffectedValue / 100))
             Case EffectCalcType.SkillLevel
-                newShip.Attributes(Att) = fEffect.AffectedValue
+                newShip.Attributes(att) = fEffect.AffectedValue
             Case EffectCalcType.SkillLevelxAtt
-                newShip.Attributes(Att) = fEffect.AffectedValue
+                newShip.Attributes(att) = fEffect.AffectedValue
             Case EffectCalcType.AbsoluteMax
-                newShip.Attributes(Att) = Math.Max(fEffect.AffectedValue, newShip.Attributes(Att))
+                newShip.Attributes(att) = Math.Max(fEffect.AffectedValue, newShip.Attributes(att))
             Case EffectCalcType.AbsoluteMin
-                newShip.Attributes(Att) = Math.Min(fEffect.AffectedValue, newShip.Attributes(Att))
+                newShip.Attributes(att) = Math.Min(fEffect.AffectedValue, newShip.Attributes(att))
             Case EffectCalcType.CapBoosters
-                newShip.Attributes(Att) = Math.Min(newShip.Attributes(Att) - fEffect.AffectedValue, 0)
+                newShip.Attributes(att) = Math.Min(newShip.Attributes(att) - fEffect.AffectedValue, 0)
         End Select
         ' Use only 2 decimal places of precision for PG and CPU output
-        If Att = AttributeEnum.ShipPowergridOutput Or Att = AttributeEnum.ShipCpuOutput Then
-            newShip.Attributes(Att) = Math.Round(newShip.Attributes(Att), 2, MidpointRounding.AwayFromZero)
+        If att = AttributeEnum.ShipPowergridOutput Or att = AttributeEnum.ShipCpuOutput Then
+            newShip.Attributes(att) = Math.Round(newShip.Attributes(att), 2, MidpointRounding.AwayFromZero)
         End If
-        log &= "# " & newShip.Attributes(Att).ToString
-        If oldAtt <> newShip.Attributes(Att).ToString Then
+        log &= "# " & newShip.Attributes(att).ToString
+        If oldAtt <> newShip.Attributes(att).ToString Then
             newShip.AuditLog.Add(log)
         End If
     End Sub
 
     Private Sub ApplyFinalEffectToModule(ByVal newModule As ShipModule, ByVal fEffect As FinalEffect, ByVal att As Integer)
         Dim log As String = Attributes.AttributeQuickList(att).ToString & ": " & fEffect.Cause
-        If NewModule.Name = fEffect.Cause Then
+        If newModule.Name = fEffect.Cause Then
             log &= " (Overloading)"
         End If
-        Dim oldAtt As String = NewModule.Attributes(att).ToString()
+        Dim oldAtt As String = newModule.Attributes(att).ToString()
         log &= ": " & oldAtt
         Select Case fEffect.CalcType
             Case EffectCalcType.Percentage
-                NewModule.Attributes(att) = NewModule.Attributes(att) * ((100 + fEffect.AffectedValue) / 100.0)
+                newModule.Attributes(att) = newModule.Attributes(att) * ((100 + fEffect.AffectedValue) / 100.0)
             Case EffectCalcType.Addition
-                NewModule.Attributes(att) = NewModule.Attributes(att) + fEffect.AffectedValue
+                newModule.Attributes(att) = newModule.Attributes(att) + fEffect.AffectedValue
             Case EffectCalcType.Difference  ' Used for resistances
                 If fEffect.AffectedValue <= 0 Then
-                    NewModule.Attributes(att) = ((100 - NewModule.Attributes(att)) * (-fEffect.AffectedValue / 100)) + NewModule.Attributes(att)
+                    newModule.Attributes(att) = ((100 - newModule.Attributes(att)) * (-fEffect.AffectedValue / 100)) + newModule.Attributes(att)
                 Else
-                    NewModule.Attributes(att) = (NewModule.Attributes(att) * (-fEffect.AffectedValue / 100)) + NewModule.Attributes(att)
+                    newModule.Attributes(att) = (newModule.Attributes(att) * (-fEffect.AffectedValue / 100)) + newModule.Attributes(att)
                 End If
             Case EffectCalcType.Velocity
-                NewModule.Attributes(att) = NewModule.Attributes(att) + (NewModule.Attributes(att) * (NewModule.Attributes(10010) / NewModule.Attributes(10002) * (fEffect.AffectedValue / 100)))
+                newModule.Attributes(att) = newModule.Attributes(att) + (newModule.Attributes(att) * (newModule.Attributes(10010) / newModule.Attributes(10002) * (fEffect.AffectedValue / 100)))
             Case EffectCalcType.Absolute
-                NewModule.Attributes(att) = fEffect.AffectedValue
+                newModule.Attributes(att) = fEffect.AffectedValue
             Case EffectCalcType.Multiplier
-                NewModule.Attributes(att) = NewModule.Attributes(att) * fEffect.AffectedValue
+                newModule.Attributes(att) = newModule.Attributes(att) * fEffect.AffectedValue
             Case EffectCalcType.AddPositive
                 If fEffect.AffectedValue > 0 Then
-                    NewModule.Attributes(att) = NewModule.Attributes(att) + fEffect.AffectedValue
+                    newModule.Attributes(att) = newModule.Attributes(att) + fEffect.AffectedValue
                 End If
             Case EffectCalcType.AddNegative
                 If fEffect.AffectedValue < 0 Then
-                    NewModule.Attributes(att) = NewModule.Attributes(att) + fEffect.AffectedValue
+                    newModule.Attributes(att) = newModule.Attributes(att) + fEffect.AffectedValue
                 End If
             Case EffectCalcType.Subtraction
-                NewModule.Attributes(att) = NewModule.Attributes(att) - fEffect.AffectedValue
+                newModule.Attributes(att) = newModule.Attributes(att) - fEffect.AffectedValue
             Case EffectCalcType.CloakedVelocity
-                NewModule.Attributes(att) = -100 + ((100 + NewModule.Attributes(att)) * (fEffect.AffectedValue / 100))
+                newModule.Attributes(att) = -100 + ((100 + newModule.Attributes(att)) * (fEffect.AffectedValue / 100))
             Case EffectCalcType.SkillLevel
-                NewModule.Attributes(att) = fEffect.AffectedValue
+                newModule.Attributes(att) = fEffect.AffectedValue
             Case EffectCalcType.SkillLevelxAtt
-                NewModule.Attributes(att) = NewModule.Attributes(att) * fEffect.AffectedValue
+                newModule.Attributes(att) = newModule.Attributes(att) * fEffect.AffectedValue
             Case EffectCalcType.AbsoluteMax
-                NewModule.Attributes(att) = Math.Max(fEffect.AffectedValue, NewModule.Attributes(att))
+                newModule.Attributes(att) = Math.Max(fEffect.AffectedValue, newModule.Attributes(att))
             Case EffectCalcType.AbsoluteMin
-                NewModule.Attributes(att) = Math.Min(fEffect.AffectedValue, NewModule.Attributes(att))
+                newModule.Attributes(att) = Math.Min(fEffect.AffectedValue, newModule.Attributes(att))
             Case EffectCalcType.CapBoosters
-                NewModule.Attributes(att) = Math.Min(NewModule.Attributes(att) - fEffect.AffectedValue, 0)
+                newModule.Attributes(att) = Math.Min(newModule.Attributes(att) - fEffect.AffectedValue, 0)
         End Select
         ' Use only 2 decimal places of precision for PG and CPU usage
         If att = AttributeEnum.ModulePowergridUsage Or att = AttributeEnum.ModuleCpuUsage Then
-            NewModule.Attributes(att) = Math.Round(NewModule.Attributes(att), 2, MidpointRounding.AwayFromZero)
+            newModule.Attributes(att) = Math.Round(newModule.Attributes(att), 2, MidpointRounding.AwayFromZero)
         End If
-        log &= " --> " & NewModule.Attributes(att).ToString
-        If oldAtt <> NewModule.Attributes(att).ToString Then
-            NewModule.AuditLog.Add(log)
+        log &= " --> " & newModule.Attributes(att).ToString
+        If oldAtt <> newModule.Attributes(att).ToString Then
+            newModule.AuditLog.Add(log)
         End If
     End Sub
 
@@ -2545,14 +2551,14 @@ Imports System.Runtime.Serialization
         End If
 
         ' Check slot availability (only if not adding in a specific slot?)
-        If IsSwappingModules = False Then
+        If isSwappingModules = False Then
             If IsSlotAvailable(shipMod, repMod) = False Then
                 Exit Sub
             End If
         End If
 
         ' Check fitting constraints
-        If IsSwappingModules = False Then
+        If isSwappingModules = False Then
             If IsModulePermitted(shipMod, False, repMod) = False Then
                 Exit Sub
             End If
@@ -2611,7 +2617,7 @@ Imports System.Runtime.Serialization
                     chargeName = shipMod.LoadedCharge.Name
                 End If
                 Dim transType As UndoInfo.TransType = UndoInfo.TransType.AddModule
-                If IsSwappingModules = True Then
+                If isSwappingModules = True Then
                     transType = UndoInfo.TransType.SwapModules
                 ElseIf repMod IsNot Nothing Then
                     transType = UndoInfo.TransType.ReplacedModule
@@ -2641,7 +2647,7 @@ Imports System.Runtime.Serialization
         If myShip.DroneBay - BaseShip.DroneBayUsed >= vol * qty Then
             ' Scan through existing items and see if we can group this new one
             For Each droneGroup As DroneBayItem In BaseShip.DroneBayItems.Values
-                If drone.Name = droneGroup.DroneType.Name And active = droneGroup.IsActive And UpdateAll = False Then
+                If drone.Name = droneGroup.DroneType.Name And active = droneGroup.IsActive And updateAll = False Then
                     ' Add to existing drone group
                     droneGroup.Quantity += qty
                     grouped = True
@@ -2662,7 +2668,7 @@ Imports System.Runtime.Serialization
                 BaseShip.DroneBayItems.Add(BaseShip.DroneBayItems.Count, dbi)
             End If
             ' Update stuff
-            If UpdateAll = False Then
+            If updateAll = False Then
                 ApplyFitting(BuildType.BuildFromEffectsMaps)
                 If ShipSlotCtrl IsNot Nothing Then
                     Call ShipSlotCtrl.UpdateDroneBay()
@@ -2690,7 +2696,7 @@ Imports System.Runtime.Serialization
             If myShip.CargoBay - BaseShip.CargoBayUsed >= vol * qty Then
                 ' Scan through existing items and see if we can group this new one
                 For Each itemGroup As CargoBayItem In BaseShip.CargoBayItems.Values
-                    If item.Name = itemGroup.ItemType.Name And UpdateAll = False Then
+                    If item.Name = itemGroup.ItemType.Name And updateAll = False Then
                         ' Add to existing item group
                         itemGroup.Quantity += qty
                         grouped = True
@@ -2705,7 +2711,7 @@ Imports System.Runtime.Serialization
                     BaseShip.CargoBayItems.Add(BaseShip.CargoBayItems.Count, cbi)
                 End If
                 ' Update stuff
-                If UpdateAll = False Then
+                If updateAll = False Then
                     ApplyFitting(BuildType.BuildFromEffectsMaps)
                     If ShipSlotCtrl IsNot Nothing Then
                         Call ShipSlotCtrl.UpdateItemBay()
@@ -2724,7 +2730,7 @@ Imports System.Runtime.Serialization
             ' Set grouping flag
             Dim grouped As Boolean = False
             ' See if there is sufficient space
-            Dim vol As Double = Item.Volume
+            Dim vol As Double = item.Volume
             Dim myShip As Ship
             If FittedShip IsNot Nothing Then
                 myShip = FittedShip
@@ -2734,7 +2740,7 @@ Imports System.Runtime.Serialization
             If myShip.ShipBay - BaseShip.ShipBayUsed >= vol * qty Then
                 ' Scan through existing items and see if we can group this new one
                 For Each itemGroup As ShipBayItem In BaseShip.ShipBayItems.Values
-                    If Item.Name = itemGroup.ShipType.Name And updateAll = False Then
+                    If item.Name = itemGroup.ShipType.Name And updateAll = False Then
                         ' Add to existing item group
                         itemGroup.Quantity += qty
                         grouped = True
@@ -2744,7 +2750,7 @@ Imports System.Runtime.Serialization
                 ' Put the item into the ship maintenance bay if not grouped
                 If grouped = False Then
                     Dim sbi As New ShipBayItem
-                    sbi.ShipType = Item
+                    sbi.ShipType = item
                     sbi.Quantity = qty
                     BaseShip.ShipBayItems.Add(BaseShip.ShipBayItems.Count, sbi)
                 End If
@@ -2758,7 +2764,7 @@ Imports System.Runtime.Serialization
                     BaseShip.ShipBayUsed += vol * qty
                 End If
             Else
-                MessageBox.Show("There is not enough space in the Ship Maintenance Bay to hold " & qty & " unit(s) of " & Item.Name & " on '" & FittingName & "' (" & ShipName & ").", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There is not enough space in the Ship Maintenance Bay to hold " & qty & " unit(s) of " & item.Name & " on '" & FittingName & "' (" & ShipName & ").", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Sub
@@ -2893,7 +2899,7 @@ Imports System.Runtime.Serialization
                     End Select
                     Dim baseModName As String = requiredSize & shipMod.Name.Remove(0, shipMod.Name.IndexOf(" ", StringComparison.Ordinal))
                     If search = False Then
-                        If ModuleLists.moduleListName.ContainsKey(baseModName) = True Then
+                        If ModuleLists.ModuleListName.ContainsKey(baseModName) = True Then
                             MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & ShipName & ". HQF has therefore substituted the " & requiredSize & " variant instead.", "Rig Size Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             shipMod = ModuleLists.ModuleList(ModuleLists.ModuleListName(baseModName))
                         Else
