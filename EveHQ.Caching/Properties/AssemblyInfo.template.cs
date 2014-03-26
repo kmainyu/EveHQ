@@ -14,13 +14,13 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyCompany("Software Addicts Studios")]
+[assembly: AssemblyCompany("EveHQ Development Team")]
 [assembly: AssemblyProduct("EveHQ")]
 [assembly: AssemblyCopyright("� EveHQ Development Team 2005-2014")]
-[assembly: AssemblyFileVersion("2.13.8.$REVNUM$-Beta-")]
-[assembly: AssemblyVersion("2.13.8.$REVNUM$")]
+[assembly: AssemblyFileVersion("2.13.9.$REVNUM$-Beta-")]
+[assembly: AssemblyVersion("2.13.9.$REVNUM$")]
 [assembly: AssemblyConfiguration("Debug")]
-[assembly: AssemblyTrademark("$UTCDATE$ (Version 2.13.8.$REVNUM$-Beta-)")]
+[assembly: AssemblyTrademark("$UTCDATE$ (Version 2.13.9.$REVNUM$-Beta-)")]
 [assembly: CLSCompliant(false)]
 [assembly: ComVisible(false)]
 
