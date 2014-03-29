@@ -84,15 +84,15 @@ Namespace Classes
 
             Dim owner As PrismOwner
 
-            If PlugInData.PrismOwners.ContainsKey(OrderOwner) = True Then
+            If PlugInData.PrismOwners.ContainsKey(orderOwner) = True Then
 
-                owner = PlugInData.PrismOwners(OrderOwner)
+                owner = PlugInData.PrismOwners(orderOwner)
                 Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Contracts)
                 Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Contracts)
 
                 Dim contractResponse As EveServiceResponse(Of IEnumerable(Of EveApi.Contract))
                 Dim contractItemsResponse As EveServiceResponse(Of IEnumerable(Of ContractItem))
-             
+
                 If ownerAccount IsNot Nothing Then
 
                     If owner.IsCorp = True Then
