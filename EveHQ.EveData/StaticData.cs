@@ -226,7 +226,7 @@ namespace EveHQ.EveData
         /// <summary>
         ///     The type names.
         /// </summary>
-        private static SortedList<string, int> typeNames = new SortedList<string, int>(); // typeName, typeID
+        private static Dictionary<string, int> typeNames = new Dictionary<string, int>(); // typeName, typeID
 
         /// <summary>
         ///     The types.
@@ -505,7 +505,7 @@ namespace EveHQ.EveData
         /// <summary>
         ///     Gets a collection of type names as key, with typeIDs as values.
         /// </summary>
-        public static SortedList<string, int> TypeNames
+        public static Dictionary<string, int> TypeNames
         {
             // typeName, typeID
             get { return typeNames; }
@@ -842,7 +842,7 @@ namespace EveHQ.EveData
                     var s = new FileStream(Path.Combine(coreCacheFolder, "ItemList.dat"), FileMode.Open, FileAccess.Read)
                     )
                 {
-                    typeNames = Serializer.Deserialize<SortedList<string, int>>(s);
+                    typeNames = Serializer.Deserialize<Dictionary<string, int>>(s);
                 }
 
                 Trace.TraceInformation(" *** Item List Finished Loading");
