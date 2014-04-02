@@ -504,6 +504,11 @@ Namespace Forms
             cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
             cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
             For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
+                ' Ignore unpublished BPs because their data might be incomplete
+                If StaticData.Types(newBP.Id).Published = False Then
+                    Continue For
+                End If
+
                 Dim bpName As String = StaticData.Types(newBP.Id).Name
                 If chkInventBPOs.Checked = True Then
                     If btnToggleInvention.Value = True Then
