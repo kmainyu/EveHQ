@@ -199,9 +199,22 @@ Namespace Forms
             'nPilot. = True
             nPilot.CorporationName = "EveHQ Import Corp"
             nPilot.CorporationId = 1000000
+            nPilot.AllianceName = ""
             nPilot.Gender = "Male"
+            nPilot.Ancestry = ""
             nPilot.CloneName = "Clone Grade Alpha"
             nPilot.CloneSkillPoints = 900000
+            nPilot.MemoryBonus = New AttributeEnhancer()
+            nPilot.PerceptionBonus = New AttributeEnhancer()
+            nPilot.WillpowerBonus = New AttributeEnhancer()
+            nPilot.IntelligenceBonus = New AttributeEnhancer()
+            nPilot.CharismaBonus = New AttributeEnhancer()
+            nPilot.Certificates = New List(Of Integer)
+            nPilot.CorporationRoles = New CharacterCorporationRoles() {}
+            nPilot.CorporationRolesAtHq = New CharacterCorporationRoles() {}
+            nPilot.CorporationRolesAtBase = New CharacterCorporationRoles() {}
+            nPilot.CorporationRolesAtOthers = New CharacterCorporationRoles() {}
+            nPilot.CorporationTitles = New CharacterCorporationTitles() {}
 
             Dim skills As New List(Of CharacterSkillRecord)
 
