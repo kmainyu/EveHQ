@@ -412,7 +412,7 @@ Public Class PilotParseFunctions
 
     Private Shared Sub GetAccountStatus(ByRef cAccount As EveHQAccount)
         ' Attempts to get the AccountStatus API for additional information and for checking API key status
-        'Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        'Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.ApiCacheFolder)
         'Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountStatus, cAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
         Dim response As EveServiceResponse(Of Account) = HQ.ApiProvider.Account.AccountStatus(cAccount.UserID,
                                                                                               cAccount.APIKey)
@@ -456,7 +456,7 @@ Public Class PilotParseFunctions
         ' Set up an API Request for this character
         'Dim _
         '    apiReq As _
-        '        New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+        '        New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
 
         ' Get the Character Sheet
         'Dim cXML As XmlDocument = apiReq.GetAPIXML(APITypes.CharacterSheet, cAccount.ToAPIAccount, cPilot.ID,
@@ -953,12 +953,12 @@ Public Class PilotParseFunctions
                 fakeTrainingResponse.IsSuccessfulHttpStatus = True
                 fakeTrainingResponse.EveErrorCode = 0
 
-                'pilotXML.Save(Path.Combine(HQ.CacheFolder,
+                'pilotXML.Save(Path.Combine(HQ.ApiCacheFolder,
                 '                           "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" &
                 '                           newPilot.ID & ".xml"))
                 'If pilotTxml IsNot Nothing Then
                 '    If pilotTxml.InnerText <> "" Then
-                '        pilotTxml.Save(Path.Combine(HQ.CacheFolder,
+                '        pilotTxml.Save(Path.Combine(HQ.ApiCacheFolder,
                 '                                    "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & newPilot.Account &
                 '                                    "_" & newPilot.ID & ".xml"))
                 '    End If

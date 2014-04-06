@@ -1134,13 +1134,13 @@ Namespace CoreReports
 
         Public Shared Sub GenerateCharXML(ByVal rPilot As EveHQPilot)
             Dim cXML As New XmlDocument
-            cXML.Load(Path.Combine(HQ.CacheFolder, "EveHQAPI_" & APITypes.CharacterSheet.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
+            cXML.Load(Path.Combine(HQ.ApiCacheFolder, "EveHQAPI_" & APITypes.CharacterSheet.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
             cXML.Save(Path.Combine(HQ.reportFolder, "CharXML (" & rPilot.Name & ").xml"))
         End Sub
 
         Public Shared Sub GenerateTrainXML(ByVal rPilot As EveHQPilot)
             Dim tXML As New XmlDocument
-            tXML.Load(Path.Combine(HQ.CacheFolder, "EveHQAPI_" & APITypes.SkillQueue.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
+            tXML.Load(Path.Combine(HQ.ApiCacheFolder, "EveHQAPI_" & APITypes.SkillQueue.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
             tXML.Save(Path.Combine(HQ.reportFolder, "TrainingXML (" & rPilot.Name & ").xml"))
         End Sub
 

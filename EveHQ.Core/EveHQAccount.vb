@@ -136,7 +136,7 @@ Public Class EveHQAccount
         Dim charList As New List(Of String)
 
         ' Fetch the characters on account XML file
-        'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+        'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
         'Dim accountXML As XmlDocument = apiReq.GetAPIXML(APITypes.Characters, ToAPIAccount, APIReturnMethods.ReturnStandard)
         Dim characters = HQ.ApiProvider.Account.Characters(UserID, APIKey)
         ' Get characters

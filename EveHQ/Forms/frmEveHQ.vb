@@ -2014,18 +2014,18 @@ Namespace Forms
                     Next
                 End If
 
-                ' Clear the EveHQ cache
+                ' Clear the EveHQ API cache
                 Try
-                    If My.Computer.FileSystem.DirectoryExists(HQ.CacheFolder) Then
-                        My.Computer.FileSystem.DeleteDirectory(HQ.CacheFolder, DeleteDirectoryOption.DeleteAllContents)
+                    If My.Computer.FileSystem.DirectoryExists(HQ.ApiCacheFolder) Then
+                        My.Computer.FileSystem.DeleteDirectory(HQ.ApiCacheFolder, DeleteDirectoryOption.DeleteAllContents)
                     End If
                 Catch e As Exception
                 End Try
 
-                ' Recreate the EveHQ cache folder
+                ' Recreate the EveHQ API cache folder
                 Try
-                    If My.Computer.FileSystem.DirectoryExists(HQ.CacheFolder) = False Then
-                        My.Computer.FileSystem.CreateDirectory(HQ.CacheFolder)
+                    If My.Computer.FileSystem.DirectoryExists(HQ.ApiCacheFolder) = False Then
+                        My.Computer.FileSystem.CreateDirectory(HQ.ApiCacheFolder)
                     End If
                 Catch e As Exception
                 End Try
@@ -2450,7 +2450,7 @@ Namespace Forms
                     ' Clear the character XML files
                     Try
                         For Each charFile As String In _
-                            My.Computer.FileSystem.GetFiles(HQ.CacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
+                            My.Computer.FileSystem.GetFiles(HQ.ApiCacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
                                                             "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "*")
                             My.Computer.FileSystem.DeleteFile(charFile)
                         Next
@@ -2460,7 +2460,7 @@ Namespace Forms
                     ' Clear the skill training XML files
                     Try
                         For Each charFile As String In _
-                            My.Computer.FileSystem.GetFiles(HQ.CacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
+                            My.Computer.FileSystem.GetFiles(HQ.ApiCacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
                                                             "EVEHQAPI_" & APITypes.SkillTraining.ToString & "*")
                             My.Computer.FileSystem.DeleteFile(charFile)
                         Next
@@ -2470,7 +2470,7 @@ Namespace Forms
                     ' Clear the skill queue XML files
                     Try
                         For Each charFile As String In _
-                            My.Computer.FileSystem.GetFiles(HQ.CacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
+                            My.Computer.FileSystem.GetFiles(HQ.ApiCacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
                                                             "EVEHQAPI_" & APITypes.SkillQueue.ToString & "*")
                             My.Computer.FileSystem.DeleteFile(charFile)
                         Next
@@ -2499,7 +2499,7 @@ Namespace Forms
                 Catch ex As Exception
                     MessageBox.Show(
                         "Error Deleting the EveHQ Cache Folder, please try to delete the following location manually: " &
-                        ControlChars.CrLf & ControlChars.CrLf & HQ.CacheFolder, "Error Deleting Cache", MessageBoxButtons.OK,
+                        ControlChars.CrLf & ControlChars.CrLf & HQ.ApiCacheFolder, "Error Deleting Cache", MessageBoxButtons.OK,
                         MessageBoxIcon.Information)
                     Trace.TraceError(ex.FormatException())
                 End Try
@@ -2554,18 +2554,18 @@ Namespace Forms
                         Next
                     End If
 
-                    ' Clear the EveHQ cache
+                    ' Clear the EveHQ API cache
                     Try
-                        If My.Computer.FileSystem.DirectoryExists(HQ.CacheFolder) Then
-                            My.Computer.FileSystem.DeleteDirectory(HQ.CacheFolder, DeleteDirectoryOption.DeleteAllContents)
+                        If My.Computer.FileSystem.DirectoryExists(HQ.ApiCacheFolder) Then
+                            My.Computer.FileSystem.DeleteDirectory(HQ.ApiCacheFolder, DeleteDirectoryOption.DeleteAllContents)
                         End If
                     Catch ex As Exception
                     End Try
 
-                    ' Recreate the EveHQ cache folder
+                    ' Recreate the EveHQ API cache folder
                     Try
-                        If My.Computer.FileSystem.DirectoryExists(HQ.CacheFolder) = False Then
-                            My.Computer.FileSystem.CreateDirectory(HQ.CacheFolder)
+                        If My.Computer.FileSystem.DirectoryExists(HQ.ApiCacheFolder) = False Then
+                            My.Computer.FileSystem.CreateDirectory(HQ.ApiCacheFolder)
                         End If
                     Catch ex As Exception
                     End Try
@@ -2592,7 +2592,7 @@ Namespace Forms
                 Catch ex As Exception
                     MessageBox.Show(
                         "Error Deleting the EveHQ Cache Folder, please try to delete the following location manually: " &
-                        ControlChars.CrLf & ControlChars.CrLf & HQ.CacheFolder, "Error Deleting Cache", MessageBoxButtons.OK,
+                        ControlChars.CrLf & ControlChars.CrLf & HQ.ApiCacheFolder, "Error Deleting Cache", MessageBoxButtons.OK,
                         MessageBoxIcon.Information)
                 End Try
             End If

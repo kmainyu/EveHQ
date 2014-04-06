@@ -87,7 +87,7 @@ Public Class PlugInData
                 My.Computer.FileSystem.CreateDirectory(PluginSettings.HQFFolder)
             End If
 
-            PluginSettings.HQFCacheFolder = HQ.CoreCacheFolder
+            PluginSettings.HQFCacheFolder = HQ.StaticDataFolder
 
             Dim mods() As String = My.Resources.ModuleChanges.Split(ControlChars.CrLf.ToCharArray)
             ModuleChanges.Clear()

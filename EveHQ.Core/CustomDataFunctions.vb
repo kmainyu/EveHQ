@@ -1016,7 +1016,7 @@ Public Class CustomDataFunctions
 
                     ' Send this to the API if we have something!
                     HQ.WriteLogEvent("Requesting ID List From the API: " & strID.ToString)
-                    'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                    'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
                     'Dim idxml As XmlDocument = apiReq.GetAPIXML(APITypes.IDToName, strID.ToString, APIReturnMethods.ReturnActual)
                     Dim nameResponse = HQ.ApiProvider.Eve.CharacterName(idsToQuery)
                     ' Parse this XML

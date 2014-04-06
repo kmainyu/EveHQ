@@ -108,7 +108,7 @@ Namespace Forms
                 lblStatus.Refresh()
                 HQ.AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ")
                 If My.Computer.FileSystem.DirectoryExists(HQ.AppDataFolder) = False Then
-                    ' Create the cache folder if it doesn't exist
+                    ' Create the folder if it doesn't exist
                     My.Computer.FileSystem.CreateDirectory(HQ.AppDataFolder)
                 End If
             Else
@@ -143,14 +143,14 @@ Namespace Forms
                 End
             End If
 
-            ' Check for existence of a cache folder in the application directory
-            HQ.WriteLogEvent("Start: Set core cache directory")
-            HQ.CoreCacheFolder = Path.Combine(Application.StartupPath, "StaticData")
-            If My.Computer.FileSystem.DirectoryExists(HQ.CoreCacheFolder) = False Then
-                MessageBox.Show("Unable to find core cache folder. EveHQ will now quit", "Cache Folder Required", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ' Check for existence of a static data folder in the application data directory
+            HQ.WriteLogEvent("Start: Set static data directory")
+            HQ.StaticDataFolder = Path.Combine(Application.StartupPath, "StaticData")
+            If My.Computer.FileSystem.DirectoryExists(HQ.StaticDataFolder) = False Then
+                MessageBox.Show("Unable to find static data folder. EveHQ will now quit", "Static Data Folder Required", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End
             End If
-            HQ.WriteLogEvent("End: Set core cache directory ({0})".FormatInvariant(HQ.CoreCacheFolder))
+            HQ.WriteLogEvent("End: Set static data directory ({0})".FormatInvariant(HQ.StaticDataFolder))
 
             ' Load static data
             ThreadPool.QueueUserWorkItem(AddressOf LoadItemData)
@@ -180,22 +180,22 @@ Namespace Forms
             End Try
             HQ.WriteLogEvent("End: Old update file check")
 
-            ' Check for existence of the XML cache folder in the application directory
-            HQ.WriteLogEvent("Start: Set XML cache directory")
+            ' Check for existence of the API cache folder in the application data directory
+            HQ.WriteLogEvent("Start: Set API cache directory")
             lblStatus.Text = "> Checking cache directory..."
             lblStatus.Refresh()
             If _isLocal = False Then
-                HQ.CacheFolder = Path.Combine(HQ.AppDataFolder, "Cache")
+                HQ.ApiCacheFolder = Path.Combine(HQ.AppDataFolder, "ApiCache")
             Else
-                HQ.CacheFolder = Path.Combine(Application.StartupPath, "Cache")
+                HQ.ApiCacheFolder = Path.Combine(Application.StartupPath, "ApiCache")
             End If
-            If My.Computer.FileSystem.DirectoryExists(HQ.CacheFolder) = False Then
-                ' Create the cache folder if it doesn't exist
-                My.Computer.FileSystem.CreateDirectory(HQ.CacheFolder)
+            If My.Computer.FileSystem.DirectoryExists(HQ.ApiCacheFolder) = False Then
+                ' Create the folder if it doesn't exist
+                My.Computer.FileSystem.CreateDirectory(HQ.ApiCacheFolder)
             End If
-            HQ.WriteLogEvent("End: Set XML cache directory")
+            HQ.WriteLogEvent("End: Set API cache directory")
 
-            ' Check for existence of the image cache folder in the application directory
+            ' Check for existence of the image cache folder in the application data directory
             HQ.WriteLogEvent("Start: Set image cache directory")
             lblStatus.Text = "> Checking image cache directory..."
             lblStatus.Refresh()
@@ -205,12 +205,12 @@ Namespace Forms
                 HQ.ImageCacheFolder = Path.Combine(Application.StartupPath, "ImageCache")
             End If
             If My.Computer.FileSystem.DirectoryExists(HQ.ImageCacheFolder) = False Then
-                ' Create the cache folder if it doesn't exist
+                ' Create the folder if it doesn't exist
                 My.Computer.FileSystem.CreateDirectory(HQ.ImageCacheFolder)
             End If
             HQ.WriteLogEvent("End: Set image cache directory")
 
-            ' Check for existence of a report folder in the application directory
+            ' Check for existence of a report folder in the application documents directory
             HQ.WriteLogEvent("Start: Set report directory")
             lblStatus.Text = "> Checking report folder..."
             lblStatus.Refresh()
@@ -221,25 +221,10 @@ Namespace Forms
                 HQ.ReportFolder = Path.Combine(Application.StartupPath, "Reports")
             End If
             If My.Computer.FileSystem.DirectoryExists(HQ.ReportFolder) = False Then
-                ' Create the cache folder if it doesn't exist
+                ' Create the folder if it doesn't exist
                 My.Computer.FileSystem.CreateDirectory(HQ.ReportFolder)
             End If
             HQ.WriteLogEvent("End: Set report directory")
-
-            ' Check for existence of a data folder in the application directory
-            HQ.WriteLogEvent("Start: Set data directory")
-            lblStatus.Text = "> Checking data directory..."
-            lblStatus.Refresh()
-            If _isLocal = False Then
-                HQ.DataFolder = Path.Combine(HQ.AppDataFolder, "Data")
-            Else
-                HQ.DataFolder = Path.Combine(Application.StartupPath, "Data")
-            End If
-            If My.Computer.FileSystem.DirectoryExists(HQ.DataFolder) = False Then
-                ' Create the cache folder if it doesn't exist
-                My.Computer.FileSystem.CreateDirectory(HQ.DataFolder)
-            End If
-            HQ.WriteLogEvent("End: Set data directory")
 
             ' Check for existence of a backup folder
             HQ.WriteLogEvent("Start: Set Eve backup directory")
@@ -252,7 +237,7 @@ Namespace Forms
                 HQ.BackupFolder = Path.Combine(Application.StartupPath, "Backups")
             End If
             If My.Computer.FileSystem.DirectoryExists(HQ.BackupFolder) = False Then
-                ' Create the cache folder if it doesn't exist
+                ' Create the folder if it doesn't exist
                 My.Computer.FileSystem.CreateDirectory(HQ.BackupFolder)
             End If
             HQ.WriteLogEvent("End: Set Eve backup directory")
@@ -268,7 +253,7 @@ Namespace Forms
                 HQ.EveHQBackupFolder = Path.Combine(Application.StartupPath, "EveHQBackups")
             End If
             If My.Computer.FileSystem.DirectoryExists(HQ.EveHQBackupFolder) = False Then
-                ' Create the cache folder if it doesn't exist
+                ' Create the folder if it doesn't exist
                 My.Computer.FileSystem.CreateDirectory(HQ.EveHQBackupFolder)
             End If
             HQ.WriteLogEvent("End: Set EveHQ backup directory")
@@ -490,7 +475,7 @@ Namespace Forms
         Private Sub LoadItemData(state As Object)
 
             ' Load data from the core cache
-            If (StaticData.LoadCoreCache(HQ.CoreCacheFolder)) Then
+            If (StaticData.LoadCoreCache(HQ.StaticDataFolder)) Then
                 ' Finalise skill loading
                 HQ.WriteLogEvent(" *** Items Finished Loading")
                 _itemsLoaded = True

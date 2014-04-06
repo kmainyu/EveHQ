@@ -98,7 +98,6 @@ Public Class EveHQBackup
 
             HQ.WriteLogEvent("Backup: Backup EveHQ settings")
             Using zip As New ZipFile(zipFileName, UTF8Encoding.UTF8)
-                zip.AddDirectory(Path.Combine(HQ.AppDataFolder, "Data"), "Data")
                 zip.AddFile(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json"), "")
                 zip.AddFile(Path.Combine(HQ.AppDataFolder, "EveHQData.db3"), "")
 
