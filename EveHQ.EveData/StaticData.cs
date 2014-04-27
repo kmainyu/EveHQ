@@ -563,7 +563,14 @@ namespace EveHQ.EveData
                 case 115:
 
                     // groupID
-                    att.DisplayValue = TypeGroups[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)];
+                    if (TypeGroups.ContainsKey(Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)))
+                    {
+                        att.DisplayValue = TypeGroups[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)];
+                    }
+                    else
+                    {
+                        att.DisplayValue = Convert.ToString(att.Value, CultureInfo.CurrentCulture);
+                    }
                     att.Unit = string.Empty;
                     break;
                 case 116:
