@@ -116,94 +116,99 @@ Namespace BPCalc
 
             Resources.Clear()
             SubJobs.Clear()
-            For Each resource As EveData.BlueprintResource In CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).Values
-                If resource.Quantity >= 0 Then
-                    Dim subBP As BlueprintAsset = Nothing
+            If CurrentBlueprint.Resources.ContainsKey(BlueprintActivity.Manufacturing) Then
+                For Each resource As EveData.BlueprintResource In _
+                    CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).Values
+                    If resource.Quantity >= 0 Then
+                        Dim subBP As BlueprintAsset = Nothing
 
-                    ' Calculate the current perfect and waste resources
-                    Dim waste As Integer
-                    Dim perfectRaw As Integer = resource.Quantity
+                        ' Calculate the current perfect and waste resources
+                        Dim waste As Integer
+                        Dim perfectRaw As Integer = resource.Quantity
 
-                    ' Calculate Waste - Mark II!
-                    waste = CalculateWasteUnits(resource, wasteFactor, matMod)
+                        ' Calculate Waste - Mark II!
+                        waste = CalculateWasteUnits(resource, wasteFactor, matMod)
 
-                    ' Check if we have component iteration active
-                    If componentIteration = True Then
-                        ' Check for a blueprint
-                        If PlugInData.Products.ContainsKey(resource.TypeId.ToString) = True Then
-                            Dim bpid As String = PlugInData.Products(resource.TypeId.ToString)
-                            ' Check if we need to use owned BPs
-                            If owner <> "" Then
-                                ' Use owned BPs
-                                If PlugInData.BlueprintAssets.ContainsKey(BlueprintOwner) = True Then
-                                    For Each bpAsset As BlueprintAsset In PlugInData.BlueprintAssets(BlueprintOwner).Values
-                                        If bpAsset.TypeID = bpid Then
-                                            If subBP IsNot Nothing Then
-                                                If bpAsset.MELevel >= subBP.MELevel Then
+                        ' Check if we have component iteration active
+                        If componentIteration = True Then
+                            ' Check for a blueprint
+                            If PlugInData.Products.ContainsKey(resource.TypeId.ToString) = True Then
+                                Dim bpid As String = PlugInData.Products(resource.TypeId.ToString)
+                                ' Check if we need to use owned BPs
+                                If owner <> "" Then
+                                    ' Use owned BPs
+                                    If PlugInData.BlueprintAssets.ContainsKey(BlueprintOwner) = True Then
+                                        For Each bpAsset As BlueprintAsset In _
+                                            PlugInData.BlueprintAssets(BlueprintOwner).Values
+                                            If bpAsset.TypeID = bpid Then
+                                                If subBP IsNot Nothing Then
+                                                    If bpAsset.MELevel >= subBP.MELevel Then
+                                                        subBP = bpAsset
+                                                    End If
+                                                Else
                                                     subBP = bpAsset
                                                 End If
-                                            Else
-                                                subBP = bpAsset
                                             End If
-                                        End If
-                                    Next
+                                        Next
+                                    End If
+                                Else
+                                    ' Use any BPs
+                                    subBP = New BlueprintAsset
+                                    subBP.TypeID = bpid
+                                    subBP.MELevel = 0
+                                    subBP.PELevel = 0
+                                    subBP.Runs = -1
                                 End If
-                            Else
-                                ' Use any BPs
-                                subBP = New BlueprintAsset
-                                subBP.TypeID = bpid
-                                subBP.MELevel = 0
-                                subBP.PELevel = 0
-                                subBP.Runs = -1
                             End If
                         End If
-                    End If
 
-                    ' See if we need to examine the BP
-                    If componentIteration = True And subBP IsNot Nothing Then
-                        ' Convert the BP to a BlueprintSelection ready for processing
-                        Dim subBps As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(CInt(subBP.TypeID)))
-                        subBps.MELevel = subBP.MELevel
-                        subBps.PELevel = subBP.PELevel
-                        subBps.Runs = subBP.Runs
-                        ' Create a new production job
-                        Dim subJob As New Job
-                        subJob.CurrentBlueprint = subBps
-                        subJob.TypeID = resource.TypeId
-                        subJob.TypeName = StaticData.Types(resource.TypeId).Name
-                        subJob.PerfectUnits = perfectRaw
-                        subJob.WasteUnits = waste
-                        subJob.Runs = (perfectRaw + waste) * Runs
-                        subJob.Manufacturer = Manufacturer
-                        subJob.BlueprintOwner = BlueprintOwner
-                        subJob.PESkill = PESkill
-                        subJob.IndSkill = IndSkill
-                        subJob.ProdImplant = ProdImplant
-                        subJob.AssemblyArray = AssemblyArray
-                        subJob.StartTime = Now
-                        subJob.ProduceSubJob = True
-                        ' Set SubJob ME
-                        If SubJobMEs.ContainsKey(resource.TypeId) = False Then
-                            SubJobMEs.Add(resource.TypeId, subBps.MELevel)
+                        ' See if we need to examine the BP
+                        If componentIteration = True And subBP IsNot Nothing Then
+                            ' Convert the BP to a BlueprintSelection ready for processing
+                            Dim subBps As OwnedBlueprint =
+                                    OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(CInt(subBP.TypeID)))
+                            subBps.MELevel = subBP.MELevel
+                            subBps.PELevel = subBP.PELevel
+                            subBps.Runs = subBP.Runs
+                            ' Create a new production job
+                            Dim subJob As New Job
+                            subJob.CurrentBlueprint = subBps
+                            subJob.TypeID = resource.TypeId
+                            subJob.TypeName = StaticData.Types(resource.TypeId).Name
+                            subJob.PerfectUnits = perfectRaw
+                            subJob.WasteUnits = waste
+                            subJob.Runs = (perfectRaw + waste) * Runs
+                            subJob.Manufacturer = Manufacturer
+                            subJob.BlueprintOwner = BlueprintOwner
+                            subJob.PESkill = PESkill
+                            subJob.IndSkill = IndSkill
+                            subJob.ProdImplant = ProdImplant
+                            subJob.AssemblyArray = AssemblyArray
+                            subJob.StartTime = Now
+                            subJob.ProduceSubJob = True
+                            ' Set SubJob ME
+                            If SubJobMEs.ContainsKey(resource.TypeId) = False Then
+                                SubJobMEs.Add(resource.TypeId, subBps.MELevel)
+                            Else
+                                SubJobMEs(resource.TypeId) = subBps.MELevel
+                            End If
+                            ' Do the iteration on the component BP
+                            subJob.CalculateResourceRequirements(componentIteration, owner)
+                            SubJobs.Add(resource.TypeId, subJob)
                         Else
-                            SubJobMEs(resource.TypeId) = subBps.MELevel
+                            Dim newResource As New JobResource
+                            newResource.TypeID = resource.TypeId
+                            newResource.TypeName = StaticData.Types(resource.TypeId).Name
+                            newResource.TypeGroup = resource.TypeGroup
+                            newResource.TypeCategory = resource.TypeCategory
+                            newResource.PerfectUnits = perfectRaw
+                            newResource.WasteUnits = waste
+                            newResource.BaseUnits = resource.BaseMaterial
+                            Resources.Add(resource.TypeId, newResource)
                         End If
-                        ' Do the iteration on the component BP
-                        subJob.CalculateResourceRequirements(componentIteration, owner)
-                        SubJobs.Add(resource.TypeId, subJob)
-                    Else
-                        Dim newResource As New JobResource
-                        newResource.TypeID = resource.TypeId
-                        newResource.TypeName = StaticData.Types(resource.TypeId).Name
-                        newResource.TypeGroup = resource.TypeGroup
-                        newResource.TypeCategory = resource.TypeCategory
-                        newResource.PerfectUnits = perfectRaw
-                        newResource.WasteUnits = waste
-                        newResource.BaseUnits = resource.BaseMaterial
-                        Resources.Add(resource.TypeId, newResource)
                     End If
-                End If
-            Next
+                Next
+            End If
             Cost = CalculateCost()
         End Sub
 

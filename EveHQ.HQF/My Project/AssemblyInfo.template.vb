@@ -18,13 +18,13 @@ Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("EveHQ.HQF"),  _
  Assembly: AssemblyDescription("Eve Online game tool"),  _
- Assembly: AssemblyCompany("Indicium Technologies"),  _
+ Assembly: AssemblyCompany("EveHQ Development Team"),  _
  Assembly: AssemblyProduct("EveHQ"),  _
  Assembly: AssemblyCopyright("� EveHQ Development Team 2005-2014"),  _
- Assembly: AssemblyFileVersion("2.13.8.$REVNUM$-Beta-"),  _
- Assembly: AssemblyVersion("2.13.8.$REVNUM$"),  _
+ Assembly: AssemblyFileVersion("2.13.9.$REVNUM$-Beta-"),  _
+ Assembly: AssemblyVersion("2.13.9.$REVNUM$"),  _
  Assembly: AssemblyConfiguration("Debug"),  _
- Assembly: AssemblyTrademark("$UTCDATE$ (Version 2.13.8.$REVNUM$-Beta-)"),  _
+ Assembly: AssemblyTrademark("$UTCDATE$ (Version 2.13.9.$REVNUM$-Beta-)"),  _
  Assembly: CLSCompliant(false),  _
  Assembly: ComVisible(false),  _
  Assembly: Guid("b7c44f01-f50a-4c18-9c54-f9f8293f21c5")> 

@@ -277,9 +277,9 @@ namespace EveHQ.EveApi
             Guard.Against(characterId == 0);
 
             const string MethodPath = "{0}/ContractItems.xml.aspx";
-            const string CacheKeyFormat = "CharacterContractItems{0}_{1}";
+            const string CacheKeyFormat = "CharacterContractItems{0}_{1}_{2}";
 
-            string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
+            string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId, contractId);
 
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
 

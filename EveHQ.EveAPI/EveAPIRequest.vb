@@ -63,7 +63,7 @@ Public Class EveAPIRequest
     Private _cAPILastErrorText As String
     Private _cAPILastFileName As String
     Private _cAPIFileExtension As String = "aspx"
-    Private _cAPICacheLocation As String = Path.Combine(My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData, "EveAPICache")
+    Private _cAPICacheLocation As String = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ApiCache")
     Private _cAPIServerAddress As String = "https://api.eveonline.com"
     Private _cProxyServer As New RemoteProxyServer
 
@@ -113,7 +113,7 @@ Public Class EveAPIRequest
         End Get
         Set(ByVal value As String)
             If value = "" Then
-                _cAPICacheLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveAPICache")
+                _cAPICacheLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ApiCache")
             Else
                 _cAPICacheLocation = value
             End If

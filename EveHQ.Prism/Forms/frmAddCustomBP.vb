@@ -68,13 +68,15 @@ Namespace Forms
         End Sub
 
         Private Sub DisplayAllBlueprints()
-            ' Load the Blueprints into the combo box
+            ' Load the published Blueprints into the combo box
             cboBPs.BeginUpdate()
             cboBPs.Items.Clear()
             cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
             cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
             For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
-                cboBPs.Items.Add(StaticData.Types(newBP.Id).Name)
+                If StaticData.Types(newBP.Id).Published = True Then
+                    cboBPs.Items.Add(StaticData.Types(newBP.Id).Name)
+                End If
             Next
             cboBPs.Sorted = True
             cboBPs.EndUpdate()

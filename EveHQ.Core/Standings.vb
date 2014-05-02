@@ -72,7 +72,7 @@ Public Class Standings
                     Dim standingsResponse As EveServiceResponse(Of IEnumerable(Of NpcStanding)) =
                             HQ.ApiProvider.Character.NPCStandings(pilotAccount.UserID, pilotAccount.APIKey,
                                                                   pilot.ID.ToInt32())
-                    'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                    'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
                     'Dim standingsXML As XmlDocument = apiReq.GetAPIXML(APITypes.StandingsChar, pilotAccount.ToAPIAccount, pilot.ID, APIReturnMethods.ReturnStandard)
                     If standingsResponse IsNot Nothing Then
 
@@ -123,7 +123,7 @@ Public Class Standings
                     'Dim _
                     '    apiReq As _
                     '        New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension,
-                    '                          HQ.CacheFolder)
+                    '                          HQ.ApiCacheFolder)
                     'Dim standingsXML As XmlDocument = apiReq.GetAPIXML(APITypes.ContactListChar,
                     '                                                   pilotAccount.ToAPIAccount, pilot.ID,
                     '                                                   APIReturnMethods.ReturnStandard)

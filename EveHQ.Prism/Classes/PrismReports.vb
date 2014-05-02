@@ -668,7 +668,7 @@ Namespace Classes
                 If ownerAccount IsNot Nothing Then
 
                     If owner.IsCorp = True Then
-                        '  Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                        '  Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
                         ' Dim corpXML As XmlDocument = apiReq.GetAPIXML(APITypes.CorpSheet, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
                         Dim corpSheetResponse = HQ.ApiProvider.Corporation.CorporationSheet(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                         If corpSheetResponse IsNot Nothing Then

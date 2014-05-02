@@ -2519,7 +2519,7 @@ Imports EveHQ.Common.Extensions
         Dim subs, mods As New ArrayList
         For Each mws As ModuleWithState In Modules
             If ModuleLists.ModuleList.ContainsKey(CInt(mws.ID)) = True Then
-                If ModuleLists.ModuleList(CInt(mws.ID)).SlotType = 16 Then
+                If ModuleLists.ModuleList(CInt(mws.ID)).SlotType = SlotTypes.Subsystem Then
                     subs.Add(mws)
                 Else
                     mods.Add(mws)
@@ -2548,6 +2548,7 @@ Imports EveHQ.Common.Extensions
         ' Check for command processors as this affects the fitting!
         If shipMod.ID = ModuleEnum.ItemCommandProcessorI And shipMod.ModuleState = ModuleStates.Active Then
             BaseShip.Attributes(AttributeEnum.ShipMaxGangLinks) += 1
+            FittedShip.Attributes(AttributeEnum.ShipMaxGangLinks) += 1
         End If
 
         ' Check slot availability (only if not adding in a specific slot?)

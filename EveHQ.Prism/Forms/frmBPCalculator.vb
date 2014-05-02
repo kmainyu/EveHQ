@@ -504,6 +504,11 @@ Namespace Forms
             cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
             cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
             For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
+                ' Ignore unpublished BPs because their data might be incomplete
+                If StaticData.Types(newBP.Id).Published = False Then
+                    Continue For
+                End If
+
                 Dim bpName As String = StaticData.Types(newBP.Id).Name
                 If chkInventBPOs.Checked = True Then
                     If btnToggleInvention.Value = True Then
@@ -1331,6 +1336,7 @@ Namespace Forms
 
         Private Sub cboInventions_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboInventions.SelectedIndexChanged
             _inventionBpid = CInt(StaticData.TypeNames(cboInventions.SelectedItem.ToString))
+            _resetInventedBP = True
             If _inventionStartUp = False Then
                 Call CalculateInvention()
                 ProductionChanged = True
@@ -1560,6 +1566,7 @@ Namespace Forms
         Private Sub SetInventionJobData()
             ' Set the relevant parts of the current job
             Dim currentInventionJob As BPCalc.InventionJob = _currentJob.InventionJob
+            currentInventionJob.InventedBpid = _inventionBpid
             currentInventionJob.OverrideBpcRuns = nudInventionBPCRuns.LockUpdateChecked
             currentInventionJob.BpcRuns = nudInventionBPCRuns.Value
             If nudInventionBPCRuns.LockUpdateChecked = False Then
@@ -1576,7 +1583,6 @@ Namespace Forms
             Else
                 currentInventionJob.DecryptorUsed = Nothing
             End If
-            currentInventionJob.InventedBpid = _inventionBpid
             currentInventionJob.EncryptionSkill = _inventionSkill1
             currentInventionJob.DatacoreSkill1 = _inventionSkill2
             currentInventionJob.DatacoreSkill2 = _inventionSkill3

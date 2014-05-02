@@ -216,7 +216,7 @@ Public Class FrmKmv
             Dim _
                 apiReq As _
                     New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension,
-                                      HQ.CacheFolder)
+                                      HQ.ApiCacheFolder)
             If _kmAccount.APIKeyType = APIKeyTypes.Corporation Then
                 kmxml = apiReq.GetAPIXML(APITypes.KillLogCorp, _kmAccount.ToAPIAccount, _charID, lastKillID,
                                          APIReturnMethods.ReturnStandard)

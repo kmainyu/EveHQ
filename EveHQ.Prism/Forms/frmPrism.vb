@@ -1659,7 +1659,7 @@ Namespace Forms
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Orders)
                     Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
                     Dim marketOrders As EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
-                    Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+                    Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
 
                     If ownerAccount IsNot Nothing Then
 
@@ -4315,7 +4315,7 @@ Namespace Forms
 
             ' We are going to scan the whole of the Jobs API to try and find relevant IDs - no sense dicking around here, we need info!!
             If ownerBPs IsNot Nothing Then
-                Dim cacheFolder As String = HQ.CacheFolder
+                Dim cacheFolder As String = HQ.ApiCacheFolder
                 For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheFolder, SearchOption.SearchTopLevelOnly, "EVEHQAPI_Industry*")
                     ' Load up the XML
                     Dim jobXML As New XmlDocument

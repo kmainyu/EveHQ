@@ -836,7 +836,7 @@ Namespace Forms
                 Dim selPilot As String = lvwPilots.SelectedItems(0).Text
                 Dim selAccount As String = lvwPilots.SelectedItems(0).SubItems(2).Text
                 ' Check if the pilot is linked to an account - and therefore cannot be deleted
-                If selAccount <> "" Then
+                If selAccount <> "" And selAccount <> "0" Then
                     Dim msg As String = ""
                     msg &= "You cannot delete pilot '" & selPilot & "' as it is currently associated with account '" &
                            selAccount & "'."

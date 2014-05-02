@@ -142,7 +142,7 @@ Namespace Controls.DBControls
                 Const AccountKey As Integer = 1000
                 Const BeforeRefID As String = ""
 
-                'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
                 'transactionsXML = apiReq.GetAPIXML(APITypes.WalletTransChar, cAccount.ToAPIAccount, cCharID, accountKey, beforeRefID, APIReturnMethods.ReturnStandard)
                 Dim transactions = HQ.ApiProvider.Character.WalletTransactions(cAccount.UserID, cAccount.APIKey, cCharID.ToInt32(), AccountKey)
 

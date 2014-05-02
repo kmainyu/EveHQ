@@ -174,8 +174,8 @@ Public Class IGB
                                 End If
                             Case "/LOGO.JPG"
                                 context.Response.ContentType = "image/jpeg"
-                                My.Resources.EveHQ_IGBLogo.Save(Path.Combine(HQ.CacheFolder, "logo.jpg"))
-                                responseString = GetImage(Path.Combine(HQ.CacheFolder, "logo.jpg"))
+                                My.Resources.EveHQ_IGBLogo.Save(Path.Combine(HQ.ImageCacheFolder, "logo.jpg"))
+                                responseString = GetImage(Path.Combine(HQ.ImageCacheFolder, "logo.jpg"))
                             Case "/TEST.GIF"
                                 context.Response.ContentType = "image/gif"
                                 responseString = GetImage("c:/test.gif")

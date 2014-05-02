@@ -735,7 +735,7 @@ Namespace Classes
             Dim idList As New List(Of Integer)
 
 
-            ' Get the installerIDs from the JobXML
+            ' Get the character IDs from the ContractXML
             For Each contract In contracts
                 idList.Add(contract.AcceptorId)
                 idList.Add(contract.AssigneeId)

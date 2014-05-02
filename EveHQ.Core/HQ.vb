@@ -68,11 +68,10 @@ Public Class HQ
     Public Shared IsSplashFormDisabled As Boolean = False
     Private Shared _appDataFolder As String = ""
     Public Shared AppFolder As String = ""
-    Public Shared CacheFolder As String = ""
-    Public Shared CoreCacheFolder As String = ""
+    Public Shared ApiCacheFolder As String = ""
+    Public Shared StaticDataFolder As String = ""
     Public Shared ImageCacheFolder As String = ""
     Public Shared ReportFolder As String = ""
-    Public Shared DataFolder As String = ""
     Public Shared BackupFolder As String = ""
     Public Shared EveHQBackupFolder As String = ""
     Public Shared ItemDBConnectionString As String = ""
@@ -117,7 +116,6 @@ Public Class HQ
     Private Shared _plugins As Dictionary(Of String, EveHQPlugIn)
     Private Shared _eveCentralProvider As EveCentralMarketDataProvider
     Private Shared _eveHqProvider As EveHQMarketDataProvider
-    Private Const ApiCacheFolderName As String = "ApiCache"
 
 
     Shared Sub New()
@@ -278,12 +276,6 @@ Public Class HQ
         Set(value As String)
             _updateLocation = value
         End Set
-    End Property
-
-    Public Shared ReadOnly Property ApiCacheFolder As String
-        Get
-            Return Path.Combine(AppDataFolder, ApiCacheFolderName)
-        End Get
     End Property
 
     Public Shared ReadOnly Property ApiProvider As EveAPI.EveAPI

@@ -210,7 +210,7 @@
     '    Select Case Me.APIKeySystem
     '        Case APIKeySystems.Version2
     '            ' New style system
-    '            Dim APIReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+    '            Dim APIReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
     '            Dim APIXML As XmlDocument = APIReq.GetAPIXML(APITypes.APIKeyInfo, Me.ToAPIAccount, APIReturnMethods.BypassCache)
     '            Select Case APIReq.LastAPIError
     '                Case -1
@@ -245,7 +245,7 @@
     '    Dim CharList As New List(Of String)
 
     '    ' Fetch the characters on account XML file
-    '    Dim APIReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+    '    Dim APIReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
     '    Dim accountXML As XmlDocument = APIReq.GetAPIXML(APITypes.Characters, Me.ToAPIAccount, APIReturnMethods.ReturnStandard)
 
     '    ' Get characters
