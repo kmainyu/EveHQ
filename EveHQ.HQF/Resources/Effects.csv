@@ -1591,10 +1591,10 @@
 517,2,920,158,2,53;55;74,0,0,5,15,Falloff Modifer
 652,2,920,552,3,6,0,0,0,15,Signature Penalty
 652,2,920,554,3,8,0,0,0,15,Signature Penalty - Ammo
-1465,2,920,267,3,6,0,0,2,15,Armor EM Resistance Bonus
-1466,2,920,269,3,6,0,0,2,15,Armor Kin Resistance Bonus
-1467,2,920,270,3,6,0,0,2,15,Armor Therm Resistance Bonus
-1468,2,920,268,3,6,0,0,2,15,Armor Exp Resistance Bonus
+1465,2,920,267,3,6,1,0,2,15,Armor EM Resistance Bonus
+1466,2,920,269,3,6,1,0,2,15,Armor Kin Resistance Bonus
+1467,2,920,270,3,6,1,0,2,15,Armor Therm Resistance Bonus
+1468,2,920,268,3,6,1,0,2,15,Armor Exp Resistance Bonus
 1469,2,920,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,5,15,Missile Velocity Multiplier
 1470,2,920,37,3,6,0,0,5,15,Maximum Velocity Multiplier
 1472,2,920,10007,3,6,0,0,5,15,Drone Control Range Multiplier
@@ -1617,10 +1617,10 @@
 1488,2,920,116,2,72,0,0,5,15,Smartbomb Damage Multiplier
 1488,2,920,117,2,72,0,0,5,15,Smartbomb Damage Multiplier
 1488,2,920,118,2,72,0,0,5,15,Smartbomb Damage Multiplier
-1489,2,920,271,3,6,0,0,2,15,Shield EM Resist Bonus
-1490,2,920,272,3,6,0,0,2,15,Shield Exp Resist Bonus
-1491,2,920,273,3,6,0,0,2,15,Shield Kin Resist Bonus
-1492,2,920,274,3,6,0,0,2,15,Shield Therm Resist Bonus
+1489,2,920,271,3,6,1,0,2,15,Shield EM Resist Bonus
+1490,2,920,272,3,6,1,0,2,15,Shield Exp Resist Bonus
+1491,2,920,273,3,6,1,0,2,15,Shield Kin Resist Bonus
+1492,2,920,274,3,6,1,0,2,15,Shield Therm Resist Bonus
 1493,2,920,10015,4,561;564,0,0,5,15,Small Hybrid Weapon Damage Multiplier
 1493,2,920,10014,4,567;570,0,0,5,15,Small Energy Weapon Damage Multiplier
 1493,2,920,10016,4,574;577,0,0,5,15,Small Projectile Weapon Damage Multiplier
