@@ -80,6 +80,16 @@
         End Set
     End Property
 
+    Public ReadOnly Property Implant(ByVal index As Integer) As ShipModule
+        Get
+            If ImplantName(index) = "" Then
+                Return Nothing
+            End If
+
+            Return Implants.ImplantList(ImplantName(index))
+        End Get
+    End Property
+
     Public Sub New()
         PilotName = ""
         SkillSet = New Dictionary(Of String, FittingSkill)

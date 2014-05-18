@@ -266,6 +266,12 @@ Public Enum ModuleEnum
     ItemProteusWarfareProcessor = 29982
     ItemSiegeModuleI = 20280
     ItemSiegeModuleT2 = 4292
+    ItemSkillArmoredWarfare = 20494
+    ItemSkillInformationWarfare = 20495
+    ItemSkillLeadership = 3348
+    ItemSkillMiningForeman = 22536
+    ItemSkillSiegeWarfare = 3350
+    ItemSkillSkirmishWarfare = 3349
     ItemTenguCovertReconfiguration = 30125
     ItemTenguWarfareProcessor = 29972
     ItemTriageModuleI = 27951

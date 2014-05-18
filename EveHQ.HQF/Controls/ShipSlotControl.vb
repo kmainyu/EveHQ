@@ -66,7 +66,7 @@ Namespace Controls
         ReadOnly _rigGroups As New ArrayList
         ReadOnly _remoteGroups As New ArrayList
         ReadOnly _fleetGroups As New ArrayList
-        ReadOnly _fleetSkills As New ArrayList
+        ReadOnly _fleetSkills As New Dictionary(Of Integer, Integer)
         Private Const CancelSlotMenu As Boolean = False
 
         Dim _lvwBay As New ListView
@@ -167,12 +167,12 @@ Namespace Controls
             _remoteGroups.Add(640) ' Shield/armor repair drone
             _remoteGroups.Add(639) ' EW Drone
             _fleetGroups.Add(316)
-            _fleetSkills.Add("Armored Warfare")
-            _fleetSkills.Add("Information Warfare")
-            _fleetSkills.Add("Leadership")
-            _fleetSkills.Add("Mining Foreman")
-            _fleetSkills.Add("Siege Warfare")
-            _fleetSkills.Add("Skirmish Warfare")
+            _fleetSkills.Add(ModuleEnum.ItemSkillLeadership, AttributeEnum.SkillScanResBonus)
+            _fleetSkills.Add(ModuleEnum.ItemSkillArmoredWarfare, AttributeEnum.SkillArmorHpBonus)
+            _fleetSkills.Add(ModuleEnum.ItemSkillInformationWarfare, AttributeEnum.SkillTargetRangeBonus)
+            _fleetSkills.Add(ModuleEnum.ItemSkillSiegeWarfare, AttributeEnum.SkillShieldHpBonus)
+            _fleetSkills.Add(ModuleEnum.ItemSkillSkirmishWarfare, AttributeEnum.SkillAgilityBonus)
+            _fleetSkills.Add(ModuleEnum.ItemSkillMiningForeman, AttributeEnum.SkillMiningAmountBonus)
 
             ' Load the remote and fleet info
             Call LoadRemoteFleetInfo()
@@ -391,16 +391,15 @@ Namespace Controls
             If oldMod IsNot Nothing Then
                 Dim shipMod As New ShipModule
                 Select Case oldMod.SlotType
-                    Case SlotTypes.Rig ' Rig
+                    Case SlotTypes.Rig
                         shipMod = ParentFitting.FittedShip.RigSlot(slotNo)
-                    Case SlotTypes.Low ' Low
-
+                    Case SlotTypes.Low
                         shipMod = ParentFitting.FittedShip.LowSlot(slotNo)
-                    Case SlotTypes.Mid ' Mid
+                    Case SlotTypes.Mid
                         shipMod = ParentFitting.FittedShip.MidSlot(slotNo)
-                    Case SlotTypes.High ' High
+                    Case SlotTypes.High
                         shipMod = ParentFitting.FittedShip.HiSlot(slotNo)
-                    Case SlotTypes.Subsystem ' Subsystem
+                    Case SlotTypes.Subsystem
                         shipMod = ParentFitting.FittedShip.SubSlot(slotNo)
                 End Select
                 If shipMod IsNot Nothing Then
@@ -3700,75 +3699,52 @@ Namespace Controls
             End If
 
             If commanders.Count > 0 Then
+                ' Go through all fleet skills
+                For Each currentSkillAttPair As KeyValuePair(Of Integer, Integer) In _fleetSkills
+                    Dim skillLevel As Integer = 0
+                    Dim bonusPilot As String = ""
+                    Dim bonusImplant As String = ""
 
-                ' Go through each commander and parse the skills
-                Dim fleetSkill(commanders.Count + 1, _fleetSkills.Count - 1) As String
-                Dim hPilot As FittingPilot
-                For commander As Integer = 0 To commanders.Count - 1
-                    hPilot = FittingPilots.HQFPilots(commanders(commander))
-                    For skill As Integer = 0 To _fleetSkills.Count - 1
-                        If hPilot.ImplantName(10) = _fleetSkills(skill).ToString & " Mindlink" Then
-                            fleetSkill(commander + 1, skill) = "6"
-                            fleetSkill(0, skill) = fleetSkill(commander + 1, skill)
-                            fleetSkill(commanders.Count + 1, skill) = hPilot.PilotName
-                        Else
-                            If hPilot.SkillSet.ContainsKey(_fleetSkills(skill).ToString) Then
-                                fleetSkill(commander + 1, skill) = hPilot.SkillSet(_fleetSkills(skill).ToString).Level.ToString
-                                If fleetSkill(commander + 1, skill) >= fleetSkill(0, skill) Then
-                                    fleetSkill(0, skill) = fleetSkill(commander + 1, skill)
-                                    fleetSkill(commanders.Count + 1, skill) = hPilot.PilotName
-                                End If
+                    ' Armor mindlinks use a different attribute than the Armored Warfare skill
+                    Dim att As Integer = currentSkillAttPair.Value
+                    If att = AttributeEnum.SkillArmorHpBonus Then
+                        att = AttributeEnum.SkillArmorHpBonus2
+                    End If
+
+                    ' Check each commander's skill level
+                    For Each commander As String In commanders
+                        Dim pilot As FittingPilot = FittingPilots.HQFPilots(commander)
+                        Dim implant As ShipModule = pilot.Implant(10)
+
+                        If implant IsNot Nothing AndAlso implant.Attributes.ContainsKey(att) Then
+                            skillLevel = 6
+                            bonusPilot = pilot.PilotName
+                            bonusImplant = implant.Name
+                        ElseIf pilot.SkillSet.ContainsKey(SkillFunctions.SkillIDToName(currentSkillAttPair.Key)) Then
+                            If pilot.SkillSet(SkillFunctions.SkillIDToName(currentSkillAttPair.Key)).Level >= skillLevel Then
+                                skillLevel = pilot.SkillSet(SkillFunctions.SkillIDToName(currentSkillAttPair.Key)).Level
+                                bonusPilot = pilot.PilotName
                             End If
                         End If
                     Next
-                Next
 
-                ' Display the fleet skills data
-                For skill As Integer = 0 To _fleetSkills.Count - 1
-                    If CInt(fleetSkill(0, skill)) > 0 Then
+                    ' Add the fleet bonus item
+                    If skillLevel > 0 Then
                         Dim fleetModule As New ShipModule
-                        fleetModule.Name = _fleetSkills(skill).ToString & " (" & fleetSkill(commanders.Count + 1, skill) & " - Level " & fleetSkill(0, skill) & ")"
-                        fleetModule.ID = -1 * SkillFunctions.SkillNameToID(_fleetSkills(skill).ToString)
+                        If skillLevel = 6 Then
+                            ' Mindlink bonus
+                            fleetModule.Name = bonusImplant & " (" & bonusPilot & ")"
+                            fleetModule.Attributes.Add(currentSkillAttPair.Value, _
+                                                       ModuleLists.ModuleList(ModuleLists.ModuleListName(bonusImplant)).Attributes(att))
+                        Else
+                            ' Skill bonus
+                            fleetModule.Name = SkillFunctions.SkillIDToName(currentSkillAttPair.Key) & " (" & bonusPilot & " - Level " & skillLevel & ")"
+                            fleetModule.Attributes.Add(currentSkillAttPair.Value, _
+                                                       SkillLists.SkillList(currentSkillAttPair.Key).Attributes(currentSkillAttPair.Value) * skillLevel)
+                        End If
+                        fleetModule.ID = -1 * currentSkillAttPair.Key
                         fleetModule.ModuleState = ModuleStates.Fleet
-                        Select Case _fleetSkills(skill).ToString
-                            Case "Armored Warfare"
-                                If CInt(fleetSkill(0, skill)) = 6 Then
-                                    fleetModule.Name = "Armored Warfare Mindlink (" & fleetSkill(commanders.Count + 1, skill) & ")"
-                                    fleetModule.Attributes.Add(335, 15)
-                                Else
-                                    fleetModule.Attributes.Add(335, 2 * CInt(fleetSkill(0, skill)))
-                                End If
-                            Case "Information Warfare"
-                                If CInt(fleetSkill(0, skill)) = 6 Then
-                                    fleetModule.Name = "Information Warfare Mindlink (" & fleetSkill(commanders.Count + 1, skill) & ")"
-                                    fleetModule.Attributes.Add(309, 15)
-                                Else
-                                    fleetModule.Attributes.Add(309, 2 * CInt(fleetSkill(0, skill)))
-                                End If
-                            Case "Leadership"
-                                fleetModule.Attributes.Add(566, 2 * CInt(fleetSkill(0, skill)))
-                            Case "Mining Foreman"
-                                If CInt(fleetSkill(0, skill)) = 6 Then
-                                    fleetModule.Name = "Mining Foreman Mindlink (" & fleetSkill(commanders.Count + 1, skill) & ")"
-                                    fleetModule.Attributes.Add(434, 15)
-                                Else
-                                    fleetModule.Attributes.Add(434, 2 * CInt(fleetSkill(0, skill)))
-                                End If
-                            Case "Siege Warfare"
-                                If CInt(fleetSkill(0, skill)) = 6 Then
-                                    fleetModule.Name = "Siege Warfare Mindlink (" & fleetSkill(commanders.Count + 1, skill) & ")"
-                                    fleetModule.Attributes.Add(337, 15)
-                                Else
-                                    fleetModule.Attributes.Add(337, 2 * CInt(fleetSkill(0, skill)))
-                                End If
-                            Case "Skirmish Warfare"
-                                If CInt(fleetSkill(0, skill)) = 6 Then
-                                    fleetModule.Name = "Skirmish Warfare Mindlink (" & fleetSkill(commanders.Count + 1, skill) & ")"
-                                    fleetModule.Attributes.Add(151, -15)
-                                Else
-                                    fleetModule.Attributes.Add(151, -2 * CInt(fleetSkill(0, skill)))
-                                End If
-                        End Select
+
                         ParentFitting.BaseShip.FleetSlotCollection.Add(fleetModule)
                     End If
                 Next

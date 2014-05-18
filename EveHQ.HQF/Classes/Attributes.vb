@@ -192,6 +192,15 @@ Public Enum AttributeEnum
     ModuleTrackingSpeed = 160
     ModuleWarpScrambleRange = 103
 
+    ' skill attributes
+    SkillAgilityBonus = 151
+    SkillArmorHpBonus = 335
+    SkillArmorHpBonus2 = 1083
+    SkillMiningAmountBonus = 434
+    SkillScanResBonus = 566
+    SkillShieldHpBonus = 337
+    SkillTargetRangeBonus = 309
+
     ' custom attributeIDs (see HQF/Resources/Attributes.csv)
     ' ship attributes
     ShipArmorRepair = 10066
