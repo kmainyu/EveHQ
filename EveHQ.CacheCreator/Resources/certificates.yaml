@@ -394,6 +394,7 @@
     - 33667
     - 33669
     - 33677
+    - 33678
     skillTypes:
         3300:
             advanced: 5
@@ -2459,6 +2460,7 @@
     - 33667
     - 33669
     - 33677
+    - 33678
     skillTypes:
         3392:
             advanced: 5
@@ -3003,6 +3005,7 @@
     - 33667
     - 33669
     - 33677
+    - 33678
     - 33683
     - 33685
     - 33689
@@ -3432,6 +3435,7 @@
     - 33667
     - 33669
     - 33677
+    - 33678
     - 33683
     - 33685
     - 33687
@@ -3777,6 +3781,7 @@
     - 33667
     - 33669
     - 33677
+    - 33678
     skillTypes:
         3426:
             advanced: 3
@@ -5427,6 +5432,7 @@
     - 33667
     - 33669
     - 33677
+    - 33678
     - 33689
     - 33691
     - 33693
@@ -6220,6 +6226,7 @@
     - 33667
     - 33669
     - 33677
+    - 33678
     - 33683
     - 33685
     - 33687
@@ -6355,9 +6362,9 @@
             improved: 3
             standard: 0
 142:
-    description: This certificate represents level of competence with advanced targeting
-        systems. It certifies that the holder has can lock more than seven targets
-        at the same time. This is a good skillset to have for any capsuleer training
+    description: This certificate represents a level of competence with advanced targeting
+        systems. It certifies that the holder can lock more than seven targets at
+        the same time. This is a good skillset to have for any capsuleer training
         for specialized ships, like Logistics or Marauders.
     groupID: 1213
     name: Advanced Target Management
@@ -6894,6 +6901,7 @@
     - 33667
     - 33669
     - 33677
+    - 33678
     skillTypes:
         3300:
             advanced: 2

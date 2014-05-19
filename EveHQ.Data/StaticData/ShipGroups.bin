@@ -98,7 +98,9 @@ Capital Ships
 Capital Ships\Capital Industrial Ships
 Capital Ships\Capital Industrial Ships\ORE
 Capital Ships\Capital Industrial Ships\ORE\Orca
+Capital Ships\Capital Industrial Ships\ORE\Orca ORE Development Edition
 Capital Ships\Capital Industrial Ships\ORE\Rorqual
+Capital Ships\Capital Industrial Ships\ORE\Rorqual ORE Development Edition
 Capital Ships\Carriers
 Capital Ships\Carriers\Amarr
 Capital Ships\Carriers\Amarr\Aeon
@@ -231,21 +233,25 @@ Cruisers\Standard Cruisers\Amarr\Arbitrator
 Cruisers\Standard Cruisers\Amarr\Augoror
 Cruisers\Standard Cruisers\Amarr\Maller
 Cruisers\Standard Cruisers\Amarr\Omen
+Cruisers\Standard Cruisers\Amarr\Omen Kador Edition
 Cruisers\Standard Cruisers\Caldari
 Cruisers\Standard Cruisers\Caldari\Blackbird
 Cruisers\Standard Cruisers\Caldari\Caracal
+Cruisers\Standard Cruisers\Caldari\Caracal Nugoeihuvi Edition
 Cruisers\Standard Cruisers\Caldari\Moa
 Cruisers\Standard Cruisers\Caldari\Osprey
 Cruisers\Standard Cruisers\Gallente
 Cruisers\Standard Cruisers\Gallente\Celestis
 Cruisers\Standard Cruisers\Gallente\Exequror
 Cruisers\Standard Cruisers\Gallente\Thorax
+Cruisers\Standard Cruisers\Gallente\Thorax Aliastra Edition
 Cruisers\Standard Cruisers\Gallente\Vexor
 Cruisers\Standard Cruisers\Minmatar
 Cruisers\Standard Cruisers\Minmatar\Bellicose
 Cruisers\Standard Cruisers\Minmatar\Rupture
 Cruisers\Standard Cruisers\Minmatar\Scythe
 Cruisers\Standard Cruisers\Minmatar\Stabber
+Cruisers\Standard Cruisers\Minmatar\Stabber Krusual Edition
 Destroyers
 Destroyers\Advanced Destroyers
 Destroyers\Advanced Destroyers\Interdictors
@@ -327,13 +333,13 @@ Frigates\Faction Frigates\Navy Faction\Federation Navy Comet
 Frigates\Faction Frigates\Navy Faction\Imperial Navy Slicer
 Frigates\Faction Frigates\Navy Faction\Police Pursuit Comet
 Frigates\Faction Frigates\Navy Faction\Republic Fleet Firetail
-Frigates\Faction Frigates\Pirate Faction
-Frigates\Faction Frigates\Pirate Faction\Astero
-Frigates\Faction Frigates\Pirate Faction\Cruor
-Frigates\Faction Frigates\Pirate Faction\Daredevil
-Frigates\Faction Frigates\Pirate Faction\Dramiel
-Frigates\Faction Frigates\Pirate Faction\Succubus
-Frigates\Faction Frigates\Pirate Faction\Worm
+Frigates\Faction Frigates\Non-Empire Faction
+Frigates\Faction Frigates\Non-Empire Faction\Astero
+Frigates\Faction Frigates\Non-Empire Faction\Cruor
+Frigates\Faction Frigates\Non-Empire Faction\Daredevil
+Frigates\Faction Frigates\Non-Empire Faction\Dramiel
+Frigates\Faction Frigates\Non-Empire Faction\Succubus
+Frigates\Faction Frigates\Non-Empire Faction\Worm
 Frigates\Standard Frigates
 Frigates\Standard Frigates\Amarr
 Frigates\Standard Frigates\Amarr\Crucifier
@@ -387,12 +393,15 @@ Industrial Ships\Advanced Industrial Ships\Transport Ships\Minmatar\Prowler
 Industrial Ships\Standard Industrial Ships
 Industrial Ships\Standard Industrial Ships\Amarr
 Industrial Ships\Standard Industrial Ships\Amarr\Bestower
+Industrial Ships\Standard Industrial Ships\Amarr\Bestower Tash-Murkon Edition
 Industrial Ships\Standard Industrial Ships\Amarr\Sigil
 Industrial Ships\Standard Industrial Ships\Caldari
 Industrial Ships\Standard Industrial Ships\Caldari\Badger
 Industrial Ships\Standard Industrial Ships\Caldari\Tayra
+Industrial Ships\Standard Industrial Ships\Caldari\Tayra Wiyrkomi Edition
 Industrial Ships\Standard Industrial Ships\Gallente
 Industrial Ships\Standard Industrial Ships\Gallente\Epithal
+Industrial Ships\Standard Industrial Ships\Gallente\Iteron Inner Zone Shipping Edition
 Industrial Ships\Standard Industrial Ships\Gallente\Iteron Mark V
 Industrial Ships\Standard Industrial Ships\Gallente\Kryos
 Industrial Ships\Standard Industrial Ships\Gallente\Miasmos
@@ -400,6 +409,7 @@ Industrial Ships\Standard Industrial Ships\Gallente\Nereus
 Industrial Ships\Standard Industrial Ships\Minmatar
 Industrial Ships\Standard Industrial Ships\Minmatar\Hoarder
 Industrial Ships\Standard Industrial Ships\Minmatar\Mammoth
+Industrial Ships\Standard Industrial Ships\Minmatar\Mammoth Nefantar Edition
 Industrial Ships\Standard Industrial Ships\Minmatar\Wreathe
 Industrial Ships\Standard Industrial Ships\ORE
 Industrial Ships\Standard Industrial Ships\ORE\Noctis
@@ -407,6 +417,7 @@ Mining Barges
 Mining Barges\Exhumers
 Mining Barges\Exhumers\Hulk
 Mining Barges\Exhumers\Mackinaw
+Mining Barges\Exhumers\Mackinaw ORE Development Edition
 Mining Barges\Exhumers\Skiff
 Mining Barges\Mining Barges
 Mining Barges\Mining Barges\Covetor

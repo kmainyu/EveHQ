@@ -1138,9 +1138,9 @@ $╩
 ╘
 Advanced Frigates╤
 
-╒
-╒
-Pirate Faction╥
+╒
+╒
+Non-Empire Faction╥
 
 ╓
 ╓
@@ -1908,23 +1908,23 @@ $╩к╩кAmmo Expansion Units╕╩
 *■к$■кLight Attack Vehicle (LAV)·к
 * к$ кHeavy Attack Vehicle (HAV)·к
 ллллLoyalty Store▒о
-млмлGallente Storeлл
-нлнлAmarr Storeлл
-ололMinmatar Storeлл
-плплCaldari Storeлл
+млмлFederal Marinesлл
+нлнлImperial Guardлл
+ ололRepublic Commandлл
+"плплState Peacekeepersлл
 %┼л┼лFaction Booster Amarrц╤
 ▌м▌м	Dropsuitsмл
 ▐м▐м	Dropsuitsнл
 ▀м▀м	Dropsuitsол
 смсм	Dropsuitsпл
- тмтмDropsuit Weaponsмл
- умумDropsuit Weaponsнл
- фмфмDropsuit Weaponsол
- хмхмDropsuit Weaponsпл
+тмтмWeaponsмл
+умумWeaponsнл
+фмфмWeaponsол
+хмхмWeaponsпл
 цмцмVehiclesмл
 щмщмVehiclesпл
-ъмъмVehicle Turretsмл
-эмэмVehicle Turretsпл
+ъмъмTurretsмл
+эмэмTurretsпл
  юмюмDropsuit Modulesмл
  ямямDropsuit Modulesнл
  ёмёмDropsuit Modulesол
@@ -1992,3 +1992,19 @@ $╩к╩кAmmo Expansion Units╕╩
 'Оо!ОоFaction Booster Caldariц╤
 (По"ПоFaction Booster Gallenteц╤
 (Ро"РоFaction Booster Minmatarц╤
+ъпъпBolt PistolsРЬ
+ыпыпStandardъп
+ьпьпAdvancedъп
+эпэп	Prototypeъп
+юпюпMagsec SMGsРЬ
+япяпStandardюп
+ЁпЁпAdvancedюп
+ёпёп	Prototypeюп
+Х▒Х▒Ion PistolsРЬ
+Ц▒Ц▒StandardХ▒
+Ч▒Ч▒AdvancedХ▒
+Ш▒Ш▒	PrototypeХ▒
+а▒а▒Cloak FieldsЫ╩
+б▒б▒Standardа▒
+в▒в▒Advancedа▒
+г▒г▒	Prototypeа▒

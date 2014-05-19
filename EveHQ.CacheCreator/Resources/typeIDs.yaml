@@ -25532,7 +25532,7 @@
 14746:
     iconID: 20942
 14748:
-    iconID: 81
+    iconID: 20949
 14749:
     iconID: 20949
 14750:
@@ -39436,6 +39436,7 @@
 21094:
     graphicID: 2742
     radius: 1.0
+    soundID: 20157
 21095:
     iconID: 1007
 21096:
@@ -60168,9 +60169,8 @@
         -1:
             1:
                 bonus: 100
-                bonusText: bonus to Rapid <a href=showinfo:3324>Heavy Missile</a>,
-                    <a href=showinfo:3326>Cruise Missile</a> and <a href=showinfo:3325>Torpedo</a>
-                    damage
+                bonusText: bonus to <a href=showinfo:3324>Heavy Missile</a>, <a href=showinfo:3326>Cruise
+                    Missile</a> and <a href=showinfo:3325>Torpedo</a> damage
                 unitID: 105
             2:
                 bonus: 100
@@ -73002,6 +73002,7 @@
     graphicID: 1266
     radius: 4634.0
 33623:
+    factionID: 500003
     graphicID: 20470
     masteries:
         0:
@@ -73050,6 +73051,8 @@
         - 150
         - 89
         - 93
+    radius: 400.0
+    soundID: 20061
     traits:
         3339:
             1:
@@ -73064,6 +73067,7 @@
 33624:
     graphicID: 297
 33625:
+    factionID: 500003
     graphicID: 20469
     masteries:
         0:
@@ -73112,6 +73116,8 @@
         - 150
         - 89
         - 93
+    radius: 400.0
+    soundID: 20061
     traits:
         3339:
             1:
@@ -73126,6 +73132,7 @@
 33626:
     graphicID: 297
 33627:
+    factionID: 500001
     graphicID: 20471
     masteries:
         0:
@@ -73174,6 +73181,8 @@
         - 85
         - 118
         - 150
+    radius: 250.0
+    soundID: 20068
     traits:
         3338:
             1:
@@ -73188,6 +73197,7 @@
 33628:
     graphicID: 43
 33629:
+    factionID: 500001
     graphicID: 20472
     masteries:
         0:
@@ -73236,6 +73246,8 @@
         - 85
         - 118
         - 150
+    radius: 250.0
+    soundID: 20068
     traits:
         3338:
             1:
@@ -73250,6 +73262,7 @@
 33630:
     graphicID: 43
 33631:
+    factionID: 500002
     graphicID: 20473
     masteries:
         0:
@@ -73298,6 +73311,8 @@
         - 85
         - 118
         - 150
+    radius: 250.0
+    soundID: 20076
     traits:
         3337:
             1:
@@ -73312,6 +73327,7 @@
 33632:
     graphicID: 48
 33633:
+    factionID: 500002
     graphicID: 20474
     masteries:
         0:
@@ -73360,6 +73376,8 @@
         - 85
         - 118
         - 150
+    radius: 250.0
+    soundID: 20076
     traits:
         3337:
             1:
@@ -73374,6 +73392,7 @@
 33634:
     graphicID: 48
 33635:
+    factionID: 500004
     graphicID: 20475
     masteries:
         0:
@@ -73422,6 +73441,8 @@
         - 150
         - 89
         - 133
+    radius: 250.0
+    soundID: 20072
     traits:
         3336:
             1:
@@ -73436,6 +73457,7 @@
 33636:
     graphicID: 64
 33637:
+    factionID: 500004
     graphicID: 20476
     masteries:
         0:
@@ -73484,6 +73506,8 @@
         - 150
         - 89
         - 133
+    radius: 250.0
+    soundID: 20072
     traits:
         3336:
             1:
@@ -73498,6 +73522,7 @@
 33638:
     graphicID: 64
 33639:
+    factionID: 500003
     graphicID: 20462
     masteries:
         0:
@@ -73546,6 +73571,8 @@
         - 89
         - 93
         - 94
+    radius: 134.43000000000001
+    soundID: 20063
     traits:
         3335:
             1:
@@ -73561,6 +73588,7 @@
 33640:
     graphicID: 1065
 33641:
+    factionID: 500003
     graphicID: 20463
     masteries:
         0:
@@ -73609,6 +73637,8 @@
         - 89
         - 93
         - 94
+    radius: 134.43000000000001
+    soundID: 20063
     traits:
         3335:
             1:
@@ -73624,6 +73654,7 @@
 33642:
     graphicID: 1065
 33643:
+    factionID: 500001
     graphicID: 20464
     masteries:
         0:
@@ -73667,6 +73698,8 @@
         - 85
         - 118
         - 94
+    radius: 202.0
+    soundID: 20070
     traits:
         3334:
             1:
@@ -73684,6 +73717,7 @@
 33644:
     graphicID: 42
 33645:
+    factionID: 500001
     graphicID: 1954
     masteries:
         0:
@@ -73727,6 +73761,8 @@
         - 85
         - 118
         - 94
+    radius: 202.0
+    soundID: 20070
     traits:
         3334:
             1:
@@ -73744,6 +73780,7 @@
 33646:
     graphicID: 42
 33647:
+    factionID: 500002
     graphicID: 20465
     masteries:
         0:
@@ -73787,6 +73824,8 @@
         - 85
         - 118
         - 94
+    radius: 110.0
+    soundID: 20078
     traits:
         3333:
             1:
@@ -73802,6 +73841,7 @@
 33648:
     graphicID: 47
 33649:
+    factionID: 500002
     graphicID: 20466
     masteries:
         0:
@@ -73845,6 +73885,8 @@
         - 85
         - 118
         - 94
+    radius: 110.0
+    soundID: 20078
     traits:
         3333:
             1:
@@ -73860,6 +73902,7 @@
 33650:
     graphicID: 47
 33651:
+    factionID: 500004
     graphicID: 20468
     masteries:
         0:
@@ -73908,6 +73951,8 @@
         - 150
         - 89
         - 94
+    radius: 149.0
+    soundID: 20074
     traits:
         3332:
             1:
@@ -73923,6 +73968,7 @@
 33652:
     graphicID: 63
 33653:
+    factionID: 500004
     graphicID: 20467
     masteries:
         0:
@@ -73971,6 +74017,8 @@
         - 150
         - 89
         - 94
+    radius: 149.0
+    soundID: 20074
     traits:
         3332:
             1:
@@ -73986,6 +74034,7 @@
 33654:
     graphicID: 63
 33655:
+    factionID: 500003
     graphicID: 20451
     masteries:
         0:
@@ -74029,6 +74078,8 @@
         - 89
         - 93
         - 94
+    radius: 34.0
+    soundID: 20063
     traits:
         3331:
             1:
@@ -74043,6 +74094,7 @@
 33656:
     graphicID: 300
 33657:
+    factionID: 500003
     graphicID: 20452
     masteries:
         0:
@@ -74086,6 +74138,8 @@
         - 89
         - 93
         - 94
+    radius: 34.0
+    soundID: 20063
     traits:
         3331:
             1:
@@ -74100,6 +74154,7 @@
 33658:
     graphicID: 300
 33659:
+    factionID: 500001
     graphicID: 20453
     masteries:
         0:
@@ -74143,6 +74198,8 @@
         - 85
         - 118
         - 94
+    radius: 39.0
+    soundID: 20070
     traits:
         3330:
             1:
@@ -74157,6 +74214,7 @@
 33660:
     graphicID: 314
 33661:
+    factionID: 500001
     graphicID: 1960
     masteries:
         0:
@@ -74200,6 +74258,8 @@
         - 85
         - 118
         - 94
+    radius: 39.0
+    soundID: 20070
     traits:
         3330:
             1:
@@ -74214,6 +74274,7 @@
 33662:
     graphicID: 314
 33663:
+    factionID: 500002
     graphicID: 20454
     masteries:
         0:
@@ -74257,6 +74318,8 @@
         - 150
         - 89
         - 94
+    radius: 31.0
+    soundID: 20078
     traits:
         3329:
             1:
@@ -74272,6 +74335,7 @@
 33664:
     graphicID: 46
 33665:
+    factionID: 500002
     graphicID: 20455
     masteries:
         0:
@@ -74315,6 +74379,8 @@
         - 150
         - 89
         - 94
+    radius: 31.0
+    soundID: 20078
     traits:
         3329:
             1:
@@ -74330,6 +74396,7 @@
 33666:
     graphicID: 46
 33667:
+    factionID: 500004
     graphicID: 20456
     masteries:
         0:
@@ -74373,6 +74440,8 @@
         - 150
         - 89
         - 94
+    radius: 41.0
+    soundID: 20074
     traits:
         3328:
             1:
@@ -74387,6 +74456,7 @@
 33668:
     graphicID: 61
 33669:
+    factionID: 500004
     graphicID: 20459
     masteries:
         0:
@@ -74430,6 +74500,8 @@
         - 150
         - 89
         - 94
+    radius: 41.0
+    soundID: 20074
     traits:
         3328:
             1:
@@ -74451,11 +74523,13 @@
 33673:
     graphicID: 20605
     radius: 33.0
+    soundID: 20070
 33674:
     graphicID: 39
 33675:
     graphicID: 20604
     radius: 131.0
+    soundID: 20070
 33676:
     graphicID: 303
 33677:
@@ -74515,12 +74589,59 @@
                     damage
                 unitID: 105
 33678:
+    factionID: 500004
     graphicID: 60
+    masteries:
+        0:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        1:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        2:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        3:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 150
+        - 89
+        - 94
+        4:
+        - 96
+        - 99
+        - 140
+        - 67
+        - 117
+        - 150
+        - 89
+        - 94
+    radius: 37.0
+    soundID: 20074
 33681:
     graphicID: 20483
+    radius: 35.0
 33682:
     graphicID: 1079
 33683:
+    factionID: 500014
     graphicID: 20601
     masteries:
         0:
@@ -74559,6 +74680,8 @@
         - 85
         - 118
         - 94
+    radius: 202.0
+    soundID: 20066
     traits:
         -1:
             1:
@@ -74591,6 +74714,7 @@
 33684:
     graphicID: 46
 33685:
+    factionID: 500014
     graphicID: 20602
     masteries:
         0:
@@ -74625,6 +74749,8 @@
         - 85
         - 118
         - 94
+    radius: 550.0
+    soundID: 20066
     traits:
         -1:
             1:
@@ -74655,6 +74781,7 @@
 33686:
     graphicID: 309
 33687:
+    factionID: 500014
     graphicID: 20603
     masteries:
         0:
@@ -74706,6 +74833,8 @@
         - 88
         - 118
         - 95
+    radius: 1100.0
+    soundID: 20067
     traits:
         -1:
             1:
@@ -74747,6 +74876,7 @@
 33688:
     graphicID: 309
 33689:
+    factionID: 500004
     graphicID: 20479
     masteries:
         0:
@@ -74774,6 +74904,8 @@
         - 118
         - 117
         - 94
+    radius: 553.0
+    soundID: 20074
     traits:
         3340:
             1:
@@ -74787,6 +74919,7 @@
 33690:
     graphicID: 328
 33691:
+    factionID: 500001
     graphicID: 20478
     masteries:
         0:
@@ -74814,6 +74947,8 @@
         - 118
         - 117
         - 94
+    radius: 279.0
+    soundID: 20070
     traits:
         3342:
             1:
@@ -74827,6 +74962,7 @@
 33692:
     graphicID: 52
 33693:
+    factionID: 500002
     graphicID: 20480
     masteries:
         0:
@@ -74854,6 +74990,8 @@
         - 118
         - 117
         - 94
+    radius: 617.0
+    soundID: 20078
     traits:
         3341:
             1:
@@ -74867,6 +75005,7 @@
 33694:
     graphicID: 309
 33695:
+    factionID: 500003
     graphicID: 20481
     masteries:
         0:
@@ -74894,6 +75033,8 @@
         - 118
         - 117
         - 94
+    radius: 350.0
+    soundID: 20063
     traits:
         3343:
             1:
@@ -74907,10 +75048,10 @@
 33696:
     graphicID: 1064
 33697:
-    graphicID: 61
+    graphicID: 20600
     radius: 41.0
 33698:
-    graphicID: 61
+    graphicID: 20600
 33700:
     graphicID: 20387
     radius: 100.0
@@ -75047,8 +75188,10 @@
     radius: 1.0
 33765:
     graphicID: 20607
+    radius: 14.0
 33766:
     graphicID: 20608
+    radius: 14.0
 33767:
     iconID: 21148
 33768:
@@ -75127,5 +75270,15 @@
 33806:
     graphicID: 1058
     radius: 250.0
+33807:
+    iconID: 2062
+    radius: 1.0
+33808:
+    iconID: 2054
+    radius: 1.0
 33809:
     iconID: 21186
+33812:
+    iconID: 21193
+33813:
+    iconID: 21192
