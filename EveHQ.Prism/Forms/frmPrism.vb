@@ -4013,12 +4013,16 @@ Namespace Forms
                     Dim bpData As EveData.Blueprint
                     Dim locationName As String
                     Dim matchCat As Boolean
+                    _bpLocations.Clear()
                     For Each blueprint As BlueprintAsset In ownerBPs.Values
                         If blueprint.LocationDetails Is Nothing Then blueprint.LocationDetails = "" ' Resets details
                         If blueprint.LocationID Is Nothing Then blueprint.LocationID = "0" ' Resets details
                         If StaticData.Blueprints.ContainsKey(CInt(blueprint.TypeID)) Then
                             bpData = StaticData.Blueprints(CInt(blueprint.TypeID))
                             locationName = Locations.GetLocationNameFromID(CInt(blueprint.LocationID))
+                            If locationName <> "" AndAlso _bpLocations.Contains(locationName) = False Then
+                                _bpLocations.Add(locationName)
+                            End If
                             If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = bpData.TechLevel) Then
                                 If cboTypeFilter.SelectedIndex = 0 Or (cboTypeFilter.SelectedIndex = blueprint.BPType + 1) Then
                                     matchCat = False
