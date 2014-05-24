@@ -56,6 +56,7 @@ using EveHQ.Common.Extensions;
 namespace EveHQ.EveApi
 {
     using System.Diagnostics;
+    using System.Net;
 
     /// <summary>
     ///     Object used for interacting with the Eve API web service provided by CCP.
@@ -422,8 +423,8 @@ namespace EveHQ.EveApi
             {
                 ResultData = result,
                 ServiceException = faultError,
-                IsSuccessfulHttpStatus = webTask.Result.IsSuccessStatusCode,
-                HttpStatusCode = webTask.Result.StatusCode,
+                IsSuccessfulHttpStatus = faultError == null && webTask.Result.IsSuccessStatusCode,
+                HttpStatusCode = faultError == null ? webTask.Result.StatusCode : HttpStatusCode.NotFound,
                 CacheUntil = cacheTime,
                 EveErrorCode = eveErrorCode,
                 EveErrorText = eveErrorText
