@@ -1,84 +1,77 @@
-﻿// ==============================================================================
-// 
-// EveHQ - An Eve-Online™ character assistance application
-// Copyright © 2005-2014  EveHQ Development Team
-//   
-// This file is part of EveHQ.
+﻿//  ==============================================================================
 //  
-// The source code for EveHQ is free and you may redistribute 
-// it and/or modify it under the terms of the MIT License. 
-// 
-// Refer to the NOTICES file in the root folder of EVEHQ source
-// project for details of 3rd party components that are covered
-// under their own, separate licenses.
-// 
-// EveHQ is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the MIT 
-// license below for details.
-// 
-// ------------------------------------------------------------------------------
-// 
-// The MIT License (MIT)
-// 
-// Copyright © 2005-2014  EveHQ Development Team
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-// 
+//  EveHQ - An Eve-Online™ character assistance application
+//  Copyright © 2005-2014  EveHQ Development Team
+//    
+//  This file is part of EveHQ.
+//   
+//  The source code for EveHQ is free and you may redistribute 
+//  it and/or modify it under the terms of the MIT License. 
+//  
+//  Refer to the NOTICES file in the root folder of EVEHQ source
+//  project for details of 3rd party components that are covered
+//  under their own, separate licenses.
+//  
+//  EveHQ is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the MIT 
+//  license below for details.
+//  
+//  ------------------------------------------------------------------------------
+//  
+//  The MIT License (MIT)
+//  
+//  Copyright © 2005-2014  EveHQ Development Team
+//  
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//  
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//  
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
+//  
 // ==============================================================================
-
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using EveHQ.Common.Extensions;
 
 namespace EveHQ.Common
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Reflection;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using EveHQ.Common.Extensions;
+
     /// <summary>
     ///     Provider class for making Http requests.
     /// </summary>
     public sealed class HttpRequestProvider : IHttpRequestProvider
     {
-        #region Static Fields
-
         //  private static readonly string UserAgent = "EveHQ v" + Assembly.GetExecutingAssembly().GetName().Version;
-
-        #endregion
-
-        #region Fields
 
         /// <summary>
         ///     user agent value to send along on requests for provider collection.
         /// </summary>
         /// <summary>The _proxy info.</summary>
         private readonly WebProxyDetails _proxyInfo;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>Initializes a new instance of the <see cref="HttpRequestProvider" /> class.</summary>
         /// <param name="proxyInfo">The proxy info.</param>
@@ -87,9 +80,18 @@ namespace EveHQ.Common
             _proxyInfo = proxyInfo;
         }
 
-        #endregion
-
-        #region Public Methods and Operators
+        private string _version;
+        private string Version
+        {
+            get
+            {
+                if (_version.IsNullOrWhiteSpace())
+                {
+                    _version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+                }
+                return _version;
+            }
+        }
 
         /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
         /// <param name="target">The target URL.</param>
@@ -113,10 +115,8 @@ namespace EveHQ.Common
         /// <param name="acceptContentType">The accept Content Type.</param>
         /// <param name="completionOption">The completion Option.</param>
         /// <returns>The asynchronouse task instance</returns>
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope",
-            Justification = "Handler is used by the async task, and cannot be disposed early.")]
-        public Task<HttpResponseMessage> GetAsync(Uri target, string acceptContentType,
-            HttpCompletionOption completionOption)
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Handler is used by the async task, and cannot be disposed early.")]
+        public Task<HttpResponseMessage> GetAsync(Uri target, string acceptContentType, HttpCompletionOption completionOption)
         {
             if (target != null)
             {
@@ -133,9 +133,7 @@ namespace EveHQ.Common
                     else
                     {
                         var credential = new NetworkCredential(_proxyInfo.ProxyUserName, _proxyInfo.ProxyPassword);
-                        proxy.Credentials = _proxyInfo.UseBasicAuth
-                            ? credential.GetCredential(_proxyInfo.ProxyServerAddress, "Basic")
-                            : credential;
+                        proxy.Credentials = _proxyInfo.UseBasicAuth ? credential.GetCredential(_proxyInfo.ProxyServerAddress, "Basic") : credential;
                     }
 
                     handler.Proxy = proxy;
@@ -214,12 +212,13 @@ namespace EveHQ.Common
         /// <param name="postContent">The string content to send as the payload.</param>
         /// <param name="contentType">The content Type.</param>
         /// <returns>The asynchronouse task instance</returns>
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope",
-            Justification = "Disposing the handler for async operations would cause the operation to fail."),
-         SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1",
-             Justification = "validated by extension method.")]
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the handler for async operations would cause the operation to fail.")]
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "validated by extension method.")]
         public Task<HttpResponseMessage> PostAsync(Uri target, string postContent, string contentType)
         {
+
+            const string UserAgent = "user-agent";
+            const string UserAgentValue = "EveHQ v{0}";
             if (target != null)
             {
                 var handler = new HttpClientHandler();
@@ -236,9 +235,7 @@ namespace EveHQ.Common
                     else
                     {
                         var credential = new NetworkCredential(_proxyInfo.ProxyUserName, _proxyInfo.ProxyPassword);
-                        proxy.Credentials = _proxyInfo.UseBasicAuth
-                            ? credential.GetCredential(_proxyInfo.ProxyServerAddress, "Basic")
-                            : credential;
+                        proxy.Credentials = _proxyInfo.UseBasicAuth ? credential.GetCredential(_proxyInfo.ProxyServerAddress, "Basic") : credential;
                     }
 
                     handler.Proxy = proxy;
@@ -249,17 +246,14 @@ namespace EveHQ.Common
                 handler.AllowAutoRedirect = true;
 
                 var requestClient = new HttpClient(handler);
+                requestClient.DefaultRequestHeaders.Add(UserAgent, UserAgentValue.FormatInvariant(Version));
 
-                HttpContent content = !postContent.IsNullOrWhiteSpace()
-                    ? new StringContent(postContent, Encoding.UTF8, contentType)
-                    : null;
+                HttpContent content = !postContent.IsNullOrWhiteSpace() ? new StringContent(postContent, Encoding.UTF8, contentType) : null;
 
                 return requestClient.PostAsync(target, content);
             }
 
             return Task<HttpResponseMessage>.Factory.StartNew(() => null);
         }
-
-        #endregion
     }
 }
