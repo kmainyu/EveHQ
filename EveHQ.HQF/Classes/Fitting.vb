@@ -2185,11 +2185,7 @@ Imports EveHQ.Common.Extensions
             Case EffectCalcType.Addition
                 newShip.Attributes(att) = newShip.Attributes(att) + fEffect.AffectedValue
             Case EffectCalcType.Difference ' Used for resistances
-                If fEffect.AffectedValue <= 0 Then
-                    newShip.Attributes(att) = ((100 - newShip.Attributes(att)) * (-fEffect.AffectedValue / 100)) + newShip.Attributes(att)
-                Else
-                    newShip.Attributes(att) = (newShip.Attributes(att) * (-fEffect.AffectedValue / 100)) + newShip.Attributes(att)
-                End If
+                newShip.Attributes(att) = ((100 - newShip.Attributes(att)) * (-fEffect.AffectedValue / 100)) + newShip.Attributes(att)
             Case EffectCalcType.Velocity
                 newShip.Attributes(att) = newShip.Attributes(att) + (newShip.Attributes(att) * (newShip.Attributes(10010) / newShip.Attributes(10002) * (fEffect.AffectedValue / 100)))
             Case EffectCalcType.Absolute
@@ -2242,11 +2238,7 @@ Imports EveHQ.Common.Extensions
             Case EffectCalcType.Addition
                 newModule.Attributes(att) = newModule.Attributes(att) + fEffect.AffectedValue
             Case EffectCalcType.Difference  ' Used for resistances
-                If fEffect.AffectedValue <= 0 Then
-                    newModule.Attributes(att) = ((100 - newModule.Attributes(att)) * (-fEffect.AffectedValue / 100)) + newModule.Attributes(att)
-                Else
-                    newModule.Attributes(att) = (newModule.Attributes(att) * (-fEffect.AffectedValue / 100)) + newModule.Attributes(att)
-                End If
+                newModule.Attributes(att) = ((100 - newModule.Attributes(att)) * (-fEffect.AffectedValue / 100)) + newModule.Attributes(att)
             Case EffectCalcType.Velocity
                 newModule.Attributes(att) = newModule.Attributes(att) + (newModule.Attributes(att) * (newModule.Attributes(10010) / newModule.Attributes(10002) * (fEffect.AffectedValue / 100)))
             Case EffectCalcType.Absolute

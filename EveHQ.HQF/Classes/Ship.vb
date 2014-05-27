@@ -633,10 +633,10 @@ Imports System.Runtime.Serialization
             Return _cShieldEMResist
         End Get
         Set(ByVal value As Double)
-            If value < 0 Or value > 100 Then
-                MessageBox.Show("Shield resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If value > 100 Then
+                MessageBox.Show("Shield resistances cannot be above 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _cShieldEMResist = value
+                _cShieldEMResist = If(value < 0, 0, value)
                 Call CalculateEffectiveShieldHP()
             End If
         End Set
@@ -647,10 +647,10 @@ Imports System.Runtime.Serialization
             Return _cShieldExResist
         End Get
         Set(ByVal value As Double)
-            If value < 0 Or value > 100 Then
-                MessageBox.Show("Shield resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If value > 100 Then
+                MessageBox.Show("Shield resistances cannot be above 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _cShieldExResist = value
+                _cShieldExResist = If(value < 0, 0, value)
                 Call CalculateEffectiveShieldHP()
             End If
         End Set
@@ -661,10 +661,10 @@ Imports System.Runtime.Serialization
             Return _cShieldKiResist
         End Get
         Set(ByVal value As Double)
-            If value < 0 Or value > 100 Then
-                MessageBox.Show("Shield resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If value > 100 Then
+                MessageBox.Show("Shield resistances cannot be above 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _cShieldKiResist = value
+                _cShieldKiResist = If(value < 0, 0, value)
                 Call CalculateEffectiveShieldHP()
             End If
         End Set
@@ -675,10 +675,10 @@ Imports System.Runtime.Serialization
             Return _cShieldThResist
         End Get
         Set(ByVal value As Double)
-            If value < 0 Or value > 100 Then
-                MessageBox.Show("Shield resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If value > 100 Then
+                MessageBox.Show("Shield resistances cannot be above 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _cShieldThResist = value
+                _cShieldThResist = If(value < 0, 0, value)
                 Call CalculateEffectiveShieldHP()
             End If
         End Set
@@ -706,10 +706,10 @@ Imports System.Runtime.Serialization
             Return _cArmorEMResist
         End Get
         Set(ByVal value As Double)
-            If value < 0 Or value > 100 Then
-                MessageBox.Show("Armor resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If value > 100 Then
+                MessageBox.Show("Armor resistances cannot be above 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _cArmorEMResist = value
+                _cArmorEMResist = If(value < 0, 0, value)
                 Call CalculateEffectiveArmorHP()
             End If
         End Set
@@ -719,10 +719,10 @@ Imports System.Runtime.Serialization
             Return _cArmorExResist
         End Get
         Set(ByVal value As Double)
-            If value < 0 Or value > 100 Then
-                MessageBox.Show("Armor resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If value > 100 Then
+                MessageBox.Show("Armor resistances cannot be above 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _cArmorExResist = value
+                _cArmorExResist = If(value < 0, 0, value)
                 Call CalculateEffectiveArmorHP()
             End If
         End Set
@@ -732,10 +732,10 @@ Imports System.Runtime.Serialization
             Return _cArmorKiResist
         End Get
         Set(ByVal value As Double)
-            If value < 0 Or value > 100 Then
-                MessageBox.Show("Armor resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If value > 100 Then
+                MessageBox.Show("Armor resistances cannot be above 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _cArmorKiResist = value
+                _cArmorKiResist = If(value < 0, 0, value)
                 Call CalculateEffectiveArmorHP()
             End If
         End Set
@@ -745,10 +745,10 @@ Imports System.Runtime.Serialization
             Return _cArmorThResist
         End Get
         Set(ByVal value As Double)
-            If value < 0 Or value > 100 Then
-                MessageBox.Show("Armor resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If value > 100 Then
+                MessageBox.Show("Armor resistances cannot be above 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _cArmorThResist = value
+                _cArmorThResist = If(value < 0, 0, value)
                 Call CalculateEffectiveArmorHP()
             End If
         End Set
