@@ -2400,6 +2400,7 @@ Namespace Forms
 
             If _regionList.SelectedItems IsNot Nothing Then
                 If _regionList.SelectedItems.Count > 0 Then
+                    HQ.Settings.MarketRegions.Clear()
                     For Each regionName As String In _regionList.SelectedItems
                         For Each regionId As Integer In StaticData.Regions.Keys
                             If regionName = StaticData.Regions(regionId) Then

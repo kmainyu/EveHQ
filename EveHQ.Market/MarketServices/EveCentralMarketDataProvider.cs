@@ -549,7 +549,17 @@ namespace EveHQ.Market.MarketServices
             using (TextReader reader = new StreamReader(stream))
             {
                 // ReSharper disable PossibleNullReferenceException
-                XDocument xml = XDocument.Load(reader);
+                XDocument xml;
+                try
+                {
+                    xml = XDocument.Load(reader);
+                }
+                catch (Exception e)
+                {
+                    orderStats = new List<ItemOrderStats>();
+                    return orderStats;
+
+                }
                 if (xml.Root != null && xml.Root.Element("marketstat") != null)
                 {
                     orderStats = from stats in xml.Root.Elements("marketstat")

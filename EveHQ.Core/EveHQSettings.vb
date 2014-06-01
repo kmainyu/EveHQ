@@ -557,9 +557,6 @@ Public Class EveHQSettings
         Get
             If (_marketRegions Is Nothing) Then
                 _marketRegions = New List(Of Integer)
-            End If
-
-            If (_marketRegions.Count = 0) Then
                 _marketRegions.Add(10000002) ' The Forge... safe default.
             End If
 
