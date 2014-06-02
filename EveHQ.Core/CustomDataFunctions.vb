@@ -176,7 +176,8 @@ Public Class CustomDataFunctions
     Public Shared Function CreateCustomDB() As Boolean
 
         ' Define the file to connect to
-        Dim outputFile As String = HQ.Settings.CustomDBFileName.Replace("\\", "\")
+        Dim outputFile As String = HQ.Settings.CustomDBFileName
+        'HQ.Settings.CustomDBFileName.Replace("\\", "\")
 
         Try
 
