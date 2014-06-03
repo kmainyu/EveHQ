@@ -1,31 +1,254 @@
 #HQF Implant Mapping Table,,,,,,,,,,
 #Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Calc Type,State,IsGang,Group,Implant Name
-1083,1,21606,265,3,6,0,0,0,Armor,Inherent Implants 'Noble' Hull Upgrades HG-1008
-1083,1,21606,1159,2,329,0,0,0,Armor,Inherent Implants 'Noble' Hull Upgrades HG-1008
+# Pirate Sets
+624,1,33516,1281,3,6,0,0,0,Navigation;Learning,High-grade Ascendancy Alpha
+624,1,33525,1281,3,6,0,0,0,Navigation;Learning,High-grade Ascendancy Beta
+624,1,33526,1281,3,6,0,0,0,Navigation;Learning,High-grade Ascendancy Delta
+624,1,33527,1281,3,6,0,0,0,Navigation;Learning,High-grade Ascendancy Epsilon
+624,1,33528,1281,3,6,0,0,0,Navigation;Learning,High-grade Ascendancy Gamma
+624,1,33555,1281,3,6,0,0,0,Navigation;Learning,Mid-grade Ascendancy Alpha
+624,1,33557,1281,3,6,0,0,0,Navigation;Learning,Mid-grade Ascendancy Beta
+624,1,33559,1281,3,6,0,0,0,Navigation;Learning,Mid-grade Ascendancy Delta
+624,1,33561,1281,3,6,0,0,0,Navigation;Learning,Mid-grade Ascendancy Epsilon
+624,1,33563,1281,3,6,0,0,0,Navigation;Learning,Mid-grade Ascendancy Gamma
+294,1,28790,54,2,201;208;291;379,0,0,0,Electronics;Learning,Mid-grade Centurion Alpha
+294,1,28791,54,2,201;208;291;379,0,0,0,Electronics;Learning,Mid-grade Centurion Beta
+294,1,28792,54,2,201;208;291;379,0,0,0,Electronics;Learning,Mid-grade Centurion Delta
+294,1,28793,54,2,201;208;291;379,0,0,0,Electronics;Learning,Mid-grade Centurion Epsilon
+294,1,28794,54,2,201;208;291;379,0,0,0,Electronics;Learning,Mid-grade Centurion Gamma
+294,1,33917,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Alpha
+294,1,33918,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Beta
+294,1,33919,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Delta
+294,1,33920,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Epsilon
+294,1,33921,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Gamma
+548,1,20121,68,4,609;610;611;612;760,0,0,0,Shield;Learning,High-grade Crystal Alpha
+548,1,20157,68,4,609;610;611;612;760,0,0,0,Shield;Learning,High-grade Crystal Beta
+548,1,20159,68,4,609;610;611;612;760,0,0,0,Shield;Learning,High-grade Crystal Delta
+548,1,20160,68,4,609;610;611;612;760,0,0,0,Shield;Learning,High-grade Crystal Epsilon
+548,1,20158,68,4,609;610;611;612;760,0,0,0,Shield;Learning,High-grade Crystal Gamma
+548,1,22107,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Mid-grade Crystal Alpha
+548,1,22108,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Mid-grade Crystal Beta
+548,1,22109,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Mid-grade Crystal Delta
+548,1,22110,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Mid-grade Crystal Epsilon
+548,1,22111,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Mid-grade Crystal Gamma
+548,1,33923,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Alpha
+548,1,33924,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Beta
+548,1,33925,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Delta
+548,1,33926,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Epsilon
+548,1,33927,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Gamma
+1030,1,31954,208,3,6,0,0,0,Electronics;Learning,High-grade Grail Alpha
+1030,1,31955,208,3,6,0,0,0,Electronics;Learning,High-grade Grail Beta
+1030,1,31956,208,3,6,0,0,0,Electronics;Learning,High-grade Grail Delta
+1030,1,31957,208,3,6,0,0,0,Electronics;Learning,High-grade Grail Epsilon
+1030,1,31958,208,3,6,0,0,0,Electronics;Learning,High-grade Grail Gamma
+1565,1,32101,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Alpha
+1565,1,32102,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Beta
+1565,1,32103,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Delta
+1565,1,32104,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Epsilon
+1565,1,32105,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Gamma
+554,1,20498,552,3,6,0,0,0,Electronics;Learning,High-grade Halo Alpha
+554,1,20500,552,3,6,0,0,0,Electronics;Learning,High-grade Halo Beta
+554,1,20502,552,3,6,0,0,0,Electronics;Learning,High-grade Halo Delta
+554,1,20504,552,3,6,0,0,0,Electronics;Learning,High-grade Halo Epsilon
+554,1,20506,552,3,6,0,0,0,Electronics;Learning,High-grade Halo Gamma
+554,1,22113,552,3,6,0,0,0,Electronics;Learning,Mid-grade Halo Alpha
+554,1,22114,552,3,6,0,0,0,Electronics;Learning,Mid-grade Halo Beta
+554,1,22115,552,3,6,0,0,0,Electronics;Learning,Mid-grade Halo Delta
+554,1,22116,552,3,6,0,0,0,Electronics;Learning,Mid-grade Halo Epsilon
+554,1,22117,552,3,6,0,0,0,Electronics;Learning,Mid-grade Halo Gamma
+554,1,33935,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Alpha
+554,1,33936,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Beta
+554,1,33937,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Delta
+554,1,33938,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Epsilon
+554,1,33939,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Gamma
+351,1,28802,54,2,54;464;483,0,0,0,Industry;Learning,Mid-grade Harvest Alpha
+351,1,28803,54,2,54;464;483,0,0,0,Industry;Learning,Mid-grade Harvest Beta
+351,1,28804,54,2,54;464;483,0,0,0,Industry;Learning,Mid-grade Harvest Delta
+351,1,28805,54,2,54;464;483,0,0,0,Industry;Learning,Mid-grade Harvest Epsilon
+351,1,28806,54,2,54;464;483,0,0,0,Industry;Learning,Mid-grade Harvest Gamma
+351,1,33941,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Alpha
+351,1,33942,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Beta
+351,1,33943,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Delta
+351,1,33944,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Epsilon
+351,1,33945,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Gamma
+1028,1,31974,209,3,6,0,0,0,Electronics;Learning,High-grade Jackal Alpha
+1028,1,31975,209,3,6,0,0,0,Electronics;Learning,High-grade Jackal Beta
+1028,1,31976,209,3,6,0,0,0,Electronics;Learning,High-grade Jackal Delta
+1028,1,31977,209,3,6,0,0,0,Electronics;Learning,High-grade Jackal Epsilon
+1028,1,31978,209,3,6,0,0,0,Electronics;Learning,High-grade Jackal Gamma
+1566,1,32117,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Alpha
+1566,1,32118,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Beta
+1566,1,32119,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Delta
+1566,1,32120,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Epsilon
+1566,1,32121,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Gamma
+151,1,28796,70,3,6,0,0,0,Navigation;Learning,Mid-grade Nomad Alpha
+151,1,28797,70,3,6,0,0,0,Navigation;Learning,Mid-grade Nomad Beta
+151,1,28798,70,3,6,0,0,0,Navigation;Learning,Mid-grade Nomad Delta
+151,1,28799,70,3,6,0,0,0,Navigation;Learning,Mid-grade Nomad Epsilon
+151,1,28800,70,3,6,0,0,0,Navigation;Learning,Mid-grade Nomad Gamma
+151,1,33947,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Alpha
+151,1,33948,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Beta
+151,1,33949,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Delta
+151,1,33950,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Epsilon
+151,1,33951,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Gamma
+335,1,20499,265,3,6,0,0,0,Armor;Learning,High-grade Slave Alpha
+335,1,20499,1159,2,329,0,0,0,Armor;Learning,High-grade Slave Alpha
+335,1,20501,265,3,6,0,0,0,Armor;Learning,High-grade Slave Beta
+335,1,20501,1159,2,329,0,0,0,Armor;Learning,High-grade Slave Beta
+335,1,20503,265,3,6,0,0,0,Armor;Learning,High-grade Slave Delta
+335,1,20503,1159,2,329,0,0,0,Armor;Learning,High-grade Slave Delta
+335,1,20505,265,3,6,0,0,0,Armor;Learning,High-grade Slave Epsilon
+335,1,20505,1159,2,329,0,0,0,Armor;Learning,High-grade Slave Epsilon
+335,1,20507,265,3,6,0,0,0,Armor;Learning,High-grade Slave Gamma
+335,1,20507,1159,2,329,0,0,0,Armor;Learning,High-grade Slave Gamma
+335,1,22119,265,3,6,0,0,0,Armor;Learning,Mid-grade Slave Alpha
+335,1,22119,1159,2,329,0,0,0,Armor;Learning,Mid-grade Slave Alpha
+335,1,22120,265,3,6,0,0,0,Armor;Learning,Mid-grade Slave Beta
+335,1,22120,1159,2,329,0,0,0,Armor;Learning,Mid-grade Slave Beta
+335,1,22121,265,3,6,0,0,0,Armor;Learning,Mid-grade Slave Delta
+335,1,22121,1159,2,329,0,0,0,Armor;Learning,Mid-grade Slave Delta
+335,1,22122,265,3,6,0,0,0,Armor;Learning,Mid-grade Slave Epsilon
+335,1,22122,1159,2,329,0,0,0,Armor;Learning,Mid-grade Slave Epsilon
+335,1,22123,265,3,6,0,0,0,Armor;Learning,Mid-grade Slave Gamma
+335,1,22123,1159,2,329,0,0,0,Armor;Learning,Mid-grade Slave Gamma
+335,1,33953,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Alpha
+335,1,33953,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Alpha
+335,1,33954,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Beta
+335,1,33954,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Beta
+335,1,33955,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Delta
+335,1,33955,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Delta
+335,1,33956,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Epsilon
+335,1,33956,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Epsilon
+335,1,33957,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Gamma
+335,1,33957,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Gamma
+315,1,19540,37,3,6,0,0,0,Navigation;Learning,High-grade Snake Alpha
+315,1,19551,37,3,6,0,0,0,Navigation;Learning,High-grade Snake Beta
+315,1,19554,37,3,6,0,0,0,Navigation;Learning,High-grade Snake Delta
+315,1,19555,37,3,6,0,0,0,Navigation;Learning,High-grade Snake Epsilon
+315,1,19553,37,3,6,0,0,0,Navigation;Learning,High-grade Snake Gamma
+315,1,22125,37,3,6,0,0,0,Navigation;Learning,Mid-grade Snake Alpha
+315,1,22126,37,3,6,0,0,0,Navigation;Learning,Mid-grade Snake Beta
+315,1,22127,37,3,6,0,0,0,Navigation;Learning,Mid-grade Snake Delta
+315,1,22128,37,3,6,0,0,0,Navigation;Learning,Mid-grade Snake Epsilon
+315,1,22129,37,3,6,0,0,0,Navigation;Learning,Mid-grade Snake Gamma
+315,1,33959,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Alpha
+315,1,33960,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Beta
+315,1,33961,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Delta
+315,1,33962,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Epsilon
+315,1,33963,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Gamma
+1029,1,31968,210,3,6,0,0,0,Electronics;Learning,High-grade Spur Alpha
+1029,1,31969,210,3,6,0,0,0,Electronics;Learning,High-grade Spur Beta
+1029,1,31970,210,3,6,0,0,0,Electronics;Learning,High-grade Spur Delta
+1029,1,31971,210,3,6,0,0,0,Electronics;Learning,High-grade Spur Epsilon
+1029,1,31972,210,3,6,0,0,0,Electronics;Learning,High-grade Spur Gamma
+1568,1,32107,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Alpha
+1568,1,32108,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Beta
+1568,1,32109,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Delta
+1568,1,32110,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Epsilon
+1568,1,32111,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Gamma
+66,1,19534,73,5,3423,0,0,0,Engineering;Learning,High-grade Talisman Alpha
+66,1,19535,73,5,3423,0,0,0,Engineering;Learning,High-grade Talisman Beta
+66,1,19537,73,5,3423,0,0,0,Engineering;Learning,High-grade Talisman Delta
+66,1,19538,73,5,3423,0,0,0,Engineering;Learning,High-grade Talisman Epsilon
+66,1,19536,73,5,3423,0,0,0,Engineering;Learning,High-grade Talisman Gamma
+66,1,22131,73,5,3423,0,0,0,Engineering;Learning,Mid-grade Talisman Alpha
+66,1,22133,73,5,3423,0,0,0,Engineering;Learning,Mid-grade Talisman Beta
+66,1,22134,73,5,3423,0,0,0,Engineering;Learning,Mid-grade Talisman Delta
+66,1,22135,73,5,3423,0,0,0,Engineering;Learning,Mid-grade Talisman Epsilon
+66,1,22136,73,5,3423,0,0,0,Engineering;Learning,Mid-grade Talisman Gamma
+66,1,33965,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Alpha
+66,1,33966,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Beta
+66,1,33967,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Delta
+66,1,33968,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Epsilon
+66,1,33969,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Gamma
+1027,1,31962,211,3,6,0,0,0,Electronics;Learning,High-grade Talon Alpha
+1027,1,31963,211,3,6,0,0,0,Electronics;Learning,High-grade Talon Beta
+1027,1,31964,211,3,6,0,0,0,Electronics;Learning,High-grade Talon Delta
+1027,1,31965,211,3,6,0,0,0,Electronics;Learning,High-grade Talon Epsilon
+1027,1,31966,211,3,6,0,0,0,Electronics;Learning,High-grade Talon Gamma
+1567,1,32112,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Alpha
+1567,1,32113,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Beta
+1567,1,32114,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Delta
+1567,1,32115,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Epsilon
+1567,1,32116,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Gamma
+846,1,28808,1371,2,479,0,0,0,Science;Learning,Mid-grade Virtue Alpha
+846,1,28809,1371,2,479,0,0,0,Science;Learning,Mid-grade Virtue Beta
+846,1,28810,1371,2,479,0,0,0,Science;Learning,Mid-grade Virtue Delta
+846,1,28811,1371,2,479,0,0,0,Science;Learning,Mid-grade Virtue Epsilon
+846,1,28812,1371,2,479,0,0,0,Science;Learning,Mid-grade Virtue Gamma
+846,1,33971,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Alpha
+846,1,33972,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Beta
+846,1,33973,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Delta
+846,1,33974,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Epsilon
+846,1,33975,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Gamma
+# Mindlinks
 1083,1,13209,265,3,6,0,0,1,Armor,Armored Warfare Mindlink
 884,1,13209,833,4,1634,0,0,0,Gang,Armored Warfare Mindlink
-548,1,20121,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Alpha
-548,1,20157,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Beta
-548,1,20159,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Delta
-548,1,20160,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Epsilon
-548,1,20158,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Gamma
-#,1,20161,,,,,0,0,Science,#Crystal Omega
-#,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Advanced
-#,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Basic
-#,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Elite
-#,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Improved
-#,1,,,,,,0,0,Learning,#Cybernetic Subprocessor - Standard
-1030,1,31954,208,3,6,0,0,0,Electronics;Learning,Grail Alpha
-1030,1,31955,208,3,6,0,0,0,Electronics;Learning,Grail Beta
-1030,1,31956,208,3,6,0,0,0,Electronics;Learning,Grail Delta
-1030,1,31957,208,3,6,0,0,0,Electronics;Learning,Grail Epsilon
-1030,1,31958,208,3,6,0,0,0,Electronics;Learning,Grail Gamma
-554,1,20498,552,3,6,0,0,0,Electronics;Learning,Halo Alpha
-554,1,20500,552,3,6,0,0,0,Electronics;Learning,Halo Beta
-554,1,20502,552,3,6,0,0,0,Electronics;Learning,Halo Delta
-554,1,20504,552,3,6,0,0,0,Electronics;Learning,Halo Epsilon
-554,1,20506,552,3,6,0,0,0,Electronics;Learning,Halo Gamma
-#,1,20508,,,,,0,0,Science,#Halo Omega
+309,1,21889,76,3,6,0,0,1,Electronics,Information Warfare Mindlink
+884,1,21889,833,4,1635,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1310,4,1635,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1320,4,1635,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1321,4,1635,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1322,4,1635,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1323,4,1635,0,0,0,Gang,Information Warfare Mindlink
+434,1,22559,77,2,54;464;483,0,0,1,Industry,Mining Foreman Mindlink
+884,1,22559,833,4,1638,0,0,0,Gang,Mining Foreman Mindlink
+337,1,21888,263,3,6,0,0,1,Shield,Siege Warfare Mindlink
+884,1,21888,833,4,1636,0,0,0,Gang,Siege Warfare Mindlink
+151,1,21890,70,3,6,0,0,1,Navigation,Skirmish Warfare Mindlink
+884,1,21890,833,4,1637,0,0,0,Gang,Skirmish Warfare Mindlink
+1083,1,33403,265,3,6,0,0,1,Armor,Imperial Navy Warfare Mindlink
+309,1,33403,76,3,6,0,0,1,Electronics,Imperial Navy Warfare Mindlink
+884,1,33403,833,4,1634;1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
+884,1,33403,1310,4,1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
+884,1,33403,1320,4,1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
+884,1,33403,1321,4,1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
+884,1,33403,1322,4,1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
+884,1,33403,1323,4,1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
+1083,1,33404,265,3,6,0,0,1,Armor,Federation Navy Warfare Mindlink
+151,1,33404,70,3,6,0,0,1,Navigation,Federation Navy Warfare Mindlink
+884,1,33404,833,4,1634;1637,0,0,0,Gang,Federation Navy Warfare Mindlink
+337,1,33405,263,3,6,0,0,1,Shield,Republic Fleet Warfare Mindlink
+151,1,33405,70,3,6,0,0,1,Navigation,Republic Fleet Warfare Mindlink
+884,1,33405,833,4,1636;1637,0,0,0,Gang,Republic Fleet Warfare Mindlink
+337,1,33406,263,3,6,0,0,1,Shield,Caldari Navy Warfare Mindlink
+309,1,33406,76,3,6,0,0,1,Electronics,Caldari Navy Warfare Mindlink
+884,1,33406,833,4,1635;1636,0,0,0,Gang,Caldari Navy Warfare Mindlink
+884,1,33406,1310,4,1635,0,0,0,Gang,Caldari Navy Warfare Mindlink
+884,1,33406,1320,4,1635,0,0,0,Gang,Caldari Navy Warfare Mindlink
+884,1,33406,1321,4,1635,0,0,0,Gang,Caldari Navy Warfare Mindlink
+884,1,33406,1322,4,1635,0,0,0,Gang,Caldari Navy Warfare Mindlink
+884,1,33406,1323,4,1635,0,0,0,Gang,Caldari Navy Warfare Mindlink
+# Named Implants
+1079,1,2082,482,3,6,0,0,0,Engineering,Genolution Core Augmentation CA-1
+313,1,2082,11,3,6,0,0,0,Engineering,Genolution Core Augmentation CA-1
+424,1,2589,48,3,6,0,0,0,Engineering,Genolution Core Augmentation CA-2
+314,1,2589,55,3,6,0,0,0,Engineering,Genolution Core Augmentation CA-2
+337,1,33393,263,3,6,0,0,0,Shield,Genolution Core Augmentation CA-3
+337,1,33393,72,2,38,0,0,0,Shield,Genolution Core Augmentation CA-3
+1076,1,33393,37,3,6,0,0,0,Navigation,Genolution Core Augmentation CA-3
+151,1,33394,70,3,6,0,0,0,Navigation,Genolution Core Augmentation CA-4
+1083,1,33394,265,3,6,0,0,0,Armor,Genolution Core Augmentation CA-4
+1083,1,33394,1159,2,329,0,0,0,Armor,Genolution Core Augmentation CA-4
+806,1,32254,84,4,1049;1050;1051,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
+1083,1,32254,265,3,6,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
+1083,1,22760,265,3,6,0,0,0,Armor,Imperial Special Ops Field Enhancer - Standard
+434,1,20700,77,4,1039;464;1040,0,0,0,Industry,Michi's Excavation Augmentor
+312,1,20358,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Numon Family Heirloom
+767,1,20443,160,2,53;55;74,0,0,0,Gunnery,Ogdin's Eye Coordination Enhancer
+441,1,25868,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Pashan's Turret Customization Mindlink
+292,1,25867,10014,4,569,0,0,0,Gunnery,Pashan's Turret Handling Mindlink
+1084,1,22715,37,3,6,0,0,0,Navigation,Republic Special Ops Field Enhancer - Gamma
+337,1,32255,263,3,6,0,0,0,Shield,Sansha Modified 'Gnome' Implant
+337,1,32255,72,2,38,0,0,0,Shield,Sansha Modified 'Gnome' Implant
+338,1,32255,479,3,6,0,0,0,Shield,Sansha Modified 'Gnome' Implant
+1076,1,24669,37,3,6,0,0,0,Navigation,Shaqil's Speed Enhancer
+293,1,20371,51,2,511;524;506;510;771;507;508;509;1245,0,0,0,Missiles,Whelan Machorin's Ballistic Smartlink
+318,1,24663,20,2,46,0,0,0,Navigation,Zor's Custom Navigation Hyper-Link
+66,1,19500,73,4,542,0,0,0,Navigation,Zor's Custom Navigation Link
+# Skill Implants
+1083,1,21606,265,3,6,0,0,0,Armor,Inherent Implants 'Noble' Hull Upgrades HG-1008
+1083,1,21606,1159,2,329,0,0,0,Armor,Inherent Implants 'Noble' Hull Upgrades HG-1008
 767,1,27075,160,2,53;55;74,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Motion Prediction MR-701
 767,1,3190,160,2,53;55;74,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Motion Prediction MR-702
 767,1,9957,160,2,53;55;74,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Motion Prediction MR-703
@@ -113,58 +336,42 @@
 318,1,3121,20,4,131;542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Acceleration Control AC-604
 318,1,16009,20,4,131;542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Acceleration Control AC-605
 318,1,3124,20,4,131;542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Acceleration Control AC-606
-1079,1,2082,482,3,6,0,0,0,Engineering,Genolution Core Augmentation CA-1
-313,1,2082,11,3,6,0,0,0,Engineering,Genolution Core Augmentation CA-1
-424,1,2589,48,3,6,0,0,0,Engineering,Genolution Core Augmentation CA-2
-314,1,2589,55,3,6,0,0,0,Engineering,Genolution Core Augmentation CA-2
-337,1,33393,263,3,6,0,0,0,Shield,Genolution Core Augmentation CA-3
-337,1,33393,72,2,38,0,0,0,Shield,Genolution Core Augmentation CA-3
-1076,1,33393,37,3,6,0,0,0,Navigation,Genolution Core Augmentation CA-3
-151,1,33394,70,3,6,0,0,0,Navigation,Genolution Core Augmentation CA-4
-1083,1,33394,265,3,6,0,0,0,Armor,Genolution Core Augmentation CA-4
-1083,1,33394,1159,2,329,0,0,0,Armor,Genolution Core Augmentation CA-4
-#312,1,27218,73,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX10
-#312,1,27216,73,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX100
-#312,1,27217,73,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX1000
-#317,1,27221,6,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX20
-#317,1,27219,6,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX200
-#317,1,27220,6,4,1056,0,0,0,Armor,Hardwiring - Inherent Implants 'Gentry' ZEX2000
 434,1,27102,77,4,1039;1040,0,0,0,Industry,Inherent Implants 'Highwall' Mining MX-1001
 434,1,22534,77,4,1039;1040,0,0,0,Industry,Inherent Implants 'Highwall' Mining MX-1003
 434,1,22535,77,4,1039;1040,0,0,0,Industry,Inherent Implants 'Highwall' Mining MX-1005
 927,1,27151,1082,4,935,0,0,0,Industry,Inherent Implants 'Highwall' Mining Upgrades MU-1001
 927,1,27149,1082,4,935,0,0,0,Industry,Inherent Implants 'Highwall' Mining Upgrades MU-1003
 927,1,27150,1082,4,935,0,0,0,Industry,Inherent Implants 'Highwall' Mining Upgrades MU-1005
-292,1,3202,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SE-602
-317,1,3203,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-702
-441,1,3204,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-902
-292,1,3205,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1002
-292,1,3206,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-802
 292,1,27082,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SE-601
-317,1,27079,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-701
-441,1,27077,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-901
-292,1,27088,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1001
-292,1,27085,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-801
-292,1,3207,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SE-604
-317,1,3208,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-704
-441,1,3209,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-904
-292,1,3210,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1004
-292,1,3211,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-804
+292,1,3202,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SE-602
 292,1,13223,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SE-603
-317,1,13246,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-703
-441,1,13166,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-903
-292,1,13217,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1003
-292,1,13220,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-803
-292,1,3212,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SE-606
-317,1,3213,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-706
-441,1,3214,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-906
-292,1,3215,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1006
-292,1,3216,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-806
+292,1,3207,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SE-604
 292,1,19691,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SE-605
-317,1,19692,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-705
-441,1,19693,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-905
-292,1,19694,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1005
+292,1,3212,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SE-606
+292,1,27085,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-801
+292,1,3206,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-802
+292,1,13220,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-803
+292,1,3211,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-804
 292,1,19695,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-805
+292,1,3216,10014,4,568;572,0,0,0,Gunnery,Inherent Implants 'Lancer' Medium Energy Turret ME-806
+292,1,27088,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1001
+292,1,3205,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1002
+292,1,13217,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1003
+292,1,3210,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1004
+292,1,19694,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1005
+292,1,3215,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1006
+441,1,27077,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-901
+441,1,3204,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-902
+441,1,13166,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-903
+441,1,3209,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-904
+441,1,19693,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-905
+441,1,3214,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-906
+317,1,27079,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-701
+317,1,3203,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-702
+317,1,13246,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-703
+317,1,3208,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-704
+317,1,19692,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-705
+317,1,3213,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-706
 312,1,27070,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Inherent Implants 'Noble' Repair Systems RS-601
 312,1,13258,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Inherent Implants 'Noble' Repair Systems RS-603
 312,1,19547,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Inherent Implants 'Noble' Repair Systems RS-605
@@ -260,22 +467,9 @@
 1160,1,27197,902,1,22175;30834;3581,0,0,0,Science,Poteque 'Prospector' Hacking HC-905
 1915,1,27197,1909,1,22175;30834;3581,1,0,0,Science,Poteque 'Prospector' Hacking HC-905
 902,1,27198,902,4,1715,0,0,0,Science,Poteque 'Prospector' Salvaging SV-905
-66,1,27260,73,2,538,0,0,0,Science,Poteque 'Prospector' Environmental Analysis EY-1005
-#,1,27170,,,,,0,0,Industry,Zainou 'Beancounter' Industry BX-801
-#,1,27167,,,,,0,0,Industry,Zainou 'Beancounter' Industry BX-802
-#,1,27171,,,,,0,0,Industry,Zainou 'Beancounter' Industry BX-804
-#,1,27175,,,,,0,0,Industry,Zainou 'Beancounter' Refining RX-801
-#,1,27169,,,,,0,0,Industry,Zainou 'Beancounter' Refining RX-802
-#,1,27174,,,,,0,0,Industry,Zainou 'Beancounter' Refining RX-804
-#,1,27180,,,,,0,0,Industry,Zainou 'Beancounter' Research RR-601
-#,1,27177,,,,,0,0,Industry,Zainou 'Beancounter' Research RR-603
-#,1,27179,,,,,0,0,Industry,Zainou 'Beancounter' Research RR-605
-#,1,27182,,,,,0,0,Industry,Zainou 'Beancounter' Metallurgy MY-701
-#,1,27176,,,,,0,0,Industry,Zainou 'Beancounter' Metallurgy MY-703
-#,1,27181,,,,,0,0,Industry,Zainou 'Beancounter' Metallurgy MY-705
-#,1,27185,,,,,0,0,Industry,Zainou 'Beancounter' Science SC-801
-#,1,27178,,,,,0,0,Industry,Zainou 'Beancounter' Science SC-803
-#,1,27184,,,,,0,0,Industry,Zainou 'Beancounter' Science SC-805
+66,1,27260,73,4,1715;1718,0,0,0,Science,Poteque 'Prospector' Environmental Analysis EY-1005
+1915,1,27260,1909,4,1718,1,0,0,Science,Poteque 'Prospector' Environmental Analysis EY-1005
+1160,1,27260,902,4,1718,0,0,0,Science,Poteque 'Prospector' Environmental Analysis EY-1005
 294,1,27076,54,2,53;55;74,0,0,0,Gunnery,Zainou 'Deadeye' Sharpshooter ST-901
 294,1,10204,54,2,53;55;74,0,0,0,Gunnery,Zainou 'Deadeye' Sharpshooter ST-903
 294,1,19696,54,2,53;55;74,0,0,0,Gunnery,Zainou 'Deadeye' Sharpshooter ST-905
@@ -486,219 +680,3 @@
 292,1,3183,114;116;117;118,2,386;656,0,0,0,Missiles,Zainou 'Snapshot' Cruise Missiles CM-606
 292,1,27259,114;116;117;118,2,386;656,0,0,0,Missiles,Zainou 'Snapshot' Cruise Missiles CM-601
 292,1,3181,114;116;117;118,2,386;656,0,0,0,Missiles,Zainou 'Snapshot' Cruise Missiles CM-602
-#317,1,27213,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX1000
-#317,1,27215,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX2000
-#317,1,27214,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX500
-806,1,32254,84,4,1049;1050;1051,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
-1083,1,32254,265,3,6,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
-1083,1,22760,265,3,6,0,0,0,Armor,Imperial Special Ops Field Enhancer - Standard
-309,1,21889,76,3,6,0,0,1,Electronics,Information Warfare Mindlink
-884,1,21889,833,4,1635,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1310,4,1635,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1320,4,1635,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1321,4,1635,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1322,4,1635,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1323,4,1635,0,0,0,Gang,Information Warfare Mindlink
-1028,1,31974,209,3,6,0,0,0,Electronics;Learning,Jackal Alpha
-1028,1,31975,209,3,6,0,0,0,Electronics;Learning,Jackal Beta
-1028,1,31976,209,3,6,0,0,0,Electronics;Learning,Jackal Delta
-1028,1,31977,209,3,6,0,0,0,Electronics;Learning,Jackal Epsilon
-1028,1,31978,209,3,6,0,0,0,Electronics;Learning,Jackal Gamma
-#,1,,,,,,0,0,Learning,#Limited Cybernetic Subprocessor
-#,1,,,,,,0,0,Learning,#Limited Cybernetic Subprocessor - Beta
-#,1,,,,,,0,0,Learning,#Limited Memory Augmentation
-#,1,,,,,,0,0,Learning,#Limited Memory Augmentation - Beta
-#,1,,,,,,0,0,Learning,#Limited Neural Boost
-#,1,,,,,,0,0,Learning,#Limited Neural Boost - Beta
-#,1,,,,,,0,0,Learning,#Limited Ocular Filter
-#,1,,,,,,0,0,Learning,#Limited Ocular Filter - Beta
-#,1,,,,,,0,0,Learning,#Limited Social Adaptation Chip
-#,1,,,,,,0,0,Learning,#Limited Social Adaptation Chip - Beta
-1565,1,32101,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Alpha
-1565,1,32102,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Beta
-1565,1,32103,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Delta
-1565,1,32104,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Epsilon
-1565,1,32105,208,3,6,1,0,0,Electronics;Learning,Low-grade Grail Gamma
-1566,1,32117,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Alpha
-1566,1,32118,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Beta
-1566,1,32119,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Delta
-1566,1,32120,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Epsilon
-1566,1,32121,209,3,6,1,0,0,Electronics;Learning,Low-grade Jackal Gamma
-1568,1,32107,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Alpha
-1568,1,32108,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Beta
-1568,1,32109,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Delta
-1568,1,32110,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Epsilon
-1568,1,32111,210,3,6,1,0,0,Electronics;Learning,Low-grade Spur Gamma
-1567,1,32112,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Alpha
-1567,1,32113,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Beta
-1567,1,32114,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Delta
-1567,1,32115,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Epsilon
-1567,1,32116,211,3,6,1,0,0,Electronics;Learning,Low-grade Talon Gamma
-294,1,28790,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Alpha
-294,1,28791,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Beta
-294,1,28792,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Delta
-294,1,28793,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Epsilon
-294,1,28794,54,2,201;208;291;379,0,0,0,Electronics;Learning,Low-grade Centurion Gamma
-#,1,28795,,,,,0,0,Science,#Low-grade Centurion Omega
-548,1,22107,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Alpha
-548,1,22108,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Beta
-548,1,22109,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Delta
-548,1,22110,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Epsilon
-548,1,22111,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Low-grade Crystal Gamma
-#,1,22112,,,,,0,0,Science,#Low-grade Crystal Omega
-#,1,28814,,,,,0,0,Science;Learning,#Low-grade Edge Alpha
-#,1,28815,,,,,0,0,Science;Learning,#Low-grade Edge Beta
-#,1,28816,,,,,0,0,Science;Learning,#Low-grade Edge Delta
-#,1,28817,,,,,0,0,Science;Learning,#Low-grade Edge Epsilon
-#,1,28818,,,,,0,0,Science;Learning,#Low-grade Edge Gamma
-#,1,28819,,,,,0,0,Science,#Low-grade Edge Omega
-554,1,22113,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Alpha
-554,1,22114,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Beta
-554,1,22115,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Delta
-554,1,22116,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Epsilon
-554,1,22117,552,3,6,0,0,0,Electronics;Learning,Low-grade Halo Gamma
-#,1,22118,,,,,0,0,Science,#Low-grade Halo Omega
-351,1,28802,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Alpha
-351,1,28803,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Beta
-351,1,28804,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Delta
-351,1,28805,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Epsilon
-351,1,28806,54,2,54;464;483,0,0,0,Industry;Learning,Low-grade Harvest Gamma
-#,1,28807,,,,,0,0,Science,#Low-grade Harvest Omega
-151,1,28796,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Alpha
-151,1,28797,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Beta
-151,1,28798,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Delta
-151,1,28799,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Epsilon
-151,1,28800,70,3,6,0,0,0,Navigation;Learning,Low-grade Nomad Gamma
-#,1,28801,,,,,0,0,Science,#Low-grade Nomad Omega
-335,1,22119,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Alpha
-335,1,22119,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Alpha
-335,1,22120,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Beta
-335,1,22120,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Beta
-335,1,22121,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Delta
-335,1,22121,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Delta
-335,1,22122,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Epsilon
-335,1,22122,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Epsilon
-335,1,22123,265,3,6,0,0,0,Armor;Learning,Low-grade Slave Gamma
-335,1,22123,1159,2,329,0,0,0,Armor;Learning,Low-grade Slave Gamma
-#,1,22124,,,,,0,0,Science,#Low-grade Slave Omega
-315,1,22125,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Alpha
-315,1,22126,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Beta
-315,1,22127,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Delta
-315,1,22128,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Epsilon
-315,1,22129,37,3,6,0,0,0,Navigation;Learning,Low-grade Snake Gamma
-#,1,22130,,,,,0,0,Science,#Low-grade Snake Omega
-66,1,22131,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Alpha
-66,1,22133,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Beta
-66,1,22134,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Delta
-66,1,22135,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Epsilon
-66,1,22136,73,5,3423,0,0,0,Engineering;Learning,Low-grade Talisman Gamma
-#,1,22137,,,,,0,0,Science,#Low-grade Talisman Omega
-846,1,28808,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Alpha
-846,1,28809,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Beta
-846,1,28810,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Delta
-846,1,28811,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Epsilon
-846,1,28812,1371,2,479,0,0,0,Science;Learning,Low-grade Virtue Gamma
-#,1,28813,,,,,0,0,Science,#Low-grade Virtue Omega
-#,1,,,,,,0,0,Learning,#Memory Augmentation - Advanced
-#,1,,,,,,0,0,Learning,#Memory Augmentation - Basic
-#,1,,,,,,0,0,Learning,#Memory Augmentation - Elite
-#,1,,,,,,0,0,Learning,#Memory Augmentation - Improved
-#,1,,,,,,0,0,Learning,#Memory Augmentation - Standard
-434,1,20700,77,4,1039;464;1040,0,0,0,Industry,Michi's Excavation Augmentor
-434,1,22559,77,2,54;464;483,0,0,1,Industry,Mining Foreman Mindlink
-884,1,22559,833,4,1638,0,0,0,Gang,Mining Foreman Mindlink
-#,1,,,,,,0,0,Learning,#Neural Boost - Advanced
-#,1,,,,,,0,0,Learning,#Neural Boost - Basic
-#,1,,,,,,0,0,Learning,#Neural Boost - Elite
-#,1,,,,,,0,0,Learning,#Neural Boost - Improved
-#,1,,,,,,0,0,Learning,#Neural Boost - Standard
-312,1,20358,73,4,1049;1050;1051;1053;1054;1055,0,0,0,Armor;Hull,Numon Family Heirloom
-#,1,,,,,,0,0,Learning,#Ocular Filter - Advanced
-#,1,,,,,,0,0,Learning,#Ocular Filter - Basic
-#,1,,,,,,0,0,Learning,#Ocular Filter - Elite
-#,1,,,,,,0,0,Learning,#Ocular Filter - Improved
-#,1,,,,,,0,0,Learning,#Ocular Filter - Standard
-767,1,20443,160,2,53;55;74,0,0,0,Gunnery,Ogdin's Eye Coordination Enhancer
-441,1,25868,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Pashan's Turret Customization Mindlink
-292,1,25867,10014,4,569,0,0,0,Gunnery,Pashan's Turret Handling Mindlink
-1084,1,22715,37,3,6,0,0,0,Navigation,Republic Special Ops Field Enhancer - Gamma
-337,1,32255,263,3,6,0,0,0,Shield,Sansha Modified 'Gnome' Implant
-337,1,32255,72,2,38,0,0,0,Shield,Sansha Modified 'Gnome' Implant
-338,1,32255,479,3,6,0,0,0,Shield,Sansha Modified 'Gnome' Implant
-1076,1,24669,37,3,6,0,0,0,Navigation,Shaqil's Speed Enhancer
-337,1,21888,263,3,6,0,0,1,Shield,Siege Warfare Mindlink
-884,1,21888,833,4,1636,0,0,0,Gang,Siege Warfare Mindlink
-151,1,21890,70,3,6,0,0,1,Navigation,Skirmish Warfare Mindlink
-884,1,21890,833,4,1637,0,0,0,Gang,Skirmish Warfare Mindlink
-335,1,20499,265,3,6,0,0,0,Armor;Learning,Slave Alpha
-335,1,20499,1159,2,329,0,0,0,Armor;Learning,Slave Alpha
-335,1,20501,265,3,6,0,0,0,Armor;Learning,Slave Beta
-335,1,20501,1159,2,329,0,0,0,Armor;Learning,Slave Beta
-335,1,20503,265,3,6,0,0,0,Armor;Learning,Slave Delta
-335,1,20503,1159,2,329,0,0,0,Armor;Learning,Slave Delta
-335,1,20505,265,3,6,0,0,0,Armor;Learning,Slave Epsilon
-335,1,20505,1159,2,329,0,0,0,Armor;Learning,Slave Epsilon
-335,1,20507,265,3,6,0,0,0,Armor;Learning,Slave Gamma
-335,1,20507,1159,2,329,0,0,0,Armor;Learning,Slave Gamma
-#,1,20509,,,,,0,0,Science,#Slave Omega
-315,1,19540,37,3,6,0,0,0,Navigation;Learning,Snake Alpha
-315,1,19551,37,3,6,0,0,0,Navigation;Learning,Snake Beta
-315,1,19554,37,3,6,0,0,0,Navigation;Learning,Snake Delta
-315,1,19555,37,3,6,0,0,0,Navigation;Learning,Snake Epsilon
-315,1,19553,37,3,6,0,0,0,Navigation;Learning,Snake Gamma
-#,1,19556,,,,,0,0,Science,#Snake Omega
-#,1,,,,,,0,0,Learning,#Social Adaptation Chip - Advanced
-#,1,,,,,,0,0,Learning,#Social Adaptation Chip - Basic
-#,1,,,,,,0,0,Learning,#Social Adaptation Chip - Improved
-#,1,,,,,,0,0,Learning,#Social Adaptation Chip - Standard
-1029,1,31968,210,3,6,0,0,0,Electronics;Learning,Spur Alpha
-1029,1,31969,210,3,6,0,0,0,Electronics;Learning,Spur Beta
-1029,1,31970,210,3,6,0,0,0,Electronics;Learning,Spur Delta
-1029,1,31971,210,3,6,0,0,0,Electronics;Learning,Spur Epsilon
-1029,1,31972,210,3,6,0,0,0,Electronics;Learning,Spur Gamma
-66,1,19534,73,5,3423,0,0,0,Engineering;Learning,Talisman Alpha
-66,1,19535,73,5,3423,0,0,0,Engineering;Learning,Talisman Beta
-66,1,19537,73,5,3423,0,0,0,Engineering;Learning,Talisman Delta
-66,1,19538,73,5,3423,0,0,0,Engineering;Learning,Talisman Epsilon
-66,1,19536,73,5,3423,0,0,0,Engineering;Learning,Talisman Gamma
-#,1,19539,,,,,0,0,Science,#Talisman Omega
-1027,1,31962,211,3,6,0,0,0,Electronics;Learning,Talon Alpha
-1027,1,31963,211,3,6,0,0,0,Electronics;Learning,Talon Beta
-1027,1,31964,211,3,6,0,0,0,Electronics;Learning,Talon Delta
-1027,1,31965,211,3,6,0,0,0,Electronics;Learning,Talon Epsilon
-1027,1,31966,211,3,6,0,0,0,Electronics;Learning,Talon Gamma
-293,1,20371,51,2,511;524;506;510;771;507;508;509;1245,0,0,0,Missiles,Whelan Machorin's Ballistic Smartlink
-318,1,24663,20,2,46,0,0,0,Navigation,Zor's Custom Navigation Hyper-Link
-66,1,19500,73,4,542,0,0,0,Navigation,Zor's Custom Navigation Link
-1083,1,33403,265,3,6,0,0,1,Armor,Imperial Navy Warfare Mindlink
-309,1,33403,76,3,6,0,0,1,Electronics,Imperial Navy Warfare Mindlink
-884,1,33403,833,4,1634;1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
-884,1,33403,1310,4,1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
-884,1,33403,1320,4,1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
-884,1,33403,1321,4,1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
-884,1,33403,1322,4,1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
-884,1,33403,1323,4,1635,0,0,0,Gang,Imperial Navy Warfare Mindlink
-1083,1,33404,265,3,6,0,0,1,Armor,Federation Navy Warfare Mindlink
-151,1,33404,70,3,6,0,0,1,Navigation,Federation Navy Warfare Mindlink
-884,1,33404,833,4,1634;1637,0,0,0,Gang,Federation Navy Warfare Mindlink
-337,1,33405,263,3,6,0,0,1,Shield,Republic Fleet Warfare Mindlink
-151,1,33405,70,3,6,0,0,1,Navigation,Republic Fleet Warfare Mindlink
-884,1,33405,833,4,1636;1637,0,0,0,Gang,Republic Fleet Warfare Mindlink
-337,1,33406,263,3,6,0,0,1,Shield,Caldari Navy Warfare Mindlink
-309,1,33406,76,3,6,0,0,1,Electronics,Caldari Navy Warfare Mindlink
-884,1,33406,833,4,1635;1636,0,0,0,Gang,Caldari Navy Warfare Mindlink
-884,1,33406,1310,4,1635,0,0,0,Gang,Caldari Navy Warfare Mindlink
-884,1,33406,1320,4,1635,0,0,0,Gang,Caldari Navy Warfare Mindlink
-884,1,33406,1321,4,1635,0,0,0,Gang,Caldari Navy Warfare Mindlink
-884,1,33406,1322,4,1635,0,0,0,Gang,Caldari Navy Warfare Mindlink
-884,1,33406,1323,4,1635,0,0,0,Gang,Caldari Navy Warfare Mindlink
-624,1,33555,1281,3,6,0,0,0,Navigation;Learning,Low-grade Ascendancy Alpha
-624,1,33557,1281,3,6,0,0,0,Navigation;Learning,Low-grade Ascendancy Beta
-624,1,33559,1281,3,6,0,0,0,Navigation;Learning,Low-grade Ascendancy Delta
-624,1,33561,1281,3,6,0,0,0,Navigation;Learning,Low-grade Ascendancy Epsilon
-624,1,33563,1281,3,6,0,0,0,Navigation;Learning,Low-grade Ascendancy Gamma
-624,1,33516,1281,3,6,0,0,0,Navigation;Learning,Ascendancy Alpha
-624,1,33525,1281,3,6,0,0,0,Navigation;Learning,Ascendancy Beta
-624,1,33526,1281,3,6,0,0,0,Navigation;Learning,Ascendancy Delta
-624,1,33527,1281,3,6,0,0,0,Navigation;Learning,Ascendancy Epsilon
-624,1,33528,1281,3,6,0,0,0,Navigation;Learning,Ascendancy Gamma

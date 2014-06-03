@@ -928,9 +928,9 @@ $∞∞eliteBonusBargeMiningYield
 &ø!øshipBonusScanProbeDurationCF
 &¿!¿shipBonusScanProbeDurationGF
 &¡!¡shipBonusScanProbeDurationMF
-∆∆shipMissileEMDamageCF
-$««shipMissileThermalDamageCF
-&»!»shipMissileExplosiveDamageCF
+ ∆∆shipMissileEMDamageCF2
+%« «shipMissileThermalDamageCF2
+'»"»shipMissileExplosiveDamageCF2
  ……shipMissileEMDamageMF2
 %   shipMissileThermalDamageMF2
 %À ÀshipMissileKineticDamageMF2
@@ -2821,15 +2821,7 @@ $Ò$Ò$carrierCaldariDroneOwnDmg2
 1˙$,˙$'shipBonusAoeVelocityStandardMissilesDF2
 3ˇ$.ˇ$)shipFighterBomberDamagePirateSupercarrier
 -Ä%(Ä%#shipFighterDamagePirateSupercarrier
-8Å%3Å%.shipFighterBomberStructureHPPirateSupercarrier
-4Ç%/Ç%*shipFighterBomberArmorHPPirateSupercarrier
-6É%1É%,shipFighterBomberShieldCapPirateSupercarrier
-2Ñ%-Ñ%(shipFighterStructureHPPirateSupercarrier
-.Ö%)Ö%$shipFighterArmorHPPirateSupercarrier
-0Ü%+Ü%&shipFighterShieldCapPirateSupercarrier
-1è%,è%'shipFighterArmStrucHPPirateSupercarrier
 0ê%+ê%&shipFighterHitpointsPirateSupercarrier
-7ë%2ë%-shipFighterBomberArmStrucHPPirateSupercarrier
 6í%1í%,shipFighterBomberHitpointsPirateSupercarrier
 )ì%$ì%carrierAmarrFighterMaxVelocity2
 /î%*î%%carrierAmarrFighterBomberMaxVelocity2
@@ -3511,6 +3503,8 @@ $Ö-Ö-droneTrackingComputerBonus
 #â-â-repairDroneHullBonusBonus
 í-í-shipMissileRoFMF2
  ì-ì-shipBonusSPTFalloffMF2
+4ï-/ï-*droneDmgBonusRequiringMediumDroneOperation
+3ñ-.ñ-)droneDmgBonusRequiringLightDroneOperation
 +õ-&õ-!marauderHeavyMissileVelocityBonus
 ú-ú-marauderModeEffect26
 *ù-%ù- miningAmountBonusBonusActivation
@@ -3521,4 +3515,68 @@ $Ö-Ö-droneTrackingComputerBonus
 <ß-7ß-2shipBonusEwWeaponDisruptionRangeDisruptionBonusAF1
 9®-4®-/gangInformationWarfareSuperiorityTDFalloffBonus
 .©-)©-$gangInformationWarfareSuperiorityAll
+,™-'™-"shipBonusAfterburnerSpeedFactor2CB
+;´-6´-1shipBonusSentryDroneDamageMultiplierPirateFaction
+:¨-5¨-0shipBonusHeavyDroneDamageMultiplierPirateFaction
+-≠-(≠-#shipBonusSentryDroneHPPirateFaction
+2Æ--Æ-(shipBonusSentryDroneArmorHpPirateFaction
+3Ø-.Ø-)shipBonusSentryDroneShieldHpPirateFaction
+2∞--∞-(shipBonusHeavyDroneShieldHpPirateFaction
+1±-,±-'shipBonusHeavyDroneArmorHpPirateFaction
+,≤-'≤-"shipBonusHeavyDroneHPPirateFaction
+*≥-%≥- shipBonusKineticMissileDamageGB2
+*¥-%¥- shipBonusThermalMissileDamageGB2
+,µ-'µ-"shipBonusAfterburnerSpeedFactorCF2
+)∂-$∂-shipBonusKineticMissileDamageGF
+)∑-$∑-shipBonusThermalMissileDamageGF
+:∏-5∏-0shipBonusLightDroneDamageMultiplierPirateFaction
+,π-'π-"shipBonusLightDroneHPPirateFaction
+1∫-,∫-'shipBonusLightDroneArmorHPPirateFaction
+2ª--ª-(shipBonusLightDroneShieldHPPirateFaction
+,º-'º-"shipBonusAfterburnerSpeedFactorCC2
+;Ω-6Ω-1shipBonusMediumDroneDamageMultiplierPirateFaction
+-æ-(æ-#shipBonusMediumDroneHPPirateFaction
+2ø--ø-(shipBonusMediumDroneArmorHPPirateFaction
+3¿-.¿-)shipBonusMediumDroneShieldHPPirateFaction
+*¡-%¡- shipBonusKineticMissileDamageGC2
+*¬-%¬- shipBonusThermalMissileDamageGC2
 $√-√-shipBonusTDOptimalBonusAF1
+%≈- ≈-shipBonusMiningDurationORE3
+/»-*»-%shipBonusMiningIceHarvestingRangeORE2
+%œ- œ-eliteBargeShieldResistance1
+-–-(–-#eliteBargeBonusMiningDurationBarge2
+$—-—-droneTrackingEnhancerBonus
+“-“-droneMWDSpeedBonus
+"’-’-gangSurveyScanRangeBonus
+K÷-F÷-AgangMiningLaserIceHarvesterGasHarvesterSurveyScannerMaxRangeBonus
+.Ÿ-)Ÿ-$carrierCaldariFightersAndBombersSig1
+A⁄-<⁄-7expeditionFrigateSkillLevelPostMulEliteBonusExpedition1
+A€-<€-7expeditionFrigateSkillLevelPostMulEliteBonusExpedition2
+%‹- ‹-eliteBonusExpeditionMining1
+(›-#›-eliteBonusExpeditionSigRadius2
+ﬁ-ﬁ-shipBonusNosOverride
+1Â-,Â-'dreadnoughtShipBonusShieldResistancesC2
+Ê-Ê-shipMissileEMDamageCB
+ Á-Á-shipMissileKinDamageCB
+"Ë-Ë-shipMissileThermDamageCB
+"È-È-shipMissileExploDamageCB
+)Í-$Í-shipBonusWarpScrambleMaxRangeGB
+6Î-1Î-,shipBonusMissileExplosionDelayPirateFaction2
+Ï-Ï-drawbackCargoCapacity
+(Ì-#Ì-eliteIndustrialWarpSpeedBonus1
+!Ó-Ó-shipBonusShieldBoostCI2
+!Ô-Ô-shipBonusShieldBoostMI2
+!--shipBonusArmorRepairAI2
+!Ò-Ò-shipBonusArmorRepairGI2
+'Ú-"Ú-eliteIndustrialFleetCapacity1
+'˘-"˘-eliteIndustrialShieldResists2
+&Ä.!Ä.eliteIndustrialArmorResists2
+$Å.Å.eliteIndustrialABHeatBonus
+%Ç. Ç.eliteIndustrialMWDHeatBonus
+/É.*É.%eliteIndustrialArmorHardenerHeatBonus
+7Ñ.2Ñ.-eliteIndustrialReactiveArmorHardenerHeatBonus
+0Ö.+Ö.&eliteIndustrialShieldHardenerHeatBonus
+/à.*à.%eliteIndustrialShieldBoosterHeatBonus
+-ã.(ã.#eliteIndustrialArmorRepairHeatBonus
+å.å.warpSpeedAddition
+ç.ç.roleBonusBulkheadCPU

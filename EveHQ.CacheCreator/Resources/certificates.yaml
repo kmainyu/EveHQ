@@ -24,6 +24,7 @@
     - 33079
     - 33655
     - 33657
+    - 33879
     skillTypes:
         3300:
             advanced: 5
@@ -395,6 +396,8 @@
     - 33669
     - 33677
     - 33678
+    - 33877
+    - 33881
     skillTypes:
         3300:
             advanced: 5
@@ -489,6 +492,8 @@
     - 33151
     - 33651
     - 33653
+    - 33869
+    - 33873
     skillTypes:
         3300:
             advanced: 5
@@ -757,6 +762,7 @@
     - 33099
     - 33663
     - 33665
+    - 33883
     skillTypes:
         3300:
             advanced: 5
@@ -1084,6 +1090,7 @@
     - 32876
     - 32878
     - 33081
+    - 33816
     skillTypes:
         3319:
             advanced: 5
@@ -1184,6 +1191,8 @@
     - 33153
     - 33643
     - 33645
+    - 33818
+    - 33871
     skillTypes:
         3319:
             advanced: 5
@@ -1275,6 +1284,7 @@
     - 28710
     - 32309
     - 32311
+    - 33820
     skillTypes:
         3319:
             advanced: 5
@@ -1544,98 +1554,7 @@
     groupID: 273
     name: Scout Drones
     recommendedFor:
-    - 593
-    - 626
-    - 627
-    - 628
-    - 629
-    - 630
-    - 633
-    - 638
-    - 639
-    - 640
-    - 641
-    - 642
-    - 2006
-    - 2834
-    - 2836
-    - 3756
-    - 4308
-    - 11959
-    - 11961
-    - 11963
-    - 11965
-    - 11969
-    - 11971
-    - 11999
-    - 12015
     - 12019
-    - 12023
-    - 12042
-    - 16227
-    - 16229
-    - 16231
-    - 16233
-    - 17476
-    - 17478
-    - 17480
-    - 17636
-    - 17709
-    - 17713
-    - 17720
-    - 17722
-    - 17726
-    - 17732
-    - 17736
-    - 17920
-    - 17930
-    - 20125
-    - 22436
-    - 22444
-    - 22446
-    - 22448
-    - 22466
-    - 22468
-    - 22470
-    - 22474
-    - 22544
-    - 22546
-    - 22548
-    - 24688
-    - 24692
-    - 24696
-    - 24698
-    - 24702
-    - 28606
-    - 28659
-    - 28661
-    - 28665
-    - 28710
-    - 29336
-    - 29344
-    - 29984
-    - 29986
-    - 29990
-    - 32209
-    - 32309
-    - 32872
-    - 32874
-    - 33081
-    - 33151
-    - 33153
-    - 33155
-    - 33157
-    - 33468
-    - 33623
-    - 33625
-    - 33627
-    - 33629
-    - 33639
-    - 33641
-    - 33651
-    - 33653
-    - 33683
-    - 33685
     skillTypes:
         3426:
             advanced: 1
@@ -2070,6 +1989,14 @@
     - 33661
     - 33683
     - 33685
+    - 33697
+    - 33816
+    - 33818
+    - 33820
+    - 33871
+    - 33873
+    - 33881
+    - 33883
     skillTypes:
         3402:
             advanced: 1
@@ -2461,6 +2388,10 @@
     - 33669
     - 33677
     - 33678
+    - 33869
+    - 33875
+    - 33877
+    - 33879
     skillTypes:
         3392:
             advanced: 5
@@ -2727,6 +2658,8 @@
     - 33641
     - 33655
     - 33657
+    - 33875
+    - 33879
     skillTypes:
         3426:
             advanced: 4
@@ -3012,6 +2945,18 @@
     - 33691
     - 33693
     - 33695
+    - 33697
+    - 33816
+    - 33818
+    - 33820
+    - 33869
+    - 33871
+    - 33873
+    - 33875
+    - 33877
+    - 33879
+    - 33881
+    - 33883
     skillTypes:
         3327:
             advanced: 4
@@ -3443,6 +3388,18 @@
     - 33691
     - 33693
     - 33695
+    - 33697
+    - 33816
+    - 33818
+    - 33820
+    - 33869
+    - 33871
+    - 33873
+    - 33875
+    - 33877
+    - 33879
+    - 33881
+    - 33883
     skillTypes:
         3402:
             advanced: 1
@@ -3782,6 +3739,17 @@
     - 33669
     - 33677
     - 33678
+    - 33697
+    - 33816
+    - 33818
+    - 33820
+    - 33869
+    - 33871
+    - 33873
+    - 33877
+    - 33879
+    - 33881
+    - 33883
     skillTypes:
         3426:
             advanced: 3
@@ -4167,6 +4135,7 @@
     - 22548
     - 32880
     - 33683
+    - 33697
     skillTypes:
         3386:
             advanced: 5
@@ -4289,6 +4258,7 @@
     - 33468
     - 33470
     - 33553
+    - 33697
     skillTypes:
         3392:
             advanced: 3
@@ -4354,6 +4324,10 @@
     - 33153
     - 33155
     - 33157
+    - 33869
+    - 33871
+    - 33873
+    - 33875
     skillTypes:
         3348:
             advanced: 5
@@ -5437,6 +5411,10 @@
     - 33691
     - 33693
     - 33695
+    - 33869
+    - 33875
+    - 33877
+    - 33879
     skillTypes:
         3413:
             advanced: 3
@@ -5629,6 +5607,14 @@
     - 33691
     - 33693
     - 33695
+    - 33697
+    - 33816
+    - 33818
+    - 33820
+    - 33871
+    - 33873
+    - 33881
+    - 33883
     skillTypes:
         3392:
             advanced: 4
@@ -5802,7 +5788,6 @@
     - 11938
     - 12005
     - 13202
-    - 17715
     - 17728
     - 17738
     - 17740
@@ -6106,6 +6091,11 @@
     - 33645
     - 33659
     - 33661
+    - 33816
+    - 33818
+    - 33820
+    - 33873
+    - 33881
     skillTypes:
         3426:
             advanced: 4
@@ -6230,6 +6220,9 @@
     - 33683
     - 33685
     - 33687
+    - 33697
+    - 33869
+    - 33877
     skillTypes:
         3426:
             advanced: 4
@@ -6330,6 +6323,8 @@
     - 33649
     - 33663
     - 33665
+    - 33871
+    - 33883
     skillTypes:
         3426:
             advanced: 4
@@ -6902,6 +6897,16 @@
     - 33669
     - 33677
     - 33678
+    - 33816
+    - 33818
+    - 33820
+    - 33869
+    - 33871
+    - 33873
+    - 33877
+    - 33879
+    - 33881
+    - 33883
     skillTypes:
         3300:
             advanced: 2
@@ -7014,6 +7019,10 @@
     - 33153
     - 33155
     - 33157
+    - 33869
+    - 33871
+    - 33873
+    - 33875
     skillTypes:
         3348:
             advanced: 5
@@ -7085,6 +7094,10 @@
     - 33153
     - 33155
     - 33157
+    - 33869
+    - 33871
+    - 33873
+    - 33875
     skillTypes:
         3348:
             advanced: 5
@@ -7156,6 +7169,10 @@
     - 33153
     - 33155
     - 33157
+    - 33869
+    - 33871
+    - 33873
+    - 33875
     skillTypes:
         3348:
             advanced: 5
@@ -7181,3 +7198,300 @@
             elite: 5
             improved: 3
             standard: 2
+164:
+    description: This certificate represents level of competence in the control of
+        light combat drones. The holder has learned that drones may be targeted and
+        destroyed in combat. This is a good skillset for any combat-oriented capsuleer
+        as many ships from all factions augment their capabilities through the use
+        of drones
+    groupID: 273
+    name: Light Drones
+    recommendedFor:
+    - 593
+    - 629
+    - 2006
+    - 2834
+    - 3516
+    - 4308
+    - 11959
+    - 11999
+    - 12015
+    - 12042
+    - 16227
+    - 17476
+    - 17478
+    - 17480
+    - 17709
+    - 17713
+    - 17720
+    - 17926
+    - 17930
+    - 22436
+    - 22444
+    - 22446
+    - 22448
+    - 22470
+    - 22544
+    - 22546
+    - 22548
+    - 24698
+    - 24702
+    - 28659
+    - 28710
+    - 29336
+    - 29984
+    - 29990
+    - 32209
+    - 32872
+    - 32874
+    - 33079
+    - 33081
+    - 33153
+    - 33157
+    - 33468
+    - 33639
+    - 33641
+    - 33683
+    - 33818
+    - 33873
+    skillTypes:
+        3426:
+            advanced: 1
+            basic: 0
+            elite: 1
+            improved: 1
+            standard: 1
+        3427:
+            advanced: 4
+            basic: 0
+            elite: 4
+            improved: 4
+            standard: 4
+        3436:
+            advanced: 5
+            basic: 4
+            elite: 5
+            improved: 5
+            standard: 5
+        3437:
+            advanced: 5
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3
+        3442:
+            advanced: 4
+            basic: 0
+            elite: 5
+            improved: 4
+            standard: 3
+        12305:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3
+        12484:
+            advanced: 1
+            basic: 0
+            elite: 5
+            improved: 0
+            standard: 0
+        12485:
+            advanced: 1
+            basic: 0
+            elite: 5
+            improved: 0
+            standard: 0
+        12486:
+            advanced: 1
+            basic: 0
+            elite: 5
+            improved: 0
+            standard: 0
+        12487:
+            advanced: 1
+            basic: 0
+            elite: 5
+            improved: 0
+            standard: 0
+        23566:
+            advanced: 4
+            basic: 0
+            elite: 5
+            improved: 4
+            standard: 3
+        23606:
+            advanced: 4
+            basic: 0
+            elite: 5
+            improved: 4
+            standard: 3
+        23618:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3
+        24241:
+            advanced: 5
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3
+165:
+    description: This certificate represents level of competence in the control of
+        light and medium combat drones. The holder has learned that drones may be
+        targeted and destroyed in combat. This is a good skillset for any combat-oriented
+        capsuleer as many ships from all factions augment their capabilities through
+        the use of drones
+    groupID: 273
+    name: Medium Drones
+    recommendedFor:
+    - 626
+    - 627
+    - 628
+    - 630
+    - 633
+    - 638
+    - 639
+    - 640
+    - 641
+    - 642
+    - 2836
+    - 3518
+    - 3756
+    - 11961
+    - 11963
+    - 11965
+    - 11969
+    - 11971
+    - 12023
+    - 16229
+    - 16231
+    - 16233
+    - 17636
+    - 17715
+    - 17722
+    - 17726
+    - 17732
+    - 17736
+    - 17920
+    - 17922
+    - 20125
+    - 22466
+    - 22468
+    - 22474
+    - 24688
+    - 24692
+    - 24696
+    - 28606
+    - 28661
+    - 28665
+    - 29344
+    - 29986
+    - 32309
+    - 33151
+    - 33155
+    - 33623
+    - 33625
+    - 33627
+    - 33629
+    - 33651
+    - 33653
+    - 33685
+    - 33820
+    - 33869
+    - 33871
+    - 33875
+    skillTypes:
+        3426:
+            advanced: 1
+            basic: 0
+            elite: 1
+            improved: 1
+            standard: 1
+        3427:
+            advanced: 4
+            basic: 0
+            elite: 4
+            improved: 4
+            standard: 4
+        3436:
+            advanced: 5
+            basic: 4
+            elite: 5
+            improved: 5
+            standard: 5
+        3437:
+            advanced: 5
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3
+        3442:
+            advanced: 4
+            basic: 0
+            elite: 5
+            improved: 4
+            standard: 3
+        12305:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3
+        12484:
+            advanced: 1
+            basic: 0
+            elite: 5
+            improved: 0
+            standard: 0
+        12485:
+            advanced: 1
+            basic: 0
+            elite: 5
+            improved: 0
+            standard: 0
+        12486:
+            advanced: 1
+            basic: 0
+            elite: 5
+            improved: 0
+            standard: 0
+        12487:
+            advanced: 1
+            basic: 0
+            elite: 5
+            improved: 0
+            standard: 0
+        23566:
+            advanced: 4
+            basic: 0
+            elite: 5
+            improved: 4
+            standard: 3
+        23606:
+            advanced: 4
+            basic: 0
+            elite: 5
+            improved: 4
+            standard: 3
+        23618:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3
+        24241:
+            advanced: 5
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3
+        33699:
+            advanced: 5
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3

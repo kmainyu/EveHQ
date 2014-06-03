@@ -24,16 +24,20 @@ Battlecruisers\Standard Battlecruisers\Amarr
 Battlecruisers\Standard Battlecruisers\Amarr\Harbinger
 Battlecruisers\Standard Battlecruisers\Amarr\Oracle
 Battlecruisers\Standard Battlecruisers\Amarr\Prophecy
+Battlecruisers\Standard Battlecruisers\Amarr\Prophecy Blood Raiders Edition
 Battlecruisers\Standard Battlecruisers\Caldari
 Battlecruisers\Standard Battlecruisers\Caldari\Drake
 Battlecruisers\Standard Battlecruisers\Caldari\Ferox
+Battlecruisers\Standard Battlecruisers\Caldari\Ferox Guristas Edition
 Battlecruisers\Standard Battlecruisers\Caldari\Naga
 Battlecruisers\Standard Battlecruisers\Gallente
 Battlecruisers\Standard Battlecruisers\Gallente\Brutix
+Battlecruisers\Standard Battlecruisers\Gallente\Brutix Serpentis Edition
 Battlecruisers\Standard Battlecruisers\Gallente\Myrmidon
 Battlecruisers\Standard Battlecruisers\Gallente\Talos
 Battlecruisers\Standard Battlecruisers\Minmatar
 Battlecruisers\Standard Battlecruisers\Minmatar\Cyclone
+Battlecruisers\Standard Battlecruisers\Minmatar\Cyclone Thukker Tribe Edition
 Battlecruisers\Standard Battlecruisers\Minmatar\Hurricane
 Battlecruisers\Standard Battlecruisers\Minmatar\Tornado
 Battleships
@@ -67,6 +71,7 @@ Battleships\Faction Battleships\Navy Faction\Scorpion Navy Issue
 Battleships\Faction Battleships\Navy Faction\Tempest Fleet Issue
 Battleships\Faction Battleships\Navy Faction\Typhoon Fleet Issue
 Battleships\Faction Battleships\Pirate Faction
+Battleships\Faction Battleships\Pirate Faction\Barghest
 Battleships\Faction Battleships\Pirate Faction\Bhaalgorn
 Battleships\Faction Battleships\Pirate Faction\Machariel
 Battleships\Faction Battleships\Pirate Faction\Nestor
@@ -77,21 +82,25 @@ Battleships\Standard Battleships
 Battleships\Standard Battleships\Amarr
 Battleships\Standard Battleships\Amarr\Abaddon
 Battleships\Standard Battleships\Amarr\Abaddon Kador Edition
+Battleships\Standard Battleships\Amarr\Abaddon Tash-Murkon Edition
 Battleships\Standard Battleships\Amarr\Apocalypse
 Battleships\Standard Battleships\Amarr\Armageddon
 Battleships\Standard Battleships\Caldari
 Battleships\Standard Battleships\Caldari\Raven
 Battleships\Standard Battleships\Caldari\Rokh
 Battleships\Standard Battleships\Caldari\Rokh Nugoeihuvi Edition
+Battleships\Standard Battleships\Caldari\Rokh Wiyrkomi Edition
 Battleships\Standard Battleships\Caldari\Scorpion
 Battleships\Standard Battleships\Gallente
 Battleships\Standard Battleships\Gallente\Dominix
 Battleships\Standard Battleships\Gallente\Hyperion
 Battleships\Standard Battleships\Gallente\Hyperion Aliastra Edition
+Battleships\Standard Battleships\Gallente\Hyperion Innerzone Shipping Edition
 Battleships\Standard Battleships\Gallente\Megathron
 Battleships\Standard Battleships\Minmatar
 Battleships\Standard Battleships\Minmatar\Maelstrom
 Battleships\Standard Battleships\Minmatar\Maelstrom Krusual Edition
+Battleships\Standard Battleships\Minmatar\Maelstrom Nefantar Edition
 Battleships\Standard Battleships\Minmatar\Tempest
 Battleships\Standard Battleships\Minmatar\Typhoon
 Capital Ships
@@ -224,6 +233,7 @@ Cruisers\Faction Cruisers\Pirate Faction
 Cruisers\Faction Cruisers\Pirate Faction\Ashimmu
 Cruisers\Faction Cruisers\Pirate Faction\Cynabal
 Cruisers\Faction Cruisers\Pirate Faction\Gila
+Cruisers\Faction Cruisers\Pirate Faction\Orthrus
 Cruisers\Faction Cruisers\Pirate Faction\Phantasm
 Cruisers\Faction Cruisers\Pirate Faction\Stratios
 Cruisers\Faction Cruisers\Pirate Faction\Vigilant
@@ -234,10 +244,12 @@ Cruisers\Standard Cruisers\Amarr\Augoror
 Cruisers\Standard Cruisers\Amarr\Maller
 Cruisers\Standard Cruisers\Amarr\Omen
 Cruisers\Standard Cruisers\Amarr\Omen Kador Edition
+Cruisers\Standard Cruisers\Amarr\Omen Tash-Murkon Edition
 Cruisers\Standard Cruisers\Caldari
 Cruisers\Standard Cruisers\Caldari\Blackbird
 Cruisers\Standard Cruisers\Caldari\Caracal
 Cruisers\Standard Cruisers\Caldari\Caracal Nugoeihuvi Edition
+Cruisers\Standard Cruisers\Caldari\Caracal Wiyrkomi Edition
 Cruisers\Standard Cruisers\Caldari\Moa
 Cruisers\Standard Cruisers\Caldari\Osprey
 Cruisers\Standard Cruisers\Gallente
@@ -245,6 +257,7 @@ Cruisers\Standard Cruisers\Gallente\Celestis
 Cruisers\Standard Cruisers\Gallente\Exequror
 Cruisers\Standard Cruisers\Gallente\Thorax
 Cruisers\Standard Cruisers\Gallente\Thorax Aliastra Edition
+Cruisers\Standard Cruisers\Gallente\Thorax Innerzone Shipping Edition
 Cruisers\Standard Cruisers\Gallente\Vexor
 Cruisers\Standard Cruisers\Minmatar
 Cruisers\Standard Cruisers\Minmatar\Bellicose
@@ -252,6 +265,7 @@ Cruisers\Standard Cruisers\Minmatar\Rupture
 Cruisers\Standard Cruisers\Minmatar\Scythe
 Cruisers\Standard Cruisers\Minmatar\Stabber
 Cruisers\Standard Cruisers\Minmatar\Stabber Krusual Edition
+Cruisers\Standard Cruisers\Minmatar\Stabber Nefantar Edition
 Destroyers
 Destroyers\Advanced Destroyers
 Destroyers\Advanced Destroyers\Interdictors
@@ -266,16 +280,20 @@ Destroyers\Advanced Destroyers\Interdictors\Minmatar\Sabre
 Destroyers\Standard Destroyers
 Destroyers\Standard Destroyers\Amarr
 Destroyers\Standard Destroyers\Amarr\Coercer
+Destroyers\Standard Destroyers\Amarr\Coercer Blood Raiders Edition
 Destroyers\Standard Destroyers\Amarr\Dragoon
 Destroyers\Standard Destroyers\Caldari
 Destroyers\Standard Destroyers\Caldari\Corax
 Destroyers\Standard Destroyers\Caldari\Cormorant
+Destroyers\Standard Destroyers\Caldari\Cormorant Guristas Edition
 Destroyers\Standard Destroyers\Gallente
 Destroyers\Standard Destroyers\Gallente\Algos
 Destroyers\Standard Destroyers\Gallente\Catalyst
+Destroyers\Standard Destroyers\Gallente\Catalyst Serpentis Edition
 Destroyers\Standard Destroyers\Minmatar
 Destroyers\Standard Destroyers\Minmatar\Talwar
 Destroyers\Standard Destroyers\Minmatar\Thrasher
+Destroyers\Standard Destroyers\Minmatar\Thrasher Thukker Tribe Edition
 Frigates
 Frigates\Advanced Frigates
 Frigates\Advanced Frigates\Assault Frigates
@@ -313,6 +331,8 @@ Frigates\Advanced Frigates\Electronic Attack Frigates\Gallente
 Frigates\Advanced Frigates\Electronic Attack Frigates\Gallente\Keres
 Frigates\Advanced Frigates\Electronic Attack Frigates\Minmatar
 Frigates\Advanced Frigates\Electronic Attack Frigates\Minmatar\Hyena
+Frigates\Advanced Frigates\Expedition Frigates
+Frigates\Advanced Frigates\Expedition Frigates\Prospect
 Frigates\Advanced Frigates\Interceptors
 Frigates\Advanced Frigates\Interceptors\Amarr
 Frigates\Advanced Frigates\Interceptors\Amarr\Crusader
@@ -333,13 +353,14 @@ Frigates\Faction Frigates\Navy Faction\Federation Navy Comet
 Frigates\Faction Frigates\Navy Faction\Imperial Navy Slicer
 Frigates\Faction Frigates\Navy Faction\Police Pursuit Comet
 Frigates\Faction Frigates\Navy Faction\Republic Fleet Firetail
-Frigates\Faction Frigates\Non-Empire Faction
-Frigates\Faction Frigates\Non-Empire Faction\Astero
-Frigates\Faction Frigates\Non-Empire Faction\Cruor
-Frigates\Faction Frigates\Non-Empire Faction\Daredevil
-Frigates\Faction Frigates\Non-Empire Faction\Dramiel
-Frigates\Faction Frigates\Non-Empire Faction\Succubus
-Frigates\Faction Frigates\Non-Empire Faction\Worm
+Frigates\Faction Frigates\Pirate Faction
+Frigates\Faction Frigates\Pirate Faction\Astero
+Frigates\Faction Frigates\Pirate Faction\Cruor
+Frigates\Faction Frigates\Pirate Faction\Daredevil
+Frigates\Faction Frigates\Pirate Faction\Dramiel
+Frigates\Faction Frigates\Pirate Faction\Garmur
+Frigates\Faction Frigates\Pirate Faction\Succubus
+Frigates\Faction Frigates\Pirate Faction\Worm
 Frigates\Standard Frigates
 Frigates\Standard Frigates\Amarr
 Frigates\Standard Frigates\Amarr\Crucifier
@@ -348,6 +369,7 @@ Frigates\Standard Frigates\Amarr\Inquisitor
 Frigates\Standard Frigates\Amarr\Magnate
 Frigates\Standard Frigates\Amarr\Punisher
 Frigates\Standard Frigates\Amarr\Punisher Kador Edition
+Frigates\Standard Frigates\Amarr\Punisher Tash-Murkon Edition
 Frigates\Standard Frigates\Amarr\Tormentor
 Frigates\Standard Frigates\Caldari
 Frigates\Standard Frigates\Caldari\Bantam
@@ -357,11 +379,13 @@ Frigates\Standard Frigates\Caldari\Heron
 Frigates\Standard Frigates\Caldari\Kestrel
 Frigates\Standard Frigates\Caldari\Merlin
 Frigates\Standard Frigates\Caldari\Merlin Nugoeihuvi Edition
+Frigates\Standard Frigates\Caldari\Merlin Wiyrkomi Edition
 Frigates\Standard Frigates\Gallente
 Frigates\Standard Frigates\Gallente\Atron
 Frigates\Standard Frigates\Gallente\Imicus
 Frigates\Standard Frigates\Gallente\Incursus
 Frigates\Standard Frigates\Gallente\Incursus Aliastra Edition
+Frigates\Standard Frigates\Gallente\Incursus Innerzone Shipping Edition
 Frigates\Standard Frigates\Gallente\Maulus
 Frigates\Standard Frigates\Gallente\Navitas
 Frigates\Standard Frigates\Gallente\Tristan
@@ -371,6 +395,7 @@ Frigates\Standard Frigates\Minmatar\Burst
 Frigates\Standard Frigates\Minmatar\Probe
 Frigates\Standard Frigates\Minmatar\Rifter
 Frigates\Standard Frigates\Minmatar\Rifter Krusual Edition
+Frigates\Standard Frigates\Minmatar\Rifter Nefantar Edition
 Frigates\Standard Frigates\Minmatar\Slasher
 Frigates\Standard Frigates\Minmatar\Vigil
 Frigates\Standard Frigates\ORE

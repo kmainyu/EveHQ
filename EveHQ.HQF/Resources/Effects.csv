@@ -2,31 +2,31 @@
 #Affecting Attribute,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,State,Description
 # SKILL ATTRIBUTE MAPPING,,,,,,,,,,
 # DRONES,,,,,,,,,,
+459,1,23566,10007,3,6,0,1,1,0,Advanced Drone Avionics
 280,1,24613,763,2,407,0,1,10,0,Advanced Drone Interfacing
 292,1,12484,64,5,12484,0,1,0,0,Amarr Drone Specialization
 292,1,12487,64,5,12487,0,1,0,0,Caldari Drone Specialization
-292,1,24241,64,4,837,0,1,0,0,Combat Drone Operation - Light
-292,1,24241,64,4,838,0,1,0,0,Combat Drone Operation - Medium
-327,1,23618,9,2,100;101;544;639;640;641;1159,0,1,0,0,Drone Durability - Hull
-335,1,23618,265,2,100;101;544;639;640;641;1159,0,1,0,0,Drone Durability - Armor
-337,1,23618,263,2,100;101;544;639;640;641;1159,0,1,0,0,Drone Durability - Shield
-292,1,3442,64,2,100;101;1159,0,1,0,0,Drone Interfacing - Damage
+459,1,3437,10007,3,6,0,1,1,0,Drone Avionics
+327,1,23618,9,3,18,0,1,0,0,Drone Durability - Hull
+335,1,23618,265,3,18,0,1,0,0,Drone Durability - Armor
+337,1,23618,263,3,18,0,1,0,0,Drone Durability - Shield
+292,1,3442,64,2,100;101;1159;549;1023,0,1,0,0,Drone Interfacing - Damage
 434,1,3442,77,2,101,0,1,0,0,Drone Interfacing - Mining
-591,1,12305,37,2,100;101;544;639;640;641;1159,0,1,0,0,Drone Navigation
-294,1,23606,54,2,100;101;544;639;640;641;1159,0,1,0,0,Drone Sharpshooting
+591,1,12305,37,3,18,0,1,0,0,Drone Navigation
+294,1,23606,54,3,18,0,1,0,0,Drone Sharpshooting
 353,1,3436,10005,3,6,0,1,1,0,Drones
-459,1,23566,10007,3,6,0,1,1,0,Electronic Warfare Drone Interfacing
 292,1,23069,64,2,549,0,1,0,0,Fighters
 292,1,32339,64,2,1023,0,1,0,0,Fighter Bombers
 292,1,12486,64,5,12486,0,1,0,0,Gallente Drone Specialization
 292,1,3441,64,4,839,0,1,0,0,Heavy Drone Operation
+292,1,24241,64,4,837,0,1,0,0,Light Drone Operation
+292,1,33699,64,4,838,0,1,0,0,Medium Drone Operation
 434,1,3438,77,2,101,0,1,0,0,Mining Drone Operation
 292,1,12485,64,5,12485,0,1,0,0,Minmatar Drone Specialization
 39,1,3439,68,2,640,0,1,0,0,Repair Drone Operation - Shield
 39,1,3439,84,2,640,0,1,0,0,Repair Drone Operation - Armor
 39,1,3439,83,2,640,0,1,0,0,Repair Drone Operation - Hull
 902,1,3440,902,2,1159,0,1,1,0,Salvage Drone Operation
-459,1,3437,10007,3,6,0,1,1,0,Scout Drone Operation
 292,1,23594,64,4,911,0,1,0,0,Sentry Drone Interfacing
 # ELECTRONICS,,,,,,,,,,
 619,1,11579,560,2,330,0,1,0,0,Cloaking
@@ -753,12 +753,12 @@
 # DRONES,,,,,,,,,,
 # DRONE UPGRADES,,,,,,,,,,
 353,2,407,10005,3,6,0,0,1,4,Drone Control Unit - Drone Bonus
-1255,2,645,64,2,100;101;1159,1,0,0,14,Drone Damage Amplifier
+1255,2,645,64,2,100;101;1159;549;1023,1,0,0,14,Drone Damage Amplifier
 459,2,647,10007,3,6,0,0,1,14,Drone Link Augmenter - Drone Control Range Bonus
-567,2,644,37,2,100;101;544;639;640;641;1159,3,0,0,14,Drone Navigation Computer - Drone Velocity
-351,2,646,54,2,100;101;544;639;640;641;1159,2,0,0,12,Omni Tracking Link - Optimal Range
-349,2,646,158,2,100;639,2,0,0,12,Omni Tracking Link - Falloff
-767,2,646,160,2,100,2,0,0,12,Omni Tracking Link - Tracking Speed
+567,2,644,37,3,18,3,0,0,14,Drone Navigation Computer - Drone Velocity
+351,2,646,54,3,18,2,0,0,12,Omni Tracking Link/Enhancer - Optimal Range
+349,2,646,158,2,100;639;549;1023,2,0,0,12,Omni Tracking Link/Enhancer - Falloff
+767,2,646,160,2,100;549;1023,2,0,0,12,Omni Tracking Link/Enhancer - Tracking Speed
 # REMOTE DRONES,,,,,,,,,,
 90,2,544,6,6,0,0,0,8,16,Energy Vampire Drone
 517,2,639,158,2,55;53;74,1,0,5,16,TD Drone - Falloff
@@ -913,7 +913,7 @@
 # Reinforced Bulkheads,,,,,,,,,,
 150,2,78,9,3,6,0,0,0,14,Structure HP Bonus
 169,2,78,70,3,6,1,0,0,14,Inertia Penalty
-306,2,78,37,3,6,1,0,0,14,Max Velocity Penalty
+149,2,78,10004,3,6,0,0,0,14,Cargo Capacity Penalty
 # Armor Resistence Plating,,,,,,,,,,
 984,2,98,267,3,6,1,0,2,14,Armor Plating - Passive EM Resist
 985,2,98,268,3,6,1,0,2,14,Armor Plating - Passive Exp Resist
@@ -927,6 +927,8 @@
 554,2,46,552,3,6,1,0,0,12,AB/MWD Sig Radius Penalty
 147,2,46,482,3,6,0,0,0,14,AB/MWD Cap Penalty
 20,2,46,37,3,6,0,0,3,12,AB/MWD Velocity Bonus
+# Hyperspatial Accelerators,,,,,,,,,,
+1950,2,1289,1281,3,6,0,0,1,14,Warp Speed Bonus
 # Inertia Stabilizers,,,,,,,,,,
 169,2,762,70,3,6,1,0,0,14,Inertia Modifier
 554,2,762,552,3,6,1,0,0,14,Sig Radius Penalty
@@ -936,7 +938,7 @@
 1076,2,764,37,3,6,1,0,0,14,Max Velocity Bonus
 149,2,764,10004,3,6,0,0,0,14,Cargo Capacity Penalty
 # Warp Core Stabilizers,,,,,,,,,,
-105,2,315,10009,3,6,0,0,0,14,Warp Core Strength
+105,2,315,10009,3,6,0,0,1,14,Warp Core Strength
 309,2,315,76,3,6,1,0,0,14,Targeting Range Penalty
 565,2,315,564,3,6,1,0,0,14,Scan Resolution Penalty
 # SCANNING EQUIPMENT,,,,,,,,,,
@@ -1156,10 +1158,10 @@
 # Mining Foreman Links,,,,,,,,,,
 833,1,22553,6,4,1037;1038;1039;1040,0,0,0,16,MFL - Harvester Capacitor Efficiency
 833,1,22557,73,4,1037;1038;1039;1040,0,0,0,16,MFL - Laser Optimization
-833,1,22555,54,4,1037;1038;1039;1040,0,0,0,16,MFL - Mining Laser Field Enhancement
+833,1,22555,54,4,1037;1038;1039;1040;714,0,0,0,16,MFL - Mining Laser Field Enhancement
 833,1,4274,6,4,1037;1038;1039;1040,0,0,0,16,MFL - Harvester Capacitor Efficiency II
 833,1,4276,73,4,1037;1038;1039;1040,0,0,0,16,MFL - Laser Optimization II
-833,1,4278,54,4,1037;1038;1039;1040,0,0,0,16,MFL - Mining Laser Field Enhancement II
+833,1,4278,54,4,1037;1038;1039;1040;714,0,0,0,16,MFL - Mining Laser Field Enhancement II
 # Siege Warfare Links,,,,,,,,,,
 833,1,20124,73,4,609;610;611;612,0,0,0,16,SiWL - Active Shielding - Shield Boosters
 833,1,20124,73,2,41,0,0,0,16,SiWL - Active Shielding - Shield Transporters
@@ -1256,6 +1258,14 @@
 1138,1,31049,30,4,1049;1050;1051;1052,0,0,0,15,Armor Rig Drawback - PG Penalty
 1138,1,31067,30,4,1049;1050;1051;1052,0,0,0,15,Armor Rig Drawback - PG Penalty
 1138,1,27066,30,4,1049;1050;1051;1052,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,33890,10004,3,6,0,0,0,15,Armor Rig Drawback - Cargo Capacity Penalty
+1138,1,33892,10004,3,6,0,0,0,15,Armor Rig Drawback - Cargo Capacity Penalty
+1138,1,33894,10004,3,6,0,0,0,15,Armor Rig Drawback - Cargo Capacity Penalty
+1138,1,33896,10004,3,6,0,0,0,15,Armor Rig Drawback - Cargo Capacity Penalty
+1138,1,33898,10004,3,6,0,0,0,15,Armor Rig Drawback - Cargo Capacity Penalty
+1138,1,33900,10004,3,6,0,0,0,15,Armor Rig Drawback - Cargo Capacity Penalty
+1138,1,33902,10004,3,6,0,0,0,15,Armor Rig Drawback - Cargo Capacity Penalty
+1138,1,33904,10004,3,6,0,0,0,15,Armor Rig Drawback - Cargo Capacity Penalty
 984,2,773,267,3,6,1,0,2,15,Anti-EM Pump
 985,2,773,268,3,6,1,0,2,15,Anti-Explosive Pump
 986,2,773,269,3,6,1,0,2,15,Anti-Kinetic Pump
@@ -1263,6 +1273,7 @@
 806,2,773,84,4,1049;1050;1051;1052,1,0,0,15,Auxiliary Nano Pump
 312,2,773,73,4,1049;1050;1051;1052,0,0,0,15,Nanobot Accelerator
 317,2,773,6,2,325,0,0,0,15,Remote Repair Augmentor
+327,2,773,9,3,6,0,0,0,15,Transverse Bulkhead
 335,2,773,265,3,6,0,0,0,15,Trimark Armor Pump
 # RIGS - ASTRONAUTIC,,,,,,,,,,
 1138,1,26056,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
@@ -1333,7 +1344,7 @@
 614,2,782,10004,3,6,0,0,0,15,Cargohold Optimization
 317,2,782,6,2,46,0,0,0,15,Dynamic Fuel Valve
 66,2,782,73,2,46,0,0,0,15,Engine Thermal Shielding
-624,2,782,1281,3,6,0,0,0,15,Hyperspatial Velocity Optimizer
+624,2,782,1281,3,6,1,0,0,15,Hyperspatial Velocity Optimizer
 151,2,782,70,3,6,1,0,0,15,Low Friction Nozzle Joints
 1076,2,782,37,3,6,1,0,0,15,Polycarbon Engine Housing - Velocity
 169,2,782,70,3,6,1,0,0,15,Polycarbon Engine Housing - Inertia
