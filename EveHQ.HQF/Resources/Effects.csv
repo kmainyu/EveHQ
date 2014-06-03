@@ -928,7 +928,7 @@
 147,2,46,482,3,6,0,0,0,14,AB/MWD Cap Penalty
 20,2,46,37,3,6,0,0,3,12,AB/MWD Velocity Bonus
 # Hyperspatial Accelerators,,,,,,,,,,
-1950,2,1289,1281,3,6,0,0,1,14,Warp Speed Bonus
+1950,2,1289,600,3,6,0,0,1,14,Warp Speed Bonus
 # Inertia Stabilizers,,,,,,,,,,
 169,2,762,70,3,6,1,0,0,14,Inertia Modifier
 554,2,762,552,3,6,1,0,0,14,Sig Radius Penalty
