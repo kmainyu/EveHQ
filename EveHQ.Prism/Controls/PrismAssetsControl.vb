@@ -66,6 +66,7 @@ Namespace Controls
 
         Dim _hqfShip As New ArrayList
         Private ReadOnly _assetList As New SortedList(Of Long, Classes.AssetItem)
+        Private ReadOnly _exportAssetTable As New Dictionary(Of Long, Classes.AssetItem)
         ReadOnly _tempAssetList As New ArrayList
         Dim _totalAssetValue As Double = 0
         Dim _totalAssetCount As Long = 0
@@ -377,6 +378,7 @@ Namespace Controls
             Enabled = False
             _assetList.Clear()
             _assetNodes.Clear()
+            _exportAssetTable.Clear()
             adtAssets.BeginUpdate()
             adtAssets.Nodes.Clear()
             _totalAssetValue = 0
@@ -559,11 +561,11 @@ Namespace Controls
                         If owner.IsCorp = True Then
                             Dim corpResponse As EveServiceResponse(Of CorporateData) = HQ.ApiProvider.Corporation.CorporationSheet(ownerAccount.UserID, ownerAccount.APIKey)
                             If corpResponse IsNot Nothing Then
-                              
+
                                 If corpResponse.IsSuccess Then
                                     ' No errors so parse the files
                                     Dim divList As XmlNodeList
-                                   
+
                                     For Each div As CorporateDivision In corpResponse.ResultData.Divisions
                                         If _divisions.ContainsKey(ownerID & "_" & div.AccountKey) = False Then
                                             _divisions.Add(owner.ID & "_" & div.AccountKey, StrConv(div.Description, VbStrConv.ProperCase))
@@ -574,7 +576,7 @@ Namespace Controls
                                         If _walletDivisions.ContainsKey(ownerID & "_" & wallDiv.AccountKey) = False Then
                                             _walletDivisions.Add(owner.ID & "_" & wallDiv.AccountKey, wallDiv.Description)
                                         End If
-                                    Next      
+                                    Next
                                 End If
                             Else
                                 For divID As Integer = 1000 To 1006
@@ -850,6 +852,15 @@ Namespace Controls
                                         _assetList.Add(newAssetList.ItemID, newAssetList)
                                     End If
 
+                                    Dim assetLocationHash = (newAssetList.Location + newAssetList.TypeID.ToInvariantString()).GetHashCode()
+                                    If _exportAssetTable.ContainsKey(assetLocationHash) = False Then
+                                        _exportAssetTable.Add(assetLocationHash, newAssetList)
+                                    Else
+                                        Dim item = _exportAssetTable(assetLocationHash)
+                                        item.Quantity += newAssetList.Quantity
+                                        item.RawQuantity += newAssetList.RawQuantity
+                                    End If
+
                                     If _assetNodes.ContainsKey(newAssetList.TypeID) = False Then
                                         _assetNodes.Add(newAssetList.TypeID, New List(Of Node))
                                     End If
@@ -857,7 +868,7 @@ Namespace Controls
 
                                     ' Check if this row has child nodes and repeat
                                     If assetItem.Contents IsNot Nothing Then
-                                        Call PopulateAssetNode(newAsset, assetItem, owner.Name, locNode.Text, owner, eveLocation, stationLocation, corpHangarName)
+                                        Call PopulateAssetNode(newAsset, assetItem, owner.Name, locNode.Text, owner, eveLocation, stationLocation, CorpHangarName)
                                     End If
 
                                     ' Update hangar price if applicable
@@ -1031,7 +1042,7 @@ Namespace Controls
                     newAssetList.Volume = volume
                     newAssetList.Quantity = subAssetItem.Quantity
                     newAssetList.RawQuantity = subAssetItem.RawQuantity
-                    
+
                     _totalAssetCount += newAssetList.Quantity
 
                     If _assetCorpMode = True And itemName <> "Office" And (subFlagID = 4 Or (subFlagID >= 116 And subFlagID <= 121)) Then
@@ -1050,6 +1061,16 @@ Namespace Controls
                         _assetList.Add(newAssetList.TypeID, newAssetList)
                     End If
 
+                    Dim assetLocationHash = (newAssetList.Location + newAssetList.TypeID.ToInvariantString()).GetHashCode()
+                    If _exportAssetTable.ContainsKey(assetLocationHash) = False Then
+                        _exportAssetTable.Add(assetLocationHash, newAssetList)
+                    Else
+                        Dim item = _exportAssetTable(assetLocationHash)
+                        item.Quantity += newAssetList.Quantity
+                        item.RawQuantity += newAssetList.RawQuantity
+
+                    End If
+
                     If _assetNodes.ContainsKey(newAssetList.TypeID) = False Then
                         _assetNodes.Add(newAssetList.TypeID, New List(Of Node))
                     End If
@@ -1059,7 +1080,7 @@ Namespace Controls
                     containerPrice += (newAssetList.Price * newAssetList.Quantity)
                     If assetIsInHanger = True Then
                         hangarPrice = CDbl(subAsset.Parent.Cells(_assetColumn("AssetValue")).Text)
-                        subAsset.Parent.Cells(_assetColumn("AssetValue")).Text = (hangarPrice + linePrice).ToInvariantString("N2")
+                        subAsset.Parent.Cells(_assetColumn("AssetValue")).Text = (hangarPrice + LinePrice).ToInvariantString("N2")
                     End If
 
                     If subAssetItem.Contents IsNot Nothing Then
@@ -1161,7 +1182,7 @@ Namespace Controls
                             If accountBalances IsNot Nothing Then
                                 If accountBalances.IsSuccess Then
                                     ' No errors so parse the files
-                                
+
                                     For Each account As AccountBalance In accountBalances.ResultData
                                         Dim isk As Double = account.Balance
                                         If _charWallets.ContainsKey(owner.Name) = False Then
@@ -1387,7 +1408,7 @@ Namespace Controls
                 owner = PlugInData.PrismOwners(orderOwner)
                 Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Orders)
                 Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Orders)
-                Dim ordersResponse As EveServiceResponse(Of IEnumerable(Of EveAPI.MarketOrder))
+                Dim ordersResponse As EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
                 If ownerAccount IsNot Nothing Then
 
                     If owner.IsCorp = True Then
@@ -1894,7 +1915,7 @@ Namespace Controls
                         owner = PlugInData.PrismOwners(cOwner.Text)
                         Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Assets)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Assets)
-                        Dim assetResponse As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
+                        Dim assetResponse As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
                         If ownerAccount IsNot Nothing Then
 
 
@@ -1908,13 +1929,13 @@ Namespace Controls
 
 
                                 If assetResponse.IsSuccess Then
-                                    For Each assetItem As EveAPI.AssetItem In assetResponse.ResultData
+                                    For Each assetItem As EveApi.AssetItem In assetResponse.ResultData
                                         ' Let's search for our asset!
                                         If assetItem.TypeId.ToInvariantString() = assetID Then
                                             ' We found our ship so extract the subitem data
                                             Dim catID As String
-                                            Dim modList As IEnumerable(Of EveAPI.AssetItem)
-                                            Dim mods As EveAPI.AssetItem
+                                            Dim modList As IEnumerable(Of EveApi.AssetItem)
+                                            Dim mods As EveApi.AssetItem
                                             If assetItem.Contents.Any() Then
                                                 modList = assetItem.Contents
                                                 For Each mods In modList
@@ -1951,7 +1972,7 @@ Namespace Controls
             Next
 
         End Sub
-        Private Sub SearchForShipNode(ByVal loc As EveAPI.AssetItem, ByVal assetID As String)
+        Private Sub SearchForShipNode(ByVal loc As EveApi.AssetItem, ByVal assetID As String)
             Dim subLocList As IEnumerable(Of EveApi.AssetItem)
             Dim subLoc As EveApi.AssetItem
             subLocList = loc.Contents
@@ -2570,7 +2591,7 @@ Namespace Controls
             ' Collect all the information
             Dim assetExport As New SortedList(Of String, AssetExportGroupedResult)
             Dim aer As AssetExportGroupedResult
-            For Each assetItem As Classes.AssetItem In _assetList.Values
+            For Each assetItem As Classes.AssetItem In _exportAssetTable.Values
                 If assetExport.ContainsKey(assetItem.TypeName) = False Then
                     aer = New AssetExportGroupedResult
                     aer.TypeName = assetItem.TypeName
@@ -2682,8 +2703,8 @@ Namespace Controls
         Private Sub ExportAssets()
 
             ' Collect all the information
-            Dim assets As New ArrayList
-            For Each assetItem As Classes.AssetItem In _assetList.Values
+            Dim assets As New List(Of AssetExportResult)
+            For Each assetItem As Classes.AssetItem In _exportAssetTable.Values
                 Dim aer As New AssetExportResult
                 aer.Category = assetItem.Category
                 aer.Constellation = assetItem.Constellation
@@ -2704,7 +2725,7 @@ Namespace Controls
             Next
 
             ' Sort our result depending on the ExportType
-            Dim resultsSorter As New ClassSorter
+
             'Select Case ExportType
             '    Case ExportTypes.TypeName
             '        ResultsSorter.SortClasses.Add(New Core.SortClass("TypeName", Core.SortDirection.Ascending))
@@ -2717,8 +2738,10 @@ Namespace Controls
             '    Case ExportTypes.Volume
             '        ResultsSorter.SortClasses.Add(New Core.SortClass("Volume", Core.SortDirection.Ascending))
             'End Select
-            resultsSorter.SortClasses.Add(New SortClass("TypeName", SortDirection.Ascending))
-            assets.Sort(resultsSorter)
+
+            assets = assets.OrderBy(Function(asset As AssetExportResult) As String
+                                        Return asset.TypeName
+                                    End Function).ToList()
 
             ' Select a location for the export
             Dim sfd As New SaveFileDialog
@@ -2744,7 +2767,7 @@ Namespace Controls
 
         End Sub
 
-        Private Sub ExportAssets(assets As ArrayList, sepChar As String, fileName As String)
+        Private Sub ExportAssets(assets As List(Of AssetExportResult), sepChar As String, fileName As String)
 
             Try
 

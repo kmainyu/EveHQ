@@ -2283,7 +2283,9 @@ Namespace Forms
                 End If
 
                 If (HQ.MarketStatDataProvider.LimitedRegionSelection = False) Then
-                    For Each regionName As String In StaticData.Regions.Values
+                    For Each regionName As String In StaticData.Regions.Values.OrderBy(Function(r As String) As String
+                                                                                           Return r
+                                                                                       End Function)
                         _regionList.Items.Add(regionName)
                     Next
                 Else
@@ -2295,13 +2297,16 @@ Namespace Forms
                 End If
             End If
 
+
             If _systemList IsNot Nothing Then
                 If _systemList.Items IsNot Nothing Then
                     _systemList.Items.Clear()
                 End If
 
                 If (HQ.MarketStatDataProvider.LimitedSystemSelection = False) Then
-                    For Each system As SolarSystem In StaticData.SolarSystems.Values
+                    For Each system As SolarSystem In StaticData.SolarSystems.Values.OrderBy(Function(r As SolarSystem) As String
+                                                                                                 Return r.Name
+                                                                                             End Function)
                         _systemList.Items.Add(system.Name)
                     Next
                 Else
@@ -2400,6 +2405,7 @@ Namespace Forms
 
             If _regionList.SelectedItems IsNot Nothing Then
                 If _regionList.SelectedItems.Count > 0 Then
+                    HQ.Settings.MarketRegions.Clear()
                     For Each regionName As String In _regionList.SelectedItems
                         For Each regionId As Integer In StaticData.Regions.Keys
                             If regionName = StaticData.Regions(regionId) Then
