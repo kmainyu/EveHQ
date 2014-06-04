@@ -801,7 +801,7 @@ Imports EveHQ.Common.Extensions
         Dim hImplant As String
         Dim aImplant As ShipModule
         Dim piGroup As String
-        Dim cPirateImplantGroups As Dictionary(Of String, Double) = Engine.PirateImplantGroups
+        Dim cPirateImplantGroups As Dictionary(Of String, Double) = New Dictionary(Of String, Double)(Engine.PirateImplantGroups)
         For slotNo As Integer = 1 To 10
             hImplant = hPilot.ImplantName(slotNo)
             If Engine.PirateImplants.ContainsKey(hImplant) = True Then
