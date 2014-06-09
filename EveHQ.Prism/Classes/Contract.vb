@@ -105,14 +105,14 @@ Namespace Classes
 
                     End If
 
-                    If contractResponse IsNot Nothing Then
+                    If contractResponse.IsSuccess Then
 
                         ' Get the Node List
 
                         ' Parse the Node List
                         ' TODO: if both the API entity and prism class are identical, they should use the same type
                         Dim contractList As New SortedList(Of Long, Contract)
-                        For Each contract As EveApi.Contract In contractResponse.ResultData
+                        For Each contract As EveAPI.Contract In contractResponse.ResultData
                             Dim newContract As New Contract
                             newContract.ContractID = contract.ContractId
                             newContract.Owner = owner.Name
