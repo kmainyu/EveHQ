@@ -755,7 +755,7 @@
 353,2,407,10005,3,6,0,0,1,4,Drone Control Unit - Drone Bonus
 1255,2,645,64,2,100;101;1159;549;1023,1,0,0,14,Drone Damage Amplifier
 459,2,647,10007,3,6,0,0,1,14,Drone Link Augmenter - Drone Control Range Bonus
-567,2,644,37,3,18,3,0,0,14,Drone Navigation Computer - Drone Velocity
+20,2,644,37,3,18,3,0,0,14,Drone Navigation Computer - Drone Velocity
 351,2,646,54,3,18,2,0,0,12,Omni Tracking Link/Enhancer - Optimal Range
 349,2,646,158,2,100;639;549;1023,2,0,0,12,Omni Tracking Link/Enhancer - Falloff
 767,2,646,160,2,100;549;1023,2,0,0,12,Omni Tracking Link/Enhancer - Tracking Speed
