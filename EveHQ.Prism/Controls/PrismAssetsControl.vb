@@ -236,6 +236,7 @@ Namespace Controls
                 assetNode.Text = assetData.TypeName
             End If
 
+
             ' Establish price & fix references to Blueprint if applicable
             If assetData.Category = "Blueprint" Then
                 If assetNode.Text.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
@@ -272,6 +273,11 @@ Namespace Controls
                         assetNode.Text = assetNode.Text.Replace("Blueprint", "Blueprint (Original)")
                     Else
                         assetNode.Text = assetNode.Text.Replace("Blueprint", "Blueprint (Copy)")
+
+                    End If
+
+                    If isBpo = False Then
+                        assetData.Price = 0
                     End If
                 End If
             End If
@@ -492,7 +498,7 @@ Namespace Controls
             Dim testAsset As Classes.AssetItem
             For Each updatedAsset As Classes.AssetItem In assetsUpdated
                 testAsset = updatedAsset
-                Dim updateTarget As IEnumerable(Of Tuple(Of Node, Classes.AssetItem)) = (From assetNode In _assetNodes Where CLng(assetNode.Key) = testAsset.TypeID Select assetNode).SelectMany(Function(a) a.Value).Select(Function(n) New Tuple(Of Node, Classes.AssetItem)(n, testAsset)).ToList()
+                Dim updateTarget As IEnumerable(Of Tuple(Of Node, Classes.AssetItem)) = (From assetNode In _assetNodes Where CLng(assetNode.Key) = testAsset.TypeID And testAsset.RawQuantity > -2 Select assetNode).SelectMany(Function(a) a.Value).Select(Function(n) New Tuple(Of Node, Classes.AssetItem)(n, testAsset)).ToList()
 
 
                 assetNodesToUpdate.AddRange(updateTarget)
@@ -505,7 +511,9 @@ Namespace Controls
                 Invoke(Sub()
                            'Check to see if system value filtering is enabled
 
-                           For Each updateSet As Tuple(Of Node, Classes.AssetItem) In assetNodesToUpdate
+                           For Each updateSet As Tuple(Of Node, Classes.AssetItem) In assetNodesToUpdate.Where(Function(tuple) As Boolean
+                                                                                                                   Return tuple.Item1.Text.Contains("Blueprint (Copy)") = False
+                                                                                                               End Function)
 
                                ' Update the price and value of each item
                                updateSet.Item1.Cells(_assetColumn("AssetPrice")).Text = updateSet.Item2.Price.ToInvariantString("N2")
@@ -858,7 +866,9 @@ Namespace Controls
                                     Else
                                         Dim item = _exportAssetTable(assetLocationHash)
                                         item.Quantity += newAssetList.Quantity
-                                        item.RawQuantity += newAssetList.RawQuantity
+                                        If (item.RawQuantity >= 0) Then
+                                            item.RawQuantity += newAssetList.RawQuantity
+                                        End If
                                     End If
 
                                     If _assetNodes.ContainsKey(newAssetList.TypeID) = False Then
@@ -1067,7 +1077,10 @@ Namespace Controls
                     Else
                         Dim item = _exportAssetTable(assetLocationHash)
                         item.Quantity += newAssetList.Quantity
-                        item.RawQuantity += newAssetList.RawQuantity
+                        If (item.RawQuantity >= 0) Then
+                            item.RawQuantity += newAssetList.RawQuantity
+                        End If
+
 
                     End If
 
