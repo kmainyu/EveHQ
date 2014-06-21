@@ -275,6 +275,7 @@ namespace EveHQ.EveApi
             Guard.Against(keyId.IsNullOrWhiteSpace());
             Guard.Against(vCode.IsNullOrWhiteSpace());
             Guard.Against(characterId == 0);
+            Guard.Against(contractId == 0);
 
             const string MethodPath = "{0}/ContractItems.xml.aspx";
             const string CacheKeyFormat = "CharacterContractItems{0}_{1}_{2}";
