@@ -855,7 +855,7 @@
 22548,1,22551,272,1,22548,0,1,2,-4,15,Shield Explosive Resistance
 22548,1,22551,273,1,22548,0,1,2,-4,15,Shield Kinetic Resistance
 22548,1,22551,274,1,22548,0,1,2,-4,15,Shield Thermal Resistance
-22546,1,22551,73,4,1040;1038,0,1,0,-2,15,Strip Miner & Ice Harvester Duration
+22548,1,22551,73,4,1040;1038,0,1,0,-2,15,Strip Miner & Ice Harvester Duration
 22548,0,0,77,4,1040,0,0,0,25,15,Strip Miner Mining Yield
 22548,0,0,73,4,1038,0,0,0,-20,15,Ice Harvester Duration
 22548,0,0,6,4,1038,0,0,0,-20,15,Ice Harvester Cap Use
