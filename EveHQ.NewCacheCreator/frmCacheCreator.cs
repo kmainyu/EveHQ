@@ -39,9 +39,9 @@ namespace EveHQ.NewCacheCreator
     {
 
         private const string CacheFolderName = "StaticData";
-        private const string StaticDB = "EveHQMaster";
+
         // For SDE connection
-        private const string StaticDBConnection = "Server=localhost\\SQLExpress; Database = " + StaticDB + "; Integrated Security = SSPI;";
+        private string StaticDBConnection = "Server=localhost\\SQLExpress; Database = {0}; Integrated Security = SSPI;";
         private readonly string _sqLiteDBFolder = Path.Combine(Application.StartupPath, "EveCache");
 
         private readonly string _sqLiteDB;// = Path.Combine(_sqLiteDBFolder, "EveHQMaster.db3");
@@ -938,7 +938,7 @@ namespace EveHQ.NewCacheCreator
             }
 
             // Load the solar system jump data
-            using (SqlConnection connection = new SqlConnection(StaticDBConnection))
+            using (SqlConnection connection = new SqlConnection(string.Format(StaticDBConnection,EveHQDatabaseName)))
             {
 
                 SqlCommand command = new SqlCommand("SELECT * FROM mapSolarSystemJumps;", connection);
@@ -962,7 +962,7 @@ namespace EveHQ.NewCacheCreator
             }
 
             // Load the celestial data
-            using (SqlConnection connection = new SqlConnection(StaticDBConnection))
+            using (SqlConnection connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
             {
 
                 int id = 0;
@@ -1032,7 +1032,7 @@ namespace EveHQ.NewCacheCreator
         {
             // Load the Operation data
             Dictionary<int, int> operationServices = new Dictionary<int, int>();
-            using (SqlConnection connection = new SqlConnection(StaticDBConnection))
+            using (SqlConnection connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
             {
 
                 SqlCommand command = new SqlCommand("SELECT * FROM staOperationServices;", connection);
@@ -1057,7 +1057,7 @@ namespace EveHQ.NewCacheCreator
             }
 
             // Load the Station data
-            using (SqlConnection connection = new SqlConnection(StaticDBConnection))
+            using (SqlConnection connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
             {
 
                 SqlCommand command = new SqlCommand("SELECT * FROM staStations;", connection);
@@ -1092,7 +1092,7 @@ namespace EveHQ.NewCacheCreator
         private void LoadAgents()
         {
             // Load the NPC Division data
-            using (SqlConnection connection = new SqlConnection(StaticDBConnection))
+            using (SqlConnection connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
             {
 
                 SqlCommand command = new SqlCommand("SELECT * FROM crpNPCDivisions;", connection);
@@ -1113,7 +1113,7 @@ namespace EveHQ.NewCacheCreator
             }
 
             // Load the Agent data
-            using (SqlConnection connection = new SqlConnection(StaticDBConnection))
+            using (SqlConnection connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
             {
 
                 SqlCommand command = new SqlCommand("SELECT agtAgents.agentID, agtAgents.divisionID, agtAgents.corporationID, agtAgents.locationID, agtAgents.[level], agtAgents.quality, agtAgents.agentTypeID, agtAgents.isLocator, invUniqueNames.itemName AS agentName FROM agtAgents INNER JOIN invUniqueNames ON agtAgents.agentID = invUniqueNames.itemID;", connection);
@@ -3956,7 +3956,7 @@ namespace EveHQ.NewCacheCreator
 
             DataSet evehqData = new DataSet();
             SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = StaticDBConnection;
+            conn.ConnectionString = string.Format(StaticDBConnection, EveHQDatabaseName);
             try
             {
                 conn.Open();
@@ -4105,7 +4105,7 @@ namespace EveHQ.NewCacheCreator
                 {
                     // We seem to be missing the data so lets add it in!
                     SqlConnection conn = new SqlConnection();
-                    conn.ConnectionString = StaticDBConnection;
+                    conn.ConnectionString = string.Format(StaticDBConnection, EveHQDatabaseName);
                     conn.Open();
                     AddSQLAttributeGroupColumn(conn);
                     CorrectSQLEveUnits(conn);
