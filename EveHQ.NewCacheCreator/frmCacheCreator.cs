@@ -100,7 +100,7 @@ namespace EveHQ.NewCacheCreator
 
         private static SortedList<int, YAMLType> yamlTypes;
 
-        private string StaticDBConnection = "Server=localhost\\SQLExpress; Database = {0}; Integrated Security = SSPI;";
+        private string StaticDBConnection = "Server=localhost; Database = {0}; Integrated Security = SSPI;";
 
         public FrmCacheCreator()
         {
@@ -682,7 +682,7 @@ namespace EveHQ.NewCacheCreator
                         case 278:
                             if (attMod.RequiredSkills.ContainsKey(sSkillName))
                             {
-                                ItemSkills cSkill = attMod.RequiredSkills[pSkillName];
+                                ItemSkills cSkill = attMod.RequiredSkills[sSkillName];
                                 if (cSkill != null)
                                 {
                                     cSkill.Level = Convert.ToInt32(attValue);
@@ -692,7 +692,7 @@ namespace EveHQ.NewCacheCreator
                         case 279:
                             if (attMod.RequiredSkills.ContainsKey(tSkillName))
                             {
-                                ItemSkills cSkill = attMod.RequiredSkills[pSkillName];
+                                ItemSkills cSkill = attMod.RequiredSkills[tSkillName];
                                 if (cSkill != null)
                                 {
                                     cSkill.Level = Convert.ToInt32(attValue);
@@ -1066,7 +1066,7 @@ namespace EveHQ.NewCacheCreator
                         EffectStackType tempStack;
                         EffectCalcType tempCalc;
                         newEffect.StackNerf = Enum.TryParse(effectData[6], out tempStack) ? tempStack : 0;
-                        newEffect.IsPerLevel = Convert.ToBoolean(effectData[7]);
+                        newEffect.IsPerLevel = Convert.ToBoolean( int.Parse( effectData[7]));
                         newEffect.CalcType = Enum.TryParse(effectData[8], out tempCalc) ? tempCalc : 0;
                         newEffect.Status = Convert.ToInt32(effectData[9]);
 
@@ -1077,7 +1077,7 @@ namespace EveHQ.NewCacheCreator
                                 affectingName = "Global;Global;" + Attributes.AttributeQuickList[newEffect.AffectedAtt];
                                 break;
                             case HQFEffectType.Item:
-                                if (newEffect.AffectingID > 0)
+                                if (newEffect.AffectingID > 0 && StaticData.Types.ContainsKey(newEffect.AffectingID))
                                 {
                                     affectingName = StaticData.Types[newEffect.AffectingID].Name;
                                     if (Core.HQ.SkillListName.ContainsKey(affectingName))
@@ -1564,11 +1564,11 @@ namespace EveHQ.NewCacheCreator
                 {
                     // We seem to be missing the data so lets add it in!
                     var conn = new SqlConnection();
-                    conn.ConnectionString = string.Format(StaticDBConnection, EveHQDatabaseName);
+                    conn.ConnectionString = string.Format(StaticDBConnection, EveHQDatabaseName.Text);
                     conn.Open();
                     AddSQLAttributeGroupColumn(conn);
                     CorrectSQLEveUnits(conn);
-                    DoSQLQuery(conn);
+                  //  CreateBlueprintDataTable(conn);
                     if (conn.State == ConnectionState.Open)
                     {
                         conn.Close();
@@ -1801,18 +1801,18 @@ namespace EveHQ.NewCacheCreator
             s.Close();
         }
 
-        private void DoSQLQuery(SqlConnection connection)
-        {
-            string strSQL = Resources.SQLQueries;
-            var keyCommand = new SqlCommand(strSQL, connection);
-            keyCommand.ExecuteNonQuery();
-        }
+        //private void CreateBlueprintDataTable(SqlConnection connection)
+        //{
+        //    string strSQL = Resources.SQLQueries;
+        //    var keyCommand = new SqlCommand(strSQL, connection);
+        //    keyCommand.ExecuteNonQuery();
+        //}
 
         private DataSet GetStaticData(string strSQL)
         {
             var evehqData = new DataSet();
             var conn = new SqlConnection();
-            conn.ConnectionString = string.Format(StaticDBConnection, EveHQDatabaseName);
+            conn.ConnectionString = string.Format(StaticDBConnection, EveHQDatabaseName.Text);
             try
             {
                 conn.Open();
@@ -1838,7 +1838,7 @@ namespace EveHQ.NewCacheCreator
         private void LoadAgents()
         {
             // Load the NPC Division data
-            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
+            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName.Text)))
             {
                 var command = new SqlCommand("SELECT * FROM crpNPCDivisions;", connection);
                 connection.Open();
@@ -1857,7 +1857,7 @@ namespace EveHQ.NewCacheCreator
             }
 
             // Load the Agent data
-            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
+            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName.Text)))
             {
                 var command =
                     new SqlCommand(
@@ -2041,11 +2041,20 @@ namespace EveHQ.NewCacheCreator
                             Attributes.AttributeList.Add(attData.ID, attData);
                         }
                         LoadCustomAttributes();
+                        return;
                     }
-                    MessageBox.Show("Attribute Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                    {
+                        MessageBox.Show("Attribute Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                   
                     return;
                 }
-                MessageBox.Show("Attribute Data returned a null dataset", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    MessageBox.Show("Attribute Data returned a null dataset", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+              
             }
             catch (Exception e)
             {
@@ -2258,10 +2267,10 @@ namespace EveHQ.NewCacheCreator
                 foreach (KeyValuePair<CertificateGrade, SortedList<int, int>> gradeAndSkills_loopVariable in cert.GradesAndSkills)
                 {
                     KeyValuePair<CertificateGrade, SortedList<int, int>> gradeAndSkills = gradeAndSkills_loopVariable;
-                    dynamic skills = gradeAndSkills.Value.ToList();
-                    foreach (dynamic skill_loopVariable in skills)
+                    var skills = gradeAndSkills.Value.ToList();
+                    foreach (var skill_loopVariable in skills)
                     {
-                        dynamic skill = skill_loopVariable;
+                        var skill = skill_loopVariable;
                         if (skill.Value == 0)
                         {
                             gradeAndSkills.Value.Remove(skill.Key);
@@ -2659,6 +2668,7 @@ namespace EveHQ.NewCacheCreator
                         {
                             Market.MarketGroupList.Add(row["marketGroupID"].ToString(), row["marketGroupName"].ToString());
                         }
+                        return;
                     }
                     MessageBox.Show("Market Group Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -2769,6 +2779,7 @@ namespace EveHQ.NewCacheCreator
                 {
                     if (moduleAttributeData.Tables[0].Rows.Count != 0)
                     {
+                        return;
                     }
                     MessageBox.Show("Module Attribute Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -2796,6 +2807,7 @@ namespace EveHQ.NewCacheCreator
                 {
                     if (moduleData.Tables[0].Rows.Count != 0)
                     {
+                        return;
                     }
                     MessageBox.Show("Module Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -2824,6 +2836,7 @@ namespace EveHQ.NewCacheCreator
                 {
                     if (moduleEffectData.Tables[0].Rows.Count != 0)
                     {
+                        return;
                     }
                     MessageBox.Show("Module Effect Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -2865,6 +2878,7 @@ namespace EveHQ.NewCacheCreator
                                 ModuleLists.ModuleMetaGroups.Add(Convert.ToInt32(row["parentTypeID"]), 0);
                             }
                         }
+                        return;
                     }
                     MessageBox.Show("Module Metatype Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -3073,6 +3087,7 @@ namespace EveHQ.NewCacheCreator
                         Ship.MapShipAttributes(newShip);
                         // Perform the last addition for the last ship type
                         ShipLists.ShipList.Add(newShip.Name, newShip);
+                        return;
                     }
                     MessageBox.Show("Ship Attribute Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -3210,7 +3225,7 @@ namespace EveHQ.NewCacheCreator
             }
 
             // Load the solar system jump data
-            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
+            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName.Text)))
             {
                 var command = new SqlCommand("SELECT * FROM mapSolarSystemJumps;", connection);
                 connection.Open();
@@ -3232,7 +3247,7 @@ namespace EveHQ.NewCacheCreator
             }
 
             // Load the celestial data
-            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
+            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName.Text)))
             {
                 int id = 0;
                 var command = new SqlCommand("SELECT * FROM mapDenormalize;", connection);
@@ -3296,7 +3311,7 @@ namespace EveHQ.NewCacheCreator
         {
             // Load the Operation data
             var operationServices = new Dictionary<int, int>();
-            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
+            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName.Text)))
             {
                 var command = new SqlCommand("SELECT * FROM staOperationServices;", connection);
                 connection.Open();
@@ -3319,7 +3334,7 @@ namespace EveHQ.NewCacheCreator
             }
 
             // Load the Station data
-            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName)))
+            using (var connection = new SqlConnection(string.Format(StaticDBConnection, EveHQDatabaseName.Text)))
             {
                 var command = new SqlCommand("SELECT * FROM staStations;", connection);
                 connection.Open();
@@ -3595,35 +3610,160 @@ namespace EveHQ.NewCacheCreator
             }
         }
 
+        private void ParseBlueprintsYAMLFIle()
+        {
+             StaticData.Blueprints.Clear();
+            using (var dataStream = new MemoryStream(Resources.blueprints))
+            {
+                using (var reader = new StreamReader(dataStream))
+                {
+                    var yaml = new YamlDotNet.RepresentationModel.YamlStream();
+                    yaml.Load(reader);
+
+                    if (yaml.Documents.Count > 0)
+                    {
+                           // Should only be 1 document so go with the first
+                        var yamlDoc = yaml.Documents[0];
+                        // Cycle through the keys, which will be the certIDs
+                        var root = (YamlMappingNode)yamlDoc.RootNode;
+                        foreach (var entry_loopVariable in root.Children)
+                        {
+                            var entry = entry_loopVariable;
+                            var bpId = Convert.ToInt32(((YamlScalarNode)entry.Key).Value);
+                            var bp = new Blueprint();
+                            bp.Id = bpId;
+
+                             var dataItem = entry.Value as YamlMappingNode;
+                            if (dataItem != null)
+                            {
+                                foreach (var subEntry_loopVariable in dataItem.Children)
+                                {
+                                    var subEntry = subEntry_loopVariable;
+                                    // Get the key and value of th sub entry
+                                    string keyName = ((YamlScalarNode)subEntry.Key).Value;
+                                    switch (keyName)
+                                    {
+                                        case "blueprintTypeID":
+                                            bp.Id = int.Parse(((YamlScalarNode)subEntry.Value).Value);
+                                            break;
+                                        case "maxProductionLimit":
+                                            bp.MaxProductionLimit = int.Parse(((YamlScalarNode)subEntry.Value).Value);
+                                            break;
+                                        case "activities":
+                                            var activityNodes = subEntry.Value as YamlMappingNode;
+                                            foreach (var activityNode in activityNodes)
+                                            {
+                                                var activityCode = int.Parse(((YamlScalarNode)activityNode.Key).Value);
+
+                                                switch (activityCode)
+                                                {
+                                                    case 1:
+                                                        // manufacturing
+                                                        var buildDataNodes = activityNode.Value as YamlMappingNode;
+                                                        foreach (var buildDataNode in buildDataNodes)
+                                                        {
+                                                            var buildDataKind = ((YamlScalarNode)buildDataNode.Key).Value;
+                                                            switch (buildDataKind)
+                                                            {   B6C
+                                                                case "time":
+                                                                    bp.ProductionTime = int.Parse(((YamlScalarNode)buildDataNode.Value).Value);
+                                                                    break;
+                                                                case "products":
+                                                                     var outputNodes = buildDataNode.Value as YamlMappingNode;
+                                                                     foreach (var outputNode in outputNodes)
+                                                                    {
+                                                                        bp.ProductId = int.Parse(((YamlScalarNode)outputNode.Key).Value);
+                                                                        bp.ProductQuantity = int.Parse(((YamlScalarNode)outputNode.Value).Value);
+                                                                    }
+                                                                    break;
+                                                            }
+                                                        }
+
+                                                        break;
+                                                    case 2:
+                                                        //research tech?
+                                                        break;
+                                                    case 3:
+                                                        // research production level
+                                                        break;
+                                                    case 4:
+                                                        //research material efficiency
+                                                        break;
+                                                    case 5:
+                                                        // copying
+                                                        break;
+                                                    case 6:
+                                                        // recycling
+                                                        break;
+                                                    case 7:
+                                                        //reverse engineering
+                                                        break;
+                                                    case 8:
+                                                        // invention
+                                                        break;
+
+
+
+                                                }
+                                            }
+                                            break;
+                                    }
+
+
+                                }
+                            }
+
+
+
+                            //bp.ProductId = Convert.ToInt32(bp["productTypeID"]);
+                            //bp.TechLevel = Convert.ToInt32(bp["techLevel"]);
+                            //bp.WasteFactor = Convert.ToInt32(bp["wasteFactor"]);
+                            //bp.MaterialModifier = Convert.ToInt32(bp["materialModifier"]);
+                            //bp.ProductivityModifier = Convert.ToInt32(bp["productivityModifier"]);
+                            //bp.MaxProductionLimit = Convert.ToInt32(bp["maxProductionLimit"]);
+                            //bp.ProductionTime = Convert.ToInt64(bp["productionTime"]);
+                            //bp.ResearchMaterialLevelTime = Convert.ToInt64(bp["researchMaterialTime"]);
+                            //bp.ResearchProductionLevelTime = Convert.ToInt64(bp["researchProductivityTime"]);
+                            //bp.ResearchCopyTime = Convert.ToInt64(bp["researchCopyTime"]);
+                            //bp.ResearchTechTime = Convert.ToInt64(bp["researchTechTime"]);
+                            StaticData.Blueprints.Add(bp.Id, bp);
+
+                        }
+                    }
+
+                }
+            }
+        }
+
         private void ParseCertsYAMLFile()
         {
             using (var dataStream = new MemoryStream(Resources.certificates))
             {
                 using (var reader = new StreamReader(dataStream))
                 {
-                    dynamic yaml = new YamlDotNet.RepresentationModel.YamlStream();
+                    var yaml = new YamlDotNet.RepresentationModel.YamlStream();
                     yaml.Load(reader);
 
                     if (yaml.Documents.Count > 0)
                     {
                         // Should only be 1 document so go with the first
-                        dynamic yamlDoc = yaml.Documents[0];
+                        var yamlDoc = yaml.Documents[0];
                         // Cycle through the keys, which will be the certIDs
-                        dynamic root = (YamlMappingNode)yamlDoc.RootNode;
-                        foreach (dynamic entry_loopVariable in root.Children)
+                        var root = (YamlMappingNode)yamlDoc.RootNode;
+                        foreach (var entry_loopVariable in root.Children)
                         {
-                            dynamic entry = entry_loopVariable;
-                            dynamic certID = Convert.ToInt32(((YamlScalarNode)entry.Key).Value);
+                            var entry = entry_loopVariable;
+                            var certID = Convert.ToInt32(((YamlScalarNode)entry.Key).Value);
                             var cert = new YAMLCert();
                             cert.RecommendedFor = new List<int>();
                             cert.CertID = certID;
                             // Parse anything underneath
-                            dynamic dataItem = entry.Value as YamlMappingNode;
+                            var dataItem = entry.Value as YamlMappingNode;
                             if (dataItem != null)
                             {
-                                foreach (dynamic subEntry_loopVariable in dataItem.Children)
+                                foreach (var subEntry_loopVariable in dataItem.Children)
                                 {
-                                    dynamic subEntry = subEntry_loopVariable;
+                                    var subEntry = subEntry_loopVariable;
                                     // Get the key and value of th sub entry
                                     string keyName = ((YamlScalarNode)subEntry.Key).Value;
                                     // Do something based on the key
@@ -3647,13 +3787,13 @@ namespace EveHQ.NewCacheCreator
                                             break;
                                         case "skillTypes":
                                             // Set the required Skills
-                                            dynamic skillMaps = (YamlMappingNode)subEntry.Value;
+                                            var skillMaps = (YamlMappingNode)subEntry.Value;
                                             var reqSkills = new List<CertReqSkill>();
                                             if (skillMaps != null)
                                             {
-                                                foreach (dynamic skillMap_loopVariable in skillMaps.Children)
+                                                foreach (var skillMap_loopVariable in skillMaps.Children)
                                                 {
-                                                    dynamic skillMap = skillMap_loopVariable;
+                                                    var skillMap = skillMap_loopVariable;
                                                     var reqSkill = new CertReqSkill();
                                                     reqSkill.SkillID = Convert.ToInt32(((YamlScalarNode)skillMap.Key).Value);
                                                     reqSkill.SkillLevels = new Dictionary<string, int>();
@@ -3683,17 +3823,17 @@ namespace EveHQ.NewCacheCreator
             {
                 using (var reader = new StreamReader(dataStream))
                 {
-                    dynamic yaml = new YamlDotNet.RepresentationModel.YamlStream();
+                    var yaml = new YamlDotNet.RepresentationModel.YamlStream();
                     yaml.Load(reader);
                     if (yaml.Documents.Any())
                     {
                         // Should only be 1 document so go with the first
-                        dynamic yamlDoc = yaml.Documents[0];
+                        var yamlDoc = yaml.Documents[0];
                         // Cycle through the keys, which will be the typeIDs
-                        dynamic root = (YamlMappingNode)yamlDoc.RootNode;
-                        foreach (dynamic entry_loopVariable in root.Children)
+                        var root = (YamlMappingNode)yamlDoc.RootNode;
+                        foreach (var entry_loopVariable in root.Children)
                         {
-                            dynamic entry = entry_loopVariable;
+                            var entry = entry_loopVariable;
                             // Parse the typeID
                             int iconID = Convert.ToInt32(((YamlScalarNode)entry.Key).Value);
                             // Parse anything underneath
@@ -3730,29 +3870,29 @@ namespace EveHQ.NewCacheCreator
             {
                 using (var reader = new StreamReader(dataStream))
                 {
-                    dynamic yaml = new YamlDotNet.RepresentationModel.YamlStream();
+                    var yaml = new YamlDotNet.RepresentationModel.YamlStream();
                     yaml.Load(reader);
 
                     if (yaml.Documents.Any())
                     {
                         // Should only be 1 document so go with the first
-                        dynamic yamlDoc = yaml.Documents[0];
+                        var yamlDoc = yaml.Documents[0];
                         // Cycle through the keys, which will be the typeIDs
-                        dynamic root = (YamlMappingNode)yamlDoc.RootNode;
-                        foreach (dynamic entry_loopVariable in root.Children)
+                        var root = (YamlMappingNode)yamlDoc.RootNode;
+                        foreach (var entry_loopVariable in root.Children)
                         {
-                            dynamic entry = entry_loopVariable;
+                            var entry = entry_loopVariable;
                             // Parse the typeID
                             int typeID = Convert.ToInt32(((YamlScalarNode)entry.Key).Value);
                             var yamlItem = new YAMLType();
                             yamlItem.TypeID = typeID;
                             // Parse anything underneath
-                            dynamic dataItem = entry.Value as YamlMappingNode;
+                            var dataItem = entry.Value as YamlMappingNode;
                             if (dataItem != null)
                             {
-                                foreach (dynamic subEntry_loopVariable in dataItem.Children)
+                                foreach (var subEntry_loopVariable in dataItem.Children)
                                 {
-                                    dynamic subEntry = subEntry_loopVariable;
+                                    var subEntry = subEntry_loopVariable;
                                     // Get the key and value of the sub entry
                                     string keyName = ((YamlScalarNode)subEntry.Key).Value;
                                     // Do something based on the key
@@ -3765,12 +3905,12 @@ namespace EveHQ.NewCacheCreator
                                         case "masteries":
                                             // Set the various collections of certificates needed for each level of mastery
                                             yamlItem.Masteries = new Dictionary<int, List<int>>();
-                                            dynamic masteryLevels = (YamlMappingNode)subEntry.Value;
-                                            foreach (dynamic level_loopVariable in masteryLevels.Children)
+                                            var masteryLevels = (YamlMappingNode)subEntry.Value;
+                                            foreach (var level_loopVariable in masteryLevels.Children)
                                             {
-                                                dynamic level = level_loopVariable;
-                                                dynamic levelID = Convert.ToInt32(((YamlScalarNode)level.Key).Value);
-                                                dynamic certs = ((YamlSequenceNode)level.Value).Children.Select(node => Convert.ToInt32(((YamlScalarNode)node).Value)).ToList();
+                                                var level = level_loopVariable;
+                                                var levelID = Convert.ToInt32(((YamlScalarNode)level.Key).Value);
+                                                var certs = ((YamlSequenceNode)level.Value).Children.Select(node => Convert.ToInt32(((YamlScalarNode)node).Value)).ToList();
                                                 yamlItem.Masteries.Add(levelID, certs);
                                             }
 
@@ -3778,11 +3918,11 @@ namespace EveHQ.NewCacheCreator
                                         case "traits":
                                             // Set ship traits texts for each ship skill
                                             yamlItem.Traits = new Dictionary<int, List<string>>();
-                                            dynamic traits = (YamlMappingNode)subEntry.Value;
-                                            foreach (dynamic skill_loopVariable in traits.Children)
+                                            var traits = (YamlMappingNode)subEntry.Value;
+                                            foreach (var skill_loopVariable in traits.Children)
                                             {
-                                                dynamic skill = skill_loopVariable;
-                                                dynamic skillID = Convert.ToInt32(((YamlScalarNode)skill.Key).Value);
+                                                var skill = skill_loopVariable;
+                                                var skillID = Convert.ToInt32(((YamlScalarNode)skill.Key).Value);
                                                 var bonusStrings = new List<string>();
                                                 foreach (KeyValuePair<YamlNode, YamlNode> index_loopVariable in ((YamlMappingNode)skill.Value).Children)
                                                 {
@@ -3854,6 +3994,7 @@ namespace EveHQ.NewCacheCreator
             // Parse the icons file first
             ParseIconsYAMLFile();
             ParseTypesYAMLFile();
+            ParseBlueprintsYAMLFIle();
             ParseCertsYAMLFile();
         }
 

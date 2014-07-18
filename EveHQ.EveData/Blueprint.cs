@@ -168,5 +168,11 @@ namespace EveHQ.EveData
         /// </summary>
         [ProtoMember(17)]
         public Collection<int> InventFrom { get; set; }
+
+        /// <summary>
+        /// Gets or sets the quantity produced in 1 run
+        /// </summary>
+        [ProtoMember(18)]
+        public int ProductQuantity { get; set; }
     }
 }

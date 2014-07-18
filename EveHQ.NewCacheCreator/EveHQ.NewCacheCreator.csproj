@@ -93,6 +93,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\attributeGroups.csv" />
+    <None Include="Resources\blueprints.yaml" />
     <None Include="Resources\certificates.yaml" />
     <None Include="Resources\iconIDs.yaml" />
     <None Include="Resources\typeIDs.yaml" />

@@ -48,10 +48,10 @@ namespace EveHQ.NewCacheCreator
             this.lblInfo = new System.Windows.Forms.Label();
             this.gbCheckingTools = new System.Windows.Forms.GroupBox();
             this.gbEveHQCacheGeneration = new System.Windows.Forms.GroupBox();
+            this.EveHQDatabaseName = new System.Windows.Forms.TextBox();
             this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gbInstructions = new System.Windows.Forms.GroupBox();
             this.lblInstructions = new System.Windows.Forms.Label();
-            this.EveHQDatabaseName = new System.Windows.Forms.TextBox();
             this.gbCheckingTools.SuspendLayout();
             this.gbEveHQCacheGeneration.SuspendLayout();
             this.gbInstructions.SuspendLayout();
@@ -73,6 +73,7 @@ namespace EveHQ.NewCacheCreator
             this.btnGenerateCache.TabIndex = 5;
             this.btnGenerateCache.Text = "Generate All Cache Files";
             this.btnGenerateCache.UseVisualStyleBackColor = true;
+            this.btnGenerateCache.Click += new System.EventHandler(this.btnGenerateCache_Click);
             // 
             // btnCheckDB
             // 
@@ -82,6 +83,7 @@ namespace EveHQ.NewCacheCreator
             this.btnCheckDB.TabIndex = 6;
             this.btnCheckDB.Text = "Check SQL Database";
             this.btnCheckDB.UseVisualStyleBackColor = true;
+            this.btnCheckDB.Click += new System.EventHandler(this.btnCheckDB_Click);
             // 
             // lblDB
             // 
@@ -100,6 +102,7 @@ namespace EveHQ.NewCacheCreator
             this.btnCheckMarketGroup.TabIndex = 9;
             this.btnCheckMarketGroup.Text = "Check Market Groups";
             this.btnCheckMarketGroup.UseVisualStyleBackColor = true;
+            this.btnCheckMarketGroup.Click += new System.EventHandler(this.btnCheckMarketGroup_Click);
             // 
             // lblInfo
             // 
@@ -135,6 +138,14 @@ namespace EveHQ.NewCacheCreator
             this.gbEveHQCacheGeneration.TabStop = false;
             this.gbEveHQCacheGeneration.Text = "EveHQ Cache Generation";
             // 
+            // EveHQDatabaseName
+            // 
+            this.EveHQDatabaseName.Location = new System.Drawing.Point(9, 66);
+            this.EveHQDatabaseName.Name = "EveHQDatabaseName";
+            this.EveHQDatabaseName.Size = new System.Drawing.Size(299, 20);
+            this.EveHQDatabaseName.TabIndex = 12;
+            this.EveHQDatabaseName.Text = "EveHQMaster";
+            // 
             // gbInstructions
             // 
             this.gbInstructions.Controls.Add(this.lblInstructions);
@@ -155,14 +166,6 @@ namespace EveHQ.NewCacheCreator
             this.lblInstructions.Size = new System.Drawing.Size(244, 185);
             this.lblInstructions.TabIndex = 0;
             this.lblInstructions.Text = resources.GetString("lblInstructions.Text");
-            // 
-            // EveHQDatabaseName
-            // 
-            this.EveHQDatabaseName.Location = new System.Drawing.Point(9, 66);
-            this.EveHQDatabaseName.Name = "EveHQDatabaseName";
-            this.EveHQDatabaseName.Size = new System.Drawing.Size(299, 20);
-            this.EveHQDatabaseName.TabIndex = 12;
-            this.EveHQDatabaseName.Text = "EveHQMaster";
             // 
             // FrmCacheCreator
             // 

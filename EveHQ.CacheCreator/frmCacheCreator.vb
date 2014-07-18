@@ -57,8 +57,8 @@ Imports YamlDotNet.RepresentationModel
 Public Class FrmCacheCreator
 
     Private Const CacheFolderName As String = "StaticData"
-    Private Const StaticDB As String = "EveHQMaster"
-    Private Const StaticDBConnection As String = "Server=localhost\SQLExpress; Database = " & StaticDB & "; Integrated Security = SSPI;" ' For SDE connection
+    Private Const StaticDB As String = "evehqmaster"
+    Private Const StaticDBConnection As String = "Server=localhost; Database = " & StaticDB & "; Integrated Security = SSPI;" ' For SDE connection
     ReadOnly _sqLiteDBFolder As String = Path.Combine(Application.StartupPath, "EveCache")
     ReadOnly _sqLiteDB As String = Path.Combine(_sqLiteDBFolder, "EveHQMaster.db3")
 

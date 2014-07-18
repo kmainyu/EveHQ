@@ -4736,10 +4736,10 @@
             standard: 0
 114:
     description: This certificate represents a level of competence in various kinds
-        of resource refining.  This is a good skillset for resource-harvesting capsuleers
-        that wish to sell their materials or use them for production.
+        of resource reprocessing.  This is a good skillset for resource-harvesting
+        capsuleers that wish to sell their materials or use them for production.
     groupID: 1218
-    name: Refining
+    name: Reprocessing
     skillTypes:
         3380:
             advanced: 1
@@ -6646,7 +6646,7 @@
         Core modules. The holder has learned that Industrial Cores may only be used
         on Capital Industrial Ships, improving their resource processing abilities
         at the expense of mobility. This is a good skillset for capsuleers specializing
-        in Industrial Capital Industrial Ship hulls.
+        in Industrial Capital Ship hulls.
     groupID: 1218
     name: Industrial Reconfiguration
     recommendedFor:

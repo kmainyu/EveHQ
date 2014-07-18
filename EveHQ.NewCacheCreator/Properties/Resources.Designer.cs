@@ -142,6 +142,16 @@ namespace EveHQ.NewCacheCreator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] blueprints {
+            get {
+                object obj = ResourceManager.GetObject("blueprints", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] certificates {
             get {
                 object obj = ResourceManager.GetObject("certificates", resourceCulture);
