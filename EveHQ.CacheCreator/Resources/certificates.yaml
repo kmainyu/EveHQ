@@ -25,6 +25,7 @@
     - 33655
     - 33657
     - 33879
+    - 34317
     skillTypes:
         3300:
             advanced: 5
@@ -586,6 +587,7 @@
     - 33629
     - 33635
     - 33637
+    - 34118
     skillTypes:
         3300:
             advanced: 5
@@ -1285,6 +1287,7 @@
     - 32309
     - 32311
     - 33820
+    - 34151
     skillTypes:
         3319:
             advanced: 5
@@ -1553,8 +1556,6 @@
         the use of drones.
     groupID: 273
     name: Scout Drones
-    recommendedFor:
-    - 12019
     skillTypes:
         3426:
             advanced: 1
@@ -1997,6 +1998,7 @@
     - 33873
     - 33881
     - 33883
+    - 34151
     skillTypes:
         3402:
             advanced: 1
@@ -2392,6 +2394,8 @@
     - 33875
     - 33877
     - 33879
+    - 34118
+    - 34317
     skillTypes:
         3392:
             advanced: 5
@@ -2586,7 +2590,7 @@
     description: This certificate represents a level of competence with Amarr targeting
         systems. It certifies that the holder has some skill in target acquisition
         and management and can make use of a range of targeting-related modules. This
-        is a critcal skillset for any capsuleer facing combat.
+        is a critical skillset for any capsuleer facing combat.
     groupID: 1213
     name: Amarr Target Management
     recommendedFor:
@@ -2660,6 +2664,7 @@
     - 33657
     - 33875
     - 33879
+    - 34317
     skillTypes:
         3426:
             advanced: 4
@@ -2957,6 +2962,7 @@
     - 33879
     - 33881
     - 33883
+    - 34317
     skillTypes:
         3327:
             advanced: 4
@@ -3008,9 +3014,9 @@
             standard: 1
 95:
     description: This certificate represents a level of competence with capital ships.
-        The holder has learned that capital ships cannot use Stargates and instead
-        rely on Jump Drives to travel through space. This is a critical skillset for
-        any kind of capital ship movement.
+        The holder has learned that capital ships can use both stargates and their
+        own jump drives to navigate, and that the latter causes them to accumulate
+        jump fatigue. This is a critical skillset for any kind of capital ship movement.
     groupID: 275
     name: Capital Navigation
     recommendedFor:
@@ -3075,7 +3081,7 @@
         grid and capacitor usage. This is a critical skillset for any capsuleer wishing
         to increase their tactical options in combat.
     groupID: 1216
-    name: Core Ship Operation
+    name: Core Spaceship Operation
     recommendedFor:
     - 582
     - 583
@@ -3400,6 +3406,9 @@
     - 33879
     - 33881
     - 33883
+    - 34118
+    - 34151
+    - 34317
     skillTypes:
         3402:
             advanced: 1
@@ -3750,6 +3759,9 @@
     - 33879
     - 33881
     - 33883
+    - 34118
+    - 34151
+    - 34317
     skillTypes:
         3426:
             advanced: 3
@@ -4560,186 +4572,96 @@
             improved: 0
             standard: 0
 113:
-    description: This certificate represents a level of competence in manufacturing.
-        This is a good skillset for players wishing to build their own products for
-        their own use or to resell them on the market.
+    description: This certificate represents a level of competence in Tech I sub-capital
+        ships and items production. This is a good skillset for players wishing to
+        build their own products.
     groupID: 268
-    name: Manufacturing
+    name: Tech I Manufacturing
     skillTypes:
         3380:
             advanced: 5
             basic: 3
             elite: 5
-            improved: 5
-            standard: 4
-        3387:
-            advanced: 5
-            basic: 1
-            elite: 5
-            improved: 5
-            standard: 4
-        3388:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        3392:
-            advanced: 5
-            basic: 3
-            elite: 5
-            improved: 5
-            standard: 4
-        3395:
-            advanced: 4
-            basic: 3
-            elite: 5
-            improved: 4
-            standard: 4
-        3397:
-            advanced: 4
-            basic: 0
-            elite: 5
             improved: 4
             standard: 3
-        3398:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 0
-        3400:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 0
-        3402:
-            advanced: 5
-            basic: 3
-            elite: 5
-            improved: 5
-            standard: 4
-        3403:
-            advanced: 5
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        3413:
-            advanced: 5
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        3426:
-            advanced: 5
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        11433:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        11442:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        11444:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 0
-        11445:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 0
-        11446:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        11450:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 0
-        11453:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        11454:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 0
-        11584:
-            advanced: 5
-            basic: 3
-            elite: 5
-            improved: 5
-            standard: 4
-        24268:
+        3388:
             advanced: 4
             basic: 0
             elite: 5
             improved: 3
             standard: 1
-        24625:
-            advanced: 4
+        3392:
+            advanced: 3
             basic: 0
-            elite: 5
+            elite: 3
             improved: 3
-            standard: 0
-        30324:
-            advanced: 4
+            standard: 1
+        26252:
+            advanced: 3
             basic: 0
-            elite: 5
+            elite: 4
+            improved: 1
+            standard: 0
+        26253:
+            advanced: 1
+            basic: 0
+            elite: 4
             improved: 0
             standard: 0
-        30325:
-            advanced: 4
+        26254:
+            advanced: 1
             basic: 0
-            elite: 5
+            elite: 4
             improved: 0
             standard: 0
-        30326:
-            advanced: 4
+        26255:
+            advanced: 1
             basic: 0
-            elite: 5
+            elite: 4
             improved: 0
             standard: 0
-        30327:
-            advanced: 4
+        26256:
+            advanced: 1
             basic: 0
-            elite: 5
+            elite: 4
             improved: 0
             standard: 0
-        30788:
-            advanced: 4
+        26257:
+            advanced: 1
             basic: 0
-            elite: 5
+            elite: 4
+            improved: 0
+            standard: 0
+        26258:
+            advanced: 1
+            basic: 0
+            elite: 4
+            improved: 0
+            standard: 0
+        26259:
+            advanced: 1
+            basic: 0
+            elite: 4
+            improved: 0
+            standard: 0
+        26260:
+            advanced: 1
+            basic: 0
+            elite: 4
+            improved: 0
+            standard: 0
+        26261:
+            advanced: 1
+            basic: 0
+            elite: 4
             improved: 0
             standard: 0
 114:
     description: This certificate represents a level of competence in various kinds
-        of resource refining.  This is a good skillset for resource-harvesting capsuleers
-        that wish to sell their materials or use them for production.
+        of resource reprocessing.  This is a good skillset for resource-harvesting
+        capsuleers that wish to sell their materials or use them for production.
     groupID: 1218
-    name: Refining
+    name: Reprocessing
     skillTypes:
         3380:
             advanced: 1
@@ -4886,314 +4808,6 @@
             improved: 0
             standard: 0
         18025:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-115:
-    description: This certificate represents a level of competence in blueprint research.
-        This is a good skillset to improve manufacturing efficiency or as an extra
-        source of income when selling blueprint copies.
-    groupID: 270
-    name: Research
-    skillTypes:
-        3402:
-            advanced: 5
-            basic: 3
-            elite: 5
-            improved: 5
-            standard: 4
-        3403:
-            advanced: 5
-            basic: 3
-            elite: 5
-            improved: 5
-            standard: 4
-        3406:
-            advanced: 5
-            basic: 3
-            elite: 5
-            improved: 5
-            standard: 4
-        3408:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 0
-        3409:
-            advanced: 5
-            basic: 0
-            elite: 5
-            improved: 4
-            standard: 3
-        3413:
-            advanced: 2
-            basic: 2
-            elite: 2
-            improved: 2
-            standard: 2
-        3426:
-            advanced: 2
-            basic: 2
-            elite: 2
-            improved: 2
-            standard: 2
-        3432:
-            advanced: 3
-            basic: 3
-            elite: 3
-            improved: 3
-            standard: 3
-        3551:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 0
-        12179:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        13278:
-            advanced: 0
-            basic: 0
-            elite: 2
-            improved: 0
-            standard: 0
-        20433:
-            advanced: 0
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        21718:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        21789:
-            advanced: 0
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        21790:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 1
-        21791:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 1
-        23087:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 1
-        23121:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 1
-        23123:
-            advanced: 0
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        23124:
-            advanced: 0
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        24270:
-            advanced: 5
-            basic: 0
-            elite: 5
-            improved: 4
-            standard: 3
-        24624:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 3
-            standard: 0
-116:
-    description: This certificate represents a level of competence in invention and
-        reverse engineering. It is a good skillset to research Tech II or Tech III
-        items.
-    groupID: 270
-    name: Datacore
-    skillTypes:
-        3392:
-            advanced: 5
-            basic: 5
-            elite: 5
-            improved: 5
-            standard: 5
-        3402:
-            advanced: 5
-            basic: 5
-            elite: 5
-            improved: 5
-            standard: 5
-        3403:
-            advanced: 5
-            basic: 5
-            elite: 5
-            improved: 5
-            standard: 5
-        3413:
-            advanced: 5
-            basic: 5
-            elite: 5
-            improved: 5
-            standard: 5
-        3426:
-            advanced: 5
-            basic: 5
-            elite: 5
-            improved: 5
-            standard: 5
-        11433:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11441:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11442:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11443:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11444:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11445:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11446:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11447:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11448:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11449:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11450:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11451:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11452:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11453:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11454:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11455:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        11529:
-            advanced: 4
-            basic: 1
-            elite: 5
-            improved: 3
-            standard: 2
-        30324:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        30325:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        30326:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        30327:
-            advanced: 4
-            basic: 0
-            elite: 5
-            improved: 0
-            standard: 0
-        30788:
             advanced: 4
             basic: 0
             elite: 5
@@ -5415,6 +5029,9 @@
     - 33875
     - 33877
     - 33879
+    - 34118
+    - 34317
+    - 34328
     skillTypes:
         3413:
             advanced: 3
@@ -5615,6 +5232,8 @@
     - 33873
     - 33881
     - 33883
+    - 34151
+    - 34328
     skillTypes:
         3392:
             advanced: 4
@@ -5815,6 +5434,7 @@
     - 33635
     - 33637
     - 33687
+    - 34151
     skillTypes:
         3426:
             advanced: 1
@@ -5967,6 +5587,8 @@
     - 33633
     - 33635
     - 33637
+    - 34118
+    - 34151
     skillTypes:
         3327:
             advanced: 4
@@ -6026,7 +5648,7 @@
     description: This certificate represents a level of competence with Caldari targeting
         systems. It certifies that the holder has some skill in target acquisition
         and management and can make use of a range of targeting-related modules. This
-        is a critcal skillset for any capsuleer facing combat.
+        is a critical skillset for any capsuleer facing combat.
     groupID: 1213
     name: Caldari Target Management
     recommendedFor:
@@ -6096,6 +5718,7 @@
     - 33820
     - 33873
     - 33881
+    - 34151
     skillTypes:
         3426:
             advanced: 4
@@ -6131,7 +5754,7 @@
     description: This certificate represents a level of competence with Gallente targeting
         systems. It certifies that the holder has some skill in target acquisition
         and management and can make use of a range of targeting-related modules. This
-        is a critcal skillset for any capsuleer facing combat.
+        is a critical skillset for any capsuleer facing combat.
     groupID: 1213
     name: Gallente Target Management
     recommendedFor:
@@ -6223,6 +5846,7 @@
     - 33697
     - 33869
     - 33877
+    - 34118
     skillTypes:
         3426:
             advanced: 4
@@ -6258,7 +5882,7 @@
     description: This certificate represents a level of competence with Minmatar targeting
         systems. It certifies that the holder has some skill in target acquisition
         and management and can make use of a range of targeting-related modules. This
-        is a critcal skillset for any capsuleer facing combat.
+        is a critical skillset for any capsuleer facing combat.
     groupID: 1213
     name: Minmatar Target Management
     recommendedFor:
@@ -6517,7 +6141,7 @@
     description: This certificate represents a level of competence with supercapital
         targeting systems. It certifies that the holder has some skill in target acquisition
         and management and can make use of a range of targeting-related modules. This
-        is a critcal skillset for any capsuleer facing combat.
+        is a critical skillset for any capsuleer facing combat.
     groupID: 1213
     name: Supercapital Target Management
     recommendedFor:
@@ -6646,7 +6270,7 @@
         Core modules. The holder has learned that Industrial Cores may only be used
         on Capital Industrial Ships, improving their resource processing abilities
         at the expense of mobility. This is a good skillset for capsuleers specializing
-        in Industrial Capital Industrial Ship hulls.
+        in Industrial Capital Ship hulls.
     groupID: 1218
     name: Industrial Reconfiguration
     recommendedFor:
@@ -6907,6 +6531,9 @@
     - 33879
     - 33881
     - 33883
+    - 34118
+    - 34151
+    - 34317
     skillTypes:
         3300:
             advanced: 2
@@ -6942,6 +6569,7 @@
     - 28846
     - 28848
     - 28850
+    - 34328
     skillTypes:
         3327:
             advanced: 5
@@ -7366,6 +6994,7 @@
     - 11965
     - 11969
     - 11971
+    - 12019
     - 12023
     - 16229
     - 16231
@@ -7404,6 +7033,7 @@
     - 33869
     - 33871
     - 33875
+    - 34118
     skillTypes:
         3426:
             advanced: 1
@@ -7495,3 +7125,1680 @@
             elite: 5
             improved: 4
             standard: 3
+167:
+    description: This certificate represents a level of competence in Tech I capital
+        ships and items production. This is a good skillset for players wishing to
+        build their own products.
+    groupID: 268
+    name: Tech I Capital Manufacturing
+    skillTypes:
+        3380:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3388:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        22242:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+168:
+    description: This certificate represents a level of competence in handling remote
+        access and simultaneous use of manufacturing activities. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 268
+    name: Manufacturing Operations
+    skillTypes:
+        3380:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        3387:
+            advanced: 5
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3
+        24268:
+            advanced: 4
+            basic: 0
+            elite: 5
+            improved: 1
+            standard: 0
+        24625:
+            advanced: 1
+            basic: 0
+            elite: 5
+            improved: 0
+            standard: 0
+169:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Amarr ship hulls. This is a good skillset for
+        players wishing to invent that faction's Tech II ship blueprints or build
+        their own products.
+    groupID: 268
+    name: Advanced Amarr Spaceship Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11444:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+170:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Caldari ship hulls. This is a good skillset for
+        players wishing to invent that faction's Tech II ship blueprints or build
+        their own products.
+    groupID: 268
+    name: Advanced Caldari Spaceship Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11454:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+171:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Gallente ship hulls. This is a good skillset
+        for players wishing to invent that faction's Tech II ship blueprints or build
+        their own products.
+    groupID: 268
+    name: Advanced Gallente Spaceship Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11450:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+172:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Minmatar ship hulls. This is a good skillset
+        for players wishing to invent that faction's Tech II ship blueprints or build
+        their own products.
+    groupID: 268
+    name: Advanced Minmatar Spaceship Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11445:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+173:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II small ship hulls. This is a good skillset for
+        players wishing to build their own products.
+    groupID: 268
+    name: Advanced Small Spaceship Manufacturing
+    skillTypes:
+        3380:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3392:
+            advanced: 1
+            basic: 1
+            elite: 1
+            improved: 1
+            standard: 1
+        3395:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+174:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II medium ship hulls. This is a good skillset for
+        players wishing to build their own products.
+    groupID: 268
+    name: Advanced Medium Spaceship Manufacturing
+    skillTypes:
+        3380:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3392:
+            advanced: 1
+            basic: 1
+            elite: 1
+            improved: 1
+            standard: 1
+        3395:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3397:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+175:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II large ship hulls. This is a good skillset for
+        players wishing to build their own products.
+    groupID: 268
+    name: Advanced Large Spaceship Manufacturing
+    skillTypes:
+        3380:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3392:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        3395:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3397:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3398:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+176:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II small industrial ship hulls. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 268
+    name: Advanced Industrial Spaceship Manufacturing
+    skillTypes:
+        3380:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        3392:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3396:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+177:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II laser related modules. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Laser Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11433:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11447:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+178:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of hybrid related modules. This is a good skillset for players
+        wishing to build their own products.
+    groupID: 270
+    name: Advanced Hybrid Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11441:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11455:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+179:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of projectile related modules. This is a good skillset for
+        players wishing to build their own products.
+    groupID: 270
+    name: Advanced Projectile Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11451:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11452:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+180:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II armor related modules. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Armor Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3426:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11442:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11443:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+181:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II capacitor related modules. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Capacitor Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11433:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11455:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+182:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II weapon upgrades related modules. This is a good
+        skillset for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Weapon Upgrades Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3426:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11452:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11453:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+183:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Siege, Triade and Cloak related modules. This
+        is a good skillset for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Operations Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11446:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11455:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+184:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II hull related modules. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Hull Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3426:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11442:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11529:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+185:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II electronic related modules. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Electronic Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3426:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11448:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11453:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+186:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II harvesting related modules. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Harvesting Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11447:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11452:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+187:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II propulsion related modules. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Propulsion Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11449:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11529:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+188:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II shield related modules. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Shield Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11443:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11455:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+189:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II drone related modules. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Drone Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3426:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11446:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11453:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+190:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Smartbombs, Warfare Links and Mining Foreman
+        related modules. This is a good skillset for players wishing to build their
+        own products.
+    groupID: 270
+    name: Advanced Field Effect Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11451:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11529:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+191:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Stasis Webifiers, Target Painters, Warp Scramblers
+        and Disruptors related modules. This is a good skillset for players wishing
+        to build their own products.
+    groupID: 270
+    name: Advanced Warp Inhibition Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3426:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11446:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11448:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+192:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II missile launcher related modules. This is a good
+        skillset for players wishing to build their own products.
+    groupID: 256
+    name: Advanced Launcher Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11449:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11451:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+193:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II missiles as ammunition. This is a good skillset
+        for players wishing to build their own products.
+    groupID: 270
+    name: Advanced Missile Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11441:
+            advanced: 1
+            basic: 1
+            elite: 1
+            improved: 1
+            standard: 1
+        11449:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+194:
+    description: This certificate represents a level of competence in handling material
+        efficiency research. This is a good skillset for players wishing to research
+        their Tech I blueprint originals.
+    groupID: 270
+    name: Material Efficiency Research
+    skillTypes:
+        3402:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3409:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+195:
+    description: This certificate represents a level of competence in handling time
+        efficiency research. This is a good skillset for players wishing to research
+        their Tech I blueprint originals.
+    groupID: 270
+    name: Time Efficiency Research
+    skillTypes:
+        3402:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        3403:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+196:
+    description: This certificate represents a level of competence in making copies
+        of Tech I blueprint originals. This is a good skillset for players wishing
+        to engage in Invention or to resell their blueprint copies on the Contract
+        system.
+    groupID: 270
+    name: Copying
+    skillTypes:
+        3402:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+197:
+    description: This certificate represents a level of competence in handling remote
+        access and simultaneous use of Material Efficiency, Time Efficiency Research,
+        copying and invention activities. This is a good skillset for players engaged
+        in any kind of science operation.
+    groupID: 270
+    name: Research Operations
+    skillTypes:
+        3402:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        3406:
+            advanced: 5
+            basic: 1
+            elite: 5
+            improved: 4
+            standard: 3
+        24270:
+            advanced: 4
+            basic: 0
+            elite: 5
+            improved: 1
+            standard: 0
+        24624:
+            advanced: 1
+            basic: 0
+            elite: 5
+            improved: 0
+            standard: 0
+198:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Amarr items. This is a good skillset for players
+        wishing to invent that faction's Tech II item blueprints or build their own
+        products.
+    groupID: 270
+    name: Advanced Amarr Technology
+    skillTypes:
+        3402:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        3413:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3426:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3432:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        21718:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        23087:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+199:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Caldari items. This is a good skillset for players
+        wishing to invent that faction's Tech II item blueprints or build their own
+        products.
+    groupID: 270
+    name: Advanced Caldari Technology
+    skillTypes:
+        3402:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        3413:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3426:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3432:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        21718:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        21790:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+200:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Gallente items. This is a good skillset for players
+        wishing to invent that faction's Tech II item blueprints or build their own
+        products.
+    groupID: 270
+    name: Advanced Gallente Technology
+    skillTypes:
+        3402:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        3413:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3426:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3432:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        21718:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        23121:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+201:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II Minmatar items. This is a good skillset for players
+        wishing to invent that faction's Tech II item blueprints or build their own
+        products.
+    groupID: 270
+    name: Advanced Minmatar Technology
+    skillTypes:
+        3402:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        3413:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3426:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        3432:
+            advanced: 3
+            basic: 3
+            elite: 3
+            improved: 3
+            standard: 3
+        21718:
+            advanced: 2
+            basic: 2
+            elite: 2
+            improved: 2
+            standard: 2
+        21791:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+202:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II attack ships. This is a good skillset for players
+        wishing to invent those Tech II item blueprints or build their own products.
+    groupID: 270
+    name: Advanced Attack Spaceship Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11433:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+203:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II combat ships. This is a good skillset for players
+        wishing to invent those Tech II item blueprints or build their own products.
+    groupID: 270
+    name: Advanced Combat Spaceship Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11452:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+204:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II disruption ships. This is a good skillset for
+        players wishing to invent those Tech II item blueprints or build their own
+        products.
+    groupID: 270
+    name: Advanced Disruption Spaceship Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3426:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11453:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+205:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II support ships. This is a good skillset for players
+        wishing to invent those Tech II item blueprints or build their own products.
+    groupID: 270
+    name: Advanced Support Spaceship Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3426:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11442:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+206:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II exploration ships. This is a good skillset for
+        players wishing to invent those Tech II item blueprints or build their own
+        products.
+    groupID: 270
+    name: Advanced Exploration Spaceship Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11455:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+207:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II hauling ships. This is a good skillset for players
+        wishing to invent those Tech II item blueprints or build their own products.
+    groupID: 270
+    name: Advanced Hauling Spaceship Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11529:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+208:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II tackling ships. This is a good skillset for players
+        wishing to invent those Tech II item blueprints or build their own products.
+    groupID: 270
+    name: Advanced Tackling Spaceship Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11446:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+209:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech II resource harvesting ships. This is a good skillset
+        for players wishing to invent those Tech II item blueprints or build their
+        own products.
+    groupID: 270
+    name: Advanced Resource Harvesting Spaceship Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11447:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+211:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech III weapon subsystems. This is a good skillset for
+        players wishing to invent those Tech III item blueprints or build their own
+        products.
+    groupID: 270
+    name: Weapon Subsystem Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3403:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3408:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        3409:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11433:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        11441:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        30327:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+212:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech III propulsion subsystems. This is a good skillset
+        for players wishing to invent those Tech III item blueprints or build their
+        own products.
+    groupID: 270
+    name: Propulsion Subsystem Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3403:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3408:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        3409:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11446:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        11449:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        30788:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+213:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech III engineering subsystems. This is a good skillset
+        for players wishing to invent those Tech III item blueprints or build their
+        own products.
+    groupID: 270
+    name: Engineering Subsystem Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3403:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3408:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        3409:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11433:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        11455:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        30325:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+214:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech III defensive subsystems. This is a good skillset
+        for players wishing to invent those Tech III item blueprints or build their
+        own products.
+    groupID: 270
+    name: Defensive Subsystem Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3403:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3408:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        3409:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3426:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11442:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        11443:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        30324:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+215:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech III electronic subsystems. This is a good skillset
+        for players wishing to invent those Tech III item blueprints or build their
+        own products.
+    groupID: 270
+    name: Electronic Subsystem Technology
+    skillTypes:
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3403:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3408:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        3409:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3426:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11453:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        30326:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+216:
+    description: This certificate represents a level of competence in handling invention
+        and manufacturing of Tech III ship hulls. This is a good skillset for players
+        wishing to invent those Tech III item blueprints or build their own products.
+    groupID: 270
+    name: Spaceship Hull Subsystem Technology
+    skillTypes:
+        3392:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3402:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        3403:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3408:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        3409:
+            advanced: 4
+            basic: 4
+            elite: 4
+            improved: 4
+            standard: 4
+        3413:
+            advanced: 5
+            basic: 5
+            elite: 5
+            improved: 5
+            standard: 5
+        11441:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2
+        11452:
+            advanced: 4
+            basic: 1
+            elite: 5
+            improved: 3
+            standard: 2

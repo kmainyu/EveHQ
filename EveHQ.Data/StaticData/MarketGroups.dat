@@ -16,7 +16,6 @@ $ Standard Industrial Shipsæ
 Turrets & Bays	
 Ammunition & Charges
 Hull & Armor 	
-Minerals‡
 Trade Goods
 Industrial Goods
 Radioactive Goods
@@ -29,7 +28,7 @@ Passengers
 6Ore‡
 ==Caldari
 @@Minmatar
-"AAConstruction Components‹
+AAAdvanced Components‹
 HHAmarr
 IIMinmatar
 JJAmarr
@@ -183,7 +182,6 @@ Navigation–
 ŠŠMinmatar‡
 ‹‹Gallente‡
 ŒŒCaldari‡
-ToolsŒ
 InterceptorsÔ
 
 Amarr
@@ -265,7 +263,6 @@ $ÕÕStandard BattlecruisersŞ
 ØØGallenteÕ
 ÙÙMinmatarÕ
  ÛÛManufacture & Research
-ÜÜIce Products‰
 İİ
 Structures
 ŞŞControl Towers…
@@ -274,7 +271,7 @@ Structures
 ààWeapon Batteries…
 
 )á$áElectronic Warfare Batteriesà
-ââRefining Arrays…
+ ââReprocessing Arrays…
 
 ããSilos…
 
@@ -288,23 +285,19 @@ $ååShield Hardening Arrays…
 
 ëë	Narcotics
 ììConsumer Products
-ííIce Ore‰
 îîMining Bargesè
 
 ğğMining BargesÌ
 ññOREğ
-óóAdvanced MaterialsŠ
- ôôProcessed MaterialsŠ
-õõRaw MaterialsŠ
+$óóAdvanced Moon MaterialsŠ
+%ô ôProcessed Moon MaterialsŠ
+õõRaw Moon MaterialsŠ
 ööExtra LargeÍ
 ÷÷Extra LargeÓ
 øøExtra LargeĞ
 ùùCitadel Torpedoesr
 #úúCorporate Hangar Array…
 
-ûû	ReactionsÛ
-üüSimple Reactionsû
-ııComplex Reactionsû
 €€Arkonor6
 ‚‚Bistot6
 ƒƒ	Pyroxeres6
@@ -454,7 +447,6 @@ ECM Bursts‘
 $§§Remote Sensor Dampeners‘
  ¨¨Tracking Disruptors‘
 !©©Sensor Backup Arrays‘
-ªªWarp Jammers‘
 ««Stasis Webifiers‘
 ­­ECCM‘
 ®®Projected ECCM‘
@@ -529,7 +521,6 @@ Commandersã
 ññMining CrystalsÓ
 #òòPolitical Paraphernalia
 õõTarget Painters‘
-÷÷Alloys & Compounds•
 øøCivilian Modules	
 ùùDreadnoughtså
 
@@ -553,8 +544,7 @@ Freighterså
 ‰‰Citadel LaunchersŒ
 ŠŠCapital¨
 $‹‹Fleet Assistance Modules	
-ŒŒStation Components‹
-$Capital Ship Components‹
+-( Standard Capital Ship Components‹
 DreadnoughtsÌ
 Amarr
 Caldari
@@ -569,22 +559,14 @@ FreightersÌ
 ˜˜Extra Large
 ™™Extra LargeŸ
 ššExtra Large 
-$œœCapital Ship Components 
-+&Outpost Construction Platforms 
+-œ(œ Standard Capital Ship Components 
+Outpost Components 
 %Ÿ ŸFleet Assistance ModulesÑ
   
 Components‘
 ¡¡Siege Modules
 ¢¢AmarrA
 ££CaldariA
-¤¤GallenteA
-¥¥MinmatarA
-&¦!¦Prototypes and DecryptorsŒ
-§§Artifacts and LoreŒ
-¨¨Angel Materials¦
-©©Guristas Materials¦
-ªªSleeper§
-««Talocan§
 ¬¬Titanså
 
 ­­Amarr¬
@@ -680,10 +662,6 @@ $ÒÒAdvanced Railgun Chargesd
 ‡‡Minmatarò
 ˆˆOREó
 ‰‰Tractor Beamsª
-#ŠŠBlood Raider Materials¦
- ‹‹Serpentis Materials¦
-ŒŒYan Jung§
-Takmahl§
 Capital—
 Sentry DronesŸ
 Doomsday Devices
@@ -707,15 +685,14 @@ $œœStandard Heavy MissilesÅ
 )£$£Advanced Anti-Ship Torpedoesƒ
 ¤¤Assembly Arrays…
 
-¥¥Mobile Laboratory…
+¥¥
+Laboratory…
 
 §§Mining Upgrades±
 ©©Mining Upgrades¯
 ªªDrone Upgrades	
 ««Drone UpgradesÑ
 ¬¬Starbase Charters
-­­Tool Blueprintsô
-®®Salvaged Materials•
 ¯¯Ship Modifications
 °°
 Armor Rigs¯
@@ -741,7 +718,6 @@ Drone Rigs×
 ÃÃHybrid Weapon Rigs×
 "ÄÄMissile Launcher Rigs×
 ÅÅShield Rigs×
-ÆÆ	DatacoresŒ
 (Ç#ÇSignal Distortion Amplifier¥
 "ÈÈHeavy Assault Missilesr
 ,Ë'ËStandard Heavy Assault MissilesÈ
@@ -751,12 +727,7 @@ $ÎÎHeavy Assault LaunchersŒ
 #ÏÏHeavy Assault Missilesº
 ÑÑBooster
 #ÓÓProjectile Weapon Rigs×
-ÔÔData InterfacesŒ
-)Õ$ÕSimple Biochemical Reactionsû
-*Ö%ÖComplex Biochemical Reactionsû
-××
-Gas Cloudsˆ
-ØØBooster Materialˆ
+××Booster Gas Cloudsˆ
 ÚÚFaction Ammoc
 ÛÛLargeÚ
 ÜÜMediumÚ
@@ -794,29 +765,23 @@ $ôôCynosural System Jammer…
 øøBombsÓ
 !úúRemote Hull Repairers
 ûûBomb LaunchersÒ
-*ı%ıOutpost Improvement Platforms‹
-(ş#şAmarr Improvement Platformsı
-*ÿ%ÿCaldari Improvement Platformsı
-+€&€Gallente Improvement Platformsı
-+&Minmatar Improvement Platformsı
+ııOutpost Components‹
+"şşImprovement Platformsı
 &ƒ!ƒOutpost Upgrade Platformsı
 „„Fightersú
 &…!…Electronic Warfare Droneså
 ††Logistic Droneså
-‡‡Ore & Minerals •
-"ˆˆGas Clouds & Boosters•
-‰‰Ice & Ice Products•
-ŠŠMoon Materials•
+‡‡Raw materials•
+!ˆˆGas Clouds Materials•
+‰‰Ice Products•
+ŠŠReaction Materials•
 ‹‹
 ComponentsÛ
-!ŒŒResearch & Invention‹
 !Gas Cloud Harvesters±
 Ice Harvesters±
 Mining Lasers±
 Strip Miners±
 "‘‘Manufacture & Research
-'’"’Ore Compression Blueprintsò
-'“"“Ice Compression Blueprintsò
 %• •Capital Industrial ShipsÌ
 ––ORE•
 %— —Capital Industrial Shipså
@@ -873,13 +838,7 @@ Overdrives„
 ÄÄGallenteÁ
 ÅÅMinmatarÁ
 ÆÆScripts
-#ÈÈRogue Drone Components•
 -É(É Advanced Capital Ship Components 
--Ê(Ê Advanced Capital Ship Components‹
-ËËAmarrÊ
-ÌÌCaldariÊ
-ÍÍGallenteÊ
-ÎÎMinmatarÊ
 ÏÏNanite Repair Paste
 ÑÑScriptsÓ
 ÕÕSleeper Components
@@ -909,16 +868,8 @@ Subsystems»
 ôôCaldariò
 õõGallenteò
 ööMinmatarò
-÷÷Polymer Reactionsû
-"øøFullerenes & Polymers•
-ùù
-Fullerenesø
-úúPolymersø
-ûûHybrid Components‹
-'ü"üAncient Salvaged Materials•
-ııAncient RelicsŒ
-şşHybrid Decryptors¦
-§	§	Hybrid Components 
+!ûûSubsystem Components‹
+!§	§	Subsystem Components 
 "¨	¨	Faction Auto-Targetings
 '©	"©	Standard Citadel Torpedoesù
 &ª	!ª	Faction Citadel Torpedoesù
@@ -1039,25 +990,25 @@ $†
  ´
 ´
 Planetary Materials•
-µ
-µ
-Raw Materials´
+$µ
+µ
+Raw Planetary Materials´
 
- ¶
-¶
-Processed Materials´
+*¶
+%¶
+Processed Planetary Materials´
 
- ·
-·
-Refined Commodities´
+(·
+#·
+Refined Planetary Materials´
 
-$¸
-¸
-Specialized Commodities´
+,¸
+'¸
+Specialized Planetary Materials´
 
-!¹
-¹
-Advanced Commodities´
+)¹
+$¹
+Advanced Planetary Materials´
 
 º
 º
@@ -1105,9 +1056,9 @@ $½
 #È
 È
 Moon Harvesting Arrays±
-É
-É
-Refining Arrays±
+ É
+É
+Reprocessing Arrays±
 $Ê
 Ê
 Shield Hardening Arrays±
@@ -1118,15 +1069,12 @@ $Ê
 Ì
 Sovereignty Structuresº
 
-Í
-Í
-Station Components 
  Î
 Î
 Nanite Repair PasteÓ
- Ï
-Ï
-Mobile Laboratories±
+Ï
+Ï
+Laboratories±
 Ñ
 Ñ
 Frigates
@@ -1273,8 +1221,6 @@ $ß
 
 #‚‚Orbital Infrastructure¨
 
-"„„Fuel Block Blueprintsò
-……Fuel Blocks•
 #ˆˆReactive Armor Hardener
 ’’Target Breaker‘
 ““Aurum Tokens
@@ -1326,7 +1272,6 @@ $ß
 ğğProbesÓ
 ññSurvey Probesğ
 òò	Materials‘
-!ôôResearch & Invention 
 õõAfterburnersü
 ööCruise Missilesº
 ÷÷Heavy Missilesº
@@ -1371,7 +1316,6 @@ $ÿÿShip Maintenance Arrays±
 Electronic WarfareÑ
 (Ÿ#ŸElectronic Counter Measures
   	ECM Burst
-¡¡Warp Jammers
 ¢¢Stasis Webifiers
 ££Target Painters
 -¤(¤ Warp Disruption Field Generators
@@ -1392,12 +1336,11 @@ $¨¨Remote Sensor Dampeners
 ´´CaldariÉ
 µµGallenteÉ
 ¶¶MinmatarÉ
-$··Construction Components 
+ ··Advanced Components 
 ¸¸Amarr·
 ¹¹Caldari·
 ººGallente·
 »»Minmatar·
-+¼&¼Outpost Construction Platforms‹
 ¾¾Orbital Strikec
 ¿¿Orbital Strikee
 ÀÀOrbital Striked
@@ -1521,10 +1464,6 @@ $——Energized Armor Layering
 1É,É$Capital Electronics Superiority RigsÀ
 ËËCapital Drone Rigs¾
 %Ì ÌCapital Astronautic Rigs½
-ÍÍAmarr Decryptors¦
-ÎÎCaldari Decryptors¦
- ÏÏGallente Decryptors¦
- ĞĞMinmatar Decryptors¦
 ÑÑArmor–
 ÒÒNeural Enhancement–
 ÓÓShields–
@@ -1587,7 +1526,6 @@ $——Energized Armor Layering
 ™™Caldari—
 ššGallente—
 ››Minmatar—
-œœHybridA
 Tattoosÿ
 
 ŸŸPlanet Management–
@@ -1607,7 +1545,7 @@ Subsystems–
 (­#­Special Edition Recon ShipsÌ
 '®"®Special Edition Covert OpsÌ
 !°°Covert Research Tools
- ±±Starbase structuresº
+ ±±Starbase Structuresº
 
 $²²Mobile Micro Jump Units–
 #³³Mobile Scan Inhibitors–
@@ -1615,17 +1553,92 @@ $´´Mobile Micro Jump Units”
 #µµMobile Scan Inhibitors”
 %¶ ¶Bounty Reimbursement Tags
 +·&·Encounter Surveillance Systems”
+¹¹	Reactions
+ººSimple Reactions¹
+»»Complex Reactions¹
+)¼$¼Simple Biochemical Reactions¹
+*½%½Complex Biochemical Reactions¹
+¾¾Polymer Reactions¹
+¿¿Ice Ore‡
+ÀÀAlloys & Compounds‡
+ÁÁMinerals•
+ÂÂBooster MaterialsŠ
+ÃÃ
+Fullerenesˆ
+ÄÄPolymer MaterialsŠ
+ÅÅSalvage Materials•
+'Æ"ÆAncient Salvaged MaterialsÅ
+ÇÇSalvaged MaterialsÅ
+#ÈÈConstruction Platformsı
+ÉÉStation Componentsı
+(Ê#ÊAmarr Improvement Platformsş
+*Ë%ËCaldari Improvement Platformsş
++Ì&ÌGallente Improvement Platformsş
++Í&ÍMinmatar Improvement Platformsş
+ÎÎFuel Blocks‹
+ĞĞResearch EquipmentÛ
+ÑÑ
+DecryptorsĞ
+ØØ	DatacoresĞ
+(Û#ÛAdvanced Capital Components‹
+ÜÜAmarrÛ
+İİCaldariÛ
+ŞŞGallenteÛ
+ßßMinmatarÛ
+ààGallenteA
+ááMinmatarA
+ééFaction Materials•
+êêAngel Cartelé
+ëëBlood Raidersé
+ììGuristasé
+íí	Serpentisé
+îîSleeperé
+ïïTalocané
+ğğYan Jungé
+ññTakmahlé
+òòRogue Dronesé
+óóR.DbĞ
+ôôR.A.M.‹
+õõAncient RelicsĞ
+#øøConstruction Platforms
+ùùStation Components
+şşR.A.M. 
+ÿÿR.Dbò
+€€Fuel Blocks 
+Compression Array…
+
+‚‚Pilot's Services
+.ƒ)ƒ!Pilot's License Extensions (PLEX)‚
  „„Expedition FrigatesÔ
 
 ‹‹Warp Accelerators„
+)Œ$ŒSpecial Edition InterceptorsÌ
+Warp Disruptors‘
+Warp Scramblers‘
+*‘%‘Interdiction Sphere Launchers‘
+’’Warp Disruptors
+““Warp Scramblers
+*”%”Interdiction Sphere Launchers
+••Jump Economizers„
+––Pilot's Services‚
+——
+Hairstylesÿ
+
+˜˜Bottoms, extrasú
+
+™™Compression Array±
+ORE“
+OREş
+ ŸŸTactical Destroyersİ
+
+  AmarrŸ
 ±®±®Infantry Gear
 •Ê•ÊGrenadesŸÊ
-™Ê™ÊAugmentations±®
-šÊšÊ	Dropsuits±®
-›Ê›Ê	Equipment±®
-ÊÊTurrets±®
-ÊÊVehicles±®
-ŸÊŸÊWeapons±®
+"šÊšÊDropsuits and Gear±®
+"›Ê›ÊDropsuit EquipmentšÊ
+ÊÊVehicle TurretsÊ
+!ÊÊVehicles and Gear±®
+ ŸÊŸÊDropsuit WeaponsšÊ
  Ê Ê
 Forge Guns‘œ
 ¡Ê¡ÊAssault Riflesœ
@@ -1636,8 +1649,8 @@ Forge Guns‘œ
 ¦Ê¦Ê	Nanohives›Ê
 §Ê§ÊDrop Uplinks›Ê
 ¨Ê¨ÊRepair Tools›Ê
- «Ê«ÊDropsuit Modulesÿ­
-¬Ê¬ÊVehicle Modulesÿ­
+ «Ê«ÊDropsuit ModulesšÊ
+¬Ê¬ÊVehicle ModulesÊ
 ­Ê­ÊShield«Ê
 ®Ê®ÊArmor«Ê
 ¯Ê¯ÊBiotics«Ê
@@ -1663,8 +1676,11 @@ Propulsion¬Ê
 %ôÊôÊLight Attack VehiclesÊ
 õÊõÊ	DropshipsÊ
 ùÊùÊStandardóÊ
+ÿÊÿÊMarauderóÊ
 €Ë€ËStandardôÊ
+…Ë…Ë	LogisticsôÊ
 ‡Ë‡ËStandardõÊ
+ŒËŒË	LogisticsõÊ
 ‘Ë‘ËWeaponryáÊ
 ”Ë”ËWeapons‘Ë
  ªËªËDropsuit CommandáÊ
@@ -1730,8 +1746,10 @@ Propulsion¬Ê
 ŒÑŒÑArmor Plates´Ê
 ÑÑArmor Repairers´Ê
 •Ñ•ÑCPU UpgradesµÊ
+&–Ñ –ÑDamage Control Systems¶Ê
 —Ñ—ÑMobile CRUs¶Ê
 #šÑšÑPower Grid Upgrades¶Ê
+(›Ñ"›ÑPower Diagnostic Systems¶Ê
 %œÑœÑAfterburners (Aerial)·Ê
 ÑÑBoosts (Ground)·Ê
 !¥Ñ¥ÑDamage Amplifiers¸Ê
@@ -1742,7 +1760,7 @@ Propulsion¬Ê
 ¹Ñ¹ÑLarge®Ñ
 ºÑºÑSmallÈÊ
 »Ñ»ÑLargeÈÊ
-æÑæÑBoosters™Ê
+æÑæÑBoosters±®
  îÑîÑPassive BoostersæÑ
 ïÑïÑActive BoostersæÑ
 "ƒÒƒÒHeavy Machine Guns‘œ
@@ -1793,7 +1811,10 @@ Propulsion¬Ê
 (ßá"ßáHybrid Damage Amplifiers¥Ñ
 )àá#àáMissile Damage Amplifiers¥Ñ
 )ãá#ãáBlaster Damage Amplifiersßá
+&äá äáSystemic Hybrid Damageßá
 )åá#åáRailgun Damage Amplifiersßá
+'æá!æáSystemic Missile Damageàá
+$çáçáLarge Missile Damageàá
 )èá#èáMissile Damage Amplifiersàá
  õáõáShield Hardeners³Ê
 ´ä´äScannersµÊ
@@ -1817,6 +1838,7 @@ Propulsion¬Ê
 õäõä	PrototypeÍÊ
 €æ€æArmor Hardenersæ
 ææArmor Hardeners´Ê
+"¨–¨–180mm Armor PlatesŒÑ
 "©–©–120mm Armor PlatesŒÑ
 !ª–ª–60mm Armor PlatesŒÑ
 °—°—LightÑ
@@ -1860,6 +1882,8 @@ Propulsion¬Ê
 ÌŸÌŸStandardËŸ
 ÍŸÍŸAdvancedËŸ
 ÎŸÎŸ	PrototypeËŸ
+Ø¡Ø¡EnforceróÊ
+İ¡İ¡ScoutôÊ
 à¡à¡AssaultõÊ
 Õ¢Õ¢BasicŒœ
 Ö¢Ö¢StandardÕ¢
@@ -1873,10 +1897,6 @@ Propulsion¬Ê
 Ş¢Ş¢Standardİ¢
 ß¢ß¢Advancedİ¢
 à¢à¢	Prototypeİ¢
-ï¢ï¢Packaged Fits±®
-ğ¢ğ¢Scoutûª
-ñ¢ñ¢Assaultûª
-ò¢ò¢Heavyûª
  É£É£Vehicle Upgrades¹§
 ¼¥¼¥Armor Plates÷Ğ
 !½¥½¥Ferroscale Plates÷Ğ
@@ -1886,10 +1906,15 @@ Propulsion¬Ê
 !Á¥Á¥Shield Regulators†Ú
 !Â¥Â¥Shield RechargersÑ
 !Ã¥Ã¥Shield EnergizersÑ
+Ø¥Ø¥PilotŒœ
+Ú¥Ú¥StandardØ¥
+Ü¥Ü¥AdvancedØ¥
+İ¥İ¥	PrototypeØ¥
 Ş¥Ş¥Commandoœ
 ß¥ß¥StandardŞ¥
 à¥à¥AdvancedŞ¥
 â¥â¥	PrototypeŞ¥
+¾¦¾¦Item BundlesÎ·
 !¸§¸§Dropsuit UpgradesáÊ
  ¹§¹§Vehicle UpgradesáÊ
 Å©Å©Combat Riflesœ
@@ -1904,9 +1929,7 @@ $ÊªÊªAmmo Expansion Units¸Ê
 ,Ëª&ËªBlaster Ammo Expansion UnitsÊª
 5Ìª/Ìª%Missile Launcher Ammo Expansion UnitsÊª
 ,Íª&ÍªRailgun Ammo Expansion UnitsÊª
-úªúªFitted Vehiclesï¢
- ûªûªFitted Dropsuitsï¢
-üªüª	Logisticsûª
+úªúªFitted VehiclesÎ·
 ıªıªDropshipúª
 *şª$şªLight Attack Vehicle (LAV)úª
 *ÿª$ÿªHeavy Attack Vehicle (HAV)úª
@@ -1916,6 +1939,10 @@ $ÊªÊªAmmo Expansion Units¸Ê
  ®«®«Republic Command««
 "¯«¯«State Peacekeepers««
 %Å«Å«Faction Booster AmarræÑ
+ Ÿ¬Ÿ¬Contact Grenades•Ê
+ ¬ ¬StandardŸ¬
+¡¬¡¬AdvancedŸ¬
+¢¬¢¬	PrototypeŸ¬
 İ¬İ¬	Dropsuits¬«
 Ş¬Ş¬	Dropsuits­«
 ß¬ß¬	Dropsuits®«
@@ -1969,6 +1996,7 @@ $ÊªÊªAmmo Expansion Units¸Ê
 ¶­¶­Advanced´­
 ·­·­	Prototype´­
 ¸­¸­	Equipment­«
+¹­¹­Standard¸­
 º­º­Advanced¸­
 »­»­	Prototype¸­
 ¼­¼­Standardï¬
@@ -1991,7 +2019,6 @@ $ÊªÊªAmmo Expansion Units¸Ê
 Î­Î­Standardò¬
 Ï­Ï­Advancedò¬
 Ğ­Ğ­	Prototypeò¬
-ÿ­ÿ­Modules±®
 '®!®Faction Booster CaldariæÑ
 (®"®Faction Booster GallenteæÑ
 (®"®Faction Booster MinmataræÑ
@@ -2011,3 +2038,26 @@ $ÊªÊªAmmo Expansion Units¸Ê
 ¡±¡±Standard ±
 ¢±¢±Advanced ±
 £±£±	Prototype ±
+ş¶ş¶	Services Ò·
+$Í·Í·Visual Customizationé·
+Î·Î·Bundles±®
+Ñ·Ñ·Item Bundles¾¦
+Ò·Ò·Services±®
+Ó·Ó·AgentsÒ·
+$é·é·Visual Customization±®
+›¹›¹Salvage±®
+œ¹œ¹
+Containers›¹
+¹¹
+Decryptors›¹
+‘»‘»Loadouts±®
+’»’»Scoutë»
+“»“»Assaultê»
+”»”»Heavyì»
+•»•»	Logisticsí»
+Û»Û»Basicé»
+é»é»Basic‘»
+ê»ê»Assault‘»
+ë»ë»Scout‘»
+ì»ì»Heavy‘»
+í»í»	Logistics‘»

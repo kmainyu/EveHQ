@@ -55,6 +55,7 @@ Namespace Forms
             Me.pnlQIC.Controls.Add(Me.lblNewPELbl)
             Me.pnlQIC.Controls.Add(Me.lblRunsPerCopy)
             Me.pnlQIC.Controls.Add(Me.cboBPs)
+            Me.pnlQIC.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlQIC.Dock = System.Windows.Forms.DockStyle.Fill
             Me.pnlQIC.Location = New System.Drawing.Point(0, 0)
             Me.pnlQIC.Name = "pnlQIC"
@@ -73,8 +74,8 @@ Namespace Forms
             Me.adtResources.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
             Me.adtResources.AllowDrop = True
             Me.adtResources.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                             Or System.Windows.Forms.AnchorStyles.Left) _
-                                            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.adtResources.BackColor = System.Drawing.SystemColors.Window
             '
             '
@@ -115,7 +116,6 @@ Namespace Forms
             '
             'ElementStyle1
             '
-            Me.ElementStyle1.Class = ""
             Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.ElementStyle1.Name = "ElementStyle1"
             Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
@@ -146,8 +146,8 @@ Namespace Forms
             Me.nudPELevel.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.nudPELevel.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
             Me.nudPELevel.Location = New System.Drawing.Point(171, 39)
-            Me.nudPELevel.MaxValue = 100000
-            Me.nudPELevel.MinValue = -10
+            Me.nudPELevel.MaxValue = 20
+            Me.nudPELevel.MinValue = 0
             Me.nudPELevel.Name = "nudPELevel"
             Me.nudPELevel.ShowUpDown = True
             Me.nudPELevel.Size = New System.Drawing.Size(80, 21)
@@ -172,8 +172,8 @@ Namespace Forms
             Me.nudMELevel.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.nudMELevel.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
             Me.nudMELevel.Location = New System.Drawing.Point(45, 39)
-            Me.nudMELevel.MaxValue = 100000
-            Me.nudMELevel.MinValue = -10
+            Me.nudMELevel.MaxValue = 10
+            Me.nudMELevel.MinValue = 0
             Me.nudMELevel.Name = "nudMELevel"
             Me.nudMELevel.ShowUpDown = True
             Me.nudMELevel.Size = New System.Drawing.Size(80, 21)
@@ -187,7 +187,7 @@ Namespace Forms
             Me.lblNewPELbl.Name = "lblNewPELbl"
             Me.lblNewPELbl.Size = New System.Drawing.Size(23, 13)
             Me.lblNewPELbl.TabIndex = 38
-            Me.lblNewPELbl.Text = "PE:"
+            Me.lblNewPELbl.Text = "TE:"
             '
             'lblRunsPerCopy
             '
@@ -212,7 +212,7 @@ Namespace Forms
             Me.cboBPs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
             Me.cboBPs.TabIndex = 22
             '
-            'frmQuickProduction
+            'FrmQuickProduction
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -224,7 +224,7 @@ Namespace Forms
             Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
             Me.MaximizeBox = False
             Me.MinimizeBox = False
-            Me.Name = "frmQuickProduction"
+            Me.Name = "FrmQuickProduction"
             Me.ShowIcon = False
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             Me.Text = "Quick Production"

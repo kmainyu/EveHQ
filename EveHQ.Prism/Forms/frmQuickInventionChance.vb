@@ -43,6 +43,7 @@
 '
 ' ==============================================================================
 
+Imports EveHQ.EveData
 Imports EveHQ.Prism.Classes
 
 Namespace Forms
@@ -57,12 +58,38 @@ Namespace Forms
             ' Set the startup flag
             _formStartup = True
 
+            ' Load up the base chance combo box from static data
+            Dim probabilityValues As New List(Of Double)
+            For Each bp In StaticData.Blueprints.Values
+                If probabilityValues.Contains(bp.InventionProbability) = False Then
+                    If bp.InventionProbability > 0 Then
+                        probabilityValues.Add(bp.InventionProbability)
+                    End If
+                End If
+            Next
+            probabilityValues.Sort()
+            cboBaseChance.BeginUpdate()
+            cboBaseChance.Items.Clear()
+            For Each value As Double In probabilityValues
+                cboBaseChance.Items.Add(value)
+            Next
+            cboBaseChance.EndUpdate()
+
+            ' Load up decryptors from the static data
+            cboDecryptor.BeginUpdate()
+            cboDecryptor.Items.Clear()
+            cboDecryptor.Items.Add("<None>")
+            For Each decrypt As BPCalc.Decryptor In PlugInData.Decryptors.Values
+                cboDecryptor.Items.Add(decrypt.Name & " (" & decrypt.ProbMod.ToString & "x, " & decrypt.MEMod.ToString & "ME, " & decrypt.PEMod.ToString & "TE, " & decrypt.RunMod.ToString & "r)")
+            Next
+            cboDecryptor.SelectedIndex = 0
+            cboDecryptor.EndUpdate()
+
             ' Set the comboboxes to the first item in the list
             cboBaseChance.SelectedIndex = 0
             cboSkill1.SelectedIndex = 0
             cboSkill2.SelectedIndex = 0
             cboSkill3.SelectedIndex = 0
-            cboItemMetaLevel.SelectedIndex = 0
             cboDecryptor.SelectedIndex = 0
 
             _formStartup = False
@@ -96,12 +123,6 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub cboItemMetaLevel_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboItemMetaLevel.SelectedIndexChanged
-            If _formStartup = False Then
-                Call RecalculateInventionChance()
-            End If
-        End Sub
-
         Private Sub cboDecryptor_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboDecryptor.SelectedIndexChanged
             If _formStartup = False Then
                 Call RecalculateInventionChance()
@@ -110,49 +131,24 @@ Namespace Forms
 
         Private Sub RecalculateInventionChance()
 
-            ' Set up the variable
-            Dim baseChance As Double = 0
-
-            ' Determine base chance
-            Select Case cboBaseChance.SelectedIndex
-                Case 0
-                    baseChance = 20
-                Case 1
-                    baseChance = 25
-                Case 2
-                    baseChance = 30
-                Case 3
-                    baseChance = 40
-            End Select
+            ' Set up the base chance
+            Dim baseChance As Double = CDbl(cboBaseChance.SelectedItem.ToString)
 
             Dim encSkillLevel As Integer = cboSkill1.SelectedIndex
             Dim dc1SkillLevel As Integer = cboSkill2.SelectedIndex
             Dim dc2SkillLevel As Integer = cboSkill3.SelectedIndex
-            Dim metaLevel As Integer = Math.Max(cboItemMetaLevel.SelectedIndex - 1, 0)
 
+            ' Determine the decryptor probability modifier
             Dim decryptorModifier As Double = 1
-            Select Case cboDecryptor.SelectedIndex
-                Case 0
-                    decryptorModifier = 1
-                Case 1
-                    decryptorModifier = 0.6
-                Case 2
-                    decryptorModifier = 0.9
-                Case 3
-                    decryptorModifier = 1
-                Case 4
-                    decryptorModifier = 1.1
-                Case 5
-                    decryptorModifier = 1.2
-                Case 6
-                    decryptorModifier = 1.5
-                Case 7
-                    decryptorModifier = 1.8
-                Case 8
-                    decryptorModifier = 1.9
-            End Select
+            Dim didx As Integer = cboDecryptor.SelectedItem.ToString.IndexOf("(", StringComparison.Ordinal)
+            If didx > 0 Then
+                Dim decryptorName As String = cboDecryptor.SelectedItem.ToString.Substring(0, didx - 1).Trim
+                If PlugInData.Decryptors.ContainsKey(decryptorName) Then
+                   decryptorModifier = CDbl(PlugInData.Decryptors(decryptorName).ProbMod)
+              End If
+            End If
 
-            _inventionChance = Invention.CalculateInventionChance(baseChance, encSkillLevel, dc1SkillLevel, dc2SkillLevel, metaLevel, decryptorModifier)
+            _inventionChance = Invention.CalculateInventionChance(baseChance, encSkillLevel, dc1SkillLevel, dc2SkillLevel, decryptorModifier)
 
             lblInventionChance.Text = "Invention Chance: " & _inventionChance.ToString("N2") & "%"
 

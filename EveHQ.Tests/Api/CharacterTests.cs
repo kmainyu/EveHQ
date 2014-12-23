@@ -188,7 +188,6 @@ namespace EveHQ.Tests.Api
                 Assert.AreEqual(new DateTimeOffset(2006, 01, 01, 0, 0, 0, TimeSpan.Zero), resultData.BirthDate);
                 Assert.AreEqual("Minmatar", resultData.Race);
                 Assert.AreEqual(190210393.87, resultData.Balance);
-                Assert.AreEqual(3, resultData.PerceptionBonus.Value);
                 Assert.AreEqual(6, resultData.Intelligence);
                 Assert.AreEqual(4, resultData.Memory);
                 Assert.AreEqual(7, resultData.Charisma);

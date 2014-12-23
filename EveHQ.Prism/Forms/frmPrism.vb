@@ -63,7 +63,6 @@ Imports EveHQ.Prism.BPCalc
 Imports EveHQ.Prism.Classes
 Imports EveHQ.Prism.Controls
 Imports EveHQ.Common.Extensions
-Imports SearchOption = Microsoft.VisualBasic.FileIO.SearchOption
 
 Namespace Forms
 
@@ -80,15 +79,16 @@ Namespace Forms
         ReadOnly _divisions As New SortedList
         Dim _prismThreadMax As Integer = 16
         Dim _prismThreadCurrent As Integer = 0
-        Private Const MaxAPIRetries As Integer = 3
-        Private Const MaxAPIJournals As Integer = 2000
+        Private Const MaxApiRetries As Integer = 3
+        Private Const MaxApiJournals As Integer = 2000
         Dim _csvFile As String = ""
 
         Dim _bpManagerUpdate As Boolean = False
+        ReadOnly _bpManagerGroups As New SortedList(Of String, Integer)
         ReadOnly _bpLocations As List(Of String) = New List(Of String)()
 
         ' Rig Builder Variables
-        Dim _rigBPData As New SortedList(Of String, SortedList(Of Integer, Long))
+        Dim _rigBpData As New SortedList(Of String, SortedList(Of Integer, Long))
         Dim _rigBuildData As New SortedList(Of Integer, Long)
         ReadOnly _salvageList As New SortedList(Of Integer, Long)
 
@@ -96,9 +96,8 @@ Namespace Forms
         Dim _recyclerAssetList As New SortedList(Of Integer, Long)
         Dim _recyclerAssetOwner As String = ""
         Dim _recyclerAssetLocation As Integer
-        Dim _matList As New Dictionary(Of Integer, Long)
+        ReadOnly _matList As New Dictionary(Of Integer, Long)
         Dim _baseYield As Double = 0.5
-        Dim _netYield As Double = 0
         Dim _stationYield As Double = 0
         Dim _stationTake As Double = 0
         Dim _stationStanding As Double = 0
@@ -116,7 +115,7 @@ Namespace Forms
         ' BPManager Styles
         Dim _bpmStyleUnknown As ElementStyle
         Dim _bpmStyleBpo As ElementStyle
-        Dim _bpmStyleBPC As ElementStyle
+        Dim _bpmStyleBpc As ElementStyle
         Dim _bpmStyleUser As ElementStyle
         Dim _bpmStyleMissing As ElementStyle
         Dim _bpmStyleExhausted As ElementStyle
@@ -208,6 +207,12 @@ Namespace Forms
             Next
             cboCategoryFilter.EndUpdate()
 
+            ' Set the BP Manager filter indexes
+            cboTechFilter.SelectedIndex = 0
+            cboTypeFilter.SelectedIndex = 0
+            cboCategoryFilter.SelectedIndex = 0
+            cboGroupFilter.SelectedIndex = 0
+
             ' Build the Blueprint Activity List
             cboActivityFilter.BeginUpdate()
             cboActivityFilter.Items.Clear()
@@ -250,6 +255,11 @@ Namespace Forms
 
             ' Set the refining info
             ' Set the pilot to the recycling one
+            If _recyclerAssetOwner = "" Then
+                If PrismSettings.UserSettings.DefaultCharacter <> "" Then
+                    _recyclerAssetOwner = PrismSettings.UserSettings.DefaultCharacter
+                End If
+            End If
             If cboRecyclePilots.Items.Contains(_recyclerAssetOwner) Then
                 cboRecyclePilots.SelectedItem = _recyclerAssetOwner
             Else
@@ -351,7 +361,7 @@ Namespace Forms
         ''' Looks at existing XML files to determine the cache status
         ''' </summary>
         ''' <remarks></remarks>
-        Private Sub ScanForExistingXMLFiles()
+        Private Sub ScanForExistingXmlFiles()
 
             lvwCurrentAPIs.BeginUpdate()
             lvwCurrentAPIs.Items.Clear()
@@ -393,7 +403,7 @@ Namespace Forms
         ''' Checks existing XML files for display on Prism startup
         ''' </summary>
         ''' <remarks></remarks>
-        Private Sub CheckXMLFiles(ByVal pOwner As PrismOwner)
+        Private Sub CheckXmlFiles(ByVal pOwner As PrismOwner)
             Select Case pOwner.IsCorp
                 Case True
                     Call CheckCorpXMLFiles(pOwner)
@@ -402,10 +412,10 @@ Namespace Forms
             End Select
         End Sub
 
-        Private Sub CheckCharXMLFiles(ByVal pOwner As PrismOwner)
+        Private Sub CheckCharXmlFiles(ByVal pOwner As PrismOwner)
 
             If pOwner.IsCorp = False Then
-                Const ResponseMode As EveApi.ResponseMode = EveApi.ResponseMode.CacheOnly
+                Const ResponseMode As ResponseMode = ResponseMode.CacheOnly
                 If HQ.Settings.Pilots.ContainsKey(pOwner.Name) = True Then
                     Dim selPilot As EveHQPilot = HQ.Settings.Pilots(pOwner.Name)
                     Dim pilotAccount As EveHQAccount = pOwner.Account
@@ -460,56 +470,56 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub CheckCorpXMLFiles(ByVal pOwner As PrismOwner)
+        Private Sub CheckCorpXmlFiles(ByVal pOwner As PrismOwner)
 
             If pOwner.IsCorp = True Then
 
                 Dim corpAccount As EveHQAccount = pOwner.Account
 
 
-                Const ResponseMode As EveApi.ResponseMode = EveApi.ResponseMode.CacheOnly
+                Const ResponseMode As ResponseMode = ResponseMode.CacheOnly
 
-                Dim ownerID As String
+                Dim ownerId As String
 
                 ' Check for corp assets
-                ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
-                Dim assetResponse = HQ.ApiProvider.Corporation.AssetList(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), ResponseMode)
+                ownerId = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
+                Dim assetResponse = HQ.ApiProvider.Corporation.AssetList(corpAccount.UserID, corpAccount.APIKey, ownerId.ToInt32(), ResponseMode)
                 Call CheckApiResult(assetResponse, pOwner, CorpRepType.Assets)
 
                 ' Check for corp balances
-                ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Balances)
-                Dim balances = HQ.ApiProvider.Corporation.AssetList(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), ResponseMode)
+                ownerId = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Balances)
+                Dim balances = HQ.ApiProvider.Corporation.AssetList(corpAccount.UserID, corpAccount.APIKey, ownerId.ToInt32(), ResponseMode)
                 Call CheckApiResult(balances, pOwner, CorpRepType.Balances)
 
                 ' Check for corp jobs
-                ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Jobs)
-                Dim jobs = HQ.ApiProvider.Corporation.IndustryJobs(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), ResponseMode)
+                ownerId = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Jobs)
+                Dim jobs = HQ.ApiProvider.Corporation.IndustryJobs(corpAccount.UserID, corpAccount.APIKey, ownerId.ToInt32(), ResponseMode)
                 Call CheckApiResult(jobs, pOwner, CorpRepType.Jobs)
 
                 ' Check for corp journal
-                ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletJournal)
+                ownerId = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletJournal)
 
-                Dim journal = HQ.ApiProvider.Corporation.WalletJournal(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), 1000, Nothing, Nothing, ResponseMode)
+                Dim journal = HQ.ApiProvider.Corporation.WalletJournal(corpAccount.UserID, corpAccount.APIKey, ownerId.ToInt32(), 1000, Nothing, Nothing, ResponseMode)
                 Call CheckApiResult(journal, pOwner, CorpRepType.WalletJournal)
 
                 ' Check for corp orders
-                ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
-                Dim orders = HQ.ApiProvider.Corporation.MarketOrders(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), ResponseMode)
+                ownerId = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
+                Dim orders = HQ.ApiProvider.Corporation.MarketOrders(corpAccount.UserID, corpAccount.APIKey, ownerId.ToInt32(), ResponseMode)
                 Call CheckApiResult(orders, pOwner, CorpRepType.Orders)
 
                 ' Check for corp transactions
-                ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
-                Dim transactions = HQ.ApiProvider.Corporation.WalletTransactions(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), 1000, Nothing, Nothing, ResponseMode)
+                ownerId = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
+                Dim transactions = HQ.ApiProvider.Corporation.WalletTransactions(corpAccount.UserID, corpAccount.APIKey, ownerId.ToInt32(), 1000, Nothing, Nothing, ResponseMode)
                 Call CheckApiResult(transactions, pOwner, CorpRepType.WalletTransactions)
 
                 ' Check for corp contracts
-                ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Contracts)
-                Dim contracts = HQ.ApiProvider.Corporation.Contracts(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), 0, ResponseMode)
+                ownerId = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Contracts)
+                Dim contracts = HQ.ApiProvider.Corporation.Contracts(corpAccount.UserID, corpAccount.APIKey, ownerId.ToInt32(), 0, ResponseMode)
                 Call CheckApiResult(contracts, pOwner, CorpRepType.Contracts)
 
                 ' Check for corp sheets
-                ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.CorpSheet)
-                Dim sheet = HQ.ApiProvider.Corporation.CorporationSheet(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), ResponseMode)
+                ownerId = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.CorpSheet)
+                Dim sheet = HQ.ApiProvider.Corporation.CorporationSheet(corpAccount.UserID, corpAccount.APIKey, ownerId.ToInt32(), ResponseMode)
                 Call CheckApiResult(sheet, pOwner, CorpRepType.CorpSheet)
 
             End If
@@ -555,17 +565,16 @@ Namespace Forms
 
 #Region "XML Retrieval and Parsing"
 
-        Private Sub StartGetXMLDataThread()
+        Private Sub StartGetXmlDataThread()
             ' Perform this so that the API download process doesn't block the main UI thread
             GetXMLData()
         End Sub
 
-        Private Sub GetXMLData()
+        Private Sub GetXmlData()
 
             _prismThreadMax = 16
             _prismThreadCurrent = 0
-
-
+            
             ' Setup separate threads for getting each type of API
             ThreadPool.QueueUserWorkItem(AddressOf GetCharAssets2)
             ThreadPool.QueueUserWorkItem(AddressOf GetCorpAssets2)
@@ -652,7 +661,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Function CanUseAPI(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
+        Private Function CanUseApi(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
             Select Case pOwner.APIVersion
                 Case APIKeySystems.Version2
                     Return CanUseApiV2(pOwner, apiType)
@@ -709,7 +718,7 @@ Namespace Forms
             End If
         End Function
 
-        Private Sub CompleteAPIUpdate()
+        Private Sub CompleteApiUpdate()
             ' Populate the various Owner boxes
             Invoke(Sub() UpdatePrismOwners())
             ' Set the label, enable the button and inform the user
@@ -720,7 +729,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub DisplayAPICompleteDialog()
+        Private Sub DisplayApiCompleteDialog()
             TaskDialog.AntiAlias = True
             TaskDialog.EnableGlass = False
             Dim tdi As New TaskDialogInfo
@@ -742,13 +751,13 @@ Namespace Forms
         Private Sub UpdatePrismOwners()
 
             ' Check for old items
-            Dim oldBPOwner As String = ""
+            Dim oldBpOwner As String = ""
             Dim oldJobOwner As String = ""
             Dim oldOrdersOwner As String = ""
             Dim oldContractOwner As String = ""
 
             If cboBPOwner.SelectedItem IsNot Nothing Then
-                oldBPOwner = cboBPOwner.SelectedItem.ToString
+                oldBpOwner = cboBPOwner.SelectedItem.ToString
             End If
             If cboJobOwner.SelectedItem IsNot Nothing Then
                 oldJobOwner = cboJobOwner.SelectedItem.ToString
@@ -781,8 +790,8 @@ Namespace Forms
             cboContractOwner.Sorted = True : cboContractOwner.EndUpdate()
 
             ' Set the old values if applicable
-            If oldBPOwner <> "" And cboBPOwner.Items.Contains(oldBPOwner) Then
-                cboBPOwner.SelectedItem = oldBPOwner
+            If oldBpOwner <> "" And cboBPOwner.Items.Contains(oldBpOwner) Then
+                cboBPOwner.SelectedItem = oldBpOwner
             End If
             If oldJobOwner <> "" And cboJobOwner.Items.Contains(oldJobOwner) Then
                 cboJobOwner.SelectedItem = oldJobOwner
@@ -804,7 +813,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim charAssets As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
+                        Dim charAssets As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
                         Dim pilotAccount As EveHQAccount = pOwner.Account
 
                         ' Check for valid API Usage
@@ -815,7 +824,7 @@ Namespace Forms
                             Do
                                 retries += 1
                                 charAssets = HQ.ApiProvider.Character.AssetList(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), ResponseMode.WaitOnRefresh)
-                            Loop Until retries >= MaxAPIRetries Or charAssets.IsSuccess
+                            Loop Until retries >= MaxApiRetries Or charAssets.IsSuccess
 
                         End If
 
@@ -858,7 +867,7 @@ Namespace Forms
                                 retries += 1
                                 accountBalance = HQ.ApiProvider.Character.AccountBalance(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), ResponseMode.WaitOnRefresh)
 
-                            Loop Until retries >= MaxAPIRetries Or accountBalance.IsSuccess
+                            Loop Until retries >= MaxApiRetries Or accountBalance.IsSuccess
 
                         End If
 
@@ -888,7 +897,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim charIndustry As EveServiceResponse(Of IEnumerable(Of EveApi.IndustryJob))
+                        Dim charIndustry As EveServiceResponse(Of IEnumerable(Of EveAPI.IndustryJob))
                         Dim pilotAccount As EveHQAccount = pOwner.Account
 
 
@@ -900,7 +909,7 @@ Namespace Forms
                             Do
                                 retries += 1
                                 charIndustry = HQ.ApiProvider.Character.IndustryJobs(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), ResponseMode.WaitOnRefresh)
-                            Loop Until retries >= MaxAPIRetries Or charIndustry.IsSuccess
+                            Loop Until retries >= MaxApiRetries Or charIndustry.IsSuccess
 
                             ' Write the installerIDs to the database
                             If charIndustry.IsSuccess Then
@@ -949,7 +958,7 @@ Namespace Forms
 
                             ' Start a loop to collect multiple APIs
                             Dim walletJournals As New SortedList(Of String, WalletJournalItem)
-                            Dim lastRefID As Long = 0
+                            Dim lastRefId As Long = 0
                             Dim walletExhausted As Boolean
 
                             Do
@@ -957,10 +966,10 @@ Namespace Forms
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    journalResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, lastRefID, Nothing, ResponseMode.BypassCache)
+                                    journalResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, lastRefId, Nothing, ResponseMode.BypassCache)
 
                                     'apixml = apireq.GetAPIXML(APITypes.WalletJournalChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, lastRefID, MaxAPIJournals, APIReturnMethods.ReturnStandard)
-                                Loop Until retries >= MaxAPIRetries Or journalResponse.IsSuccess
+                                Loop Until retries >= MaxApiRetries Or journalResponse.IsSuccess
 
                                 ' Parse the Journal XML to get the data
                                 If journalResponse.IsSuccess Then
@@ -970,12 +979,12 @@ Namespace Forms
                                 End If
 
                                 If walletJournals.Count <> 0 Then
-                                    lastRefID = walletJournals(walletJournals.Keys(0)).RefID
+                                    lastRefId = walletJournals(walletJournals.Keys(0)).RefID
                                 Else
                                     walletExhausted = True
                                 End If
 
-                            Loop Until walletExhausted = True Or lastTrans > lastRefID
+                            Loop Until walletExhausted = True Or lastTrans > lastRefId
 
                             ' Write the journal to the database!
                             If walletJournals.Count > 0 Then
@@ -1014,7 +1023,7 @@ Namespace Forms
 
                         Dim pilotAccount As EveHQAccount = pOwner.Account
 
-                        Dim orders As EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
+                        Dim orders As EveServiceResponse(Of IEnumerable(Of EveAPI.MarketOrder))
                         ' Check for valid API Usage
                         If CanUseAPI(pOwner, CorpRepType.Orders) = True Then
 
@@ -1024,7 +1033,7 @@ Namespace Forms
                                 retries += 1
                                 orders = HQ.ApiProvider.Character.MarketOrders(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), ResponseMode.WaitOnRefresh)
 
-                            Loop Until retries >= MaxAPIRetries Or orders.IsSuccess
+                            Loop Until retries >= MaxApiRetries Or orders.IsSuccess
 
                         End If
 
@@ -1058,24 +1067,24 @@ Namespace Forms
 
                         Dim pilotAccount As EveHQAccount = pOwner.Account
 
-                        Dim lastTransID As Long? = 0
-                        Dim exhausted As Boolean = False
+                        Dim lastTransId As Long? = 0
+                        Dim exhausted As Boolean
                         ' Check for valid API Usage
-                        If CanUseAPI(pOwner, CorpRepType.WalletTransactions) = True Then
+                        If CanUseApi(pOwner, CorpRepType.WalletTransactions) = True Then
                             Do
                                 ' Make a call to the EveHQ.Core.API to fetch the transactions
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    transactions = HQ.ApiProvider.Character.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, lastTransID, MaxAPIJournals, ResponseMode.BypassCache)
+                                    transactions = HQ.ApiProvider.Character.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 1000, lastTransId, MaxApiJournals, ResponseMode.BypassCache)
 
-                                Loop Until retries >= MaxAPIRetries Or transactions.IsSuccess
+                                Loop Until retries >= MaxApiRetries Or transactions.IsSuccess
 
                                 ' Write the journal to the database!
                                 If transactions.IsSuccess Then
                                     Dim affected = PrismDataFunctions.WriteWalletTransactionsToDB(transactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, 1000)
                                     If affected > 0 Then
-                                        lastTransID = transactions.ResultData.First().TransactionId
+                                        lastTransId = transactions.ResultData.First().TransactionId
                                         exhausted = False
                                     Else
                                         exhausted = True
@@ -1086,10 +1095,10 @@ Namespace Forms
                             Loop Until exhausted = True
                         End If
 
-                    ' Update the display
-                    If IsHandleCreated = True Then
-                        Invoke(Sub() CheckApiResult(transactions, pOwner, CorpRepType.WalletTransactions))
-                    End If
+                        ' Update the display
+                        If IsHandleCreated = True Then
+                            Invoke(Sub() CheckApiResult(transactions, pOwner, CorpRepType.WalletTransactions))
+                        End If
 
                     End If
                 Catch e As Exception
@@ -1112,7 +1121,7 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = False Then
 
-                        Dim contracts As EveServiceResponse(Of IEnumerable(Of EveApi.Contract))
+                        Dim contracts As EveServiceResponse(Of IEnumerable(Of EveAPI.Contract))
 
 
                         Dim pilotAccount As EveHQAccount = pOwner.Account
@@ -1127,7 +1136,7 @@ Namespace Forms
                                 retries += 1
                                 contracts = HQ.ApiProvider.Character.Contracts(pilotAccount.UserID, pilotAccount.APIKey, CInt(pOwner.ID), 0, ResponseMode.WaitOnRefresh)
 
-                            Loop Until retries >= MaxAPIRetries Or contracts.IsSuccess
+                            Loop Until retries >= MaxApiRetries Or contracts.IsSuccess
 
                             ' Write the contractIDs to the database
                             If contracts.IsSuccess Then
@@ -1170,7 +1179,7 @@ Namespace Forms
 
                         ' Update the display
                         If IsHandleCreated = True Then
-                            Invoke(Sub() CheckApiResult(Of EveApi.CharacterData)(Nothing, pOwner, CorpRepType.CorpSheet))
+                            Invoke(Sub() CheckApiResult(Of CharacterData)(Nothing, pOwner, CorpRepType.CorpSheet))
                         End If
 
                     End If
@@ -1194,18 +1203,18 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim corpAssets As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
+                        Dim corpAssets As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Assets)
-                        Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
+                        Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
                         ' Check for valid API Usage
-                        If CanUseAPI(pOwner, CorpRepType.Assets) = True Then
+                        If CanUseApi(pOwner, CorpRepType.Assets) = True Then
 
                             ' Make a call to the EveHQ.Core.API to fetch the relevant API
                             Dim retries As Integer = 0
                             Do
                                 retries += 1
-                                corpAssets = HQ.ApiProvider.Corporation.AssetList(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), ResponseMode.WaitOnRefresh)
-                            Loop Until retries >= MaxAPIRetries Or corpAssets.IsSuccess
+                                corpAssets = HQ.ApiProvider.Corporation.AssetList(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerId), ResponseMode.WaitOnRefresh)
+                            Loop Until retries >= MaxApiRetries Or corpAssets.IsSuccess
 
                         End If
 
@@ -1245,18 +1254,18 @@ Namespace Forms
                         Dim corpBalance As EveServiceResponse(Of IEnumerable(Of AccountBalance))
 
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Balances)
-                        Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Balances)
-                        If pilotAccount IsNot Nothing And ownerID <> "" Then
+                        Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Balances)
+                        If pilotAccount IsNot Nothing And ownerId <> "" Then
                             ' Check for valid API Usage
-                            If CanUseAPI(pOwner, CorpRepType.Balances) = True Then
+                            If CanUseApi(pOwner, CorpRepType.Balances) = True Then
 
                                 ' Make a call to the EveHQ.Core.API to fetch the relevant API
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    corpBalance = HQ.ApiProvider.Corporation.AccountBalance(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), ResponseMode.WaitOnRefresh)
+                                    corpBalance = HQ.ApiProvider.Corporation.AccountBalance(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerId), ResponseMode.WaitOnRefresh)
 
-                                Loop Until retries >= MaxAPIRetries Or corpBalance.IsSuccess
+                                Loop Until retries >= MaxApiRetries Or corpBalance.IsSuccess
 
                             End If
                         End If
@@ -1286,22 +1295,22 @@ Namespace Forms
             For Each pOwner As PrismOwner In PlugInData.PrismOwners.Values
                 Try
                     If pOwner.IsCorp = True Then
-                        Dim corpJobs As EveServiceResponse(Of IEnumerable(Of EveApi.IndustryJob))
+                        Dim corpJobs As EveServiceResponse(Of IEnumerable(Of EveAPI.IndustryJob))
 
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Jobs)
-                        Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Jobs)
-                        If pilotAccount IsNot Nothing And ownerID <> "" Then
+                        Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Jobs)
+                        If pilotAccount IsNot Nothing And ownerId <> "" Then
 
                             ' Check for valid API Usage
-                            If CanUseAPI(pOwner, CorpRepType.Jobs) = True Then
+                            If CanUseApi(pOwner, CorpRepType.Jobs) = True Then
 
                                 ' Make a call to the EveHQ.Core.API to fetch the relevant API
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    corpJobs = HQ.ApiProvider.Corporation.IndustryJobs(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), ResponseMode.WaitOnRefresh)
+                                    corpJobs = HQ.ApiProvider.Corporation.IndustryJobs(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerId), ResponseMode.WaitOnRefresh)
 
-                                Loop Until retries >= MaxAPIRetries Or corpJobs.IsSuccess
+                                Loop Until retries >= MaxApiRetries Or corpJobs.IsSuccess
 
                                 ' Write the installerIDs to the database
                                 If corpJobs IsNot Nothing Then
@@ -1343,20 +1352,20 @@ Namespace Forms
 
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.WalletJournal)
 
-                        Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletJournal)
-                        If pilotAccount IsNot Nothing And ownerID <> "" Then
+                        Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletJournal)
+                        If pilotAccount IsNot Nothing And ownerId <> "" Then
 
                             ' Check for valid API Usage
-                            If CanUseAPI(pOwner, CorpRepType.WalletJournal) = True Then
+                            If CanUseApi(pOwner, CorpRepType.WalletJournal) = True Then
 
-                                For divID As Integer = 1006 To 1000 Step -1
+                                For divId As Integer = 1006 To 1000 Step -1
 
                                     ' Get the last referenceID for the wallet
-                                    Dim lastTrans As Long = PrismDataFunctions.GetLastWalletID(WalletTypes.Journal, CInt(pOwner.ID), divID)
+                                    Dim lastTrans As Long = PrismDataFunctions.GetLastWalletID(WalletTypes.Journal, CInt(pOwner.ID), divId)
 
                                     ' Start a loop to collect multiple APIs
                                     Dim walletJournals As New SortedList(Of String, WalletJournalItem)
-                                    Dim lastRefID As Long = 0
+                                    Dim lastRefId As Long = 0
                                     Dim walletExhausted As Boolean
 
 
@@ -1365,9 +1374,9 @@ Namespace Forms
                                         Dim retries As Integer = 0
                                         Do
                                             retries += 1
-                                            corpJournal = HQ.ApiProvider.Corporation.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), divID, lastRefID, MaxAPIJournals, ResponseMode.BypassCache)
+                                            corpJournal = HQ.ApiProvider.Corporation.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerId), divId, lastRefId, MaxApiJournals, ResponseMode.BypassCache)
                                             ' apixml = apireq.GetAPIXML(APITypes.WalletJournalCorp, pilotAccount.ToAPIAccount, ownerID, divID, lastRefID, MaxAPIJournals, APIReturnMethods.ReturnStandard)
-                                        Loop Until retries >= MaxAPIRetries Or corpJournal.IsSuccess
+                                        Loop Until retries >= MaxApiRetries Or corpJournal.IsSuccess
 
                                         ' Parse the Journal XML to get the data
                                         If corpJournal.IsSuccess Then
@@ -1377,16 +1386,16 @@ Namespace Forms
                                         End If
 
                                         If walletJournals.Count <> 0 Then
-                                            lastRefID = walletJournals(walletJournals.Keys(0)).RefID
+                                            lastRefId = walletJournals(walletJournals.Keys(0)).RefID
                                         Else
                                             walletExhausted = True
                                         End If
 
-                                    Loop Until walletExhausted = True Or lastTrans > lastRefID
+                                    Loop Until walletExhausted = True Or lastTrans > lastRefId
 
                                     ' Write the journal to the database!
                                     If walletJournals.Count > 0 Then
-                                        Call PrismDataFunctions.WriteWalletJournalsToDB(walletJournals, CInt(pOwner.ID), pOwner.Name, divID, lastTrans)
+                                        Call PrismDataFunctions.WriteWalletJournalsToDB(walletJournals, CInt(pOwner.ID), pOwner.Name, divId, lastTrans)
                                     End If
 
                                 Next
@@ -1422,20 +1431,20 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim corpOrders As New EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
+                        Dim corpOrders As New EveServiceResponse(Of IEnumerable(Of EveAPI.MarketOrder))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Orders)
-                        Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
-                        If pilotAccount IsNot Nothing And ownerID <> "" Then
+                        Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
+                        If pilotAccount IsNot Nothing And ownerId <> "" Then
 
                             ' Check for valid API Usage
-                            If CanUseAPI(pOwner, CorpRepType.Orders) = True Then
+                            If CanUseApi(pOwner, CorpRepType.Orders) = True Then
 
                                 ' Make a call to the EveHQ.Core.API to fetch the relevant API
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    corpOrders = HQ.ApiProvider.Corporation.MarketOrders(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), ResponseMode.WaitOnRefresh)
-                                Loop Until retries >= MaxAPIRetries Or corpOrders.IsSuccess
+                                    corpOrders = HQ.ApiProvider.Corporation.MarketOrders(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerId), ResponseMode.WaitOnRefresh)
+                                Loop Until retries >= MaxApiRetries Or corpOrders.IsSuccess
 
                             End If
 
@@ -1469,29 +1478,29 @@ Namespace Forms
 
                         Dim corpTransactions As EveServiceResponse(Of IEnumerable(Of WalletTransaction))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.WalletTransactions)
-                        Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
-                        If pilotAccount IsNot Nothing And ownerID <> "" Then
+                        Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
+                        If pilotAccount IsNot Nothing And ownerId <> "" Then
                             Dim walletExhausted As Boolean
-                            Dim lastID As Long? = Nothing
+                            Dim lastId As Long? = Nothing
                             ' Check for valid API Usage
-                            If CanUseAPI(pOwner, CorpRepType.WalletTransactions) = True Then
+                            If CanUseApi(pOwner, CorpRepType.WalletTransactions) = True Then
 
-                                For divID As Integer = 1006 To 1000 Step -1
+                                For divId As Integer = 1006 To 1000 Step -1
 
                                     Do
                                         ' Make a call to the EveHQ.Core.API to fetch the transactions
                                         Dim retries As Integer = 0
                                         Do
                                             retries += 1
-                                            corpTransactions = HQ.ApiProvider.Corporation.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), divID, lastID, MaxAPIJournals, ResponseMode.BypassCache)
-                                        Loop Until retries >= MaxAPIRetries Or corpTransactions.IsSuccess
+                                            corpTransactions = HQ.ApiProvider.Corporation.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerId), divId, lastId, MaxApiJournals, ResponseMode.BypassCache)
+                                        Loop Until retries >= MaxApiRetries Or corpTransactions.IsSuccess
 
                                         If corpTransactions.IsSuccess Then
 
                                             ' Write the journal to the database!
-                                            Dim affected = PrismDataFunctions.WriteWalletTransactionsToDB(corpTransactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, divID)
+                                            Dim affected = PrismDataFunctions.WriteWalletTransactionsToDB(corpTransactions.ResultData, False, CInt(pOwner.ID), pOwner.Name, divId)
                                             If affected > 0 Then
-                                                lastID = corpTransactions.ResultData.First().TransactionId
+                                                lastId = corpTransactions.ResultData.First().TransactionId
                                                 walletExhausted = False
                                             Else
                                                 walletExhausted = True
@@ -1531,34 +1540,34 @@ Namespace Forms
                 Try
                     If pOwner.IsCorp = True Then
 
-                        Dim corpContacts As EveServiceResponse(Of IEnumerable(Of EveApi.Contract))
+                        Dim corpContacts As EveServiceResponse(Of IEnumerable(Of EveAPI.Contract))
 
-                        Dim contractItems As EveServiceResponse(Of IEnumerable(Of EveApi.ContractItem))
+                        Dim contractItems As EveServiceResponse(Of IEnumerable(Of ContractItem))
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Contracts)
-                        Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Contracts)
-                        If pilotAccount IsNot Nothing And ownerID <> "" Then
+                        Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Contracts)
+                        If pilotAccount IsNot Nothing And ownerId <> "" Then
 
                             ' Check for valid API Usage
-                            If CanUseAPI(pOwner, CorpRepType.Contracts) = True Then
+                            If CanUseApi(pOwner, CorpRepType.Contracts) = True Then
 
                                 ' Make a call to the EveHQ.Core.API to fetch the contracts
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
-                                    corpContacts = HQ.ApiProvider.Corporation.Contracts(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), 0, ResponseMode.WaitOnRefresh)
-                                Loop Until retries >= MaxAPIRetries Or corpContacts.IsSuccess
+                                    corpContacts = HQ.ApiProvider.Corporation.Contracts(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerId), 0, ResponseMode.WaitOnRefresh)
+                                Loop Until retries >= MaxApiRetries Or corpContacts.IsSuccess
 
                                 ' Write the contractIDs to the database
                                 If corpContacts.IsSuccess Then
                                     Call PrismDataFunctions.WriteContractIdsToDB(corpContacts.ResultData)
 
                                     For Each contractItem In corpContacts.ResultData
-                                        Dim contractID As Long = contractItem.ContractId
+                                        Dim contractId As Long = contractItem.ContractId
                                         retries = 0
                                         Do
                                             retries += 1
-                                            contractItems = HQ.ApiProvider.Corporation.ContractItems(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerID), contractID)
-                                        Loop Until retries >= MaxAPIRetries Or contractItems.IsSuccess
+                                            contractItems = HQ.ApiProvider.Corporation.ContractItems(pilotAccount.UserID, pilotAccount.APIKey, CInt(ownerId), contractId)
+                                        Loop Until retries >= MaxApiRetries Or contractItems.IsSuccess
                                     Next
                                 End If
                             End If
@@ -1594,19 +1603,19 @@ Namespace Forms
 
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.CorpSheet)
 
-                        Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.CorpSheet)
-                        If pilotAccount IsNot Nothing And ownerID <> "" Then
+                        Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.CorpSheet)
+                        If pilotAccount IsNot Nothing And ownerId <> "" Then
 
 
                             ' Check for valid API Usage
-                            If CanUseAPI(pOwner, CorpRepType.CorpSheet) = True Then
+                            If CanUseApi(pOwner, CorpRepType.CorpSheet) = True Then
 
                                 ' Make a call to the EveHQ.Core.API to fetch the relevant API
                                 Dim retries As Integer = 0
                                 Do
                                     retries += 1
                                     info = HQ.ApiProvider.Corporation.CorporationSheet(pilotAccount.UserID, pilotAccount.APIKey, 0, ResponseMode.WaitOnRefresh)
-                                Loop Until retries >= MaxAPIRetries Or info.IsSuccess
+                                Loop Until retries >= MaxApiRetries Or info.IsSuccess
 
                             End If
                         End If
@@ -1634,14 +1643,6 @@ Namespace Forms
 
 #End Region
 
-        Private Function CacheDate(ByVal apixml As XmlDocument) As DateTime
-            ' Get Cache time details
-            Dim cacheDetails As XmlNodeList = apixml.SelectNodes("/eveapi")
-            Dim cacheTime As DateTime = CDate(cacheDetails(0).ChildNodes(2).InnerText)
-            Dim localCacheTime As Date = SkillFunctions.ConvertEveTimeToLocal(cacheTime)
-            Return localCacheTime
-        End Function
-
 #End Region
 
 #Region "Market Orders Routines"
@@ -1657,16 +1658,15 @@ Namespace Forms
                 If PlugInData.PrismOwners.ContainsKey(cboOrdersOwner.SelectedItem.ToString) Then
                     pOwner = PlugInData.PrismOwners(cboOrdersOwner.SelectedItem.ToString)
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Orders)
-                    Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
+                    Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
                     Dim marketOrders As EveServiceResponse(Of IEnumerable(Of EveApi.MarketOrder))
-                    Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
 
                     If ownerAccount IsNot Nothing Then
 
                         If pOwner.IsCorp = True Then
-                            marketOrders = HQ.ApiProvider.Corporation.MarketOrders(ownerAccount.UserID, ownerAccount.APIKey, CInt(ownerID))
+                            marketOrders = HQ.ApiProvider.Corporation.MarketOrders(ownerAccount.UserID, ownerAccount.APIKey, CInt(ownerId))
                         Else
-                            marketOrders = HQ.ApiProvider.Character.MarketOrders(ownerAccount.UserID, ownerAccount.APIKey, CInt(ownerID))
+                            marketOrders = HQ.ApiProvider.Character.MarketOrders(ownerAccount.UserID, ownerAccount.APIKey, CInt(ownerId))
                         End If
                         Dim sellTotal, buyTotal, totalEscrow As Double
                         Dim totalOrders As Integer = 0
@@ -1682,12 +1682,12 @@ Namespace Forms
                                         Dim sOrder As New Node
                                         adtSellOrders.Nodes.Add(sOrder)
                                         sOrder.CreateCells()
-                                        Dim itemID As Integer = order.TypeId
+                                        Dim itemId As Integer = order.TypeId
                                         Dim itemName As String
-                                        If StaticData.Types.ContainsKey(itemID) = True Then
-                                            itemName = StaticData.Types(itemID).Name
+                                        If StaticData.Types.ContainsKey(itemId) = True Then
+                                            itemName = StaticData.Types(itemId).Name
                                         Else
-                                            itemName = "Unknown Item ID:" & itemID
+                                            itemName = "Unknown Item ID:" & itemId
                                         End If
                                         sOrder.Text = itemName
                                         Dim quantity As Double = order.QuantityRemaining
@@ -1719,12 +1719,12 @@ Namespace Forms
                                         Dim bOrder As New Node
                                         adtBuyOrders.Nodes.Add(bOrder)
                                         bOrder.CreateCells()
-                                        Dim itemID As Integer = order.TypeId
+                                        Dim itemId As Integer = order.TypeId
                                         Dim itemName As String
-                                        If StaticData.Types.ContainsKey(itemID) = True Then
-                                            itemName = StaticData.Types(itemID).Name
+                                        If StaticData.Types.ContainsKey(itemId) = True Then
+                                            itemName = StaticData.Types(itemId).Name
                                         Else
-                                            itemName = "Unknown Item ID:" & itemID
+                                            itemName = "Unknown Item ID:" & itemId
                                         End If
                                         bOrder.Text = itemName
                                         Dim quantity As Double = order.QuantityRemaining
@@ -1932,7 +1932,7 @@ Namespace Forms
             Call UpdateWalletJournalDivisions()
         End Sub
 
-        Function BuildJournalDescription(ByVal refType As Integer, ByVal owner1 As String, ByVal owner2 As String, ByVal argID1 As String, ByVal argName1 As String) As String
+        Function BuildJournalDescription(ByVal refType As Integer, ByVal owner1 As String, ByVal owner2 As String, ByVal argId1 As String, ByVal argName1 As String) As String
             Dim misc As String = ", refType=" & CStr(refType) & ", arg1=" & argName1 & ", own1 =" & owner1 & ", own2=" & owner2
             Dim desc As String = PlugInData.RefTypes(refType.ToString)
             Select Case refType ' Only use items which require a change
@@ -1980,10 +1980,12 @@ Namespace Forms
                     ' Check if the argName1 is numeric first
                     If IsNumeric(argName1) Then
                         ' See if we can convert to an integer
-                        Dim typeID As Integer
-                        If Integer.TryParse(argName1, typeID) Then
-                            If StaticData.Types.ContainsKey(typeID) = True Then
-                                itemName = StaticData.Types(typeID).Name
+                        Dim typeId As Integer
+                        If Integer.TryParse(argName1, typeId) Then
+                            If StaticData.Types.ContainsKey(typeId) = True Then
+                                itemName = StaticData.Types(typeId).Name
+                            Else
+                                itemName = "Unknown Item: ID=" & typeId.ToString
                             End If
                         Else
                             ' TODO: Work out what this negative 64-bit number represents
@@ -2316,11 +2318,11 @@ Namespace Forms
         End Sub
 
         Private Function FetchWalletJournalData() As DataSet
-            Dim walletID As String = (1000 + cboWalletJournalDivision.SelectedIndex).ToString
-            Dim strSQL As String = "SELECT * FROM walletJournal"
-            strSQL &= " LEFT JOIN walletTransactions ON walletJournal.argName1 = walletTransactions.transRef"
-            strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
-            strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(PrismTimeFormat, _culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(PrismTimeFormat, _culture) & "'"
+            Dim walletId As String = (1000 + cboWalletJournalDivision.SelectedIndex).ToString
+            Dim strSql As String = "SELECT * FROM walletJournal"
+            strSql &= " LEFT JOIN walletTransactions ON walletJournal.argName1 = walletTransactions.transRef"
+            strSql &= " WHERE (walletJournal.walletID = " & walletId & ")"
+            strSql &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(PrismTimeFormat, _culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(PrismTimeFormat, _culture) & "'"
 
             ' Build the Owners List
             If cboJournalOwners.Text <> "<All>" Then
@@ -2332,7 +2334,7 @@ Namespace Forms
                     ownerList.Remove(0, 2)
                 End If
                 ' Default to None
-                strSQL &= " AND walletJournal.charName IN (" & ownerList.ToString & ")"
+                strSql &= " AND walletJournal.charName IN (" & ownerList.ToString & ")"
             End If
 
             ' Build the refTypes List
@@ -2345,25 +2347,25 @@ Namespace Forms
                 If refTypeList.Length > 2 Then
                     refTypeList.Remove(0, 2)
                     ' Default to All
-                    strSQL &= " AND walletJournal.refTypeID IN (" & refTypeList.ToString & ")"
+                    strSql &= " AND walletJournal.refTypeID IN (" & refTypeList.ToString & ")"
                 End If
             End If
 
             ' Order the data
-            strSQL &= " ORDER BY walletJournal.transKey DESC;"
+            strSql &= " ORDER BY walletJournal.transKey DESC;"
 
             ' Fetch the data
-            Dim walletData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
+            Dim walletData As DataSet = CustomDataFunctions.GetCustomData(strSql)
 
             Return walletData
 
         End Function
 
         Private Function FetchWalletJournalDataForExport() As DataSet
-            Dim walletID As String = (1000 + cboWalletJournalDivision.SelectedIndex).ToString
-            Dim strSQL As String = "SELECT * FROM walletJournal"
-            strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
-            strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(PrismTimeFormat, _culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(PrismTimeFormat, _culture) & "'"
+            Dim walletId As String = (1000 + cboWalletJournalDivision.SelectedIndex).ToString
+            Dim strSql As String = "SELECT * FROM walletJournal"
+            strSql &= " WHERE (walletJournal.walletID = " & walletId & ")"
+            strSql &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(PrismTimeFormat, _culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(PrismTimeFormat, _culture) & "'"
 
             ' Build the Owners List
             If cboJournalOwners.Text <> "<All>" Then
@@ -2375,7 +2377,7 @@ Namespace Forms
                     ownerList.Remove(0, 2)
                 End If
                 ' Default to None
-                strSQL &= " AND walletJournal.charName IN (" & ownerList.ToString & ")"
+                strSql &= " AND walletJournal.charName IN (" & ownerList.ToString & ")"
             End If
 
             '' Build the refTypes List
@@ -2393,10 +2395,10 @@ Namespace Forms
             'End If
 
             ' Order the data
-            strSQL &= " ORDER BY walletJournal.transKey DESC;"
+            strSql &= " ORDER BY walletJournal.transKey DESC;"
 
             ' Fetch the data
-            Dim walletData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
+            Dim walletData As DataSet = CustomDataFunctions.GetCustomData(strSql)
 
             Return walletData
 
@@ -2431,12 +2433,12 @@ Namespace Forms
         Private Sub btnResetJournal_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnResetJournal.Click
             Dim reply As DialogResult = MessageBox.Show("Are you really sure you want to delete all the journal entries from the database?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
-                Dim strSQL As String = "DELETE * FROM walletJournal;"
-                If CustomDataFunctions.SetCustomData(strSQL) <> -2 Then
+                Dim strSql As String = "DELETE * FROM walletJournal;"
+                If CustomDataFunctions.SetCustomData(strSql) <> -2 Then
                     MessageBox.Show("Reset Complete")
                 End If
-                strSQL = "DROP TABLE walletJournal;"
-                If CustomDataFunctions.SetCustomData(strSQL) <> -2 Then
+                strSql = "DROP TABLE walletJournal;"
+                If CustomDataFunctions.SetCustomData(strSql) <> -2 Then
                     MessageBox.Show("Table Deletion Complete")
                 End If
                 Call PrismDataFunctions.CheckDatabaseTables()
@@ -2543,9 +2545,9 @@ Namespace Forms
 
             ' Step 2: Check the file exists and is of the right format
             Dim xmlDoc As New XmlDocument
-            Dim ownerID As String
+            Dim ownerId As String
             Dim ownerName As String
-            Dim walletID As Integer
+            Dim walletId As Integer
             Dim startDate As Date
             Dim endDate As Date
 
@@ -2565,12 +2567,12 @@ Namespace Forms
                                 Dim configNode As XmlNode = configNodes(0)
                                 If configNode.Attributes.Count = 5 Then
                                     Try
-                                        ownerID = configNode.Attributes.GetNamedItem("ownerID").Value
+                                        ownerId = configNode.Attributes.GetNamedItem("ownerID").Value
                                         ownerName = configNode.Attributes.GetNamedItem("ownerName").Value
-                                        walletID = CInt(configNode.Attributes.GetNamedItem("walletID").Value)
+                                        walletId = CInt(configNode.Attributes.GetNamedItem("walletID").Value)
                                         startDate = DateTime.ParseExact(configNode.Attributes.GetNamedItem("startDate").Value, PrismTimeFormat, _culture)
                                         endDate = DateTime.ParseExact(configNode.Attributes.GetNamedItem("endDate").Value, PrismTimeFormat, _culture)
-                                        If ownerID = "" Then
+                                        If ownerId = "" Then
                                             MessageBox.Show("The import configuration data for OwnerID cannot be blank. Please check the file is in the correct XML format.", "Import Wallet Journal", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                             Exit Sub
                                         End If
@@ -2578,7 +2580,7 @@ Namespace Forms
                                             MessageBox.Show("The import configuration data for OwnerName cannot be blank. Please check the file is in the correct XML format.", "Import Wallet Journal", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                             Exit Sub
                                         End If
-                                        If walletID < 1000 Or walletID > 1006 Then
+                                        If walletId < 1000 Or walletId > 1006 Then
                                             MessageBox.Show("The import configuration data for WalletID must be between 1000 and 1006 inclusive. Please check the file is in the correct XML format.", "Import Wallet Journal", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                             Exit Sub
                                         End If
@@ -2614,7 +2616,7 @@ Namespace Forms
 
             ' Step 3: Ask for confirmation (because it potentially involves deleting stuff)
             Dim msg As New StringBuilder
-            msg.AppendLine("This procedure will first delete all wallet transactions in WalletID " & walletID.ToString & " for " & ownerName & " between the dates of " & startDate.ToString(PrismTimeFormat) & " and " & endDate.ToString(PrismTimeFormat) & ".")
+            msg.AppendLine("This procedure will first delete all wallet transactions in WalletID " & walletId.ToString & " for " & ownerName & " between the dates of " & startDate.ToString(PrismTimeFormat) & " and " & endDate.ToString(PrismTimeFormat) & ".")
             msg.AppendLine("")
             msg.AppendLine("Are you sure you wish to proceed?")
             Dim reply As DialogResult = MessageBox.Show(msg.ToString, "Confirm Wallet Import", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -2623,12 +2625,12 @@ Namespace Forms
             End If
 
             ' Step 4: Delete existing transactions
-            Dim strSQL As String = "DELETE FROM walletJournal"
-            strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
-            strSQL &= " AND walletJournal.transDate >= '" & startDate.ToString(PrismTimeFormat, _culture) & "' AND walletJournal.transDate < '" & endDate.ToString(PrismTimeFormat, _culture) & "'"
-            strSQL &= " AND walletJournal.charName IN ('" & ownerName.Replace("'", "''") & "')"
+            Dim strSql As String = "DELETE FROM walletJournal"
+            strSql &= " WHERE (walletJournal.walletID = " & walletId & ")"
+            strSql &= " AND walletJournal.transDate >= '" & startDate.ToString(PrismTimeFormat, _culture) & "' AND walletJournal.transDate < '" & endDate.ToString(PrismTimeFormat, _culture) & "'"
+            strSql &= " AND walletJournal.charName IN ('" & ownerName.Replace("'", "''") & "')"
             Try
-                CustomDataFunctions.SetCustomData(strSQL)
+                CustomDataFunctions.SetCustomData(strSql)
             Catch ex As Exception
                 MessageBox.Show("There was an error removing existing transactions. The error was: " & ex.Message, "Import Wallet Journal", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
@@ -2636,8 +2638,8 @@ Namespace Forms
 
             ' Step 5: Import new transactions
             Dim walletJournals As New SortedList(Of String, WalletJournalItem)
-            PrismDataFunctions.ParseWalletJournalExportXML(xmlDoc, walletJournals, ownerID)
-            PrismDataFunctions.WriteWalletJournalsToDB(walletJournals, CInt(ownerID), ownerName, walletID, 0)
+            PrismDataFunctions.ParseWalletJournalExportXML(xmlDoc, walletJournals, ownerId)
+            PrismDataFunctions.WriteWalletJournalsToDB(walletJournals, CInt(ownerId), ownerName, walletId, 0)
 
             ' Step 6: Tidy up
             ofd.Dispose()
@@ -2674,10 +2676,10 @@ Namespace Forms
 
             If cboWalletTransType.SelectedIndex = -1 Then cboWalletTransType.SelectedIndex = 0
 
-            Dim walletID As String = (1000 + cboWalletTransDivision.SelectedIndex).ToString
-            Dim strSQL As String = "SELECT * FROM walletTransactions"
-            strSQL &= " WHERE (walletTransactions.walletID = " & walletID & ")"
-            strSQL &= " AND walletTransactions.transDate >= '" & dtiTransStartDate.Value.ToString(PrismTimeFormat, _culture) & "' AND walletTransactions.transDate <= '" & dtiTransEndDate.Value.ToString(PrismTimeFormat, _culture) & "'"
+            Dim walletId As String = (1000 + cboWalletTransDivision.SelectedIndex).ToString
+            Dim strSql As String = "SELECT * FROM walletTransactions"
+            strSql &= " WHERE (walletTransactions.walletID = " & walletId & ")"
+            strSql &= " AND walletTransactions.transDate >= '" & dtiTransStartDate.Value.ToString(PrismTimeFormat, _culture) & "' AND walletTransactions.transDate <= '" & dtiTransEndDate.Value.ToString(PrismTimeFormat, _culture) & "'"
 
             ' Build the Owners List
             If cboJournalOwners.Text <> "<All>" Then
@@ -2689,7 +2691,7 @@ Namespace Forms
                     ownerList.Remove(0, 2)
                 End If
                 ' Default to None
-                strSQL &= " AND walletTransactions.charName IN (" & ownerList.ToString & ")"
+                strSql &= " AND walletTransactions.charName IN (" & ownerList.ToString & ")"
             End If
 
             ' Filter transaction type
@@ -2698,10 +2700,10 @@ Namespace Forms
                     ' Don't do anything as we'll pick up all transactions
                 Case 1
                     ' Buy transactions only
-                    strSQL &= " AND walletTransactions.transType = 'buy' "
+                    strSql &= " AND walletTransactions.transType = 'buy' "
                 Case 2
                     ' See transactions only
-                    strSQL &= " AND walletTransactions.transType = 'sell' "
+                    strSql &= " AND walletTransactions.transType = 'sell' "
             End Select
 
             ' Filter item type
@@ -2713,15 +2715,15 @@ Namespace Forms
                 Next
                 If itemTypeList.Length > 2 Then
                     itemTypeList.Remove(0, 2)
-                    strSQL &= " AND walletTransactions.typeName IN (" & itemTypeList.ToString & ")"
+                    strSql &= " AND walletTransactions.typeName IN (" & itemTypeList.ToString & ")"
                 End If
             End If
 
             ' Order the data
-            strSQL &= " ORDER BY walletTransactions.transKey DESC;"
+            strSql &= " ORDER BY walletTransactions.transKey DESC;"
 
             ' Fetch the data
-            Dim walletData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
+            Dim walletData As DataSet = CustomDataFunctions.GetCustomData(strSql)
 
             ' Determine if this is personal, or corp, or unknown if an old owner
             Dim isPersonal As Boolean = False
@@ -2824,6 +2826,10 @@ Namespace Forms
                                 For Each div In corpsheet.ResultData.WalletDivisions
                                     cboWalletTransDivision.Items.Add(div.Description)
                                 Next
+                            Else
+                                For div As Integer = 1000 To 1006
+                                    cboWalletTransDivision.Items.Add(div.ToString.Trim)
+                                Next
                             End If
                         Else
                             For div As Integer = 1000 To 1006
@@ -2893,12 +2899,12 @@ Namespace Forms
                 adtJobs.BeginUpdate()
                 adtJobs.Nodes.Clear()
 
-                Dim jobList As List(Of Prism.Classes.IndustryJob) = Prism.Classes.IndustryJob.ParseIndustryJobs(pOwner)
+                Dim jobList As List(Of Classes.IndustryJob) = Classes.IndustryJob.ParseIndustryJobs(pOwner)
 
                 If jobList IsNot Nothing Then
 
                     ' Get InstallerIDs from the database and return list
-                    Dim installerList As SortedList(Of Long, String) = Prism.Classes.IndustryJob.GetInstallerList(jobList)
+                    Dim installerList As SortedList(Of Long, String) = Classes.IndustryJob.GetInstallerList(jobList)
 
                     ' Initialise the installer filter
                     cboInstallerFilter.Tag = True
@@ -2926,26 +2932,24 @@ Namespace Forms
 
                     ' Parse the XML
                     Dim transItem As Node
-                    Dim transTypeID As Integer
+                    Dim transTypeId As Integer
                     Dim displayJob As Boolean
 
-                    For Each job As Prism.Classes.IndustryJob In jobList
-
-                        Dim localTime As DateTime = SkillFunctions.ConvertEveTimeToLocal(job.EndProductionTime)
+                    For Each job As Classes.IndustryJob In jobList
 
                         ' Check filters to see if the job is allowed
                         displayJob = False
                         ' Check installer filter
-                        If cboInstallerFilter.SelectedIndex = 0 Or (cboInstallerFilter.SelectedIndex > 0 And installerList(job.InstallerID) = cboInstallerFilter.SelectedItem.ToString) Then
+                        If cboInstallerFilter.SelectedIndex = 0 Or (cboInstallerFilter.SelectedIndex > 0 And installerList(job.InstallerId) = cboInstallerFilter.SelectedItem.ToString) Then
                             ' Check activity filter
-                            If cboActivityFilter.SelectedIndex = 0 Or job.ActivityID.ToString = cboActivityFilter.SelectedItem.ToString Then
+                            If cboActivityFilter.SelectedIndex = 0 Or job.ActivityId.ToString = cboActivityFilter.SelectedItem.ToString Then
                                 ' Check status filter
                                 If cboStatusFilter.SelectedIndex = 0 Then
                                     displayJob = True
                                 Else
-                                    Select Case job.Completed
-                                        Case 0
-                                            If localTime < DateTime.Now.ToUniversalTime Then
+                                    Select Case job.Status
+                                        Case IndustryJobStatus.Ready
+                                            If job.EndDate.ToLocalTime < DateTime.Now Then
                                                 ' Job finished but not delivered
                                                 If cboStatusFilter.SelectedItem.ToString = PlugInData.Statuses("B") Then
                                                     displayJob = True
@@ -2957,7 +2961,7 @@ Namespace Forms
                                                 End If
                                             End If
                                         Case Else
-                                            If cboStatusFilter.SelectedItem.ToString = PlugInData.Statuses(job.CompletedStatus.ToString) Then
+                                            If cboStatusFilter.SelectedItem.ToString = PlugInData.Statuses(job.Status.ToString) Then
                                                 displayJob = True
                                             End If
                                     End Select
@@ -2970,34 +2974,35 @@ Namespace Forms
                             transItem = New Node
                             adtJobs.Nodes.Add(transItem)
                             transItem.CreateCells()
-                            transTypeID = job.InstalledItemTypeID
-                            If StaticData.Types.ContainsKey(transTypeID) = True Then
-                                transItem.Text = StaticData.Types(transTypeID).Name
+                            transTypeId = job.BlueprintTypeId
+                            If StaticData.Types.ContainsKey(transTypeId) = True Then
+                                transItem.Text = StaticData.Types(transTypeId).Name
                             Else
-                                transItem.Text = "Unknown Item ID:" & transTypeID
+                                transItem.Text = "Unknown Item ID:" & transTypeId
                             End If
 
-                            transItem.Cells(1).Text = job.ActivityID.ToString
+                            transItem.Cells(1).Text = job.ActivityId.ToString
                             transItem.Cells(2).Text = job.Runs.ToString
-                            transItem.Cells(3).Text = installerList(job.InstallerID)
-                            If job.InstalledItemLocationID <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.InstalledItemLocationID)) = True Then
-                                transItem.Cells(4).Text = StaticData.Stations(CInt(job.InstalledItemLocationID)).StationName
+                            transItem.Cells(3).Text = installerList(job.InstallerId)
+                            If job.FacilityId <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.FacilityId)) = True Then
+                                transItem.Cells(4).Text = StaticData.Stations(CInt(job.FacilityId)).StationName
                             Else
-                                transItem.Cells(4).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
+                                transItem.Cells(4).Text = "POS in " & StaticData.SolarSystems(job.SolarSystemId).Name
                             End If
-                            transItem.Cells(5).Text = localTime.ToString
-                            transItem.Cells(5).Tag = localTime
-                            transItem.Cells(6).Tag = Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60
+                            transItem.Cells(5).Text = job.EndDate.ToLocalTime.ToString
+                            transItem.Cells(5).Tag = job.EndDate.ToLocalTime
+                            transItem.Cells(6).Tag = (job.EndDate.ToLocalTime - Now).TotalSeconds
                             transItem.Cells(6).Text = SkillFunctions.TimeToString(CDbl(transItem.Cells(6).Tag), False, "Complete")
-                            If job.Completed = 0 Then
-                                If localTime < DateTime.Now.ToUniversalTime Then
-                                    transItem.Cells(7).Text = PlugInData.Statuses("B")
-                                Else
-                                    transItem.Cells(7).Text = PlugInData.Statuses("A")
-                                End If
-                            Else
-                                transItem.Cells(7).Text = PlugInData.Statuses(job.CompletedStatus.ToString)
-                            End If
+                            transItem.Cells(7).Text = job.Status.ToString
+                            'If job.Status = IndustryJobStatus.Ready Then
+                            '    If job.EndDate.ToLocalTime < DateTime.Now Then
+                            '        transItem.Cells(7).Text = PlugInData.Statuses("B")
+                            '    Else
+                            '        transItem.Cells(7).Text = PlugInData.Statuses("A")
+                            '    End If
+                            'Else
+                            '    transItem.Cells(7).Text = job.Status.ToString
+                            'End If
                         End If
                     Next
                 End If
@@ -3021,7 +3026,7 @@ Namespace Forms
 
         Private Sub UpdateIndustryJobTimes()
             For Each transItem As Node In adtJobs.Nodes
-                transItem.Cells(6).Tag = Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60
+                transItem.Cells(6).Tag = Int((CType(transItem.Cells(5).Tag, DateTimeOffset) - Now).TotalMinutes) * 60
                 transItem.Cells(6).Text = SkillFunctions.TimeToString(CDbl(transItem.Cells(6).Tag), False, "Complete")
             Next
         End Sub
@@ -3068,14 +3073,14 @@ Namespace Forms
             ' Get the owner we will use
             If cboContractOwner.SelectedItem IsNot Nothing Then
                 Dim pOwner As String = cboContractOwner.SelectedItem.ToString
-                Dim contractList As SortedList(Of Long, Prism.Classes.Contract) = Contracts.ParseContracts(pOwner)
+                Dim contractList As SortedList(Of Long, Classes.Contract) = Contracts.ParseContracts(pOwner)
 
                 If contractList IsNot Nothing Then
 
                     ' Get InstallerIDs from the database and return list
                     Dim idList As SortedList(Of Long, String) = Contracts.GetContractIDList(contractList)
 
-                    For Each c As Prism.Classes.Contract In contractList.Values
+                    For Each c As Classes.Contract In contractList.Values
                         ' Setup filter result
                         Const DisplayContract As Boolean = True
                         ' Apply filtering...
@@ -3134,14 +3139,17 @@ Namespace Forms
                                 qtyCh.Width.Absolute = 100
                                 qtyCh.DisplayIndex = 2
                                 newContract.NodesColumns.Add(qtyCh)
-                                For Each typeID As Integer In c.Items.Keys
+                                For Each typeId As Integer In c.Items.Keys
                                     Dim itemNode As New Node
-                                    itemNode.Name = CStr(typeID)
-                                    itemNode.Text = StaticData.Types(typeID).Name
-                                    itemNode.Cells.Add(New Cell(c.Items(typeID).ToString))
+                                    itemNode.Name = CStr(typeId)
+                                    If StaticData.Types.ContainsKey(typeId) Then
+                                        itemNode.Text = StaticData.Types(typeId).Name
+                                    Else
+                                        itemNode.Text = "Unknown Item: ID=" & typeId.ToString()
+                                    End If
+                                    itemNode.Cells.Add(New Cell(c.Items(typeId).ToString))
                                     newContract.Nodes.Add(itemNode)
                                 Next
-
                             End If
                         End If
 
@@ -3278,7 +3286,7 @@ Namespace Forms
             Dim items As Long = 0
             Dim volume As Double = 0
             Dim benefit As Double
-            Dim tempNetYield As Double = 0
+            Dim itemYield As Double
             Dim bestPriceTotal As Double = 0
             Dim salePriceTotal As Double = 0
             Dim refinePriceTotal As Double = 0
@@ -3292,46 +3300,47 @@ Namespace Forms
             For Each asset As Integer In _recyclerAssetList.Keys
                 itemInfo = StaticData.Types(asset)
                 If itemInfo.Category = 25 Then
+                    itemYield = _baseYield * (1 + (CDbl(rPilot.KeySkills(KeySkill.Refining)) * 0.03)) * (1 + (CDbl(rPilot.KeySkills(KeySkill.RefiningEfficiency)) * 0.02))
                     Select Case itemInfo.Group
                         Case 465 ' Ice
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.IceProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.IceProc))))
                         Case 450 ' Arkonor
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.ArkonorProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.ArkonorProc))))
                         Case 451 ' Bistot
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.BistotProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.BistotProc))))
                         Case 452 ' Crokite
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.CrokiteProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.CrokiteProc))))
                         Case 453 ' Dark Ochre
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.DarkOchreProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.DarkOchreProc))))
                         Case 467 ' Gneiss
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.GneissProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.GneissProc))))
                         Case 454 ' Hedbergite
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.HedbergiteProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.HedbergiteProc))))
                         Case 455 ' Hemorphite
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.HemorphiteProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.HemorphiteProc))))
                         Case 456 ' Jaspet
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.JaspetProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.JaspetProc))))
                         Case 457 ' Kernite
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.KerniteProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.KerniteProc))))
                         Case 468 ' Mercoxit
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.MercoxitProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.MercoxitProc))))
                         Case 469 ' Omber
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.OmberProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.OmberProc))))
                         Case 458 ' Plagioclase
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.PlagioclaseProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.PlagioclaseProc))))
                         Case 459 ' Pyroxeres
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.PyroxeresProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.PyroxeresProc))))
                         Case 460 ' Scordite
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.ScorditeProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.ScorditeProc))))
                         Case 461 ' Spodumain
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.SpodumainProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.SpodumainProc))))
                         Case 462 ' Veldspar
-                            tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.VeldsparProc)))) + _baseYield
+                            itemYield *= (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.VeldsparProc))))
                     End Select
                 Else
-                    tempNetYield = (_netYield - _baseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(KeySkill.ScrapMetalProc)))) + _baseYield
+                    itemYield = _baseYield * (1 + (0.02 * CDbl(rPilot.KeySkills(KeySkill.ScrapMetalProc))))
                 End If
-                tempNetYield = Math.Min(tempNetYield, 1)
+                itemYield = Math.Min(itemYield, 1)
                 _matList.Clear()
                 If StaticData.TypeMaterials.ContainsKey(asset) Then
                     For Each mat As Integer In StaticData.TypeMaterials(asset).Materials.Keys
@@ -3370,8 +3379,8 @@ Namespace Forms
                     For Each mat As Integer In _matList.Keys
                         price = Math.Round(matPrices(mat), 2, MidpointRounding.AwayFromZero)
                         perfect = CLng(_matList(mat)) * batches
-                        wastage = CLng(perfect * (1 - tempNetYield))
-                        quant = CLng(perfect * tempNetYield)
+                        wastage = CLng(perfect * (1 - itemYield))
+                        quant = CLng(perfect * itemYield)
                         taken = CLng(quant * (_stationTake / 100))
                         quant = quant - taken
                         value = price * quant
@@ -3462,15 +3471,9 @@ Namespace Forms
             adtTotals.EndUpdate()
         End Sub
 
-        Private Sub cboPilots_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboRecyclePilots.SelectedIndexChanged
+        Private Sub cboRecyclePilots_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboRecyclePilots.SelectedIndexChanged
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
-            If chkPerfectRefine.Checked = True Then
-                _netYield = 1
-            Else
-                _netYield = (_baseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(KeySkill.RefiningEfficiency)) * 0.04)))
-            End If
             lblBaseYield.Text = (_baseYield * 100).ToString("N2") & "%"
-            lblNetYield.Text = (_netYield * 100).ToString("N2") & "%"
             If lblCorp.Tag IsNot Nothing Then
                 _stationStanding = Standings.GetStanding(rPilot.Name, lblCorp.Tag.ToString, True)
             Else
@@ -3538,10 +3541,7 @@ Namespace Forms
                 _baseYield = _stationYield
             End If
             If cboRecyclePilots.SelectedItem IsNot Nothing Then
-                Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
                 lblBaseYield.Text = (_baseYield * 100).ToString("N2") & "%"
-                _netYield = (_baseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(KeySkill.RefiningEfficiency)) * 0.04)))
-                lblNetYield.Text = (_netYield * 100).ToString("N2") & "%"
                 Call RecalcRecycling()
             End If
         End Sub
@@ -3550,9 +3550,6 @@ Namespace Forms
             If chkOverrideBaseYield.Checked = True Then
                 _baseYield = CDbl(nudBaseYield.Value) / 100
                 lblBaseYield.Text = (_baseYield * 100).ToString("N2") & "%"
-                Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
-                _netYield = (_baseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(KeySkill.RefiningEfficiency)) * 0.04)))
-                lblNetYield.Text = (_netYield * 100).ToString("N2") & "%"
                 Call RecalcRecycling()
             End If
         End Sub
@@ -3584,19 +3581,6 @@ Namespace Forms
             End If
         End Sub
 
-#End Region
-
-#Region "Override Refining Skills functions"
-        Private Sub chkPerfectRefine_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkPerfectRefine.CheckedChanged
-            If chkPerfectRefine.Checked = True Then
-                _netYield = 1
-            Else
-                Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
-                _netYield = (_baseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(KeySkill.RefiningEfficiency)) * 0.04)))
-            End If
-            lblNetYield.Text = (_netYield * 100).ToString("N2") & "%"
-            Call RecalcRecycling()
-        End Sub
 #End Region
 
 #Region "Override Fees functions"
@@ -3642,72 +3626,76 @@ Namespace Forms
 
 #Region "Refining Mode functions"
         Private Sub cboRefineMode_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboRefineMode.SelectedIndexChanged
-            Select Case cboRefineMode.SelectedIndex
-                Case 0 ' Standard
-                    If chkOverrideBaseYield.Checked = True Then
-                        _baseYield = CDbl(nudBaseYield.Value) / 100
+
+            If cboRefineMode.SelectedIndex >= 0 Then
+                _baseYield = 0.5 + (0.02 * cboRefineMode.SelectedIndex)
+                lblBaseYield.Text = (_baseYield * 100).ToString("N2") & "%"
+                If chkOverrideStandings.Checked = True Then
+                    lblStandings.Text = nudStandings.Value.ToString("N2")
+                Else
+                    If lblCorp.Tag Is Nothing Then
+                        lblStandings.Text = CDbl(0).ToString("N2")
                     Else
-                        _baseYield = _stationYield
+                        lblStandings.Text = _stationStanding.ToString("N2")
                     End If
-                    lblBaseYield.Text = (_baseYield * 100).ToString("N2") & "%"
-                    If chkPerfectRefine.Checked = True Then
-                        _netYield = 1
-                    Else
-                        Dim rPilot As EveHQPilot
-                        If cboRecyclePilots.SelectedItem IsNot Nothing Then
-                            rPilot = HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
-                            _netYield = (_baseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(KeySkill.RefiningEfficiency)) * 0.04)))
-                        Else
-                            If cboRecyclePilots.Items.Count > 0 Then
-                                cboRecyclePilots.SelectedIndex = 0
-                                rPilot = HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
-                                _netYield = (_baseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(KeySkill.RefiningEfficiency)) * 0.04)))
-                            Else
-                                _netYield = 0
-                            End If
-                        End If
-                    End If
-                    lblNetYield.Text = (_netYield * 100).ToString("N2") & "%"
-                    If chkOverrideStandings.Checked = True Then
-                        lblStandings.Text = nudStandings.Value.ToString("N2")
-                    Else
-                        If lblCorp.Tag Is Nothing Then
-                            lblStandings.Text = CDbl(0).ToString("N2")
-                        Else
-                            lblStandings.Text = _stationStanding.ToString("N2")
-                        End If
-                    End If
-                    chkOverrideBaseYield.Enabled = True
-                    chkOverrideStandings.Enabled = True
-                    chkPerfectRefine.Enabled = True
-                    nudBaseYield.Enabled = True
-                    nudStandings.Enabled = True
-                    cboRecyclePilots.Enabled = True
-                Case 1 ' Refining Array
-                    _baseYield = 0.35
-                    _netYield = 0.35
-                    lblBaseYield.Text = (_baseYield * 100).ToString("N2") & "%"
-                    lblNetYield.Text = (_netYield * 100).ToString("N2") & "%"
-                    lblStandings.Text = CDbl(10).ToString("N2")
-                    chkOverrideBaseYield.Enabled = False
-                    chkOverrideStandings.Enabled = False
-                    chkPerfectRefine.Enabled = False
-                    nudBaseYield.Enabled = False
-                    nudStandings.Enabled = False
-                    cboRecyclePilots.Enabled = False
-                Case 2 ' Intensive Refining Array
-                    _baseYield = 0.75
-                    _netYield = 0.75
-                    lblBaseYield.Text = (_baseYield * 100).ToString("N2") & "%"
-                    lblNetYield.Text = (_netYield * 100).ToString("N2") & "%"
-                    lblStandings.Text = CDbl(10).ToString("N2")
-                    chkOverrideBaseYield.Enabled = False
-                    chkOverrideStandings.Enabled = False
-                    chkPerfectRefine.Enabled = False
-                    nudBaseYield.Enabled = False
-                    nudStandings.Enabled = False
-                    cboRecyclePilots.Enabled = False
-            End Select
+                End If
+                chkOverrideBaseYield.Enabled = True
+                chkOverrideStandings.Enabled = True
+                nudBaseYield.Enabled = True
+                nudStandings.Enabled = True
+                cboRecyclePilots.Enabled = True
+            End If
+
+            'Select Case cboRefineMode.SelectedIndex
+            '    Case 0 ' Standard
+            '        If chkOverrideBaseYield.Checked = True Then
+            '            _baseYield = CDbl(nudBaseYield.Value) / 100
+            '        Else
+            '            _baseYield = _stationYield
+            '        End If
+            '        lblBaseYield.Text = (_baseYield * 100).ToString("N2") & "%"
+            '        lblNetYield.Text = (_netYield * 100).ToString("N2") & "%"
+            '        If chkOverrideStandings.Checked = True Then
+            '            lblStandings.Text = nudStandings.Value.ToString("N2")
+            '        Else
+            '            If lblCorp.Tag Is Nothing Then
+            '                lblStandings.Text = CDbl(0).ToString("N2")
+            '            Else
+            '                lblStandings.Text = _stationStanding.ToString("N2")
+            '            End If
+            '        End If
+            '        chkOverrideBaseYield.Enabled = True
+            '        chkOverrideStandings.Enabled = True
+            '        chkPerfectRefine.Enabled = True
+            '        nudBaseYield.Enabled = True
+            '        nudStandings.Enabled = True
+            '        cboRecyclePilots.Enabled = True
+            '    Case 1 ' Refining Array
+            '        _baseYield = 0.35
+            '        _netYield = 0.35
+            '        lblBaseYield.Text = (_baseYield * 100).ToString("N2") & "%"
+            '        lblNetYield.Text = (_netYield * 100).ToString("N2") & "%"
+            '        lblStandings.Text = CDbl(10).ToString("N2")
+            '        chkOverrideBaseYield.Enabled = False
+            '        chkOverrideStandings.Enabled = False
+            '        chkPerfectRefine.Enabled = False
+            '        nudBaseYield.Enabled = False
+            '        nudStandings.Enabled = False
+            '        cboRecyclePilots.Enabled = False
+            '    Case 2 ' Intensive Refining Array
+            '        _baseYield = 0.75
+            '        _netYield = 0.75
+            '        lblBaseYield.Text = (_baseYield * 100).ToString("N2") & "%"
+            '        lblNetYield.Text = (_netYield * 100).ToString("N2") & "%"
+            '        lblStandings.Text = CDbl(10).ToString("N2")
+            '        chkOverrideBaseYield.Enabled = False
+            '        chkOverrideStandings.Enabled = False
+            '        chkPerfectRefine.Enabled = False
+            '        nudBaseYield.Enabled = False
+            '        nudStandings.Enabled = False
+            '        cboRecyclePilots.Enabled = False
+            'End Select
+
             ' Set the base yield if no station
             If lblStation.Text = "n/a" Then
                 chkOverrideBaseYield.Checked = True
@@ -3798,9 +3786,9 @@ Namespace Forms
                 newI.ShowDialog()
                 Dim itemName As String = newI.Item
                 If itemName IsNot Nothing Then
-                    Dim itemID As Integer = StaticData.TypeNames(itemName)
-                    If _recyclerAssetList.ContainsKey(itemID) = False Then
-                        _recyclerAssetList.Add(itemID, 1)
+                    Dim itemId As Integer = StaticData.TypeNames(itemName)
+                    If _recyclerAssetList.ContainsKey(itemId) = False Then
+                        _recyclerAssetList.Add(itemId, 1)
                     End If
                     Call LoadRecyclingInfo()
                 End If
@@ -3948,42 +3936,73 @@ Namespace Forms
             Call UpdateBPList()
         End Sub
 
-        Private Sub UpdateBPList()
+        Private Sub UpdateBpList()
             ' Check if we are showing the full list or the owners list
             If chkShowOwnedBPs.Checked = False Then
+                ' Check the filters
+                If cboTechFilter.SelectedIndex = -1 Then
+                    cboTechFilter.SelectedIndex = 0
+                End If
+                If cboTypeFilter.SelectedIndex = -1 Then
+                    cboTypeFilter.SelectedIndex = 0
+                End If
+                If cboCategoryFilter.SelectedIndex = -1 Then
+                    cboCategoryFilter.SelectedIndex = 0
+                End If
                 Dim search As String = txtBPSearch.Text
                 ' Show the full BP list
                 adtBlueprints.BeginUpdate()
                 adtBlueprints.Nodes.Clear()
                 Dim matchCat As Boolean
                 For Each blueprint As EveData.Blueprint In StaticData.Blueprints.Values
-                    Dim bpName As String = StaticData.Types(blueprint.Id).Name
-                    If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = blueprint.TechLevel) Then
-                        matchCat = False
-                        If cboCategoryFilter.SelectedIndex = 0 Then
-                            matchCat = True
-                        Else
-                            If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
-                                If StaticData.Types.ContainsKey(blueprint.ProductId) Then
-                                    If CInt(PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString)) = StaticData.Types(blueprint.ProductId).Category Then
-                                        matchCat = True
+                    If StaticData.Types.ContainsKey(blueprint.Id) Then
+                        Dim bpName As String = StaticData.Types(blueprint.Id).Name
+                        If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = blueprint.TechLevel) Then
+                            matchCat = False
+                            If cboCategoryFilter.SelectedIndex = 0 Then
+                                matchCat = True
+                            Else
+                                If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
+                                    If StaticData.Types.ContainsKey(blueprint.ProductId) Then
+                                        If CInt(PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString)) = StaticData.Types(blueprint.ProductId).Category Then
+                                            matchCat = True
+                                        End If
+                                    End If
+                                End If
+                                ' Refine for groups
+                                If cboGroupFilter.SelectedIndex > 0 Then
+                                    If _bpManagerGroups.ContainsKey(cboGroupFilter.SelectedItem.ToString) Then
+                                        If StaticData.Types.ContainsKey(blueprint.ProductId) Then
+                                            If CInt(_bpManagerGroups(cboGroupFilter.SelectedItem.ToString)) = StaticData.Types(blueprint.ProductId).Group Then
+                                                matchCat = True
+                                            Else
+                                                matchCat = False
+                                            End If
+                                        End If
                                     End If
                                 End If
                             End If
-                        End If
-                        If matchCat = True Then
-                            If search = "" Or bpName.ToLower.Contains(search.ToLower) Then
-                                Dim newBPItem As New Node
-                                newBPItem.Text = bpName
-                                adtBlueprints.Nodes.Add(newBPItem)
-                                newBPItem.CreateCells()
-                                newBPItem.Cells(1).Text = "n/a"
-                                newBPItem.Cells(2).Text = "n/a"
-                                newBPItem.Cells(3).Text = blueprint.TechLevel.ToString
-                                newBPItem.Cells(4).Text = "0"
-                                newBPItem.Cells(5).Text = "0"
-                                newBPItem.Cells(6).Text = "Infinite"
-                                newBPItem.Cells(7).Text = "n/a"
+                            If matchCat = True Then
+                                If search = "" Or bpName.ToLower.Contains(search.ToLower) Then
+                                    Dim newBpItem As New Node
+                                    newBpItem.Text = bpName
+                                    adtBlueprints.Nodes.Add(newBpItem)
+                                    newBpItem.CreateCells()
+                                    If StaticData.Types.ContainsKey(blueprint.ProductId) Then
+                                        newBpItem.Cells(1).Text = StaticData.TypeCats(StaticData.Types(blueprint.ProductId).Category)
+                                        newBpItem.Cells(2).Text = StaticData.TypeGroups(StaticData.Types(blueprint.ProductId).Group)
+                                    Else
+                                        newBpItem.Cells(1).Text = "<Unknown>"
+                                        newBpItem.Cells(2).Text = "<Unknown>"
+                                    End If
+                                    newBpItem.Cells(3).Text = "n/a"
+                                    newBpItem.Cells(4).Text = "n/a"
+                                    newBpItem.Cells(5).Text = blueprint.TechLevel.ToString
+                                    newBpItem.Cells(6).Text = "0"
+                                    newBpItem.Cells(7).Text = "0"
+                                    newBpItem.Cells(8).Text = "Infinite"
+                                    newBpItem.Cells(9).Text = "n/a"
+                                End If
                             End If
                         End If
                     End If
@@ -3992,11 +4011,11 @@ Namespace Forms
                 adtBlueprints.EndUpdate()
             Else
                 ' Show the owned BP list
-                Call UpdateOwnerBPList()
+                Call UpdateOwnerBpList()
             End If
         End Sub
 
-        Private Sub UpdateOwnerBPList()
+        Private Sub UpdateOwnerBpList()
             Dim search As String = txtBPSearch.Text
             ' Establish the owner
             If cboBPOwner.SelectedItem IsNot Nothing Then
@@ -4034,6 +4053,18 @@ Namespace Forms
                                                 matchCat = True
                                             End If
                                         End If
+                                        ' Refine for groups
+                                        If cboGroupFilter.SelectedIndex > 0 Then
+                                            If _bpManagerGroups.ContainsKey(cboGroupFilter.SelectedItem.ToString) Then
+                                                If StaticData.Types.ContainsKey(bpData.ProductId) Then
+                                                    If CInt(_bpManagerGroups(cboGroupFilter.SelectedItem.ToString)) = StaticData.Types(bpData.ProductId).Group Then
+                                                        matchCat = True
+                                                    Else
+                                                        matchCat = False
+                                                    End If
+                                                End If
+                                            End If
+                                        End If
                                     End If
                                     If matchCat = True Then
                                         Dim bpName As String = StaticData.Types(CInt(blueprint.TypeID)).Name
@@ -4043,7 +4074,7 @@ Namespace Forms
                                             newBpItem.CreateCells()
                                             newBpItem.Text = bpName
                                             newBpItem.Tag = blueprint.AssetID
-                                            newBpItem.Cells(3).Text = bpData.TechLevel.ToString
+                                            newBpItem.Cells(5).Text = bpData.TechLevel.ToString
                                             Call UpdateOwnerBPItem(prismOwner, locationName, blueprint, newBpItem)
                                         End If
                                     End If
@@ -4056,42 +4087,52 @@ Namespace Forms
                 adtBlueprints.EndUpdate()
             End If
         End Sub
-        Private Sub UpdateOwnerBPItem(ByVal pOwner As String, ByVal locationName As String, ByVal bpAsset As BlueprintAsset, ByVal newBPItem As Node)
-            newBPItem.Cells(4).Text = bpAsset.MELevel.ToString("N0")
-            newBPItem.Cells(5).Text = bpAsset.PELevel.ToString("N0")
+        Private Sub UpdateOwnerBpItem(ByVal pOwner As String, ByVal locationName As String, ByVal bpAsset As BlueprintAsset, ByVal newBpItem As Node)
+            If StaticData.Blueprints.ContainsKey(CInt(bpAsset.TypeID)) Then
+                Dim bpData As EveData.Blueprint = StaticData.Blueprints(CInt(bpAsset.TypeID))
+                If StaticData.Types.ContainsKey(bpData.ProductId) Then
+                    newBpItem.Cells(1).Text = StaticData.TypeCats(StaticData.Types(bpData.ProductId).Category)
+                    newBpItem.Cells(2).Text = StaticData.TypeGroups(StaticData.Types(bpData.ProductId).Group)
+                Else
+                    newBpItem.Cells(1).Text = "<Unknown>"
+                    newBpItem.Cells(2).Text = "<Unknown>"
+                End If
+             End If
+            newBpItem.Cells(6).Text = bpAsset.MELevel.ToString("N0")
+            newBpItem.Cells(7).Text = bpAsset.PELevel.ToString("N0")
             Select Case bpAsset.BPType
                 Case BPType.Unknown  ' Undetermined
-                    newBPItem.Cells(1).Text = locationName
-                    newBPItem.Cells(2).Text = bpAsset.LocationDetails
-                    newBPItem.Cells(6).Text = "Unknown"
-                    newBPItem.Cells(6).Tag = bpAsset.Runs
-                    newBPItem.Style = _bpmStyleUnknown
+                    newBpItem.Cells(3).Text = locationName
+                    newBpItem.Cells(4).Text = bpAsset.LocationDetails
+                    newBpItem.Cells(8).Text = "Unknown"
+                    newBpItem.Cells(8).Tag = bpAsset.Runs
+                    newBpItem.Style = _bpmStyleUnknown
                 Case BPType.Original  ' BPO
-                    newBPItem.Cells(1).Text = locationName
-                    newBPItem.Cells(2).Text = bpAsset.LocationDetails
-                    newBPItem.Cells(6).Text = "BPO"
-                    newBPItem.Cells(6).Tag = 1000000
-                    newBPItem.Style = _bpmStyleBpo
+                    newBpItem.Cells(3).Text = locationName
+                    newBpItem.Cells(4).Text = bpAsset.LocationDetails
+                    newBpItem.Cells(8).Text = "BPO"
+                    newBpItem.Cells(8).Tag = 1000000
+                    newBpItem.Style = _bpmStyleBpo
                 Case BPType.Copy ' BPC
-                    newBPItem.Cells(1).Text = locationName
-                    newBPItem.Cells(2).Text = bpAsset.LocationDetails
-                    newBPItem.Cells(6).Text = bpAsset.Runs.ToString("N0")
-                    newBPItem.Cells(6).Tag = bpAsset.Runs
-                    newBPItem.Style = _bpmStyleBPC
+                    newBpItem.Cells(3).Text = locationName
+                    newBpItem.Cells(4).Text = bpAsset.LocationDetails
+                    newBpItem.Cells(8).Text = bpAsset.Runs.ToString("N0")
+                    newBpItem.Cells(8).Tag = bpAsset.Runs
+                    newBpItem.Style = _bpmStyleBpc
                 Case BPType.User
-                    newBPItem.Cells(1).Text = pOwner & "'s Secret BP Stash"
-                    newBPItem.Cells(2).Text = pOwner & "'s Secret BP Stash"
-                    newBPItem.Cells(6).Text = "BPO"
-                    newBPItem.Cells(6).Tag = 1000000
-                    newBPItem.Style = _bpmStyleUser
+                    newBpItem.Cells(3).Text = pOwner & "'s Secret BP Stash"
+                    newBpItem.Cells(4).Text = pOwner & "'s Secret BP Stash"
+                    newBpItem.Cells(8).Text = "BPO"
+                    newBpItem.Cells(8).Tag = 1000000
+                    newBpItem.Style = _bpmStyleUser
             End Select
-            newBPItem.Cells(7).Text = [Enum].GetName(GetType(BPStatus), bpAsset.Status)
-            newBPItem.Cells(7).Tag = bpAsset.Status
+            newBpItem.Cells(9).Text = [Enum].GetName(GetType(BPStatus), bpAsset.Status)
+            newBpItem.Cells(9).Tag = bpAsset.Status
             Select Case bpAsset.Status
                 Case BPStatus.Missing
-                    newBPItem.Style = _bpmStyleMissing
+                    newBpItem.Style = _bpmStyleMissing
                 Case BPStatus.Exhausted
-                    newBPItem.Style = _bpmStyleExhausted
+                    newBpItem.Style = _bpmStyleExhausted
             End Select
         End Sub
 
@@ -4112,12 +4153,12 @@ Namespace Forms
                     End If
 
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Assets)
-                    Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
+                    Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
                     Dim assetData As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
                     If pOwner.IsCorp = True Then
-                        assetData = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
+                        assetData = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerId.ToInt32())
                     Else
-                        assetData = HQ.ApiProvider.Character.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
+                        assetData = HQ.ApiProvider.Character.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerId.ToInt32())
                     End If
 
                     If assetData.IsSuccess Then
@@ -4128,18 +4169,18 @@ Namespace Forms
                             Dim categories, groups, types As New ArrayList
                             categories.Add(9) ' Blueprints
                             For Each item In itemList
-                                Dim locationID As String = item.LocationId.ToInvariantString()
-                                Dim flagID As Integer = item.Flag
-                                Dim locationDetails As String = StaticData.ItemMarkers(flagID)
+                                Dim locationId As String = item.LocationId.ToInvariantString()
+                                Dim flagId As Integer = item.Flag
+                                Dim locationDetails As String = StaticData.ItemMarkers(flagId)
                                 Dim bpcFlag As Boolean = False
                                 ' Check the asset
                                 Dim itemData As EveType
-                                Dim assetID As Long
-                                Dim itemID As Integer
-                                assetID = item.ItemId
-                                itemID = item.TypeId
-                                If StaticData.Types.ContainsKey(itemID) Then
-                                    itemData = StaticData.Types(itemID)
+                                Dim assetId As Long
+                                Dim itemId As Integer
+                                assetId = item.ItemId
+                                itemId = item.TypeId
+                                If StaticData.Types.ContainsKey(itemId) Then
+                                    itemData = StaticData.Types(itemId)
                                     ' Check for BPO/BPC
                                     If itemData.Category = 9 Then
                                         If item.Singleton Then
@@ -4148,82 +4189,94 @@ Namespace Forms
                                             End If
                                         End If
                                     End If
-                                    If flagID = 0 Then
-                                        If PlugInData.AssetItemNames.ContainsKey(assetID) = True Then
-                                            locationDetails = PlugInData.AssetItemNames(assetID)
+                                    If flagId = 0 Then
+                                        If PlugInData.AssetItemNames.ContainsKey(assetId) = True Then
+                                            locationDetails = PlugInData.AssetItemNames(assetId)
                                         Else
                                             locationDetails = itemData.Name
                                         End If
                                     End If
                                     If categories.Contains(itemData.Category) Or groups.Contains(itemData.Group) Or types.Contains(itemData.Id) Then
-                                        Dim newBP As New BlueprintAsset
-                                        newBP.AssetID = CStr(assetID)
-                                        newBP.LocationID = locationID
+                                        Dim newBp As New BlueprintAsset
+                                        newBp.AssetID = CStr(assetId)
+                                        newBp.LocationID = locationId
                                         If pOwner.IsCorp = True Then
-                                            Dim accountID As Integer = flagID + 885
-                                            If accountID = 889 Then accountID = 1000
-                                            If _divisions.ContainsKey(pOwner.ID & "_" & accountID.ToString) = True Then
-                                                locationDetails = CStr(_divisions.Item(pOwner.ID & "_" & accountID.ToString))
+                                            Dim accountId As Integer = flagId + 885
+                                            If accountId = 889 Then accountId = 1000
+                                            If _divisions.ContainsKey(pOwner.ID & "_" & accountId.ToString) = True Then
+                                                locationDetails = CStr(_divisions.Item(pOwner.ID & "_" & accountId.ToString))
                                             End If
                                         End If
-                                        If newBP.BPType = BPType.Unknown Then
+                                        If newBp.BPType = BPType.Unknown Then
                                             If bpcFlag = True Then
-                                                newBP.BPType = BPType.Copy
-                                                newBP.Runs = 1
+                                                newBp.BPType = BPType.Copy
+                                                newBp.Runs = 1
                                             Else
-                                                newBP.BPType = BPType.Original
-                                                newBP.Runs = -1
+                                                newBp.BPType = BPType.Original
+                                                newBp.Runs = -1
                                             End If
                                         End If
-                                        newBP.LocationDetails = locationDetails
-                                        newBP.TypeID = CStr(itemID)
-                                        newBP.Status = BPStatus.Present
-                                        newBP.MELevel = 0
-                                        newBP.PELevel = 0
-                                        newBP.Notes = ""
-                                        assets.Add(assetID, newBP)
+                                        newBp.LocationDetails = locationDetails
+                                        newBp.TypeID = CStr(itemId)
+                                        newBp.Status = BPStatus.Present
+                                        newBp.MELevel = 0
+                                        newBp.PELevel = 0
+                                        newBp.Notes = ""
+                                        assets.Add(assetId, newBp)
                                     End If
                                 End If
 
                                 ' Get the location name
                                 If item.Contents IsNot Nothing Then
                                     If item.Contents.Any() Then
-                                        Call GetAssetFromNode(item, categories, groups, types, assets, locationID, locationDetails, pOwner)
+                                        Call GetAssetFromNode(item, categories, groups, types, assets, locationId, locationDetails, pOwner)
                                     End If
                                 End If
                             Next
                         End If
                         If assets.Count > 0 Then
                             ' Mark all of our existing blueprints as missing
-                            For Each ownerBP As BlueprintAsset In ownerBPs.Values
-                                If ownerBP.BPType <> BPType.User Then
-                                    ownerBP.Status = BPStatus.Missing
+                            For Each ownerBp As BlueprintAsset In ownerBPs.Values
+                                If ownerBp.BPType <> BPType.User Then
+                                    ownerBp.Status = BPStatus.Missing
                                 Else
-                                    ownerBP.Status = BPStatus.Present
+                                    ownerBp.Status = BPStatus.Present
                                 End If
                             Next
                             ' Should have our list of assets now so let's compare them
-                            For Each assetID As Long In assets.Keys
+                            For Each assetId As Long In assets.Keys
                                 ' See if the assetID already exists for the owner
-                                If ownerBPs.ContainsKey(assetID) = True Then
+                                If ownerBPs.ContainsKey(assetId) = True Then
                                     ' We have it so set the status to present
-                                    ownerBPs(assetID).Status = BPStatus.Present
+                                    ownerBPs(assetId).Status = BPStatus.Present
                                     ' Update the location
-                                    ownerBPs(assetID).LocationID = assets(assetID).LocationID
-                                    ownerBPs(assetID).LocationDetails = assets(assetID).LocationDetails
+                                    ownerBPs(assetId).LocationID = assets(assetId).LocationID
+                                    ownerBPs(assetId).LocationDetails = assets(assetId).LocationDetails
                                     ' Update the type
-                                    ownerBPs(assetID).BPType = assets(assetID).BPType
+                                    ownerBPs(assetId).BPType = assets(assetId).BPType
                                     ' Update the runs if we have found the asset is a BPC and the runs are still -1
-                                    If ownerBPs(assetID).BPType = BPType.Copy And ownerBPs(assetID).Runs = -1 Then
-                                        ownerBPs(assetID).Runs = 0
+                                    If ownerBPs(assetId).BPType = BPType.Copy And ownerBPs(assetId).Runs = -1 Then
+                                        ownerBPs(assetId).Runs = 0
                                     End If
                                 Else
                                     ' Not present in the existing list so let's add it in
-                                    ownerBPs.Add(assetID, assets(assetID))
+                                    ownerBPs.Add(assetId, assets(assetId))
+                                End If
+                            Next
+                        Else
+                            ' Mark all of our existing blueprints as missing
+                            For Each ownerBp As BlueprintAsset In ownerBPs.Values
+                                If ownerBp.BPType <> BPType.User Then
+                                    ownerBp.Status = BPStatus.Missing
+                                Else
+                                    ownerBp.Status = BPStatus.Present
                                 End If
                             Next
                         End If
                     End If
+
+                    ' Get BP Data
+                    Call GetBpInfoFromApi()
 
                     ' Update the owner list if the option requires it
                     If chkShowOwnedBPs.Checked = True Then
@@ -4236,22 +4289,22 @@ Namespace Forms
             End If
 
         End Sub
-        Private Sub GetAssetFromNode(ByVal parentItem As EveApi.AssetItem, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef assets As SortedList(Of Long, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal prismOwner As PrismOwner)
+        Private Sub GetAssetFromNode(ByVal parentItem As EveApi.AssetItem, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef assets As SortedList(Of Long, BlueprintAsset), ByVal locationId As String, ByVal locationDetails As String, ByVal prismOwner As PrismOwner)
             Dim itemList = parentItem.Contents
             Dim itemData As EveType
-            Dim assetID As Long
-            Dim itemID As Integer
-            Dim flagID As Integer
+            Dim assetId As Long
+            Dim itemId As Integer
+            Dim flagId As Integer
             Dim flagName As String = ""
-            Dim containerID As Long = parentItem.ItemId
+            Dim containerId As Long = parentItem.ItemId
             Dim containerType As Integer = parentItem.TypeId
             For Each item In itemList
-                assetID = item.ItemId
-                itemID = item.TypeId
-                flagID = item.Flag
+                assetId = item.ItemId
+                itemId = item.TypeId
+                flagId = item.Flag
                 Dim bpcFlag As Boolean = False
-                If StaticData.Types.ContainsKey(itemID) Then
-                    itemData = StaticData.Types(itemID)
+                If StaticData.Types.ContainsKey(itemId) Then
+                    itemData = StaticData.Types(itemId)
                     ' Check for BPO/BPC
                     If itemData.Category = 9 Then
                         If item.Singleton Then
@@ -4260,38 +4313,38 @@ Namespace Forms
                             End If
                         End If
                     End If
-                    If PlugInData.AssetItemNames.ContainsKey(containerID) = True Then
-                        flagName = locationDetails & "/" & PlugInData.AssetItemNames(containerID)
+                    If PlugInData.AssetItemNames.ContainsKey(containerId) = True Then
+                        flagName = locationDetails & "/" & PlugInData.AssetItemNames(containerId)
                     Else
                         flagName = locationDetails & "/" & StaticData.Types(containerType).Name
                     End If
                     If categories.Contains(itemData.Category) Or groups.Contains(itemData.Group) Or types.Contains(itemData.Id) Then
-                        Dim newBP As New BlueprintAsset
-                        newBP.AssetID = CStr(assetID)
-                        newBP.LocationID = locationID
-                        If prismOwner.IsCorp = True And StaticData.Types(itemID).Group <> 16 Then
-                            Dim accountID As Integer = flagID + 885
-                            If accountID = 889 Then accountID = 1000
-                            If _divisions.ContainsKey(prismOwner.ID & "_" & accountID.ToString) = True Then
-                                flagName = locationDetails & "/" & CStr(_divisions.Item(prismOwner.ID & "_" & accountID.ToString))
+                        Dim newBp As New BlueprintAsset
+                        newBp.AssetID = CStr(assetId)
+                        newBp.LocationID = locationID
+                        If prismOwner.IsCorp = True And StaticData.Types(itemId).Group <> 16 Then
+                            Dim accountId As Integer = flagId + 885
+                            If accountId = 889 Then accountId = 1000
+                            If _divisions.ContainsKey(prismOwner.ID & "_" & accountId.ToString) = True Then
+                                flagName = locationDetails & "/" & CStr(_divisions.Item(prismOwner.ID & "_" & accountId.ToString))
                             End If
                         End If
-                        If newBP.BPType = BPType.Unknown Then
+                        If newBp.BPType = BPType.Unknown Then
                             If bpcFlag = True Then
-                                newBP.BPType = BPType.Copy
-                                newBP.Runs = 1
+                                newBp.BPType = BPType.Copy
+                                newBp.Runs = 1
                             Else
-                                newBP.BPType = BPType.Original
-                                newBP.Runs = -1
+                                newBp.BPType = BPType.Original
+                                newBp.Runs = -1
                             End If
                         End If
-                        newBP.LocationDetails = flagName
-                        newBP.TypeID = CStr(itemID)
-                        newBP.Status = BPStatus.Present
-                        newBP.MELevel = 0
-                        newBP.PELevel = 0
-                        newBP.Notes = ""
-                        assets.Add(assetID, newBP)
+                        newBp.LocationDetails = flagName
+                        newBp.TypeID = CStr(itemId)
+                        newBp.Status = BPStatus.Present
+                        newBp.MELevel = 0
+                        newBp.PELevel = 0
+                        newBp.Notes = ""
+                        assets.Add(assetId, newBp)
                     End If
                 End If
                 ' Check child items if they exist
@@ -4303,297 +4356,56 @@ Namespace Forms
             Next
         End Sub
 
-        Private Sub btnGetBPJobInfo_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetBPJobInfo.Click
-            ' Get the owner BPs
-            Dim ownerBPs As New SortedList(Of Long, BlueprintAsset)
+        Private Sub GetBpInfoFromApi()
+
+            Dim pOwner As PrismOwner
             If cboBPOwner.SelectedItem IsNot Nothing Then
-                Dim pOwner As String = cboBPOwner.SelectedItem.ToString()
-                ' Fetch the ownerBPs if it exists
-                If PlugInData.BlueprintAssets.ContainsKey(pOwner) = True Then
-                    ownerBPs = PlugInData.BlueprintAssets(pOwner)
-                End If
-            Else
-                MessageBox.Show("Make sure you have entered your API details and selected the correct owner before proceeding.", "Owner Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Exit Sub
-            End If
+                If PlugInData.PrismOwners.ContainsKey(cboBPOwner.SelectedItem.ToString) Then
+                    pOwner = PlugInData.PrismOwners(cboBPOwner.SelectedItem.ToString)
 
-            ' We are going to scan the whole of the Jobs API to try and find relevant IDs - no sense dicking around here, we need info!!
-            If ownerBPs IsNot Nothing Then
-                Dim cacheFolder As String = HQ.ApiCacheFolder
-                For Each cacheFile As String In My.Computer.FileSystem.GetFiles(cacheFolder, SearchOption.SearchTopLevelOnly, "EVEHQAPI_Industry*")
-                    ' Load up the XML
-                    Dim jobXML As New XmlDocument
-                    jobXML.Load(cacheFile)
-                    ' Get the Node List
-                    Dim jobs As XmlNodeList = jobXML.SelectNodes("/eveapi/result/rowset/row")
-                    For Each job As XmlNode In jobs
-                        Dim assetID As Long = CLng(job.Attributes.GetNamedItem("installedItemID").Value)
-                        If ownerBPs.ContainsKey(assetID) = True Then
-                            ' Fetch the current BP Data
-                            Dim cBPInfo As BlueprintAsset = ownerBPs(assetID)
-                            Select Case CInt(job.Attributes.GetNamedItem("activityID").Value)
-                                Case BlueprintActivity.Manufacturing
-                                    Dim runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
-                                    ' Check if the MELevel is greater than what we have
-                                    If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
-                                        cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
-                                    End If
-                                    ' Check if the PELevel is greater than what we have
-                                    If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
-                                        cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
-                                    End If
-                                    ' Check if the Runs remaining are less than what we have
-                                    Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
-                                    If initialRuns <> -1 Then
-                                        cBPInfo.BPType = BPType.Copy
-                                        If initialRuns - runs < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
-                                            cBPInfo.Runs = initialRuns - runs
-                                        End If
-                                        If cBPInfo.Runs = 0 Then
-                                            cBPInfo.Status = BPStatus.Exhausted
-                                        End If
+                    ' Fetch the ownerBPs if it exists
+                    Dim ownerBPs As New SortedList(Of Long, BlueprintAsset)
+                    If PlugInData.BlueprintAssets.ContainsKey(pOwner.Name) = True Then
+                        ownerBPs = PlugInData.BlueprintAssets(pOwner.Name)
+                    Else
+                        PlugInData.BlueprintAssets.Add(pOwner.Name, ownerBPs)
+                    End If
+                    Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.ApiCacheFolder)
+                    Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Assets)
+                    Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
+                    Dim assetXml As XmlDocument
+                    If pOwner.IsCorp = True Then
+                        assetXml = apiReq.GetAPIXML(APITypes.BlueprintsCorp, ownerAccount.ToAPIAccount, ownerId, APIReturnMethods.ReturnStandard)
+                    Else
+                        assetXml = apiReq.GetAPIXML(APITypes.BlueprintsChar, ownerAccount.ToAPIAccount, ownerId, APIReturnMethods.ReturnStandard)
+                    End If
+
+                    ' Cycle through the XML to find the blueprint details
+                    If assetXml IsNot Nothing Then
+                        Dim bpList As XmlNodeList
+                        Dim bpData As XmlNode
+                        bpList = assetXml.SelectNodes("/eveapi/result/rowset/row")
+                        If bpList.Count > 0 Then
+                            For Each bpData In bpList
+                                Dim itemId As Long = CLng(bpData.Attributes.GetNamedItem("itemID").Value)
+                                If ownerBPs.ContainsKey(itemId) Then
+                                    Dim updateBp As BlueprintAsset = ownerBPs(itemId)
+                                    updateBp.MELevel = CInt(bpData.Attributes.GetNamedItem("materialEfficiency").Value)
+                                    updateBp.PELevel = CInt(bpData.Attributes.GetNamedItem("timeEfficiency").Value)
+                                    updateBp.Runs = CInt(bpData.Attributes.GetNamedItem("runs").Value)
+                                    If updateBp.Runs = -1 Then
+                                        updateBp.BPType = BPType.Original
                                     Else
-                                        cBPInfo.BPType = BPType.Original
+                                        updateBp.BPType = BPType.Copy
                                     End If
-                                Case BlueprintActivity.ResearchProductionLevel
-                                    Dim runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
-                                    ' Check if the MELevel is greater than what we have
-                                    If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
-                                        cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
-                                    End If
-                                    ' Check if the PELevel is greater than what we have
-                                    If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) + runs > cBPInfo.PELevel Then
-                                        cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) + runs
-                                    End If
-                                    ' Check if the Runs remaining are less than what we have
-                                    Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
-                                    If initialRuns <> -1 Then
-                                        cBPInfo.BPType = BPType.Copy
-                                        If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
-                                            cBPInfo.Runs = initialRuns
-                                        End If
-                                        If cBPInfo.Runs = 0 Then
-                                            cBPInfo.Status = BPStatus.Exhausted
-                                        End If
-                                    Else
-                                        cBPInfo.BPType = BPType.Original
-                                    End If
-                                Case BlueprintActivity.ResearchMaterialLevel
-                                    Dim runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
-                                    ' Check if the MELevel is greater than what we have
-                                    If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) + runs > cBPInfo.MELevel Then
-                                        cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) + runs
-                                    End If
-                                    ' Check if the PELevel is greater than what we have
-                                    If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
-                                        cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
-                                    End If
-                                    ' Check if the Runs remaining are less than what we have
-                                    Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
-                                    If initialRuns <> -1 Then
-                                        cBPInfo.BPType = BPType.Copy
-                                        If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
-                                            cBPInfo.Runs = initialRuns
-                                        End If
-                                        If cBPInfo.Runs = 0 Then
-                                            cBPInfo.Status = BPStatus.Exhausted
-                                        End If
-                                    Else
-                                        cBPInfo.BPType = BPType.Original
-                                    End If
-                                Case BlueprintActivity.Copying
-                                    'Dim runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
-                                    ' Check if the MELevel is greater than what we have
-                                    If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
-                                        cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
-                                    End If
-                                    ' Check if the PELevel is greater than what we have
-                                    If CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value) > cBPInfo.PELevel Then
-                                        cBPInfo.PELevel = CInt(job.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
-                                    End If
-                                    ' Check if the Runs remaining are less than what we have
-                                    Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
-                                    If initialRuns <> -1 Then
-                                        cBPInfo.BPType = BPType.Copy
-                                        If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
-                                            cBPInfo.Runs = initialRuns
-                                        End If
-                                        If cBPInfo.Runs = 0 Then
-                                            cBPInfo.Status = BPStatus.Exhausted
-                                        End If
-                                    Else
-                                        cBPInfo.BPType = BPType.Original
-                                    End If
-                            End Select
-                        End If
-                    Next
-                Next
-            Else
-                MessageBox.Show("Make sure you have retrieved your Blueprint details before attempting to update them.", "Blueprints Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Exit Sub
-            End If
-
-            ' Update the owner list if the option requires it
-            If chkShowOwnedBPs.Checked = True Then
-                Call UpdateOwnerBPList()
-            End If
-        End Sub
-
-        Private Sub btnGetBPClipboardInfo_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetBPClipboardInfo.Click
-            ' Get BPs of selected owner
-            Dim pOwner As String
-            If cboBPOwner.SelectedItem IsNot Nothing Then
-                pOwner = cboBPOwner.SelectedItem.ToString()
-            Else
-                MessageBox.Show("There is no blueprint owner selected.", "Empty Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End If
-            Dim ownerBPAssets As SortedList(Of Long, BlueprintAsset)
-            If PlugInData.BlueprintAssets.ContainsKey(pOwner) Then
-                ownerBPAssets = PlugInData.BlueprintAssets(pOwner)
-            Else
-                MessageBox.Show("There were no blueprint assets found for the selected owner.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End If
-
-            ' Get data from clipboard and split it into separate blueprints
-            Dim clipboardBPs() As String = Clipboard.GetText().Split(vbCrLf.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-            If clipboardBPs.Length = 0 Then
-                MessageBox.Show("There was no blueprint data found in the clipboard.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End If
-
-            ' Check each imported blueprint for valid data
-            Dim importedBpoAssets As List(Of BlueprintAsset) = New List(Of BlueprintAsset)()
-            Dim importedBpcAssets As List(Of BlueprintAsset) = New List(Of BlueprintAsset)()
-            Dim currentBPInfo() As String
-            Dim tempMELevel As Integer
-            Dim tempPELevel As Integer
-            Dim tempRuns As Integer
-            For Each clipboardBP As String In clipboardBPs
-                currentBPInfo = clipboardBP.Split(vbTab.ToCharArray())
-                If currentBPInfo.Length <> 8 Then
-                    MessageBox.Show("There was a data row with invalid length.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-                Dim currentBP As BlueprintAsset = New BlueprintAsset()
-
-                If StaticData.TypeNames.ContainsKey(currentBPInfo(0)) = True Then
-                    currentBP.TypeID = CStr(StaticData.TypeNames(currentBPInfo(0)))
-                Else
-                    MessageBox.Show("There was a data row with invalid 'Name' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-                Select Case currentBPInfo(4)
-                    Case "Yes"
-                        currentBP.BPType = BPType.Copy
-                    Case "No"
-                        currentBP.BPType = BPType.Original
-                    Case Else
-                        MessageBox.Show("There was a data row with invalid 'Copy' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        Exit Sub
-                End Select
-                If Integer.TryParse(currentBPInfo(5).Replace(",", ""), tempMELevel) = True Then
-                    currentBP.MELevel = tempMELevel
-                Else
-                    MessageBox.Show("There was a data row with invalid 'ME' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-                If Integer.TryParse(currentBPInfo(6).Replace(",", ""), tempPELevel) = True Then
-                    currentBP.PELevel = tempPELevel
-                Else
-                    MessageBox.Show("There was a data row with invalid 'PE' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-                If Integer.TryParse(currentBPInfo(7).Replace(",", ""), tempRuns) = True Then
-                    currentBP.Runs = tempRuns
-                ElseIf currentBP.BPType <> BPType.Original Then
-                    MessageBox.Show("There was a data row with invalid 'Runs' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-
-                ' Store valid imported BPs separately by type
-                If currentBP.BPType = BPType.Original Then
-                    importedBpoAssets.Add(currentBP)
-                ElseIf currentBP.BPType = BPType.Copy Then
-                    importedBpcAssets.Add(currentBP)
-                End If
-            Next
-
-            ' Get location of imported BPs from user
-            Using selectLoc As New FrmSelectLocation
-                selectLoc.BPLocations = _bpLocations
-                selectLoc.ShowDialog()
-                Dim bpLoc As String = selectLoc.BPLocation
-                If bpLoc Is Nothing Then
-                    Exit Sub
-                End If
-                Dim includeBPOs As Boolean = selectLoc.IncludeBPOs
-
-                ' Match owned BPs at selected location to imported BPs and update their data
-                Dim unknownBPs As List(Of BlueprintAsset) = New List(Of BlueprintAsset)()
-                For Each ownedBP As BlueprintAsset In ownerBPAssets.Values
-                    If Locations.GetLocationNameFromID(CInt(ownedBP.LocationID)) = bpLoc Then
-                        Select Case ownedBP.BPType
-                            Case BPType.Original
-                                If includeBPOs = True Then
-                                    For Each impBP As BlueprintAsset In importedBpoAssets
-                                        If ownedBP.TypeID = impBP.TypeID Then
-                                            ownedBP.MELevel = impBP.MELevel
-                                            ownedBP.PELevel = impBP.PELevel
-                                            importedBpoAssets.Remove(impBP)
-                                            Exit For
-                                        End If
-                                    Next
                                 End If
-                            Case BPType.Copy
-                                For Each impBP As BlueprintAsset In importedBpcAssets
-                                    If ownedBP.TypeID = impBP.TypeID Then
-                                        ownedBP.MELevel = impBP.MELevel
-                                        ownedBP.PELevel = impBP.PELevel
-                                        ownedBP.Runs = impBP.Runs
-                                        importedBpcAssets.Remove(impBP)
-                                        Exit For
-                                    End If
-                                Next
-                            Case BPType.Unknown
-                                unknownBPs.Add(ownedBP)
-                        End Select
-                    End If
-                Next
-
-                ' Match and update remaining BPs of unknown BP type
-                For Each ownedBP As BlueprintAsset In unknownBPs
-                    ' Check imported BPCs
-                    For Each impBP As BlueprintAsset In importedBpcAssets
-                        If ownedBP.TypeID = impBP.TypeID Then
-                            ownedBP.BPType = impBP.BPType
-                            ownedBP.MELevel = impBP.MELevel
-                            ownedBP.PELevel = impBP.PELevel
-                            ownedBP.Runs = impBP.Runs
-                            importedBpcAssets.Remove(impBP)
-                            Exit For
+                            Next
                         End If
-                    Next
-                    ' Check imported BPOs if no match was found in BPCs
-                    If ownedBP.BPType = BPType.Unknown And includeBPOs = True Then
-                        For Each impBP As BlueprintAsset In importedBpoAssets
-                            If ownedBP.TypeID = impBP.TypeID Then
-                                ownedBP.BPType = impBP.BPType
-                                ownedBP.MELevel = impBP.MELevel
-                                ownedBP.PELevel = impBP.PELevel
-                                importedBpoAssets.Remove(impBP)
-                                Exit For
-                            End If
-                        Next
                     End If
-                Next
-            End Using
 
-            ' Update the owner list if the option requires it
-            If chkShowOwnedBPs.Checked = True Then
-                Call UpdateOwnerBPList()
+                End If
             End If
+
         End Sub
 
         Private Sub ctxBPManager_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxBPManager.Opening
@@ -4601,9 +4413,9 @@ Namespace Forms
                 mnuSendToBPCalc.Enabled = True
                 ' Get the blueprint info
                 If chkShowOwnedBPs.Checked = True Then
-                    Dim assetID As Long = CLng(adtBlueprints.SelectedNodes(0).Tag)
+                    Dim assetId As Long = CLng(adtBlueprints.SelectedNodes(0).Tag)
                     Dim bpOwner As String = cboBPOwner.SelectedItem.ToString
-                    Dim asset As BlueprintAsset = PlugInData.BlueprintAssets(bpOwner).Item(assetID)
+                    Dim asset As BlueprintAsset = PlugInData.BlueprintAssets(bpOwner).Item(assetId)
                     If asset.AssetID = asset.TypeID Then
                         ' Custom BP
                         mnuRemoveCustomBP.Text = "Remove Custom Blueprint"
@@ -4647,7 +4459,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub OpenBPCalculator(ByVal bpCalc As FrmBPCalculator)
+        Private Sub OpenBpCalculator(ByVal bpCalc As FrmBPCalculator)
             bpCalc.Location = New Point(CInt(ParentForm.Left + ((ParentForm.Width - bpCalc.Width) / 2)), CInt(ParentForm.Top + ((ParentForm.Height - bpCalc.Height) / 2)))
             bpCalc.Show()
         End Sub
@@ -4742,7 +4554,33 @@ Namespace Forms
 
         Private Sub cboCategoryFilter_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboCategoryFilter.SelectedIndexChanged
             If _startup = False And _bpManagerUpdate = False Then
-                Call UpdateBPList()
+                ' Update the group filter list
+                cboGroupFilter.BeginUpdate()
+                cboGroupFilter.Items.Clear()
+                cboGroupFilter.Items.Add("All")
+                _bpManagerGroups.Clear()
+                Dim catId As Integer = PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString)
+                For Each bpi As EveData.Blueprint In StaticData.Blueprints.Values
+                    If StaticData.Types.ContainsKey(bpi.ProductId) Then
+                        If catId = StaticData.Types(bpi.ProductId).Category Then
+                            If _bpManagerGroups.ContainsKey(StaticData.TypeGroups(StaticData.Types(bpi.ProductId).Group)) = False Then
+                                _bpManagerGroups.Add(StaticData.TypeGroups(StaticData.Types(bpi.ProductId).Group), StaticData.Types(bpi.ProductId).Group)
+                            End If
+                        End If
+                    End If
+                Next
+                For Each group As String In _bpManagerGroups.Keys
+                    cboGroupFilter.Items.Add(group)
+                Next
+                cboGroupFilter.EndUpdate()
+                cboGroupFilter.SelectedIndex = 0
+                Call UpdateBpList()
+            End If
+        End Sub
+
+        Private Sub cboGroupFilter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboGroupFilter.SelectedIndexChanged
+            If _startup = False And _bpManagerUpdate = False Then
+                Call UpdateBpList()
             End If
         End Sub
 
@@ -4801,9 +4639,9 @@ Namespace Forms
 
         Private Sub mnuTransactionModifyPrice_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuTransactionModifyPrice.Click
             If mnuTransactionModifyPrice.Tag IsNot Nothing Then
-                Dim itemID As Integer = CInt(mnuTransactionModifyPrice.Tag)
+                Dim itemId As Integer = CInt(mnuTransactionModifyPrice.Tag)
                 Dim price As Double = Double.Parse(adtTransactions.SelectedNodes(0).Cells(3).Text, NumberStyles.Any, _culture)
-                Using newPrice As New FrmModifyPrice(itemID, price)
+                Using newPrice As New FrmModifyPrice(itemId, price)
                     newPrice.ShowDialog()
                 End Using
             End If
@@ -5098,7 +4936,7 @@ Namespace Forms
                     ' Get the name and ID
                     Dim itemName As String = adtSearch.SelectedNodes(0).Name
                     If StaticData.TypeNames.ContainsKey(itemName) = True Then
-                        Dim itemID As Integer = StaticData.TypeNames(itemName)
+                        Dim itemId As Integer = StaticData.TypeNames(itemName)
 
                         ' See if we have a blueprint
                         Dim bpName As String = ""
@@ -5109,10 +4947,10 @@ Namespace Forms
                                 bpid = StaticData.TypeNames(bpName)
                             End If
                         Else
-                            bpid = itemID
+                            bpid = itemId
                             bpName = itemName
-                            itemID = StaticData.Blueprints(CInt(bpid)).ProductId
-                            itemName = StaticData.Types(itemID).Name
+                            itemId = StaticData.Blueprints(CInt(bpid)).ProductId
+                            itemName = StaticData.Types(itemId).Name
                         End If
 
                         lblSelectedItem.Text = "Item: " & itemName
@@ -5161,7 +4999,7 @@ Namespace Forms
             Select Case e.Node.TagString
                 Case "Item"
                     Dim itemName As String = keyName
-                    Dim itemID As Integer
+                    Dim itemId As Integer
                     ' See if we have a blueprint
                     Dim bpName As String = ""
                     Dim bpid As Integer
@@ -5171,9 +5009,9 @@ Namespace Forms
                             bpid = StaticData.TypeNames(bpName)
                         End If
                     Else
-                        itemID = StaticData.Blueprints(CInt(bpid)).ProductId
-                        itemName = StaticData.Types(itemID).Name
-                        bpid = itemID
+                        itemId = StaticData.Blueprints(CInt(bpid)).ProductId
+                        itemName = StaticData.Types(itemId).Name
+                        bpid = itemId
                         bpName = itemName
                     End If
                     If bpid <> 0 Then
@@ -5614,7 +5452,7 @@ Namespace Forms
                 Dim reportTitle As String = reportName & "<br />from " & startDate.ToLongDateString & " to " & endDate.AddDays(-1).ToLongDateString
 
                 ' Create the report title
-                Dim strHTML As String = PrismReports.HTMLHeader("Prism Report - " & reportName, reportTitle)
+                Dim strHtml As String = PrismReports.HTMLHeader("Prism Report - " & reportName, reportTitle)
 
                 ' Build the Owners List
                 Dim ownerNames As New List(Of String)
@@ -5628,78 +5466,78 @@ Namespace Forms
                     Case "Income Report"
                         Dim reportData As DataSet = PrismReports.GetJournalReportData(startDate, endDate, ownerNames)
                         Dim result As ReportResult = PrismReports.GenerateIncomeReportBodyHTML(PrismReports.GenerateIncomeAnalysis(reportData))
-                        strHTML &= result.HTML
+                        strHtml &= result.HTML
 
                     Case "Expenditure Report"
                         Dim reportData As DataSet = PrismReports.GetJournalReportData(startDate, endDate, ownerNames)
                         Dim result As ReportResult = PrismReports.GenerateExpenseReportBodyHTML(PrismReports.GenerateExpenseAnalysis(reportData))
-                        strHTML &= result.HTML
+                        strHtml &= result.HTML
 
                     Case "Income & Expenditure Report"
                         Dim reportData As DataSet = PrismReports.GetJournalReportData(startDate, endDate, ownerNames)
                         Dim result As ReportResult = PrismReports.GenerateIncomeReportBodyHTML(PrismReports.GenerateIncomeAnalysis(reportData))
-                        strHTML &= result.HTML
+                        strHtml &= result.HTML
                         Dim incomeTotal As Double = CDbl(result.Values("Total Income"))
                         Dim eResult As ReportResult = PrismReports.GenerateExpenseReportBodyHTML(PrismReports.GenerateExpenseAnalysis(reportData))
-                        strHTML &= eResult.HTML
+                        strHtml &= eResult.HTML
                         Dim expenditureTotal As Double = CDbl(eResult.Values("Total Expenditure"))
                         Dim cResult As ReportResult = PrismReports.GenerateCashFlowReportBodyHTML(incomeTotal, expenditureTotal)
-                        strHTML &= cResult.HTML
+                        strHtml &= cResult.HTML
                         Dim mResult As ReportResult = PrismReports.GenerateMovementReportBodyHTML(PrismReports.GenerateOwnerMovements(reportData))
-                        strHTML &= mResult.HTML
+                        strHtml &= mResult.HTML
 
                     Case "Corporation Tax Report"
                         Dim reportData As DataSet = PrismReports.GetJournalReportData(startDate, endDate, ownerNames)
                         Dim result As ReportResult = PrismReports.GenerateCorpTaxReportBodyHTML(PrismReports.GenerateCorpTaxAnalysis(reportData))
-                        strHTML &= result.HTML
+                        strHtml &= result.HTML
 
                     Case "Transaction Sales Report"
                         Dim reportData As DataSet = PrismReports.GetTransactionReportData(startDate, endDate, ownerNames)
                         Dim result As ReportResult = PrismReports.GenerateSalesReportBodyHTML(PrismReports.GenerateTransactionSalesAnalysis(reportData))
-                        strHTML &= result.HTML
+                        strHtml &= result.HTML
 
                     Case "Transaction Purchases Report"
                         Dim reportData As DataSet = PrismReports.GetTransactionReportData(startDate, endDate, ownerNames)
                         Dim result As ReportResult = PrismReports.GeneratePurchasesReportBodyHTML(PrismReports.GenerateTransactionPurchasesAnalysis(reportData))
-                        strHTML &= result.HTML
+                        strHtml &= result.HTML
 
                     Case "Transaction Trading Report"
                         Dim reportData As DataSet = PrismReports.GetTransactionReportData(startDate, endDate, ownerNames)
                         Dim result As ReportResult = PrismReports.GenerateTradingProfitReportBodyHTML(PrismReports.GenerateTransactionProfitAnalysis(reportData))
-                        strHTML &= result.HTML
+                        strHtml &= result.HTML
 
                     Case "Journal Income Type Analysis"
                         ' Get the RefTypeID
-                        Dim refTypeID As String = CType(cboReportJournalType.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems(0).Name
+                        Dim refTypeId As String = CType(cboReportJournalType.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems(0).Name
                         Dim reportData As DataSet = PrismReports.GetJournalReportData(startDate, endDate, ownerNames)
                         Dim result As ReportResult
-                        Select Case refTypeID
+                        Select Case refTypeId
                             Case "37"
-                                result = PrismReports.GenerateJournalTypeIncomeReportBodyHTML(refTypeID, PrismReports.GenerateJournalTypeIncomeAnalysis(reportData, refTypeID, JournalKeyTypes.OwnerName2))
+                                result = PrismReports.GenerateJournalTypeIncomeReportBodyHTML(refTypeId, PrismReports.GenerateJournalTypeIncomeAnalysis(reportData, refTypeId, JournalKeyTypes.OwnerName2))
                             Case Else
-                                result = PrismReports.GenerateJournalTypeIncomeReportBodyHTML(refTypeID, PrismReports.GenerateJournalTypeIncomeAnalysis(reportData, refTypeID, JournalKeyTypes.OwnerName1))
+                                result = PrismReports.GenerateJournalTypeIncomeReportBodyHTML(refTypeId, PrismReports.GenerateJournalTypeIncomeAnalysis(reportData, refTypeId, JournalKeyTypes.OwnerName1))
                         End Select
-                        strHTML &= result.HTML
+                        strHtml &= result.HTML
 
                     Case "Journal Expenditure Type Analysis"
                         ' Get the RefTypeID
-                        Dim refTypeID As String = CType(cboReportJournalType.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems(0).Name
+                        Dim refTypeId As String = CType(cboReportJournalType.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems(0).Name
                         Dim reportData As DataSet = PrismReports.GetJournalReportData(startDate, endDate, ownerNames)
                         Dim result As ReportResult
-                        Select Case refTypeID
+                        Select Case refTypeId
                             Case "37", "13"
-                                result = PrismReports.GenerateJournalTypeExpenditureReportBodyHTML(refTypeID, PrismReports.GenerateJournalTypeExpenditureAnalysis(reportData, refTypeID, JournalKeyTypes.OwnerName2))
+                                result = PrismReports.GenerateJournalTypeExpenditureReportBodyHTML(refTypeId, PrismReports.GenerateJournalTypeExpenditureAnalysis(reportData, refTypeId, JournalKeyTypes.OwnerName2))
                             Case Else
-                                result = PrismReports.GenerateJournalTypeExpenditureReportBodyHTML(refTypeID, PrismReports.GenerateJournalTypeExpenditureAnalysis(reportData, refTypeID, JournalKeyTypes.OwnerName1))
+                                result = PrismReports.GenerateJournalTypeExpenditureReportBodyHTML(refTypeId, PrismReports.GenerateJournalTypeExpenditureAnalysis(reportData, refTypeId, JournalKeyTypes.OwnerName1))
                         End Select
-                        strHTML &= result.HTML
+                        strHtml &= result.HTML
 
                 End Select
 
                 ' Save and navigate to the report
                 Dim reportFileName As String = Path.Combine(HQ.ReportFolder, reportName.Replace(" ", "") & ".html")
                 Dim sw As StreamWriter = New StreamWriter(reportFileName)
-                sw.Write(strHTML)
+                sw.Write(strHtml)
                 sw.Flush()
                 sw.Close()
                 wbReport.Navigate(reportFileName)
@@ -5723,14 +5561,14 @@ Namespace Forms
                 If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
                     pOwner = PlugInData.PrismOwners(cOwner.Text)
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.Assets)
-                    Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
+                    Dim ownerId As String = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
 
                     If ownerAccount IsNot Nothing Then
                         Dim assetData As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
                         If pOwner.IsCorp = True Then
-                            assetData = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
+                            assetData = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerId.ToInt32())
                         Else
-                            assetData = HQ.ApiProvider.Character.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
+                            assetData = HQ.ApiProvider.Character.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerId.ToInt32())
                         End If
 
                         If assetData.IsSuccess Then
@@ -5739,8 +5577,8 @@ Namespace Forms
                                 For Each item In locList
                                     Dim typeId As Integer = item.TypeId
                                     If StaticData.Types.ContainsKey(typeId) = True Then
-                                        Dim groupID As String = StaticData.Types(typeId).Group.ToString
-                                        If CLng(groupID) = 754 Then
+                                        Dim groupId As String = StaticData.Types(typeId).Group.ToString
+                                        If CLng(groupId) = 754 Then
 
                                             Dim quantity As Long = item.Quantity
                                             If _salvageList.ContainsKey(typeId) = False Then
@@ -5768,15 +5606,15 @@ Namespace Forms
             Dim subLocList = parentItem.Contents
             For Each item In subLocList
                 Try
-                    Dim itemID As Integer = item.TypeId
-                    If StaticData.Types.ContainsKey(itemID) = True Then
-                        Dim groupID As String = StaticData.Types(itemID).Group.ToString
-                        If CLng(groupID) = 754 Then
+                    Dim itemId As Integer = item.TypeId
+                    If StaticData.Types.ContainsKey(itemId) = True Then
+                        Dim groupId As String = StaticData.Types(itemId).Group.ToString
+                        If CLng(groupId) = 754 Then
                             Dim quantity As Long = item.Quantity
-                            If salvageList.ContainsKey(itemID) = False Then
-                                salvageList.Add(itemID, quantity)
+                            If salvageList.ContainsKey(itemId) = False Then
+                                salvageList.Add(itemId, quantity)
                             Else
-                                salvageList.Item(itemID) = CLng(salvageList.Item(itemID)) + quantity
+                                salvageList.Item(itemId) = CLng(salvageList.Item(itemId)) + quantity
                             End If
                         End If
                     End If
@@ -5807,18 +5645,18 @@ Namespace Forms
             For Each item As EveType In items
                 bpName = item.Name.TrimEnd(" Blueprint".ToCharArray)
                 _rigBPData.Add(bpName, New SortedList(Of Integer, Long))
-                Dim rigBP As EveData.Blueprint = StaticData.Blueprints(item.Id)
-                For Each br As EveData.BlueprintResource In rigBP.Resources(1).Values
+                Dim rigBp As EveData.Blueprint = StaticData.Blueprints(item.Id)
+                For Each br As EveData.BlueprintResource In rigBp.Resources(1).Values
                     ' Check if the resource is salvage
                     If br.TypeGroup = 754 Then
-                        _rigBPData(bpName).Add(br.TypeId, br.Quantity)
+                        _rigBpData(bpName).Add(br.TypeId, br.Quantity)
                     End If
                 Next
             Next
 
         End Sub
         Private Sub GetBuildList()
-            Dim buildableBP As Boolean
+            Dim buildableBp As Boolean
             Dim material As Integer
             Dim minQuantity As Double
             Dim buildCost As Double
@@ -5830,7 +5668,7 @@ Namespace Forms
             Dim bpCosts As Dictionary(Of Integer, Double) = bpCostsTask.Result
             For Each blueprint As String In _rigBPData.Keys
                 If StaticData.TypeNames.ContainsKey(blueprint) = True Then
-                    buildableBP = True
+                    buildableBp = True
                     minQuantity = 1.0E+99
                     buildCost = 0
                     ' Fetch the build requirements
@@ -5844,16 +5682,16 @@ Namespace Forms
                                 minQuantity = Math.Min(minQuantity, (CDbl(_salvageList(material)) / CDbl(_rigBuildData(material))))
                             Else
                                 ' We are lacking
-                                buildableBP = False
+                                buildableBp = False
                                 Exit For
                             End If
                         Else
-                            buildableBP = False
+                            buildableBp = False
                             Exit For
                         End If
                     Next
                     ' Find the results
-                    If buildableBP = True Then
+                    If buildableBp = True Then
                         ' Caluclate the build cost
                         Dim costTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(_rigBuildData.Keys)
                         costTask.Wait()
@@ -5863,22 +5701,22 @@ Namespace Forms
                             buildCost += CInt(_rigBuildData(material)) * costs(material)
                         Next
                         rigCost = bpCosts(StaticData.TypeNames(blueprint))
-                        Dim lviBP2 As New Node
-                        lviBP2.Text = blueprint
+                        Dim lviBp2 As New Node
+                        lviBp2.Text = blueprint
                         Dim qty As Integer = CInt(Int(minQuantity))
-                        lviBP2.Cells.Add(New Cell(qty.ToString("N0")))
-                        lviBP2.Cells.Add(New Cell(rigCost.ToString("N2")))
-                        lviBP2.Cells.Add(New Cell(buildCost.ToString("N2")))
-                        lviBP2.Cells.Add(New Cell((rigCost - buildCost).ToString("N2")))
-                        lviBP2.Cells.Add(New Cell((qty * rigCost).ToString("N2")))
-                        lviBP2.Cells.Add(New Cell((qty * buildCost).ToString("N2")))
-                        lviBP2.Cells.Add(New Cell((qty * (rigCost - buildCost)).ToString("N2")))
+                        lviBp2.Cells.Add(New Cell(qty.ToString("N0")))
+                        lviBp2.Cells.Add(New Cell(rigCost.ToString("N2")))
+                        lviBp2.Cells.Add(New Cell(buildCost.ToString("N2")))
+                        lviBp2.Cells.Add(New Cell((rigCost - buildCost).ToString("N2")))
+                        lviBp2.Cells.Add(New Cell((qty * rigCost).ToString("N2")))
+                        lviBp2.Cells.Add(New Cell((qty * buildCost).ToString("N2")))
+                        lviBp2.Cells.Add(New Cell((qty * (rigCost - buildCost)).ToString("N2")))
                         If qty = 0 Or rigCost = 0 Then
-                            lviBP2.Cells.Add(New Cell(CInt(0).ToString("N2")))
+                            lviBp2.Cells.Add(New Cell(CInt(0).ToString("N2")))
                         Else
-                            lviBP2.Cells.Add(New Cell((qty * (rigCost - buildCost) / (qty * rigCost) * 100).ToString("N2")))
+                            lviBp2.Cells.Add(New Cell((qty * (rigCost - buildCost) / (qty * rigCost) * 100).ToString("N2")))
                         End If
-                        adtRigs.Nodes.Add(lviBP2)
+                        adtRigs.Nodes.Add(lviBp2)
                     End If
                 End If
             Next
@@ -6001,8 +5839,8 @@ Namespace Forms
         End Sub
 
         Private Sub DisplayInventionResults()
-            Dim strSQL As String = "SELECT * FROM inventionResults"
-            strSQL &= " WHERE inventionResults.resultDate >= '" & dtiInventionStartDate.Value.ToString(PrismTimeFormat, _culture) & "' AND inventionResults.resultDate <= '" & dtiInventionEndDate.Value.ToString(PrismTimeFormat, _culture) & "'"
+            Dim strSql As String = "SELECT * FROM inventionResults"
+            strSql &= " WHERE inventionResults.resultDate >= '" & dtiInventionStartDate.Value.ToString(PrismTimeFormat, _culture) & "' AND inventionResults.resultDate <= '" & dtiInventionEndDate.Value.ToString(PrismTimeFormat, _culture) & "'"
 
             ' Build the Owners List
             If cboInventionInstallers.Text <> "<All>" Then
@@ -6014,7 +5852,7 @@ Namespace Forms
                     ownerList.Remove(0, 2)
                 End If
                 ' Default to None
-                strSQL &= " AND inventionResults.installerName IN (" & ownerList.ToString & ")"
+                strSql &= " AND inventionResults.installerName IN (" & ownerList.ToString & ")"
             End If
 
             ' Filter item type
@@ -6026,15 +5864,15 @@ Namespace Forms
                 Next
                 If itemTypeList.Length > 2 Then
                     itemTypeList.Remove(0, 2)
-                    strSQL &= " AND inventionResults.typeName IN (" & itemTypeList.ToString & ")"
+                    strSql &= " AND inventionResults.typeName IN (" & itemTypeList.ToString & ")"
                 End If
             End If
 
             ' Order the data
-            strSQL &= " ORDER BY inventionResults.resultDate ASC;"
+            strSql &= " ORDER BY inventionResults.resultDate ASC;"
 
             ' Get the data
-            Dim jobList As SortedList(Of Long, InventionAPIJob) = InventionAPIJob.ParseInventionJobsFromDB(strSQL)
+            Dim jobList As SortedList(Of Long, InventionAPIJob) = InventionAPIJob.ParseInventionJobsFromDB(strSql)
 
             ' Populate the list
             adtInventionResults.BeginUpdate()

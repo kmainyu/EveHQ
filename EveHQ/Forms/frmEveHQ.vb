@@ -2196,14 +2196,14 @@ Namespace Forms
 
         Public Sub UpdateEveMailButton()
 
-            Dim strSQL As String
+            Dim strSql As String
             Dim mailData As DataSet
             Dim unreadMail As Integer = 0
 
             ' Get a list of the mail messages that are unread
             Try
-                strSQL = "SELECT COUNT(*) FROM eveMail WHERE readMail=0;"
-                mailData = CustomDataFunctions.GetCustomData(strSQL)
+                strSql = "SELECT COUNT(*) FROM eveMail WHERE readMail=0;"
+                mailData = CustomDataFunctions.GetCustomData(strSql)
                 If mailData IsNot Nothing Then
                     If mailData.Tables(0).Rows.Count > 0 Then
                         unreadMail = CInt(mailData.Tables(0).Rows(0).Item(0))
@@ -2218,8 +2218,8 @@ Namespace Forms
             End Try
 
             ' Get a list of the notifications that are unread
-            strSQL = "SELECT COUNT(*) FROM eveNotifications WHERE readMail=0;"
-            mailData = CustomDataFunctions.GetCustomData(strSQL)
+            strSql = "SELECT COUNT(*) FROM eveNotifications WHERE readMail=0;"
+            mailData = CustomDataFunctions.GetCustomData(strSql)
             Dim unreadNotices As Integer = 0
             If mailData IsNot Nothing Then
                 If mailData.Tables(0).Rows.Count > 0 Then
@@ -2609,7 +2609,7 @@ Namespace Forms
 
         Private Sub btnViewHistory_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnViewHistory.Click
             Try
-                Process.Start("http://evehq.net/wiki/doku.php?id=guide:history")
+                Process.Start("http://wiki.newedentech.com/doku.php?id=evehq:versionhistory:version_history_2.x")
             Catch ex As Exception
                 ' Guess the user needs to reset the http protocol in the OS - not much EveHQ can do here!
             End Try

@@ -29,9 +29,9 @@ Namespace Forms
             Me.wbHelp = New System.Windows.Forms.WebBrowser()
             Me.pnlFeedItems = New DevComponents.DotNetBar.PanelEx()
             Me.pnlTwitterFeed = New DevComponents.DotNetBar.Controls.GroupPanel()
-            Me.pbTwitterUpdate = New System.Windows.Forms.PictureBox()
-            Me.pnlTwitterFeedItems = New DevComponents.DotNetBar.PanelEx()
-            Me.lblTwitterFeed = New DevComponents.DotNetBar.LabelX()
+            Me.pbForumUpdate = New System.Windows.Forms.PictureBox()
+            Me.pnlForumFeedItems = New DevComponents.DotNetBar.PanelEx()
+            Me.lblForumFeed = New DevComponents.DotNetBar.LabelX()
             Me.pnlBlogFeed = New DevComponents.DotNetBar.Controls.GroupPanel()
             Me.pbBlogUpdate = New System.Windows.Forms.PictureBox()
             Me.pnlBlogFeedItems = New DevComponents.DotNetBar.PanelEx()
@@ -41,7 +41,7 @@ Namespace Forms
             Me.pnlHelp.SuspendLayout()
             Me.pnlFeedItems.SuspendLayout()
             Me.pnlTwitterFeed.SuspendLayout()
-            CType(Me.pbTwitterUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.pbForumUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.pnlBlogFeed.SuspendLayout()
             CType(Me.pbBlogUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
@@ -52,6 +52,7 @@ Namespace Forms
             Me.pnlHelp.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
             Me.pnlHelp.Controls.Add(Me.wbHelp)
             Me.pnlHelp.Controls.Add(Me.pnlFeedItems)
+            Me.pnlHelp.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlHelp.Dock = System.Windows.Forms.DockStyle.Fill
             Me.pnlHelp.Location = New System.Drawing.Point(0, 0)
             Me.pnlHelp.Name = "pnlHelp"
@@ -80,6 +81,7 @@ Namespace Forms
             Me.pnlFeedItems.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
             Me.pnlFeedItems.Controls.Add(Me.pnlTwitterFeed)
             Me.pnlFeedItems.Controls.Add(Me.pnlBlogFeed)
+            Me.pnlFeedItems.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlFeedItems.Dock = System.Windows.Forms.DockStyle.Left
             Me.pnlFeedItems.Location = New System.Drawing.Point(0, 0)
             Me.pnlFeedItems.Name = "pnlFeedItems"
@@ -97,9 +99,10 @@ Namespace Forms
             '
             Me.pnlTwitterFeed.CanvasColor = System.Drawing.SystemColors.Control
             Me.pnlTwitterFeed.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.pnlTwitterFeed.Controls.Add(Me.pbTwitterUpdate)
-            Me.pnlTwitterFeed.Controls.Add(Me.pnlTwitterFeedItems)
-            Me.pnlTwitterFeed.Controls.Add(Me.lblTwitterFeed)
+            Me.pnlTwitterFeed.Controls.Add(Me.pbForumUpdate)
+            Me.pnlTwitterFeed.Controls.Add(Me.pnlForumFeedItems)
+            Me.pnlTwitterFeed.Controls.Add(Me.lblForumFeed)
+            Me.pnlTwitterFeed.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlTwitterFeed.Dock = System.Windows.Forms.DockStyle.Fill
             Me.pnlTwitterFeed.IsShadowEnabled = True
             Me.pnlTwitterFeed.Location = New System.Drawing.Point(0, 400)
@@ -135,56 +138,57 @@ Namespace Forms
             Me.pnlTwitterFeed.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.pnlTwitterFeed.TabIndex = 1
             '
-            'pbTwitterUpdate
+            'pbForumUpdate
             '
-            Me.pbTwitterUpdate.BackColor = System.Drawing.Color.LightSteelBlue
-            Me.pbTwitterUpdate.Image = CType(resources.GetObject("pbTwitterUpdate.Image"), System.Drawing.Image)
-            Me.pbTwitterUpdate.Location = New System.Drawing.Point(315, 6)
-            Me.pbTwitterUpdate.Name = "pbTwitterUpdate"
-            Me.pbTwitterUpdate.Size = New System.Drawing.Size(16, 16)
-            Me.pbTwitterUpdate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-            Me.pbTwitterUpdate.TabIndex = 2
-            Me.pbTwitterUpdate.TabStop = False
-            Me.pbTwitterUpdate.Visible = False
+            Me.pbForumUpdate.BackColor = System.Drawing.Color.LightSteelBlue
+            Me.pbForumUpdate.Image = CType(resources.GetObject("pbForumUpdate.Image"), System.Drawing.Image)
+            Me.pbForumUpdate.Location = New System.Drawing.Point(315, 6)
+            Me.pbForumUpdate.Name = "pbForumUpdate"
+            Me.pbForumUpdate.Size = New System.Drawing.Size(16, 16)
+            Me.pbForumUpdate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+            Me.pbForumUpdate.TabIndex = 2
+            Me.pbForumUpdate.TabStop = False
+            Me.pbForumUpdate.Visible = False
             '
-            'pnlTwitterFeedItems
+            'pnlForumFeedItems
             '
-            Me.pnlTwitterFeedItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                                    Or System.Windows.Forms.AnchorStyles.Left) _
-                                                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.pnlTwitterFeedItems.AutoScroll = True
-            Me.pnlTwitterFeedItems.CanvasColor = System.Drawing.SystemColors.Control
-            Me.pnlTwitterFeedItems.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.pnlTwitterFeedItems.Location = New System.Drawing.Point(3, 32)
-            Me.pnlTwitterFeedItems.Name = "pnlTwitterFeedItems"
-            Me.pnlTwitterFeedItems.Size = New System.Drawing.Size(342, 323)
-            Me.pnlTwitterFeedItems.Style.Alignment = System.Drawing.StringAlignment.Center
-            Me.pnlTwitterFeedItems.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-            Me.pnlTwitterFeedItems.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-            Me.pnlTwitterFeedItems.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.pnlTwitterFeedItems.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.pnlTwitterFeedItems.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-            Me.pnlTwitterFeedItems.Style.GradientAngle = 90
-            Me.pnlTwitterFeedItems.TabIndex = 2
+            Me.pnlForumFeedItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.pnlForumFeedItems.AutoScroll = True
+            Me.pnlForumFeedItems.CanvasColor = System.Drawing.SystemColors.Control
+            Me.pnlForumFeedItems.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.pnlForumFeedItems.DisabledBackColor = System.Drawing.Color.Empty
+            Me.pnlForumFeedItems.Location = New System.Drawing.Point(3, 32)
+            Me.pnlForumFeedItems.Name = "pnlForumFeedItems"
+            Me.pnlForumFeedItems.Size = New System.Drawing.Size(342, 323)
+            Me.pnlForumFeedItems.Style.Alignment = System.Drawing.StringAlignment.Center
+            Me.pnlForumFeedItems.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+            Me.pnlForumFeedItems.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+            Me.pnlForumFeedItems.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.pnlForumFeedItems.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.pnlForumFeedItems.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+            Me.pnlForumFeedItems.Style.GradientAngle = 90
+            Me.pnlForumFeedItems.TabIndex = 2
             '
-            'lblTwitterFeed
+            'lblForumFeed
             '
-            Me.lblTwitterFeed.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                                              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.lblTwitterFeed.BackColor = System.Drawing.Color.LightSteelBlue
+            Me.lblForumFeed.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.lblForumFeed.BackColor = System.Drawing.Color.LightSteelBlue
             '
             '
             '
-            Me.lblTwitterFeed.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.lblTwitterFeed.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.lblTwitterFeed.Image = CType(resources.GetObject("lblTwitterFeed.Image"), System.Drawing.Image)
-            Me.lblTwitterFeed.Location = New System.Drawing.Point(3, 3)
-            Me.lblTwitterFeed.Name = "lblTwitterFeed"
-            Me.lblTwitterFeed.Size = New System.Drawing.Size(342, 23)
-            Me.lblTwitterFeed.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.SuperTooltip1.SetSuperTooltip(Me.lblTwitterFeed, New DevComponents.DotNetBar.SuperTooltipInfo("", "", "Double-click to refresh the EveHQ Twitter Feed", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
-            Me.lblTwitterFeed.TabIndex = 1
-            Me.lblTwitterFeed.Text = "EveHQ Twitter Feed"
+            Me.lblForumFeed.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.lblForumFeed.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.lblForumFeed.Image = CType(resources.GetObject("lblForumFeed.Image"), System.Drawing.Image)
+            Me.lblForumFeed.Location = New System.Drawing.Point(3, 3)
+            Me.lblForumFeed.Name = "lblForumFeed"
+            Me.lblForumFeed.Size = New System.Drawing.Size(342, 23)
+            Me.lblForumFeed.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.SuperTooltip1.SetSuperTooltip(Me.lblForumFeed, New DevComponents.DotNetBar.SuperTooltipInfo("", "", "Double-click to refresh the EveHQ Twitter Feed", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            Me.lblForumFeed.TabIndex = 1
+            Me.lblForumFeed.Text = "New Eden Tech Forum Feed"
             '
             'pnlBlogFeed
             '
@@ -193,6 +197,7 @@ Namespace Forms
             Me.pnlBlogFeed.Controls.Add(Me.pbBlogUpdate)
             Me.pnlBlogFeed.Controls.Add(Me.pnlBlogFeedItems)
             Me.pnlBlogFeed.Controls.Add(Me.lblBlogFeed)
+            Me.pnlBlogFeed.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlBlogFeed.Dock = System.Windows.Forms.DockStyle.Top
             Me.pnlBlogFeed.IsShadowEnabled = True
             Me.pnlBlogFeed.Location = New System.Drawing.Point(0, 0)
@@ -243,11 +248,12 @@ Namespace Forms
             'pnlBlogFeedItems
             '
             Me.pnlBlogFeedItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                                 Or System.Windows.Forms.AnchorStyles.Left) _
-                                                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.pnlBlogFeedItems.AutoScroll = True
             Me.pnlBlogFeedItems.CanvasColor = System.Drawing.SystemColors.Control
             Me.pnlBlogFeedItems.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.pnlBlogFeedItems.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlBlogFeedItems.Location = New System.Drawing.Point(3, 32)
             Me.pnlBlogFeedItems.Name = "pnlBlogFeedItems"
             Me.pnlBlogFeedItems.Size = New System.Drawing.Size(342, 363)
@@ -263,7 +269,7 @@ Namespace Forms
             'lblBlogFeed
             '
             Me.lblBlogFeed.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                                           Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.lblBlogFeed.BackColor = System.Drawing.Color.LightSteelBlue
             '
             '
@@ -277,7 +283,7 @@ Namespace Forms
             Me.lblBlogFeed.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
             Me.SuperTooltip1.SetSuperTooltip(Me.lblBlogFeed, New DevComponents.DotNetBar.SuperTooltipInfo("", "", "Double-click to refresh the EveHQ Blog Feed", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.lblBlogFeed.TabIndex = 0
-            Me.lblBlogFeed.Text = "EveHQ Blog Feed"
+            Me.lblBlogFeed.Text = "New Eden Tech Blog Feed"
             '
             'tmrUpdate
             '
@@ -285,9 +291,10 @@ Namespace Forms
             '
             'SuperTooltip1
             '
+            Me.SuperTooltip1.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Gray)
             Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             '
-            'frmHelp
+            'FrmHelp
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -296,13 +303,13 @@ Namespace Forms
             Me.DoubleBuffered = True
             Me.EnableGlass = False
             Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.Name = "frmHelp"
+            Me.Name = "FrmHelp"
             Me.Text = "EveHQ Help and Infomation"
             Me.pnlHelp.ResumeLayout(False)
             Me.pnlFeedItems.ResumeLayout(False)
             Me.pnlTwitterFeed.ResumeLayout(False)
             Me.pnlTwitterFeed.PerformLayout()
-            CType(Me.pbTwitterUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.pbForumUpdate, System.ComponentModel.ISupportInitialize).EndInit()
             Me.pnlBlogFeed.ResumeLayout(False)
             Me.pnlBlogFeed.PerformLayout()
             CType(Me.pbBlogUpdate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -313,13 +320,13 @@ Namespace Forms
         Friend WithEvents pnlFeedItems As DevComponents.DotNetBar.PanelEx
         Friend WithEvents lblBlogFeed As DevComponents.DotNetBar.LabelX
         Friend WithEvents pnlTwitterFeed As DevComponents.DotNetBar.Controls.GroupPanel
-        Friend WithEvents pnlTwitterFeedItems As DevComponents.DotNetBar.PanelEx
-        Friend WithEvents lblTwitterFeed As DevComponents.DotNetBar.LabelX
+        Friend WithEvents pnlForumFeedItems As DevComponents.DotNetBar.PanelEx
+        Friend WithEvents lblForumFeed As DevComponents.DotNetBar.LabelX
         Friend WithEvents pnlBlogFeed As DevComponents.DotNetBar.Controls.GroupPanel
         Friend WithEvents pnlBlogFeedItems As DevComponents.DotNetBar.PanelEx
         Friend WithEvents tmrUpdate As System.Windows.Forms.Timer
         Friend WithEvents pbBlogUpdate As System.Windows.Forms.PictureBox
-        Friend WithEvents pbTwitterUpdate As System.Windows.Forms.PictureBox
+        Friend WithEvents pbForumUpdate As System.Windows.Forms.PictureBox
         Friend WithEvents SuperTooltip1 As DevComponents.DotNetBar.SuperTooltip
         Friend WithEvents wbHelp As System.Windows.Forms.WebBrowser
     End Class

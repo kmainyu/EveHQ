@@ -227,28 +227,32 @@ Public Class FrmKmv
 
             ' Check for any Errors
             If kmxml IsNot Nothing Then
-                ' Check XML for any error codes (do we have the full API key?)
-                Dim errlist As XmlNodeList = kmxml.SelectNodes("/eveapi/error")
-                If errlist.Count <> 0 Then
-                    allKMsDownloaded = True
-                Else
-                    ' Parse the current killmail XML
-                    Call ParseKillmailXML(kmxml)
-                    ' Get the last killmailID
-                    Dim kmList As XmlNodeList = kmxml.SelectNodes("/eveapi/result/rowset/row")
-                    If kmList.Count > 0 Then
-                        lastKillID = kmList(kmList.Count - 1).Attributes.GetNamedItem("killID").Value
-                    Else
+                If kmxml.InnerText <> "" Then
+                    ' Check XML for any error codes (do we have the full API key?)
+                    Dim errlist As XmlNodeList = kmxml.SelectNodes("/eveapi/error")
+                    If errlist.Count <> 0 Then
                         allKMsDownloaded = True
+                    Else
+                        ' Parse the current killmail XML
+                        Call ParseKillmailXML(kmxml)
+                        ' Get the last killmailID
+                        Dim kmList As XmlNodeList = kmxml.SelectNodes("/eveapi/result/rowset/row")
+                        If kmList.Count > 0 Then
+                            lastKillID = kmList(kmList.Count - 1).Attributes.GetNamedItem("killID").Value
+                        Else
+                            allKMsDownloaded = True
+                        End If
+                    End If
+                Else
+                    If (String.IsNullOrEmpty(lastKillID)) Then
+                        MessageBox.Show("A null XML document was returned. Check the API Server and internet connection.",
+                                        "API Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        Exit Do 'Work around for bug EVEHQ-165: KillLog API only returns up to the last month of data now.
                     End If
                 End If
             Else
-                If (String.IsNullOrEmpty(lastKillID)) Then
-                    MessageBox.Show("A null XML document was returned. Check the API Server and internet connection.",
-                                    "API Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Else
-                    Exit Do 'Work around for bug EVEHQ-165: KillLog API only returns up to the last month of data now.
-                End If
+                allKMsDownloaded = True
             End If
         Loop Until allKMsDownloaded = True
 
@@ -479,34 +483,42 @@ Public Class FrmKmv
         For Each item As KillmailItem In selKillmail.Items
             itemName = StaticData.Types(item.TypeID).Name
             If item.QtyDestroyed > 0 Then
-                If item.QtyDestroyed = 1 Then
-                    If item.Flag = 0 Then
-                        destroyedItems.Add(itemName)
-                    Else
-                        destroyedItems.Add(itemName & " (Cargo)")
-                    End If
-                Else
-                    If item.Flag = 0 Then
-                        destroyedItems.Add(itemName & ", Qty: " & item.QtyDestroyed.ToString)
-                    Else
-                        destroyedItems.Add(itemName & ", Qty: " & item.QtyDestroyed.ToString & " (Cargo)")
-                    End If
-                End If
+
+                destroyedItems.Add(itemName & ", Qty: " & item.QtyDestroyed.ToString & " (" & StaticData.ItemMarkers(item.Flag) & ")")
+
+                'If item.QtyDestroyed = 1 Then
+                '    If item.Flag = 0 Then
+                '        destroyedItems.Add(itemName)
+                '    Else
+                '        destroyedItems.Add(itemName & " (Cargo)")
+                '    End If
+                'Else
+                '    If item.Flag = 0 Then
+                '        destroyedItems.Add(itemName & ", Qty: " & item.QtyDestroyed.ToString)
+                '    Else
+                '        destroyedItems.Add(itemName & ", Qty: " & item.QtyDestroyed.ToString & " (Cargo)")
+                '    End If
+                'End If
+
             End If
             If item.QtyDropped > 0 Then
-                If item.QtyDropped = 1 Then
-                    If item.Flag = 0 Then
-                        droppedItems.Add(itemName)
-                    Else
-                        droppedItems.Add(itemName & " (Cargo)")
-                    End If
-                Else
-                    If item.Flag = 0 Then
-                        droppedItems.Add(itemName & ", Qty: " & item.QtyDropped.ToString)
-                    Else
-                        droppedItems.Add(itemName & ", Qty: " & item.QtyDropped.ToString & " (Cargo)")
-                    End If
-                End If
+
+                droppedItems.Add(itemName & ", Qty: " & item.QtyDropped.ToString & " (" & StaticData.ItemMarkers(item.Flag) & ")")
+
+                'If item.QtyDropped = 1 Then
+                '    If item.Flag = 0 Then
+                '        droppedItems.Add(itemName)
+                '    Else
+                '        droppedItems.Add(itemName & " (Cargo)")
+                '    End If
+                'Else
+                '    If item.Flag = 0 Then
+                '        droppedItems.Add(itemName & ", Qty: " & item.QtyDropped.ToString)
+                '    Else
+                '        droppedItems.Add(itemName & ", Qty: " & item.QtyDropped.ToString & " (Cargo)")
+                '    End If
+                'End If
+
             End If
         Next
 
@@ -627,11 +639,17 @@ Public Class FrmKmv
                 ' Make a list of dropped and destroyed items
 
                 For Each item As KillmailItem In selKillmail.Items
-                    If item.Flag = 0 Then
-                        ' This is a fitted item
-                        If (item.QtyDestroyed + item.QtyDropped) > 0 Then
-                            fittedItems.Add(item.TypeID, item.QtyDestroyed + item.QtyDropped)
-                        End If
+                    If (item.QtyDestroyed + item.QtyDropped) > 0 Then
+                        Select Case item.Flag
+                            Case 5, 87, 90, 133 To 143 ' Cargo, drone bay & specialised storage
+                                'fittedItems.Add(item.TypeID, item.QtyDestroyed + item.QtyDropped)
+                            Case 11 To 18, 19 To 26, 27 To 34, 92 To 99, 125 To 132 ' Low, Mid, High, Rig and Sub slots
+                                If fittedItems.ContainsKey(item.TypeID) Then
+                                    fittedItems(item.TypeID) += item.QtyDestroyed + item.QtyDropped
+                                Else
+                                    fittedItems.Add(item.TypeID, item.QtyDestroyed + item.QtyDropped)
+                                End If
+                        End Select
                     End If
                 Next
 

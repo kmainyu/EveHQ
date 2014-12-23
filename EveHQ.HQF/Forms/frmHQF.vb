@@ -2409,6 +2409,14 @@ Namespace Forms
         End Sub
 
         Private Sub btnExportEFT_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportEFT.Click
+            ExportEFT()
+        End Sub
+
+        Private Sub btnExportFitting_Click(sender As Object, e As EventArgs) Handles btnExportFitting.Click
+            ExportEFT()
+        End Sub
+        
+        Private Sub ExportEFT()
             Dim currentship As Ship = ActiveFitting.FittedShip
             Dim fitting As New StringBuilder
             fitting.AppendLine("[" & ActiveFitting.KeyName & "]")

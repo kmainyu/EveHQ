@@ -376,41 +376,6 @@ Namespace Forms
 
 #End Region
 
-#Region "Data Cache Options"
-        Private Sub btnDeleteCache_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteCache.Click
-            If My.Computer.FileSystem.DirectoryExists(PluginSettings.HQFFolder) = True Then
-                Try
-                    My.Computer.FileSystem.DeleteDirectory(PluginSettings.HQFCacheFolder, DeleteDirectoryOption.DeleteAllContents)
-                    MessageBox.Show("HQF Cache Directory successfully deleted. Please restart EveHQ to reload the latest data.", "Cache Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Catch ex As Exception
-                    MessageBox.Show("Unable to delete Cache Directory: " & ex.Message, "Unable to Delete Cache", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Try
-            End If
-        End Sub
-        Private Sub btnDeleteAllFittings_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteAllFittings.Click
-            Dim response As Integer = MessageBox.Show("This will delete all your existing fittings. Are you sure you wish to proceed?", "Confirm Delete ALL Fittings", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If response = DialogResult.Yes Then
-                Dim cResponse As Integer = MessageBox.Show("Are you really, really sure you wish to proceed?", "Confirm Delete ALL Fittings", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If cResponse = DialogResult.Yes Then
-                    Try
-                        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFFittings.bin")) = True Then
-                            My.Computer.FileSystem.DeleteFile(Path.Combine(PluginSettings.HQFFolder, "HQFFittings.bin"), UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin)
-                        End If
-                        Fittings.FittingList.Clear()
-                        MessageBox.Show("All fittings successfully deleted", "All Fittings Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Catch ex As Exception
-                        MessageBox.Show("Unable to delete the fittings file", "Deletion Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    End Try
-                Else
-                    Exit Sub
-                End If
-            Else
-                Exit Sub
-            End If
-        End Sub
-
-#End Region
-
 #Region "Constants Options"
         Private Sub UpdateConstantsOptions()
             If PluginSettings.HQFSettings.CapRechargeConstant > nudCapRecharge.Maximum Then
@@ -468,78 +433,6 @@ Namespace Forms
         Private Sub chkAmmoLoadTime_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkAmmoLoadTime.CheckedChanged
             PluginSettings.HQFSettings.IncludeAmmoReloadTime = chkAmmoLoadTime.Checked
             _forceUpdate = True
-        End Sub
-#End Region
-
-#Region "Data Checking Routines"
-        Private Sub btnCheckData_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCheckData.Click
-            Dim dataCheckList As New SortedList
-            Const Itemcount As Integer = 0
-            ' Count number of items
-            Dim items As Integer = ModuleLists.ModuleList.Count
-            ' Check MarketGroups
-            Dim marketError As Integer = 0
-            Dim sw As New StreamWriter(Path.Combine(HQ.ReportFolder, "HQFErrors.txt"))
-            For Each item As ShipModule In ModuleLists.ModuleList.Values
-                If Market.MarketGroupList.ContainsKey(CStr(item.MarketGroup)) = False Then
-                    marketError += 1
-                    sw.WriteLine("Market Error: " & item.Name)
-                    'MessageBox.Show(item.Name)
-                End If
-            Next
-            ' Check MarketGroups
-            Dim metaError As Integer = 0
-            For Each item As ShipModule In ModuleLists.ModuleList.Values
-                If ModuleLists.ModuleMetaGroups.ContainsKey(item.ID) = False Then
-                    metaError += 1
-                    sw.WriteLine("Meta Type Error: " & item.Name)
-                    'MessageBox.Show(item.Name)
-                End If
-            Next
-
-            sw.Flush()
-            sw.Close()
-            Dim msg As String = ""
-            msg &= "Total items: " & items & ControlChars.CrLf
-            msg &= "Orphaned market items: " & marketError & ControlChars.CrLf
-            msg &= "Orphaned meta items: " & metaError & ControlChars.CrLf
-            MessageBox.Show(msg)
-
-            ' Traverse the tree, looking for goodies!
-
-            'itemCount = 0
-            'For Each rootNode As TreeNode In tvwItems.Nodes
-            '    SearchChildNodes(rootNode)
-            'Next
-
-            ' Write missing items to a file
-            Dim sw2 As New StreamWriter(Path.Combine(HQ.ReportFolder, "HQFmissingItems.csv"))
-            For Each shipMod As ShipModule In ModuleLists.ModuleList.Values
-                If dataCheckList.Contains(shipMod.ID) = False Then
-                    sw2.WriteLine(shipMod.ID & "," & shipMod.Name)
-                    dataCheckList.Add(shipMod.ID, shipMod.Name)
-                End If
-            Next
-            sw2.Flush()
-            sw2.Close()
-
-            MessageBox.Show("Total traversed items: " & Itemcount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-        End Sub
-
-        Private Sub btnCheckModuleMetaData_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCheckModuleMetaData.Click
-            For Each chkModule As ShipModule In ModuleLists.moduleList.Values
-                Select Case chkModule.MetaType
-                    Case 1, 2, 4, 8, 16, 32
-                    Case Else
-                        MessageBox.Show(chkModule.Name & " has an invalid meta type: " & chkModule.MetaType, "Error Found", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Select
-            Next
-            MessageBox.Show("Module Meta Check Completed.", "Module Check Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Sub
-
-        Private Sub btnCheckAttributeIntFloat_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCheckAttributeIntFloat.Click
-
         End Sub
 #End Region
 
@@ -616,52 +509,6 @@ Namespace Forms
         End Sub
 
 #End Region
-
-        Private Sub btnExportEffects_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportEffects.Click
-            Try
-                Dim sw As New StreamWriter(PluginSettings.HQFFolder & "/HQFEffects.csv")
-                sw.Write(My.Resources.Effects.ToString)
-                sw.Flush()
-                sw.Close()
-                MessageBox.Show("HQF Effects file successfully written to disk", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Catch ex As Exception
-                MessageBox.Show("Error writing the HQF Effects file to disk: " & ex.Message.ToString, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        End Sub
-
-        Private Sub btnExportImplantEffects_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportImplantEffects.Click
-            Try
-                Dim sw As New StreamWriter(PluginSettings.HQFFolder & "/HQFImplantEffects.csv")
-                sw.Write(My.Resources.ImplantEffects.ToString)
-                sw.Flush()
-                sw.Close()
-                MessageBox.Show("HQF Implant Effects file successfully written to disk", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Catch ex As Exception
-                MessageBox.Show("Error writing the HQF Implant Effects file to disk: " & ex.Message.ToString, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        End Sub
-
-        Private Sub btnExportShipBonuses_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportShipBonuses.Click
-            Try
-                Dim sw As New StreamWriter(PluginSettings.HQFFolder & "/HQFShipEffects.csv")
-                sw.Write(My.Resources.ShipBonuses.ToString)
-                sw.Flush()
-                sw.Close()
-                MessageBox.Show("HQF Ship Effects file successfully written to disk", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Catch ex As Exception
-                MessageBox.Show("Error writing the HQF Ship Effects file to disk: " & ex.Message.ToString, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        End Sub
-
-        Private Sub btnCheckMarket_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCheckMarket.Click
-            Dim chargeGroupData() As String
-            For Each chargeGroup As String In Charges.ChargeGroups.Values
-                chargeGroupData = chargeGroup.Split("_".ToCharArray)
-                If chargeGroupData(0) = "0" Then
-                    MessageBox.Show(chargeGroupData(2))
-                End If
-            Next
-        End Sub
 
 #Region "Damage Profile Options"
 
@@ -908,37 +755,16 @@ Namespace Forms
 
 #End Region
 
-        Private Sub btnGenerateIconList_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGenerateIconList.Click
-            Const IconPath1 As String = "Z:\My Downloads\Incursion_1.4_imgs_Icons\Icons\items\32_32"
-            Const IconPath2 As String = "Z:\_HQFIcons"
-            Dim iconList As New List(Of String)
-            For Each sMod As ShipModule In ModuleLists.ModuleList.Values
-                If iconList.Contains(sMod.Icon) = False Then
-                    iconList.Add(sMod.Icon)
-                    Dim sourceFile As String = Path.Combine(IconPath1, "icon" & sMod.Icon & ".png")
-                    If My.Computer.FileSystem.FileExists(sourceFile) = True Then
-                        Dim destFile As String = Path.Combine(IconPath2, sMod.Icon & ".png")
-                        My.Computer.FileSystem.CopyFile(sourceFile, destFile)
-                    End If
-                End If
-            Next
-            MessageBox.Show(iconList.Count.ToString)
-        End Sub
-
-        Private Sub btnGetIconImage_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetIconImage.Click
-            pbIcon.Image = ImageHandler.IconImage24("02_02", 5)
-        End Sub
-
 #Region "Attribute Column Options"
 
         Private Sub UpdateAttributeColumns()
             adtAttributeColumns.BeginUpdate()
             adtAttributeColumns.Nodes.Clear()
-            For Each attID As String In PluginSettings.HQFSettings.IgnoredAttributeColumns
+            For Each attId As String In PluginSettings.HQFSettings.IgnoredAttributeColumns
                 Dim newNode As New Node
-                newNode.Name = attID
-                newNode.Text = attID
-                newNode.Cells.Add(New Cell(CStr(Attributes.AttributeQuickList(CInt(attID)))))
+                newNode.Name = attId
+                newNode.Text = attId
+                newNode.Cells.Add(New Cell(CStr(Attributes.AttributeQuickList(CInt(attId)))))
                 adtAttributeColumns.Nodes.Add(newNode)
             Next
             AdvTreeSorter.Sort(adtAttributeColumns, 1, False, True)
@@ -955,9 +781,9 @@ Namespace Forms
 
         Private Sub btnRemoveAttribute_Click(sender As Object, e As EventArgs) Handles btnRemoveAttribute.Click
             If adtAttributeColumns.SelectedNodes.Count > 0 Then
-                Dim attID As String = adtAttributeColumns.SelectedNodes(0).Name
-                If PluginSettings.HQFSettings.IgnoredAttributeColumns.Contains(attID) = True Then
-                    PluginSettings.HQFSettings.IgnoredAttributeColumns.Remove(attID)
+                Dim attId As String = adtAttributeColumns.SelectedNodes(0).Name
+                If PluginSettings.HQFSettings.IgnoredAttributeColumns.Contains(attId) = True Then
+                    PluginSettings.HQFSettings.IgnoredAttributeColumns.Remove(attId)
                     Call UpdateAttributeColumns()
                 End If
             End If
@@ -973,8 +799,6 @@ Namespace Forms
             End If
         End Sub
 #End Region
-
-
 
     End Class
 End NameSpace

@@ -80,12 +80,13 @@ Namespace SkillQueueControl
             g.FillRectangle(Brushes.DimGray, New RectangleF(Sx, sy, panelSQB.Width - 4, 4))
             g.FillRectangle(Brushes.Silver, New RectangleF(Sx, sy + 3, panelSQB.Width - 4, 1))
             ' Calculate number of seconds from now till start
+            Dim queueTimeLength As Integer = HQ.Settings.EveQueueDisplayLength * 86400
             Dim startSpan As TimeSpan = SkillFunctions.ConvertEveTimeToLocal(_currentQueuedSkill.StartTime) - Now
-            Dim startSec As Double = Math.Min(startSpan.TotalSeconds, 86400)
+            Dim startSec As Double = Math.Min(startSpan.TotalSeconds, queueTimeLength)
             Dim endSpan As TimeSpan = SkillFunctions.ConvertEveTimeToLocal(_currentQueuedSkill.EndTime) - Now
-            Dim endSec As Double = Math.Min(endSpan.TotalSeconds, 86400)
-            Dim startMark As Integer = Math.Max(CInt(startSec / 86400 * (panelSQB.Width - 4)), 0)
-            Dim endMark As Integer = CInt(endSec / 86400 * (panelSQB.Width - 4))
+            Dim endSec As Double = Math.Min(endSpan.TotalSeconds, queueTimeLength)
+            Dim startMark As Integer = Math.Max(CInt(startSec / queueTimeLength * (panelSQB.Width - 4)), 0)
+            Dim endMark As Integer = CInt(endSec / queueTimeLength * (panelSQB.Width - 4))
             If Math.IEEERemainder(_currentQueuedSkill.Position, 2) = 0 Then
                 g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(Sx + startMark, sy, Math.Min(endMark - startMark, panelSQB.Width - 4), 3))
             Else

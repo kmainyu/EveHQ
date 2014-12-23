@@ -344,7 +344,14 @@
     ''' <remarks></remarks>
     Public Property Rating As Integer
 
-    
+    ''' <summary>
+    ''' Gets or sets the current ship mode
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>The current ship mode</returns>
+    ''' <remarks></remarks>
+    Public Property ShipMode As Integer
+
 
 #End Region
 

@@ -32,6 +32,12 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <AssemblyInfoTitle>EveHQ</AssemblyInfoTitle>
+    <AssemblyInfoDescription>Eve Online game tool</AssemblyInfoDescription>
+    <AssemblyInfoGUID>f8be6b56-f761-4ee7-a722-da54af312ecb</AssemblyInfoGUID>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
     <PublishUrl>C:\deploy\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -46,12 +52,6 @@
     <ApplicationVersion>0.1.0.1</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-    <AssemblyInfoTitle>EveHQ</AssemblyInfoTitle>
-    <AssemblyInfoDescription>Eve Online game tool</AssemblyInfoDescription>
-    <AssemblyInfoGUID>f8be6b56-f761-4ee7-a722-da54af312ecb</AssemblyInfoGUID>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -861,7 +861,7 @@
     <None Include="Resources\79_64_5.png" />
     <None Include="Resources\79_64_6.png" />
     <Content Include="Resources\AssetsSafe32.png" />
-    <Content Include="_updates.xml">
+    <Content Include="_evehqupdate.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="_message.xml">

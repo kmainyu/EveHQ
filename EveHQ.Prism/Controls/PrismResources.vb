@@ -213,7 +213,7 @@ Namespace Controls
                 For Each resource As JobResource In _currentJob.Resources.Values
                     ' This is a resource so add it
                     If resource.TypeCategory <> 16 Or (resource.TypeCategory = 16 And chkShowSkills.Checked = True) Then
-                        Dim perfectRaw As Integer = CInt(resource.PerfectUnits)
+                        Dim perfectRaw As Integer = CInt(resource.PerfectUnits) * _currentJob.Runs
                         Dim waste As Integer = CInt(resource.WasteUnits)
                         Dim total As Integer = perfectRaw + waste
                         Dim price As Double = resourceCosts(resource.TypeID)
@@ -250,23 +250,18 @@ Namespace Controls
                                 newRes.Cells.Add(New Cell(""))
                             End If
 
-                            Dim perfectTotal As Long = CLng(perfectRaw) * CLng(_currentJob.Runs)
-                            Dim wasteTotal As Long = CLng(waste) * CLng(_currentJob.Runs)
-                            Dim totalTotal As Long = CLng(total) * CLng(_currentJob.Runs)
+                            Dim perfectTotal As Long = CLng(perfectRaw)
+                            Dim wasteTotal As Long = CLng(waste)
+                            Dim totalTotal As Long = CLng(total)
 
                             newRes.Cells.Add(New Cell(perfectTotal.ToString))
                             newRes.Cells.Add(New Cell(wasteTotal.ToString))
                             newRes.Cells.Add(New Cell(totalTotal.ToString))
                             newRes.Cells.Add(New Cell(price.ToString))
-                            newRes.Cells.Add(New Cell((value * _currentJob.Runs).ToString))
-                            If _currentJob.CurrentBlueprint.MaterialModifier = 0 Or _currentJob.CurrentBlueprint.WasteFactor = 0 Then
-                                newRes.Cells.Add(New Cell("0"))
-                            Else
-                                newRes.Cells.Add(New Cell((Int(resource.BaseUnits * _currentJob.CurrentBlueprint.WasteFactor / 50)).ToString("N0")))
-                            End If
-                            For c As Integer = 1 To 7
+                            newRes.Cells.Add(New Cell(value.ToString))
+                            For c As Integer = 1 To 6
                                 Select Case c
-                                    Case 2, 3, 4, 7
+                                    Case 2, 3, 4
                                         newRes.Cells(c).TextDisplayFormat = "N0"
                                     Case Else
                                         newRes.Cells(c).TextDisplayFormat = "N2"
@@ -275,12 +270,8 @@ Namespace Controls
 
                             adtResources.Nodes.Add(newRes)
                             ' Add tooltip if appropriate
-                            Dim raw As Long = CLng(resource.BaseUnits * _currentJob.Runs)
-                            Dim extra As Long = CLng((resource.PerfectUnits - resource.BaseUnits) * _currentJob.Runs)
-                            Dim msg As String = "Raw/Base Material (affected by waste): " & raw.ToString("N0") & ControlChars.CrLf
-                            msg &= "Extra Material (not affected by waste): " & extra.ToString("N0") & ControlChars.CrLf
-                            msg &= "Total Perfect Material: " & perfectTotal.ToString("N0") & ControlChars.CrLf
-                            msg &= "Waste Material: " & wasteTotal.ToString("N0") & ControlChars.CrLf
+                            Dim msg As String = "Total Base Material: " & perfectTotal.ToString("N0") & ControlChars.CrLf
+                            msg &= "Material Saved: " & wasteTotal.ToString("N0") & ControlChars.CrLf
                             msg &= "Total Required: " & totalTotal.ToString("N0")
                             Dim sti As New SuperTooltipInfo("Resource Split", resource.TypeName, msg, Nothing, ImageHandler.GetImage(resource.TypeID, 32), eTooltipColor.Yellow)
                             STT.SetSuperTooltip(newRes, sti)
@@ -289,7 +280,7 @@ Namespace Controls
                 Next
                 For Each subJob As Job In _currentJob.SubJobs.Values
                     ' This is another production job
-                    Dim perfectRaw As Integer = CInt(subJob.PerfectUnits)
+                    Dim perfectRaw As Integer = CInt(subJob.PerfectUnits) * _currentJob.Runs
                     Dim waste As Integer = CInt(subJob.WasteUnits)
                     Dim total As Integer = perfectRaw + waste
                     Dim price As Double = jobCosts(subJob.TypeID)
@@ -300,7 +291,7 @@ Namespace Controls
                         newRes.Cells.Add(New Cell(subJob.CurrentBlueprint.MELevel.ToString))
                         Dim bpme As New BlueprintMEControl
                         bpme.nudME.Value = subJob.CurrentBlueprint.MELevel
-                        bpme.nudME.LockUpdateChecked = subJob.ProduceSubJob
+                        bpme.nudME.LockUpdateChecked = True
                         bpme.nudME.ButtonCustom.Enabled = True
                         bpme.nudME.ButtonCustom.Enabled = False
                         bpme.AssignedTypeID = subJob.TypeID.ToString
@@ -311,12 +302,11 @@ Namespace Controls
                     Else
                         newRes.Cells.Add(New Cell(""))
                     End If
-                    newRes.Cells.Add(New Cell((subJob.PerfectUnits * _currentJob.Runs).ToString))
-                    newRes.Cells.Add(New Cell((subJob.WasteUnits * _currentJob.Runs).ToString))
-                    newRes.Cells.Add(New Cell((total * _currentJob.Runs).ToString))
+                    newRes.Cells.Add(New Cell(perfectRaw.ToString))
+                    newRes.Cells.Add(New Cell(waste.ToString))
+                    newRes.Cells.Add(New Cell(total.ToString))
                     newRes.Cells.Add(New Cell(price.ToString))
                     newRes.Cells.Add(New Cell((value * _currentJob.Runs).ToString))
-                    newRes.Cells.Add(New Cell((Int(subJob.PerfectUnits * _currentJob.CurrentBlueprint.WasteFactor / 50)).ToString))
                     Dim bpDetails As New StringBuilder
                     bpDetails.AppendLine("The blueprint used for this job is as follows:")
                     bpDetails.AppendLine("")
@@ -333,9 +323,9 @@ Namespace Controls
                     Next
                     newRes.Cells(6).Text = subprice.ToString
                     newRes.Cells(5).Text = (subprice / subJob.Runs).ToString
-                    For c As Integer = 1 To 7
+                    For c As Integer = 1 To 6
                         Select Case c
-                            Case 2, 3, 4, 7
+                            Case 2, 3, 4
                                 newRes.Cells(c).TextDisplayFormat = "N0"
                             Case Else
                                 newRes.Cells(c).TextDisplayFormat = "N2"
@@ -343,7 +333,7 @@ Namespace Controls
                     Next
                     adtResources.Nodes.Add(newRes)
                 Next
-                For c As Integer = 0 To 7
+                For c As Integer = 0 To 6
                     adtResources.Columns(c).Image = Nothing
                 Next
             End If
@@ -367,7 +357,7 @@ Namespace Controls
                 ' This is a resource so add it
                 If resource.TypeCategory <> 16 Or (resource.TypeCategory = 16 And chkShowSkills.Checked = True) Then
                     Dim perfectRaw As Long = CLng(resource.PerfectUnits) * parentJob.Runs
-                    Dim waste As Long = CLng(resource.WasteUnits) * parentJob.Runs
+                    Dim waste As Long = CLng(resource.WasteUnits)
                     Dim total As Long = perfectRaw + waste
                     Dim price As Double = resourceCosts(resource.TypeID)
                     Dim value As Double = total * price
@@ -406,9 +396,9 @@ Namespace Controls
                     newRes.Cells.Add(New Cell(price.ToString))
                     newRes.Cells.Add(New Cell(value.ToString))
                     newRes.Cells.Add(New Cell((Int(resource.BaseUnits / parentJob.CurrentBlueprint.MaterialModifier)).ToString))
-                    For c As Integer = 1 To 7
+                    For c As Integer = 1 To 6
                         Select Case c
-                            Case 2, 3, 4, 7
+                            Case 2, 3, 4
                                 newRes.Cells(c).TextDisplayFormat = "N0"
                             Case Else
                                 newRes.Cells(c).TextDisplayFormat = "N2"
@@ -416,12 +406,8 @@ Namespace Controls
                     Next
                     parentRes.Nodes.Add(newRes)
                     ' Add tooltip if appropriate
-                    Dim raw As Long = CLng(resource.BaseUnits * _currentJob.Runs)
-                    Dim extra As Long = CLng((resource.PerfectUnits - resource.BaseUnits) * parentJob.Runs)
-                    Dim msg As String = "Raw/Base Material (affected by waste): " & raw.ToString("N0") & ControlChars.CrLf
-                    msg &= "Extra Material (not affected by waste): " & extra.ToString("N0") & ControlChars.CrLf
-                    msg &= "Total Perfect Material: " & perfectRaw.ToString("N0") & ControlChars.CrLf
-                    msg &= "Waste Material: " & waste.ToString("N0") & ControlChars.CrLf
+                    Dim msg As String = "Total Base Material: " & perfectRaw.ToString("N0") & ControlChars.CrLf
+                    msg &= "Material Saved: " & waste.ToString("N0") & ControlChars.CrLf
                     msg &= "Total Required: " & total.ToString("N0")
                     Dim sti As New SuperTooltipInfo("Resource Split", resource.TypeName, msg, Nothing, ImageHandler.GetImage(resource.TypeID, 32), eTooltipColor.Yellow)
                     STT.SetSuperTooltip(newRes, sti)
@@ -601,19 +587,19 @@ Namespace Controls
                     ' Check this is not a blueprint swap!
                     If pJob.TypeID <> pJob.CurrentBlueprint.Id Then
                         If sr.Resources.ContainsKey(resource.TypeID) = False Then
-                            sr.Resources.Add(resource.TypeID, CLng(resource.PerfectUnits + resource.WasteUnits))
+                            sr.Resources.Add(resource.TypeID, CLng(resource.PerfectUnits * pJob.Runs) + CLng(resource.WasteUnits))
                         Else
                             'SR.Resources(rResource.TypeID.ToString) += CLng(rResource.PerfectUnits + rResource.WasteUnits)
                         End If
                     End If
                     ' This is a resource so add it
                     If _groupResources.ContainsKey(resource.TypeID) = False Then
-                        _groupResources.Add(resource.TypeID, CLng((resource.PerfectUnits + resource.WasteUnits) * pJob.Runs))
+                        _groupResources.Add(resource.TypeID, CLng(resource.PerfectUnits * pJob.Runs) + CLng(resource.WasteUnits))
                     Else
-                        _groupResources(resource.TypeID) += CLng((resource.PerfectUnits + resource.WasteUnits) * pJob.Runs)
+                        _groupResources(resource.TypeID) += CLng(resource.PerfectUnits * pJob.Runs) + CLng(resource.WasteUnits)
                     End If
                     ' Set Production List
-                    Dim pi2 As New ProductionItem(resource.TypeID.ToString, False, CLng((resource.PerfectUnits + resource.WasteUnits) * pJob.Runs))
+                    Dim pi2 As New ProductionItem(resource.TypeID.ToString, False, CLng(resource.PerfectUnits * pJob.Runs) + CLng(resource.WasteUnits))
                     If _productionList.ContainsKey(pi2.Key) = False Then
                         _productionList.Add(pi2.Key, pi2)
                     Else

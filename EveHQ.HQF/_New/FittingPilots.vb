@@ -120,17 +120,20 @@ Imports Newtonsoft.Json
         ' If the HQF skill < Actual, this routine makes HQF = Actual
         If HQ.Settings.Pilots.ContainsKey(hPilot.PilotName) = True Then
             Dim cpilot As EveHQPilot = HQ.Settings.Pilots(hPilot.PilotName)
-            For Each newSkill As EveSkill In HQ.SkillListID.Values
-                If hPilot.SkillSet.ContainsKey(newSkill.Name) = True Then
-                    Dim myHQFSkill As FittingSkill = hPilot.SkillSet(newSkill.Name)
-                    If cpilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
-                        Dim mySkill As EveHQPilotSkill = cpilot.PilotSkills(newSkill.Name)
-                        myHQFSkill.Level = mySkill.Level
-                    Else
-                        myHQFSkill.Level = 0
+            ' Only update pilots that are linked to an API account
+            If cpilot.Account <> "0" Then
+                For Each newSkill As EveSkill In HQ.SkillListID.Values
+                    If hPilot.SkillSet.ContainsKey(newSkill.Name) = True Then
+                        Dim myHQFSkill As FittingSkill = hPilot.SkillSet(newSkill.Name)
+                        If cpilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
+                            Dim mySkill As EveHQPilotSkill = cpilot.PilotSkills(newSkill.Name)
+                            myHQFSkill.Level = mySkill.Level
+                        Else
+                            myHQFSkill.Level = 0
+                        End If
                     End If
-                End If
-            Next
+                Next
+            End If
         End If
     End Sub
 

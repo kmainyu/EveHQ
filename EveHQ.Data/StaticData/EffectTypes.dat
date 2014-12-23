@@ -3580,3 +3580,69 @@ $..eliteIndustrialABHeatBonus
 -‹.(‹.#eliteIndustrialArmorRepairHeatBonus
 Œ.Œ.warpSpeedAddition
 ..roleBonusBulkheadCPU
+;.6.1advancedIndustryManufacturingTimeBonusPostPercent
+2’.-’.(advancedIndustryCopyTimeBonusPostPercent
+7“.2“.-advancedIndustryInventionTimeBonusPostPercent
+M”.H”.CadvancedIndustrySkillBoostAdvancedIndustrySkillIndustryJobTimeBonus
+E•.@•.;advancedIndustryManufactureTimeResearchTimeBonusPostPercent
+>–.9–.4advancedIndustryMaterialResearchTimeBonusPostPercent
+9—.4—./onlineJumpDriveConsumptionAmountBonusPercentage
+*˜.%˜. systemRemoteCapTransmitterAmount
+™.™.systemArmorHP
+$š.š.systemEnergyNeutMultiplier
+'›."›.systemEnergyVampireMultiplier
+$œ.œ.systemDamageExplosiveBombs
+"..systemDamageKineticBombs
+"..systemDamageThermalBombs
+Ÿ.Ÿ.systemDamageEMBombs
+ . .systemAoeCloudSize
+'¡."¡.systemTargetPainterMultiplier
+*¢.%¢. systemWebifierStrengthMultiplier
+£.£.systemNeutBombs
+"¤.¤.systemGravimetricECMBomb
+¥.¥.systemLadarECMBomb
+%¦. ¦.systemMagnetrometricECMBomb
+§.§.systemRadarECMBomb
+7¨.2¨.-warpScrambleTargetMWDBlockActivationForEntity
+©.©.systemDroneTracking
+$«.«.entitySelfVelocityMultiply
+%¬. ¬.targetSetVelocityMultiplier
+'­."­.entitySelfCruiseSpeedMultiply
++®.&®.!warpScrambleBlockMWDWithNPCEffect
+1².,².'shipBonusSmallMissileExplosionRadiusCF2
+³.³.shipRocketRoFBonusAF2
+'´."´.eliteBonusInterdictorsSHTRoF1
+#¶.¶.shipMissileLauncherRoFAD1
+(¸.#¸.shipMissileLauncherRoFAD1Fixed
+¹.¹.cloakingPrototype
+¿.¿.drawbackWarpSpeed
+Â.Â.gateScramble
+8Ã.3Ã..targetSetWarpScrambleStatusHidden&gateScramble
+Ä.Ä.shipMETDamageBonusAC2
+/Å.*Å.%eliteBonusHeavyInterdictorsMETOptimal
+Æ.Æ.shipHybridTrackingGC
+3Ç..Ç.)eliteBonusHeavyInterdictorsHybridOptimal1
+#ß.ß.resistanceKillerShieldAll
+"â.â.resistanceKillerArmorAll
+!ê.ê.resistanceKillerHullAll
+(ë.#ë.resistanceKillerShieldArmorAll
+ì.ì.freighterO1SkillLevel
+í.í.freighterO2SkillLevel
+%î. î.freighterSMACapacityBonusO1
+%ï. ï.freighterMaxVelocityBonusO2
+"ñ.ñ.freighterAgilityBonus2O2
++ó.&ó.!tacticalDestroyerAmarrSkillLevel1
++ô.&ô.!tacticalDestroyerAmarrSkillLevel2
++õ.&õ.!tacticalDestroyerAmarrSkillLevel3
+.ö.)ö.$shipSETDamageAmarrTacticalDestroyer1
+/÷.*÷.%shipSETCapNeedAmarrTacticalDestroyer2
+/ø.*ø.%shipHeatDamageAmarrTacticalDestroyer3
+7ù.2ù.-probeLauncherCPUPercentBonusTacticalDestroyer
+'ú."ú.shipModeMaxTargetRangePostDiv
+(û.#û.shipModeSETOptimalRangePostDiv
+%ü. ü.shipModeScanStrengthPostDiv
+ ı.ı.shipModeScanResPostDiv
+ş.ş.modeSigRadiusPostDiv
+#ÿ.ÿ.modeArmorResonancePostDiv
+€/€/modeAgilityPostDiv
+//modeVelocityPostDiv

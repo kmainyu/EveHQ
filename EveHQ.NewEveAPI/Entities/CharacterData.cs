@@ -57,6 +57,9 @@ namespace EveHQ.EveApi
         /// <summary>Gets the name.</summary>
         public string Name { get; set; }
 
+        /// <summary> Gets the home station ID.</summary>
+        public int HomeStationId { get; set; }
+
         /// <summary>Gets the birth date.</summary>
         public DateTimeOffset BirthDate { get; set; }
 
@@ -84,29 +87,35 @@ namespace EveHQ.EveApi
         /// <summary>Gets the alliance id.</summary>
         public int AllianceId { get; set; }
 
-        /// <summary>Gets the clone name.</summary>
-        public string CloneName { get; set; }
+        /// <summary>Gets the free skill points.</summary>
+        public int FreeSkillPoints { get; set; }
 
-        /// <summary>Gets the clone skill points.</summary>
-        public int CloneSkillPoints { get; set; }
+        /// <summary>Gets the free respecs.</summary>
+        public int FreeRespecs { get; set; }
+
+        /// <summary>Gets the last clone jump date.</summary>
+        public DateTimeOffset CloneJumpDate { get; set; }
+
+        /// <summary>Gets the last respec date.</summary>
+        public DateTimeOffset LastRespecDate { get; set; }
+
+        /// <summary>Gets the last timed respec date.</summary>
+        public DateTimeOffset LastTimedRespec { get; set; }
+
+        /// <summary>Gets the last medical clone transfer date.</summary>
+        public DateTimeOffset RemoteStationDate { get; set; }
+
+        /// <summary>Gets the jump activation expiration date.</summary>
+        public DateTimeOffset JumpActivation { get; set; }
+
+        /// <summary>Gets the jump fatigue expiration date.</summary>
+        public DateTimeOffset JumpFatigue { get; set; }
+
+        /// <summary>Gets the last jump made by the character.</summary>
+        public DateTimeOffset JumpLastUpdate { get; set; }
 
         /// <summary>Gets the balance.</summary>
         public double Balance { get; set; }
-
-        /// <summary>Gets the memory bonus.</summary>
-        public AttributeEnhancer MemoryBonus { get; set; }
-
-        /// <summary>Gets the perception bonus.</summary>
-        public AttributeEnhancer PerceptionBonus { get; set; }
-
-        /// <summary>Gets the willpower bonus.</summary>
-        public AttributeEnhancer WillpowerBonus { get; set; }
-
-        /// <summary>Gets the intelligence bonus.</summary>
-        public AttributeEnhancer IntelligenceBonus { get; set; }
-
-        /// <summary>Gets the charisma bonus.</summary>
-        public AttributeEnhancer CharismaBonus { get; set; }
 
         /// <summary>Gets the intelligence.</summary>
         public int Intelligence { get; set; }
@@ -122,6 +131,15 @@ namespace EveHQ.EveApi
 
         /// <summary>Gets the willpower.</summary>
         public int Willpower { get; set; }
+
+        /// <summary>Gets the implants.</summary>
+        public IEnumerable<Implant> Implants { get; set; }
+
+        /// <summary>Gets the jump clone implants.</summary>
+        public IEnumerable<Implant> JumpCloneImplants { get; set; }
+        
+        /// <summary>Gets the jump clones.</summary>
+        public IEnumerable<JumpClone> JumpClones { get; set; }
 
         /// <summary>Gets the skills.</summary>
         public IEnumerable<CharacterSkillRecord> Skills { get; set; }

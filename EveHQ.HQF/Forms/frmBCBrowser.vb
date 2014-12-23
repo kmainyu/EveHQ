@@ -153,7 +153,7 @@ Namespace Forms
                     ' Setup proxy server (if required)
                     Call ProxyServerFunctions.SetupWebProxy(request)
                     ' Setup request parameters
-                    request.Method = "POST"
+                    request.Method = "GET"
                     request.ContentType = "application/x-www-form-urlencoded"
                     request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
                     ' Prepare for a response from the server
@@ -236,7 +236,7 @@ Namespace Forms
                     ' Setup proxy server (if required)
                     Call ProxyServerFunctions.SetupWebProxy(request)
                     ' Setup request parameters
-                    request.Method = "POST"
+                    request.Method = "GET"
                     request.ContentType = "application/x-www-form-urlencoded"
                     request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
                     ' Prepare for a response from the server

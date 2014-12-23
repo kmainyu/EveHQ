@@ -43,7 +43,6 @@
 '
 ' ==============================================================================
 
-Imports EveHQ.Core.CoreReports
 Imports EveHQ.EveAPI
 Imports EveHQ.Core
 Imports System.IO
@@ -53,7 +52,7 @@ Imports Newtonsoft.Json
 Namespace Forms
 
     Public Class FrmCharCreate
-        Dim _raceID As Integer = 0
+        Dim _raceId As Integer = 0
         Dim _raceName As String = ""
         Dim _bloodName As String = ""
         ReadOnly _skillsRace As New Collection
@@ -123,11 +122,11 @@ Namespace Forms
             btnAddPilot.Enabled = True
 
             ' Generate an ID based on date and time
-            Dim charID As String = Format(Now, "MddHHmmss")
-            lblCharID.Text = charID
+            Dim charId As String = Format(Now, "MddHHmmss")
+            lblCharID.Text = charId
         End Sub
 
-        Private Sub CalcRaceSkills(ByVal raceID As String)
+        Private Sub CalcRaceSkills(ByVal raceId As String)
             ' Extract RaceSkills from resources
             Dim raceSkills As New ArrayList
             Dim raceSkillsTable As String = My.Resources.RaceSkillsTable
@@ -141,19 +140,19 @@ Namespace Forms
 
             ' Load up the skills for the selected race
             _skillsRace.Clear()
-            Dim skillID As String
+            Dim skillId As String
             Dim skillName As String
             Dim skillLevel As Integer
             Dim skillPoints As Long
             For Each raceskill As String In raceSkills
                 Dim raceSkillData() As String = raceskill.Split(",".ToCharArray)
-                skillID = raceSkillData(0)
+                skillId = raceSkillData(0)
                 skillLevel = CInt(raceSkillData(1))
-                skillName = SkillFunctions.SkillIDToName(CInt(skillID))
-                skillPoints = CLng(Math.Ceiling(SkillFunctions.CalculateSkillSPLevel(CInt(skillID), skillLevel)))
+                skillName = SkillFunctions.SkillIDToName(CInt(skillId))
+                skillPoints = CLng(Math.Ceiling(SkillFunctions.CalculateSkillSPLevel(CInt(skillId), skillLevel)))
                 Dim skillItem As New ListViewItem
                 skillItem.Text = skillName
-                skillItem.Name = skillID
+                skillItem.Name = skillId
                 skillItem.SubItems.Add(skillLevel.ToString)
                 skillItem.SubItems.Add(skillPoints.ToString)
                 _skillsRace.Add(skillItem, skillItem.Text)
@@ -196,19 +195,11 @@ Namespace Forms
             nPilot.Perception = CInt(nudP.Value)
             nPilot.Willpower = CInt(nudW.Value)
             nPilot.Balance = 0
-            'nPilot. = True
             nPilot.CorporationName = "EveHQ Import Corp"
             nPilot.CorporationId = 1000000
             nPilot.AllianceName = ""
             nPilot.Gender = "Male"
             nPilot.Ancestry = ""
-            nPilot.CloneName = "Clone Grade Alpha"
-            nPilot.CloneSkillPoints = 900000
-            nPilot.MemoryBonus = New AttributeEnhancer()
-            nPilot.PerceptionBonus = New AttributeEnhancer()
-            nPilot.WillpowerBonus = New AttributeEnhancer()
-            nPilot.IntelligenceBonus = New AttributeEnhancer()
-            nPilot.CharismaBonus = New AttributeEnhancer()
             nPilot.Certificates = New List(Of Integer)
             nPilot.CorporationRoles = New CharacterCorporationRoles() {}
             nPilot.CorporationRolesAtHq = New CharacterCorporationRoles() {}
@@ -243,9 +234,7 @@ Namespace Forms
             fakeServiceResponse.HttpStatusCode = Net.HttpStatusCode.OK
             fakeServiceResponse.IsSuccessfulHttpStatus = True
             fakeServiceResponse.EveErrorCode = 0
-
-
-
+            
             Dim charData As String = JsonConvert.SerializeObject(fakeServiceResponse)
 
             ' Write fake training JSON

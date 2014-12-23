@@ -146,7 +146,7 @@ Public Class EveSettings
     Private cAPIRSAddress As String = ""
     Private cUseAPIRS As Boolean = False
     Private cUseCCPAPIBackup As Boolean = False
-    Private cUpdateURL As String = "http://evehq.net/update/"
+    Private cUpdateURL As String = "http://evehq.newedentech.com/update/"
     Private cOmitCurrentSkill As Boolean = False
     Private cUseAppDirectoryForDB As Boolean = False
     Private cAPIFileExtension As String = "aspx"
@@ -185,7 +185,7 @@ Public Class EveSettings
     Private cDBTickerLocation As String = "Bottom"
     Private cStandardQueueColumns As New ArrayList
     Private cUserQueueColumns As New ArrayList
-    Private cEmailSenderAddress As String = "notifications@evehq.net"
+    Private cEmailSenderAddress As String = "notifications@newedentech.com"
     Private cIBShowAllItems As Boolean = False
     Private cEveHQBackupStart As Date = Now
     Private cEveHQBackupFreq As Integer = 1
@@ -533,7 +533,7 @@ Public Class EveSettings
     Public Property EmailSenderAddress() As String
         Get
             If cEmailSenderAddress Is Nothing Then
-                cEmailSenderAddress = "notifications@evehq.net"
+                cEmailSenderAddress = "notifications@newedentech.com"
             End If
             Return cEmailSenderAddress
         End Get
@@ -2274,8 +2274,8 @@ End Class
 '        If ShowRawData = False Then
 
 '            ' Reset the update URL to a temp location
-'            If HQ.Settings.UpdateURL <> "http://evehq.net/update/" Then
-'                HQ.Settings.UpdateURL = "http://evehq.net/update/"
+'            If HQ.Settings.UpdateURL <> "http://evehq.newedentech.com/update/" Then
+'                HQ.Settings.UpdateURL = "http://evehq.newedentech.com/update/"
 '            End If
 
 '            ' Check if we were using a v1 database and see if we can automatically set it to v2

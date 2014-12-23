@@ -211,7 +211,7 @@ Public Class EveHQSettings
     Public Property EmailSenderAddress() As String
         Get
             If _emailSenderAddress Is Nothing Then
-                _emailSenderAddress = "notifications@evehq.net"
+                _emailSenderAddress = "notifications@newedentech.com"
             End If
             Return _emailSenderAddress
         End Get
@@ -593,7 +593,7 @@ Public Class EveHQSettings
         End Set
     End Property
     Public Property MarketDefaultTransactionType As MarketTransactionKind
-
+    Public Property EveQueueDisplayLength As Integer = 1
 #End Region
 
     Private Sub InitialiseSettings()
@@ -626,7 +626,7 @@ Public Class EveHQSettings
         PilotPartTrainedSkillColor = Color.Gold.ToArgb
         PilotCurrentTrainSkillColor = Color.LimeGreen.ToArgb
         CcpapiServerAddress = OfficialApiLocation
-        UpdateUrl = "http://evehq.net/update/"
+        UpdateUrl = "http://evehq.newedentech.com/update/"
         APIFileExtension = "aspx"
         PilotGroupBackgroundColor = Color.DimGray.ToArgb
         PilotGroupTextColor = Color.White.ToArgb
@@ -641,7 +641,7 @@ Public Class EveHQSettings
         TrainingBarWidth = 100
         CsvSeparatorChar = CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator
         DBTickerLocation = "Bottom"
-        EmailSenderAddress = "notifications@evehq.net"
+        EmailSenderAddress = "notifications@newedentech.com"
         EveHqBackupStart = Now
         EveHqBackupFreq = 1
         EveHqBackupLast = New DateTime(1999, 1, 1)
@@ -788,8 +788,8 @@ Public Class EveHQSettings
         If showRawData = False Then
 
             ' Reset the update URL to a temp location
-            If HQ.Settings.UpdateUrl <> "http://evehq.net/update/" Then
-                HQ.Settings.UpdateUrl = "http://evehq.net/update/"
+            If HQ.Settings.UpdateUrl <> "http://evehq.newedentech.com/update/" Then
+                HQ.Settings.UpdateUrl = "http://evehq.newedentech.com/update/"
             End If
 
             ' Set the Custom database connection

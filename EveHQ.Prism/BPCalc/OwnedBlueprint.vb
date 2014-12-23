@@ -92,6 +92,7 @@ Namespace BPCalc
             newBP.MaterialModifier = originalBlueprint.MaterialModifier
             newBP.WasteFactor = originalBlueprint.WasteFactor
             newBP.MaxProductionLimit = originalBlueprint.MaxProductionLimit
+            newBP.InventionProbability = originalBlueprint.InventionProbability
             ' Copy resources
             For Each activity As Integer In originalBlueprint.Resources.Keys
                 newBP.Resources.Add(activity, New Dictionary(Of Integer, EveData.BlueprintResource))
@@ -122,10 +123,6 @@ Namespace BPCalc
             ' Copy Inventeds
             For Each invention As Integer In originalBlueprint.InventFrom
                 newBP.InventFrom.Add(invention)
-            Next
-            ' Copy meta items
-            For Each metaitem As Integer In originalBlueprint.InventionMetaItems
-                newBP.InventionMetaItems.Add(metaitem)
             Next
             Return newBP
         End Function
@@ -166,50 +163,39 @@ Namespace BPCalc
             job.RecalculateResourceRequirements()
         End Sub
 
-        Public Function CalculateWasteFactor(ByVal prodEffSkill As Integer) As Double
-            Return CalculateBPWasteFactor(MELevel, prodEffSkill)
+        Public Function CalculateWasteFactor() As Double
+            Return CalculateBPWasteFactor(MELevel)
         End Function
 
-        Public Function CalculateWasteFactor(ByVal bpmeLevel As Integer, ByVal prodEffSkill As Integer) As Double
-            Return CalculateBPWasteFactor(BPMELevel, prodEffSkill)
+        Public Function CalculateWasteFactor(ByVal bpmeLevel As Integer) As Double
+            Return CalculateBPWasteFactor(bpmeLevel)
         End Function
 
-        Private Function CalculateBPWasteFactor(ByVal bpmeLevel As Integer, ByVal prodEffSkill As Integer) As Double
+        Private Function CalculateBPWasteFactor(ByVal bpmeLevel As Integer) As Double
             If WasteFactor <> 0 Then
-                If bpmeLevel < 0 Then
-                    ' This is for negative ME
-                    Return ((WasteFactor / 100) * (1 - bpmeLevel)) + (0.25 - (0.05 * prodEffSkill))
-                Else
-                    ' This is for zero and positive ME
-                    Return ((WasteFactor / 100) / (1 + bpmeLevel)) + (0.25 - (0.05 * prodEffSkill))
-                End If
+                Return bpmeLevel / 100
             End If
         End Function
 
-        Public Function CalculateProductionTime(ByVal indSkill As Integer, ByVal prodImplantBonus As Double, ByVal productionArray As EveData.AssemblyArray, ByVal bpRuns As Integer) As Long
-            Return CalculateBPProductionTime(PELevel, indSkill, prodImplantBonus, productionArray, bpRuns)
+        Public Function CalculateProductionTime(ByVal indSkill As Integer, advIndSkill As Integer, ByVal prodImplantBonus As Double, ByVal productionArray As EveData.AssemblyArray, ByVal bpRuns As Integer) As Long
+            Return CalculateBPProductionTime(PELevel, indSkill, advIndSkill, prodImplantBonus, productionArray, bpRuns)
         End Function
 
-        Public Function CalculateProductionTime(ByVal bppeLevel As Integer, ByVal indSkill As Integer, ByVal prodImplantBonus As Double, ByVal productionArray As EveData.AssemblyArray, ByVal bpRuns As Integer) As Long
-            Return CalculateBPProductionTime(bppeLevel, indSkill, prodImplantBonus, productionArray, bpRuns)
+        Public Function CalculateProductionTime(ByVal bppeLevel As Integer, ByVal indSkill As Integer, advIndSkill As Integer, ByVal prodImplantBonus As Double, ByVal productionArray As EveData.AssemblyArray, ByVal bpRuns As Integer) As Long
+            Return CalculateBPProductionTime(bppeLevel, indSkill, advIndSkill, prodImplantBonus, productionArray, bpRuns)
         End Function
 
-        Private Function CalculateBPProductionTime(ByVal bppeLevel As Integer, ByVal indSkill As Integer, ByVal prodImplantBonus As Double, ByVal productionArray As EveData.AssemblyArray, ByVal bpRuns As Integer) As Long
+        Private Function CalculateBPProductionTime(ByVal bppeLevel As Integer, ByVal indSkill As Integer, advIndSkill As Integer, ByVal prodImplantBonus As Double, ByVal productionArray As EveData.AssemblyArray, ByVal bpRuns As Integer) As Long
             prodImplantBonus = 1 - (prodImplantBonus / 100)
-            Dim time As Double = ProductionTime * (1 - (0.04 * indSkill)) * prodImplantBonus
-            ' Calculate the production time
-            If bppeLevel >= 0 Then
-                time *= (1 - (ProductivityModifier / ProductionTime) * bppeLevel / (1 + bppeLevel))
-            Else
-                time *= (1 - (ProductivityModifier / ProductionTime) * (bppeLevel - 1))
-            End If
+            Dim time As Double = ProductionTime * (1 - (0.04 * indSkill)) * (1 - (0.03 * advIndSkill)) * prodImplantBonus
+            time = time * (1 - (bppeLevel / 100))
             If productionArray IsNot Nothing Then
                 time *= productionArray.TimeMultiplier
             End If
             Return CLng(time * bpRuns)
         End Function
 
-        Public Function CalculateInventionCost(ByVal metaItemId As Integer, ByVal decryptorId As Integer, ByVal bpcRuns As Integer) As Double
+        Public Function CalculateInventionCost(ByVal decryptorId As Integer, ByVal bpcRuns As Integer) As Double
 
             Dim quantityTable As New Dictionary(Of Integer, Integer)
 
@@ -225,15 +211,6 @@ Namespace BPCalc
                     End If
                 End If
             Next
-
-            ' Add in the meta item id
-            If metaItemId <> 0 Then
-                If quantityTable.ContainsKey(metaItemId) = False Then
-                    quantityTable.Add(metaItemId, 1)
-                Else
-                    quantityTable(metaItemId) = quantityTable(metaItemId) + 1
-                End If
-            End If
 
             ' add the decryptor to the list of items to get prices for
             If decryptorId <> 0 Then

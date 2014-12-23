@@ -23,7 +23,7 @@
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Me.nudME = New DevComponents.Editors.IntegerInput
+            Me.nudME = New DevComponents.Editors.IntegerInput()
             CType(Me.nudME, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
@@ -41,21 +41,21 @@
             Me.nudME.Dock = System.Windows.Forms.DockStyle.Fill
             Me.nudME.Location = New System.Drawing.Point(0, 0)
             Me.nudME.LockUpdateChecked = False
-            Me.nudME.MaxValue = 10000
-            Me.nudME.MinValue = -10
+            Me.nudME.MaxValue = 10
+            Me.nudME.MinValue = 0
             Me.nudME.Name = "nudME"
             Me.nudME.ShowCheckBox = True
             Me.nudME.ShowUpDown = True
             Me.nudME.Size = New System.Drawing.Size(100, 21)
             Me.nudME.TabIndex = 0
             '
-            'BPMEControl
+            'BlueprintMEControl
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.Controls.Add(Me.nudME)
             Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.Name = "BPMEControl"
+            Me.Name = "BlueprintMEControl"
             Me.Size = New System.Drawing.Size(100, 21)
             CType(Me.nudME, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)

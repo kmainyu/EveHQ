@@ -47,12 +47,14 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
+Imports System.Text
 
 Public Class Engine
 
     Public Shared EffectsMap As New SortedList(Of Integer, List(Of Effect))
     Public Shared ShipEffectsMap As New SortedList(Of Integer, List(Of Effect))
     Public Shared ShipBonusesMap As New SortedList(Of Integer, List(Of ShipEffect)) ' ShipID, List(Of ShipEffect)
+    Public Shared ShipModeBonusesMap As New Dictionary(Of Integer, Dictionary(Of Integer, List(Of ShipEffect))) ' ShipID, Dictionary(shipMode, List(Of ShipEffect))
     Public Shared SubSystemEffectsMap As New SortedList(Of Integer, List(Of ShipEffect)) ' TypeID, List(Of ShipEffect)
     Public Shared FleetEffectsMap As New SortedList
     Public Shared ImplantEffectsMap As New SortedList
@@ -175,7 +177,7 @@ Public Class Engine
                 effectData = effectLine.Split(",".ToCharArray).ToList
                 affectingIDs = effectData(2).Split(";".ToCharArray).ToList()
 
-                For Each affectingID As String In affectingIDs
+                For Each affectingId As String In affectingIDs
 
                     newEffect = New Effect
                     If EffectsMap.ContainsKey(CInt((effectData(0)))) = True Then
@@ -186,7 +188,7 @@ Public Class Engine
                     End If
                     newEffect.AffectingAtt = CInt(effectData(0))
                     newEffect.AffectingType = CType(effectData(1), HQFEffectType)
-                    newEffect.AffectingID = CInt(affectingID)
+                    newEffect.AffectingID = CInt(affectingId)
                     newEffect.AffectedAtt = CInt(effectData(3))
                     newEffect.AffectedType = CType(effectData(4), HQFEffectType)
                     If effectData(5).Contains(";") = True Then
@@ -269,31 +271,88 @@ Public Class Engine
             If effectLine.Trim <> "" And effectLine.StartsWith("#") = False Then
                 effectData = effectLine.Split(",".ToCharArray)
                 newEffect = New ShipEffect
-                If ShipBonusesMap.ContainsKey(CInt(effectData(0))) = True Then
-                    shipEffectClassList = ShipBonusesMap(CInt(effectData(0)))
+                ' Separate the bonuses into separate ships
+                ' Used for "editions" which are just reskinned ships
+                Dim shipIds As List(Of String) = effectData(0).Split(";".ToCharArray).ToList()
+                For Each shipId As String In shipIds
+                    If ShipBonusesMap.ContainsKey(CInt(shipId)) = True Then
+                        shipEffectClassList = ShipBonusesMap(CInt(shipId))
+                    Else
+                        shipEffectClassList = New List(Of ShipEffect)
+                        ShipBonusesMap.Add(CInt(shipId), shipEffectClassList)
+                    End If
+                    newEffect.ShipID = CInt(shipId)
+                    newEffect.AffectingType = CType(effectData(1), HQFEffectType)
+                    newEffect.AffectingID = CInt(effectData(2))
+                    newEffect.AffectedAtt = CInt(effectData(3))
+                    newEffect.AffectedType = CType(effectData(4), HQFEffectType)
+                    If effectData(5).Contains(";") = True Then
+                        ids = effectData(5).Split(";".ToCharArray)
+                        For Each id As String In ids
+                            newEffect.AffectedID.Add(CInt(id))
+                        Next
+                    Else
+                        newEffect.AffectedID.Add(CInt(effectData(5)))
+                    End If
+                    newEffect.StackNerf = CType(effectData(6), EffectStackType)
+                    newEffect.IsPerLevel = CBool(effectData(7))
+                    newEffect.CalcType = CType(effectData(8), EffectCalcType)
+                    newEffect.Value = Double.Parse(effectData(9), NumberStyles.Any, Culture)
+                    newEffect.Status = CInt(effectData(10))
+                    shipEffectClassList.Add(newEffect)
+                Next
+            End If
+        Next
+    End Sub
+    Public Shared Sub BuildShipModeBonusesMap()
+        ' Fetch the Effects list
+        Dim effectFile As String = My.Resources.ShipModeBonuses.ToString
+        ' Break the Effects down into separate lines
+        Dim effectLines() As String = effectFile.Split(ControlChars.CrLf.ToCharArray)
+        ' Go through lines and break each one down
+        Dim effectData() As String
+        ' Build the map
+        ShipModeBonusesMap.Clear()
+        Dim shipEffectClassList As Dictionary(Of Integer, List(Of ShipEffect))
+        Dim modeEffectList As List(Of ShipEffect)
+        Dim newEffect As ShipEffect
+        Dim ids() As String
+        For Each effectLine As String In effectLines
+            If effectLine.Trim <> "" And effectLine.StartsWith("#") = False Then
+                effectData = effectLine.Split(",".ToCharArray)
+                newEffect = New ShipEffect
+                If ShipModeBonusesMap.ContainsKey(CInt(effectData(0))) = True Then
+                    shipEffectClassList = ShipModeBonusesMap(CInt(effectData(0)))
                 Else
-                    shipEffectClassList = New List(Of ShipEffect)
-                    ShipBonusesMap.Add(CInt(effectData(0)), shipEffectClassList)
+                    shipEffectClassList = New Dictionary(Of Integer, List(Of ShipEffect))
+                    ShipModeBonusesMap.Add(CInt(effectData(0)), shipEffectClassList)
+                End If
+                ' Check for existing ship mode
+                If shipEffectClassList.ContainsKey(CInt(effectData(1))) Then
+                    modeEffectList = shipEffectClassList(CInt(effectData(1)))
+                Else
+                    modeEffectList = New List(Of ShipEffect)
+                    shipEffectClassList.Add(CInt(effectData(1)), modeEffectList)
                 End If
                 newEffect.ShipID = CInt(effectData(0))
-                newEffect.AffectingType = CType(effectData(1), HQFEffectType)
-                newEffect.AffectingID = CInt(effectData(2))
-                newEffect.AffectedAtt = CInt(effectData(3))
-                newEffect.AffectedType = CType(effectData(4), HQFEffectType)
-                If effectData(5).Contains(";") = True Then
-                    ids = effectData(5).Split(";".ToCharArray)
+                newEffect.AffectingType = CType(effectData(2), HQFEffectType)
+                newEffect.AffectingID = CInt(effectData(3))
+                newEffect.AffectedAtt = CInt(effectData(4))
+                newEffect.AffectedType = CType(effectData(5), HQFEffectType)
+                If effectData(6).Contains(";") = True Then
+                    ids = effectData(6).Split(";".ToCharArray)
                     For Each id As String In ids
                         newEffect.AffectedID.Add(CInt(id))
                     Next
                 Else
-                    newEffect.AffectedID.Add(CInt(effectData(5)))
+                    newEffect.AffectedID.Add(CInt(effectData(6)))
                 End If
-                newEffect.StackNerf = CType(effectData(6), EffectStackType)
-                newEffect.IsPerLevel = CBool(effectData(7))
-                newEffect.CalcType = CType(effectData(8), EffectCalcType)
-                newEffect.Value = Double.Parse(effectData(9), NumberStyles.Any, culture)
-                newEffect.Status = CInt(effectData(10))
-                shipEffectClassList.Add(newEffect)
+                newEffect.StackNerf = CType(effectData(7), EffectStackType)
+                newEffect.IsPerLevel = CBool(effectData(8))
+                newEffect.CalcType = CType(effectData(9), EffectCalcType)
+                newEffect.Value = Double.Parse(effectData(10), NumberStyles.Any, Culture)
+                newEffect.Status = CInt(effectData(11))
+                modeEffectList.Add(newEffect)
             End If
         Next
     End Sub
@@ -361,8 +420,8 @@ Public Class Engine
                 atts.Clear()
                 If effectData(3).Contains(";") Then
                     attIDs = effectData(3).Split(";".ToCharArray)
-                    For Each attID As String In attIDs
-                        atts.Add(attID)
+                    For Each attId As String In attIDs
+                        atts.Add(attId)
                     Next
                 Else
                     atts.Add(effectData(3))
@@ -392,17 +451,31 @@ Public Class Engine
                     ' Fix for EVEHQ-520. Check to see if the implant exists still before trying to get its attributes.
                     ' Implants are known to be renamed in updates.
                     If Implants.ImplantList.TryGetValue(newEffect.ImplantName, cImplant) Then
-                        newEffect.Value = CDbl(cImplant.Attributes(CInt(effectData(0))))
-                        newEffect.IsGang = CBool(effectData(8))
-                        If effectData(9).Contains(";") = True Then
-                            ids = effectData(9).Split(";".ToCharArray)
-                            For Each id As String In ids
-                                newEffect.Groups.Add(id)
+                        Try
+                            newEffect.Value = CDbl(cImplant.Attributes(CInt(effectData(0))))
+                            newEffect.IsGang = CBool(effectData(8))
+                            If effectData(9).Contains(";") = True Then
+                                ids = effectData(9).Split(";".ToCharArray)
+                                For Each id As String In ids
+                                    newEffect.Groups.Add(id)
+                                Next
+                            Else
+                                newEffect.Groups.Add(effectData(9))
+                            End If
+                            implantEffectClassList.Add(newEffect)
+                        Catch e As Exception
+                            Dim msg As New StringBuilder
+                            msg.AppendLine("Unable to parse implant attribute data:")
+                            msg.AppendLine("Implant: " & cImplant.Name)
+                            msg.AppendLine("EffectData(0): " & effectData(0))
+                            msg.AppendLine("Attribute Count: " & cImplant.Attributes.Count.ToString)
+                            For Each attId As Integer In cImplant.Attributes.Keys
+                                msg.AppendLine("Attribute ID: " & attId.ToString)
                             Next
-                        Else
-                            newEffect.Groups.Add(effectData(9))
-                        End If
-                        implantEffectClassList.Add(newEffect)
+                            msg.AppendLine()
+                            msg.AppendLine("Please screenshot this error message and report it to the developers for investigation.")
+                            Windows.Forms.MessageBox.Show("Implant Attribute Missing?", msg.ToString, Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Exclamation)
+                        End Try
                     End If
                 Next
             End If

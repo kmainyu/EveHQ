@@ -212,6 +212,7 @@
 719,Ship Equipment\Electronic Warfare\Electronic Counter Measures\Multi Spectrum Jammers
 718,Ship Equipment\Electronic Warfare\Electronic Counter Measures\Radar Jammers
 967,Ship Equipment\Electronic Warfare\Electronic Counter Measures\Signal Distortion Amplifier
+1937,Ship Equipment\Electronic Warfare\Interdiction Sphere Launchers
 686,Ship Equipment\Electronic Warfare\Projected ECCM
 679,Ship Equipment\Electronic Warfare\Remote Sensor Dampeners
 0,Ship Equipment\Electronic Warfare\Sensor Backup Arrays
@@ -225,7 +226,8 @@
 757,Ship Equipment\Electronic Warfare\Target Painters
 680,Ship Equipment\Electronic Warfare\Tracking Disruptors
 1085,Ship Equipment\Electronic Warfare\Warp Disruption Field Generators
-682,Ship Equipment\Electronic Warfare\Warp Jammers
+1935,Ship Equipment\Electronic Warfare\Warp Disruptors
+1936,Ship Equipment\Electronic Warfare\Warp Scramblers
 0,Ship Equipment\Electronics and Sensor Upgrades
 670,Ship Equipment\Electronics and Sensor Upgrades\Automated Targeting Systems
 675,Ship Equipment\Electronics and Sensor Upgrades\Cloaking Devices
@@ -341,6 +343,7 @@
 131,Ship Equipment\Propulsion \Microwarpdrives
 0,Ship Equipment\Propulsion \Propulsion Upgrades
 1086,Ship Equipment\Propulsion \Propulsion Upgrades\Inertia Stabilizers
+1941,Ship Equipment\Propulsion \Propulsion Upgrades\Jump Economizers
 1087,Ship Equipment\Propulsion \Propulsion Upgrades\Overdrives
 1931,Ship Equipment\Propulsion \Propulsion Upgrades\Warp Accelerators
 1088,Ship Equipment\Propulsion \Propulsion Upgrades\Warp Core Stabilizers

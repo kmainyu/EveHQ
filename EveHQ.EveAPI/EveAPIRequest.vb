@@ -412,6 +412,10 @@ Public Class EveAPIRequest
                 remoteURL = "/char/ContactNotifications.xml." & _cAPIFileExtension
             Case APITypes.UpcomingCalendarEvents
                 remoteURL = "/char/UpcomingCalendarEvents.xml." & _cAPIFileExtension
+            Case APITypes.BlueprintsChar
+                remoteURL = "/char/Blueprints.xml." & _cAPIFileExtension
+            Case APITypes.BlueprintsCorp
+                remoteURL = "/corp/Blueprints.xml." & _cAPIFileExtension
             Case Else
                 _cAPILastResult = APIResults.InvalidFeature
                 Return Nothing
@@ -1217,6 +1221,8 @@ Public Enum APITypes As Integer
     ContactNotifications = 72
     FWStats = 73
     CallList = 74
+    BlueprintsChar = 75
+    BlueprintsCorp = 76
 End Enum
 
 ''' <summary>

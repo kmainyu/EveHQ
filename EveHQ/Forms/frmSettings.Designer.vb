@@ -330,6 +330,8 @@ Namespace Forms
             Me.Label1 = New System.Windows.Forms.Label()
             Me.gpNav = New DevComponents.DotNetBar.Controls.GroupPanel()
             Me.STT = New DevComponents.DotNetBar.SuperTooltip()
+            Me.nudEveQueueDisplayLength = New System.Windows.Forms.NumericUpDown()
+            Me.lblEveQueueDisplayLength = New System.Windows.Forms.Label()
             Me.gbGeneral.SuspendLayout()
             CType(Me.nudAutomaticSaveTime, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.gbPilotScreenColours.SuspendLayout()
@@ -382,6 +384,7 @@ Namespace Forms
             Me.Panel2.SuspendLayout()
             Me.GroupBox1.SuspendLayout()
             Me.gpNav.SuspendLayout()
+            CType(Me.nudEveQueueDisplayLength, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
             'gbGeneral
@@ -413,9 +416,9 @@ Namespace Forms
             Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
             Me.gbGeneral.Controls.Add(Me.chkAutoRun)
             Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-            Me.gbGeneral.Location = New System.Drawing.Point(195, 142)
+            Me.gbGeneral.Location = New System.Drawing.Point(557, 187)
             Me.gbGeneral.Name = "gbGeneral"
-            Me.gbGeneral.Size = New System.Drawing.Size(111, 29)
+            Me.gbGeneral.Size = New System.Drawing.Size(125, 29)
             Me.gbGeneral.TabIndex = 1
             Me.gbGeneral.TabStop = False
             Me.gbGeneral.Text = "General Settings"
@@ -883,7 +886,7 @@ Namespace Forms
             Me.gbEveAccounts.Controls.Add(Me.btnDeleteAccount)
             Me.gbEveAccounts.Controls.Add(Me.btnEditAccount)
             Me.gbEveAccounts.Controls.Add(Me.btnAddAccount)
-            Me.gbEveAccounts.Location = New System.Drawing.Point(435, 291)
+            Me.gbEveAccounts.Location = New System.Drawing.Point(419, 294)
             Me.gbEveAccounts.Name = "gbEveAccounts"
             Me.gbEveAccounts.Size = New System.Drawing.Size(185, 76)
             Me.gbEveAccounts.TabIndex = 16
@@ -1035,9 +1038,9 @@ Namespace Forms
             Me.gbPilots.Controls.Add(Me.btnDeletePilot)
             Me.gbPilots.Controls.Add(Me.btnAddPilot)
             Me.gbPilots.Controls.Add(Me.lvwPilots)
-            Me.gbPilots.Location = New System.Drawing.Point(195, 9)
+            Me.gbPilots.Location = New System.Drawing.Point(213, 417)
             Me.gbPilots.Name = "gbPilots"
-            Me.gbPilots.Size = New System.Drawing.Size(706, 506)
+            Me.gbPilots.Size = New System.Drawing.Size(144, 56)
             Me.gbPilots.TabIndex = 17
             Me.gbPilots.TabStop = False
             Me.gbPilots.Text = "Pilot Management"
@@ -1087,11 +1090,12 @@ Namespace Forms
             Me.lvwPilots.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.lvwPilots.CheckBoxes = True
             Me.lvwPilots.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPilot, Me.colID, Me.colAccount})
+            Me.lvwPilots.DisabledBackColor = System.Drawing.Color.Empty
             Me.lvwPilots.FullRowSelect = True
             Me.lvwPilots.GridLines = True
             Me.lvwPilots.Location = New System.Drawing.Point(12, 19)
             Me.lvwPilots.Name = "lvwPilots"
-            Me.lvwPilots.Size = New System.Drawing.Size(398, 481)
+            Me.lvwPilots.Size = New System.Drawing.Size(398, 31)
             Me.lvwPilots.Sorting = System.Windows.Forms.SortOrder.Ascending
             Me.lvwPilots.TabIndex = 18
             Me.lvwPilots.UseCompatibleStateImageBehavior = False
@@ -1570,6 +1574,8 @@ Namespace Forms
             '
             'gbTrainingQueue
             '
+            Me.gbTrainingQueue.Controls.Add(Me.lblEveQueueDisplayLength)
+            Me.gbTrainingQueue.Controls.Add(Me.nudEveQueueDisplayLength)
             Me.gbTrainingQueue.Controls.Add(Me.chkStartWithPrimaryQueue)
             Me.gbTrainingQueue.Controls.Add(Me.btnMoveDown)
             Me.gbTrainingQueue.Controls.Add(Me.btnMoveUp)
@@ -1589,9 +1595,9 @@ Namespace Forms
             Me.gbTrainingQueue.Controls.Add(Me.lblIsPreReqColour)
             Me.gbTrainingQueue.Controls.Add(Me.lblSkillQueueColours)
             Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
-            Me.gbTrainingQueue.Location = New System.Drawing.Point(357, 77)
+            Me.gbTrainingQueue.Location = New System.Drawing.Point(195, 12)
             Me.gbTrainingQueue.Name = "gbTrainingQueue"
-            Me.gbTrainingQueue.Size = New System.Drawing.Size(142, 27)
+            Me.gbTrainingQueue.Size = New System.Drawing.Size(697, 507)
             Me.gbTrainingQueue.TabIndex = 3
             Me.gbTrainingQueue.TabStop = False
             Me.gbTrainingQueue.Text = "Training Queue"
@@ -1634,6 +1640,7 @@ Namespace Forms
             Me.lvwColumns.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.lvwColumns.CheckBoxes = True
             Me.lvwColumns.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQueueColumns})
+            Me.lvwColumns.DisabledBackColor = System.Drawing.Color.Empty
             Me.lvwColumns.FullRowSelect = True
             Me.lvwColumns.Location = New System.Drawing.Point(6, 41)
             Me.lvwColumns.Name = "lvwColumns"
@@ -2087,9 +2094,9 @@ Namespace Forms
             Me.gbPlugIns.Controls.Add(Me.lblPlugInInfo)
             Me.gbPlugIns.Controls.Add(Me.lblDetectedPlugIns)
             Me.gbPlugIns.Controls.Add(Me.lvwPlugins)
-            Me.gbPlugIns.Location = New System.Drawing.Point(618, 202)
+            Me.gbPlugIns.Location = New System.Drawing.Point(732, 252)
             Me.gbPlugIns.Name = "gbPlugIns"
-            Me.gbPlugIns.Size = New System.Drawing.Size(70, 26)
+            Me.gbPlugIns.Size = New System.Drawing.Size(125, 33)
             Me.gbPlugIns.TabIndex = 18
             Me.gbPlugIns.TabStop = False
             Me.gbPlugIns.Text = "EveHQ Plug-Ins"
@@ -2140,6 +2147,7 @@ Namespace Forms
             Me.lvwPlugins.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.lvwPlugins.CheckBoxes = True
             Me.lvwPlugins.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colPlugInName, Me.colStatus})
+            Me.lvwPlugins.DisabledBackColor = System.Drawing.Color.Empty
             Me.lvwPlugins.GridLines = True
             Me.lvwPlugins.Location = New System.Drawing.Point(6, 43)
             Me.lvwPlugins.Name = "lvwPlugins"
@@ -2879,6 +2887,7 @@ Namespace Forms
             Me.lvWidgets.Border.Class = "ListViewBorder"
             Me.lvWidgets.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.lvWidgets.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colWidgetType, Me.colWidgetInfo})
+            Me.lvWidgets.DisabledBackColor = System.Drawing.Color.Empty
             Me.lvWidgets.FullRowSelect = True
             Me.lvWidgets.GridLines = True
             Me.lvWidgets.Location = New System.Drawing.Point(11, 40)
@@ -2921,13 +2930,14 @@ Namespace Forms
             '
             Me.panelSettings.CanvasColor = System.Drawing.SystemColors.Control
             Me.panelSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.panelSettings.Controls.Add(Me.gbTrainingQueue)
+            Me.panelSettings.Controls.Add(Me.gbGeneral)
+            Me.panelSettings.Controls.Add(Me.gbPlugIns)
             Me.panelSettings.Controls.Add(Me.gbPilots)
             Me.panelSettings.Controls.Add(Me.gbItemOverrides)
-            Me.panelSettings.Controls.Add(Me.gbGeneral)
-            Me.panelSettings.Controls.Add(Me.gbTrainingQueue)
+            Me.panelSettings.Controls.Add(Me.gbEveAccounts)
             Me.panelSettings.Controls.Add(Me.gbMarket)
             Me.panelSettings.Controls.Add(Me.gbEveServer)
-            Me.panelSettings.Controls.Add(Me.gbEveAccounts)
             Me.panelSettings.Controls.Add(Me.gbNotifications)
             Me.panelSettings.Controls.Add(Me.gbDashboard)
             Me.panelSettings.Controls.Add(Me.gbEveFolders)
@@ -2935,11 +2945,11 @@ Namespace Forms
             Me.panelSettings.Controls.Add(Me.gbProxyServer)
             Me.panelSettings.Controls.Add(Me.gbEmail)
             Me.panelSettings.Controls.Add(Me.gbTaskbarIcon)
-            Me.panelSettings.Controls.Add(Me.gbPlugIns)
             Me.panelSettings.Controls.Add(Me.gpNav)
             Me.panelSettings.Controls.Add(Me.btnClose)
             Me.panelSettings.Controls.Add(Me.gbG15)
             Me.panelSettings.Controls.Add(Me.gbColours)
+            Me.panelSettings.DisabledBackColor = System.Drawing.Color.Empty
             Me.panelSettings.Dock = System.Windows.Forms.DockStyle.Fill
             Me.panelSettings.Location = New System.Drawing.Point(0, 0)
             Me.panelSettings.Name = "panelSettings"
@@ -3422,6 +3432,7 @@ Namespace Forms
             Me.gpNav.CanvasColor = System.Drawing.SystemColors.Control
             Me.gpNav.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
             Me.gpNav.Controls.Add(Me.tvwSettings)
+            Me.gpNav.DisabledBackColor = System.Drawing.Color.Empty
             Me.gpNav.Location = New System.Drawing.Point(3, 3)
             Me.gpNav.Name = "gpNav"
             Me.gpNav.Size = New System.Drawing.Size(186, 485)
@@ -3459,9 +3470,30 @@ Namespace Forms
             'STT
             '
             Me.STT.DefaultFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.STT.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Gray)
             Me.STT.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.STT.MinimumTooltipSize = New System.Drawing.Size(300, 24)
             Me.STT.PositionBelowControl = False
+            '
+            'nudEveQueueDisplayLength
+            '
+            Me.nudEveQueueDisplayLength.Location = New System.Drawing.Point(464, 333)
+            Me.nudEveQueueDisplayLength.Maximum = New Decimal(New Integer() {14, 0, 0, 0})
+            Me.nudEveQueueDisplayLength.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+            Me.nudEveQueueDisplayLength.Name = "nudEveQueueDisplayLength"
+            Me.nudEveQueueDisplayLength.Size = New System.Drawing.Size(68, 21)
+            Me.nudEveQueueDisplayLength.TabIndex = 38
+            Me.nudEveQueueDisplayLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+            Me.nudEveQueueDisplayLength.Value = New Decimal(New Integer() {1, 0, 0, 0})
+            '
+            'lblEveQueueDisplayLength
+            '
+            Me.lblEveQueueDisplayLength.AutoSize = True
+            Me.lblEveQueueDisplayLength.Location = New System.Drawing.Point(284, 335)
+            Me.lblEveQueueDisplayLength.Name = "lblEveQueueDisplayLength"
+            Me.lblEveQueueDisplayLength.Size = New System.Drawing.Size(168, 13)
+            Me.lblEveQueueDisplayLength.TabIndex = 39
+            Me.lblEveQueueDisplayLength.Text = "Eve Queue Display Length (Days)"
             '
             'FrmSettings
             '
@@ -3557,6 +3589,7 @@ Namespace Forms
             Me.GroupBox1.ResumeLayout(False)
             Me.GroupBox1.PerformLayout()
             Me.gpNav.ResumeLayout(False)
+            CType(Me.nudEveQueueDisplayLength, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
 
         End Sub
@@ -3851,5 +3884,7 @@ Namespace Forms
         Friend WithEvents chkViewRequisitions As System.Windows.Forms.CheckBox
         Friend WithEvents chkViewPilotSummary As System.Windows.Forms.CheckBox
         Friend WithEvents chkViewPilotInfo As System.Windows.Forms.CheckBox
+        Friend WithEvents lblEveQueueDisplayLength As System.Windows.Forms.Label
+        Friend WithEvents nudEveQueueDisplayLength As System.Windows.Forms.NumericUpDown
     End Class
 End NameSpace

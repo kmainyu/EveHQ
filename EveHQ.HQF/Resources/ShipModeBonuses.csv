@@ -1,0 +1,14 @@
+#HQF Ship Mode Bonus Mapping Table,,,,,,,,,,,
+#Ship ID,Ship Mode,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Status,Description
+# Confessor,,,,,,,,,,,,
+34317,1,0,0,267,1,34317,0,1,2,-33.33333333,15,Defence Mode - Armor EM Resistence
+34317,1,0,0,268,1,34317,0,1,2,-33.33333333,15,Defence Mode - Armor Explosive Resistence
+34317,1,0,0,269,1,34317,0,1,2,-33.33333333,15,Defence Mode - Armor Kinetic Resistence
+34317,1,0,0,270,1,34317,0,1,2,-33.33333333,15,Defence Mode - Armor Thermal Resistence
+34317,1,0,0,552,1,34317,0,1,0,-33.33333333,15,Defence Mode - Signature Radius
+34317,2,0,0,54,4,567;570,0,0,0,66.66666667,15,Sharpshooter Mode - Small Energy Turret Optimal Range
+34317,2,0,0,76,1,34317,0,1,0,100,15,Sharpshooter Mode - Targeting Range
+34317,2,0,0,564,1,34317,0,1,0,100,15,Sharpshooter Mode - Scan Resolution
+34317,2,0,0,208,1,34317,0,1,0,100,15,Sharpshooter Mode - Sensor Strength
+34317,3,0,0,37,1,34317,0,1,0,66.66666667,15,Propulstion Mode - Max Velocity
+34317,3,0,0,70,1,34317,0,1,0,-33.33333333,15,Propulsion Mode - Inertia

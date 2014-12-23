@@ -485,6 +485,9 @@ Namespace Controls
 
             ' Set buttons
             btnDamageAnalysis.Enabled = (turretShip Or missileShip)
+            If ParentFitting.FittedShip.ScanResolution <= 0 Then
+                btnTargetSpeed.Enabled = False
+            End If
 
             'Me.Refresh()
             

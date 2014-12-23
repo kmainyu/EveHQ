@@ -112,14 +112,11 @@ Namespace Forms
             Me.lblStation = New System.Windows.Forms.Label()
             Me.lblStationLbl = New System.Windows.Forms.Label()
             Me.lblBaseYield = New System.Windows.Forms.Label()
-            Me.lblNetYield = New System.Windows.Forms.Label()
             Me.lblStandings = New System.Windows.Forms.Label()
             Me.lblStationTake = New System.Windows.Forms.Label()
             Me.lblStationTakeLbl = New System.Windows.Forms.Label()
             Me.lblStandingsLbl = New System.Windows.Forms.Label()
-            Me.lblNetYieldLbl = New System.Windows.Forms.Label()
             Me.lblBaseYieldLbl = New System.Windows.Forms.Label()
-            Me.chkPerfectRefine = New System.Windows.Forms.CheckBox()
             Me.cboRecyclePilots = New System.Windows.Forms.ComboBox()
             Me.lblPilot = New System.Windows.Forms.Label()
             Me.TabControl1 = New System.Windows.Forms.TabControl()
@@ -171,8 +168,6 @@ Namespace Forms
             Me.btnResetBPSearch = New System.Windows.Forms.Button()
             Me.txtBPSearch = New System.Windows.Forms.TextBox()
             Me.lblBPSearch = New System.Windows.Forms.Label()
-            Me.btnGetBPClipboardInfo = New System.Windows.Forms.Button()
-            Me.btnGetBPJobInfo = New System.Windows.Forms.Button()
             Me.btnUpdateBPsFromAssets = New System.Windows.Forms.Button()
             Me.btnBPCalc = New System.Windows.Forms.Button()
             Me.chkShowOwnedBPs = New System.Windows.Forms.CheckBox()
@@ -223,6 +218,31 @@ Namespace Forms
             Me.btnDownloadAPIData = New DevComponents.DotNetBar.ButtonItem()
             Me.pnlPrism = New DevComponents.DotNetBar.PanelEx()
             Me.tabPrism = New DevComponents.DotNetBar.TabControl()
+            Me.TabControlPanel9 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.cboGroupFilter = New System.Windows.Forms.ComboBox()
+            Me.lblBPGroupFilter = New System.Windows.Forms.Label()
+            Me.cboBPOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+            Me.lblBPOwner = New System.Windows.Forms.Label()
+            Me.adtBlueprints = New DevComponents.AdvTree.AdvTree()
+            Me.colBPMBlueprint = New DevComponents.AdvTree.ColumnHeader()
+            Me.colBPMCategory = New DevComponents.AdvTree.ColumnHeader()
+            Me.colBPMGroup = New DevComponents.AdvTree.ColumnHeader()
+            Me.colBPMLocation = New DevComponents.AdvTree.ColumnHeader()
+            Me.colBPMLocation2 = New DevComponents.AdvTree.ColumnHeader()
+            Me.colBPMTechLevel = New DevComponents.AdvTree.ColumnHeader()
+            Me.colBPMME = New DevComponents.AdvTree.ColumnHeader()
+            Me.colBPMPE = New DevComponents.AdvTree.ColumnHeader()
+            Me.colBPMRuns = New DevComponents.AdvTree.ColumnHeader()
+            Me.colBPMStatus = New DevComponents.AdvTree.ColumnHeader()
+            Me.NodeConnector5 = New DevComponents.AdvTree.NodeConnector()
+            Me.BP = New DevComponents.DotNetBar.ElementStyle()
+            Me.pbBPO = New System.Windows.Forms.PictureBox()
+            Me.pbBPC = New System.Windows.Forms.PictureBox()
+            Me.pbMissing = New System.Windows.Forms.PictureBox()
+            Me.pbUnknown = New System.Windows.Forms.PictureBox()
+            Me.pbExhausted = New System.Windows.Forms.PictureBox()
+            Me.pbUserBP = New System.Windows.Forms.PictureBox()
+            Me.tiBPManager = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
             Me.btnRefreshAPI = New DevComponents.DotNetBar.ButtonX()
             Me.btnLinkRequisition = New DevComponents.DotNetBar.ButtonX()
@@ -237,6 +257,69 @@ Namespace Forms
             Me.txtItemSearch = New DevComponents.DotNetBar.Controls.TextBoxX()
             Me.lblSearch = New System.Windows.Forms.Label()
             Me.tiPrismHome = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.tiAssets = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel8 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.tiRecycler = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.lblTransProfitRatio = New System.Windows.Forms.Label()
+            Me.lblTransProfitValue = New System.Windows.Forms.Label()
+            Me.lblTransSellValue = New System.Windows.Forms.Label()
+            Me.lblTransBuyValue = New System.Windows.Forms.Label()
+            Me.cboWalletTransItem = New DevComponents.DotNetBar.Controls.TextBoxDropDown()
+            Me.lblTransItemType = New System.Windows.Forms.Label()
+            Me.cboTransactionOwner = New DevComponents.DotNetBar.Controls.TextBoxDropDown()
+            Me.cboWalletTransDivision = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+            Me.cboWalletTransType = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+            Me.cboTransAll = New DevComponents.Editors.ComboItem()
+            Me.cboTransBuy = New DevComponents.Editors.ComboItem()
+            Me.cboTransSell = New DevComponents.Editors.ComboItem()
+            Me.btnGetTransactions = New DevComponents.DotNetBar.ButtonX()
+            Me.dtiTransEndDate = New DevComponents.Editors.DateTimeAdv.DateTimeInput()
+            Me.Label2 = New System.Windows.Forms.Label()
+            Me.dtiTransStartDate = New DevComponents.Editors.DateTimeAdv.DateTimeInput()
+            Me.Label1 = New System.Windows.Forms.Label()
+            Me.adtTransactions = New DevComponents.AdvTree.AdvTree()
+            Me.colTransDate = New DevComponents.AdvTree.ColumnHeader()
+            Me.colTransItem = New DevComponents.AdvTree.ColumnHeader()
+            Me.colTransQuantity = New DevComponents.AdvTree.ColumnHeader()
+            Me.colTransPrice = New DevComponents.AdvTree.ColumnHeader()
+            Me.colTransValue = New DevComponents.AdvTree.ColumnHeader()
+            Me.colTransLocation = New DevComponents.AdvTree.ColumnHeader()
+            Me.colTransClient = New DevComponents.AdvTree.ColumnHeader()
+            Me.NodeConnector10 = New DevComponents.AdvTree.NodeConnector()
+            Me.Personal = New DevComponents.DotNetBar.ElementStyle()
+            Me.Corp = New DevComponents.DotNetBar.ElementStyle()
+            Me.Buy = New DevComponents.DotNetBar.ElementStyle()
+            Me.Sell = New DevComponents.DotNetBar.ElementStyle()
+            Me.Numeric = New DevComponents.DotNetBar.ElementStyle()
+            Me.tiTransactions = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel11 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.tcPM = New DevComponents.DotNetBar.TabControl()
+            Me.TabControlPanel12 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.adtProdJobs = New DevComponents.AdvTree.AdvTree()
+            Me.colJobName = New DevComponents.AdvTree.ColumnHeader()
+            Me.colJobItem = New DevComponents.AdvTree.ColumnHeader()
+            Me.colJobUnitProfit = New DevComponents.AdvTree.ColumnHeader()
+            Me.colJobProfitRate = New DevComponents.AdvTree.ColumnHeader()
+            Me.colJobMargin = New DevComponents.AdvTree.ColumnHeader()
+            Me.NodeConnector3 = New DevComponents.AdvTree.NodeConnector()
+            Me.ElementStyle3 = New DevComponents.DotNetBar.ElementStyle()
+            Me.pnlJobs = New DevComponents.DotNetBar.PanelEx()
+            Me.btnClearAllJobs = New DevComponents.DotNetBar.ButtonX()
+            Me.btnMakeBatch = New DevComponents.DotNetBar.ButtonX()
+            Me.btnRefreshJobs = New DevComponents.DotNetBar.ButtonX()
+            Me.btnDeleteJob = New DevComponents.DotNetBar.ButtonX()
+            Me.tiProductionJobs = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel13 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.adtBatches = New DevComponents.AdvTree.AdvTree()
+            Me.colBatchName = New DevComponents.AdvTree.ColumnHeader()
+            Me.NodeConnector4 = New DevComponents.AdvTree.NodeConnector()
+            Me.ElementStyle4 = New DevComponents.DotNetBar.ElementStyle()
+            Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+            Me.btnClearBatches = New DevComponents.DotNetBar.ButtonX()
+            Me.tiBatchJobs = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.tiProductionManager = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel4 = New DevComponents.DotNetBar.TabControlPanel()
             Me.pnlSellOrders = New DevComponents.DotNetBar.PanelEx()
             Me.btnExportOrders = New System.Windows.Forms.Button()
@@ -276,39 +359,6 @@ Namespace Forms
             Me.colJournalDescription = New DevComponents.AdvTree.ColumnHeader()
             Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
             Me.tiJournal = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.lblTransProfitRatio = New System.Windows.Forms.Label()
-            Me.lblTransProfitValue = New System.Windows.Forms.Label()
-            Me.lblTransSellValue = New System.Windows.Forms.Label()
-            Me.lblTransBuyValue = New System.Windows.Forms.Label()
-            Me.cboWalletTransItem = New DevComponents.DotNetBar.Controls.TextBoxDropDown()
-            Me.lblTransItemType = New System.Windows.Forms.Label()
-            Me.cboTransactionOwner = New DevComponents.DotNetBar.Controls.TextBoxDropDown()
-            Me.cboWalletTransDivision = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-            Me.cboWalletTransType = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-            Me.cboTransAll = New DevComponents.Editors.ComboItem()
-            Me.cboTransBuy = New DevComponents.Editors.ComboItem()
-            Me.cboTransSell = New DevComponents.Editors.ComboItem()
-            Me.btnGetTransactions = New DevComponents.DotNetBar.ButtonX()
-            Me.dtiTransEndDate = New DevComponents.Editors.DateTimeAdv.DateTimeInput()
-            Me.Label2 = New System.Windows.Forms.Label()
-            Me.dtiTransStartDate = New DevComponents.Editors.DateTimeAdv.DateTimeInput()
-            Me.Label1 = New System.Windows.Forms.Label()
-            Me.adtTransactions = New DevComponents.AdvTree.AdvTree()
-            Me.colTransDate = New DevComponents.AdvTree.ColumnHeader()
-            Me.colTransItem = New DevComponents.AdvTree.ColumnHeader()
-            Me.colTransQuantity = New DevComponents.AdvTree.ColumnHeader()
-            Me.colTransPrice = New DevComponents.AdvTree.ColumnHeader()
-            Me.colTransValue = New DevComponents.AdvTree.ColumnHeader()
-            Me.colTransLocation = New DevComponents.AdvTree.ColumnHeader()
-            Me.colTransClient = New DevComponents.AdvTree.ColumnHeader()
-            Me.NodeConnector10 = New DevComponents.AdvTree.NodeConnector()
-            Me.Personal = New DevComponents.DotNetBar.ElementStyle()
-            Me.Corp = New DevComponents.DotNetBar.ElementStyle()
-            Me.Buy = New DevComponents.DotNetBar.ElementStyle()
-            Me.Sell = New DevComponents.DotNetBar.ElementStyle()
-            Me.Numeric = New DevComponents.DotNetBar.ElementStyle()
-            Me.tiTransactions = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel7 = New DevComponents.DotNetBar.TabControlPanel()
             Me.lblStatusFilter = New System.Windows.Forms.Label()
             Me.cboStatusFilter = New DevComponents.DotNetBar.Controls.ComboBoxEx()
@@ -380,8 +430,6 @@ Namespace Forms
             Me.dtiInventionStartDate = New DevComponents.Editors.DateTimeAdv.DateTimeInput()
             Me.lblInvStartDate = New System.Windows.Forms.Label()
             Me.tiInventionResults = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel8 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.tiRecycler = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel15 = New DevComponents.DotNetBar.TabControlPanel()
             Me.pnlRigs = New DevComponents.DotNetBar.PanelEx()
             Me.adtRigs = New DevComponents.AdvTree.AdvTree()
@@ -409,7 +457,6 @@ Namespace Forms
             Me.colRigBuildMargin = New DevComponents.AdvTree.ColumnHeader()
             Me.NodeConnector13 = New DevComponents.AdvTree.NodeConnector()
             Me.ElementStyle10 = New DevComponents.DotNetBar.ElementStyle()
-            Me.PSCRigOwners = New EveHQ.Prism.Controls.PrismSelectionHostControl()
             Me.lblTotalRigMargin = New System.Windows.Forms.Label()
             Me.lblTotalRigProfit = New System.Windows.Forms.Label()
             Me.lblTotalRigSalePrice = New System.Windows.Forms.Label()
@@ -439,63 +486,15 @@ Namespace Forms
             Me.NodeConnector17 = New DevComponents.AdvTree.NodeConnector()
             Me.ElementStyle14 = New DevComponents.DotNetBar.ElementStyle()
             Me.tiInventionManager = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel11 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.tcPM = New DevComponents.DotNetBar.TabControl()
-            Me.TabControlPanel12 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.adtProdJobs = New DevComponents.AdvTree.AdvTree()
-            Me.colJobName = New DevComponents.AdvTree.ColumnHeader()
-            Me.colJobItem = New DevComponents.AdvTree.ColumnHeader()
-            Me.colJobUnitProfit = New DevComponents.AdvTree.ColumnHeader()
-            Me.colJobProfitRate = New DevComponents.AdvTree.ColumnHeader()
-            Me.colJobMargin = New DevComponents.AdvTree.ColumnHeader()
-            Me.NodeConnector3 = New DevComponents.AdvTree.NodeConnector()
-            Me.ElementStyle3 = New DevComponents.DotNetBar.ElementStyle()
-            Me.pnlJobs = New DevComponents.DotNetBar.PanelEx()
-            Me.btnClearAllJobs = New DevComponents.DotNetBar.ButtonX()
-            Me.btnMakeBatch = New DevComponents.DotNetBar.ButtonX()
-            Me.btnRefreshJobs = New DevComponents.DotNetBar.ButtonX()
-            Me.btnDeleteJob = New DevComponents.DotNetBar.ButtonX()
-            Me.tiProductionJobs = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel13 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.adtBatches = New DevComponents.AdvTree.AdvTree()
-            Me.colBatchName = New DevComponents.AdvTree.ColumnHeader()
-            Me.NodeConnector4 = New DevComponents.AdvTree.NodeConnector()
-            Me.ElementStyle4 = New DevComponents.DotNetBar.ElementStyle()
-            Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
-            Me.btnClearBatches = New DevComponents.DotNetBar.ButtonX()
-            Me.tiBatchJobs = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.splitterProductionMngr = New DevComponents.DotNetBar.ExpandableSplitter()
-            Me.PRPM = New EveHQ.Prism.Controls.PrismResources()
-            Me.tiProductionManager = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel9 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.cboBPOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-            Me.lblBPOwner = New System.Windows.Forms.Label()
-            Me.adtBlueprints = New DevComponents.AdvTree.AdvTree()
-            Me.colBPMBlueprint = New DevComponents.AdvTree.ColumnHeader()
-            Me.colBPMLocation = New DevComponents.AdvTree.ColumnHeader()
-            Me.colBPMLocation2 = New DevComponents.AdvTree.ColumnHeader()
-            Me.colBPMTechLevel = New DevComponents.AdvTree.ColumnHeader()
-            Me.colBPMME = New DevComponents.AdvTree.ColumnHeader()
-            Me.colBPMPE = New DevComponents.AdvTree.ColumnHeader()
-            Me.colBPMRuns = New DevComponents.AdvTree.ColumnHeader()
-            Me.colBPMStatus = New DevComponents.AdvTree.ColumnHeader()
-            Me.NodeConnector5 = New DevComponents.AdvTree.NodeConnector()
-            Me.BP = New DevComponents.DotNetBar.ElementStyle()
-            Me.pbBPO = New System.Windows.Forms.PictureBox()
-            Me.pbBPC = New System.Windows.Forms.PictureBox()
-            Me.pbMissing = New System.Windows.Forms.PictureBox()
-            Me.pbUnknown = New System.Windows.Forms.PictureBox()
-            Me.pbExhausted = New System.Windows.Forms.PictureBox()
-            Me.pbUserBP = New System.Windows.Forms.PictureBox()
-            Me.tiBPManager = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.PAC = New EveHQ.Prism.Controls.PrismAssetsControl()
-            Me.tiAssets = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
             Me.APIDownloadDialogCheckBox = New DevComponents.DotNetBar.Command(Me.components)
             Me.tmrUpdateInfo = New System.Windows.Forms.Timer(Me.components)
             Me.CSVExportOpenFileButton = New DevComponents.DotNetBar.Command(Me.components)
             Me.CSVExportOpenFolderButton = New DevComponents.DotNetBar.Command(Me.components)
+            Me.PAC = New EveHQ.Prism.Controls.PrismAssetsControl()
+            Me.splitterProductionMngr = New DevComponents.DotNetBar.ExpandableSplitter()
+            Me.PRPM = New EveHQ.Prism.Controls.PrismResources()
+            Me.PSCRigOwners = New EveHQ.Prism.Controls.PrismSelectionHostControl()
             Me.ctxTransactions.SuspendLayout()
             CType(Me.dtiJournalEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.dtiJournalStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -515,8 +514,31 @@ Namespace Forms
             Me.pnlPrism.SuspendLayout()
             CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.tabPrism.SuspendLayout()
+            Me.TabControlPanel9.SuspendLayout()
+            CType(Me.adtBlueprints, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.pbBPO, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.pbBPC, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.pbMissing, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.pbUnknown, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.pbExhausted, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.pbUserBP, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel1.SuspendLayout()
             CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.TabControlPanel2.SuspendLayout()
+            Me.TabControlPanel8.SuspendLayout()
+            Me.TabControlPanel5.SuspendLayout()
+            CType(Me.dtiTransEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.dtiTransStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.adtTransactions, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.TabControlPanel11.SuspendLayout()
+            CType(Me.tcPM, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.tcPM.SuspendLayout()
+            Me.TabControlPanel12.SuspendLayout()
+            CType(Me.adtProdJobs, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.pnlJobs.SuspendLayout()
+            Me.TabControlPanel13.SuspendLayout()
+            CType(Me.adtBatches, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.PanelEx1.SuspendLayout()
             Me.TabControlPanel4.SuspendLayout()
             Me.pnlSellOrders.SuspendLayout()
             CType(Me.adtSellOrders, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -525,10 +547,6 @@ Namespace Forms
             Me.pnlOrderStats.SuspendLayout()
             Me.TabControlPanel6.SuspendLayout()
             CType(Me.adtJournal, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.TabControlPanel5.SuspendLayout()
-            CType(Me.dtiTransEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.dtiTransStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.adtTransactions, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel7.SuspendLayout()
             CType(Me.adtJobs, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel3.SuspendLayout()
@@ -542,7 +560,6 @@ Namespace Forms
             CType(Me.adtInventionResults, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.dtiInventionEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.dtiInventionStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.TabControlPanel8.SuspendLayout()
             Me.TabControlPanel15.SuspendLayout()
             Me.pnlRigs.SuspendLayout()
             CType(Me.adtRigs, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -551,24 +568,6 @@ Namespace Forms
             CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel17.SuspendLayout()
             CType(Me.adtInventionJobs, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.TabControlPanel11.SuspendLayout()
-            CType(Me.tcPM, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.tcPM.SuspendLayout()
-            Me.TabControlPanel12.SuspendLayout()
-            CType(Me.adtProdJobs, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.pnlJobs.SuspendLayout()
-            Me.TabControlPanel13.SuspendLayout()
-            CType(Me.adtBatches, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.PanelEx1.SuspendLayout()
-            Me.TabControlPanel9.SuspendLayout()
-            CType(Me.adtBlueprints, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.pbBPO, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.pbBPC, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.pbMissing, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.pbUnknown, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.pbExhausted, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.pbUserBP, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.TabControlPanel2.SuspendLayout()
             Me.SuspendLayout()
             '
             'lblCurrentAPI
@@ -1256,7 +1255,7 @@ Namespace Forms
             '
             Me.chkFeesOnItems.AutoSize = True
             Me.chkFeesOnItems.BackColor = System.Drawing.Color.Transparent
-            Me.chkFeesOnItems.Location = New System.Drawing.Point(517, 39)
+            Me.chkFeesOnItems.Location = New System.Drawing.Point(551, 37)
             Me.chkFeesOnItems.Name = "chkFeesOnItems"
             Me.chkFeesOnItems.Size = New System.Drawing.Size(94, 17)
             Me.chkFeesOnItems.TabIndex = 61
@@ -1278,7 +1277,7 @@ Namespace Forms
             '
             Me.chkFeesOnRefine.AutoSize = True
             Me.chkFeesOnRefine.BackColor = System.Drawing.Color.Transparent
-            Me.chkFeesOnRefine.Location = New System.Drawing.Point(644, 39)
+            Me.chkFeesOnRefine.Location = New System.Drawing.Point(678, 37)
             Me.chkFeesOnRefine.Name = "chkFeesOnRefine"
             Me.chkFeesOnRefine.Size = New System.Drawing.Size(98, 17)
             Me.chkFeesOnRefine.TabIndex = 59
@@ -1289,7 +1288,7 @@ Namespace Forms
             '
             Me.lblTotalFees.AutoSize = True
             Me.lblTotalFees.BackColor = System.Drawing.Color.Transparent
-            Me.lblTotalFees.Location = New System.Drawing.Point(839, 95)
+            Me.lblTotalFees.Location = New System.Drawing.Point(873, 93)
             Me.lblTotalFees.Name = "lblTotalFees"
             Me.lblTotalFees.Size = New System.Drawing.Size(24, 13)
             Me.lblTotalFees.TabIndex = 58
@@ -1299,7 +1298,7 @@ Namespace Forms
             '
             Me.lblTotalFeesLbl.AutoSize = True
             Me.lblTotalFeesLbl.BackColor = System.Drawing.Color.Transparent
-            Me.lblTotalFeesLbl.Location = New System.Drawing.Point(762, 95)
+            Me.lblTotalFeesLbl.Location = New System.Drawing.Point(796, 93)
             Me.lblTotalFeesLbl.Name = "lblTotalFeesLbl"
             Me.lblTotalFeesLbl.Size = New System.Drawing.Size(61, 13)
             Me.lblTotalFeesLbl.TabIndex = 57
@@ -1309,7 +1308,7 @@ Namespace Forms
             '
             Me.nudTax.DecimalPlaces = 4
             Me.nudTax.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-            Me.nudTax.Location = New System.Drawing.Point(668, 91)
+            Me.nudTax.Location = New System.Drawing.Point(702, 89)
             Me.nudTax.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
             Me.nudTax.Name = "nudTax"
             Me.nudTax.Size = New System.Drawing.Size(74, 21)
@@ -1319,7 +1318,7 @@ Namespace Forms
             '
             Me.nudBrokerFee.DecimalPlaces = 4
             Me.nudBrokerFee.Increment = New Decimal(New Integer() {5, 0, 0, 131072})
-            Me.nudBrokerFee.Location = New System.Drawing.Point(668, 64)
+            Me.nudBrokerFee.Location = New System.Drawing.Point(702, 62)
             Me.nudBrokerFee.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
             Me.nudBrokerFee.Name = "nudBrokerFee"
             Me.nudBrokerFee.Size = New System.Drawing.Size(74, 21)
@@ -1329,7 +1328,7 @@ Namespace Forms
             '
             Me.chkOverrideTax.AutoSize = True
             Me.chkOverrideTax.BackColor = System.Drawing.Color.Transparent
-            Me.chkOverrideTax.Location = New System.Drawing.Point(517, 94)
+            Me.chkOverrideTax.Location = New System.Drawing.Point(551, 92)
             Me.chkOverrideTax.Name = "chkOverrideTax"
             Me.chkOverrideTax.Size = New System.Drawing.Size(111, 17)
             Me.chkOverrideTax.TabIndex = 54
@@ -1340,7 +1339,7 @@ Namespace Forms
             '
             Me.chkOverrideBrokerFee.AutoSize = True
             Me.chkOverrideBrokerFee.BackColor = System.Drawing.Color.Transparent
-            Me.chkOverrideBrokerFee.Location = New System.Drawing.Point(517, 65)
+            Me.chkOverrideBrokerFee.Location = New System.Drawing.Point(551, 63)
             Me.chkOverrideBrokerFee.Name = "chkOverrideBrokerFee"
             Me.chkOverrideBrokerFee.Size = New System.Drawing.Size(145, 17)
             Me.chkOverrideBrokerFee.TabIndex = 53
@@ -1391,10 +1390,10 @@ Namespace Forms
             '
             Me.cboRefineMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboRefineMode.FormattingEnabled = True
-            Me.cboRefineMode.Items.AddRange(New Object() {"Standard (Station)", "Refining Array", "Intensive Refining Array"})
+            Me.cboRefineMode.Items.AddRange(New Object() {"Standard (Station) [50%]", "Reprocessing Array [52%]", "Intensive Reprocessing Array [54%]", "Outpost [56%]", "Outpost [58%]", "Outpost [60%]"})
             Me.cboRefineMode.Location = New System.Drawing.Point(55, 9)
             Me.cboRefineMode.Name = "cboRefineMode"
-            Me.cboRefineMode.Size = New System.Drawing.Size(165, 21)
+            Me.cboRefineMode.Size = New System.Drawing.Size(211, 21)
             Me.cboRefineMode.TabIndex = 48
             '
             'lblRefineMode
@@ -1411,7 +1410,7 @@ Namespace Forms
             '
             Me.chkOverrideStandings.AutoSize = True
             Me.chkOverrideStandings.BackColor = System.Drawing.Color.Transparent
-            Me.chkOverrideStandings.Location = New System.Drawing.Point(259, 92)
+            Me.chkOverrideStandings.Location = New System.Drawing.Point(293, 90)
             Me.chkOverrideStandings.Name = "chkOverrideStandings"
             Me.chkOverrideStandings.Size = New System.Drawing.Size(118, 17)
             Me.chkOverrideStandings.TabIndex = 46
@@ -1422,7 +1421,7 @@ Namespace Forms
             '
             Me.chkOverrideBaseYield.AutoSize = True
             Me.chkOverrideBaseYield.BackColor = System.Drawing.Color.Transparent
-            Me.chkOverrideBaseYield.Location = New System.Drawing.Point(259, 65)
+            Me.chkOverrideBaseYield.Location = New System.Drawing.Point(293, 63)
             Me.chkOverrideBaseYield.Name = "chkOverrideBaseYield"
             Me.chkOverrideBaseYield.Size = New System.Drawing.Size(119, 17)
             Me.chkOverrideBaseYield.TabIndex = 45
@@ -1432,7 +1431,7 @@ Namespace Forms
             'nudStandings
             '
             Me.nudStandings.DecimalPlaces = 4
-            Me.nudStandings.Location = New System.Drawing.Point(410, 91)
+            Me.nudStandings.Location = New System.Drawing.Point(444, 89)
             Me.nudStandings.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
             Me.nudStandings.Name = "nudStandings"
             Me.nudStandings.Size = New System.Drawing.Size(74, 21)
@@ -1441,7 +1440,7 @@ Namespace Forms
             'nudBaseYield
             '
             Me.nudBaseYield.DecimalPlaces = 2
-            Me.nudBaseYield.Location = New System.Drawing.Point(410, 64)
+            Me.nudBaseYield.Location = New System.Drawing.Point(444, 62)
             Me.nudBaseYield.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
             Me.nudBaseYield.Name = "nudBaseYield"
             Me.nudBaseYield.Size = New System.Drawing.Size(74, 21)
@@ -1452,7 +1451,7 @@ Namespace Forms
             '
             Me.lblCorp.AutoSize = True
             Me.lblCorp.BackColor = System.Drawing.Color.Transparent
-            Me.lblCorp.Location = New System.Drawing.Point(305, 17)
+            Me.lblCorp.Location = New System.Drawing.Point(337, 21)
             Me.lblCorp.Name = "lblCorp"
             Me.lblCorp.Size = New System.Drawing.Size(23, 13)
             Me.lblCorp.TabIndex = 42
@@ -1462,7 +1461,7 @@ Namespace Forms
             '
             Me.lblCorpLbl.AutoSize = True
             Me.lblCorpLbl.BackColor = System.Drawing.Color.Transparent
-            Me.lblCorpLbl.Location = New System.Drawing.Point(256, 17)
+            Me.lblCorpLbl.Location = New System.Drawing.Point(288, 21)
             Me.lblCorpLbl.Name = "lblCorpLbl"
             Me.lblCorpLbl.Size = New System.Drawing.Size(34, 13)
             Me.lblCorpLbl.TabIndex = 41
@@ -1472,7 +1471,7 @@ Namespace Forms
             '
             Me.lblStation.AutoSize = True
             Me.lblStation.BackColor = System.Drawing.Color.Transparent
-            Me.lblStation.Location = New System.Drawing.Point(305, 4)
+            Me.lblStation.Location = New System.Drawing.Point(337, 8)
             Me.lblStation.Name = "lblStation"
             Me.lblStation.Size = New System.Drawing.Size(23, 13)
             Me.lblStation.TabIndex = 40
@@ -1482,7 +1481,7 @@ Namespace Forms
             '
             Me.lblStationLbl.AutoSize = True
             Me.lblStationLbl.BackColor = System.Drawing.Color.Transparent
-            Me.lblStationLbl.Location = New System.Drawing.Point(256, 4)
+            Me.lblStationLbl.Location = New System.Drawing.Point(288, 8)
             Me.lblStationLbl.Name = "lblStationLbl"
             Me.lblStationLbl.Size = New System.Drawing.Size(45, 13)
             Me.lblStationLbl.TabIndex = 39
@@ -1492,26 +1491,17 @@ Namespace Forms
             '
             Me.lblBaseYield.AutoSize = True
             Me.lblBaseYield.BackColor = System.Drawing.Color.Transparent
-            Me.lblBaseYield.Location = New System.Drawing.Point(839, 43)
+            Me.lblBaseYield.Location = New System.Drawing.Point(873, 54)
             Me.lblBaseYield.Name = "lblBaseYield"
             Me.lblBaseYield.Size = New System.Drawing.Size(24, 13)
             Me.lblBaseYield.TabIndex = 38
             Me.lblBaseYield.Text = "0%"
             '
-            'lblNetYield
-            '
-            Me.lblNetYield.AutoSize = True
-            Me.lblNetYield.Location = New System.Drawing.Point(839, 56)
-            Me.lblNetYield.Name = "lblNetYield"
-            Me.lblNetYield.Size = New System.Drawing.Size(24, 13)
-            Me.lblNetYield.TabIndex = 37
-            Me.lblNetYield.Text = "0%"
-            '
             'lblStandings
             '
             Me.lblStandings.AutoSize = True
             Me.lblStandings.BackColor = System.Drawing.Color.Transparent
-            Me.lblStandings.Location = New System.Drawing.Point(839, 69)
+            Me.lblStandings.Location = New System.Drawing.Point(873, 67)
             Me.lblStandings.Name = "lblStandings"
             Me.lblStandings.Size = New System.Drawing.Size(13, 13)
             Me.lblStandings.TabIndex = 36
@@ -1521,7 +1511,7 @@ Namespace Forms
             '
             Me.lblStationTake.AutoSize = True
             Me.lblStationTake.BackColor = System.Drawing.Color.Transparent
-            Me.lblStationTake.Location = New System.Drawing.Point(839, 82)
+            Me.lblStationTake.Location = New System.Drawing.Point(873, 80)
             Me.lblStationTake.Name = "lblStationTake"
             Me.lblStationTake.Size = New System.Drawing.Size(24, 13)
             Me.lblStationTake.TabIndex = 35
@@ -1531,7 +1521,7 @@ Namespace Forms
             '
             Me.lblStationTakeLbl.AutoSize = True
             Me.lblStationTakeLbl.BackColor = System.Drawing.Color.Transparent
-            Me.lblStationTakeLbl.Location = New System.Drawing.Point(762, 82)
+            Me.lblStationTakeLbl.Location = New System.Drawing.Point(796, 80)
             Me.lblStationTakeLbl.Name = "lblStationTakeLbl"
             Me.lblStationTakeLbl.Size = New System.Drawing.Size(71, 13)
             Me.lblStationTakeLbl.TabIndex = 34
@@ -1541,42 +1531,21 @@ Namespace Forms
             '
             Me.lblStandingsLbl.AutoSize = True
             Me.lblStandingsLbl.BackColor = System.Drawing.Color.Transparent
-            Me.lblStandingsLbl.Location = New System.Drawing.Point(762, 69)
+            Me.lblStandingsLbl.Location = New System.Drawing.Point(796, 67)
             Me.lblStandingsLbl.Name = "lblStandingsLbl"
             Me.lblStandingsLbl.Size = New System.Drawing.Size(58, 13)
             Me.lblStandingsLbl.TabIndex = 33
             Me.lblStandingsLbl.Text = "Standings:"
             '
-            'lblNetYieldLbl
-            '
-            Me.lblNetYieldLbl.AutoSize = True
-            Me.lblNetYieldLbl.BackColor = System.Drawing.Color.Transparent
-            Me.lblNetYieldLbl.Location = New System.Drawing.Point(762, 56)
-            Me.lblNetYieldLbl.Name = "lblNetYieldLbl"
-            Me.lblNetYieldLbl.Size = New System.Drawing.Size(53, 13)
-            Me.lblNetYieldLbl.TabIndex = 32
-            Me.lblNetYieldLbl.Text = "Net Yield:"
-            '
             'lblBaseYieldLbl
             '
             Me.lblBaseYieldLbl.AutoSize = True
             Me.lblBaseYieldLbl.BackColor = System.Drawing.Color.Transparent
-            Me.lblBaseYieldLbl.Location = New System.Drawing.Point(762, 43)
+            Me.lblBaseYieldLbl.Location = New System.Drawing.Point(796, 54)
             Me.lblBaseYieldLbl.Name = "lblBaseYieldLbl"
             Me.lblBaseYieldLbl.Size = New System.Drawing.Size(59, 13)
             Me.lblBaseYieldLbl.TabIndex = 31
             Me.lblBaseYieldLbl.Text = "Base Yield:"
-            '
-            'chkPerfectRefine
-            '
-            Me.chkPerfectRefine.AutoSize = True
-            Me.chkPerfectRefine.BackColor = System.Drawing.Color.Transparent
-            Me.chkPerfectRefine.Location = New System.Drawing.Point(259, 39)
-            Me.chkPerfectRefine.Name = "chkPerfectRefine"
-            Me.chkPerfectRefine.Size = New System.Drawing.Size(95, 17)
-            Me.chkPerfectRefine.TabIndex = 30
-            Me.chkPerfectRefine.Text = "Perfect Refine"
-            Me.chkPerfectRefine.UseVisualStyleBackColor = False
             '
             'cboRecyclePilots
             '
@@ -1584,7 +1553,7 @@ Namespace Forms
             Me.cboRecyclePilots.FormattingEnabled = True
             Me.cboRecyclePilots.Location = New System.Drawing.Point(55, 40)
             Me.cboRecyclePilots.Name = "cboRecyclePilots"
-            Me.cboRecyclePilots.Size = New System.Drawing.Size(165, 21)
+            Me.cboRecyclePilots.Size = New System.Drawing.Size(211, 21)
             Me.cboRecyclePilots.Sorted = True
             Me.cboRecyclePilots.TabIndex = 29
             '
@@ -1911,28 +1880,27 @@ Namespace Forms
             '
             Me.cboCategoryFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboCategoryFilter.FormattingEnabled = True
-            Me.cboCategoryFilter.Items.AddRange(New Object() {"All", "Unknown", "BPO", "BPC", "Custom"})
-            Me.cboCategoryFilter.Location = New System.Drawing.Point(786, 2)
+            Me.cboCategoryFilter.Location = New System.Drawing.Point(484, 2)
             Me.cboCategoryFilter.Name = "cboCategoryFilter"
-            Me.cboCategoryFilter.Size = New System.Drawing.Size(100, 21)
+            Me.cboCategoryFilter.Size = New System.Drawing.Size(175, 21)
             Me.cboCategoryFilter.TabIndex = 53
             '
             'lblBPCatFilter
             '
             Me.lblBPCatFilter.AutoSize = True
             Me.lblBPCatFilter.BackColor = System.Drawing.Color.Transparent
-            Me.lblBPCatFilter.Location = New System.Drawing.Point(697, 6)
+            Me.lblBPCatFilter.Location = New System.Drawing.Point(422, 5)
             Me.lblBPCatFilter.Name = "lblBPCatFilter"
-            Me.lblBPCatFilter.Size = New System.Drawing.Size(83, 13)
+            Me.lblBPCatFilter.Size = New System.Drawing.Size(56, 13)
             Me.lblBPCatFilter.TabIndex = 52
-            Me.lblBPCatFilter.Text = "Category Filter:"
+            Me.lblBPCatFilter.Text = "Category:"
             '
             'cboTypeFilter
             '
             Me.cboTypeFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboTypeFilter.FormattingEnabled = True
             Me.cboTypeFilter.Items.AddRange(New Object() {"All", "Unknown", "BPO", "BPC", "Custom"})
-            Me.cboTypeFilter.Location = New System.Drawing.Point(611, 2)
+            Me.cboTypeFilter.Location = New System.Drawing.Point(334, 26)
             Me.cboTypeFilter.Name = "cboTypeFilter"
             Me.cboTypeFilter.Size = New System.Drawing.Size(80, 21)
             Me.cboTypeFilter.TabIndex = 51
@@ -1941,31 +1909,31 @@ Namespace Forms
             '
             Me.lblTypeFilter.AutoSize = True
             Me.lblTypeFilter.BackColor = System.Drawing.Color.Transparent
-            Me.lblTypeFilter.Location = New System.Drawing.Point(543, 5)
+            Me.lblTypeFilter.Location = New System.Drawing.Point(294, 29)
             Me.lblTypeFilter.Name = "lblTypeFilter"
-            Me.lblTypeFilter.Size = New System.Drawing.Size(62, 13)
+            Me.lblTypeFilter.Size = New System.Drawing.Size(35, 13)
             Me.lblTypeFilter.TabIndex = 50
-            Me.lblTypeFilter.Text = "Type Filter:"
+            Me.lblTypeFilter.Text = "Type:"
             '
             'cboTechFilter
             '
             Me.cboTechFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboTechFilter.FormattingEnabled = True
             Me.cboTechFilter.Items.AddRange(New Object() {"All", "1", "2", "3"})
-            Me.cboTechFilter.Location = New System.Drawing.Point(487, 2)
+            Me.cboTechFilter.Location = New System.Drawing.Point(334, 2)
             Me.cboTechFilter.Name = "cboTechFilter"
-            Me.cboTechFilter.Size = New System.Drawing.Size(50, 21)
+            Me.cboTechFilter.Size = New System.Drawing.Size(80, 21)
             Me.cboTechFilter.TabIndex = 49
             '
             'lblTechFilter
             '
             Me.lblTechFilter.AutoSize = True
             Me.lblTechFilter.BackColor = System.Drawing.Color.Transparent
-            Me.lblTechFilter.Location = New System.Drawing.Point(420, 5)
+            Me.lblTechFilter.Location = New System.Drawing.Point(294, 5)
             Me.lblTechFilter.Name = "lblTechFilter"
-            Me.lblTechFilter.Size = New System.Drawing.Size(61, 13)
+            Me.lblTechFilter.Size = New System.Drawing.Size(34, 13)
             Me.lblTechFilter.TabIndex = 48
-            Me.lblTechFilter.Text = "Tech Filter:"
+            Me.lblTechFilter.Text = "Tech:"
             '
             'lblUserBP
             '
@@ -1981,7 +1949,7 @@ Namespace Forms
             'btnAddCustomBP
             '
             Me.btnAddCustomBP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnAddCustomBP.Location = New System.Drawing.Point(1192, 211)
+            Me.btnAddCustomBP.Location = New System.Drawing.Point(1192, 119)
             Me.btnAddCustomBP.Name = "btnAddCustomBP"
             Me.btnAddCustomBP.Size = New System.Drawing.Size(80, 40)
             Me.btnAddCustomBP.TabIndex = 45
@@ -2046,16 +2014,16 @@ Namespace Forms
             '
             'btnResetBPSearch
             '
-            Me.btnResetBPSearch.Location = New System.Drawing.Point(1063, 3)
+            Me.btnResetBPSearch.Location = New System.Drawing.Point(839, 1)
             Me.btnResetBPSearch.Name = "btnResetBPSearch"
-            Me.btnResetBPSearch.Size = New System.Drawing.Size(50, 21)
+            Me.btnResetBPSearch.Size = New System.Drawing.Size(50, 22)
             Me.btnResetBPSearch.TabIndex = 34
             Me.btnResetBPSearch.Text = "Reset"
             Me.btnResetBPSearch.UseVisualStyleBackColor = True
             '
             'txtBPSearch
             '
-            Me.txtBPSearch.Location = New System.Drawing.Point(942, 2)
+            Me.txtBPSearch.Location = New System.Drawing.Point(718, 2)
             Me.txtBPSearch.Name = "txtBPSearch"
             Me.txtBPSearch.Size = New System.Drawing.Size(115, 21)
             Me.txtBPSearch.TabIndex = 33
@@ -2064,33 +2032,11 @@ Namespace Forms
             '
             Me.lblBPSearch.AutoSize = True
             Me.lblBPSearch.BackColor = System.Drawing.Color.Transparent
-            Me.lblBPSearch.Location = New System.Drawing.Point(892, 6)
+            Me.lblBPSearch.Location = New System.Drawing.Point(668, 6)
             Me.lblBPSearch.Name = "lblBPSearch"
             Me.lblBPSearch.Size = New System.Drawing.Size(44, 13)
             Me.lblBPSearch.TabIndex = 32
             Me.lblBPSearch.Text = "Search:"
-            '
-            'btnGetBPClipboardInfo
-            '
-            Me.btnGetBPClipboardInfo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnGetBPClipboardInfo.Location = New System.Drawing.Point(1192, 165)
-            Me.btnGetBPClipboardInfo.Name = "btnGetBPClipboardInfo"
-            Me.btnGetBPClipboardInfo.Size = New System.Drawing.Size(80, 40)
-            Me.btnGetBPClipboardInfo.TabIndex = 32
-            Me.btnGetBPClipboardInfo.Text = "Get BP Info fr. Clipboard"
-            Me.ToolTip1.SetToolTip(Me.btnGetBPClipboardInfo, resources.GetString("btnGetBPClipboardInfo.ToolTip"))
-            Me.btnGetBPClipboardInfo.UseVisualStyleBackColor = True
-            '
-            'btnGetBPJobInfo
-            '
-            Me.btnGetBPJobInfo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnGetBPJobInfo.Location = New System.Drawing.Point(1192, 119)
-            Me.btnGetBPJobInfo.Name = "btnGetBPJobInfo"
-            Me.btnGetBPJobInfo.Size = New System.Drawing.Size(80, 40)
-            Me.btnGetBPJobInfo.TabIndex = 31
-            Me.btnGetBPJobInfo.Text = "Get BP Info from Jobs"
-            Me.ToolTip1.SetToolTip(Me.btnGetBPJobInfo, "Imports Blueprint details from the Jobs API")
-            Me.btnGetBPJobInfo.UseVisualStyleBackColor = True
             '
             'btnUpdateBPsFromAssets
             '
@@ -2120,7 +2066,7 @@ Namespace Forms
             Me.chkShowOwnedBPs.BackColor = System.Drawing.Color.Transparent
             Me.chkShowOwnedBPs.Checked = True
             Me.chkShowOwnedBPs.CheckState = System.Windows.Forms.CheckState.Checked
-            Me.chkShowOwnedBPs.Location = New System.Drawing.Point(280, 5)
+            Me.chkShowOwnedBPs.Location = New System.Drawing.Point(11, 6)
             Me.chkShowOwnedBPs.Name = "chkShowOwnedBPs"
             Me.chkShowOwnedBPs.Size = New System.Drawing.Size(134, 17)
             Me.chkShowOwnedBPs.TabIndex = 27
@@ -2228,7 +2174,7 @@ Namespace Forms
             'btnCopyListToClipboard
             '
             Me.btnCopyListToClipboard.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnCopyListToClipboard.Location = New System.Drawing.Point(1192, 257)
+            Me.btnCopyListToClipboard.Location = New System.Drawing.Point(1193, 165)
             Me.btnCopyListToClipboard.Name = "btnCopyListToClipboard"
             Me.btnCopyListToClipboard.Size = New System.Drawing.Size(80, 40)
             Me.btnCopyListToClipboard.TabIndex = 58
@@ -2277,6 +2223,7 @@ Namespace Forms
             '
             Me.rbProduction.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbProduction.ContainerControlProcessDialogKey = True
+            Me.rbProduction.DragDropSupport = True
             Me.rbProduction.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnProductionManager, Me.btnInventionManager, Me.btnBlueprintCalc, Me.btnRigBuilder})
             Me.rbProduction.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbProduction.Location = New System.Drawing.Point(790, 0)
@@ -2346,6 +2293,7 @@ Namespace Forms
             '
             Me.rbQuickCalcs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbQuickCalcs.ContainerControlProcessDialogKey = True
+            Me.rbQuickCalcs.DragDropSupport = True
             Me.rbQuickCalcs.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnInventionChance, Me.btnQuickProduction})
             Me.rbQuickCalcs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbQuickCalcs.Location = New System.Drawing.Point(680, 0)
@@ -2395,6 +2343,7 @@ Namespace Forms
             '
             Me.rbAnalysisTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbAnalysisTools.ContainerControlProcessDialogKey = True
+            Me.rbAnalysisTools.DragDropSupport = True
             Me.rbAnalysisTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnReports, Me.btnInventionResults})
             Me.rbAnalysisTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbAnalysisTools.Location = New System.Drawing.Point(568, 0)
@@ -2443,6 +2392,7 @@ Namespace Forms
             '
             Me.rbMarketTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbMarketTools.ContainerControlProcessDialogKey = True
+            Me.rbMarketTools.DragDropSupport = True
             Me.rbMarketTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOrders, Me.btnJobs, Me.btnContracts})
             Me.rbMarketTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbMarketTools.Location = New System.Drawing.Point(404, 0)
@@ -2502,6 +2452,7 @@ Namespace Forms
             '
             Me.rbAssetManagement.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbAssetManagement.ContainerControlProcessDialogKey = True
+            Me.rbAssetManagement.DragDropSupport = True
             Me.rbAssetManagement.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnAssets, Me.btnBPManager, Me.btnRecycler})
             Me.rbAssetManagement.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbAssetManagement.Location = New System.Drawing.Point(241, 0)
@@ -2561,6 +2512,7 @@ Namespace Forms
             '
             Me.rbWallet.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbWallet.ContainerControlProcessDialogKey = True
+            Me.rbWallet.DragDropSupport = True
             Me.rbWallet.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnWalletJournal, Me.btnWalletTransactions})
             Me.rbWallet.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbWallet.Location = New System.Drawing.Point(115, 0)
@@ -2610,6 +2562,7 @@ Namespace Forms
             '
             Me.rbData.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbData.ContainerControlProcessDialogKey = True
+            Me.rbData.DragDropSupport = True
             Me.rbData.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOptions, Me.btnDownloadAPIData})
             Me.rbData.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbData.Location = New System.Drawing.Point(0, 0)
@@ -2651,6 +2604,7 @@ Namespace Forms
             Me.pnlPrism.CanvasColor = System.Drawing.SystemColors.Control
             Me.pnlPrism.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
             Me.pnlPrism.Controls.Add(Me.tabPrism)
+            Me.pnlPrism.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlPrism.Dock = System.Windows.Forms.DockStyle.Fill
             Me.pnlPrism.Location = New System.Drawing.Point(0, 0)
             Me.pnlPrism.Name = "pnlPrism"
@@ -2674,23 +2628,23 @@ Namespace Forms
             Me.tabPrism.CloseButtonVisible = True
             Me.tabPrism.ColorScheme.TabBackground = System.Drawing.Color.Transparent
             Me.tabPrism.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
-            Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+            Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
             Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
-            Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
-            Me.tabPrism.Controls.Add(Me.TabControlPanel11)
+            Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+            Me.tabPrism.Controls.Add(Me.TabControlPanel9)
             Me.tabPrism.Controls.Add(Me.TabControlPanel1)
+            Me.tabPrism.Controls.Add(Me.TabControlPanel2)
+            Me.tabPrism.Controls.Add(Me.TabControlPanel8)
+            Me.tabPrism.Controls.Add(Me.TabControlPanel5)
+            Me.tabPrism.Controls.Add(Me.TabControlPanel11)
             Me.tabPrism.Controls.Add(Me.TabControlPanel4)
             Me.tabPrism.Controls.Add(Me.TabControlPanel6)
-            Me.tabPrism.Controls.Add(Me.TabControlPanel5)
             Me.tabPrism.Controls.Add(Me.TabControlPanel7)
             Me.tabPrism.Controls.Add(Me.TabControlPanel3)
             Me.tabPrism.Controls.Add(Me.TabControlPanel14)
             Me.tabPrism.Controls.Add(Me.TabControlPanel16)
-            Me.tabPrism.Controls.Add(Me.TabControlPanel8)
             Me.tabPrism.Controls.Add(Me.TabControlPanel15)
             Me.tabPrism.Controls.Add(Me.TabControlPanel17)
-            Me.tabPrism.Controls.Add(Me.TabControlPanel9)
-            Me.tabPrism.Controls.Add(Me.TabControlPanel2)
             Me.tabPrism.Dock = System.Windows.Forms.DockStyle.Bottom
             Me.tabPrism.Location = New System.Drawing.Point(0, 130)
             Me.tabPrism.Name = "tabPrism"
@@ -2716,6 +2670,302 @@ Namespace Forms
             Me.tabPrism.Tabs.Add(Me.tiInventionResults)
             Me.tabPrism.Text = "TabControl2"
             '
+            'TabControlPanel9
+            '
+            Me.TabControlPanel9.Controls.Add(Me.cboGroupFilter)
+            Me.TabControlPanel9.Controls.Add(Me.lblBPGroupFilter)
+            Me.TabControlPanel9.Controls.Add(Me.btnCopyListToClipboard)
+            Me.TabControlPanel9.Controls.Add(Me.cboBPOwner)
+            Me.TabControlPanel9.Controls.Add(Me.lblBPOwner)
+            Me.TabControlPanel9.Controls.Add(Me.adtBlueprints)
+            Me.TabControlPanel9.Controls.Add(Me.cboCategoryFilter)
+            Me.TabControlPanel9.Controls.Add(Me.chkShowOwnedBPs)
+            Me.TabControlPanel9.Controls.Add(Me.lblBPCatFilter)
+            Me.TabControlPanel9.Controls.Add(Me.pbBPO)
+            Me.TabControlPanel9.Controls.Add(Me.cboTypeFilter)
+            Me.TabControlPanel9.Controls.Add(Me.pbBPC)
+            Me.TabControlPanel9.Controls.Add(Me.lblTypeFilter)
+            Me.TabControlPanel9.Controls.Add(Me.pbMissing)
+            Me.TabControlPanel9.Controls.Add(Me.cboTechFilter)
+            Me.TabControlPanel9.Controls.Add(Me.pbUnknown)
+            Me.TabControlPanel9.Controls.Add(Me.lblTechFilter)
+            Me.TabControlPanel9.Controls.Add(Me.pbExhausted)
+            Me.TabControlPanel9.Controls.Add(Me.lblUserBP)
+            Me.TabControlPanel9.Controls.Add(Me.pbUserBP)
+            Me.TabControlPanel9.Controls.Add(Me.btnAddCustomBP)
+            Me.TabControlPanel9.Controls.Add(Me.lblExhausted)
+            Me.TabControlPanel9.Controls.Add(Me.btnBPCalc)
+            Me.TabControlPanel9.Controls.Add(Me.lblUnknown)
+            Me.TabControlPanel9.Controls.Add(Me.btnUpdateBPsFromAssets)
+            Me.TabControlPanel9.Controls.Add(Me.lblMissing)
+            Me.TabControlPanel9.Controls.Add(Me.lblBPC)
+            Me.TabControlPanel9.Controls.Add(Me.lblBPSearch)
+            Me.TabControlPanel9.Controls.Add(Me.lblBPO)
+            Me.TabControlPanel9.Controls.Add(Me.txtBPSearch)
+            Me.TabControlPanel9.Controls.Add(Me.btnResetBPSearch)
+            Me.TabControlPanel9.DisabledBackColor = System.Drawing.Color.Empty
+            Me.TabControlPanel9.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel9.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel9.Name = "TabControlPanel9"
+            Me.TabControlPanel9.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel9.Size = New System.Drawing.Size(1284, 650)
+            Me.TabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel9.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel9.Style.GradientAngle = 90
+            Me.TabControlPanel9.TabIndex = 9
+            Me.TabControlPanel9.TabItem = Me.tiBPManager
+            '
+            'cboGroupFilter
+            '
+            Me.cboGroupFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+            Me.cboGroupFilter.FormattingEnabled = True
+            Me.cboGroupFilter.Items.AddRange(New Object() {"All"})
+            Me.cboGroupFilter.Location = New System.Drawing.Point(484, 26)
+            Me.cboGroupFilter.Name = "cboGroupFilter"
+            Me.cboGroupFilter.Size = New System.Drawing.Size(175, 21)
+            Me.cboGroupFilter.TabIndex = 60
+            '
+            'lblBPGroupFilter
+            '
+            Me.lblBPGroupFilter.AutoSize = True
+            Me.lblBPGroupFilter.BackColor = System.Drawing.Color.Transparent
+            Me.lblBPGroupFilter.Location = New System.Drawing.Point(422, 29)
+            Me.lblBPGroupFilter.Name = "lblBPGroupFilter"
+            Me.lblBPGroupFilter.Size = New System.Drawing.Size(40, 13)
+            Me.lblBPGroupFilter.TabIndex = 59
+            Me.lblBPGroupFilter.Text = "Group:"
+            '
+            'cboBPOwner
+            '
+            Me.cboBPOwner.DisplayMember = "Text"
+            Me.cboBPOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+            Me.cboBPOwner.FormattingEnabled = True
+            Me.cboBPOwner.ItemHeight = 15
+            Me.cboBPOwner.Location = New System.Drawing.Point(64, 25)
+            Me.cboBPOwner.Name = "cboBPOwner"
+            Me.cboBPOwner.Size = New System.Drawing.Size(210, 21)
+            Me.cboBPOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.cboBPOwner.TabIndex = 56
+            '
+            'lblBPOwner
+            '
+            Me.lblBPOwner.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.lblBPOwner.AutoSize = True
+            Me.lblBPOwner.BackColor = System.Drawing.Color.Transparent
+            Me.lblBPOwner.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.lblBPOwner.Location = New System.Drawing.Point(12, 29)
+            Me.lblBPOwner.Name = "lblBPOwner"
+            Me.lblBPOwner.Size = New System.Drawing.Size(43, 13)
+            Me.lblBPOwner.TabIndex = 55
+            Me.lblBPOwner.Text = "Owner:"
+            '
+            'adtBlueprints
+            '
+            Me.adtBlueprints.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+            Me.adtBlueprints.AllowDrop = True
+            Me.adtBlueprints.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.adtBlueprints.BackColor = System.Drawing.SystemColors.Window
+            '
+            '
+            '
+            Me.adtBlueprints.BackgroundStyle.Class = "TreeBorderKey"
+            Me.adtBlueprints.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.adtBlueprints.Columns.Add(Me.colBPMBlueprint)
+            Me.adtBlueprints.Columns.Add(Me.colBPMCategory)
+            Me.adtBlueprints.Columns.Add(Me.colBPMGroup)
+            Me.adtBlueprints.Columns.Add(Me.colBPMLocation)
+            Me.adtBlueprints.Columns.Add(Me.colBPMLocation2)
+            Me.adtBlueprints.Columns.Add(Me.colBPMTechLevel)
+            Me.adtBlueprints.Columns.Add(Me.colBPMME)
+            Me.adtBlueprints.Columns.Add(Me.colBPMPE)
+            Me.adtBlueprints.Columns.Add(Me.colBPMRuns)
+            Me.adtBlueprints.Columns.Add(Me.colBPMStatus)
+            Me.adtBlueprints.ContextMenuStrip = Me.ctxBPManager
+            Me.adtBlueprints.DragDropEnabled = False
+            Me.adtBlueprints.DragDropNodeCopyEnabled = False
+            Me.adtBlueprints.ExpandWidth = 0
+            Me.adtBlueprints.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+            Me.adtBlueprints.Location = New System.Drawing.Point(10, 50)
+            Me.adtBlueprints.MultiSelect = True
+            Me.adtBlueprints.Name = "adtBlueprints"
+            Me.adtBlueprints.NodesConnector = Me.NodeConnector5
+            Me.adtBlueprints.NodeStyle = Me.BP
+            Me.adtBlueprints.PathSeparator = ";"
+            Me.adtBlueprints.Size = New System.Drawing.Size(1176, 594)
+            Me.adtBlueprints.Styles.Add(Me.BP)
+            Me.adtBlueprints.TabIndex = 54
+            Me.adtBlueprints.Text = "AdvTree1"
+            '
+            'colBPMBlueprint
+            '
+            Me.colBPMBlueprint.DisplayIndex = 1
+            Me.colBPMBlueprint.Name = "colBPMBlueprint"
+            Me.colBPMBlueprint.SortingEnabled = False
+            Me.colBPMBlueprint.Text = "Blueprint"
+            Me.colBPMBlueprint.Width.Absolute = 250
+            '
+            'colBPMCategory
+            '
+            Me.colBPMCategory.DisplayIndex = 2
+            Me.colBPMCategory.Name = "colBPMCategory"
+            Me.colBPMCategory.Text = "Category"
+            Me.colBPMCategory.Width.Absolute = 150
+            '
+            'colBPMGroup
+            '
+            Me.colBPMGroup.DisplayIndex = 3
+            Me.colBPMGroup.Name = "colBPMGroup"
+            Me.colBPMGroup.Text = "Group"
+            Me.colBPMGroup.Width.Absolute = 150
+            '
+            'colBPMLocation
+            '
+            Me.colBPMLocation.DisplayIndex = 4
+            Me.colBPMLocation.Name = "colBPMLocation"
+            Me.colBPMLocation.SortingEnabled = False
+            Me.colBPMLocation.Text = "Location"
+            Me.colBPMLocation.Width.Absolute = 300
+            '
+            'colBPMLocation2
+            '
+            Me.colBPMLocation2.DisplayIndex = 5
+            Me.colBPMLocation2.Name = "colBPMLocation2"
+            Me.colBPMLocation2.SortingEnabled = False
+            Me.colBPMLocation2.Text = "Specific Location"
+            Me.colBPMLocation2.Width.Absolute = 300
+            '
+            'colBPMTechLevel
+            '
+            Me.colBPMTechLevel.DisplayIndex = 6
+            Me.colBPMTechLevel.Name = "colBPMTechLevel"
+            Me.colBPMTechLevel.SortingEnabled = False
+            Me.colBPMTechLevel.Text = "Tech"
+            Me.colBPMTechLevel.Width.Absolute = 40
+            '
+            'colBPMME
+            '
+            Me.colBPMME.DisplayIndex = 7
+            Me.colBPMME.Name = "colBPMME"
+            Me.colBPMME.SortingEnabled = False
+            Me.colBPMME.Text = "ME"
+            Me.colBPMME.Width.Absolute = 40
+            '
+            'colBPMPE
+            '
+            Me.colBPMPE.DisplayIndex = 8
+            Me.colBPMPE.Name = "colBPMPE"
+            Me.colBPMPE.SortingEnabled = False
+            Me.colBPMPE.Text = "PE"
+            Me.colBPMPE.Width.Absolute = 40
+            '
+            'colBPMRuns
+            '
+            Me.colBPMRuns.DisplayIndex = 9
+            Me.colBPMRuns.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
+            Me.colBPMRuns.Name = "colBPMRuns"
+            Me.colBPMRuns.SortingEnabled = False
+            Me.colBPMRuns.Text = "Runs"
+            Me.colBPMRuns.Width.Absolute = 75
+            '
+            'colBPMStatus
+            '
+            Me.colBPMStatus.DisplayIndex = 10
+            Me.colBPMStatus.Name = "colBPMStatus"
+            Me.colBPMStatus.SortingEnabled = False
+            Me.colBPMStatus.Text = "Status"
+            Me.colBPMStatus.Width.Absolute = 100
+            '
+            'NodeConnector5
+            '
+            Me.NodeConnector5.LineColor = System.Drawing.SystemColors.ControlText
+            '
+            'BP
+            '
+            Me.BP.BackColorGradientAngle = 90
+            Me.BP.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+            Me.BP.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.BP.Name = "BP"
+            Me.BP.TextColor = System.Drawing.SystemColors.ControlText
+            '
+            'pbBPO
+            '
+            Me.pbBPO.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.pbBPO.BackColor = System.Drawing.Color.LightGreen
+            Me.pbBPO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+            Me.pbBPO.Location = New System.Drawing.Point(1192, 499)
+            Me.pbBPO.Name = "pbBPO"
+            Me.pbBPO.Size = New System.Drawing.Size(16, 16)
+            Me.pbBPO.TabIndex = 35
+            Me.pbBPO.TabStop = False
+            '
+            'pbBPC
+            '
+            Me.pbBPC.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.pbBPC.BackColor = System.Drawing.Color.LightSteelBlue
+            Me.pbBPC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+            Me.pbBPC.Location = New System.Drawing.Point(1192, 521)
+            Me.pbBPC.Name = "pbBPC"
+            Me.pbBPC.Size = New System.Drawing.Size(16, 16)
+            Me.pbBPC.TabIndex = 37
+            Me.pbBPC.TabStop = False
+            '
+            'pbMissing
+            '
+            Me.pbMissing.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.pbMissing.BackColor = System.Drawing.Color.LightCoral
+            Me.pbMissing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+            Me.pbMissing.Location = New System.Drawing.Point(1192, 565)
+            Me.pbMissing.Name = "pbMissing"
+            Me.pbMissing.Size = New System.Drawing.Size(16, 16)
+            Me.pbMissing.TabIndex = 39
+            Me.pbMissing.TabStop = False
+            '
+            'pbUnknown
+            '
+            Me.pbUnknown.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.pbUnknown.BackColor = System.Drawing.Color.LightGray
+            Me.pbUnknown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+            Me.pbUnknown.Location = New System.Drawing.Point(1192, 609)
+            Me.pbUnknown.Name = "pbUnknown"
+            Me.pbUnknown.Size = New System.Drawing.Size(16, 16)
+            Me.pbUnknown.TabIndex = 41
+            Me.pbUnknown.TabStop = False
+            '
+            'pbExhausted
+            '
+            Me.pbExhausted.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.pbExhausted.BackColor = System.Drawing.Color.Orange
+            Me.pbExhausted.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+            Me.pbExhausted.Location = New System.Drawing.Point(1192, 587)
+            Me.pbExhausted.Name = "pbExhausted"
+            Me.pbExhausted.Size = New System.Drawing.Size(16, 16)
+            Me.pbExhausted.TabIndex = 43
+            Me.pbExhausted.TabStop = False
+            '
+            'pbUserBP
+            '
+            Me.pbUserBP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.pbUserBP.BackColor = System.Drawing.Color.Yellow
+            Me.pbUserBP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+            Me.pbUserBP.Location = New System.Drawing.Point(1192, 543)
+            Me.pbUserBP.Name = "pbUserBP"
+            Me.pbUserBP.Size = New System.Drawing.Size(16, 16)
+            Me.pbUserBP.TabIndex = 46
+            Me.pbUserBP.TabStop = False
+            '
+            'tiBPManager
+            '
+            Me.tiBPManager.AttachedControl = Me.TabControlPanel9
+            Me.tiBPManager.Name = "tiBPManager"
+            Me.tiBPManager.Text = "BP Manager"
+            '
             'TabControlPanel1
             '
             Me.TabControlPanel1.Controls.Add(Me.btnRefreshAPI)
@@ -2729,15 +2979,16 @@ Namespace Forms
             Me.TabControlPanel1.Controls.Add(Me.lblSearch)
             Me.TabControlPanel1.Controls.Add(Me.lblCurrentAPI)
             Me.TabControlPanel1.Controls.Add(Me.lvwCurrentAPIs)
+            Me.TabControlPanel1.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel1.Name = "TabControlPanel1"
             Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel1.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
             Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
             Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel1.Style.GradientAngle = 90
@@ -2901,510 +3152,86 @@ Namespace Forms
             Me.tiPrismHome.Name = "tiPrismHome"
             Me.tiPrismHome.Text = "Prism Home"
             '
-            'TabControlPanel4
+            'TabControlPanel2
             '
-            Me.TabControlPanel4.Controls.Add(Me.pnlSellOrders)
-            Me.TabControlPanel4.Controls.Add(Me.splitterMarketOrders)
-            Me.TabControlPanel4.Controls.Add(Me.pnlBuyOrders)
-            Me.TabControlPanel4.Controls.Add(Me.pnlOrderStats)
-            Me.TabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel4.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel4.Name = "TabControlPanel4"
-            Me.TabControlPanel4.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel4.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel4.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Me.TabControlPanel2.Controls.Add(Me.PAC)
+            Me.TabControlPanel2.DisabledBackColor = System.Drawing.Color.Empty
+            Me.TabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel2.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel2.Name = "TabControlPanel2"
+            Me.TabControlPanel2.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel2.Size = New System.Drawing.Size(1284, 650)
+            Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel2.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel4.Style.GradientAngle = 90
-            Me.TabControlPanel4.TabIndex = 4
-            Me.TabControlPanel4.TabItem = Me.tiMarketOrders
+            Me.TabControlPanel2.Style.GradientAngle = 90
+            Me.TabControlPanel2.TabIndex = 2
+            Me.TabControlPanel2.TabItem = Me.tiAssets
             '
-            'pnlSellOrders
+            'tiAssets
             '
-            Me.pnlSellOrders.CanvasColor = System.Drawing.SystemColors.Control
-            Me.pnlSellOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.pnlSellOrders.Controls.Add(Me.btnExportOrders)
-            Me.pnlSellOrders.Controls.Add(Me.cboOrdersOwner)
-            Me.pnlSellOrders.Controls.Add(Me.lblOrdersOwner)
-            Me.pnlSellOrders.Controls.Add(Me.adtSellOrders)
-            Me.pnlSellOrders.Controls.Add(Me.lblSellOrders)
-            Me.pnlSellOrders.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.pnlSellOrders.Location = New System.Drawing.Point(1, 1)
-            Me.pnlSellOrders.Name = "pnlSellOrders"
-            Me.pnlSellOrders.Size = New System.Drawing.Size(1282, 283)
-            Me.pnlSellOrders.Style.Alignment = System.Drawing.StringAlignment.Center
-            Me.pnlSellOrders.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-            Me.pnlSellOrders.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-            Me.pnlSellOrders.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.pnlSellOrders.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.pnlSellOrders.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-            Me.pnlSellOrders.Style.GradientAngle = 90
-            Me.pnlSellOrders.TabIndex = 3
+            Me.tiAssets.AttachedControl = Me.TabControlPanel2
+            Me.tiAssets.Name = "tiAssets"
+            Me.tiAssets.Text = "Assets"
             '
-            'btnExportOrders
+            'TabControlPanel8
             '
-            Me.btnExportOrders.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnExportOrders.Location = New System.Drawing.Point(1197, 7)
-            Me.btnExportOrders.Name = "btnExportOrders"
-            Me.btnExportOrders.Size = New System.Drawing.Size(75, 23)
-            Me.btnExportOrders.TabIndex = 31
-            Me.btnExportOrders.Text = "Export"
-            Me.btnExportOrders.UseVisualStyleBackColor = True
-            '
-            'cboOrdersOwner
-            '
-            Me.cboOrdersOwner.DisplayMember = "Text"
-            Me.cboOrdersOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-            Me.cboOrdersOwner.FormattingEnabled = True
-            Me.cboOrdersOwner.ItemHeight = 15
-            Me.cboOrdersOwner.Location = New System.Drawing.Point(55, 5)
-            Me.cboOrdersOwner.Name = "cboOrdersOwner"
-            Me.cboOrdersOwner.Size = New System.Drawing.Size(210, 21)
-            Me.cboOrdersOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.cboOrdersOwner.TabIndex = 30
-            '
-            'lblOrdersOwner
-            '
-            Me.lblOrdersOwner.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.lblOrdersOwner.AutoSize = True
-            Me.lblOrdersOwner.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.lblOrdersOwner.Location = New System.Drawing.Point(3, 9)
-            Me.lblOrdersOwner.Name = "lblOrdersOwner"
-            Me.lblOrdersOwner.Size = New System.Drawing.Size(43, 13)
-            Me.lblOrdersOwner.TabIndex = 29
-            Me.lblOrdersOwner.Text = "Owner:"
-            '
-            'adtSellOrders
-            '
-            Me.adtSellOrders.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-            Me.adtSellOrders.AllowDrop = True
-            Me.adtSellOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.adtSellOrders.BackColor = System.Drawing.SystemColors.Window
-            '
-            '
-            '
-            Me.adtSellOrders.BackgroundStyle.Class = "TreeBorderKey"
-            Me.adtSellOrders.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.adtSellOrders.Columns.Add(Me.colSellType)
-            Me.adtSellOrders.Columns.Add(Me.colSellQty)
-            Me.adtSellOrders.Columns.Add(Me.colSellPrice)
-            Me.adtSellOrders.Columns.Add(Me.colSellLocation)
-            Me.adtSellOrders.Columns.Add(Me.colSellExpires)
-            Me.adtSellOrders.DragDropEnabled = False
-            Me.adtSellOrders.DragDropNodeCopyEnabled = False
-            Me.adtSellOrders.ExpandWidth = 0
-            Me.adtSellOrders.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.adtSellOrders.Location = New System.Drawing.Point(6, 50)
-            Me.adtSellOrders.Name = "adtSellOrders"
-            Me.adtSellOrders.NodesConnector = Me.NodeConnector9
-            Me.adtSellOrders.NodeStyle = Me.ElementStyle7
-            Me.adtSellOrders.PathSeparator = ";"
-            Me.adtSellOrders.Size = New System.Drawing.Size(1265, 227)
-            Me.adtSellOrders.Styles.Add(Me.ElementStyle7)
-            Me.adtSellOrders.TabIndex = 28
-            Me.adtSellOrders.Text = "AdvTree1"
-            '
-            'colSellType
-            '
-            Me.colSellType.DisplayIndex = 1
-            Me.colSellType.Name = "colSellType"
-            Me.colSellType.SortingEnabled = False
-            Me.colSellType.Text = "Type"
-            Me.colSellType.Width.Absolute = 250
-            '
-            'colSellQty
-            '
-            Me.colSellQty.DisplayIndex = 2
-            Me.colSellQty.Name = "colSellQty"
-            Me.colSellQty.SortingEnabled = False
-            Me.colSellQty.Text = "Quantity"
-            Me.colSellQty.Width.Absolute = 125
-            '
-            'colSellPrice
-            '
-            Me.colSellPrice.DisplayIndex = 3
-            Me.colSellPrice.Name = "colSellPrice"
-            Me.colSellPrice.SortingEnabled = False
-            Me.colSellPrice.Text = "Price"
-            Me.colSellPrice.Width.Absolute = 125
-            '
-            'colSellLocation
-            '
-            Me.colSellLocation.DisplayIndex = 4
-            Me.colSellLocation.Name = "colSellLocation"
-            Me.colSellLocation.SortingEnabled = False
-            Me.colSellLocation.Text = "Location"
-            Me.colSellLocation.Width.Absolute = 300
-            '
-            'colSellExpires
-            '
-            Me.colSellExpires.DisplayIndex = 5
-            Me.colSellExpires.Name = "colSellExpires"
-            Me.colSellExpires.SortingEnabled = False
-            Me.colSellExpires.Text = "Expires In"
-            Me.colSellExpires.Width.Absolute = 125
-            '
-            'NodeConnector9
-            '
-            Me.NodeConnector9.LineColor = System.Drawing.SystemColors.ControlText
-            '
-            'ElementStyle7
-            '
-            Me.ElementStyle7.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.ElementStyle7.Name = "ElementStyle7"
-            Me.ElementStyle7.TextColor = System.Drawing.SystemColors.ControlText
-            '
-            'splitterMarketOrders
-            '
-            Me.splitterMarketOrders.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
-            Me.splitterMarketOrders.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterMarketOrders.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-            Me.splitterMarketOrders.Dock = System.Windows.Forms.DockStyle.Bottom
-            Me.splitterMarketOrders.ExpandableControl = Me.pnlBuyOrders
-            Me.splitterMarketOrders.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
-            Me.splitterMarketOrders.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterMarketOrders.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-            Me.splitterMarketOrders.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterMarketOrders.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-            Me.splitterMarketOrders.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterMarketOrders.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-            Me.splitterMarketOrders.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
-            Me.splitterMarketOrders.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
-            Me.splitterMarketOrders.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
-            Me.splitterMarketOrders.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
-            Me.splitterMarketOrders.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.splitterMarketOrders.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
-            Me.splitterMarketOrders.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterMarketOrders.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-            Me.splitterMarketOrders.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterMarketOrders.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
-            Me.splitterMarketOrders.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterMarketOrders.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-            Me.splitterMarketOrders.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
-            Me.splitterMarketOrders.Location = New System.Drawing.Point(1, 284)
-            Me.splitterMarketOrders.Name = "splitterMarketOrders"
-            Me.splitterMarketOrders.Size = New System.Drawing.Size(1282, 6)
-            Me.splitterMarketOrders.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
-            Me.splitterMarketOrders.TabIndex = 2
-            Me.splitterMarketOrders.TabStop = False
-            '
-            'pnlBuyOrders
-            '
-            Me.pnlBuyOrders.CanvasColor = System.Drawing.SystemColors.Control
-            Me.pnlBuyOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.pnlBuyOrders.Controls.Add(Me.adtBuyOrders)
-            Me.pnlBuyOrders.Controls.Add(Me.lblBuyOrders)
-            Me.pnlBuyOrders.Dock = System.Windows.Forms.DockStyle.Bottom
-            Me.pnlBuyOrders.Location = New System.Drawing.Point(1, 290)
-            Me.pnlBuyOrders.Name = "pnlBuyOrders"
-            Me.pnlBuyOrders.Size = New System.Drawing.Size(1282, 263)
-            Me.pnlBuyOrders.Style.Alignment = System.Drawing.StringAlignment.Center
-            Me.pnlBuyOrders.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-            Me.pnlBuyOrders.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-            Me.pnlBuyOrders.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.pnlBuyOrders.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.pnlBuyOrders.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-            Me.pnlBuyOrders.Style.GradientAngle = 90
-            Me.pnlBuyOrders.TabIndex = 1
-            '
-            'adtBuyOrders
-            '
-            Me.adtBuyOrders.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-            Me.adtBuyOrders.AllowDrop = True
-            Me.adtBuyOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.adtBuyOrders.BackColor = System.Drawing.SystemColors.Window
-            '
-            '
-            '
-            Me.adtBuyOrders.BackgroundStyle.Class = "TreeBorderKey"
-            Me.adtBuyOrders.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.adtBuyOrders.Columns.Add(Me.colBuyType)
-            Me.adtBuyOrders.Columns.Add(Me.colBuyQty)
-            Me.adtBuyOrders.Columns.Add(Me.colBuyPrice)
-            Me.adtBuyOrders.Columns.Add(Me.colBuyLocation)
-            Me.adtBuyOrders.Columns.Add(Me.colBuyRange)
-            Me.adtBuyOrders.Columns.Add(Me.colBuyVolume)
-            Me.adtBuyOrders.Columns.Add(Me.colBuyExpires)
-            Me.adtBuyOrders.DragDropEnabled = False
-            Me.adtBuyOrders.DragDropNodeCopyEnabled = False
-            Me.adtBuyOrders.ExpandWidth = 0
-            Me.adtBuyOrders.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.adtBuyOrders.Location = New System.Drawing.Point(6, 19)
-            Me.adtBuyOrders.Name = "adtBuyOrders"
-            Me.adtBuyOrders.NodesConnector = Me.NodeConnector8
-            Me.adtBuyOrders.NodeStyle = Me.ElementStyle6
-            Me.adtBuyOrders.PathSeparator = ";"
-            Me.adtBuyOrders.Size = New System.Drawing.Size(1265, 238)
-            Me.adtBuyOrders.Styles.Add(Me.ElementStyle6)
-            Me.adtBuyOrders.TabIndex = 27
-            Me.adtBuyOrders.Text = "AdvTree1"
-            '
-            'colBuyType
-            '
-            Me.colBuyType.DisplayIndex = 1
-            Me.colBuyType.Name = "colBuyType"
-            Me.colBuyType.SortingEnabled = False
-            Me.colBuyType.Text = "Type"
-            Me.colBuyType.Width.Absolute = 250
-            '
-            'colBuyQty
-            '
-            Me.colBuyQty.DisplayIndex = 2
-            Me.colBuyQty.Name = "colBuyQty"
-            Me.colBuyQty.SortingEnabled = False
-            Me.colBuyQty.Text = "Quantity"
-            Me.colBuyQty.Width.Absolute = 125
-            '
-            'colBuyPrice
-            '
-            Me.colBuyPrice.DisplayIndex = 3
-            Me.colBuyPrice.Name = "colBuyPrice"
-            Me.colBuyPrice.SortingEnabled = False
-            Me.colBuyPrice.Text = "Price"
-            Me.colBuyPrice.Width.Absolute = 125
-            '
-            'colBuyLocation
-            '
-            Me.colBuyLocation.DisplayIndex = 4
-            Me.colBuyLocation.Name = "colBuyLocation"
-            Me.colBuyLocation.SortingEnabled = False
-            Me.colBuyLocation.Text = "Location"
-            Me.colBuyLocation.Width.Absolute = 300
-            '
-            'colBuyRange
-            '
-            Me.colBuyRange.DisplayIndex = 5
-            Me.colBuyRange.Name = "colBuyRange"
-            Me.colBuyRange.SortingEnabled = False
-            Me.colBuyRange.Text = "Range"
-            Me.colBuyRange.Width.Absolute = 50
-            '
-            'colBuyVolume
-            '
-            Me.colBuyVolume.DisplayIndex = 6
-            Me.colBuyVolume.Name = "colBuyVolume"
-            Me.colBuyVolume.SortingEnabled = False
-            Me.colBuyVolume.Text = "Min Volume"
-            Me.colBuyVolume.Width.Absolute = 100
-            '
-            'colBuyExpires
-            '
-            Me.colBuyExpires.DisplayIndex = 7
-            Me.colBuyExpires.Name = "colBuyExpires"
-            Me.colBuyExpires.SortingEnabled = False
-            Me.colBuyExpires.Text = "Expires In"
-            Me.colBuyExpires.Width.Absolute = 125
-            '
-            'NodeConnector8
-            '
-            Me.NodeConnector8.LineColor = System.Drawing.SystemColors.ControlText
-            '
-            'ElementStyle6
-            '
-            Me.ElementStyle6.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.ElementStyle6.Name = "ElementStyle6"
-            Me.ElementStyle6.TextColor = System.Drawing.SystemColors.ControlText
-            '
-            'pnlOrderStats
-            '
-            Me.pnlOrderStats.CanvasColor = System.Drawing.SystemColors.Control
-            Me.pnlOrderStats.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.pnlOrderStats.Controls.Add(Me.lblOrdersLbl)
-            Me.pnlOrderStats.Controls.Add(Me.lblRemoteRange)
-            Me.pnlOrderStats.Controls.Add(Me.lblEscrowLbl)
-            Me.pnlOrderStats.Controls.Add(Me.lblModRange)
-            Me.pnlOrderStats.Controls.Add(Me.lblBrokerFeeLbl)
-            Me.pnlOrderStats.Controls.Add(Me.lblBidRange)
-            Me.pnlOrderStats.Controls.Add(Me.lblTransTaxLbl)
-            Me.pnlOrderStats.Controls.Add(Me.lblAskRange)
-            Me.pnlOrderStats.Controls.Add(Me.lblSellTotalLbl)
-            Me.pnlOrderStats.Controls.Add(Me.lblRemoteRangeLbl)
-            Me.pnlOrderStats.Controls.Add(Me.lblBuyTotalLbl)
-            Me.pnlOrderStats.Controls.Add(Me.lblModRangeLbl)
-            Me.pnlOrderStats.Controls.Add(Me.lblOrders)
-            Me.pnlOrderStats.Controls.Add(Me.lblBidRangeLbl)
-            Me.pnlOrderStats.Controls.Add(Me.lblEscrow)
-            Me.pnlOrderStats.Controls.Add(Me.lblAskRangeLbl)
-            Me.pnlOrderStats.Controls.Add(Me.lblBrokerFee)
-            Me.pnlOrderStats.Controls.Add(Me.lblBuyTotal)
-            Me.pnlOrderStats.Controls.Add(Me.lblTransTax)
-            Me.pnlOrderStats.Controls.Add(Me.lblSellTotal)
-            Me.pnlOrderStats.Dock = System.Windows.Forms.DockStyle.Bottom
-            Me.pnlOrderStats.Location = New System.Drawing.Point(1, 553)
-            Me.pnlOrderStats.Name = "pnlOrderStats"
-            Me.pnlOrderStats.Size = New System.Drawing.Size(1282, 96)
-            Me.pnlOrderStats.Style.Alignment = System.Drawing.StringAlignment.Center
-            Me.pnlOrderStats.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-            Me.pnlOrderStats.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-            Me.pnlOrderStats.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.pnlOrderStats.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.pnlOrderStats.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-            Me.pnlOrderStats.Style.GradientAngle = 90
-            Me.pnlOrderStats.TabIndex = 0
-            '
-            'tiMarketOrders
-            '
-            Me.tiMarketOrders.AttachedControl = Me.TabControlPanel4
-            Me.tiMarketOrders.Name = "tiMarketOrders"
-            Me.tiMarketOrders.Text = "Market Orders"
-            '
-            'TabControlPanel6
-            '
-            Me.TabControlPanel6.Controls.Add(Me.btnImportEntries)
-            Me.TabControlPanel6.Controls.Add(Me.btnExportEntries)
-            Me.TabControlPanel6.Controls.Add(Me.btnCheckJournalOmissions)
-            Me.TabControlPanel6.Controls.Add(Me.adtJournal)
-            Me.TabControlPanel6.Controls.Add(Me.btnResetJournal)
-            Me.TabControlPanel6.Controls.Add(Me.lblWalletJournalDivision)
-            Me.TabControlPanel6.Controls.Add(Me.lblAlwaysShowEveBalance)
-            Me.TabControlPanel6.Controls.Add(Me.sbShowEveBalance)
-            Me.TabControlPanel6.Controls.Add(Me.btnExportJournal)
-            Me.TabControlPanel6.Controls.Add(Me.btnJournalQuery)
-            Me.TabControlPanel6.Controls.Add(Me.cboWalletJournalDivision)
-            Me.TabControlPanel6.Controls.Add(Me.cboJournalRefTypes)
-            Me.TabControlPanel6.Controls.Add(Me.dtiJournalStartDate)
-            Me.TabControlPanel6.Controls.Add(Me.cboJournalOwners)
-            Me.TabControlPanel6.Controls.Add(Me.dtiJournalEndDate)
-            Me.TabControlPanel6.Controls.Add(Me.lblJournalEndDate)
-            Me.TabControlPanel6.Controls.Add(Me.lblJournalStartDate)
-            Me.TabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel6.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel6.Name = "TabControlPanel6"
-            Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel6.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Me.TabControlPanel8.Controls.Add(Me.lblRefineMode)
+            Me.TabControlPanel8.Controls.Add(Me.chkFeesOnItems)
+            Me.TabControlPanel8.Controls.Add(Me.TabControl1)
+            Me.TabControlPanel8.Controls.Add(Me.lblPriceTotals)
+            Me.TabControlPanel8.Controls.Add(Me.lblPilot)
+            Me.TabControlPanel8.Controls.Add(Me.chkFeesOnRefine)
+            Me.TabControlPanel8.Controls.Add(Me.cboRecyclePilots)
+            Me.TabControlPanel8.Controls.Add(Me.lblTotalFees)
+            Me.TabControlPanel8.Controls.Add(Me.lblTotalFeesLbl)
+            Me.TabControlPanel8.Controls.Add(Me.lblBaseYieldLbl)
+            Me.TabControlPanel8.Controls.Add(Me.nudTax)
+            Me.TabControlPanel8.Controls.Add(Me.nudBrokerFee)
+            Me.TabControlPanel8.Controls.Add(Me.lblStandingsLbl)
+            Me.TabControlPanel8.Controls.Add(Me.chkOverrideTax)
+            Me.TabControlPanel8.Controls.Add(Me.lblStationTakeLbl)
+            Me.TabControlPanel8.Controls.Add(Me.chkOverrideBrokerFee)
+            Me.TabControlPanel8.Controls.Add(Me.lblStationTake)
+            Me.TabControlPanel8.Controls.Add(Me.lblItems)
+            Me.TabControlPanel8.Controls.Add(Me.lblStandings)
+            Me.TabControlPanel8.Controls.Add(Me.lblVolume)
+            Me.TabControlPanel8.Controls.Add(Me.lblItemsLbl)
+            Me.TabControlPanel8.Controls.Add(Me.lblBaseYield)
+            Me.TabControlPanel8.Controls.Add(Me.lblVolumeLbl)
+            Me.TabControlPanel8.Controls.Add(Me.lblStationLbl)
+            Me.TabControlPanel8.Controls.Add(Me.cboRefineMode)
+            Me.TabControlPanel8.Controls.Add(Me.lblStation)
+            Me.TabControlPanel8.Controls.Add(Me.lblCorpLbl)
+            Me.TabControlPanel8.Controls.Add(Me.chkOverrideStandings)
+            Me.TabControlPanel8.Controls.Add(Me.lblCorp)
+            Me.TabControlPanel8.Controls.Add(Me.chkOverrideBaseYield)
+            Me.TabControlPanel8.Controls.Add(Me.nudBaseYield)
+            Me.TabControlPanel8.Controls.Add(Me.nudStandings)
+            Me.TabControlPanel8.DisabledBackColor = System.Drawing.Color.Empty
+            Me.TabControlPanel8.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel8.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel8.Name = "TabControlPanel8"
+            Me.TabControlPanel8.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel8.Size = New System.Drawing.Size(1284, 650)
+            Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel8.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel6.Style.GradientAngle = 90
-            Me.TabControlPanel6.TabIndex = 6
-            Me.TabControlPanel6.TabItem = Me.tiJournal
+            Me.TabControlPanel8.Style.GradientAngle = 90
+            Me.TabControlPanel8.TabIndex = 8
+            Me.TabControlPanel8.TabItem = Me.tiRecycler
             '
-            'btnImportEntries
+            'tiRecycler
             '
-            Me.btnImportEntries.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnImportEntries.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnImportEntries.Location = New System.Drawing.Point(757, 38)
-            Me.btnImportEntries.Name = "btnImportEntries"
-            Me.btnImportEntries.Size = New System.Drawing.Size(100, 23)
-            Me.btnImportEntries.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnImportEntries.TabIndex = 21
-            Me.btnImportEntries.Text = "Import Entries"
-            '
-            'btnExportEntries
-            '
-            Me.btnExportEntries.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnExportEntries.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnExportEntries.Location = New System.Drawing.Point(757, 8)
-            Me.btnExportEntries.Name = "btnExportEntries"
-            Me.btnExportEntries.Size = New System.Drawing.Size(100, 23)
-            Me.btnExportEntries.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnExportEntries.TabIndex = 20
-            Me.btnExportEntries.Text = "Export Entries"
-            '
-            'btnCheckJournalOmissions
-            '
-            Me.btnCheckJournalOmissions.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnCheckJournalOmissions.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnCheckJournalOmissions.Location = New System.Drawing.Point(651, 8)
-            Me.btnCheckJournalOmissions.Name = "btnCheckJournalOmissions"
-            Me.btnCheckJournalOmissions.Size = New System.Drawing.Size(100, 23)
-            Me.btnCheckJournalOmissions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnCheckJournalOmissions.TabIndex = 19
-            Me.btnCheckJournalOmissions.Text = "Check Omissions"
-            '
-            'adtJournal
-            '
-            Me.adtJournal.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-            Me.adtJournal.AllowDrop = True
-            Me.adtJournal.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.adtJournal.BackColor = System.Drawing.SystemColors.Window
-            '
-            '
-            '
-            Me.adtJournal.BackgroundStyle.Class = "TreeBorderKey"
-            Me.adtJournal.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.adtJournal.Columns.Add(Me.colJournalDate)
-            Me.adtJournal.Columns.Add(Me.colJournalType)
-            Me.adtJournal.Columns.Add(Me.colJournalAmount)
-            Me.adtJournal.Columns.Add(Me.colJournalBalance)
-            Me.adtJournal.Columns.Add(Me.colJournalDescription)
-            Me.adtJournal.DragDropEnabled = False
-            Me.adtJournal.DragDropNodeCopyEnabled = False
-            Me.adtJournal.ExpandWidth = 16
-            Me.adtJournal.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.adtJournal.Location = New System.Drawing.Point(4, 88)
-            Me.adtJournal.Name = "adtJournal"
-            Me.adtJournal.NodeStyle = Me.ElementStyle1
-            Me.adtJournal.PathSeparator = ";"
-            Me.adtJournal.Size = New System.Drawing.Size(1276, 558)
-            Me.adtJournal.Styles.Add(Me.ElementStyle1)
-            Me.adtJournal.TabIndex = 18
-            Me.adtJournal.Text = "AdvTree1"
-            '
-            'colJournalDate
-            '
-            Me.colJournalDate.DisplayIndex = 1
-            Me.colJournalDate.Name = "colJournalDate"
-            Me.colJournalDate.SortingEnabled = False
-            Me.colJournalDate.Text = "Date"
-            Me.colJournalDate.Width.Absolute = 150
-            '
-            'colJournalType
-            '
-            Me.colJournalType.DisplayIndex = 2
-            Me.colJournalType.Name = "colJournalType"
-            Me.colJournalType.SortingEnabled = False
-            Me.colJournalType.Text = "Type"
-            Me.colJournalType.Width.Absolute = 250
-            '
-            'colJournalAmount
-            '
-            Me.colJournalAmount.DisplayIndex = 3
-            Me.colJournalAmount.Name = "colJournalAmount"
-            Me.colJournalAmount.SortingEnabled = False
-            Me.colJournalAmount.Text = "Amount"
-            Me.colJournalAmount.Width.Absolute = 125
-            '
-            'colJournalBalance
-            '
-            Me.colJournalBalance.DisplayIndex = 4
-            Me.colJournalBalance.Name = "colJournalBalance"
-            Me.colJournalBalance.SortingEnabled = False
-            Me.colJournalBalance.Text = "Balance"
-            Me.colJournalBalance.Width.Absolute = 125
-            '
-            'colJournalDescription
-            '
-            Me.colJournalDescription.DisplayIndex = 5
-            Me.colJournalDescription.Name = "colJournalDescription"
-            Me.colJournalDescription.SortingEnabled = False
-            Me.colJournalDescription.Text = "Description"
-            Me.colJournalDescription.Width.Absolute = 500
-            '
-            'ElementStyle1
-            '
-            Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.ElementStyle1.Name = "ElementStyle1"
-            Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
-            '
-            'tiJournal
-            '
-            Me.tiJournal.AttachedControl = Me.TabControlPanel6
-            Me.tiJournal.Name = "tiJournal"
-            Me.tiJournal.Text = "Journal"
+            Me.tiRecycler.AttachedControl = Me.TabControlPanel8
+            Me.tiRecycler.Name = "tiRecycler"
+            Me.tiRecycler.Text = "Recycler"
             '
             'TabControlPanel5
             '
@@ -3426,15 +3253,16 @@ Namespace Forms
             Me.TabControlPanel5.Controls.Add(Me.lblType)
             Me.TabControlPanel5.Controls.Add(Me.lblWalletTransDivision)
             Me.TabControlPanel5.Controls.Add(Me.btnExportTransactions)
+            Me.TabControlPanel5.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel5.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel5.Name = "TabControlPanel5"
             Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel5.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
             Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
             Me.TabControlPanel5.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel5.Style.GradientAngle = 90
@@ -3856,6 +3684,846 @@ Namespace Forms
             Me.tiTransactions.Name = "tiTransactions"
             Me.tiTransactions.Text = "Transactions"
             '
+            'TabControlPanel11
+            '
+            Me.TabControlPanel11.Controls.Add(Me.tcPM)
+            Me.TabControlPanel11.Controls.Add(Me.splitterProductionMngr)
+            Me.TabControlPanel11.Controls.Add(Me.PRPM)
+            Me.TabControlPanel11.DisabledBackColor = System.Drawing.Color.Empty
+            Me.TabControlPanel11.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel11.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel11.Name = "TabControlPanel11"
+            Me.TabControlPanel11.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel11.Size = New System.Drawing.Size(1284, 650)
+            Me.TabControlPanel11.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel11.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel11.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel11.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel11.Style.GradientAngle = 90
+            Me.TabControlPanel11.TabIndex = 11
+            Me.TabControlPanel11.TabItem = Me.tiProductionManager
+            '
+            'tcPM
+            '
+            Me.tcPM.BackColor = System.Drawing.Color.Transparent
+            Me.tcPM.CanReorderTabs = True
+            Me.tcPM.ColorScheme.TabBackground = System.Drawing.Color.Transparent
+            Me.tcPM.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
+            Me.tcPM.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
+            Me.tcPM.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
+            Me.tcPM.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+            Me.tcPM.Controls.Add(Me.TabControlPanel12)
+            Me.tcPM.Controls.Add(Me.TabControlPanel13)
+            Me.tcPM.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tcPM.Location = New System.Drawing.Point(1, 1)
+            Me.tcPM.Name = "tcPM"
+            Me.tcPM.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
+            Me.tcPM.SelectedTabIndex = 0
+            Me.tcPM.Size = New System.Drawing.Size(676, 648)
+            Me.tcPM.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
+            Me.tcPM.TabIndex = 7
+            Me.tcPM.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
+            Me.tcPM.Tabs.Add(Me.tiProductionJobs)
+            Me.tcPM.Tabs.Add(Me.tiBatchJobs)
+            Me.tcPM.Text = "TabControl2"
+            '
+            'TabControlPanel12
+            '
+            Me.TabControlPanel12.Controls.Add(Me.adtProdJobs)
+            Me.TabControlPanel12.Controls.Add(Me.pnlJobs)
+            Me.TabControlPanel12.DisabledBackColor = System.Drawing.Color.Empty
+            Me.TabControlPanel12.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel12.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel12.Name = "TabControlPanel12"
+            Me.TabControlPanel12.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel12.Size = New System.Drawing.Size(676, 625)
+            Me.TabControlPanel12.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel12.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel12.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel12.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel12.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel12.Style.GradientAngle = 90
+            Me.TabControlPanel12.TabIndex = 1
+            Me.TabControlPanel12.TabItem = Me.tiProductionJobs
+            '
+            'adtProdJobs
+            '
+            Me.adtProdJobs.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+            Me.adtProdJobs.AllowDrop = True
+            Me.adtProdJobs.BackColor = System.Drawing.SystemColors.Window
+            '
+            '
+            '
+            Me.adtProdJobs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.adtProdJobs.Columns.Add(Me.colJobName)
+            Me.adtProdJobs.Columns.Add(Me.colJobItem)
+            Me.adtProdJobs.Columns.Add(Me.colJobUnitProfit)
+            Me.adtProdJobs.Columns.Add(Me.colJobProfitRate)
+            Me.adtProdJobs.Columns.Add(Me.colJobMargin)
+            Me.adtProdJobs.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.adtProdJobs.DragDropEnabled = False
+            Me.adtProdJobs.DragDropNodeCopyEnabled = False
+            Me.adtProdJobs.ExpandWidth = 0
+            Me.adtProdJobs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+            Me.adtProdJobs.Location = New System.Drawing.Point(1, 1)
+            Me.adtProdJobs.MultiSelect = True
+            Me.adtProdJobs.Name = "adtProdJobs"
+            Me.adtProdJobs.NodesConnector = Me.NodeConnector3
+            Me.adtProdJobs.NodeStyle = Me.ElementStyle3
+            Me.adtProdJobs.PathSeparator = ";"
+            Me.adtProdJobs.Size = New System.Drawing.Size(674, 572)
+            Me.adtProdJobs.Styles.Add(Me.ElementStyle3)
+            Me.adtProdJobs.TabIndex = 0
+            Me.adtProdJobs.Text = "AdvTree1"
+            '
+            'colJobName
+            '
+            Me.colJobName.DisplayIndex = 1
+            Me.colJobName.Name = "colJobName"
+            Me.colJobName.SortingEnabled = False
+            Me.colJobName.Text = "Job Name"
+            Me.colJobName.Width.Absolute = 150
+            '
+            'colJobItem
+            '
+            Me.colJobItem.DisplayIndex = 2
+            Me.colJobItem.Name = "colJobItem"
+            Me.colJobItem.SortingEnabled = False
+            Me.colJobItem.Text = "Produced Item"
+            Me.colJobItem.Width.Absolute = 150
+            '
+            'colJobUnitProfit
+            '
+            Me.colJobUnitProfit.DisplayIndex = 3
+            Me.colJobUnitProfit.Name = "colJobUnitProfit"
+            Me.colJobUnitProfit.SortingEnabled = False
+            Me.colJobUnitProfit.Text = "Unit Profit"
+            Me.colJobUnitProfit.Width.Absolute = 120
+            '
+            'colJobProfitRate
+            '
+            Me.colJobProfitRate.DisplayIndex = 4
+            Me.colJobProfitRate.Name = "colJobProfitRate"
+            Me.colJobProfitRate.SortingEnabled = False
+            Me.colJobProfitRate.Text = "Profit Rate (isk/hr)"
+            Me.colJobProfitRate.Width.Absolute = 120
+            '
+            'colJobMargin
+            '
+            Me.colJobMargin.DisplayIndex = 5
+            Me.colJobMargin.Name = "colJobMargin"
+            Me.colJobMargin.SortingEnabled = False
+            Me.colJobMargin.Text = "Margin (%)"
+            Me.colJobMargin.Width.Absolute = 75
+            '
+            'NodeConnector3
+            '
+            Me.NodeConnector3.LineColor = System.Drawing.SystemColors.ControlText
+            '
+            'ElementStyle3
+            '
+            Me.ElementStyle3.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.ElementStyle3.Name = "ElementStyle3"
+            Me.ElementStyle3.TextColor = System.Drawing.SystemColors.ControlText
+            '
+            'pnlJobs
+            '
+            Me.pnlJobs.CanvasColor = System.Drawing.SystemColors.Control
+            Me.pnlJobs.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.pnlJobs.Controls.Add(Me.btnClearAllJobs)
+            Me.pnlJobs.Controls.Add(Me.btnMakeBatch)
+            Me.pnlJobs.Controls.Add(Me.btnRefreshJobs)
+            Me.pnlJobs.Controls.Add(Me.btnDeleteJob)
+            Me.pnlJobs.DisabledBackColor = System.Drawing.Color.Empty
+            Me.pnlJobs.Dock = System.Windows.Forms.DockStyle.Bottom
+            Me.pnlJobs.Location = New System.Drawing.Point(1, 573)
+            Me.pnlJobs.Name = "pnlJobs"
+            Me.pnlJobs.Size = New System.Drawing.Size(674, 51)
+            Me.pnlJobs.Style.Alignment = System.Drawing.StringAlignment.Center
+            Me.pnlJobs.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+            Me.pnlJobs.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+            Me.pnlJobs.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.pnlJobs.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.pnlJobs.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+            Me.pnlJobs.Style.GradientAngle = 90
+            Me.pnlJobs.TabIndex = 1
+            '
+            'btnClearAllJobs
+            '
+            Me.btnClearAllJobs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnClearAllJobs.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.btnClearAllJobs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnClearAllJobs.Location = New System.Drawing.Point(3, 3)
+            Me.btnClearAllJobs.Name = "btnClearAllJobs"
+            Me.btnClearAllJobs.Size = New System.Drawing.Size(75, 21)
+            Me.btnClearAllJobs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnClearAllJobs.TabIndex = 4
+            Me.btnClearAllJobs.Text = "Clear Jobs"
+            '
+            'btnMakeBatch
+            '
+            Me.btnMakeBatch.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnMakeBatch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.btnMakeBatch.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnMakeBatch.Enabled = False
+            Me.btnMakeBatch.Location = New System.Drawing.Point(165, 3)
+            Me.btnMakeBatch.Name = "btnMakeBatch"
+            Me.btnMakeBatch.Size = New System.Drawing.Size(75, 21)
+            Me.btnMakeBatch.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnMakeBatch.TabIndex = 6
+            Me.btnMakeBatch.Text = "Make Batch"
+            '
+            'btnRefreshJobs
+            '
+            Me.btnRefreshJobs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnRefreshJobs.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.btnRefreshJobs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnRefreshJobs.Location = New System.Drawing.Point(3, 27)
+            Me.btnRefreshJobs.Name = "btnRefreshJobs"
+            Me.btnRefreshJobs.Size = New System.Drawing.Size(200, 21)
+            Me.btnRefreshJobs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnRefreshJobs.TabIndex = 5
+            Me.btnRefreshJobs.Text = "Refresh Job Costings and Profits"
+            '
+            'btnDeleteJob
+            '
+            Me.btnDeleteJob.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnDeleteJob.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.btnDeleteJob.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnDeleteJob.Enabled = False
+            Me.btnDeleteJob.Location = New System.Drawing.Point(84, 3)
+            Me.btnDeleteJob.Name = "btnDeleteJob"
+            Me.btnDeleteJob.Size = New System.Drawing.Size(75, 21)
+            Me.btnDeleteJob.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnDeleteJob.TabIndex = 1
+            Me.btnDeleteJob.Text = "Delete Job"
+            '
+            'tiProductionJobs
+            '
+            Me.tiProductionJobs.AttachedControl = Me.TabControlPanel12
+            Me.tiProductionJobs.Name = "tiProductionJobs"
+            Me.tiProductionJobs.Text = "Production Jobs"
+            '
+            'TabControlPanel13
+            '
+            Me.TabControlPanel13.Controls.Add(Me.adtBatches)
+            Me.TabControlPanel13.Controls.Add(Me.PanelEx1)
+            Me.TabControlPanel13.DisabledBackColor = System.Drawing.Color.Empty
+            Me.TabControlPanel13.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel13.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel13.Name = "TabControlPanel13"
+            Me.TabControlPanel13.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel13.Size = New System.Drawing.Size(676, 625)
+            Me.TabControlPanel13.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel13.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel13.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel13.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel13.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel13.Style.GradientAngle = 90
+            Me.TabControlPanel13.TabIndex = 2
+            Me.TabControlPanel13.TabItem = Me.tiBatchJobs
+            '
+            'adtBatches
+            '
+            Me.adtBatches.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+            Me.adtBatches.AllowDrop = True
+            Me.adtBatches.BackColor = System.Drawing.SystemColors.Window
+            '
+            '
+            '
+            Me.adtBatches.BackgroundStyle.Class = "TreeBorderKey"
+            Me.adtBatches.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.adtBatches.Columns.Add(Me.colBatchName)
+            Me.adtBatches.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.adtBatches.DragDropEnabled = False
+            Me.adtBatches.DragDropNodeCopyEnabled = False
+            Me.adtBatches.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+            Me.adtBatches.Location = New System.Drawing.Point(1, 1)
+            Me.adtBatches.MultiSelect = True
+            Me.adtBatches.MultiSelectRule = DevComponents.AdvTree.eMultiSelectRule.AnyNode
+            Me.adtBatches.Name = "adtBatches"
+            Me.adtBatches.NodesConnector = Me.NodeConnector4
+            Me.adtBatches.NodeStyle = Me.ElementStyle4
+            Me.adtBatches.PathSeparator = ";"
+            Me.adtBatches.Size = New System.Drawing.Size(674, 596)
+            Me.adtBatches.Styles.Add(Me.ElementStyle4)
+            Me.adtBatches.TabIndex = 1
+            Me.adtBatches.Text = "AdvTree1"
+            '
+            'colBatchName
+            '
+            Me.colBatchName.Name = "colBatchName"
+            Me.colBatchName.SortingEnabled = False
+            Me.colBatchName.Text = "Batch Name"
+            Me.colBatchName.Width.Absolute = 300
+            '
+            'NodeConnector4
+            '
+            Me.NodeConnector4.LineColor = System.Drawing.SystemColors.ControlText
+            '
+            'ElementStyle4
+            '
+            Me.ElementStyle4.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.ElementStyle4.Name = "ElementStyle4"
+            Me.ElementStyle4.TextColor = System.Drawing.SystemColors.ControlText
+            '
+            'PanelEx1
+            '
+            Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
+            Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.PanelEx1.Controls.Add(Me.btnClearBatches)
+            Me.PanelEx1.DisabledBackColor = System.Drawing.Color.Empty
+            Me.PanelEx1.Dock = System.Windows.Forms.DockStyle.Bottom
+            Me.PanelEx1.Location = New System.Drawing.Point(1, 597)
+            Me.PanelEx1.Name = "PanelEx1"
+            Me.PanelEx1.Size = New System.Drawing.Size(674, 27)
+            Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
+            Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+            Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+            Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+            Me.PanelEx1.Style.GradientAngle = 90
+            Me.PanelEx1.TabIndex = 2
+            '
+            'btnClearBatches
+            '
+            Me.btnClearBatches.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnClearBatches.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.btnClearBatches.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnClearBatches.Location = New System.Drawing.Point(3, 3)
+            Me.btnClearBatches.Name = "btnClearBatches"
+            Me.btnClearBatches.Size = New System.Drawing.Size(75, 21)
+            Me.btnClearBatches.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnClearBatches.TabIndex = 4
+            Me.btnClearBatches.Text = "Clear Batches"
+            '
+            'tiBatchJobs
+            '
+            Me.tiBatchJobs.AttachedControl = Me.TabControlPanel13
+            Me.tiBatchJobs.Name = "tiBatchJobs"
+            Me.tiBatchJobs.Text = "Batch Jobs"
+            '
+            'tiProductionManager
+            '
+            Me.tiProductionManager.AttachedControl = Me.TabControlPanel11
+            Me.tiProductionManager.Name = "tiProductionManager"
+            Me.tiProductionManager.Text = "Production Manager"
+            '
+            'TabControlPanel4
+            '
+            Me.TabControlPanel4.Controls.Add(Me.pnlSellOrders)
+            Me.TabControlPanel4.Controls.Add(Me.splitterMarketOrders)
+            Me.TabControlPanel4.Controls.Add(Me.pnlBuyOrders)
+            Me.TabControlPanel4.Controls.Add(Me.pnlOrderStats)
+            Me.TabControlPanel4.DisabledBackColor = System.Drawing.Color.Empty
+            Me.TabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel4.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel4.Name = "TabControlPanel4"
+            Me.TabControlPanel4.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel4.Size = New System.Drawing.Size(1284, 650)
+            Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel4.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel4.Style.GradientAngle = 90
+            Me.TabControlPanel4.TabIndex = 4
+            Me.TabControlPanel4.TabItem = Me.tiMarketOrders
+            '
+            'pnlSellOrders
+            '
+            Me.pnlSellOrders.CanvasColor = System.Drawing.SystemColors.Control
+            Me.pnlSellOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.pnlSellOrders.Controls.Add(Me.btnExportOrders)
+            Me.pnlSellOrders.Controls.Add(Me.cboOrdersOwner)
+            Me.pnlSellOrders.Controls.Add(Me.lblOrdersOwner)
+            Me.pnlSellOrders.Controls.Add(Me.adtSellOrders)
+            Me.pnlSellOrders.Controls.Add(Me.lblSellOrders)
+            Me.pnlSellOrders.DisabledBackColor = System.Drawing.Color.Empty
+            Me.pnlSellOrders.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.pnlSellOrders.Location = New System.Drawing.Point(1, 1)
+            Me.pnlSellOrders.Name = "pnlSellOrders"
+            Me.pnlSellOrders.Size = New System.Drawing.Size(1282, 283)
+            Me.pnlSellOrders.Style.Alignment = System.Drawing.StringAlignment.Center
+            Me.pnlSellOrders.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+            Me.pnlSellOrders.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+            Me.pnlSellOrders.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.pnlSellOrders.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.pnlSellOrders.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+            Me.pnlSellOrders.Style.GradientAngle = 90
+            Me.pnlSellOrders.TabIndex = 3
+            '
+            'btnExportOrders
+            '
+            Me.btnExportOrders.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.btnExportOrders.Location = New System.Drawing.Point(1197, 7)
+            Me.btnExportOrders.Name = "btnExportOrders"
+            Me.btnExportOrders.Size = New System.Drawing.Size(75, 23)
+            Me.btnExportOrders.TabIndex = 31
+            Me.btnExportOrders.Text = "Export"
+            Me.btnExportOrders.UseVisualStyleBackColor = True
+            '
+            'cboOrdersOwner
+            '
+            Me.cboOrdersOwner.DisplayMember = "Text"
+            Me.cboOrdersOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+            Me.cboOrdersOwner.FormattingEnabled = True
+            Me.cboOrdersOwner.ItemHeight = 15
+            Me.cboOrdersOwner.Location = New System.Drawing.Point(55, 5)
+            Me.cboOrdersOwner.Name = "cboOrdersOwner"
+            Me.cboOrdersOwner.Size = New System.Drawing.Size(210, 21)
+            Me.cboOrdersOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.cboOrdersOwner.TabIndex = 30
+            '
+            'lblOrdersOwner
+            '
+            Me.lblOrdersOwner.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.lblOrdersOwner.AutoSize = True
+            Me.lblOrdersOwner.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.lblOrdersOwner.Location = New System.Drawing.Point(3, 9)
+            Me.lblOrdersOwner.Name = "lblOrdersOwner"
+            Me.lblOrdersOwner.Size = New System.Drawing.Size(43, 13)
+            Me.lblOrdersOwner.TabIndex = 29
+            Me.lblOrdersOwner.Text = "Owner:"
+            '
+            'adtSellOrders
+            '
+            Me.adtSellOrders.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+            Me.adtSellOrders.AllowDrop = True
+            Me.adtSellOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.adtSellOrders.BackColor = System.Drawing.SystemColors.Window
+            '
+            '
+            '
+            Me.adtSellOrders.BackgroundStyle.Class = "TreeBorderKey"
+            Me.adtSellOrders.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.adtSellOrders.Columns.Add(Me.colSellType)
+            Me.adtSellOrders.Columns.Add(Me.colSellQty)
+            Me.adtSellOrders.Columns.Add(Me.colSellPrice)
+            Me.adtSellOrders.Columns.Add(Me.colSellLocation)
+            Me.adtSellOrders.Columns.Add(Me.colSellExpires)
+            Me.adtSellOrders.DragDropEnabled = False
+            Me.adtSellOrders.DragDropNodeCopyEnabled = False
+            Me.adtSellOrders.ExpandWidth = 0
+            Me.adtSellOrders.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+            Me.adtSellOrders.Location = New System.Drawing.Point(6, 50)
+            Me.adtSellOrders.Name = "adtSellOrders"
+            Me.adtSellOrders.NodesConnector = Me.NodeConnector9
+            Me.adtSellOrders.NodeStyle = Me.ElementStyle7
+            Me.adtSellOrders.PathSeparator = ";"
+            Me.adtSellOrders.Size = New System.Drawing.Size(1265, 227)
+            Me.adtSellOrders.Styles.Add(Me.ElementStyle7)
+            Me.adtSellOrders.TabIndex = 28
+            Me.adtSellOrders.Text = "AdvTree1"
+            '
+            'colSellType
+            '
+            Me.colSellType.DisplayIndex = 1
+            Me.colSellType.Name = "colSellType"
+            Me.colSellType.SortingEnabled = False
+            Me.colSellType.Text = "Type"
+            Me.colSellType.Width.Absolute = 250
+            '
+            'colSellQty
+            '
+            Me.colSellQty.DisplayIndex = 2
+            Me.colSellQty.Name = "colSellQty"
+            Me.colSellQty.SortingEnabled = False
+            Me.colSellQty.Text = "Quantity"
+            Me.colSellQty.Width.Absolute = 125
+            '
+            'colSellPrice
+            '
+            Me.colSellPrice.DisplayIndex = 3
+            Me.colSellPrice.Name = "colSellPrice"
+            Me.colSellPrice.SortingEnabled = False
+            Me.colSellPrice.Text = "Price"
+            Me.colSellPrice.Width.Absolute = 125
+            '
+            'colSellLocation
+            '
+            Me.colSellLocation.DisplayIndex = 4
+            Me.colSellLocation.Name = "colSellLocation"
+            Me.colSellLocation.SortingEnabled = False
+            Me.colSellLocation.Text = "Location"
+            Me.colSellLocation.Width.Absolute = 300
+            '
+            'colSellExpires
+            '
+            Me.colSellExpires.DisplayIndex = 5
+            Me.colSellExpires.Name = "colSellExpires"
+            Me.colSellExpires.SortingEnabled = False
+            Me.colSellExpires.Text = "Expires In"
+            Me.colSellExpires.Width.Absolute = 125
+            '
+            'NodeConnector9
+            '
+            Me.NodeConnector9.LineColor = System.Drawing.SystemColors.ControlText
+            '
+            'ElementStyle7
+            '
+            Me.ElementStyle7.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.ElementStyle7.Name = "ElementStyle7"
+            Me.ElementStyle7.TextColor = System.Drawing.SystemColors.ControlText
+            '
+            'splitterMarketOrders
+            '
+            Me.splitterMarketOrders.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterMarketOrders.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterMarketOrders.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+            Me.splitterMarketOrders.Dock = System.Windows.Forms.DockStyle.Bottom
+            Me.splitterMarketOrders.ExpandableControl = Me.pnlBuyOrders
+            Me.splitterMarketOrders.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterMarketOrders.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterMarketOrders.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+            Me.splitterMarketOrders.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+            Me.splitterMarketOrders.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+            Me.splitterMarketOrders.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+            Me.splitterMarketOrders.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.splitterMarketOrders.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+            Me.splitterMarketOrders.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+            Me.splitterMarketOrders.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+            Me.splitterMarketOrders.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+            Me.splitterMarketOrders.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+            Me.splitterMarketOrders.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterMarketOrders.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterMarketOrders.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+            Me.splitterMarketOrders.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+            Me.splitterMarketOrders.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterMarketOrders.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterMarketOrders.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.splitterMarketOrders.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+            Me.splitterMarketOrders.Location = New System.Drawing.Point(1, 284)
+            Me.splitterMarketOrders.Name = "splitterMarketOrders"
+            Me.splitterMarketOrders.Size = New System.Drawing.Size(1282, 6)
+            Me.splitterMarketOrders.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+            Me.splitterMarketOrders.TabIndex = 2
+            Me.splitterMarketOrders.TabStop = False
+            '
+            'pnlBuyOrders
+            '
+            Me.pnlBuyOrders.CanvasColor = System.Drawing.SystemColors.Control
+            Me.pnlBuyOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.pnlBuyOrders.Controls.Add(Me.adtBuyOrders)
+            Me.pnlBuyOrders.Controls.Add(Me.lblBuyOrders)
+            Me.pnlBuyOrders.DisabledBackColor = System.Drawing.Color.Empty
+            Me.pnlBuyOrders.Dock = System.Windows.Forms.DockStyle.Bottom
+            Me.pnlBuyOrders.Location = New System.Drawing.Point(1, 290)
+            Me.pnlBuyOrders.Name = "pnlBuyOrders"
+            Me.pnlBuyOrders.Size = New System.Drawing.Size(1282, 263)
+            Me.pnlBuyOrders.Style.Alignment = System.Drawing.StringAlignment.Center
+            Me.pnlBuyOrders.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+            Me.pnlBuyOrders.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+            Me.pnlBuyOrders.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.pnlBuyOrders.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.pnlBuyOrders.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+            Me.pnlBuyOrders.Style.GradientAngle = 90
+            Me.pnlBuyOrders.TabIndex = 1
+            '
+            'adtBuyOrders
+            '
+            Me.adtBuyOrders.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+            Me.adtBuyOrders.AllowDrop = True
+            Me.adtBuyOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.adtBuyOrders.BackColor = System.Drawing.SystemColors.Window
+            '
+            '
+            '
+            Me.adtBuyOrders.BackgroundStyle.Class = "TreeBorderKey"
+            Me.adtBuyOrders.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.adtBuyOrders.Columns.Add(Me.colBuyType)
+            Me.adtBuyOrders.Columns.Add(Me.colBuyQty)
+            Me.adtBuyOrders.Columns.Add(Me.colBuyPrice)
+            Me.adtBuyOrders.Columns.Add(Me.colBuyLocation)
+            Me.adtBuyOrders.Columns.Add(Me.colBuyRange)
+            Me.adtBuyOrders.Columns.Add(Me.colBuyVolume)
+            Me.adtBuyOrders.Columns.Add(Me.colBuyExpires)
+            Me.adtBuyOrders.DragDropEnabled = False
+            Me.adtBuyOrders.DragDropNodeCopyEnabled = False
+            Me.adtBuyOrders.ExpandWidth = 0
+            Me.adtBuyOrders.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+            Me.adtBuyOrders.Location = New System.Drawing.Point(6, 19)
+            Me.adtBuyOrders.Name = "adtBuyOrders"
+            Me.adtBuyOrders.NodesConnector = Me.NodeConnector8
+            Me.adtBuyOrders.NodeStyle = Me.ElementStyle6
+            Me.adtBuyOrders.PathSeparator = ";"
+            Me.adtBuyOrders.Size = New System.Drawing.Size(1265, 238)
+            Me.adtBuyOrders.Styles.Add(Me.ElementStyle6)
+            Me.adtBuyOrders.TabIndex = 27
+            Me.adtBuyOrders.Text = "AdvTree1"
+            '
+            'colBuyType
+            '
+            Me.colBuyType.DisplayIndex = 1
+            Me.colBuyType.Name = "colBuyType"
+            Me.colBuyType.SortingEnabled = False
+            Me.colBuyType.Text = "Type"
+            Me.colBuyType.Width.Absolute = 250
+            '
+            'colBuyQty
+            '
+            Me.colBuyQty.DisplayIndex = 2
+            Me.colBuyQty.Name = "colBuyQty"
+            Me.colBuyQty.SortingEnabled = False
+            Me.colBuyQty.Text = "Quantity"
+            Me.colBuyQty.Width.Absolute = 125
+            '
+            'colBuyPrice
+            '
+            Me.colBuyPrice.DisplayIndex = 3
+            Me.colBuyPrice.Name = "colBuyPrice"
+            Me.colBuyPrice.SortingEnabled = False
+            Me.colBuyPrice.Text = "Price"
+            Me.colBuyPrice.Width.Absolute = 125
+            '
+            'colBuyLocation
+            '
+            Me.colBuyLocation.DisplayIndex = 4
+            Me.colBuyLocation.Name = "colBuyLocation"
+            Me.colBuyLocation.SortingEnabled = False
+            Me.colBuyLocation.Text = "Location"
+            Me.colBuyLocation.Width.Absolute = 300
+            '
+            'colBuyRange
+            '
+            Me.colBuyRange.DisplayIndex = 5
+            Me.colBuyRange.Name = "colBuyRange"
+            Me.colBuyRange.SortingEnabled = False
+            Me.colBuyRange.Text = "Range"
+            Me.colBuyRange.Width.Absolute = 50
+            '
+            'colBuyVolume
+            '
+            Me.colBuyVolume.DisplayIndex = 6
+            Me.colBuyVolume.Name = "colBuyVolume"
+            Me.colBuyVolume.SortingEnabled = False
+            Me.colBuyVolume.Text = "Min Volume"
+            Me.colBuyVolume.Width.Absolute = 100
+            '
+            'colBuyExpires
+            '
+            Me.colBuyExpires.DisplayIndex = 7
+            Me.colBuyExpires.Name = "colBuyExpires"
+            Me.colBuyExpires.SortingEnabled = False
+            Me.colBuyExpires.Text = "Expires In"
+            Me.colBuyExpires.Width.Absolute = 125
+            '
+            'NodeConnector8
+            '
+            Me.NodeConnector8.LineColor = System.Drawing.SystemColors.ControlText
+            '
+            'ElementStyle6
+            '
+            Me.ElementStyle6.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.ElementStyle6.Name = "ElementStyle6"
+            Me.ElementStyle6.TextColor = System.Drawing.SystemColors.ControlText
+            '
+            'pnlOrderStats
+            '
+            Me.pnlOrderStats.CanvasColor = System.Drawing.SystemColors.Control
+            Me.pnlOrderStats.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.pnlOrderStats.Controls.Add(Me.lblOrdersLbl)
+            Me.pnlOrderStats.Controls.Add(Me.lblRemoteRange)
+            Me.pnlOrderStats.Controls.Add(Me.lblEscrowLbl)
+            Me.pnlOrderStats.Controls.Add(Me.lblModRange)
+            Me.pnlOrderStats.Controls.Add(Me.lblBrokerFeeLbl)
+            Me.pnlOrderStats.Controls.Add(Me.lblBidRange)
+            Me.pnlOrderStats.Controls.Add(Me.lblTransTaxLbl)
+            Me.pnlOrderStats.Controls.Add(Me.lblAskRange)
+            Me.pnlOrderStats.Controls.Add(Me.lblSellTotalLbl)
+            Me.pnlOrderStats.Controls.Add(Me.lblRemoteRangeLbl)
+            Me.pnlOrderStats.Controls.Add(Me.lblBuyTotalLbl)
+            Me.pnlOrderStats.Controls.Add(Me.lblModRangeLbl)
+            Me.pnlOrderStats.Controls.Add(Me.lblOrders)
+            Me.pnlOrderStats.Controls.Add(Me.lblBidRangeLbl)
+            Me.pnlOrderStats.Controls.Add(Me.lblEscrow)
+            Me.pnlOrderStats.Controls.Add(Me.lblAskRangeLbl)
+            Me.pnlOrderStats.Controls.Add(Me.lblBrokerFee)
+            Me.pnlOrderStats.Controls.Add(Me.lblBuyTotal)
+            Me.pnlOrderStats.Controls.Add(Me.lblTransTax)
+            Me.pnlOrderStats.Controls.Add(Me.lblSellTotal)
+            Me.pnlOrderStats.DisabledBackColor = System.Drawing.Color.Empty
+            Me.pnlOrderStats.Dock = System.Windows.Forms.DockStyle.Bottom
+            Me.pnlOrderStats.Location = New System.Drawing.Point(1, 553)
+            Me.pnlOrderStats.Name = "pnlOrderStats"
+            Me.pnlOrderStats.Size = New System.Drawing.Size(1282, 96)
+            Me.pnlOrderStats.Style.Alignment = System.Drawing.StringAlignment.Center
+            Me.pnlOrderStats.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+            Me.pnlOrderStats.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+            Me.pnlOrderStats.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.pnlOrderStats.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.pnlOrderStats.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+            Me.pnlOrderStats.Style.GradientAngle = 90
+            Me.pnlOrderStats.TabIndex = 0
+            '
+            'tiMarketOrders
+            '
+            Me.tiMarketOrders.AttachedControl = Me.TabControlPanel4
+            Me.tiMarketOrders.Name = "tiMarketOrders"
+            Me.tiMarketOrders.Text = "Market Orders"
+            '
+            'TabControlPanel6
+            '
+            Me.TabControlPanel6.Controls.Add(Me.btnImportEntries)
+            Me.TabControlPanel6.Controls.Add(Me.btnExportEntries)
+            Me.TabControlPanel6.Controls.Add(Me.btnCheckJournalOmissions)
+            Me.TabControlPanel6.Controls.Add(Me.adtJournal)
+            Me.TabControlPanel6.Controls.Add(Me.btnResetJournal)
+            Me.TabControlPanel6.Controls.Add(Me.lblWalletJournalDivision)
+            Me.TabControlPanel6.Controls.Add(Me.lblAlwaysShowEveBalance)
+            Me.TabControlPanel6.Controls.Add(Me.sbShowEveBalance)
+            Me.TabControlPanel6.Controls.Add(Me.btnExportJournal)
+            Me.TabControlPanel6.Controls.Add(Me.btnJournalQuery)
+            Me.TabControlPanel6.Controls.Add(Me.cboWalletJournalDivision)
+            Me.TabControlPanel6.Controls.Add(Me.cboJournalRefTypes)
+            Me.TabControlPanel6.Controls.Add(Me.dtiJournalStartDate)
+            Me.TabControlPanel6.Controls.Add(Me.cboJournalOwners)
+            Me.TabControlPanel6.Controls.Add(Me.dtiJournalEndDate)
+            Me.TabControlPanel6.Controls.Add(Me.lblJournalEndDate)
+            Me.TabControlPanel6.Controls.Add(Me.lblJournalStartDate)
+            Me.TabControlPanel6.DisabledBackColor = System.Drawing.Color.Empty
+            Me.TabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel6.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel6.Name = "TabControlPanel6"
+            Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel6.Size = New System.Drawing.Size(1284, 650)
+            Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel6.Style.GradientAngle = 90
+            Me.TabControlPanel6.TabIndex = 6
+            Me.TabControlPanel6.TabItem = Me.tiJournal
+            '
+            'btnImportEntries
+            '
+            Me.btnImportEntries.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnImportEntries.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnImportEntries.Location = New System.Drawing.Point(757, 38)
+            Me.btnImportEntries.Name = "btnImportEntries"
+            Me.btnImportEntries.Size = New System.Drawing.Size(100, 23)
+            Me.btnImportEntries.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnImportEntries.TabIndex = 21
+            Me.btnImportEntries.Text = "Import Entries"
+            '
+            'btnExportEntries
+            '
+            Me.btnExportEntries.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnExportEntries.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnExportEntries.Location = New System.Drawing.Point(757, 8)
+            Me.btnExportEntries.Name = "btnExportEntries"
+            Me.btnExportEntries.Size = New System.Drawing.Size(100, 23)
+            Me.btnExportEntries.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnExportEntries.TabIndex = 20
+            Me.btnExportEntries.Text = "Export Entries"
+            '
+            'btnCheckJournalOmissions
+            '
+            Me.btnCheckJournalOmissions.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnCheckJournalOmissions.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnCheckJournalOmissions.Location = New System.Drawing.Point(651, 8)
+            Me.btnCheckJournalOmissions.Name = "btnCheckJournalOmissions"
+            Me.btnCheckJournalOmissions.Size = New System.Drawing.Size(100, 23)
+            Me.btnCheckJournalOmissions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnCheckJournalOmissions.TabIndex = 19
+            Me.btnCheckJournalOmissions.Text = "Check Omissions"
+            '
+            'adtJournal
+            '
+            Me.adtJournal.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+            Me.adtJournal.AllowDrop = True
+            Me.adtJournal.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.adtJournal.BackColor = System.Drawing.SystemColors.Window
+            '
+            '
+            '
+            Me.adtJournal.BackgroundStyle.Class = "TreeBorderKey"
+            Me.adtJournal.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.adtJournal.Columns.Add(Me.colJournalDate)
+            Me.adtJournal.Columns.Add(Me.colJournalType)
+            Me.adtJournal.Columns.Add(Me.colJournalAmount)
+            Me.adtJournal.Columns.Add(Me.colJournalBalance)
+            Me.adtJournal.Columns.Add(Me.colJournalDescription)
+            Me.adtJournal.DragDropEnabled = False
+            Me.adtJournal.DragDropNodeCopyEnabled = False
+            Me.adtJournal.ExpandWidth = 16
+            Me.adtJournal.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+            Me.adtJournal.Location = New System.Drawing.Point(4, 88)
+            Me.adtJournal.Name = "adtJournal"
+            Me.adtJournal.NodeStyle = Me.ElementStyle1
+            Me.adtJournal.PathSeparator = ";"
+            Me.adtJournal.Size = New System.Drawing.Size(1276, 558)
+            Me.adtJournal.Styles.Add(Me.ElementStyle1)
+            Me.adtJournal.TabIndex = 18
+            Me.adtJournal.Text = "AdvTree1"
+            '
+            'colJournalDate
+            '
+            Me.colJournalDate.DisplayIndex = 1
+            Me.colJournalDate.Name = "colJournalDate"
+            Me.colJournalDate.SortingEnabled = False
+            Me.colJournalDate.Text = "Date"
+            Me.colJournalDate.Width.Absolute = 150
+            '
+            'colJournalType
+            '
+            Me.colJournalType.DisplayIndex = 2
+            Me.colJournalType.Name = "colJournalType"
+            Me.colJournalType.SortingEnabled = False
+            Me.colJournalType.Text = "Type"
+            Me.colJournalType.Width.Absolute = 250
+            '
+            'colJournalAmount
+            '
+            Me.colJournalAmount.DisplayIndex = 3
+            Me.colJournalAmount.Name = "colJournalAmount"
+            Me.colJournalAmount.SortingEnabled = False
+            Me.colJournalAmount.Text = "Amount"
+            Me.colJournalAmount.Width.Absolute = 125
+            '
+            'colJournalBalance
+            '
+            Me.colJournalBalance.DisplayIndex = 4
+            Me.colJournalBalance.Name = "colJournalBalance"
+            Me.colJournalBalance.SortingEnabled = False
+            Me.colJournalBalance.Text = "Balance"
+            Me.colJournalBalance.Width.Absolute = 125
+            '
+            'colJournalDescription
+            '
+            Me.colJournalDescription.DisplayIndex = 5
+            Me.colJournalDescription.Name = "colJournalDescription"
+            Me.colJournalDescription.SortingEnabled = False
+            Me.colJournalDescription.Text = "Description"
+            Me.colJournalDescription.Width.Absolute = 500
+            '
+            'ElementStyle1
+            '
+            Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.ElementStyle1.Name = "ElementStyle1"
+            Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
+            '
+            'tiJournal
+            '
+            Me.tiJournal.AttachedControl = Me.TabControlPanel6
+            Me.tiJournal.Name = "tiJournal"
+            Me.tiJournal.Text = "Journal"
+            '
             'TabControlPanel7
             '
             Me.TabControlPanel7.Controls.Add(Me.lblStatusFilter)
@@ -3868,15 +4536,16 @@ Namespace Forms
             Me.TabControlPanel7.Controls.Add(Me.adtJobs)
             Me.TabControlPanel7.Controls.Add(Me.lblJobInstallerFilter)
             Me.TabControlPanel7.Controls.Add(Me.btnExportJobs)
+            Me.TabControlPanel7.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel7.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel7.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel7.Name = "TabControlPanel7"
             Me.TabControlPanel7.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel7.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
             Me.TabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
             Me.TabControlPanel7.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel7.Style.GradientAngle = 90
@@ -4088,15 +4757,16 @@ Namespace Forms
             '
             Me.TabControlPanel3.Controls.Add(Me.wbReport)
             Me.TabControlPanel3.Controls.Add(Me.pnlReportControls)
+            Me.TabControlPanel3.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel3.Name = "TabControlPanel3"
             Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel3.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
             Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
             Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel3.Style.GradientAngle = 90
@@ -4124,6 +4794,7 @@ Namespace Forms
             Me.pnlReportControls.Controls.Add(Me.dtiReportEndDate)
             Me.pnlReportControls.Controls.Add(Me.dtiReportStartDate)
             Me.pnlReportControls.Controls.Add(Me.cboReportOwners)
+            Me.pnlReportControls.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlReportControls.Dock = System.Windows.Forms.DockStyle.Left
             Me.pnlReportControls.Location = New System.Drawing.Point(1, 1)
             Me.pnlReportControls.Name = "pnlReportControls"
@@ -4342,15 +5013,16 @@ Namespace Forms
             Me.TabControlPanel14.Controls.Add(Me.adtContracts)
             Me.TabControlPanel14.Controls.Add(Me.cboContractOwner)
             Me.TabControlPanel14.Controls.Add(Me.lblContractOwner)
+            Me.TabControlPanel14.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel14.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel14.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel14.Name = "TabControlPanel14"
             Me.TabControlPanel14.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel14.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel14.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel14.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel14.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel14.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
             Me.TabControlPanel14.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel14.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel14.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
             Me.TabControlPanel14.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel14.Style.GradientAngle = 90
@@ -4535,15 +5207,16 @@ Namespace Forms
             Me.TabControlPanel16.Controls.Add(Me.lblInvEndDate)
             Me.TabControlPanel16.Controls.Add(Me.dtiInventionStartDate)
             Me.TabControlPanel16.Controls.Add(Me.lblInvStartDate)
+            Me.TabControlPanel16.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel16.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel16.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel16.Name = "TabControlPanel16"
             Me.TabControlPanel16.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel16.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel16.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel16.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel16.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel16.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
             Me.TabControlPanel16.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel16.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel16.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
             Me.TabControlPanel16.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel16.Style.GradientAngle = 90
@@ -4870,64 +5543,6 @@ Namespace Forms
             Me.tiInventionResults.Name = "tiInventionResults"
             Me.tiInventionResults.Text = "Invention Results"
             '
-            'TabControlPanel8
-            '
-            Me.TabControlPanel8.Controls.Add(Me.lblRefineMode)
-            Me.TabControlPanel8.Controls.Add(Me.chkFeesOnItems)
-            Me.TabControlPanel8.Controls.Add(Me.TabControl1)
-            Me.TabControlPanel8.Controls.Add(Me.lblPriceTotals)
-            Me.TabControlPanel8.Controls.Add(Me.lblPilot)
-            Me.TabControlPanel8.Controls.Add(Me.chkFeesOnRefine)
-            Me.TabControlPanel8.Controls.Add(Me.cboRecyclePilots)
-            Me.TabControlPanel8.Controls.Add(Me.lblTotalFees)
-            Me.TabControlPanel8.Controls.Add(Me.chkPerfectRefine)
-            Me.TabControlPanel8.Controls.Add(Me.lblTotalFeesLbl)
-            Me.TabControlPanel8.Controls.Add(Me.lblBaseYieldLbl)
-            Me.TabControlPanel8.Controls.Add(Me.nudTax)
-            Me.TabControlPanel8.Controls.Add(Me.lblNetYieldLbl)
-            Me.TabControlPanel8.Controls.Add(Me.nudBrokerFee)
-            Me.TabControlPanel8.Controls.Add(Me.lblStandingsLbl)
-            Me.TabControlPanel8.Controls.Add(Me.chkOverrideTax)
-            Me.TabControlPanel8.Controls.Add(Me.lblStationTakeLbl)
-            Me.TabControlPanel8.Controls.Add(Me.chkOverrideBrokerFee)
-            Me.TabControlPanel8.Controls.Add(Me.lblStationTake)
-            Me.TabControlPanel8.Controls.Add(Me.lblItems)
-            Me.TabControlPanel8.Controls.Add(Me.lblStandings)
-            Me.TabControlPanel8.Controls.Add(Me.lblVolume)
-            Me.TabControlPanel8.Controls.Add(Me.lblNetYield)
-            Me.TabControlPanel8.Controls.Add(Me.lblItemsLbl)
-            Me.TabControlPanel8.Controls.Add(Me.lblBaseYield)
-            Me.TabControlPanel8.Controls.Add(Me.lblVolumeLbl)
-            Me.TabControlPanel8.Controls.Add(Me.lblStationLbl)
-            Me.TabControlPanel8.Controls.Add(Me.cboRefineMode)
-            Me.TabControlPanel8.Controls.Add(Me.lblStation)
-            Me.TabControlPanel8.Controls.Add(Me.lblCorpLbl)
-            Me.TabControlPanel8.Controls.Add(Me.chkOverrideStandings)
-            Me.TabControlPanel8.Controls.Add(Me.lblCorp)
-            Me.TabControlPanel8.Controls.Add(Me.chkOverrideBaseYield)
-            Me.TabControlPanel8.Controls.Add(Me.nudBaseYield)
-            Me.TabControlPanel8.Controls.Add(Me.nudStandings)
-            Me.TabControlPanel8.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel8.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel8.Name = "TabControlPanel8"
-            Me.TabControlPanel8.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel8.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel8.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel8.Style.GradientAngle = 90
-            Me.TabControlPanel8.TabIndex = 8
-            Me.TabControlPanel8.TabItem = Me.tiRecycler
-            '
-            'tiRecycler
-            '
-            Me.tiRecycler.AttachedControl = Me.TabControlPanel8
-            Me.tiRecycler.Name = "tiRecycler"
-            Me.tiRecycler.Text = "Recycler"
-            '
             'TabControlPanel15
             '
             Me.TabControlPanel15.Controls.Add(Me.pnlRigs)
@@ -4941,15 +5556,16 @@ Namespace Forms
             Me.TabControlPanel15.Controls.Add(Me.btnExportRigList)
             Me.TabControlPanel15.Controls.Add(Me.nudRigMELevel)
             Me.TabControlPanel15.Controls.Add(Me.lblRigMELevel)
+            Me.TabControlPanel15.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel15.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel15.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel15.Name = "TabControlPanel15"
             Me.TabControlPanel15.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel15.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel15.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel15.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel15.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel15.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
             Me.TabControlPanel15.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel15.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel15.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
             Me.TabControlPanel15.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel15.Style.GradientAngle = 90
@@ -4966,6 +5582,7 @@ Namespace Forms
             Me.pnlRigs.Controls.Add(Me.adtRigs)
             Me.pnlRigs.Controls.Add(Me.ExpandableSplitter1)
             Me.pnlRigs.Controls.Add(Me.adtRigBuildList)
+            Me.pnlRigs.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlRigs.Location = New System.Drawing.Point(4, 115)
             Me.pnlRigs.Name = "pnlRigs"
             Me.pnlRigs.Size = New System.Drawing.Size(1276, 530)
@@ -5097,29 +5714,29 @@ Namespace Forms
             '
             'ExpandableSplitter1
             '
-            Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
+            Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
             Me.ExpandableSplitter1.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.ExpandableSplitter1.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
             Me.ExpandableSplitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-            Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
+            Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
             Me.ExpandableSplitter1.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.ExpandableSplitter1.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.ExpandableSplitter1.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
             Me.ExpandableSplitter1.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.ExpandableSplitter1.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
+            Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
             Me.ExpandableSplitter1.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.ExpandableSplitter1.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
             Me.ExpandableSplitter1.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
             Me.ExpandableSplitter1.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
             Me.ExpandableSplitter1.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
+            Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
             Me.ExpandableSplitter1.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.ExpandableSplitter1.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.ExpandableSplitter1.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
+            Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
             Me.ExpandableSplitter1.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
+            Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
             Me.ExpandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.ExpandableSplitter1.Location = New System.Drawing.Point(0, 259)
             Me.ExpandableSplitter1.Name = "ExpandableSplitter1"
@@ -5244,16 +5861,6 @@ Namespace Forms
             Me.ElementStyle10.Name = "ElementStyle10"
             Me.ElementStyle10.TextColor = System.Drawing.SystemColors.ControlText
             '
-            'PSCRigOwners
-            '
-            Me.PSCRigOwners.AllowMultipleSelections = True
-            Me.PSCRigOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.PSCRigOwners.ListType = EveHQ.Prism.Controls.PrismSelectionType.AllOwners
-            Me.PSCRigOwners.Location = New System.Drawing.Point(10, 8)
-            Me.PSCRigOwners.Name = "PSCRigOwners"
-            Me.PSCRigOwners.Size = New System.Drawing.Size(278, 21)
-            Me.PSCRigOwners.TabIndex = 70
-            '
             'lblTotalRigMargin
             '
             Me.lblTotalRigMargin.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -5301,6 +5908,7 @@ Namespace Forms
             Me.gpAutoRig.Controls.Add(Me.chkTotalProfit)
             Me.gpAutoRig.Controls.Add(Me.chkTotalSalePrice)
             Me.gpAutoRig.Controls.Add(Me.chkRigProfit)
+            Me.gpAutoRig.DisabledBackColor = System.Drawing.Color.Empty
             Me.gpAutoRig.Location = New System.Drawing.Point(318, 8)
             Me.gpAutoRig.Name = "gpAutoRig"
             Me.gpAutoRig.Size = New System.Drawing.Size(515, 76)
@@ -5491,15 +6099,16 @@ Namespace Forms
             'TabControlPanel17
             '
             Me.TabControlPanel17.Controls.Add(Me.adtInventionJobs)
+            Me.TabControlPanel17.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel17.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel17.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel17.Name = "TabControlPanel17"
             Me.TabControlPanel17.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel17.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel17.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel17.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel17.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+            Me.TabControlPanel17.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
             Me.TabControlPanel17.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel17.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel17.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
             Me.TabControlPanel17.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel17.Style.GradientAngle = 90
@@ -5619,669 +6228,6 @@ Namespace Forms
             Me.tiInventionManager.Name = "tiInventionManager"
             Me.tiInventionManager.Text = "Invention Manager"
             '
-            'TabControlPanel11
-            '
-            Me.TabControlPanel11.Controls.Add(Me.tcPM)
-            Me.TabControlPanel11.Controls.Add(Me.splitterProductionMngr)
-            Me.TabControlPanel11.Controls.Add(Me.PRPM)
-            Me.TabControlPanel11.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel11.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel11.Name = "TabControlPanel11"
-            Me.TabControlPanel11.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel11.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel11.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel11.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel11.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel11.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel11.Style.GradientAngle = 90
-            Me.TabControlPanel11.TabIndex = 11
-            Me.TabControlPanel11.TabItem = Me.tiProductionManager
-            '
-            'tcPM
-            '
-            Me.tcPM.BackColor = System.Drawing.Color.Transparent
-            Me.tcPM.CanReorderTabs = True
-            Me.tcPM.ColorScheme.TabBackground = System.Drawing.Color.Transparent
-            Me.tcPM.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
-            Me.tcPM.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-            Me.tcPM.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
-            Me.tcPM.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
-            Me.tcPM.Controls.Add(Me.TabControlPanel12)
-            Me.tcPM.Controls.Add(Me.TabControlPanel13)
-            Me.tcPM.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.tcPM.Location = New System.Drawing.Point(1, 1)
-            Me.tcPM.Name = "tcPM"
-            Me.tcPM.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-            Me.tcPM.SelectedTabIndex = 0
-            Me.tcPM.Size = New System.Drawing.Size(676, 648)
-            Me.tcPM.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
-            Me.tcPM.TabIndex = 7
-            Me.tcPM.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
-            Me.tcPM.Tabs.Add(Me.tiProductionJobs)
-            Me.tcPM.Tabs.Add(Me.tiBatchJobs)
-            Me.tcPM.Text = "TabControl2"
-            '
-            'TabControlPanel12
-            '
-            Me.TabControlPanel12.Controls.Add(Me.adtProdJobs)
-            Me.TabControlPanel12.Controls.Add(Me.pnlJobs)
-            Me.TabControlPanel12.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel12.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel12.Name = "TabControlPanel12"
-            Me.TabControlPanel12.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel12.Size = New System.Drawing.Size(676, 625)
-            Me.TabControlPanel12.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel12.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel12.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel12.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel12.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel12.Style.GradientAngle = 90
-            Me.TabControlPanel12.TabIndex = 1
-            Me.TabControlPanel12.TabItem = Me.tiProductionJobs
-            '
-            'adtProdJobs
-            '
-            Me.adtProdJobs.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-            Me.adtProdJobs.AllowDrop = True
-            Me.adtProdJobs.BackColor = System.Drawing.SystemColors.Window
-            '
-            '
-            '
-            Me.adtProdJobs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.adtProdJobs.Columns.Add(Me.colJobName)
-            Me.adtProdJobs.Columns.Add(Me.colJobItem)
-            Me.adtProdJobs.Columns.Add(Me.colJobUnitProfit)
-            Me.adtProdJobs.Columns.Add(Me.colJobProfitRate)
-            Me.adtProdJobs.Columns.Add(Me.colJobMargin)
-            Me.adtProdJobs.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.adtProdJobs.DragDropEnabled = False
-            Me.adtProdJobs.DragDropNodeCopyEnabled = False
-            Me.adtProdJobs.ExpandWidth = 0
-            Me.adtProdJobs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.adtProdJobs.Location = New System.Drawing.Point(1, 1)
-            Me.adtProdJobs.MultiSelect = True
-            Me.adtProdJobs.Name = "adtProdJobs"
-            Me.adtProdJobs.NodesConnector = Me.NodeConnector3
-            Me.adtProdJobs.NodeStyle = Me.ElementStyle3
-            Me.adtProdJobs.PathSeparator = ";"
-            Me.adtProdJobs.Size = New System.Drawing.Size(674, 572)
-            Me.adtProdJobs.Styles.Add(Me.ElementStyle3)
-            Me.adtProdJobs.TabIndex = 0
-            Me.adtProdJobs.Text = "AdvTree1"
-            '
-            'colJobName
-            '
-            Me.colJobName.DisplayIndex = 1
-            Me.colJobName.Name = "colJobName"
-            Me.colJobName.SortingEnabled = False
-            Me.colJobName.Text = "Job Name"
-            Me.colJobName.Width.Absolute = 150
-            '
-            'colJobItem
-            '
-            Me.colJobItem.DisplayIndex = 2
-            Me.colJobItem.Name = "colJobItem"
-            Me.colJobItem.SortingEnabled = False
-            Me.colJobItem.Text = "Produced Item"
-            Me.colJobItem.Width.Absolute = 150
-            '
-            'colJobUnitProfit
-            '
-            Me.colJobUnitProfit.DisplayIndex = 3
-            Me.colJobUnitProfit.Name = "colJobUnitProfit"
-            Me.colJobUnitProfit.SortingEnabled = False
-            Me.colJobUnitProfit.Text = "Unit Profit"
-            Me.colJobUnitProfit.Width.Absolute = 120
-            '
-            'colJobProfitRate
-            '
-            Me.colJobProfitRate.DisplayIndex = 4
-            Me.colJobProfitRate.Name = "colJobProfitRate"
-            Me.colJobProfitRate.SortingEnabled = False
-            Me.colJobProfitRate.Text = "Profit Rate (isk/hr)"
-            Me.colJobProfitRate.Width.Absolute = 120
-            '
-            'colJobMargin
-            '
-            Me.colJobMargin.DisplayIndex = 5
-            Me.colJobMargin.Name = "colJobMargin"
-            Me.colJobMargin.SortingEnabled = False
-            Me.colJobMargin.Text = "Margin (%)"
-            Me.colJobMargin.Width.Absolute = 75
-            '
-            'NodeConnector3
-            '
-            Me.NodeConnector3.LineColor = System.Drawing.SystemColors.ControlText
-            '
-            'ElementStyle3
-            '
-            Me.ElementStyle3.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.ElementStyle3.Name = "ElementStyle3"
-            Me.ElementStyle3.TextColor = System.Drawing.SystemColors.ControlText
-            '
-            'pnlJobs
-            '
-            Me.pnlJobs.CanvasColor = System.Drawing.SystemColors.Control
-            Me.pnlJobs.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.pnlJobs.Controls.Add(Me.btnClearAllJobs)
-            Me.pnlJobs.Controls.Add(Me.btnMakeBatch)
-            Me.pnlJobs.Controls.Add(Me.btnRefreshJobs)
-            Me.pnlJobs.Controls.Add(Me.btnDeleteJob)
-            Me.pnlJobs.Dock = System.Windows.Forms.DockStyle.Bottom
-            Me.pnlJobs.Location = New System.Drawing.Point(1, 573)
-            Me.pnlJobs.Name = "pnlJobs"
-            Me.pnlJobs.Size = New System.Drawing.Size(674, 51)
-            Me.pnlJobs.Style.Alignment = System.Drawing.StringAlignment.Center
-            Me.pnlJobs.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-            Me.pnlJobs.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-            Me.pnlJobs.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.pnlJobs.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.pnlJobs.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-            Me.pnlJobs.Style.GradientAngle = 90
-            Me.pnlJobs.TabIndex = 1
-            '
-            'btnClearAllJobs
-            '
-            Me.btnClearAllJobs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnClearAllJobs.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.btnClearAllJobs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnClearAllJobs.Location = New System.Drawing.Point(3, 3)
-            Me.btnClearAllJobs.Name = "btnClearAllJobs"
-            Me.btnClearAllJobs.Size = New System.Drawing.Size(75, 21)
-            Me.btnClearAllJobs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnClearAllJobs.TabIndex = 4
-            Me.btnClearAllJobs.Text = "Clear Jobs"
-            '
-            'btnMakeBatch
-            '
-            Me.btnMakeBatch.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnMakeBatch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.btnMakeBatch.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnMakeBatch.Enabled = False
-            Me.btnMakeBatch.Location = New System.Drawing.Point(165, 3)
-            Me.btnMakeBatch.Name = "btnMakeBatch"
-            Me.btnMakeBatch.Size = New System.Drawing.Size(75, 21)
-            Me.btnMakeBatch.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnMakeBatch.TabIndex = 6
-            Me.btnMakeBatch.Text = "Make Batch"
-            '
-            'btnRefreshJobs
-            '
-            Me.btnRefreshJobs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnRefreshJobs.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.btnRefreshJobs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnRefreshJobs.Location = New System.Drawing.Point(3, 27)
-            Me.btnRefreshJobs.Name = "btnRefreshJobs"
-            Me.btnRefreshJobs.Size = New System.Drawing.Size(200, 21)
-            Me.btnRefreshJobs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnRefreshJobs.TabIndex = 5
-            Me.btnRefreshJobs.Text = "Refresh Job Costings and Profits"
-            '
-            'btnDeleteJob
-            '
-            Me.btnDeleteJob.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnDeleteJob.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.btnDeleteJob.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnDeleteJob.Enabled = False
-            Me.btnDeleteJob.Location = New System.Drawing.Point(84, 3)
-            Me.btnDeleteJob.Name = "btnDeleteJob"
-            Me.btnDeleteJob.Size = New System.Drawing.Size(75, 21)
-            Me.btnDeleteJob.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnDeleteJob.TabIndex = 1
-            Me.btnDeleteJob.Text = "Delete Job"
-            '
-            'tiProductionJobs
-            '
-            Me.tiProductionJobs.AttachedControl = Me.TabControlPanel12
-            Me.tiProductionJobs.Name = "tiProductionJobs"
-            Me.tiProductionJobs.Text = "Production Jobs"
-            '
-            'TabControlPanel13
-            '
-            Me.TabControlPanel13.Controls.Add(Me.adtBatches)
-            Me.TabControlPanel13.Controls.Add(Me.PanelEx1)
-            Me.TabControlPanel13.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel13.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel13.Name = "TabControlPanel13"
-            Me.TabControlPanel13.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel13.Size = New System.Drawing.Size(676, 625)
-            Me.TabControlPanel13.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel13.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel13.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel13.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel13.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel13.Style.GradientAngle = 90
-            Me.TabControlPanel13.TabIndex = 2
-            Me.TabControlPanel13.TabItem = Me.tiBatchJobs
-            '
-            'adtBatches
-            '
-            Me.adtBatches.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-            Me.adtBatches.AllowDrop = True
-            Me.adtBatches.BackColor = System.Drawing.SystemColors.Window
-            '
-            '
-            '
-            Me.adtBatches.BackgroundStyle.Class = "TreeBorderKey"
-            Me.adtBatches.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.adtBatches.Columns.Add(Me.colBatchName)
-            Me.adtBatches.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.adtBatches.DragDropEnabled = False
-            Me.adtBatches.DragDropNodeCopyEnabled = False
-            Me.adtBatches.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.adtBatches.Location = New System.Drawing.Point(1, 1)
-            Me.adtBatches.MultiSelect = True
-            Me.adtBatches.MultiSelectRule = DevComponents.AdvTree.eMultiSelectRule.AnyNode
-            Me.adtBatches.Name = "adtBatches"
-            Me.adtBatches.NodesConnector = Me.NodeConnector4
-            Me.adtBatches.NodeStyle = Me.ElementStyle4
-            Me.adtBatches.PathSeparator = ";"
-            Me.adtBatches.Size = New System.Drawing.Size(674, 596)
-            Me.adtBatches.Styles.Add(Me.ElementStyle4)
-            Me.adtBatches.TabIndex = 1
-            Me.adtBatches.Text = "AdvTree1"
-            '
-            'colBatchName
-            '
-            Me.colBatchName.Name = "colBatchName"
-            Me.colBatchName.SortingEnabled = False
-            Me.colBatchName.Text = "Batch Name"
-            Me.colBatchName.Width.Absolute = 300
-            '
-            'NodeConnector4
-            '
-            Me.NodeConnector4.LineColor = System.Drawing.SystemColors.ControlText
-            '
-            'ElementStyle4
-            '
-            Me.ElementStyle4.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.ElementStyle4.Name = "ElementStyle4"
-            Me.ElementStyle4.TextColor = System.Drawing.SystemColors.ControlText
-            '
-            'PanelEx1
-            '
-            Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
-            Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.PanelEx1.Controls.Add(Me.btnClearBatches)
-            Me.PanelEx1.Dock = System.Windows.Forms.DockStyle.Bottom
-            Me.PanelEx1.Location = New System.Drawing.Point(1, 597)
-            Me.PanelEx1.Name = "PanelEx1"
-            Me.PanelEx1.Size = New System.Drawing.Size(674, 27)
-            Me.PanelEx1.Style.Alignment = System.Drawing.StringAlignment.Center
-            Me.PanelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-            Me.PanelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-            Me.PanelEx1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.PanelEx1.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-            Me.PanelEx1.Style.GradientAngle = 90
-            Me.PanelEx1.TabIndex = 2
-            '
-            'btnClearBatches
-            '
-            Me.btnClearBatches.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnClearBatches.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.btnClearBatches.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnClearBatches.Location = New System.Drawing.Point(3, 3)
-            Me.btnClearBatches.Name = "btnClearBatches"
-            Me.btnClearBatches.Size = New System.Drawing.Size(75, 21)
-            Me.btnClearBatches.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnClearBatches.TabIndex = 4
-            Me.btnClearBatches.Text = "Clear Batches"
-            '
-            'tiBatchJobs
-            '
-            Me.tiBatchJobs.AttachedControl = Me.TabControlPanel13
-            Me.tiBatchJobs.Name = "tiBatchJobs"
-            Me.tiBatchJobs.Text = "Batch Jobs"
-            '
-            'splitterProductionMngr
-            '
-            Me.splitterProductionMngr.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
-            Me.splitterProductionMngr.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterProductionMngr.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-            Me.splitterProductionMngr.Dock = System.Windows.Forms.DockStyle.Right
-            Me.splitterProductionMngr.ExpandableControl = Me.PRPM
-            Me.splitterProductionMngr.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
-            Me.splitterProductionMngr.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterProductionMngr.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-            Me.splitterProductionMngr.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterProductionMngr.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-            Me.splitterProductionMngr.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterProductionMngr.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-            Me.splitterProductionMngr.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
-            Me.splitterProductionMngr.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
-            Me.splitterProductionMngr.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
-            Me.splitterProductionMngr.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
-            Me.splitterProductionMngr.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.splitterProductionMngr.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
-            Me.splitterProductionMngr.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterProductionMngr.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-            Me.splitterProductionMngr.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterProductionMngr.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
-            Me.splitterProductionMngr.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterProductionMngr.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
-            Me.splitterProductionMngr.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
-            Me.splitterProductionMngr.Location = New System.Drawing.Point(677, 1)
-            Me.splitterProductionMngr.Name = "splitterProductionMngr"
-            Me.splitterProductionMngr.Size = New System.Drawing.Size(6, 648)
-            Me.splitterProductionMngr.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
-            Me.splitterProductionMngr.TabIndex = 2
-            Me.splitterProductionMngr.TabStop = False
-            '
-            'PRPM
-            '
-            Me.PRPM.BatchJob = Nothing
-            Me.PRPM.Dock = System.Windows.Forms.DockStyle.Right
-            Me.PRPM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.PRPM.InventionBP = Nothing
-            Me.PRPM.Location = New System.Drawing.Point(683, 1)
-            Me.PRPM.Name = "PRPM"
-            Me.PRPM.ProductionJob = Nothing
-            Me.PRPM.Size = New System.Drawing.Size(600, 648)
-            Me.PRPM.TabIndex = 3
-            '
-            'tiProductionManager
-            '
-            Me.tiProductionManager.AttachedControl = Me.TabControlPanel11
-            Me.tiProductionManager.Name = "tiProductionManager"
-            Me.tiProductionManager.Text = "Production Manager"
-            '
-            'TabControlPanel9
-            '
-            Me.TabControlPanel9.Controls.Add(Me.btnCopyListToClipboard)
-            Me.TabControlPanel9.Controls.Add(Me.cboBPOwner)
-            Me.TabControlPanel9.Controls.Add(Me.lblBPOwner)
-            Me.TabControlPanel9.Controls.Add(Me.adtBlueprints)
-            Me.TabControlPanel9.Controls.Add(Me.cboCategoryFilter)
-            Me.TabControlPanel9.Controls.Add(Me.chkShowOwnedBPs)
-            Me.TabControlPanel9.Controls.Add(Me.lblBPCatFilter)
-            Me.TabControlPanel9.Controls.Add(Me.pbBPO)
-            Me.TabControlPanel9.Controls.Add(Me.cboTypeFilter)
-            Me.TabControlPanel9.Controls.Add(Me.pbBPC)
-            Me.TabControlPanel9.Controls.Add(Me.lblTypeFilter)
-            Me.TabControlPanel9.Controls.Add(Me.pbMissing)
-            Me.TabControlPanel9.Controls.Add(Me.cboTechFilter)
-            Me.TabControlPanel9.Controls.Add(Me.pbUnknown)
-            Me.TabControlPanel9.Controls.Add(Me.lblTechFilter)
-            Me.TabControlPanel9.Controls.Add(Me.pbExhausted)
-            Me.TabControlPanel9.Controls.Add(Me.lblUserBP)
-            Me.TabControlPanel9.Controls.Add(Me.pbUserBP)
-            Me.TabControlPanel9.Controls.Add(Me.btnAddCustomBP)
-            Me.TabControlPanel9.Controls.Add(Me.lblExhausted)
-            Me.TabControlPanel9.Controls.Add(Me.btnBPCalc)
-            Me.TabControlPanel9.Controls.Add(Me.lblUnknown)
-            Me.TabControlPanel9.Controls.Add(Me.btnUpdateBPsFromAssets)
-            Me.TabControlPanel9.Controls.Add(Me.lblMissing)
-            Me.TabControlPanel9.Controls.Add(Me.btnGetBPJobInfo)
-            Me.TabControlPanel9.Controls.Add(Me.btnGetBPClipboardInfo)
-            Me.TabControlPanel9.Controls.Add(Me.lblBPC)
-            Me.TabControlPanel9.Controls.Add(Me.lblBPSearch)
-            Me.TabControlPanel9.Controls.Add(Me.lblBPO)
-            Me.TabControlPanel9.Controls.Add(Me.txtBPSearch)
-            Me.TabControlPanel9.Controls.Add(Me.btnResetBPSearch)
-            Me.TabControlPanel9.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel9.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel9.Name = "TabControlPanel9"
-            Me.TabControlPanel9.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel9.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel9.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel9.Style.GradientAngle = 90
-            Me.TabControlPanel9.TabIndex = 9
-            Me.TabControlPanel9.TabItem = Me.tiBPManager
-            '
-            'cboBPOwner
-            '
-            Me.cboBPOwner.DisplayMember = "Text"
-            Me.cboBPOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-            Me.cboBPOwner.FormattingEnabled = True
-            Me.cboBPOwner.ItemHeight = 15
-            Me.cboBPOwner.Location = New System.Drawing.Point(64, 2)
-            Me.cboBPOwner.Name = "cboBPOwner"
-            Me.cboBPOwner.Size = New System.Drawing.Size(210, 21)
-            Me.cboBPOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.cboBPOwner.TabIndex = 56
-            '
-            'lblBPOwner
-            '
-            Me.lblBPOwner.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.lblBPOwner.AutoSize = True
-            Me.lblBPOwner.BackColor = System.Drawing.Color.Transparent
-            Me.lblBPOwner.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.lblBPOwner.Location = New System.Drawing.Point(12, 6)
-            Me.lblBPOwner.Name = "lblBPOwner"
-            Me.lblBPOwner.Size = New System.Drawing.Size(43, 13)
-            Me.lblBPOwner.TabIndex = 55
-            Me.lblBPOwner.Text = "Owner:"
-            '
-            'adtBlueprints
-            '
-            Me.adtBlueprints.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-            Me.adtBlueprints.AllowDrop = True
-            Me.adtBlueprints.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.adtBlueprints.BackColor = System.Drawing.SystemColors.Window
-            '
-            '
-            '
-            Me.adtBlueprints.BackgroundStyle.Class = "TreeBorderKey"
-            Me.adtBlueprints.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.adtBlueprints.Columns.Add(Me.colBPMBlueprint)
-            Me.adtBlueprints.Columns.Add(Me.colBPMLocation)
-            Me.adtBlueprints.Columns.Add(Me.colBPMLocation2)
-            Me.adtBlueprints.Columns.Add(Me.colBPMTechLevel)
-            Me.adtBlueprints.Columns.Add(Me.colBPMME)
-            Me.adtBlueprints.Columns.Add(Me.colBPMPE)
-            Me.adtBlueprints.Columns.Add(Me.colBPMRuns)
-            Me.adtBlueprints.Columns.Add(Me.colBPMStatus)
-            Me.adtBlueprints.ContextMenuStrip = Me.ctxBPManager
-            Me.adtBlueprints.DragDropEnabled = False
-            Me.adtBlueprints.DragDropNodeCopyEnabled = False
-            Me.adtBlueprints.ExpandWidth = 0
-            Me.adtBlueprints.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.adtBlueprints.Location = New System.Drawing.Point(10, 26)
-            Me.adtBlueprints.MultiSelect = True
-            Me.adtBlueprints.Name = "adtBlueprints"
-            Me.adtBlueprints.NodesConnector = Me.NodeConnector5
-            Me.adtBlueprints.NodeStyle = Me.BP
-            Me.adtBlueprints.PathSeparator = ";"
-            Me.adtBlueprints.Size = New System.Drawing.Size(1176, 618)
-            Me.adtBlueprints.Styles.Add(Me.BP)
-            Me.adtBlueprints.TabIndex = 54
-            Me.adtBlueprints.Text = "AdvTree1"
-            '
-            'colBPMBlueprint
-            '
-            Me.colBPMBlueprint.DisplayIndex = 1
-            Me.colBPMBlueprint.Name = "colBPMBlueprint"
-            Me.colBPMBlueprint.SortingEnabled = False
-            Me.colBPMBlueprint.Text = "Blueprint"
-            Me.colBPMBlueprint.Width.Absolute = 250
-            '
-            'colBPMLocation
-            '
-            Me.colBPMLocation.DisplayIndex = 2
-            Me.colBPMLocation.Name = "colBPMLocation"
-            Me.colBPMLocation.SortingEnabled = False
-            Me.colBPMLocation.Text = "Location"
-            Me.colBPMLocation.Width.Absolute = 300
-            '
-            'colBPMLocation2
-            '
-            Me.colBPMLocation2.DisplayIndex = 3
-            Me.colBPMLocation2.Name = "colBPMLocation2"
-            Me.colBPMLocation2.SortingEnabled = False
-            Me.colBPMLocation2.Text = "Specific Location"
-            Me.colBPMLocation2.Width.Absolute = 300
-            '
-            'colBPMTechLevel
-            '
-            Me.colBPMTechLevel.DisplayIndex = 4
-            Me.colBPMTechLevel.Name = "colBPMTechLevel"
-            Me.colBPMTechLevel.SortingEnabled = False
-            Me.colBPMTechLevel.Text = "Tech"
-            Me.colBPMTechLevel.Width.Absolute = 40
-            '
-            'colBPMME
-            '
-            Me.colBPMME.DisplayIndex = 5
-            Me.colBPMME.Name = "colBPMME"
-            Me.colBPMME.SortingEnabled = False
-            Me.colBPMME.Text = "ME"
-            Me.colBPMME.Width.Absolute = 40
-            '
-            'colBPMPE
-            '
-            Me.colBPMPE.DisplayIndex = 6
-            Me.colBPMPE.Name = "colBPMPE"
-            Me.colBPMPE.SortingEnabled = False
-            Me.colBPMPE.Text = "PE"
-            Me.colBPMPE.Width.Absolute = 40
-            '
-            'colBPMRuns
-            '
-            Me.colBPMRuns.DisplayIndex = 7
-            Me.colBPMRuns.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
-            Me.colBPMRuns.Name = "colBPMRuns"
-            Me.colBPMRuns.SortingEnabled = False
-            Me.colBPMRuns.Text = "Runs"
-            Me.colBPMRuns.Width.Absolute = 75
-            '
-            'colBPMStatus
-            '
-            Me.colBPMStatus.DisplayIndex = 8
-            Me.colBPMStatus.Name = "colBPMStatus"
-            Me.colBPMStatus.SortingEnabled = False
-            Me.colBPMStatus.Text = "Status"
-            Me.colBPMStatus.Width.Absolute = 100
-            '
-            'NodeConnector5
-            '
-            Me.NodeConnector5.LineColor = System.Drawing.SystemColors.ControlText
-            '
-            'BP
-            '
-            Me.BP.BackColorGradientAngle = 90
-            Me.BP.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-            Me.BP.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.BP.Name = "BP"
-            Me.BP.TextColor = System.Drawing.SystemColors.ControlText
-            '
-            'pbBPO
-            '
-            Me.pbBPO.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.pbBPO.BackColor = System.Drawing.Color.LightGreen
-            Me.pbBPO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-            Me.pbBPO.Location = New System.Drawing.Point(1192, 499)
-            Me.pbBPO.Name = "pbBPO"
-            Me.pbBPO.Size = New System.Drawing.Size(16, 16)
-            Me.pbBPO.TabIndex = 35
-            Me.pbBPO.TabStop = False
-            '
-            'pbBPC
-            '
-            Me.pbBPC.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.pbBPC.BackColor = System.Drawing.Color.LightSteelBlue
-            Me.pbBPC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-            Me.pbBPC.Location = New System.Drawing.Point(1192, 521)
-            Me.pbBPC.Name = "pbBPC"
-            Me.pbBPC.Size = New System.Drawing.Size(16, 16)
-            Me.pbBPC.TabIndex = 37
-            Me.pbBPC.TabStop = False
-            '
-            'pbMissing
-            '
-            Me.pbMissing.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.pbMissing.BackColor = System.Drawing.Color.LightCoral
-            Me.pbMissing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-            Me.pbMissing.Location = New System.Drawing.Point(1192, 565)
-            Me.pbMissing.Name = "pbMissing"
-            Me.pbMissing.Size = New System.Drawing.Size(16, 16)
-            Me.pbMissing.TabIndex = 39
-            Me.pbMissing.TabStop = False
-            '
-            'pbUnknown
-            '
-            Me.pbUnknown.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.pbUnknown.BackColor = System.Drawing.Color.LightGray
-            Me.pbUnknown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-            Me.pbUnknown.Location = New System.Drawing.Point(1192, 609)
-            Me.pbUnknown.Name = "pbUnknown"
-            Me.pbUnknown.Size = New System.Drawing.Size(16, 16)
-            Me.pbUnknown.TabIndex = 41
-            Me.pbUnknown.TabStop = False
-            '
-            'pbExhausted
-            '
-            Me.pbExhausted.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.pbExhausted.BackColor = System.Drawing.Color.Orange
-            Me.pbExhausted.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-            Me.pbExhausted.Location = New System.Drawing.Point(1192, 587)
-            Me.pbExhausted.Name = "pbExhausted"
-            Me.pbExhausted.Size = New System.Drawing.Size(16, 16)
-            Me.pbExhausted.TabIndex = 43
-            Me.pbExhausted.TabStop = False
-            '
-            'pbUserBP
-            '
-            Me.pbUserBP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.pbUserBP.BackColor = System.Drawing.Color.Yellow
-            Me.pbUserBP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-            Me.pbUserBP.Location = New System.Drawing.Point(1192, 543)
-            Me.pbUserBP.Name = "pbUserBP"
-            Me.pbUserBP.Size = New System.Drawing.Size(16, 16)
-            Me.pbUserBP.TabIndex = 46
-            Me.pbUserBP.TabStop = False
-            '
-            'tiBPManager
-            '
-            Me.tiBPManager.AttachedControl = Me.TabControlPanel9
-            Me.tiBPManager.Name = "tiBPManager"
-            Me.tiBPManager.Text = "BP Manager"
-            '
-            'TabControlPanel2
-            '
-            Me.TabControlPanel2.Controls.Add(Me.PAC)
-            Me.TabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel2.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel2.Name = "TabControlPanel2"
-            Me.TabControlPanel2.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel2.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel2.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel2.Style.GradientAngle = 90
-            Me.TabControlPanel2.TabIndex = 2
-            Me.TabControlPanel2.TabItem = Me.tiAssets
-            '
-            'PAC
-            '
-            Me.PAC.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.PAC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.PAC.Location = New System.Drawing.Point(1, 1)
-            Me.PAC.Name = "PAC"
-            Me.PAC.Size = New System.Drawing.Size(1282, 648)
-            Me.PAC.TabIndex = 0
-            '
-            'tiAssets
-            '
-            Me.tiAssets.AttachedControl = Me.TabControlPanel2
-            Me.tiAssets.Name = "tiAssets"
-            Me.tiAssets.Text = "Assets"
-            '
             'NodeConnector1
             '
             Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
@@ -6310,6 +6256,71 @@ Namespace Forms
             Me.CSVExportOpenFolderButton.Name = "CSVExportOpenFolderButton"
             Me.CSVExportOpenFolderButton.Text = "<font size=""+1"">Open Report Folder</font><br/><font size=""-1"">Usually under User " & _
         "Documents</font>"
+            '
+            'PAC
+            '
+            Me.PAC.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.PAC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.PAC.Location = New System.Drawing.Point(1, 1)
+            Me.PAC.Name = "PAC"
+            Me.PAC.Size = New System.Drawing.Size(1282, 648)
+            Me.PAC.TabIndex = 0
+            '
+            'splitterProductionMngr
+            '
+            Me.splitterProductionMngr.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterProductionMngr.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterProductionMngr.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+            Me.splitterProductionMngr.Dock = System.Windows.Forms.DockStyle.Right
+            Me.splitterProductionMngr.ExpandableControl = Me.PRPM
+            Me.splitterProductionMngr.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterProductionMngr.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterProductionMngr.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+            Me.splitterProductionMngr.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+            Me.splitterProductionMngr.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+            Me.splitterProductionMngr.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+            Me.splitterProductionMngr.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.splitterProductionMngr.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+            Me.splitterProductionMngr.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+            Me.splitterProductionMngr.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+            Me.splitterProductionMngr.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+            Me.splitterProductionMngr.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+            Me.splitterProductionMngr.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterProductionMngr.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterProductionMngr.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+            Me.splitterProductionMngr.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+            Me.splitterProductionMngr.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterProductionMngr.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterProductionMngr.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.splitterProductionMngr.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+            Me.splitterProductionMngr.Location = New System.Drawing.Point(677, 1)
+            Me.splitterProductionMngr.Name = "splitterProductionMngr"
+            Me.splitterProductionMngr.Size = New System.Drawing.Size(6, 648)
+            Me.splitterProductionMngr.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+            Me.splitterProductionMngr.TabIndex = 2
+            Me.splitterProductionMngr.TabStop = False
+            '
+            'PRPM
+            '
+            Me.PRPM.BatchJob = Nothing
+            Me.PRPM.Dock = System.Windows.Forms.DockStyle.Right
+            Me.PRPM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.PRPM.InventionBP = Nothing
+            Me.PRPM.Location = New System.Drawing.Point(683, 1)
+            Me.PRPM.Name = "PRPM"
+            Me.PRPM.ProductionJob = Nothing
+            Me.PRPM.Size = New System.Drawing.Size(600, 648)
+            Me.PRPM.TabIndex = 3
+            '
+            'PSCRigOwners
+            '
+            Me.PSCRigOwners.AllowMultipleSelections = True
+            Me.PSCRigOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.PSCRigOwners.ListType = EveHQ.Prism.Controls.PrismSelectionType.AllOwners
+            Me.PSCRigOwners.Location = New System.Drawing.Point(10, 8)
+            Me.PSCRigOwners.Name = "PSCRigOwners"
+            Me.PSCRigOwners.Size = New System.Drawing.Size(278, 21)
+            Me.PSCRigOwners.TabIndex = 70
             '
             'FrmPrism
             '
@@ -6342,9 +6353,35 @@ Namespace Forms
             Me.pnlPrism.ResumeLayout(False)
             CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).EndInit()
             Me.tabPrism.ResumeLayout(False)
+            Me.TabControlPanel9.ResumeLayout(False)
+            Me.TabControlPanel9.PerformLayout()
+            CType(Me.adtBlueprints, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.pbBPO, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.pbBPC, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.pbMissing, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.pbUnknown, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.pbExhausted, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.pbUserBP, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControlPanel1.ResumeLayout(False)
             Me.TabControlPanel1.PerformLayout()
             CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.TabControlPanel2.ResumeLayout(False)
+            Me.TabControlPanel8.ResumeLayout(False)
+            Me.TabControlPanel8.PerformLayout()
+            Me.TabControlPanel5.ResumeLayout(False)
+            Me.TabControlPanel5.PerformLayout()
+            CType(Me.dtiTransEndDate, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.dtiTransStartDate, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.adtTransactions, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.TabControlPanel11.ResumeLayout(False)
+            CType(Me.tcPM, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.tcPM.ResumeLayout(False)
+            Me.TabControlPanel12.ResumeLayout(False)
+            CType(Me.adtProdJobs, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.pnlJobs.ResumeLayout(False)
+            Me.TabControlPanel13.ResumeLayout(False)
+            CType(Me.adtBatches, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.PanelEx1.ResumeLayout(False)
             Me.TabControlPanel4.ResumeLayout(False)
             Me.pnlSellOrders.ResumeLayout(False)
             Me.pnlSellOrders.PerformLayout()
@@ -6357,11 +6394,6 @@ Namespace Forms
             Me.TabControlPanel6.ResumeLayout(False)
             Me.TabControlPanel6.PerformLayout()
             CType(Me.adtJournal, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.TabControlPanel5.ResumeLayout(False)
-            Me.TabControlPanel5.PerformLayout()
-            CType(Me.dtiTransEndDate, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.dtiTransStartDate, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.adtTransactions, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControlPanel7.ResumeLayout(False)
             Me.TabControlPanel7.PerformLayout()
             CType(Me.adtJobs, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6379,8 +6411,6 @@ Namespace Forms
             CType(Me.adtInventionResults, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.dtiInventionEndDate, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.dtiInventionStartDate, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.TabControlPanel8.ResumeLayout(False)
-            Me.TabControlPanel8.PerformLayout()
             Me.TabControlPanel15.ResumeLayout(False)
             Me.TabControlPanel15.PerformLayout()
             Me.pnlRigs.ResumeLayout(False)
@@ -6391,25 +6421,6 @@ Namespace Forms
             CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControlPanel17.ResumeLayout(False)
             CType(Me.adtInventionJobs, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.TabControlPanel11.ResumeLayout(False)
-            CType(Me.tcPM, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.tcPM.ResumeLayout(False)
-            Me.TabControlPanel12.ResumeLayout(False)
-            CType(Me.adtProdJobs, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.pnlJobs.ResumeLayout(False)
-            Me.TabControlPanel13.ResumeLayout(False)
-            CType(Me.adtBatches, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.PanelEx1.ResumeLayout(False)
-            Me.TabControlPanel9.ResumeLayout(False)
-            Me.TabControlPanel9.PerformLayout()
-            CType(Me.adtBlueprints, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.pbBPO, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.pbBPC, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.pbMissing, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.pbUnknown, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.pbExhausted, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.pbUserBP, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.TabControlPanel2.ResumeLayout(False)
             Me.ResumeLayout(False)
 
         End Sub
@@ -6478,14 +6489,11 @@ Namespace Forms
         Friend WithEvents lblStation As System.Windows.Forms.Label
         Friend WithEvents lblStationLbl As System.Windows.Forms.Label
         Friend WithEvents lblBaseYield As System.Windows.Forms.Label
-        Friend WithEvents lblNetYield As System.Windows.Forms.Label
         Friend WithEvents lblStandings As System.Windows.Forms.Label
         Friend WithEvents lblStationTake As System.Windows.Forms.Label
         Friend WithEvents lblStationTakeLbl As System.Windows.Forms.Label
         Friend WithEvents lblStandingsLbl As System.Windows.Forms.Label
-        Friend WithEvents lblNetYieldLbl As System.Windows.Forms.Label
         Friend WithEvents lblBaseYieldLbl As System.Windows.Forms.Label
-        Friend WithEvents chkPerfectRefine As System.Windows.Forms.CheckBox
         Friend WithEvents cboRecyclePilots As System.Windows.Forms.ComboBox
         Friend WithEvents lblPilot As System.Windows.Forms.Label
         Friend WithEvents ctxRecycleItem As System.Windows.Forms.ContextMenuStrip
@@ -6509,8 +6517,6 @@ Namespace Forms
         Friend WithEvents btnBPCalc As System.Windows.Forms.Button
         Friend WithEvents btnUpdateBPsFromAssets As System.Windows.Forms.Button
         Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents btnGetBPJobInfo As System.Windows.Forms.Button
-        Friend WithEvents btnGetBPClipboardInfo As System.Windows.Forms.Button
         Friend WithEvents ctxBPManager As System.Windows.Forms.ContextMenuStrip
         Friend WithEvents mnuSendToBPCalc As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
@@ -6881,5 +6887,9 @@ Namespace Forms
         Friend WithEvents btnExportOrders As System.Windows.Forms.Button
         Private WithEvents CSVExportOpenFileButton As DevComponents.DotNetBar.Command
         Private WithEvents CSVExportOpenFolderButton As DevComponents.DotNetBar.Command
+        Friend WithEvents colBPMCategory As DevComponents.AdvTree.ColumnHeader
+        Friend WithEvents colBPMGroup As DevComponents.AdvTree.ColumnHeader
+        Friend WithEvents cboGroupFilter As System.Windows.Forms.ComboBox
+        Friend WithEvents lblBPGroupFilter As System.Windows.Forms.Label
     End Class
 End NameSpace

@@ -102,6 +102,7 @@ Public Class PlugInData
             Engine.BuildEffectsMap()
             Engine.BuildShipEffectsMap()
             Engine.BuildShipBonusesMap()
+            Engine.BuildShipModeBonusesMap()
             Engine.BuildSubSystemBonusMap()
 
             ' Load the HQF cache data

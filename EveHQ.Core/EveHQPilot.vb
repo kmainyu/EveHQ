@@ -57,8 +57,6 @@ Imports EveHQ.EveData
     Public Property Corp As String = ""
     Public Property CorpID As String = ""
     Public Property Isk As Double = 0
-    Public Property CloneName As String = ""
-    Public Property CloneSP As Integer = 0
     Public Property SkillPoints As Integer = 0
     Public Property Training As Boolean = False
     Public Property TrainingStartTime As Date = Now

@@ -181,7 +181,9 @@ Public Class PlugInData
             cSystem.Name = solar.Name
             cSystem.Region = solar.RegionId.ToString
             cSystem.Constellation = solar.ConstellationId.ToString
-            cSystem.WClass = whClasses(cSystem.Region)
+            If whClasses.ContainsKey(cSystem.Region) Then
+                cSystem.WClass = whClasses(cSystem.Region)
+            End If
             If whEffects.ContainsKey(cSystem.Name) = True Then
                 cSystem.WEffect = whEffects(cSystem.Name)
             Else

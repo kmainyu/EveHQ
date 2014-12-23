@@ -37,19 +37,11 @@ Namespace Controls
             Me.colTotalUnits = New DevComponents.AdvTree.ColumnHeader()
             Me.colUnitPrice = New DevComponents.AdvTree.ColumnHeader()
             Me.colTotalPrice = New DevComponents.AdvTree.ColumnHeader()
-            Me.colIdealML = New DevComponents.AdvTree.ColumnHeader()
             Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
             Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
             Me.tcResources = New DevComponents.DotNetBar.TabControl()
-            Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.adtProductionList = New DevComponents.AdvTree.AdvTree()
-            Me.colPLItem = New DevComponents.AdvTree.ColumnHeader()
-            Me.colPLQty = New DevComponents.AdvTree.ColumnHeader()
-            Me.colPLPrice = New DevComponents.AdvTree.ColumnHeader()
-            Me.colPLValue = New DevComponents.AdvTree.ColumnHeader()
-            Me.NodeConnector5 = New DevComponents.AdvTree.NodeConnector()
-            Me.ElementStyle5 = New DevComponents.DotNetBar.ElementStyle()
-            Me.tiProductionList = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.tiProductionResources = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
             Me.adtInventionResources = New DevComponents.AdvTree.AdvTree()
             Me.colIRItem = New DevComponents.AdvTree.ColumnHeader()
@@ -59,6 +51,15 @@ Namespace Controls
             Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
             Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
             Me.tiInvention = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.adtProductionList = New DevComponents.AdvTree.AdvTree()
+            Me.colPLItem = New DevComponents.AdvTree.ColumnHeader()
+            Me.colPLQty = New DevComponents.AdvTree.ColumnHeader()
+            Me.colPLPrice = New DevComponents.AdvTree.ColumnHeader()
+            Me.colPLValue = New DevComponents.AdvTree.ColumnHeader()
+            Me.NodeConnector5 = New DevComponents.AdvTree.NodeConnector()
+            Me.ElementStyle5 = New DevComponents.DotNetBar.ElementStyle()
+            Me.tiProductionList = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel4 = New DevComponents.DotNetBar.TabControlPanel()
             Me.adtBatchResources = New DevComponents.AdvTree.AdvTree()
             Me.colBatchItem = New DevComponents.AdvTree.ColumnHeader()
@@ -73,8 +74,6 @@ Namespace Controls
             Me.btnUpdateBatchPrices = New DevComponents.DotNetBar.ButtonX()
             Me.lblBatchName = New System.Windows.Forms.Label()
             Me.tiBatchResources = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.tiProductionResources = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
             Me.adtOwnedResources = New DevComponents.AdvTree.AdvTree()
             Me.colROMaterial = New DevComponents.AdvTree.ColumnHeader()
@@ -103,14 +102,14 @@ Namespace Controls
             CType(Me.adtResources, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.tcResources, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.tcResources.SuspendLayout()
-            Me.TabControlPanel5.SuspendLayout()
-            CType(Me.adtProductionList, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.TabControlPanel2.SuspendLayout()
             Me.TabControlPanel1.SuspendLayout()
             CType(Me.adtInventionResources, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.TabControlPanel5.SuspendLayout()
+            CType(Me.adtProductionList, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel4.SuspendLayout()
             CType(Me.adtBatchResources, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.pnlBatch.SuspendLayout()
-            Me.TabControlPanel2.SuspendLayout()
             Me.TabControlPanel3.SuspendLayout()
             CType(Me.adtOwnedResources, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.pnlResources.SuspendLayout()
@@ -123,6 +122,7 @@ Namespace Controls
             Me.pnlProduction.Controls.Add(Me.btnAlterResourcePrices)
             Me.pnlProduction.Controls.Add(Me.chkUseStandardCosting)
             Me.pnlProduction.Controls.Add(Me.chkShowSkills)
+            Me.pnlProduction.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlProduction.Dock = System.Windows.Forms.DockStyle.Top
             Me.pnlProduction.Location = New System.Drawing.Point(1, 1)
             Me.pnlProduction.Name = "pnlProduction"
@@ -197,7 +197,6 @@ Namespace Controls
             Me.adtResources.Columns.Add(Me.colTotalUnits)
             Me.adtResources.Columns.Add(Me.colUnitPrice)
             Me.adtResources.Columns.Add(Me.colTotalPrice)
-            Me.adtResources.Columns.Add(Me.colIdealML)
             Me.adtResources.Dock = System.Windows.Forms.DockStyle.Fill
             Me.adtResources.DragDropEnabled = False
             Me.adtResources.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
@@ -219,7 +218,7 @@ Namespace Controls
             Me.colMaterial.Name = "colMaterial"
             Me.colMaterial.SortingEnabled = False
             Me.colMaterial.Text = "Required Material"
-            Me.colMaterial.Width.Absolute = 250
+            Me.colMaterial.Width.Absolute = 280
             '
             'colBP
             '
@@ -228,7 +227,7 @@ Namespace Controls
             Me.colBP.Name = "colBP"
             Me.colBP.SortingEnabled = False
             Me.colBP.Text = "BP ME Lvl"
-            Me.colBP.Width.Absolute = 90
+            Me.colBP.Width.Absolute = 95
             '
             'colPerfectUnits
             '
@@ -236,8 +235,8 @@ Namespace Controls
             Me.colPerfectUnits.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
             Me.colPerfectUnits.Name = "colPerfectUnits"
             Me.colPerfectUnits.SortingEnabled = False
-            Me.colPerfectUnits.Text = "Perfect Qty"
-            Me.colPerfectUnits.Width.Absolute = 80
+            Me.colPerfectUnits.Text = "Base Qty"
+            Me.colPerfectUnits.Width.Absolute = 85
             '
             'colWasteUnits
             '
@@ -245,8 +244,8 @@ Namespace Controls
             Me.colWasteUnits.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
             Me.colWasteUnits.Name = "colWasteUnits"
             Me.colWasteUnits.SortingEnabled = False
-            Me.colWasteUnits.Text = "Waste Qty"
-            Me.colWasteUnits.Width.Absolute = 80
+            Me.colWasteUnits.Text = "Savings"
+            Me.colWasteUnits.Width.Absolute = 85
             '
             'colTotalUnits
             '
@@ -254,8 +253,8 @@ Namespace Controls
             Me.colTotalUnits.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
             Me.colTotalUnits.Name = "colTotalUnits"
             Me.colTotalUnits.SortingEnabled = False
-            Me.colTotalUnits.Text = "Total Qty"
-            Me.colTotalUnits.Width.Absolute = 80
+            Me.colTotalUnits.Text = "Required"
+            Me.colTotalUnits.Width.Absolute = 85
             '
             'colUnitPrice
             '
@@ -264,7 +263,7 @@ Namespace Controls
             Me.colUnitPrice.Name = "colUnitPrice"
             Me.colUnitPrice.SortingEnabled = False
             Me.colUnitPrice.Text = "Unit Price"
-            Me.colUnitPrice.Width.Absolute = 80
+            Me.colUnitPrice.Width.Absolute = 85
             '
             'colTotalPrice
             '
@@ -273,16 +272,7 @@ Namespace Controls
             Me.colTotalPrice.Name = "colTotalPrice"
             Me.colTotalPrice.SortingEnabled = False
             Me.colTotalPrice.Text = "Total Price"
-            Me.colTotalPrice.Width.Absolute = 80
-            '
-            'colIdealML
-            '
-            Me.colIdealML.DisplayIndex = 8
-            Me.colIdealML.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
-            Me.colIdealML.Name = "colIdealML"
-            Me.colIdealML.SortingEnabled = False
-            Me.colIdealML.Text = "Ideal ML"
-            Me.colIdealML.Width.Absolute = 60
+            Me.colTotalPrice.Width.Absolute = 85
             '
             'NodeConnector1
             '
@@ -303,10 +293,10 @@ Namespace Controls
             Me.tcResources.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
             Me.tcResources.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
             Me.tcResources.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
+            Me.tcResources.Controls.Add(Me.TabControlPanel2)
             Me.tcResources.Controls.Add(Me.TabControlPanel1)
             Me.tcResources.Controls.Add(Me.TabControlPanel5)
             Me.tcResources.Controls.Add(Me.TabControlPanel4)
-            Me.tcResources.Controls.Add(Me.TabControlPanel2)
             Me.tcResources.Controls.Add(Me.TabControlPanel3)
             Me.tcResources.Dock = System.Windows.Forms.DockStyle.Fill
             Me.tcResources.Location = New System.Drawing.Point(0, 0)
@@ -324,106 +314,36 @@ Namespace Controls
             Me.tcResources.Tabs.Add(Me.tiResourcesOwned)
             Me.tcResources.Text = "TabControl1"
             '
-            'TabControlPanel5
+            'TabControlPanel2
             '
-            Me.TabControlPanel5.Controls.Add(Me.adtProductionList)
-            Me.TabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel5.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel5.Name = "TabControlPanel5"
-            Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel5.Size = New System.Drawing.Size(868, 334)
-            Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel5.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Me.TabControlPanel2.Controls.Add(Me.adtResources)
+            Me.TabControlPanel2.Controls.Add(Me.pnlProduction)
+            Me.TabControlPanel2.DisabledBackColor = System.Drawing.Color.Empty
+            Me.TabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel2.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel2.Name = "TabControlPanel2"
+            Me.TabControlPanel2.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel2.Size = New System.Drawing.Size(868, 334)
+            Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel2.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel5.Style.GradientAngle = 90
-            Me.TabControlPanel5.TabIndex = 5
-            Me.TabControlPanel5.TabItem = Me.tiProductionList
+            Me.TabControlPanel2.Style.GradientAngle = 90
+            Me.TabControlPanel2.TabIndex = 2
+            Me.TabControlPanel2.TabItem = Me.tiProductionResources
             '
-            'adtProductionList
+            'tiProductionResources
             '
-            Me.adtProductionList.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-            Me.adtProductionList.AllowDrop = True
-            Me.adtProductionList.BackColor = System.Drawing.SystemColors.Window
-            '
-            '
-            '
-            Me.adtProductionList.BackgroundStyle.Class = "TreeBorderKey"
-            Me.adtProductionList.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.adtProductionList.Columns.Add(Me.colPLItem)
-            Me.adtProductionList.Columns.Add(Me.colPLQty)
-            Me.adtProductionList.Columns.Add(Me.colPLPrice)
-            Me.adtProductionList.Columns.Add(Me.colPLValue)
-            Me.adtProductionList.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.adtProductionList.ExpandWidth = 0
-            Me.adtProductionList.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.adtProductionList.Location = New System.Drawing.Point(1, 1)
-            Me.adtProductionList.Name = "adtProductionList"
-            Me.adtProductionList.NodesConnector = Me.NodeConnector5
-            Me.adtProductionList.NodeStyle = Me.ElementStyle5
-            Me.adtProductionList.PathSeparator = ";"
-            Me.adtProductionList.Size = New System.Drawing.Size(866, 332)
-            Me.adtProductionList.Styles.Add(Me.ElementStyle5)
-            Me.adtProductionList.TabIndex = 2
-            Me.adtProductionList.Text = "AdvTree1"
-            '
-            'colPLItem
-            '
-            Me.colPLItem.DisplayIndex = 1
-            Me.colPLItem.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
-            Me.colPLItem.Name = "colPLItem"
-            Me.colPLItem.SortingEnabled = False
-            Me.colPLItem.Text = "Item Type"
-            Me.colPLItem.Width.Absolute = 250
-            '
-            'colPLQty
-            '
-            Me.colPLQty.DisplayIndex = 2
-            Me.colPLQty.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
-            Me.colPLQty.Name = "colPLQty"
-            Me.colPLQty.SortingEnabled = False
-            Me.colPLQty.Text = "Quantity"
-            Me.colPLQty.Width.Absolute = 100
-            '
-            'colPLPrice
-            '
-            Me.colPLPrice.DisplayIndex = 3
-            Me.colPLPrice.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
-            Me.colPLPrice.Name = "colPLPrice"
-            Me.colPLPrice.SortingEnabled = False
-            Me.colPLPrice.Text = "Price"
-            Me.colPLPrice.Width.Absolute = 100
-            '
-            'colPLValue
-            '
-            Me.colPLValue.DisplayIndex = 4
-            Me.colPLValue.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
-            Me.colPLValue.Name = "colPLValue"
-            Me.colPLValue.SortingEnabled = False
-            Me.colPLValue.Text = "Value"
-            Me.colPLValue.Width.Absolute = 100
-            '
-            'NodeConnector5
-            '
-            Me.NodeConnector5.LineColor = System.Drawing.SystemColors.ControlText
-            '
-            'ElementStyle5
-            '
-            Me.ElementStyle5.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.ElementStyle5.Name = "ElementStyle5"
-            Me.ElementStyle5.TextColor = System.Drawing.SystemColors.ControlText
-            '
-            'tiProductionList
-            '
-            Me.tiProductionList.AttachedControl = Me.TabControlPanel5
-            Me.tiProductionList.Name = "tiProductionList"
-            Me.tiProductionList.Text = "Component Production"
+            Me.tiProductionResources.AttachedControl = Me.TabControlPanel2
+            Me.tiProductionResources.Name = "tiProductionResources"
+            Me.tiProductionResources.Text = "Production Resources"
             '
             'TabControlPanel1
             '
             Me.TabControlPanel1.Controls.Add(Me.adtInventionResources)
+            Me.TabControlPanel1.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel1.Name = "TabControlPanel1"
@@ -519,10 +439,109 @@ Namespace Controls
             Me.tiInvention.Text = "Invention Resources"
             Me.tiInvention.Visible = False
             '
+            'TabControlPanel5
+            '
+            Me.TabControlPanel5.Controls.Add(Me.adtProductionList)
+            Me.TabControlPanel5.DisabledBackColor = System.Drawing.Color.Empty
+            Me.TabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel5.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel5.Name = "TabControlPanel5"
+            Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel5.Size = New System.Drawing.Size(868, 334)
+            Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel5.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel5.Style.GradientAngle = 90
+            Me.TabControlPanel5.TabIndex = 5
+            Me.TabControlPanel5.TabItem = Me.tiProductionList
+            '
+            'adtProductionList
+            '
+            Me.adtProductionList.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+            Me.adtProductionList.AllowDrop = True
+            Me.adtProductionList.BackColor = System.Drawing.SystemColors.Window
+            '
+            '
+            '
+            Me.adtProductionList.BackgroundStyle.Class = "TreeBorderKey"
+            Me.adtProductionList.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.adtProductionList.Columns.Add(Me.colPLItem)
+            Me.adtProductionList.Columns.Add(Me.colPLQty)
+            Me.adtProductionList.Columns.Add(Me.colPLPrice)
+            Me.adtProductionList.Columns.Add(Me.colPLValue)
+            Me.adtProductionList.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.adtProductionList.ExpandWidth = 0
+            Me.adtProductionList.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+            Me.adtProductionList.Location = New System.Drawing.Point(1, 1)
+            Me.adtProductionList.Name = "adtProductionList"
+            Me.adtProductionList.NodesConnector = Me.NodeConnector5
+            Me.adtProductionList.NodeStyle = Me.ElementStyle5
+            Me.adtProductionList.PathSeparator = ";"
+            Me.adtProductionList.Size = New System.Drawing.Size(866, 332)
+            Me.adtProductionList.Styles.Add(Me.ElementStyle5)
+            Me.adtProductionList.TabIndex = 2
+            Me.adtProductionList.Text = "AdvTree1"
+            '
+            'colPLItem
+            '
+            Me.colPLItem.DisplayIndex = 1
+            Me.colPLItem.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
+            Me.colPLItem.Name = "colPLItem"
+            Me.colPLItem.SortingEnabled = False
+            Me.colPLItem.Text = "Item Type"
+            Me.colPLItem.Width.Absolute = 250
+            '
+            'colPLQty
+            '
+            Me.colPLQty.DisplayIndex = 2
+            Me.colPLQty.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
+            Me.colPLQty.Name = "colPLQty"
+            Me.colPLQty.SortingEnabled = False
+            Me.colPLQty.Text = "Quantity"
+            Me.colPLQty.Width.Absolute = 100
+            '
+            'colPLPrice
+            '
+            Me.colPLPrice.DisplayIndex = 3
+            Me.colPLPrice.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
+            Me.colPLPrice.Name = "colPLPrice"
+            Me.colPLPrice.SortingEnabled = False
+            Me.colPLPrice.Text = "Price"
+            Me.colPLPrice.Width.Absolute = 100
+            '
+            'colPLValue
+            '
+            Me.colPLValue.DisplayIndex = 4
+            Me.colPLValue.ImageAlignment = DevComponents.AdvTree.eColumnImageAlignment.Right
+            Me.colPLValue.Name = "colPLValue"
+            Me.colPLValue.SortingEnabled = False
+            Me.colPLValue.Text = "Value"
+            Me.colPLValue.Width.Absolute = 100
+            '
+            'NodeConnector5
+            '
+            Me.NodeConnector5.LineColor = System.Drawing.SystemColors.ControlText
+            '
+            'ElementStyle5
+            '
+            Me.ElementStyle5.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.ElementStyle5.Name = "ElementStyle5"
+            Me.ElementStyle5.TextColor = System.Drawing.SystemColors.ControlText
+            '
+            'tiProductionList
+            '
+            Me.tiProductionList.AttachedControl = Me.TabControlPanel5
+            Me.tiProductionList.Name = "tiProductionList"
+            Me.tiProductionList.Text = "Component Production"
+            '
             'TabControlPanel4
             '
             Me.TabControlPanel4.Controls.Add(Me.adtBatchResources)
             Me.TabControlPanel4.Controls.Add(Me.pnlBatch)
+            Me.TabControlPanel4.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel4.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel4.Name = "TabControlPanel4"
@@ -627,6 +646,7 @@ Namespace Controls
             Me.pnlBatch.Controls.Add(Me.lblBatchTotals)
             Me.pnlBatch.Controls.Add(Me.btnUpdateBatchPrices)
             Me.pnlBatch.Controls.Add(Me.lblBatchName)
+            Me.pnlBatch.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlBatch.Dock = System.Windows.Forms.DockStyle.Top
             Me.pnlBatch.Location = New System.Drawing.Point(1, 1)
             Me.pnlBatch.Name = "pnlBatch"
@@ -677,35 +697,11 @@ Namespace Controls
             Me.tiBatchResources.Name = "tiBatchResources"
             Me.tiBatchResources.Text = "Batch Resources"
             '
-            'TabControlPanel2
-            '
-            Me.TabControlPanel2.Controls.Add(Me.adtResources)
-            Me.TabControlPanel2.Controls.Add(Me.pnlProduction)
-            Me.TabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel2.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel2.Name = "TabControlPanel2"
-            Me.TabControlPanel2.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel2.Size = New System.Drawing.Size(868, 334)
-            Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel2.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel2.Style.GradientAngle = 90
-            Me.TabControlPanel2.TabIndex = 2
-            Me.TabControlPanel2.TabItem = Me.tiProductionResources
-            '
-            'tiProductionResources
-            '
-            Me.tiProductionResources.AttachedControl = Me.TabControlPanel2
-            Me.tiProductionResources.Name = "tiProductionResources"
-            Me.tiProductionResources.Text = "Production Resources"
-            '
             'TabControlPanel3
             '
             Me.TabControlPanel3.Controls.Add(Me.adtOwnedResources)
             Me.TabControlPanel3.Controls.Add(Me.pnlResources)
+            Me.TabControlPanel3.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel3.Name = "TabControlPanel3"
@@ -803,6 +799,7 @@ Namespace Controls
             Me.pnlResources.Controls.Add(Me.btnExport)
             Me.pnlResources.Controls.Add(Me.lblMaxUnits)
             Me.pnlResources.Controls.Add(Me.lblAssetSelection)
+            Me.pnlResources.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlResources.Dock = System.Windows.Forms.DockStyle.Top
             Me.pnlResources.Location = New System.Drawing.Point(1, 1)
             Me.pnlResources.Name = "pnlResources"
@@ -915,6 +912,7 @@ Namespace Controls
             'STT
             '
             Me.STT.DefaultFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.STT.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Gray)
             Me.STT.IgnoreFormActiveState = True
             Me.STT.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.STT.MinimumTooltipSize = New System.Drawing.Size(250, 24)
@@ -955,15 +953,15 @@ Namespace Controls
             CType(Me.adtResources, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.tcResources, System.ComponentModel.ISupportInitialize).EndInit()
             Me.tcResources.ResumeLayout(False)
-            Me.TabControlPanel5.ResumeLayout(False)
-            CType(Me.adtProductionList, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.TabControlPanel2.ResumeLayout(False)
             Me.TabControlPanel1.ResumeLayout(False)
             CType(Me.adtInventionResources, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.TabControlPanel5.ResumeLayout(False)
+            CType(Me.adtProductionList, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControlPanel4.ResumeLayout(False)
             CType(Me.adtBatchResources, System.ComponentModel.ISupportInitialize).EndInit()
             Me.pnlBatch.ResumeLayout(False)
             Me.pnlBatch.PerformLayout()
-            Me.TabControlPanel2.ResumeLayout(False)
             Me.TabControlPanel3.ResumeLayout(False)
             CType(Me.adtOwnedResources, System.ComponentModel.ISupportInitialize).EndInit()
             Me.pnlResources.ResumeLayout(False)
@@ -983,7 +981,6 @@ Namespace Controls
         Friend WithEvents colTotalUnits As DevComponents.AdvTree.ColumnHeader
         Friend WithEvents colUnitPrice As DevComponents.AdvTree.ColumnHeader
         Friend WithEvents colTotalPrice As DevComponents.AdvTree.ColumnHeader
-        Friend WithEvents colIdealML As DevComponents.AdvTree.ColumnHeader
         Friend WithEvents tcResources As DevComponents.DotNetBar.TabControl
         Friend WithEvents TabControlPanel2 As DevComponents.DotNetBar.TabControlPanel
         Friend WithEvents tiProductionResources As DevComponents.DotNetBar.TabItem

@@ -98,16 +98,16 @@ Namespace BPCalc
             End If
 
             If OverridingPE = "" Then
-                RunTime = CurrentBlueprint.CalculateProductionTime(IndSkill, ProdImplant, AssemblyArray, Runs)
+                RunTime = CurrentBlueprint.CalculateProductionTime(IndSkill, PESkill, ProdImplant, AssemblyArray, Runs)
             Else
-                RunTime = CurrentBlueprint.CalculateProductionTime(CInt(OverridingPE), IndSkill, ProdImplant, AssemblyArray, Runs)
+                RunTime = CurrentBlueprint.CalculateProductionTime(CInt(OverridingPE), IndSkill, PESkill, ProdImplant, AssemblyArray, Runs)
             End If
 
             Dim wasteFactor As Double
             If OverridingME = "" Then
-                wasteFactor = CurrentBlueprint.CalculateWasteFactor(PESkill)
+                wasteFactor = CurrentBlueprint.CalculateWasteFactor()
             Else
-                wasteFactor = CurrentBlueprint.CalculateWasteFactor(CInt(OverridingME), PESkill)
+                wasteFactor = CurrentBlueprint.CalculateWasteFactor(CInt(OverridingME))
             End If
 
             If SubJobMEs Is Nothing Then
@@ -126,7 +126,7 @@ Namespace BPCalc
                         Dim waste As Integer
                         Dim perfectRaw As Integer = resource.Quantity
 
-                        ' Calculate Waste - Mark II!
+                        ' Calculate Waste
                         waste = CalculateWasteUnits(resource, wasteFactor, matMod)
 
                         ' Check if we have component iteration active
@@ -203,7 +203,7 @@ Namespace BPCalc
                             newResource.TypeCategory = resource.TypeCategory
                             newResource.PerfectUnits = perfectRaw
                             newResource.WasteUnits = waste
-                            newResource.BaseUnits = resource.BaseMaterial
+                            newResource.BaseUnits = resource.Quantity
                             Resources.Add(resource.TypeId, newResource)
                         End If
                     End If
@@ -224,7 +224,7 @@ Namespace BPCalc
             Dim prices As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(enumerable.Select(Function(r) r.TypeID))
             prices.Wait()
             Dim resourceCost As Dictionary(Of Integer, Double) = prices.Result
-            costs += enumerable.Select(Function(r) ((r.PerfectUnits + r.WasteUnits) * resourceCost(r.TypeID)) * Runs).Sum()
+            costs += enumerable.Select(Function(r) (((r.PerfectUnits * Runs) + r.WasteUnits) * resourceCost(r.TypeID))).Sum()
 
             ' Add in the costs for the sub jobs
             costs += subJobList.Sum(Function(j) j.CalculateCost)
@@ -244,16 +244,16 @@ Namespace BPCalc
                     End If
 
                     If OverridingPE = "" Then
-                        RunTime = CurrentBlueprint.CalculateProductionTime(IndSkill, ProdImplant, AssemblyArray, Runs)
+                        RunTime = CurrentBlueprint.CalculateProductionTime(IndSkill, PESkill, ProdImplant, AssemblyArray, Runs)
                     Else
-                        RunTime = CurrentBlueprint.CalculateProductionTime(CInt(OverridingPE), IndSkill, ProdImplant, AssemblyArray, Runs)
+                        RunTime = CurrentBlueprint.CalculateProductionTime(CInt(OverridingPE), IndSkill, PESkill, ProdImplant, AssemblyArray, Runs)
                     End If
 
                     Dim bpwf As Double
                     If OverridingME = "" Then
-                        bpwf = Math.Round(CurrentBlueprint.CalculateWasteFactor(PESkill), 6, MidpointRounding.AwayFromZero)
+                        bpwf = Math.Round(CurrentBlueprint.CalculateWasteFactor(), 6, MidpointRounding.AwayFromZero)
                     Else
-                        bpwf = Math.Round(CurrentBlueprint.CalculateWasteFactor(CInt(OverridingME), PESkill), 6)
+                        bpwf = Math.Round(CurrentBlueprint.CalculateWasteFactor(CInt(OverridingME)), 6)
                     End If
 
                     Dim resource As EveData.BlueprintResource = CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).Item(itemID)
@@ -275,7 +275,7 @@ Namespace BPCalc
                     newResource.TypeCategory = resource.TypeCategory
                     newResource.PerfectUnits = perfectRaw
                     newResource.WasteUnits = waste
-                    newResource.BaseUnits = resource.BaseMaterial
+                    newResource.BaseUnits = resource.Quantity
                     Resources.Add(resource.TypeId, newResource)
 
                     Cost = CalculateCost()
@@ -298,16 +298,16 @@ Namespace BPCalc
                     End If
 
                     If OverridingPE = "" Then
-                        RunTime = CurrentBlueprint.CalculateProductionTime(IndSkill, ProdImplant, AssemblyArray, Runs)
+                        RunTime = CurrentBlueprint.CalculateProductionTime(IndSkill, PESkill, ProdImplant, AssemblyArray, Runs)
                     Else
-                        RunTime = CurrentBlueprint.CalculateProductionTime(CInt(OverridingPE), IndSkill, ProdImplant, AssemblyArray, Runs)
+                        RunTime = CurrentBlueprint.CalculateProductionTime(CInt(OverridingPE), IndSkill, PESkill, ProdImplant, AssemblyArray, Runs)
                     End If
 
                     Dim bpwf As Double
                     If OverridingME = "" Then
-                        bpwf = Math.Round(CurrentBlueprint.CalculateWasteFactor(PESkill), 6, MidpointRounding.AwayFromZero)
+                        bpwf = Math.Round(CurrentBlueprint.CalculateWasteFactor(), 6, MidpointRounding.AwayFromZero)
                     Else
-                        bpwf = Math.Round(CurrentBlueprint.CalculateWasteFactor(CInt(OverridingME), PESkill), 6, MidpointRounding.AwayFromZero)
+                        bpwf = Math.Round(CurrentBlueprint.CalculateWasteFactor(CInt(OverridingME)), 6, MidpointRounding.AwayFromZero)
                     End If
 
                     Dim resource As EveData.BlueprintResource = CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).Item(itemID)
@@ -373,16 +373,16 @@ Namespace BPCalc
             End If
 
             If OverridingPE = "" Then
-                RunTime = CurrentBlueprint.CalculateProductionTime(IndSkill, ProdImplant, AssemblyArray, Runs)
+                RunTime = CurrentBlueprint.CalculateProductionTime(IndSkill, PESkill, ProdImplant, AssemblyArray, Runs)
             Else
-                RunTime = CurrentBlueprint.CalculateProductionTime(CInt(OverridingPE), IndSkill, ProdImplant, AssemblyArray, Runs)
+                RunTime = CurrentBlueprint.CalculateProductionTime(CInt(OverridingPE), IndSkill, PESkill, ProdImplant, AssemblyArray, Runs)
             End If
 
             Dim wasteFactor As Double
             If OverridingME = "" Then
-                wasteFactor = CurrentBlueprint.CalculateWasteFactor(PESkill)
+                wasteFactor = CurrentBlueprint.CalculateWasteFactor()
             Else
-                wasteFactor = CurrentBlueprint.CalculateWasteFactor(CInt(OverridingME), PESkill)
+                wasteFactor = CurrentBlueprint.CalculateWasteFactor(CInt(OverridingME))
             End If
 
             Dim waste As Integer
@@ -416,12 +416,9 @@ Namespace BPCalc
         End Sub
 
         Public Function CalculateWasteUnits(resource As EveData.BlueprintResource, wasteFactor As Double, matMod As Double) As Integer
-             Dim waste As Integer
-            ' Calculate Waste - Mark II!
-            waste = CInt(Math.Round((wasteFactor * resource.BaseMaterial) + (resource.BaseMaterial * (matMod - 1)), 0, MidpointRounding.AwayFromZero))
-            ' Provisional adjustment for "extra" mats
-            Dim extraWaste As Integer = CInt(Math.Round(((resource.Quantity - resource.BaseMaterial) * (1.25 - (0.05 * PESkill))) - (resource.Quantity - resource.BaseMaterial), 0, MidpointRounding.AwayFromZero))
-            waste += extraWaste
+            Dim waste As Integer
+            ' Calculate Waste - Updated for Crius therefore these are strictly savings
+            waste = Math.Max(CInt(Math.Ceiling(Math.Round((1 - wasteFactor) * resource.Quantity * Runs, 2))), Runs) - (resource.Quantity * Runs)
             Return waste
         End Function
 

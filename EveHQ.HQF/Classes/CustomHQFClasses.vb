@@ -168,6 +168,7 @@ Public Class CustomHQFClasses
 
         ' First rebuild the standard bonus data
         Call Engine.BuildShipBonusesMap()
+        Call Engine.BuildShipModeBonusesMap()
 
         ' Rebuild the ship lists
         ShipLists.ShipListKeyID.Clear()

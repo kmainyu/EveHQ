@@ -117,7 +117,7 @@ Namespace BPCalc
                                 For Each typeID As Integer In checkJob.Resources.Keys
                                     If bp.Resources.ContainsKey(1) Then
                                         If bp.Resources(1).ContainsKey(typeID) Then
-                                            If checkJob.Resources(typeID).BaseUnits = bp.Resources(1).Item(typeID).BaseMaterial Then
+                                            If checkJob.Resources(typeID).BaseUnits = bp.Resources(1).Item(typeID).Quantity Then
                                                 If checkJob.Resources(typeID).PerfectUnits = bp.Resources(1).Item(typeID).Quantity Then
                                                     Continue For
                                                 Else

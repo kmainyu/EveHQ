@@ -57,8 +57,6 @@ Namespace BPCalc
         Private _inventedBpid As Integer
         Private _baseChance As Double
         Private _decryptorUsed As Decryptor
-        Private _metaItemId As Integer
-        Private _metaItemLevel As Integer
         Private _overrideBpcRuns As Boolean
         Private _bpcRuns As Integer
         Private _overrideEncSkill As Boolean
@@ -93,24 +91,6 @@ Namespace BPCalc
             End Get
             Set(value As Decryptor)
                 _decryptorUsed = value
-            End Set
-        End Property
-
-        Public Property MetaItemId As Integer
-            Get
-                Return _metaItemId
-            End Get
-            Set(value As Integer)
-                _metaItemId = value
-            End Set
-        End Property
-
-        Public Property MetaItemLevel As Integer
-            Get
-                Return _metaItemLevel
-            End Get
-            Set(value As Integer)
-                _metaItemLevel = value
             End Set
         End Property
 
@@ -205,9 +185,8 @@ Namespace BPCalc
             If _decryptorUsed IsNot Nothing Then
                 decryptorMod = _decryptorUsed.ProbMod
             End If
-            Return _
-                _baseChance * (1 + (0.01 * _encryptionSkill)) *
-                (1 + ((_datacoreSkill1 + _datacoreSkill2) * (0.1 / (5 - _metaItemLevel)))) * decryptorMod
+            'Return _baseChance * (1 + (0.01 * _encryptionSkill)) * (1 + ((_datacoreSkill1 + _datacoreSkill2) * (0.1 / (5 - _metaItemLevel)))) * decryptorMod
+            Return _baseChance * 100 * (1 + (((_datacoreSkill1 + _datacoreSkill2) / 30) + (_encryptionSkill / 40))) * decryptorMod
         End Function
 
         Public Function CalculateInventionCost() As InventionCost
@@ -229,16 +208,6 @@ Namespace BPCalc
                     End If
                 End If
             Next
-
-            ' Calculate Item cost
-            If _metaItemId <> 0 Then
-                If quantityTable.ContainsKey(_metaItemId) = False Then
-                    quantityTable.Add(_metaItemId, 1)
-                Else
-                    quantityTable(_metaItemId) = quantityTable(_metaItemId) + 1
-                End If
-
-            End If
 
             ' Calculate Decryptor cost
             If _decryptorUsed IsNot Nothing Then
@@ -267,10 +236,6 @@ Namespace BPCalc
                         Function(key) itemCost(key) * quantityTable(key)).Sum()
             End If
 
-            invCost.MetaItemCost =
-                itemCost.Keys.Where(Function(key) key = _metaItemId).Select(
-                    Function(key) itemCost(key) * quantityTable(key)).Sum()
-
             ' Calculate lab cost
             invCost.LabCost = PrismSettings.UserSettings.LabInstallCost
             invCost.LabCost += Math.Round(PrismSettings.UserSettings.LabRunningCost * (baseBp.ResearchTechTime / 3600), 2,
@@ -278,9 +243,7 @@ Namespace BPCalc
 
             ' Calculate BPC cost
             invCost.BPCCost = CalculateBPCCost()
-
-            invCost.TotalCost = invCost.DatacoreCost + invCost.MetaItemCost + invCost.DecryptorCost + invCost.LabCost +
-                                invCost.BPCCost
+            invCost.TotalCost = invCost.DatacoreCost + invCost.DecryptorCost + invCost.LabCost + invCost.BPCCost
 
             Return invCost
         End Function
@@ -292,8 +255,8 @@ Namespace BPCalc
 
             Dim ibp As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(_inventedBpid))
 
-            Dim ime As Integer = -4
-            Dim ipe As Integer = -4
+            Dim ime As Integer = 2
+            Dim ipe As Integer = 4
             Dim irc As Integer
             Dim runMod As Integer = 0
 
@@ -305,7 +268,7 @@ Namespace BPCalc
                     runMod = useDecryptor.RunMod
                 End If
             End If
-            irc = Math.Min(Math.Max(CInt(Math.Truncate((_bpcRuns / baseBp.MaxProductionLimit) * (ibp.MaxProductionLimit / 10))), 1) + runMod, ibp.MaxProductionLimit)
+            irc = Math.Max(CInt(Math.Truncate((_bpcRuns / baseBp.MaxProductionLimit) * (ibp.MaxProductionLimit))), 1) + runMod
 
             ibp.MELevel = ime
             ibp.PELevel = ipe

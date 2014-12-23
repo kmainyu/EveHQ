@@ -60,6 +60,19 @@ Battleships\Advanced Battleships\Marauders\Gallente
 Battleships\Advanced Battleships\Marauders\Gallente\Kronos
 Battleships\Advanced Battleships\Marauders\Minmatar
 Battleships\Advanced Battleships\Marauders\Minmatar\Vargur
+Battleships\Faction
+Battleships\Faction\Apocalypse Blood Raider Edition
+Battleships\Faction\Apocalypse Kador Edition
+Battleships\Faction\Apocalypse Tash-Murkon Edition
+Battleships\Faction\Megathron Innerzone Shipping Edition
+Battleships\Faction\Megathron Police Edition
+Battleships\Faction\Rattlesnake Victory Edition
+Battleships\Faction\Raven Guristas Edition
+Battleships\Faction\Raven Kaalakiota Edition
+Battleships\Faction\Raven Nugoeihuvi Edition
+Battleships\Faction\Tempest Justice Edition
+Battleships\Faction\Tempest Krusual Edition
+Battleships\Faction\Tempest Nefantar Edition
 Battleships\Faction Battleships
 Battleships\Faction Battleships\Navy Faction
 Battleships\Faction Battleships\Navy Faction\Apocalypse Navy Issue
@@ -97,6 +110,7 @@ Battleships\Standard Battleships\Gallente\Hyperion
 Battleships\Standard Battleships\Gallente\Hyperion Aliastra Edition
 Battleships\Standard Battleships\Gallente\Hyperion Innerzone Shipping Edition
 Battleships\Standard Battleships\Gallente\Megathron
+Battleships\Standard Battleships\Gallente\Megathron Quafe Edition
 Battleships\Standard Battleships\Minmatar
 Battleships\Standard Battleships\Minmatar\Maelstrom
 Battleships\Standard Battleships\Minmatar\Maelstrom Krusual Edition
@@ -128,12 +142,16 @@ Capital Ships\Carriers\Minmatar\Nidhoggur
 Capital Ships\Dreadnoughts
 Capital Ships\Dreadnoughts\Amarr
 Capital Ships\Dreadnoughts\Amarr\Revelation
+Capital Ships\Dreadnoughts\Amarr\Revelation Sarum Edition
 Capital Ships\Dreadnoughts\Caldari
 Capital Ships\Dreadnoughts\Caldari\Phoenix
+Capital Ships\Dreadnoughts\Caldari\Phoenix Wiyrkomi Edition
 Capital Ships\Dreadnoughts\Gallente
 Capital Ships\Dreadnoughts\Gallente\Moros
+Capital Ships\Dreadnoughts\Gallente\Moros Interbus Edition
 Capital Ships\Dreadnoughts\Minmatar
 Capital Ships\Dreadnoughts\Minmatar\Naglfar
+Capital Ships\Dreadnoughts\Minmatar\Naglfar Justice Edition
 Capital Ships\Freighters
 Capital Ships\Freighters\Amarr
 Capital Ships\Freighters\Amarr\Providence
@@ -143,6 +161,8 @@ Capital Ships\Freighters\Gallente
 Capital Ships\Freighters\Gallente\Obelisk
 Capital Ships\Freighters\Minmatar
 Capital Ships\Freighters\Minmatar\Fenrir
+Capital Ships\Freighters\ORE
+Capital Ships\Freighters\ORE\Bowhead
 Capital Ships\Jump Freighters
 Capital Ships\Jump Freighters\Amarr
 Capital Ships\Jump Freighters\Amarr\Ark
@@ -277,6 +297,9 @@ Destroyers\Advanced Destroyers\Interdictors\Gallente
 Destroyers\Advanced Destroyers\Interdictors\Gallente\Eris
 Destroyers\Advanced Destroyers\Interdictors\Minmatar
 Destroyers\Advanced Destroyers\Interdictors\Minmatar\Sabre
+Destroyers\Advanced Destroyers\Tactical Destroyers
+Destroyers\Advanced Destroyers\Tactical Destroyers\Amarr
+Destroyers\Advanced Destroyers\Tactical Destroyers\Amarr\Confessor
 Destroyers\Standard Destroyers
 Destroyers\Standard Destroyers\Amarr
 Destroyers\Standard Destroyers\Amarr\Coercer
@@ -519,9 +542,12 @@ Special Edition Ships\Special Edition Industrial Ships\Miasmos Amastris Edition
 Special Edition Ships\Special Edition Industrial Ships\Miasmos Quafe Ultra Edition
 Special Edition Ships\Special Edition Industrial Ships\Miasmos Quafe Ultramarine Edition
 Special Edition Ships\Special Edition Industrial Ships\Primae
+Special Edition Ships\Special Edition Interceptors
+Special Edition Ships\Special Edition Interceptors\Whiptail
 Special Edition Ships\Special Edition Logistics
 Special Edition Ships\Special Edition Logistics\Etana
 Special Edition Ships\Special Edition Recon Ships
+Special Edition Ships\Special Edition Recon Ships\Chameleon
 Special Edition Ships\Special Edition Recon Ships\Moracha
 Special Edition Ships\Special Edition Shuttles
 Special Edition Ships\Special Edition Shuttles\Apotheosis

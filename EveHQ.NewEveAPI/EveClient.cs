@@ -360,8 +360,8 @@ namespace EveHQ.EveApi
                 let desc = row.Element("description").Value
                 let rank = row.Element("rank").Value.ToInt32()
                 let reqAttrib = row.Element("requiredAttributes")
-                let priAttrib = reqAttrib.Element("primaryAttribute").Value
-                let secAttrib = reqAttrib.Element("secondaryAttribute").Value
+                let priAttrib = reqAttrib.Element("primaryAttribute") != null ? reqAttrib.Element("primaryAttribute").Value : "Perception"
+                let secAttrib = reqAttrib.Element("secondaryAttribute") != null ? reqAttrib.Element("secondaryAttribute").Value : "Willpower"
                 let reqSkills =
                     row.Elements(ApiConstants.Rowset)
                         .Where(e => e.Attribute("name").Value == "requiredSkills")

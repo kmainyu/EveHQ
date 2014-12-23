@@ -334,6 +334,32 @@ Namespace Forms
             Dim baseFit As String
             Dim revisedFit As String
             _currentFit.Clear()
+            ' Get SourceURL if available
+            If _cDNAFit.Arguments.ContainsKey("sourceURL") = True Then
+                _sourceURL = _cDNAFit.Arguments("sourceURL")
+                ' Try to get fitting name
+                If _sourceURL.Contains("eve.battleclinic.com") = True Then
+                    _loadoutName = _sourceURL.TrimStart("http://eve.battleclinic.com/loadout/".ToCharArray).TrimEnd(".html".ToCharArray)
+                    _loadoutID = _loadoutName.Substring(0, _loadoutName.IndexOf("-".ToCharArray))
+                    _loadoutName = _loadoutName.TrimStart((_loadoutID & "-").ToCharArray)
+                    _loadoutName = _loadoutName.Replace(" - ", "######")
+                    _loadoutName = _loadoutName.Replace("-", " ")
+                    _loadoutName = _loadoutName.Replace("######", " - ")
+                Else
+                    _loadoutName = "Unknown Fitting"
+                End If
+                lblLoadoutTopic.Visible = True
+                LblLoadoutTopicLbl.Visible = True
+            Else
+                If _cDNAFit.Arguments.ContainsKey("LoadoutName") = True Then
+                    _loadoutName = _cDNAFit.Arguments("LoadoutName")
+                Else
+                    _loadoutName = "Unknown Fitting"
+                End If
+                lblLoadoutTopic.Visible = False
+                LblLoadoutTopicLbl.Visible = False
+            End If
+           ' Parse modules
             For Each fittedMod As Integer In _cDNAFit.Modules
                 Dim fModule As ShipModule = ModuleLists.ModuleList(fittedMod)
                 If fModule IsNot Nothing Then
@@ -367,31 +393,7 @@ Namespace Forms
             gpStatistics.Visible = True
             Call UpdateSlotColumns()
             Call UpdateSlotLayout()
-            ' Get SourceURL if available
-            If _cDNAFit.Arguments.ContainsKey("sourceURL") = True Then
-                _sourceURL = _cDNAFit.Arguments("sourceURL")
-                ' Try to get fitting name
-                If _sourceURL.Contains("eve.battleclinic.com") = True Then
-                    _loadoutName = _sourceURL.TrimStart("http://eve.battleclinic.com/loadout/".ToCharArray).TrimEnd(".html".ToCharArray)
-                    _loadoutID = _loadoutName.Substring(0, _loadoutName.IndexOf("-".ToCharArray))
-                    _loadoutName = _loadoutName.TrimStart((_loadoutID & "-").ToCharArray)
-                    _loadoutName = _loadoutName.Replace(" - ", "######")
-                    _loadoutName = _loadoutName.Replace("-", " ")
-                    _loadoutName = _loadoutName.Replace("######", " - ")
-                Else
-                    _loadoutName = "Unknown Fitting"
-                End If
-                lblLoadoutTopic.Visible = True
-                LblLoadoutTopicLbl.Visible = True
-            Else
-                If _cDNAFit.Arguments.ContainsKey("LoadoutName") = True Then
-                    _loadoutName = _cDNAFit.Arguments("LoadoutName")
-                Else
-                    _loadoutName = "Unknown Fitting"
-                End If
-                lblLoadoutTopic.Visible = False
-                LblLoadoutTopicLbl.Visible = False
-            End If
+           
         End Sub
 
 #End Region

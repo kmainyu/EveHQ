@@ -83,17 +83,5 @@ namespace EveHQ.EveData
         /// </summary>
         [ProtoMember(5)]
         public int Quantity { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the damage per job.
-        /// </summary>
-        [ProtoMember(6)]
-        public double DamagePerJob { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the base material.
-        /// </summary>
-        [ProtoMember(7)]
-        public int BaseMaterial { get; set; }
     }
 }

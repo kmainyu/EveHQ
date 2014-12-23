@@ -730,7 +730,7 @@ Namespace Controls
                                     End If
 
                                     eveLocation = CType(locNode.Cells(_assetColumn("AssetSystem")).Tag, SolarSystem)
-                                    Dim itemID As Integer = assetItem.TypeId
+                                    Dim typeId As Integer = assetItem.TypeId
                                     Dim itemData As EveType
                                     Dim itemName As String
                                     Dim groupID As Integer
@@ -738,25 +738,25 @@ Namespace Controls
                                     Dim catName As String
                                     Dim metaLevel As String
                                     Dim volume As String
-                                    If StaticData.Types.ContainsKey(itemID) Then
-                                        itemData = StaticData.Types(itemID)
+                                    If StaticData.Types.ContainsKey(typeId) Then
+                                        itemData = StaticData.Types(typeId)
                                         itemName = itemData.Name
                                         groupName = StaticData.TypeGroups(itemData.Group)
                                         groupID = itemData.Group
                                         catName = StaticData.TypeCats(itemData.Category)
-                                        metaLevel = StaticData.Types(itemID).MetaLevel.ToString
+                                        metaLevel = StaticData.Types(typeId).MetaLevel.ToString
                                         If PlugInData.PackedVolumes.ContainsKey(groupID) = True Then
                                             If assetItem.Singleton = False Then
                                                 volume = (PlugInData.PackedVolumes(groupID) * assetItem.Quantity).ToInvariantString("N2")
                                             Else
-                                                volume = (StaticData.Types(itemID).Volume * assetItem.Quantity).ToInvariantString("N2")
+                                                volume = (StaticData.Types(typeId).Volume * assetItem.Quantity).ToInvariantString("N2")
                                             End If
                                         Else
-                                            volume = (StaticData.Types(itemID).Volume * assetItem.Quantity).ToInvariantString("N2")
+                                            volume = (StaticData.Types(typeId).Volume * assetItem.Quantity).ToInvariantString("N2")
                                         End If
                                     Else
                                         ' Can't find the item in the database
-                                        itemName = "ItemID: " & itemID.ToString
+                                        itemName = "ItemID: " & typeId.ToString
                                         groupName = "Unknown"
                                         catName = "Unknown"
                                         metaLevel = "0"
@@ -765,7 +765,7 @@ Namespace Controls
 
                                     Dim newAsset As New Node
                                     CreateNodeCells(newAsset)
-                                    newAsset.Tag = assetItem.TypeId.ToInvariantString()
+                                    newAsset.Tag = assetItem.ItemId
                                     Dim flagID As Integer = assetItem.Flag
                                     Dim flagName As String = StaticData.ItemMarkers(flagID)
                                     Dim accountID As Integer = flagID + 885
@@ -820,7 +820,7 @@ Namespace Controls
                                     newAssetList.CorpHangar = CorpHangarName
                                     newAssetList.Station = stationLocation
                                     newAssetList.System = locNode.Text
-                                    newAssetList.TypeID = itemID
+                                    newAssetList.TypeID = typeId
                                     newAssetList.TypeName = itemName
                                     newAssetList.IsInHanger = assetIsInHanger
                                     newAssetList.Owner = owner.Name
@@ -871,8 +871,8 @@ Namespace Controls
                                         End If
                                     End If
 
-                                    If _assetNodes.ContainsKey(newAssetList.TypeID) = False Then
-                                        _assetNodes.Add(newAssetList.TypeID, New List(Of Node))
+                                    If _assetNodes.ContainsKey(newAssetList.ItemID) = False Then
+                                        _assetNodes.Add(newAssetList.ItemID, New List(Of Node))
                                     End If
                                     _assetNodes(newAssetList.ItemID).Add(newAsset)
 
@@ -1494,12 +1494,12 @@ Namespace Controls
                     ' Dim prices As Dictionary(Of String, Double) = priceData.Result
 
                     For Each job As Classes.IndustryJob In jobList
-                        If job.Completed = 0 Then
+                        If job.Status <> IndustryJobStatus.Delivered Then
                             Dim rNode As New Node
                             CreateNodeCells(rNode)
-                            rNode.Tag = job.InstalledItemTypeID.ToString
+                            rNode.Tag = job.BlueprintTypeId.ToString
 
-                            Dim researchItem As EveType = StaticData.Types(job.InstalledItemTypeID)
+                            Dim researchItem As EveType = StaticData.Types(job.BlueprintTypeId)
                             category = StaticData.TypeCats(researchItem.Category)
                             group = StaticData.TypeGroups(researchItem.Group)
                             ' Check for search criteria
@@ -1509,12 +1509,12 @@ Namespace Controls
                                 rNode.Cells(_assetColumn("AssetOwner")).Text = owner
                                 rNode.Cells(_assetColumn("AssetGroup")).Text = group
                                 rNode.Cells(_assetColumn("AssetCategory")).Text = category
-                                If job.OutputLocationID <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.OutputLocationID)) Then
-                                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(CInt(job.OutputLocationID)).StationName
-                                    eveLocation = StaticData.SolarSystems(StaticData.Stations(CInt(job.OutputLocationID)).SystemId)
+                                If job.FacilityId <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.FacilityId)) Then
+                                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(CInt(job.FacilityId)).StationName
+                                    eveLocation = StaticData.SolarSystems(StaticData.Stations(CInt(job.FacilityId)).SystemId)
                                 Else
-                                    rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
-                                    eveLocation = StaticData.SolarSystems(job.InstalledInSolarSystemID)
+                                    rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.SolarSystemId).Name
+                                    eveLocation = StaticData.SolarSystems(job.SolarSystemId)
                                 End If
                                 If eveLocation IsNot Nothing Then
                                     rNode.Cells(_assetColumn("AssetSystem")).Text = eveLocation.Name
@@ -1531,15 +1531,15 @@ Namespace Controls
                                 rNode.Cells(_assetColumn("AssetVolume")).Text = researchItem.Volume.ToInvariantString("N2")
                                 rNode.Cells(_assetColumn("AssetQuantity")).Text = "1"
                                 Dim price As Double = 0
-                                If job.ActivityID = 8 Then
+                                If job.ActivityId = 8 Then
                                     ' Calculate BPC cost
-                                    If PrismSettings.UserSettings.BPCCosts.ContainsKey(job.InstalledItemTypeID) Then
-                                        Dim pricerange As Double = PrismSettings.UserSettings.BPCCosts(job.InstalledItemTypeID).MaxRunCost - PrismSettings.UserSettings.BPCCosts(job.InstalledItemTypeID).MinRunCost
-                                        Dim runrange As Integer = StaticData.Blueprints(job.InstalledItemTypeID).MaxProductionLimit - 1
+                                    If PrismSettings.UserSettings.BPCCosts.ContainsKey(job.BlueprintTypeId) Then
+                                        Dim pricerange As Double = PrismSettings.UserSettings.BPCCosts(job.BlueprintTypeId).MaxRunCost - PrismSettings.UserSettings.BPCCosts(job.BlueprintTypeId).MinRunCost
+                                        Dim runrange As Integer = StaticData.Blueprints(job.BlueprintTypeId).MaxProductionLimit - 1
                                         If runrange = 0 Then
-                                            price = PrismSettings.UserSettings.BPCCosts(job.InstalledItemTypeID).MinRunCost
+                                            price = PrismSettings.UserSettings.BPCCosts(job.BlueprintTypeId).MinRunCost
                                         Else
-                                            price = PrismSettings.UserSettings.BPCCosts(job.InstalledItemTypeID).MinRunCost + Math.Round((pricerange / runrange) * (job.InstalledRuns - 1), 2, MidpointRounding.AwayFromZero)
+                                            price = PrismSettings.UserSettings.BPCCosts(job.BlueprintTypeId).MinRunCost + Math.Round((pricerange / runrange) * (job.Runs - 1), 2, MidpointRounding.AwayFromZero)
                                         End If
                                     End If
                                 Else
@@ -1550,7 +1550,7 @@ Namespace Controls
                                 rNode.Cells(_assetColumn("AssetValue")).Text = price.ToInvariantString("N2")
                             End If
                             ' Check for manufacturing job and store the output items
-                            If job.ActivityID = 1 Then
+                            If job.ActivityId = 1 Then
                                 researchValue += DisplayResearchOutput(researchNode, job, owner)
                             End If
                         End If
@@ -1566,9 +1566,9 @@ Namespace Controls
         Private Function DisplayResearchOutput(ByVal researchNode As Node, ByVal job As Classes.IndustryJob, ByVal owner As String) As Double
             Dim rNode As New Node
             CreateNodeCells(rNode)
-            rNode.Tag = job.OutputTypeID.ToString
+            rNode.Tag = job.ProductTypeId.ToString
 
-            Dim researchItem As EveType = StaticData.Types(job.OutputTypeID)
+            Dim researchItem As EveType = StaticData.Types(job.ProductTypeId)
             Dim category, group As String
             Dim eveLocation As SolarSystem
             category = StaticData.TypeCats(researchItem.Category)
@@ -1580,12 +1580,12 @@ Namespace Controls
                 rNode.Cells(_assetColumn("AssetOwner")).Text = owner
                 rNode.Cells(_assetColumn("AssetGroup")).Text = group
                 rNode.Cells(_assetColumn("AssetCategory")).Text = category
-                If job.OutputLocationID <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.OutputLocationID)) Then
-                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(CInt(job.OutputLocationID)).StationName
-                    eveLocation = StaticData.SolarSystems(StaticData.Stations(CInt(job.OutputLocationID)).SystemId)
+                If job.FacilityId <= Integer.MaxValue AndAlso StaticData.Stations.ContainsKey(CInt(job.FacilityId)) Then
+                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(CInt(job.FacilityId)).StationName
+                    eveLocation = StaticData.SolarSystems(StaticData.Stations(CInt(job.FacilityId)).SystemId)
                 Else
-                    rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
-                    eveLocation = StaticData.SolarSystems(job.InstalledInSolarSystemID)
+                    rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.SolarSystemId).Name
+                    eveLocation = StaticData.SolarSystems(job.SolarSystemId)
                 End If
                 If eveLocation IsNot Nothing Then
                     rNode.Cells(_assetColumn("AssetSystem")).Text = eveLocation.Name
@@ -1601,7 +1601,7 @@ Namespace Controls
                 rNode.Cells(_assetColumn("AssetMeta")).Text = researchItem.MetaLevel.ToInvariantString("N0")
                 rNode.Cells(_assetColumn("AssetVolume")).Text = researchItem.Volume.ToInvariantString("N2")
                 rNode.Cells(_assetColumn("AssetQuantity")).Text = (job.Runs * researchItem.PortionSize).ToInvariantString("N0")
-                Dim price As Double = DataFunctions.GetPrice(job.OutputTypeID)
+                Dim price As Double = DataFunctions.GetPrice(job.ProductTypeId)
                 Dim value As Double = job.Runs * researchItem.PortionSize * price
                 rNode.Cells(_assetColumn("AssetPrice")).Text = price.ToInvariantString("N2")
                 rNode.Cells(_assetColumn("AssetValue")).Text = value.ToInvariantString("N2")
@@ -2068,17 +2068,17 @@ Namespace Controls
             End If
         End Sub
         Private Sub mnuAddCustomName_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddCustomName.Click
-            Dim assetID As Long = CLng(mnuAddCustomName.Tag)
+            Dim assetId As Long = CLng(mnuAddCustomName.Tag)
             Dim assetName As String = mnuItemName.Text
             Using newCustomName As New FrmAssetItemName
-                If PlugInData.AssetItemNames.ContainsKey(assetID) = True Then
+                If PlugInData.AssetItemNames.ContainsKey(assetId) = True Then
                     newCustomName.Text = "Edit Custom Asset Name"
                     newCustomName.EditMode = True
                 Else
                     newCustomName.Text = "Add Custom Asset Name"
                     newCustomName.EditMode = False
                 End If
-                newCustomName.AssetID = assetID
+                newCustomName.AssetID = assetId
                 newCustomName.AssetName = assetName
                 newCustomName.ShowDialog()
                 If newCustomName.AssetItemName <> "" Then
@@ -2087,13 +2087,13 @@ Namespace Controls
             End Using
         End Sub
         Private Sub mnuRemoveCustomName_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuRemoveCustomName.Click
-            Dim assetID As Integer = CInt(mnuAddCustomName.Tag)
+            Dim assetId As Long = CLng(mnuAddCustomName.Tag)
             Dim itemName As String = mnuItemName.Text
-            Dim assetSQL As String = "DELETE FROM assetItemNames WHERE itemID=" & assetID & ";"
-            If CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
-                MessageBox.Show("There was an error deleting the record from the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Dim assetSql As String = "DELETE FROM assetItemNames WHERE itemID=" & assetId & ";"
+            If CustomDataFunctions.SetCustomData(assetSql) = -2 Then
+                MessageBox.Show("There was an error deleting the record from the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSql, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
-                PlugInData.AssetItemNames.Remove(assetID)
+                PlugInData.AssetItemNames.Remove(assetId)
                 adtAssets.SelectedNodes(0).Text = itemName
             End If
         End Sub

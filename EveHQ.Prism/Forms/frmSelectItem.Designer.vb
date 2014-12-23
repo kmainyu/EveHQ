@@ -23,11 +23,11 @@
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Me.lblDetails = New System.Windows.Forms.Label
-            Me.pnlItem = New DevComponents.DotNetBar.PanelEx
-            Me.cboItems = New DevComponents.DotNetBar.Controls.ComboBoxEx
-            Me.btnCancel = New DevComponents.DotNetBar.ButtonX
-            Me.btnAccept = New DevComponents.DotNetBar.ButtonX
+            Me.lblDetails = New System.Windows.Forms.Label()
+            Me.pnlItem = New DevComponents.DotNetBar.PanelEx()
+            Me.cboItems = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+            Me.btnCancel = New DevComponents.DotNetBar.ButtonX()
+            Me.btnAccept = New DevComponents.DotNetBar.ButtonX()
             Me.pnlItem.SuspendLayout()
             Me.SuspendLayout()
             '
@@ -47,6 +47,7 @@
             Me.pnlItem.Controls.Add(Me.btnCancel)
             Me.pnlItem.Controls.Add(Me.btnAccept)
             Me.pnlItem.Controls.Add(Me.lblDetails)
+            Me.pnlItem.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlItem.Dock = System.Windows.Forms.DockStyle.Fill
             Me.pnlItem.Location = New System.Drawing.Point(0, 0)
             Me.pnlItem.Name = "pnlItem"
@@ -62,6 +63,8 @@
             '
             'cboItems
             '
+            Me.cboItems.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+            Me.cboItems.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource
             Me.cboItems.DisplayMember = "Text"
             Me.cboItems.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
             Me.cboItems.FormattingEnabled = True
@@ -75,7 +78,6 @@
             'btnCancel
             '
             Me.btnCancel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnCancel.CallBasePaintBackground = True
             Me.btnCancel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
             Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
             Me.btnCancel.Location = New System.Drawing.Point(244, 81)
@@ -88,7 +90,6 @@
             'btnAccept
             '
             Me.btnAccept.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnAccept.CallBasePaintBackground = True
             Me.btnAccept.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
             Me.btnAccept.Location = New System.Drawing.Point(163, 81)
             Me.btnAccept.Name = "btnAccept"
@@ -97,7 +98,7 @@
             Me.btnAccept.TabIndex = 5
             Me.btnAccept.Text = "Accept"
             '
-            'frmSelectItem
+            'FrmSelectItem
             '
             Me.AcceptButton = Me.btnAccept
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -110,7 +111,7 @@
             Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
             Me.MaximizeBox = False
             Me.MinimizeBox = False
-            Me.Name = "frmSelectItem"
+            Me.Name = "FrmSelectItem"
             Me.ShowIcon = False
             Me.ShowInTaskbar = False
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

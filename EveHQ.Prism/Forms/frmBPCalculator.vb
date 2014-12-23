@@ -78,8 +78,6 @@ Namespace Forms
         Dim _inventionSkill1 As Integer = 0
         Dim _inventionSkill2 As Integer = 0
         Dim _inventionSkill3 As Integer = 0
-        Dim _inventionMetaLevel As Integer = 0
-        Dim _inventionMetaItemID As Integer = 0
         Dim _inventionDecryptorID As Integer = 0
         Dim _inventionDecryptorName As String = ""
         Dim _inventionChance As Double = 20
@@ -227,7 +225,6 @@ Namespace Forms
                     ' Remove handlers for the price modification controls
                     RemoveHandler PACUnitValue.PriceUpdated, AddressOf CalculateInvention
                     RemoveHandler PACDecryptor.PriceUpdated, AddressOf CalculateInvention
-                    RemoveHandler PACMetaItem.PriceUpdated, AddressOf CalculateInvention
                     RemoveHandler PACSalesPrice.PriceUpdated, AddressOf CalculateInvention
 
                     RemoveHandler PACUnitValue.PriceUpdated, AddressOf UpdateBlueprintInformation
@@ -252,7 +249,6 @@ Namespace Forms
             ' Set up handlers for the price modification controls
             AddHandler PACUnitValue.PriceUpdated, AddressOf CalculateInvention
             AddHandler PACDecryptor.PriceUpdated, AddressOf CalculateInvention
-            AddHandler PACMetaItem.PriceUpdated, AddressOf CalculateInvention
             AddHandler PACSalesPrice.PriceUpdated, AddressOf CalculateInvention
 
             AddHandler PACUnitValue.PriceUpdated, AddressOf UpdateBlueprintInformation
@@ -269,19 +265,19 @@ Namespace Forms
             cboMetallurgySkill.BeginUpdate()
             cboScienceSkill.BeginUpdate()
             cboIndustrySkill.BeginUpdate()
-            cboProdEffSkill.BeginUpdate()
+            cboAdvInvSkill.BeginUpdate()
             For idx As Integer = 0 To 5
                 cboResearchSkill.Items.Add(idx.ToString)
                 cboMetallurgySkill.Items.Add(idx.ToString)
                 cboScienceSkill.Items.Add(idx.ToString)
                 cboIndustrySkill.Items.Add(idx.ToString)
-                cboProdEffSkill.Items.Add(idx.ToString)
+                cboAdvInvSkill.Items.Add(idx.ToString)
             Next
             cboResearchSkill.EndUpdate()
             cboMetallurgySkill.EndUpdate()
             cboScienceSkill.EndUpdate()
             cboIndustrySkill.EndUpdate()
-            cboProdEffSkill.EndUpdate()
+            cboAdvInvSkill.EndUpdate()
 
             'Load the characters into the comboboxes
             cboPilot.BeginUpdate() : cboPilot.Items.Clear()
@@ -291,7 +287,11 @@ Namespace Forms
                     cboPilot.Items.Add(cPilot.Name)
                     cboOwner.Items.Add(cPilot.Name)
                     If cboOwner.Items.Contains(cPilot.Corp) = False Then
-                        cboOwner.Items.Add(cPilot.Corp)
+                        If cPilot.Updated = True Then
+                            If StaticData.NpcCorps.ContainsKey(CInt(cPilot.CorpID)) = False Then
+                                 cboOwner.Items.Add(cPilot.Corp)
+                            End If
+                        End If
                     End If
                 End If
             Next
@@ -430,7 +430,7 @@ Namespace Forms
                 nudMELevel.Value = CInt(_currentJob.OverridingME)
             End If
             If _currentJob.OverridingPE <> "" Then
-                nudPELevel.Value = CInt(_currentJob.OverridingPE)
+                nudTELevel.Value = CInt(_currentJob.OverridingPE)
             End If
 
             If _currentBP IsNot Nothing Then
@@ -461,12 +461,7 @@ Namespace Forms
 
             ' Set Decryptor
             If _currentJob.InventionJob.DecryptorUsed IsNot Nothing Then
-                cboDecryptor.SelectedItem = _currentJob.InventionJob.DecryptorUsed.Name & " (" & _currentJob.InventionJob.DecryptorUsed.ProbMod.ToString & "x, " & _currentJob.InventionJob.DecryptorUsed.MEMod.ToString & "ME, " & _currentJob.InventionJob.DecryptorUsed.PEMod.ToString & "PE, " & _currentJob.InventionJob.DecryptorUsed.RunMod.ToString & "r)"
-            End If
-
-            ' Set MetaItem
-            If _currentJob.InventionJob.MetaItemId <> 0 Then
-                cboMetaItem.Items.Add(StaticData.Types(_currentJob.InventionJob.MetaItemId).MetaLevel & ": " & StaticData.Types(_currentJob.InventionJob.MetaItemId).Name)
+                cboDecryptor.SelectedItem = _currentJob.InventionJob.DecryptorUsed.Name & " (" & _currentJob.InventionJob.DecryptorUsed.ProbMod.ToString & "x, " & _currentJob.InventionJob.DecryptorUsed.MEMod.ToString & "ME, " & _currentJob.InventionJob.DecryptorUsed.PEMod.ToString & "TE, " & _currentJob.InventionJob.DecryptorUsed.RunMod.ToString & "r)"
             End If
 
             ' Set Runs
@@ -504,26 +499,29 @@ Namespace Forms
             cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
             cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
             For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
-                ' Ignore unpublished BPs because their data might be incomplete
-                If StaticData.Types(newBP.Id).Published = False Then
-                    Continue For
-                End If
+                If StaticData.Types.ContainsKey(newBP.Id) Then
 
-                Dim bpName As String = StaticData.Types(newBP.Id).Name
-                If chkInventBPOs.Checked = True Then
-                    If btnToggleInvention.Value = True Then
-                        ' Use T1 data
-                        If newBP.Inventions.Count > 0 Then
-                            cboBPs.Items.Add(bpName)
+                    ' Ignore unpublished BPs because their data might be incomplete
+                    If StaticData.Types(newBP.Id).Published = False Then
+                        Continue For
+                    End If
+
+                    Dim bpName As String = StaticData.Types(newBP.Id).Name
+                    If chkInventBPOs.Checked = True Then
+                        If btnToggleInvention.Value = True Then
+                            ' Use T1 data
+                            If newBP.Inventions.Count > 0 Then
+                                cboBPs.Items.Add(bpName)
+                            End If
+                        Else
+                            ' Use T2 data
+                            If newBP.InventFrom.Count > 0 Then
+                                cboBPs.Items.Add(bpName)
+                            End If
                         End If
                     Else
-                        ' Use T2 data
-                        If newBP.InventFrom.Count > 0 Then
-                            cboBPs.Items.Add(bpName)
-                        End If
+                        cboBPs.Items.Add(bpName)
                     End If
-                Else
-                    cboBPs.Items.Add(bpName)
                 End If
             Next
             cboBPs.Sorted = True
@@ -604,7 +602,7 @@ Namespace Forms
             cboResearchSkill.Enabled = chkOverrideSkills.Checked
             cboMetallurgySkill.Enabled = chkOverrideSkills.Checked
             cboIndustrySkill.Enabled = chkOverrideSkills.Checked
-            cboProdEffSkill.Enabled = chkOverrideSkills.Checked
+            cboAdvInvSkill.Enabled = chkOverrideSkills.Checked
             cboScienceSkill.Enabled = chkOverrideSkills.Checked
 
             cboResearchImplant.Enabled = chkOverrideSkills.Checked
@@ -652,10 +650,10 @@ Namespace Forms
                 cboIndustrySkill.SelectedIndex = 0
             End If
             ' Update PE Skill
-            If _bpPilot.PilotSkills.ContainsKey("Material Efficiency") = True Then
-                cboProdEffSkill.SelectedIndex = _bpPilot.PilotSkills("Material Efficiency").Level
+            If _bpPilot.PilotSkills.ContainsKey("Advanced Industry") = True Then
+                cboAdvInvSkill.SelectedIndex = _bpPilot.PilotSkills("Advanced Industry").Level
             Else
-                cboProdEffSkill.SelectedIndex = 0
+                cboAdvInvSkill.SelectedIndex = 0
             End If
             ' Allow updating again
             _updateBPInfo = True
@@ -663,7 +661,7 @@ Namespace Forms
                 ' Set skills for job etc
                 Dim prodImplant As Integer = CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%")))
                 ' Update the job skills
-                _currentJob.UpdateJobSkills(cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, prodImplant)
+                _currentJob.UpdateJobSkills(cboAdvInvSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, prodImplant)
                 ' Update the Blueprint information
                 PPRProduction.ProductionJob = _currentJob
                 ' Set change flag
@@ -693,7 +691,7 @@ Namespace Forms
                         _currentBP.AssetId = CLng(selBP.AssetID)
                         ' Update the research boxes
                         nudMELevel.MinValue = _currentBP.MELevel : nudMELevel.Value = _currentBP.MELevel
-                        nudPELevel.MinValue = _currentBP.PELevel : nudPELevel.Value = _currentBP.PELevel
+                        nudTELevel.MinValue = _currentBP.PELevel : nudTELevel.Value = _currentBP.PELevel
                     Else
                         ' This is a standard blueprint
                         Dim bpID As Integer = StaticData.TypeNames(cboBPs.SelectedItem.ToString.Trim)
@@ -703,8 +701,8 @@ Namespace Forms
                         _currentBP.Runs = -1
                         _currentBP.AssetId = CLng(bpID)
                         ' Update the research boxes
-                        nudMELevel.MinValue = -10 : nudMELevel.Value = _currentBP.MELevel
-                        nudPELevel.MinValue = -10 : nudPELevel.Value = _currentBP.PELevel
+                        nudMELevel.MinValue = 0 : nudMELevel.Value = _currentBP.MELevel
+                        nudTELevel.MinValue = 0 : nudTELevel.Value = _currentBP.PELevel
                     End If
                     ' Set change flag
                     ProductionChanged = True
@@ -736,7 +734,7 @@ Namespace Forms
                 pbBP.ImageLocation = ImageHandler.GetImageLocation(_currentBP.Id)
                 ' Update the standard BP Info
                 lblBPME.Text = _currentBP.MELevel.ToString
-                lblBPPE.Text = _currentBP.PELevel.ToString
+                lblBPTE.Text = _currentBP.PELevel.ToString
                 lblBPRuns.Text = _currentBP.Runs.ToString
                 lblBPMaxRuns.Text = _currentBP.MaxProductionLimit.ToString("N0")
                 lblBPWF.Text = _currentBP.WasteFactor.ToString("N2") & "%"
@@ -747,7 +745,7 @@ Namespace Forms
                 If _currentBP.Runs = -1 Then
                     nudRuns.MaxValue = 1000000
                 Else
-                    nudRuns.MaxValue = Math.Min(_currentBP.MaxProductionLimit, _currentBP.Runs)
+                    nudRuns.MaxValue = _currentBP.Runs
                 End If
                 ToolTip1.SetToolTip(nudCopyRuns, "Limited to " & _currentBP.MaxProductionLimit.ToString & " runs by the Blueprint data")
                 ToolTip1.SetToolTip(lblRunsPerCopy, "Limited to " & _currentBP.MaxProductionLimit.ToString & " runs by the Blueprint data")
@@ -782,7 +780,6 @@ Namespace Forms
             Dim inventionSkills As New LinkedList(Of DictionaryEntry)
 
             ' Update the decryptors and get skills by looking at the resources and determining the type of interface used
-            Dim decryptorGroupID As String = ""
             If _currentInventionBP.Resources.ContainsKey(BlueprintActivity.Invention) = False Then
                 Dim msg As New System.Text.StringBuilder
                 msg.AppendLine("There are invention resources missing from the " & StaticData.Types(_currentInventionBP.Id).Name & ".")
@@ -794,54 +791,21 @@ Namespace Forms
             Else
                 tiInvention.Visible = True
                 For Each resource As EveData.BlueprintResource In _currentInventionBP.Resources(BlueprintActivity.Invention).Values
-                    ' Add the resource to the list
-                    Dim resName As String = StaticData.Types(resource.TypeId).Name
-                    If resName.EndsWith("Interface", StringComparison.Ordinal) = True Then
-                        Select Case resName.Substring(0, 1)
-                            Case "O"
-                                ' Amarr
-                                decryptorGroupID = "728"
-                                Dim skillLevel As Integer = 0
-                                If _bpPilot.PilotSkills.ContainsKey("Amarr Encryption Methods") = True Then
-                                    skillLevel = _bpPilot.PilotSkills("Amarr Encryption Methods").Level
-                                End If
-                                inventionSkills.AddFirst(New DictionaryEntry("Amarr Encryption Methods", skillLevel))
-                            Case "C"
-                                ' Minmatar
-                                decryptorGroupID = "729"
-                                Dim skillLevel As Integer = 0
-                                If _bpPilot.PilotSkills.ContainsKey("Minmatar Encryption Methods") = True Then
-                                    skillLevel = _bpPilot.PilotSkills("Minmatar Encryption Methods").Level
-                                End If
-                                inventionSkills.AddFirst(New DictionaryEntry("Minmatar Encryption Methods", skillLevel))
-                            Case "I"
-                                ' Gallente
-                                decryptorGroupID = "730"
-                                Dim skillLevel As Integer = 0
-                                If _bpPilot.PilotSkills.ContainsKey("Gallente Encryption Methods") = True Then
-                                    skillLevel = _bpPilot.PilotSkills("Gallente Encryption Methods").Level
-                                End If
-                                inventionSkills.AddFirst(New DictionaryEntry("Gallente Encryption Methods", skillLevel))
-                            Case "E"
-                                ' Caldari
-                                decryptorGroupID = "731"
-                                Dim skillLevel As Integer = 0
-                                If _bpPilot.PilotSkills.ContainsKey("Caldari Encryption Methods") = True Then
-                                    skillLevel = _bpPilot.PilotSkills("Caldari Encryption Methods").Level
-                                End If
-                                inventionSkills.AddFirst(New DictionaryEntry("Caldari Encryption Methods", skillLevel))
-                        End Select
-                        ' Terminate early once we know
-                    ElseIf resName.StartsWith("Datacore", StringComparison.Ordinal) = True Then
-                        Dim skillName As String = resName.TrimStart("Datacore - ".ToCharArray)
+                    If resource.TypeCategory = 16 Then
                         Dim skillLevel As Integer = 0
+                        Dim skillName As String = StaticData.Types(resource.TypeId).Name
                         If _bpPilot.PilotSkills.ContainsKey(skillName) = True Then
                             skillLevel = _bpPilot.PilotSkills(skillName).Level
                         End If
-                        inventionSkills.AddLast(New DictionaryEntry(skillName, skillLevel))
+                        If skillName.EndsWith("Methods") Then
+                            inventionSkills.AddFirst(New DictionaryEntry(skillName, skillLevel))
+                        Else
+                            inventionSkills.AddLast(New DictionaryEntry(skillName, skillLevel))
+                        End If
                     End If
                 Next
             End If
+
             ' Update the invention resources with this BP
             PPRInvention.InventionBP = _currentInventionBP
 
@@ -850,9 +814,7 @@ Namespace Forms
             cboDecryptor.Items.Clear()
             cboDecryptor.Items.Add("<None>")
             For Each decrypt As BPCalc.Decryptor In PlugInData.Decryptors.Values
-                If decrypt.GroupID = decryptorGroupID Then
-                    cboDecryptor.Items.Add(decrypt.Name & " (" & decrypt.ProbMod.ToString & "x, " & decrypt.MEMod.ToString & "ME, " & decrypt.PEMod.ToString & "PE, " & decrypt.RunMod.ToString & "r)")
-                End If
+                cboDecryptor.Items.Add(decrypt.Name & " (" & decrypt.ProbMod.ToString & "x, " & decrypt.MEMod.ToString & "ME, " & decrypt.PEMod.ToString & "TE, " & decrypt.RunMod.ToString & "r)")
             Next
             cboDecryptor.SelectedIndex = 0
             cboDecryptor.EndUpdate()
@@ -875,37 +837,9 @@ Namespace Forms
                 MessageBox.Show("Ooops! Seems to be more invention skills here than what we can use in the calculation!", "Invention Skills Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
 
-            ' Load the meta items
-            cboMetaItem.BeginUpdate()
-            cboMetaItem.Items.Clear()
-            cboMetaItem.Items.Add("<None>")
-            For Each metaItem As Integer In _currentInventionBP.InventionMetaItems
-                cboMetaItem.Items.Add(StaticData.Types(metaItem).MetaLevel & ": " & StaticData.Types(metaItem).Name)
-            Next
-            cboMetaItem.SelectedIndex = 0
-            cboMetaItem.EndUpdate()
-
-            ' Work out Base Chance
-            Select Case StaticData.Types(_currentInventionBP.ProductId).Group
-                Case 27, 419
-                    _inventionBaseChance = 20
-                Case 26, 28
-                    _inventionBaseChance = 25
-                Case 25, 420, 513
-                    _inventionBaseChance = 30
-                Case Else
-                    Select Case _currentInventionBP.Id
-                        Case 17477
-                            _inventionBaseChance = 20
-                        Case 17479
-                            _inventionBaseChance = 25
-                        Case 17481
-                            _inventionBaseChance = 30
-                        Case Else
-                            _inventionBaseChance = 40
-                    End Select
-            End Select
-            lblBaseChance.Text = "Base Invention Chance: " & _inventionBaseChance.ToString & "%"
+            ' Work out base chance - from static data post Phoebe
+            _inventionBaseChance = _currentInventionBP.InventionProbability
+            lblBaseChance.Text = "Base Invention Chance: " & (_inventionBaseChance * 100).ToString("N2") & "%"
 
             ' Update the BPC Override Values
             nudInventionBPCRuns.MaxValue = _currentInventionBP.MaxProductionLimit
@@ -945,7 +879,7 @@ Namespace Forms
         End Sub
 
         Private Sub UpdateBlueprintInformation()
-            If StaticData.Types(_currentBP.Id).Name <> "" Then
+            If _currentBP.Id <> 0 Then
                 ' Calculate and display the waste factor
                 Call CalculateWasteFactor()
                 ' Display the research times
@@ -976,15 +910,9 @@ Namespace Forms
         Private Sub CalculateWasteFactor()
             Dim currentBpwf As Double = 0
             If _currentBP.WasteFactor <> 0 Then
-                If nudMELevel.Value < 0 Then
-                    ' This is for negative ME
-                    currentBpwf = ((_currentBP.WasteFactor / 100) * (1 - nudMELevel.Value)) + (0.25 - (0.05 * cboProdEffSkill.SelectedIndex))
-                Else
-                    ' This is for zero and positive ME
-                    currentBpwf = ((_currentBP.WasteFactor / 100) / (1 + nudMELevel.Value)) + (0.25 - (0.05 * cboProdEffSkill.SelectedIndex))
-                End If
+                currentBpwf = 100 - nudMELevel.Value
             End If
-            txtNewWasteFactor.Text = (currentBpwf * 100).ToString("N6") & "%"
+            txtNewWasteFactor.Text = currentBpwf.ToString("N6") & "%"
         End Sub
 
         Private Sub CalculateBlueprintTimes()
@@ -1002,18 +930,29 @@ Namespace Forms
                 peTime *= 0.75
                 copyTime *= _copyTimeMod
             End If
+
             ' Display the ME Time
-            If nudMELevel.Value > 0 Then
-                lblMETime.Text = SkillFunctions.TimeToString(meTime * (nudMELevel.Value - _currentBP.MELevel), False)
-            Else
-                lblMETime.Text = SkillFunctions.TimeToString(0, False)
+            meTime = 0
+            Dim bpRank As Integer = CInt(_currentBP.ResearchMaterialLevelTime / 105)
+            If nudMELevel.Value > _currentBP.MELevel Then
+                meTime = Math.Round(250 * (2 ^ (2.5 * ((nudMELevel.Value / 2) - 1))), 0) * bpRank * (1 - (0.05 * cboMetallurgySkill.SelectedIndex)) * (1 - (0.03 * cboAdvInvSkill.SelectedIndex)) * meImplant
+                If _currentBP.MELevel > 0 Then
+                    meTime -= Math.Round(250 * (2 ^ (2.5 * ((_currentBP.MELevel / 2) - 1))), 0) * bpRank * (1 - (0.05 * cboMetallurgySkill.SelectedIndex)) * (1 - (0.03 * cboAdvInvSkill.SelectedIndex)) * meImplant
+                End If
             End If
+            lblMETime.Text = SkillFunctions.TimeToString(meTime, False)
+
             ' Display the PE Time
-            If nudPELevel.Value > 0 Then
-                lblPETime.Text = SkillFunctions.TimeToString(peTime * (nudPELevel.Value - _currentBP.PELevel), False)
-            Else
-                lblPETime.Text = SkillFunctions.TimeToString(0, False)
+            peTime = 0
+            bpRank = CInt(_currentBP.ResearchProductionLevelTime / 105)
+            If nudTELevel.Value > _currentBP.PELevel Then
+                peTime = Math.Round(250 * (2 ^ (2.5 * ((nudTELevel.Value / 4) - 1))), 0) * bpRank * (1 - (0.05 * cboResearchSkill.SelectedIndex)) * (1 - (0.03 * cboAdvInvSkill.SelectedIndex)) * peImplant
+                If _currentBP.PELevel > 0 Then
+                    peTime -= Math.Round(250 * (2 ^ (2.5 * ((_currentBP.PELevel / 4) - 1))), 0) * bpRank * (1 - (0.05 * cboResearchSkill.SelectedIndex)) * (1 - (0.03 * cboAdvInvSkill.SelectedIndex)) * peImplant
+                End If
             End If
+            lblTETime.Text = SkillFunctions.TimeToString(peTime, False)
+
             ' Display the Copy Time
             lblCopyTime.Text = SkillFunctions.TimeToString(copyTime * nudCopyRuns.Value, False)
         End Sub
@@ -1039,7 +978,7 @@ Namespace Forms
                 oldJobName = _currentJob.JobName
             End If
             Dim tij As BPCalc.InventionJob = _currentJob.InventionJob
-            _currentJob = _currentBP.CreateProductionJob(_bpOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, prodImplant, nudMELevel.Value.ToString, nudPELevel.Value.ToString, runs, _productionArray, False)
+            _currentJob = _currentBP.CreateProductionJob(_bpOwnerName, cboPilot.SelectedItem.ToString, cboAdvInvSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, prodImplant, nudMELevel.Value.ToString, nudTELevel.Value.ToString, runs, _productionArray, False)
             _currentJob.InventionJob = tij
             If oldJobName <> "" Then
                 _currentJob.JobName = oldJobName
@@ -1103,9 +1042,9 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub nudPELevel_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudPELevel.ValueChanged
+        Private Sub nudPELevel_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudTELevel.ValueChanged
             If _startUp = False And _updateBPInfo = True Then
-                _currentJob.OverridingPE = CStr(nudPELevel.Value)
+                _currentJob.OverridingPE = CStr(nudTELevel.Value)
                 PPRProduction.ProductionJob = _currentJob
                 ' Set change flag
                 ProductionChanged = True
@@ -1178,9 +1117,9 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub cboProdEffSkill_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboProdEffSkill.SelectedIndexChanged
+        Private Sub cboProdEffSkill_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboAdvInvSkill.SelectedIndexChanged
             If _startUp = False And _updateBPInfo = True Then
-                _currentJob.UpdateJobPESkill(cboProdEffSkill.SelectedIndex)
+                _currentJob.UpdateJobPESkill(cboAdvInvSkill.SelectedIndex)
                 PPRProduction.ProductionJob = _currentJob
                 ' Set change flag
                 ProductionChanged = True
@@ -1343,7 +1282,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub cboDecryptor_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboDecryptor.SelectedIndexChanged
+        Private Sub _SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboDecryptor.SelectedIndexChanged
 
             If cboDecryptor.SelectedItem IsNot Nothing Then
                 Dim didx As Integer = cboDecryptor.SelectedItem.ToString.IndexOf("(", StringComparison.Ordinal)
@@ -1368,24 +1307,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub cboMetaItem_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboMetaItem.SelectedIndexChanged
-            If cboMetaItem.SelectedItem IsNot Nothing Then
-                If cboMetaItem.SelectedItem.ToString <> "<None>" Then
-                    _inventionMetaLevel = CInt(cboMetaItem.SelectedItem.ToString.Substring(0, 1))
-                    _inventionMetaItemID = CInt(StaticData.TypeNames(cboMetaItem.SelectedItem.ToString.Remove(0, 3)))
-                Else
-                    _inventionMetaLevel = 0
-                    _inventionMetaItemID = 0
-                End If
-            End If
-            PACMetaItem.TypeID = _inventionMetaItemID
-            If _inventionStartUp = False Then
-                Call CalculateInvention()
-                ProductionChanged = True
-            End If
-        End Sub
-
-        Private Sub nudInventionBPCRuns_LockUpdateChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionBPCRuns.LockUpdateChanged
+       Private Sub nudInventionBPCRuns_LockUpdateChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionBPCRuns.LockUpdateChanged
             If _inventionStartUp = False Then
                 Call CalculateInvention()
                 ProductionChanged = True
@@ -1541,7 +1463,6 @@ Namespace Forms
                 lblInventionChance.Text = "Total Invention Chance: " & _inventionChance.ToString("N2") & "%"
                 lblInventionBaseCost.Text = invCost.DatacoreCost.ToString("N2") & " Isk"
                 lblInventionDecryptorCost.Text = invCost.DecryptorCost.ToString("N2") & " Isk"
-                lblInventionMetaItemCost.Text = invCost.MetaItemCost.ToString("N2") & " Isk"
                 lblInventionLabCosts.Text = invCost.LabCost.ToString("N2") & " Isk"
                 lblInventionBPCCost.Text = invCost.BPCCost.ToString("N2") & " Isk"
                 lblInventionCost.Text = invCost.TotalCost.ToString("N2") & " Isk"
@@ -1549,7 +1470,7 @@ Namespace Forms
                 _inventionAttempts = Math.Max(Math.Round(100 / _inventionChance, 4, MidpointRounding.AwayFromZero), 1)
                 _inventionSuccessCost = _inventionAttempts * invCost.TotalCost
 
-                lblInventedBP.Text = "ME:" & _inventedBP.MELevel.ToString & "  PE:" & _inventedBP.PELevel.ToString & "  Runs: " & _inventedBP.Runs.ToString("N0")
+                lblInventedBP.Text = "ME:" & _inventedBP.MELevel.ToString & "  TE:" & _inventedBP.PELevel.ToString & "  Runs: " & _inventedBP.Runs.ToString("N0")
                 lblInventionTime.Text = SkillFunctions.TimeToString(_currentInventionBP.ResearchTechTime, False)
                 lblAvgAttempts.Text = "Average Attempts Until Success: " & _inventionAttempts.ToString("N4")
                 lblSuccessCost.Text = _inventionSuccessCost.ToString("N2") & " Isk"
@@ -1586,8 +1507,6 @@ Namespace Forms
             currentInventionJob.EncryptionSkill = _inventionSkill1
             currentInventionJob.DatacoreSkill1 = _inventionSkill2
             currentInventionJob.DatacoreSkill2 = _inventionSkill3
-            currentInventionJob.MetaItemId = _inventionMetaItemID
-            currentInventionJob.MetaItemLevel = _inventionMetaLevel
             currentInventionJob.OverrideBpcRuns = nudInventionBPCRuns.LockUpdateChecked
             currentInventionJob.BaseChance = _inventionBaseChance
             currentInventionJob.OverrideEncSkill = nudInventionSkill1.LockUpdateChecked
@@ -1598,10 +1517,10 @@ Namespace Forms
             currentInventionJob.DatacoreSkill2 = nudInventionSkill3.Value
             _inventedBP = _currentJob.InventionJob.CalculateInventedBPC
             If currentInventionJob.ProductionJob Is Nothing Then
-                currentInventionJob.ProductionJob = _inventedBP.CreateProductionJob(_bpOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, _productionArray, False)
+                currentInventionJob.ProductionJob = _inventedBP.CreateProductionJob(_bpOwnerName, cboPilot.SelectedItem.ToString, cboAdvInvSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, _productionArray, False)
             Else
                 If _resetInventedBP = True Then
-                    currentInventionJob.ProductionJob = _inventedBP.CreateProductionJob(_bpOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, _productionArray, False)
+                    currentInventionJob.ProductionJob = _inventedBP.CreateProductionJob(_bpOwnerName, cboPilot.SelectedItem.ToString, cboAdvInvSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, _productionArray, False)
                     _resetInventedBP = False
                 Else
                     _inventedBP.UpdateProductionJob(currentInventionJob.ProductionJob)
@@ -1685,9 +1604,9 @@ Namespace Forms
                     bpcRuns = nudInventionBPCRuns.Value
                 End If
 
-                Dim ic As Double = Invention.CalculateInventionChance(_inventionBaseChance, _inventionSkill1, _inventionSkill2, _inventionSkill3, _inventionMetaLevel, decryptorMod)
+                Dim ic As Double = Invention.CalculateInventionChance(_inventionBaseChance, _inventionSkill1, _inventionSkill2, _inventionSkill3, decryptorMod)
 
-                Dim cost As Double = _currentInventionBP.CalculateInventionCost(_inventionMetaItemID, decryptorID, bpcRuns)
+                Dim cost As Double = _currentInventionBP.CalculateInventionCost(decryptorID, bpcRuns)
                 Dim ibp As OwnedBlueprint = cj.InventionJob.CalculateInventedBPC
                 Dim ia As Double = Math.Max(Math.Round(100 / ic, 4, MidpointRounding.AwayFromZero), 1)
                 Dim isc As Double = ia * cost
@@ -1729,7 +1648,6 @@ Namespace Forms
         End Sub
 
 #End Region
-
 
     End Class
 

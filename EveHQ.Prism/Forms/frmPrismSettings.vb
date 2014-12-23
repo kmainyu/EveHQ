@@ -285,17 +285,19 @@ Namespace Forms
             lvwBPCCosts.BeginUpdate()
             lvwBPCCosts.Items.Clear()
             For Each bp As EveData.Blueprint In StaticData.Blueprints.Values
-                Dim newBP As New ListViewItem
-                newBP.Name = bp.Id.ToString
-                newBP.Text = StaticData.Types(bp.Id).Name
-                If PrismSettings.UserSettings.BPCCosts.ContainsKey(bp.Id) Then
-                    newBP.SubItems.Add(PrismSettings.UserSettings.BPCCosts(bp.Id).MinRunCost.ToString("N2"))
-                    newBP.SubItems.Add(PrismSettings.UserSettings.BPCCosts(bp.Id).MaxRunCost.ToString("N2"))
-                Else
-                    newBP.SubItems.Add(0.ToString("N2"))
-                    newBP.SubItems.Add(0.ToString("N2"))
+                If StaticData.Types.ContainsKey(bp.Id) Then
+                    Dim newBP As New ListViewItem
+                    newBP.Name = bp.Id.ToString
+                    newBP.Text = StaticData.Types(bp.Id).Name
+                    If PrismSettings.UserSettings.BPCCosts.ContainsKey(bp.Id) Then
+                        newBP.SubItems.Add(PrismSettings.UserSettings.BPCCosts(bp.Id).MinRunCost.ToString("N2"))
+                        newBP.SubItems.Add(PrismSettings.UserSettings.BPCCosts(bp.Id).MaxRunCost.ToString("N2"))
+                    Else
+                        newBP.SubItems.Add(0.ToString("N2"))
+                        newBP.SubItems.Add(0.ToString("N2"))
+                    End If
+                    lvwBPCCosts.Items.Add(newBP)
                 End If
-                lvwBPCCosts.Items.Add(newBP)
             Next
             lvwBPCCosts.Sorting = SortOrder.Ascending
             lvwBPCCosts.Sort()

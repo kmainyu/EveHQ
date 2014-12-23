@@ -218,6 +218,8 @@ Namespace Forms
                     APITypes.ContactListCorp, _
                     APITypes.ContactNotifications, _
                     APITypes.UpcomingCalendarEvents, _
+                    APITypes.BlueprintsChar, _
+                    APITypes.BlueprintsCorp, _
                     APITypes.MemberMedals
                     lblWalletAccount.Enabled = False : cboWalletAccount.Enabled = False
                     lblOtherInfo.Enabled = False : txtOtherInfo.Enabled = False
@@ -379,6 +381,7 @@ Namespace Forms
             Contracts = APITypes.ContractsChar
             ContractItems = APITypes.ContractItemsChar
             ContractBids = APITypes.ContractBidsChar
+            Blueprints = APITypes.BlueprintsChar
         End Enum
 
         ''' <summary>
@@ -412,6 +415,7 @@ Namespace Forms
             Contracts = APITypes.ContractsCorp
             ContractItems = APITypes.ContractItemsCorp
             ContractBids = APITypes.ContractBidsCorp
+            Blueprints = APITypes.BlueprintsCorp
         End Enum
 
         ''' <summary>
@@ -449,7 +453,6 @@ Namespace Forms
         End Enum
 
 #End Region
-
 
     End Class
 End Namespace

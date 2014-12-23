@@ -74,16 +74,16 @@ Namespace Classes
                     ' Check for invention jobs
                     If CType(job.ActivityId, BlueprintActivity) = BlueprintActivity.Invention Then
                         ' Check the job is actually completed first!
-                        If job.Completed Then
+                        If job.Status <> EveApi.IndustryJobStatus.Cancelled Then
                             Dim newJob As New InventionAPIJob
                             newJob.JobID = job.JobId
-                            newJob.ResultDate = job.EndProductionTime.DateTime
+                            newJob.ResultDate = job.EndDate.DateTime
                             newJob.InstallerID = job.InstallerId
                             newJob.InstallerName = ""
-                            newJob.BlueprintID = job.InstalledItemTypeId
-                            newJob.TypeID = job.OutputTypeId
+                            newJob.BlueprintID = job.BlueprintTypeId
+                            newJob.TypeID = job.ProductTypeId
                             newJob.TypeName = StaticData.Types(newJob.TypeID).Name
-                            newJob.Result = CInt(job.CompletedStatus)
+                            newJob.Result = CInt(job.Status)
                             jobList.Add(newJob.JobID, newJob)
                         End If
                     End If

@@ -31,26 +31,26 @@ Namespace Forms
         Me.lblBPRuns = New System.Windows.Forms.Label()
         Me.lblBPRunsLbl = New System.Windows.Forms.Label()
         Me.lblBPME = New System.Windows.Forms.Label()
-        Me.lblBPPE = New System.Windows.Forms.Label()
+        Me.lblBPTE = New System.Windows.Forms.Label()
         Me.lblBPWF = New System.Windows.Forms.Label()
         Me.lblBPOMarketValue = New System.Windows.Forms.Label()
         Me.lblBPOMarketValueLbl = New System.Windows.Forms.Label()
         Me.lblBPMELbl = New System.Windows.Forms.Label()
         Me.lblBPWFLbl = New System.Windows.Forms.Label()
-        Me.lblBPPELbl = New System.Windows.Forms.Label()
+        Me.lblBPTELbl = New System.Windows.Forms.Label()
         Me.lblRuns = New System.Windows.Forms.Label()
         Me.lblProdQuantityLbl = New System.Windows.Forms.Label()
         Me.lblBatchSizeLbl = New System.Windows.Forms.Label()
         Me.lblRunsPerCopy = New System.Windows.Forms.Label()
         Me.lblCopyTime = New System.Windows.Forms.Label()
         Me.lblBPCopyTimeLbl = New System.Windows.Forms.Label()
-        Me.lblPETime = New System.Windows.Forms.Label()
+        Me.lblTETime = New System.Windows.Forms.Label()
         Me.lblMETime = New System.Windows.Forms.Label()
-        Me.lblPETimeLbl = New System.Windows.Forms.Label()
+        Me.lblTETimeLbl = New System.Windows.Forms.Label()
         Me.lblMETimeLbl = New System.Windows.Forms.Label()
         Me.lblNewMELbl = New System.Windows.Forms.Label()
         Me.LblNewWFLbl = New System.Windows.Forms.Label()
-        Me.lblNewPELbl = New System.Windows.Forms.Label()
+        Me.lblNewTELbl = New System.Windows.Forms.Label()
         Me.txtNewWasteFactor = New System.Windows.Forms.TextBox()
         Me.lblProfitRate = New System.Windows.Forms.Label()
         Me.lblProfitRateLbl = New System.Windows.Forms.Label()
@@ -102,7 +102,7 @@ Namespace Forms
         Me.gpPilotSkills = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.gpProductionSkills = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.cboIndustrySkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboProdEffSkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboAdvInvSkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.gpResearchSkills = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.cboScienceSkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboResearchSkill = New DevComponents.DotNetBar.Controls.ComboBoxEx()
@@ -121,24 +121,6 @@ Namespace Forms
         Me.pbBP = New System.Windows.Forms.PictureBox()
         Me.nudCopyRuns = New DevComponents.Editors.IntegerInput()
         Me.tabBPCalcFunctions = New DevComponents.DotNetBar.TabControl()
-        Me.tcpResearch = New DevComponents.DotNetBar.TabControlPanel()
-        Me.chkAdvancedLab = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.chkResearchAtPOS = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.tiResearch = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpProduction = New DevComponents.DotNetBar.TabControlPanel()
-        Me.lblProfitMarkup = New System.Windows.Forms.Label()
-        Me.lblProfitMargin = New System.Windows.Forms.Label()
-        Me.lblProfitMarkupLbl = New System.Windows.Forms.Label()
-        Me.lblProfitMarginLbl = New System.Windows.Forms.Label()
-        Me.lblProdQuantity = New System.Windows.Forms.Label()
-        Me.lblBatchSize = New System.Windows.Forms.Label()
-        Me.lblFactoryCostsLbl = New System.Windows.Forms.LinkLabel()
-        Me.nudRuns = New DevComponents.Editors.IntegerInput()
-        Me.chkPOSProduction = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.cboPOSArrays = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.PACUnitValue = New EveHQ.Prism.Controls.PriceAdjustmentControl()
-        Me.PPRProduction = New EveHQ.Prism.Controls.PrismResources()
-        Me.tiProduction = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpInvention = New DevComponents.DotNetBar.TabControlPanel()
         Me.chkInventionFlag = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.lblBatchTotalCost = New System.Windows.Forms.Label()
@@ -168,21 +150,18 @@ Namespace Forms
         Me.lblInventionBPCCostLbl = New System.Windows.Forms.LinkLabel()
         Me.lblInventedBP = New System.Windows.Forms.Label()
         Me.lblInventionDecryptorCost = New System.Windows.Forms.Label()
-        Me.lblInventionMetaItemCost = New System.Windows.Forms.Label()
         Me.lblInventionLabCosts = New System.Windows.Forms.Label()
         Me.lblInventionCost = New System.Windows.Forms.Label()
         Me.lblInventionBaseCost = New System.Windows.Forms.Label()
         Me.lblInventionLabCostsLbl = New System.Windows.Forms.LinkLabel()
         Me.lblOverrideBPCRuns = New System.Windows.Forms.Label()
         Me.lblBlueprintInventions = New System.Windows.Forms.Label()
-        Me.lblMetaItem = New System.Windows.Forms.Label()
         Me.lblDecryptor = New System.Windows.Forms.Label()
         Me.lblBaseChance = New System.Windows.Forms.Label()
         Me.lblInvSkill2 = New System.Windows.Forms.Label()
         Me.lblInvSkill3 = New System.Windows.Forms.Label()
         Me.lblInvSkill1 = New System.Windows.Forms.Label()
         Me.lblInventionCostLbl = New System.Windows.Forms.Label()
-        Me.lblInventionMetaItemCostLbl = New System.Windows.Forms.Label()
         Me.lblInventionDecryptorCostLbl = New System.Windows.Forms.Label()
         Me.lblInventionBaseCostLbl = New System.Windows.Forms.Label()
         Me.lblInventedBPLbl = New System.Windows.Forms.Label()
@@ -190,15 +169,31 @@ Namespace Forms
         Me.lblInventionTime = New System.Windows.Forms.Label()
         Me.lblInventionTimeLbl = New System.Windows.Forms.Label()
         Me.nudInventionBPCRuns = New DevComponents.Editors.IntegerInput()
-        Me.cboMetaItem = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboDecryptor = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboInventions = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.PPRInvention = New EveHQ.Prism.Controls.PrismResources()
         Me.PACDecryptor = New EveHQ.Prism.Controls.PriceAdjustmentControl()
         Me.PACSalesPrice = New EveHQ.Prism.Controls.PriceAdjustmentControl()
-        Me.PACMetaItem = New EveHQ.Prism.Controls.PriceAdjustmentControl()
         Me.tiInvention = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.nudPELevel = New DevComponents.Editors.IntegerInput()
+        Me.tcpResearch = New DevComponents.DotNetBar.TabControlPanel()
+        Me.chkAdvancedLab = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.chkResearchAtPOS = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.tiResearch = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpProduction = New DevComponents.DotNetBar.TabControlPanel()
+        Me.lblProfitMarkup = New System.Windows.Forms.Label()
+        Me.lblProfitMargin = New System.Windows.Forms.Label()
+        Me.lblProfitMarkupLbl = New System.Windows.Forms.Label()
+        Me.lblProfitMarginLbl = New System.Windows.Forms.Label()
+        Me.lblProdQuantity = New System.Windows.Forms.Label()
+        Me.lblBatchSize = New System.Windows.Forms.Label()
+        Me.lblFactoryCostsLbl = New System.Windows.Forms.LinkLabel()
+        Me.nudRuns = New DevComponents.Editors.IntegerInput()
+        Me.chkPOSProduction = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.cboPOSArrays = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.PACUnitValue = New EveHQ.Prism.Controls.PriceAdjustmentControl()
+        Me.PPRProduction = New EveHQ.Prism.Controls.PrismResources()
+        Me.tiProduction = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.nudTELevel = New DevComponents.Editors.IntegerInput()
         Me.btnSaveProductionJobAs = New DevComponents.DotNetBar.ButtonX()
         Me.nudMELevel = New DevComponents.Editors.IntegerInput()
         Me.btnSaveProductionJob = New DevComponents.DotNetBar.ButtonX()
@@ -215,16 +210,16 @@ Namespace Forms
         CType(Me.nudCopyRuns,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.tabBPCalcFunctions,System.ComponentModel.ISupportInitialize).BeginInit
         Me.tabBPCalcFunctions.SuspendLayout
-        Me.tcpResearch.SuspendLayout
-        Me.tcpProduction.SuspendLayout
-        CType(Me.nudRuns,System.ComponentModel.ISupportInitialize).BeginInit
         Me.tcpInvention.SuspendLayout
         CType(Me.adtInventionProfits,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.nudInventionSkill2,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.nudInventionSkill3,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.nudInventionSkill1,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.nudInventionBPCRuns,System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.nudPELevel,System.ComponentModel.ISupportInitialize).BeginInit
+        Me.tcpResearch.SuspendLayout
+        Me.tcpProduction.SuspendLayout
+        CType(Me.nudRuns,System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.nudTELevel,System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.nudMELevel,System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -255,14 +250,14 @@ Namespace Forms
         Me.lblBPME.TabIndex = 17
         Me.lblBPME.Text = "0"
         '
-        'lblBPPE
+        'lblBPTE
         '
-        Me.lblBPPE.AutoSize = true
-        Me.lblBPPE.Location = New System.Drawing.Point(143, 98)
-        Me.lblBPPE.Name = "lblBPPE"
-        Me.lblBPPE.Size = New System.Drawing.Size(13, 13)
-        Me.lblBPPE.TabIndex = 16
-        Me.lblBPPE.Text = "0"
+        Me.lblBPTE.AutoSize = true
+        Me.lblBPTE.Location = New System.Drawing.Point(143, 98)
+        Me.lblBPTE.Name = "lblBPTE"
+        Me.lblBPTE.Size = New System.Drawing.Size(13, 13)
+        Me.lblBPTE.TabIndex = 16
+        Me.lblBPTE.Text = "0"
         '
         'lblBPWF
         '
@@ -309,14 +304,14 @@ Namespace Forms
         Me.lblBPWFLbl.TabIndex = 8
         Me.lblBPWFLbl.Text = "Waste Factor:"
         '
-        'lblBPPELbl
+        'lblBPTELbl
         '
-        Me.lblBPPELbl.AutoSize = true
-        Me.lblBPPELbl.Location = New System.Drawing.Point(63, 98)
-        Me.lblBPPELbl.Name = "lblBPPELbl"
-        Me.lblBPPELbl.Size = New System.Drawing.Size(51, 13)
-        Me.lblBPPELbl.TabIndex = 6
-        Me.lblBPPELbl.Text = "PE Level:"
+        Me.lblBPTELbl.AutoSize = true
+        Me.lblBPTELbl.Location = New System.Drawing.Point(63, 98)
+        Me.lblBPTELbl.Name = "lblBPTELbl"
+        Me.lblBPTELbl.Size = New System.Drawing.Size(51, 13)
+        Me.lblBPTELbl.TabIndex = 6
+        Me.lblBPTELbl.Text = "TE Level:"
         '
         'lblRuns
         '
@@ -362,7 +357,7 @@ Namespace Forms
         '
         Me.lblCopyTime.AutoSize = true
         Me.lblCopyTime.BackColor = System.Drawing.Color.Transparent
-        Me.lblCopyTime.Location = New System.Drawing.Point(504, 61)
+        Me.lblCopyTime.Location = New System.Drawing.Point(141, 100)
         Me.lblCopyTime.Name = "lblCopyTime"
         Me.lblCopyTime.Size = New System.Drawing.Size(18, 13)
         Me.lblCopyTime.TabIndex = 28
@@ -372,47 +367,47 @@ Namespace Forms
         '
         Me.lblBPCopyTimeLbl.AutoSize = true
         Me.lblBPCopyTimeLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblBPCopyTimeLbl.Location = New System.Drawing.Point(392, 61)
+        Me.lblBPCopyTimeLbl.Location = New System.Drawing.Point(20, 100)
         Me.lblBPCopyTimeLbl.Name = "lblBPCopyTimeLbl"
         Me.lblBPCopyTimeLbl.Size = New System.Drawing.Size(106, 13)
         Me.lblBPCopyTimeLbl.TabIndex = 27
         Me.lblBPCopyTimeLbl.Text = "Blueprint Copy Time:"
         '
-        'lblPETime
+        'lblTETime
         '
-        Me.lblPETime.AutoSize = true
-        Me.lblPETime.BackColor = System.Drawing.Color.Transparent
-        Me.lblPETime.Location = New System.Drawing.Point(316, 61)
-        Me.lblPETime.Name = "lblPETime"
-        Me.lblPETime.Size = New System.Drawing.Size(18, 13)
-        Me.lblPETime.TabIndex = 26
-        Me.lblPETime.Text = "0s"
+        Me.lblTETime.AutoSize = true
+        Me.lblTETime.BackColor = System.Drawing.Color.Transparent
+        Me.lblTETime.Location = New System.Drawing.Point(141, 80)
+        Me.lblTETime.Name = "lblTETime"
+        Me.lblTETime.Size = New System.Drawing.Size(18, 13)
+        Me.lblTETime.TabIndex = 26
+        Me.lblTETime.Text = "0s"
         '
         'lblMETime
         '
         Me.lblMETime.AutoSize = true
         Me.lblMETime.BackColor = System.Drawing.Color.Transparent
-        Me.lblMETime.Location = New System.Drawing.Point(131, 61)
+        Me.lblMETime.Location = New System.Drawing.Point(141, 60)
         Me.lblMETime.Name = "lblMETime"
         Me.lblMETime.Size = New System.Drawing.Size(18, 13)
         Me.lblMETime.TabIndex = 25
         Me.lblMETime.Text = "0s"
         '
-        'lblPETimeLbl
+        'lblTETimeLbl
         '
-        Me.lblPETimeLbl.AutoSize = true
-        Me.lblPETimeLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblPETimeLbl.Location = New System.Drawing.Point(204, 61)
-        Me.lblPETimeLbl.Name = "lblPETimeLbl"
-        Me.lblPETimeLbl.Size = New System.Drawing.Size(96, 13)
-        Me.lblPETimeLbl.TabIndex = 13
-        Me.lblPETimeLbl.Text = "PE Research Time:"
+        Me.lblTETimeLbl.AutoSize = true
+        Me.lblTETimeLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblTETimeLbl.Location = New System.Drawing.Point(20, 80)
+        Me.lblTETimeLbl.Name = "lblTETimeLbl"
+        Me.lblTETimeLbl.Size = New System.Drawing.Size(96, 13)
+        Me.lblTETimeLbl.TabIndex = 13
+        Me.lblTETimeLbl.Text = "TE Research Time:"
         '
         'lblMETimeLbl
         '
         Me.lblMETimeLbl.AutoSize = true
         Me.lblMETimeLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblMETimeLbl.Location = New System.Drawing.Point(19, 61)
+        Me.lblMETimeLbl.Location = New System.Drawing.Point(20, 60)
         Me.lblMETimeLbl.Name = "lblMETimeLbl"
         Me.lblMETimeLbl.Size = New System.Drawing.Size(98, 13)
         Me.lblMETimeLbl.TabIndex = 12
@@ -438,15 +433,15 @@ Namespace Forms
         Me.LblNewWFLbl.TabIndex = 8
         Me.LblNewWFLbl.Text = "New Waste Factor :"
         '
-        'lblNewPELbl
+        'lblNewTELbl
         '
-        Me.lblNewPELbl.AutoSize = true
-        Me.lblNewPELbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblNewPELbl.Location = New System.Drawing.Point(191, 163)
-        Me.lblNewPELbl.Name = "lblNewPELbl"
-        Me.lblNewPELbl.Size = New System.Drawing.Size(78, 13)
-        Me.lblNewPELbl.TabIndex = 6
-        Me.lblNewPELbl.Text = "New PE Level :"
+        Me.lblNewTELbl.AutoSize = true
+        Me.lblNewTELbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblNewTELbl.Location = New System.Drawing.Point(191, 163)
+        Me.lblNewTELbl.Name = "lblNewTELbl"
+        Me.lblNewTELbl.Size = New System.Drawing.Size(78, 13)
+        Me.lblNewTELbl.TabIndex = 6
+        Me.lblNewTELbl.Text = "New TE Level :"
         '
         'txtNewWasteFactor
         '
@@ -674,9 +669,9 @@ Namespace Forms
         Me.lblPESkill.AutoSize = true
         Me.lblPESkill.Location = New System.Drawing.Point(4, 27)
         Me.lblPESkill.Name = "lblPESkill"
-            Me.lblPESkill.Size = New System.Drawing.Size(50, 13)
-            Me.lblPESkill.TabIndex = 5
-            Me.lblPESkill.Text = "Mat. Eff:"
+        Me.lblPESkill.Size = New System.Drawing.Size(49, 13)
+        Me.lblPESkill.TabIndex = 5
+        Me.lblPESkill.Text = "Adv Ind:"
         Me.ToolTip1.SetToolTip(Me.lblPESkill, "Reduces manufacturing waste material")
         '
         'lblIndustrySkill
@@ -864,15 +859,16 @@ Namespace Forms
         Me.PanelEx1.Controls.Add(Me.gpBPSelection)
         Me.PanelEx1.Controls.Add(Me.nudCopyRuns)
         Me.PanelEx1.Controls.Add(Me.tabBPCalcFunctions)
-        Me.PanelEx1.Controls.Add(Me.nudPELevel)
+        Me.PanelEx1.Controls.Add(Me.nudTELevel)
         Me.PanelEx1.Controls.Add(Me.lblNewMELbl)
         Me.PanelEx1.Controls.Add(Me.btnSaveProductionJobAs)
         Me.PanelEx1.Controls.Add(Me.nudMELevel)
         Me.PanelEx1.Controls.Add(Me.btnSaveProductionJob)
         Me.PanelEx1.Controls.Add(Me.txtNewWasteFactor)
         Me.PanelEx1.Controls.Add(Me.LblNewWFLbl)
-        Me.PanelEx1.Controls.Add(Me.lblNewPELbl)
+        Me.PanelEx1.Controls.Add(Me.lblNewTELbl)
         Me.PanelEx1.Controls.Add(Me.lblRunsPerCopy)
+        Me.PanelEx1.DisabledBackColor = System.Drawing.Color.Empty
         Me.PanelEx1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelEx1.Location = New System.Drawing.Point(0, 0)
         Me.PanelEx1.Name = "PanelEx1"
@@ -895,6 +891,7 @@ Namespace Forms
         Me.gpPilotSkills.Controls.Add(Me.chkOverrideSkills)
         Me.gpPilotSkills.Controls.Add(Me.cboPilot)
         Me.gpPilotSkills.Controls.Add(Me.lblPilot)
+        Me.gpPilotSkills.DisabledBackColor = System.Drawing.Color.Empty
         Me.gpPilotSkills.IsShadowEnabled = true
         Me.gpPilotSkills.Location = New System.Drawing.Point(413, 3)
         Me.gpPilotSkills.Name = "gpPilotSkills"
@@ -936,9 +933,10 @@ Namespace Forms
         Me.gpProductionSkills.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
         Me.gpProductionSkills.Controls.Add(Me.cboIndustryImplant)
         Me.gpProductionSkills.Controls.Add(Me.cboIndustrySkill)
-        Me.gpProductionSkills.Controls.Add(Me.cboProdEffSkill)
+        Me.gpProductionSkills.Controls.Add(Me.cboAdvInvSkill)
         Me.gpProductionSkills.Controls.Add(Me.lblIndustrySkill)
         Me.gpProductionSkills.Controls.Add(Me.lblPESkill)
+        Me.gpProductionSkills.DisabledBackColor = System.Drawing.Color.Empty
         Me.gpProductionSkills.Location = New System.Drawing.Point(171, 32)
         Me.gpProductionSkills.Name = "gpProductionSkills"
         Me.gpProductionSkills.Size = New System.Drawing.Size(160, 95)
@@ -987,19 +985,19 @@ Namespace Forms
         Me.cboIndustrySkill.TabIndex = 12
         Me.cboIndustrySkill.Text = "0"
         '
-        'cboProdEffSkill
+        'cboAdvInvSkill
         '
-        Me.cboProdEffSkill.DisplayMember = "Text"
-        Me.cboProdEffSkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboProdEffSkill.Enabled = false
-        Me.cboProdEffSkill.FormattingEnabled = true
-        Me.cboProdEffSkill.ItemHeight = 15
-        Me.cboProdEffSkill.Location = New System.Drawing.Point(61, 24)
-        Me.cboProdEffSkill.Name = "cboProdEffSkill"
-        Me.cboProdEffSkill.Size = New System.Drawing.Size(35, 21)
-        Me.cboProdEffSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboProdEffSkill.TabIndex = 11
-        Me.cboProdEffSkill.Text = "0"
+        Me.cboAdvInvSkill.DisplayMember = "Text"
+        Me.cboAdvInvSkill.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboAdvInvSkill.Enabled = false
+        Me.cboAdvInvSkill.FormattingEnabled = true
+        Me.cboAdvInvSkill.ItemHeight = 15
+        Me.cboAdvInvSkill.Location = New System.Drawing.Point(61, 24)
+        Me.cboAdvInvSkill.Name = "cboAdvInvSkill"
+        Me.cboAdvInvSkill.Size = New System.Drawing.Size(35, 21)
+        Me.cboAdvInvSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboAdvInvSkill.TabIndex = 11
+        Me.cboAdvInvSkill.Text = "0"
         '
         'gpResearchSkills
         '
@@ -1014,6 +1012,7 @@ Namespace Forms
         Me.gpResearchSkills.Controls.Add(Me.lblResearchSkill)
         Me.gpResearchSkills.Controls.Add(Me.lblMetallurgySkill)
         Me.gpResearchSkills.Controls.Add(Me.lblScienceSkill)
+        Me.gpResearchSkills.DisabledBackColor = System.Drawing.Color.Empty
         Me.gpResearchSkills.Location = New System.Drawing.Point(6, 32)
         Me.gpResearchSkills.Name = "gpResearchSkills"
         Me.gpResearchSkills.Size = New System.Drawing.Size(160, 95)
@@ -1131,15 +1130,16 @@ Namespace Forms
         Me.gpBPSelection.Controls.Add(Me.chkInventBPOs)
         Me.gpBPSelection.Controls.Add(Me.lblBPRuns)
         Me.gpBPSelection.Controls.Add(Me.lblBPRunsLbl)
-        Me.gpBPSelection.Controls.Add(Me.lblBPPELbl)
+        Me.gpBPSelection.Controls.Add(Me.lblBPTELbl)
         Me.gpBPSelection.Controls.Add(Me.lblBPME)
         Me.gpBPSelection.Controls.Add(Me.lblBPWFLbl)
-        Me.gpBPSelection.Controls.Add(Me.lblBPPE)
+        Me.gpBPSelection.Controls.Add(Me.lblBPTE)
         Me.gpBPSelection.Controls.Add(Me.lblBPWF)
         Me.gpBPSelection.Controls.Add(Me.lblBPMELbl)
         Me.gpBPSelection.Controls.Add(Me.lblBPOMarketValue)
         Me.gpBPSelection.Controls.Add(Me.pbBP)
         Me.gpBPSelection.Controls.Add(Me.lblBPOMarketValueLbl)
+        Me.gpBPSelection.DisabledBackColor = System.Drawing.Color.Empty
         Me.gpBPSelection.IsShadowEnabled = true
         Me.gpBPSelection.Location = New System.Drawing.Point(3, 3)
         Me.gpBPSelection.Name = "gpBPSelection"
@@ -1319,9 +1319,9 @@ Namespace Forms
         Me.tabBPCalcFunctions.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215,Byte),Integer), CType(CType(230,Byte),Integer), CType(CType(249,Byte),Integer)), 0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199,Byte),Integer), CType(CType(220,Byte),Integer), CType(CType(248,Byte),Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179,Byte),Integer), CType(CType(208,Byte),Integer), CType(CType(245,Byte),Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215,Byte),Integer), CType(CType(229,Byte),Integer), CType(CType(247,Byte),Integer)), 1!)})
         Me.tabBPCalcFunctions.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255,Byte),Integer), CType(CType(253,Byte),Integer), CType(CType(235,Byte),Integer)), 0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255,Byte),Integer), CType(CType(236,Byte),Integer), CType(CType(168,Byte),Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255,Byte),Integer), CType(CType(218,Byte),Integer), CType(CType(89,Byte),Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255,Byte),Integer), CType(CType(230,Byte),Integer), CType(CType(141,Byte),Integer)), 1!)})
         Me.tabBPCalcFunctions.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253,Byte),Integer), CType(CType(253,Byte),Integer), CType(CType(254,Byte),Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253,Byte),Integer), CType(CType(253,Byte),Integer), CType(CType(254,Byte),Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253,Byte),Integer), CType(CType(253,Byte),Integer), CType(CType(254,Byte),Integer)), 1!)})
+        Me.tabBPCalcFunctions.Controls.Add(Me.tcpInvention)
         Me.tabBPCalcFunctions.Controls.Add(Me.tcpResearch)
         Me.tabBPCalcFunctions.Controls.Add(Me.tcpProduction)
-        Me.tabBPCalcFunctions.Controls.Add(Me.tcpInvention)
         Me.tabBPCalcFunctions.Location = New System.Drawing.Point(3, 187)
         Me.tabBPCalcFunctions.Name = "tabBPCalcFunctions"
         Me.tabBPCalcFunctions.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -1335,16 +1335,729 @@ Namespace Forms
         Me.tabBPCalcFunctions.Tabs.Add(Me.tiInvention)
         Me.tabBPCalcFunctions.Text = "TabControl1"
         '
+        'tcpInvention
+        '
+        Me.tcpInvention.Controls.Add(Me.chkInventionFlag)
+        Me.tcpInvention.Controls.Add(Me.lblBatchTotalCost)
+        Me.tcpInvention.Controls.Add(Me.lblBatchTotalCostLbl)
+        Me.tcpInvention.Controls.Add(Me.adtInventionProfits)
+        Me.tcpInvention.Controls.Add(Me.lblTotalInventionProfit)
+        Me.tcpInvention.Controls.Add(Me.lblTotalInventionProfitLbl)
+        Me.tcpInvention.Controls.Add(Me.lblUnitInventionProfit)
+        Me.tcpInvention.Controls.Add(Me.lblUnitInventionProfitLbl)
+        Me.tcpInvention.Controls.Add(Me.lblInventionSalesPrice)
+        Me.tcpInvention.Controls.Add(Me.lblInventionSalesPriceLbl)
+        Me.tcpInvention.Controls.Add(Me.lblAvgInventionCost)
+        Me.tcpInvention.Controls.Add(Me.lblAvgInventionCostLbl)
+        Me.tcpInvention.Controls.Add(Me.lblBatchProductionCost)
+        Me.tcpInvention.Controls.Add(Me.lblBatchProductionCostLbl)
+        Me.tcpInvention.Controls.Add(Me.nudInventionSkill2)
+        Me.tcpInvention.Controls.Add(Me.nudInventionSkill3)
+        Me.tcpInvention.Controls.Add(Me.nudInventionSkill1)
+        Me.tcpInvention.Controls.Add(Me.lblSuccessCost)
+        Me.tcpInvention.Controls.Add(Me.lblSuccessCostLbl)
+        Me.tcpInvention.Controls.Add(Me.lblAvgAttempts)
+        Me.tcpInvention.Controls.Add(Me.lblInventionBPCCost)
+        Me.tcpInvention.Controls.Add(Me.lblInventionBPCCostLbl)
+        Me.tcpInvention.Controls.Add(Me.lblInventedBP)
+        Me.tcpInvention.Controls.Add(Me.lblInventionDecryptorCost)
+        Me.tcpInvention.Controls.Add(Me.lblInventionLabCosts)
+        Me.tcpInvention.Controls.Add(Me.lblInventionCost)
+        Me.tcpInvention.Controls.Add(Me.lblInventionBaseCost)
+        Me.tcpInvention.Controls.Add(Me.lblInventionLabCostsLbl)
+        Me.tcpInvention.Controls.Add(Me.lblOverrideBPCRuns)
+        Me.tcpInvention.Controls.Add(Me.lblBlueprintInventions)
+        Me.tcpInvention.Controls.Add(Me.lblDecryptor)
+        Me.tcpInvention.Controls.Add(Me.lblBaseChance)
+        Me.tcpInvention.Controls.Add(Me.lblInvSkill2)
+        Me.tcpInvention.Controls.Add(Me.lblInvSkill3)
+        Me.tcpInvention.Controls.Add(Me.lblInvSkill1)
+        Me.tcpInvention.Controls.Add(Me.lblInventionCostLbl)
+        Me.tcpInvention.Controls.Add(Me.lblInventionDecryptorCostLbl)
+        Me.tcpInvention.Controls.Add(Me.lblInventionBaseCostLbl)
+        Me.tcpInvention.Controls.Add(Me.lblInventedBPLbl)
+        Me.tcpInvention.Controls.Add(Me.lblInventionChance)
+        Me.tcpInvention.Controls.Add(Me.lblInventionTime)
+        Me.tcpInvention.Controls.Add(Me.lblInventionTimeLbl)
+        Me.tcpInvention.Controls.Add(Me.nudInventionBPCRuns)
+        Me.tcpInvention.Controls.Add(Me.cboDecryptor)
+        Me.tcpInvention.Controls.Add(Me.cboInventions)
+        Me.tcpInvention.Controls.Add(Me.PPRInvention)
+        Me.tcpInvention.Controls.Add(Me.PACDecryptor)
+        Me.tcpInvention.Controls.Add(Me.PACSalesPrice)
+        Me.tcpInvention.DisabledBackColor = System.Drawing.Color.Empty
+        Me.tcpInvention.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpInvention.Location = New System.Drawing.Point(0, 23)
+        Me.tcpInvention.Name = "tcpInvention"
+        Me.tcpInvention.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpInvention.Size = New System.Drawing.Size(836, 525)
+        Me.tcpInvention.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253,Byte),Integer), CType(CType(253,Byte),Integer), CType(CType(254,Byte),Integer))
+        Me.tcpInvention.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157,Byte),Integer), CType(CType(188,Byte),Integer), CType(CType(227,Byte),Integer))
+        Me.tcpInvention.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpInvention.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146,Byte),Integer), CType(CType(165,Byte),Integer), CType(CType(199,Byte),Integer))
+        Me.tcpInvention.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right)  _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom),DevComponents.DotNetBar.eBorderSide)
+        Me.tcpInvention.Style.GradientAngle = 90
+        Me.tcpInvention.TabIndex = 3
+        Me.tcpInvention.TabItem = Me.tiInvention
+        '
+        'chkInventionFlag
+        '
+        Me.chkInventionFlag.AutoSize = true
+        Me.chkInventionFlag.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkInventionFlag.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkInventionFlag.Location = New System.Drawing.Point(337, 199)
+        Me.chkInventionFlag.Name = "chkInventionFlag"
+        Me.chkInventionFlag.Size = New System.Drawing.Size(153, 16)
+        Me.chkInventionFlag.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkInventionFlag.TabIndex = 213
+        Me.chkInventionFlag.Text = "Save in Invention Manager"
+        '
+        'lblBatchTotalCost
+        '
+        Me.lblBatchTotalCost.AutoSize = true
+        Me.lblBatchTotalCost.BackColor = System.Drawing.Color.Transparent
+        Me.lblBatchTotalCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblBatchTotalCost.Location = New System.Drawing.Point(455, 114)
+        Me.lblBatchTotalCost.Name = "lblBatchTotalCost"
+        Me.lblBatchTotalCost.Size = New System.Drawing.Size(30, 13)
+        Me.lblBatchTotalCost.TabIndex = 212
+        Me.lblBatchTotalCost.Text = "0 Isk"
+        '
+        'lblBatchTotalCostLbl
+        '
+        Me.lblBatchTotalCostLbl.AutoSize = true
+        Me.lblBatchTotalCostLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblBatchTotalCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblBatchTotalCostLbl.Location = New System.Drawing.Point(339, 114)
+        Me.lblBatchTotalCostLbl.Name = "lblBatchTotalCostLbl"
+        Me.lblBatchTotalCostLbl.Size = New System.Drawing.Size(90, 13)
+        Me.lblBatchTotalCostLbl.TabIndex = 211
+        Me.lblBatchTotalCostLbl.Text = "Batch Total Cost:"
+        '
+        'adtInventionProfits
+        '
+        Me.adtInventionProfits.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtInventionProfits.AllowDrop = true
+        Me.adtInventionProfits.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtInventionProfits.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtInventionProfits.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtInventionProfits.Columns.Add(Me.colIPDecryptor)
+        Me.adtInventionProfits.Columns.Add(Me.colIPProfit)
+        Me.adtInventionProfits.ExpandWidth = 0
+        Me.adtInventionProfits.GridLinesColor = System.Drawing.Color.Gainsboro
+        Me.adtInventionProfits.GridRowLines = true
+        Me.adtInventionProfits.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtInventionProfits.Location = New System.Drawing.Point(602, 4)
+        Me.adtInventionProfits.Name = "adtInventionProfits"
+        Me.adtInventionProfits.NodesConnector = Me.NodeConnector2
+        Me.adtInventionProfits.NodeStyle = Me.ElementStyle2
+        Me.adtInventionProfits.PathSeparator = ";"
+        Me.adtInventionProfits.Size = New System.Drawing.Size(228, 222)
+        Me.adtInventionProfits.Styles.Add(Me.ElementStyle2)
+        Me.adtInventionProfits.TabIndex = 210
+        Me.adtInventionProfits.Text = "AdvTree1"
+        '
+        'colIPDecryptor
+        '
+        Me.colIPDecryptor.Name = "colIPDecryptor"
+        Me.colIPDecryptor.SortingEnabled = false
+        Me.colIPDecryptor.Text = "Decryptor"
+        Me.colIPDecryptor.Width.Absolute = 90
+        '
+        'colIPProfit
+        '
+        Me.colIPProfit.Name = "colIPProfit"
+        Me.colIPProfit.SortingEnabled = false
+        Me.colIPProfit.Text = "Unit/Total Profit"
+        Me.colIPProfit.Width.Absolute = 125
+        '
+        'NodeConnector2
+        '
+        Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle2
+        '
+        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle2.Name = "ElementStyle2"
+        Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'lblTotalInventionProfit
+        '
+        Me.lblTotalInventionProfit.AutoSize = true
+        Me.lblTotalInventionProfit.BackColor = System.Drawing.Color.Transparent
+        Me.lblTotalInventionProfit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblTotalInventionProfit.Location = New System.Drawing.Point(455, 166)
+        Me.lblTotalInventionProfit.Name = "lblTotalInventionProfit"
+        Me.lblTotalInventionProfit.Size = New System.Drawing.Size(30, 13)
+        Me.lblTotalInventionProfit.TabIndex = 204
+        Me.lblTotalInventionProfit.Text = "0 Isk"
+        '
+        'lblTotalInventionProfitLbl
+        '
+        Me.lblTotalInventionProfitLbl.AutoSize = true
+        Me.lblTotalInventionProfitLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblTotalInventionProfitLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblTotalInventionProfitLbl.Location = New System.Drawing.Point(339, 166)
+        Me.lblTotalInventionProfitLbl.Name = "lblTotalInventionProfitLbl"
+        Me.lblTotalInventionProfitLbl.Size = New System.Drawing.Size(64, 13)
+        Me.lblTotalInventionProfitLbl.TabIndex = 203
+        Me.lblTotalInventionProfitLbl.Text = "Total Profit:"
+        '
+        'lblUnitInventionProfit
+        '
+        Me.lblUnitInventionProfit.AutoSize = true
+        Me.lblUnitInventionProfit.BackColor = System.Drawing.Color.Transparent
+        Me.lblUnitInventionProfit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblUnitInventionProfit.Location = New System.Drawing.Point(455, 153)
+        Me.lblUnitInventionProfit.Name = "lblUnitInventionProfit"
+        Me.lblUnitInventionProfit.Size = New System.Drawing.Size(30, 13)
+        Me.lblUnitInventionProfit.TabIndex = 202
+        Me.lblUnitInventionProfit.Text = "0 Isk"
+        '
+        'lblUnitInventionProfitLbl
+        '
+        Me.lblUnitInventionProfitLbl.AutoSize = true
+        Me.lblUnitInventionProfitLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblUnitInventionProfitLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblUnitInventionProfitLbl.Location = New System.Drawing.Point(339, 153)
+        Me.lblUnitInventionProfitLbl.Name = "lblUnitInventionProfitLbl"
+        Me.lblUnitInventionProfitLbl.Size = New System.Drawing.Size(78, 13)
+        Me.lblUnitInventionProfitLbl.TabIndex = 201
+        Me.lblUnitInventionProfitLbl.Text = "Profit per Unit:"
+        '
+        'lblInventionSalesPrice
+        '
+        Me.lblInventionSalesPrice.AutoSize = true
+        Me.lblInventionSalesPrice.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionSalesPrice.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionSalesPrice.Location = New System.Drawing.Point(455, 140)
+        Me.lblInventionSalesPrice.Name = "lblInventionSalesPrice"
+        Me.lblInventionSalesPrice.Size = New System.Drawing.Size(30, 13)
+        Me.lblInventionSalesPrice.TabIndex = 200
+        Me.lblInventionSalesPrice.Text = "0 Isk"
+        '
+        'lblInventionSalesPriceLbl
+        '
+        Me.lblInventionSalesPriceLbl.AutoSize = true
+        Me.lblInventionSalesPriceLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionSalesPriceLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionSalesPriceLbl.Location = New System.Drawing.Point(339, 140)
+        Me.lblInventionSalesPriceLbl.Name = "lblInventionSalesPriceLbl"
+        Me.lblInventionSalesPriceLbl.Size = New System.Drawing.Size(84, 13)
+        Me.lblInventionSalesPriceLbl.TabIndex = 199
+        Me.lblInventionSalesPriceLbl.Text = "Unit Sales Price:"
+        '
+        'lblAvgInventionCost
+        '
+        Me.lblAvgInventionCost.AutoSize = true
+        Me.lblAvgInventionCost.BackColor = System.Drawing.Color.Transparent
+        Me.lblAvgInventionCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblAvgInventionCost.Location = New System.Drawing.Point(455, 127)
+        Me.lblAvgInventionCost.Name = "lblAvgInventionCost"
+        Me.lblAvgInventionCost.Size = New System.Drawing.Size(30, 13)
+        Me.lblAvgInventionCost.TabIndex = 198
+        Me.lblAvgInventionCost.Text = "0 Isk"
+        '
+        'lblAvgInventionCostLbl
+        '
+        Me.lblAvgInventionCostLbl.AutoSize = true
+        Me.lblAvgInventionCostLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblAvgInventionCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblAvgInventionCostLbl.Location = New System.Drawing.Point(339, 127)
+        Me.lblAvgInventionCostLbl.Name = "lblAvgInventionCostLbl"
+        Me.lblAvgInventionCostLbl.Size = New System.Drawing.Size(82, 13)
+        Me.lblAvgInventionCostLbl.TabIndex = 197
+        Me.lblAvgInventionCostLbl.Text = "Unit Total Cost:"
+        '
+        'lblBatchProductionCost
+        '
+        Me.lblBatchProductionCost.AutoSize = true
+        Me.lblBatchProductionCost.BackColor = System.Drawing.Color.Transparent
+        Me.lblBatchProductionCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblBatchProductionCost.Location = New System.Drawing.Point(455, 101)
+        Me.lblBatchProductionCost.Name = "lblBatchProductionCost"
+        Me.lblBatchProductionCost.Size = New System.Drawing.Size(30, 13)
+        Me.lblBatchProductionCost.TabIndex = 196
+        Me.lblBatchProductionCost.Text = "0 Isk"
+        '
+        'lblBatchProductionCostLbl
+        '
+        Me.lblBatchProductionCostLbl.AutoSize = true
+        Me.lblBatchProductionCostLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblBatchProductionCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblBatchProductionCostLbl.Location = New System.Drawing.Point(339, 101)
+        Me.lblBatchProductionCostLbl.Name = "lblBatchProductionCostLbl"
+        Me.lblBatchProductionCostLbl.Size = New System.Drawing.Size(88, 13)
+        Me.lblBatchProductionCostLbl.TabIndex = 195
+        Me.lblBatchProductionCostLbl.Text = "Batch Prod Cost:"
+        '
+        'nudInventionSkill2
+        '
+        '
+        '
+        '
+        Me.nudInventionSkill2.BackgroundStyle.Class = "DateTimeInputBackground"
+        Me.nudInventionSkill2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.nudInventionSkill2.ButtonCustom.Text = "Reset"
+        Me.nudInventionSkill2.ButtonCustom.Visible = true
+        Me.nudInventionSkill2.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
+        Me.nudInventionSkill2.Location = New System.Drawing.Point(218, 97)
+        Me.nudInventionSkill2.LockUpdateChecked = false
+        Me.nudInventionSkill2.MaxValue = 5
+        Me.nudInventionSkill2.MinValue = 0
+        Me.nudInventionSkill2.Name = "nudInventionSkill2"
+        Me.nudInventionSkill2.ShowCheckBox = true
+        Me.nudInventionSkill2.ShowUpDown = true
+        Me.nudInventionSkill2.Size = New System.Drawing.Size(104, 21)
+        Me.nudInventionSkill2.TabIndex = 194
+        Me.nudInventionSkill2.Value = 5
+        Me.nudInventionSkill2.WatermarkEnabled = false
+        '
+        'nudInventionSkill3
+        '
+        '
+        '
+        '
+        Me.nudInventionSkill3.BackgroundStyle.Class = "DateTimeInputBackground"
+        Me.nudInventionSkill3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.nudInventionSkill3.ButtonCustom.Text = "Reset"
+        Me.nudInventionSkill3.ButtonCustom.Visible = true
+        Me.nudInventionSkill3.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
+        Me.nudInventionSkill3.Location = New System.Drawing.Point(218, 119)
+        Me.nudInventionSkill3.LockUpdateChecked = false
+        Me.nudInventionSkill3.MaxValue = 5
+        Me.nudInventionSkill3.MinValue = 0
+        Me.nudInventionSkill3.Name = "nudInventionSkill3"
+        Me.nudInventionSkill3.ShowCheckBox = true
+        Me.nudInventionSkill3.ShowUpDown = true
+        Me.nudInventionSkill3.Size = New System.Drawing.Size(104, 21)
+        Me.nudInventionSkill3.TabIndex = 193
+        Me.nudInventionSkill3.Value = 5
+        Me.nudInventionSkill3.WatermarkEnabled = false
+        '
+        'nudInventionSkill1
+        '
+        '
+        '
+        '
+        Me.nudInventionSkill1.BackgroundStyle.Class = "DateTimeInputBackground"
+        Me.nudInventionSkill1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.nudInventionSkill1.ButtonCustom.Text = "Reset"
+        Me.nudInventionSkill1.ButtonCustom.Visible = true
+        Me.nudInventionSkill1.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
+        Me.nudInventionSkill1.Location = New System.Drawing.Point(218, 75)
+        Me.nudInventionSkill1.LockUpdateChecked = false
+        Me.nudInventionSkill1.MaxValue = 5
+        Me.nudInventionSkill1.MinValue = 0
+        Me.nudInventionSkill1.Name = "nudInventionSkill1"
+        Me.nudInventionSkill1.ShowCheckBox = true
+        Me.nudInventionSkill1.ShowUpDown = true
+        Me.nudInventionSkill1.Size = New System.Drawing.Size(104, 21)
+        Me.nudInventionSkill1.TabIndex = 192
+        Me.nudInventionSkill1.Value = 5
+        Me.nudInventionSkill1.WatermarkEnabled = false
+        '
+        'lblSuccessCost
+        '
+        Me.lblSuccessCost.AutoSize = true
+        Me.lblSuccessCost.BackColor = System.Drawing.Color.Transparent
+        Me.lblSuccessCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblSuccessCost.Location = New System.Drawing.Point(455, 79)
+        Me.lblSuccessCost.Name = "lblSuccessCost"
+        Me.lblSuccessCost.Size = New System.Drawing.Size(35, 13)
+        Me.lblSuccessCost.TabIndex = 191
+        Me.lblSuccessCost.Text = "0 Isk"
+        '
+        'lblSuccessCostLbl
+        '
+        Me.lblSuccessCostLbl.AutoSize = true
+        Me.lblSuccessCostLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblSuccessCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblSuccessCostLbl.Location = New System.Drawing.Point(339, 79)
+        Me.lblSuccessCostLbl.Name = "lblSuccessCostLbl"
+        Me.lblSuccessCostLbl.Size = New System.Drawing.Size(83, 13)
+        Me.lblSuccessCostLbl.TabIndex = 190
+        Me.lblSuccessCostLbl.Text = "Success Cost:"
+        '
+        'lblAvgAttempts
+        '
+        Me.lblAvgAttempts.AutoSize = true
+        Me.lblAvgAttempts.BackColor = System.Drawing.Color.Transparent
+        Me.lblAvgAttempts.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblAvgAttempts.Location = New System.Drawing.Point(4, 169)
+        Me.lblAvgAttempts.Name = "lblAvgAttempts"
+        Me.lblAvgAttempts.Size = New System.Drawing.Size(164, 13)
+        Me.lblAvgAttempts.TabIndex = 189
+        Me.lblAvgAttempts.Text = "Average Attempts Until Success:"
+        '
+        'lblInventionBPCCost
+        '
+        Me.lblInventionBPCCost.AutoSize = true
+        Me.lblInventionBPCCost.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionBPCCost.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
+        Me.lblInventionBPCCost.Location = New System.Drawing.Point(455, 43)
+        Me.lblInventionBPCCost.Name = "lblInventionBPCCost"
+        Me.lblInventionBPCCost.Size = New System.Drawing.Size(30, 13)
+        Me.SuperTooltip1.SetSuperTooltip(Me.lblInventionBPCCost, New DevComponents.DotNetBar.SuperTooltipInfo("BPC Cost", "Click to edit this specific BPC Cost", "The BPC Cost is based on the minimum and maximum run prices set in the Prism Cost"& _ 
+            "s screen. The number of runs of the BPC used is taken into account when calculat"& _ 
+            "ing the final cost.", Global.EveHQ.Prism.My.Resources.Resources.Question32, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.lblInventionBPCCost.TabIndex = 188
+        Me.lblInventionBPCCost.TabStop = true
+        Me.lblInventionBPCCost.Text = "0 Isk"
+        '
+        'lblInventionBPCCostLbl
+        '
+        Me.lblInventionBPCCostLbl.AutoSize = true
+        Me.lblInventionBPCCostLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionBPCCostLbl.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
+        Me.lblInventionBPCCostLbl.Location = New System.Drawing.Point(339, 43)
+        Me.lblInventionBPCCostLbl.Name = "lblInventionBPCCostLbl"
+        Me.lblInventionBPCCostLbl.Size = New System.Drawing.Size(55, 13)
+        Me.SuperTooltip1.SetSuperTooltip(Me.lblInventionBPCCostLbl, New DevComponents.DotNetBar.SuperTooltipInfo("BPC Costs", "Click to edit BPC Costs", "The BPC Cost is based on the minimum and maximum run prices set in the Prism Cost"& _ 
+            "s screen. The number of runs of the BPC used is taken into account when calculat"& _ 
+            "ing the final cost.", Global.EveHQ.Prism.My.Resources.Resources.Question32, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.lblInventionBPCCostLbl.TabIndex = 187
+        Me.lblInventionBPCCostLbl.TabStop = true
+        Me.lblInventionBPCCostLbl.Text = "BPC Cost:"
+        '
+        'lblInventedBP
+        '
+        Me.lblInventedBP.AutoSize = true
+        Me.lblInventedBP.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventedBP.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventedBP.Location = New System.Drawing.Point(119, 182)
+        Me.lblInventedBP.Name = "lblInventedBP"
+        Me.lblInventedBP.Size = New System.Drawing.Size(73, 13)
+        Me.lblInventedBP.TabIndex = 186
+        Me.lblInventedBP.Text = "<not known>"
+        '
+        'lblInventionDecryptorCost
+        '
+        Me.lblInventionDecryptorCost.AutoSize = true
+        Me.lblInventionDecryptorCost.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionDecryptorCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionDecryptorCost.Location = New System.Drawing.Point(455, 17)
+        Me.lblInventionDecryptorCost.Name = "lblInventionDecryptorCost"
+        Me.lblInventionDecryptorCost.Size = New System.Drawing.Size(30, 13)
+        Me.lblInventionDecryptorCost.TabIndex = 185
+        Me.lblInventionDecryptorCost.Text = "0 Isk"
+        '
+        'lblInventionLabCosts
+        '
+        Me.lblInventionLabCosts.AutoSize = true
+        Me.lblInventionLabCosts.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionLabCosts.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionLabCosts.Location = New System.Drawing.Point(455, 30)
+        Me.lblInventionLabCosts.Name = "lblInventionLabCosts"
+        Me.lblInventionLabCosts.Size = New System.Drawing.Size(30, 13)
+        Me.lblInventionLabCosts.TabIndex = 183
+        Me.lblInventionLabCosts.Text = "0 Isk"
+        '
+        'lblInventionCost
+        '
+        Me.lblInventionCost.AutoSize = true
+        Me.lblInventionCost.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionCost.Location = New System.Drawing.Point(455, 56)
+        Me.lblInventionCost.Name = "lblInventionCost"
+        Me.lblInventionCost.Size = New System.Drawing.Size(30, 13)
+        Me.lblInventionCost.TabIndex = 182
+        Me.lblInventionCost.Text = "0 Isk"
+        '
+        'lblInventionBaseCost
+        '
+        Me.lblInventionBaseCost.AutoSize = true
+        Me.lblInventionBaseCost.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionBaseCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionBaseCost.Location = New System.Drawing.Point(455, 4)
+        Me.lblInventionBaseCost.Name = "lblInventionBaseCost"
+        Me.lblInventionBaseCost.Size = New System.Drawing.Size(30, 13)
+        Me.lblInventionBaseCost.TabIndex = 181
+        Me.lblInventionBaseCost.Text = "0 Isk"
+        '
+        'lblInventionLabCostsLbl
+        '
+        Me.lblInventionLabCostsLbl.AutoSize = true
+        Me.lblInventionLabCostsLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionLabCostsLbl.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
+        Me.lblInventionLabCostsLbl.Location = New System.Drawing.Point(339, 30)
+        Me.lblInventionLabCostsLbl.Name = "lblInventionLabCostsLbl"
+        Me.lblInventionLabCostsLbl.Size = New System.Drawing.Size(58, 13)
+        Me.SuperTooltip1.SetSuperTooltip(Me.lblInventionLabCostsLbl, New DevComponents.DotNetBar.SuperTooltipInfo("Lab Costs", "Click to edit Lab Costs", "Lab Costs comprise of two components: an amount for the original installation and"& _ 
+            " a cost per hour running cost.", Global.EveHQ.Prism.My.Resources.Resources.Question32, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.lblInventionLabCostsLbl.TabIndex = 180
+        Me.lblInventionLabCostsLbl.TabStop = true
+        Me.lblInventionLabCostsLbl.Text = "Lab Costs:"
+        '
+        'lblOverrideBPCRuns
+        '
+        Me.lblOverrideBPCRuns.AutoSize = true
+        Me.lblOverrideBPCRuns.BackColor = System.Drawing.Color.Transparent
+        Me.lblOverrideBPCRuns.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblOverrideBPCRuns.Location = New System.Drawing.Point(3, 61)
+        Me.lblOverrideBPCRuns.Name = "lblOverrideBPCRuns"
+        Me.lblOverrideBPCRuns.Size = New System.Drawing.Size(102, 13)
+        Me.lblOverrideBPCRuns.TabIndex = 179
+        Me.lblOverrideBPCRuns.Text = "Override BPC Runs:"
+        '
+        'lblBlueprintInventions
+        '
+        Me.lblBlueprintInventions.AutoSize = true
+        Me.lblBlueprintInventions.BackColor = System.Drawing.Color.Transparent
+        Me.lblBlueprintInventions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblBlueprintInventions.Location = New System.Drawing.Point(3, 12)
+        Me.lblBlueprintInventions.Name = "lblBlueprintInventions"
+        Me.lblBlueprintInventions.Size = New System.Drawing.Size(62, 13)
+        Me.lblBlueprintInventions.TabIndex = 178
+        Me.lblBlueprintInventions.Text = "Inventions:"
+        '
+        'lblDecryptor
+        '
+        Me.lblDecryptor.AutoSize = true
+        Me.lblDecryptor.BackColor = System.Drawing.Color.Transparent
+        Me.lblDecryptor.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblDecryptor.Location = New System.Drawing.Point(3, 34)
+        Me.lblDecryptor.Name = "lblDecryptor"
+        Me.lblDecryptor.Size = New System.Drawing.Size(59, 13)
+        Me.lblDecryptor.TabIndex = 176
+        Me.lblDecryptor.Text = "Decryptor:"
+        '
+        'lblBaseChance
+        '
+        Me.lblBaseChance.AutoSize = true
+        Me.lblBaseChance.BackColor = System.Drawing.Color.Transparent
+        Me.lblBaseChance.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblBaseChance.Location = New System.Drawing.Point(4, 143)
+        Me.lblBaseChance.Name = "lblBaseChance"
+        Me.lblBaseChance.Size = New System.Drawing.Size(122, 13)
+        Me.lblBaseChance.TabIndex = 175
+        Me.lblBaseChance.Text = "Base Invention Chance:"
+        '
+        'lblInvSkill2
+        '
+        Me.lblInvSkill2.AutoSize = true
+        Me.lblInvSkill2.BackColor = System.Drawing.Color.Transparent
+        Me.lblInvSkill2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInvSkill2.Location = New System.Drawing.Point(3, 105)
+        Me.lblInvSkill2.Name = "lblInvSkill2"
+        Me.lblInvSkill2.Size = New System.Drawing.Size(86, 13)
+        Me.lblInvSkill2.TabIndex = 174
+        Me.lblInvSkill2.Text = "Invention Skill 2:"
+        '
+        'lblInvSkill3
+        '
+        Me.lblInvSkill3.AutoSize = true
+        Me.lblInvSkill3.BackColor = System.Drawing.Color.Transparent
+        Me.lblInvSkill3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInvSkill3.Location = New System.Drawing.Point(3, 127)
+        Me.lblInvSkill3.Name = "lblInvSkill3"
+        Me.lblInvSkill3.Size = New System.Drawing.Size(86, 13)
+        Me.lblInvSkill3.TabIndex = 173
+        Me.lblInvSkill3.Text = "Invention Skill 3:"
+        '
+        'lblInvSkill1
+        '
+        Me.lblInvSkill1.AutoSize = true
+        Me.lblInvSkill1.BackColor = System.Drawing.Color.Transparent
+        Me.lblInvSkill1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInvSkill1.Location = New System.Drawing.Point(3, 83)
+        Me.lblInvSkill1.Name = "lblInvSkill1"
+        Me.lblInvSkill1.Size = New System.Drawing.Size(86, 13)
+        Me.lblInvSkill1.TabIndex = 172
+        Me.lblInvSkill1.Text = "Invention Skill 1:"
+        '
+        'lblInventionCostLbl
+        '
+        Me.lblInventionCostLbl.AutoSize = true
+        Me.lblInventionCostLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionCostLbl.Location = New System.Drawing.Point(339, 56)
+        Me.lblInventionCostLbl.Name = "lblInventionCostLbl"
+        Me.lblInventionCostLbl.Size = New System.Drawing.Size(60, 13)
+        Me.lblInventionCostLbl.TabIndex = 171
+        Me.lblInventionCostLbl.Text = "Total Cost:"
+        '
+        'lblInventionDecryptorCostLbl
+        '
+        Me.lblInventionDecryptorCostLbl.AutoSize = true
+        Me.lblInventionDecryptorCostLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionDecryptorCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionDecryptorCostLbl.Location = New System.Drawing.Point(339, 17)
+        Me.lblInventionDecryptorCostLbl.Name = "lblInventionDecryptorCostLbl"
+        Me.lblInventionDecryptorCostLbl.Size = New System.Drawing.Size(84, 13)
+        Me.lblInventionDecryptorCostLbl.TabIndex = 169
+        Me.lblInventionDecryptorCostLbl.Text = "Decryptor Cost:"
+        '
+        'lblInventionBaseCostLbl
+        '
+        Me.lblInventionBaseCostLbl.AutoSize = true
+        Me.lblInventionBaseCostLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionBaseCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionBaseCostLbl.Location = New System.Drawing.Point(339, 4)
+        Me.lblInventionBaseCostLbl.Name = "lblInventionBaseCostLbl"
+        Me.lblInventionBaseCostLbl.Size = New System.Drawing.Size(59, 13)
+        Me.lblInventionBaseCostLbl.TabIndex = 168
+        Me.lblInventionBaseCostLbl.Text = "Base Cost:"
+        '
+        'lblInventedBPLbl
+        '
+        Me.lblInventedBPLbl.AutoSize = true
+        Me.lblInventedBPLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventedBPLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventedBPLbl.Location = New System.Drawing.Point(4, 182)
+        Me.lblInventedBPLbl.Name = "lblInventedBPLbl"
+        Me.lblInventedBPLbl.Size = New System.Drawing.Size(105, 13)
+        Me.lblInventedBPLbl.TabIndex = 167
+        Me.lblInventedBPLbl.Text = "Invented BP Details:"
+        '
+        'lblInventionChance
+        '
+        Me.lblInventionChance.AutoSize = true
+        Me.lblInventionChance.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionChance.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionChance.Location = New System.Drawing.Point(4, 156)
+        Me.lblInventionChance.Name = "lblInventionChance"
+        Me.lblInventionChance.Size = New System.Drawing.Size(123, 13)
+        Me.lblInventionChance.TabIndex = 166
+        Me.lblInventionChance.Text = "Chance of Invention:"
+        '
+        'lblInventionTime
+        '
+        Me.lblInventionTime.AutoSize = true
+        Me.lblInventionTime.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionTime.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionTime.Location = New System.Drawing.Point(119, 195)
+        Me.lblInventionTime.Name = "lblInventionTime"
+        Me.lblInventionTime.Size = New System.Drawing.Size(18, 13)
+        Me.lblInventionTime.TabIndex = 165
+        Me.lblInventionTime.Text = "0s"
+        '
+        'lblInventionTimeLbl
+        '
+        Me.lblInventionTimeLbl.AutoSize = true
+        Me.lblInventionTimeLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblInventionTimeLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.lblInventionTimeLbl.Location = New System.Drawing.Point(4, 196)
+        Me.lblInventionTimeLbl.Name = "lblInventionTimeLbl"
+        Me.lblInventionTimeLbl.Size = New System.Drawing.Size(82, 13)
+        Me.lblInventionTimeLbl.TabIndex = 164
+        Me.lblInventionTimeLbl.Text = "Invention Time:"
+        '
+        'nudInventionBPCRuns
+        '
+        '
+        '
+        '
+        Me.nudInventionBPCRuns.BackgroundStyle.Class = "DateTimeInputBackground"
+        Me.nudInventionBPCRuns.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.nudInventionBPCRuns.ButtonCustom.Text = "Set Max"
+        Me.nudInventionBPCRuns.ButtonCustom.Visible = true
+        Me.nudInventionBPCRuns.ButtonCustom2.Text = "Set Min"
+        Me.nudInventionBPCRuns.ButtonCustom2.Visible = true
+        Me.nudInventionBPCRuns.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
+        Me.nudInventionBPCRuns.Location = New System.Drawing.Point(151, 53)
+        Me.nudInventionBPCRuns.LockUpdateChecked = false
+        Me.nudInventionBPCRuns.MaxValue = 1500
+        Me.nudInventionBPCRuns.MinValue = 1
+        Me.nudInventionBPCRuns.Name = "nudInventionBPCRuns"
+        Me.nudInventionBPCRuns.ShowCheckBox = true
+        Me.nudInventionBPCRuns.ShowUpDown = true
+        Me.nudInventionBPCRuns.Size = New System.Drawing.Size(171, 21)
+        Me.nudInventionBPCRuns.TabIndex = 162
+        Me.nudInventionBPCRuns.Value = 1
+        Me.nudInventionBPCRuns.WatermarkEnabled = false
+        '
+        'cboDecryptor
+        '
+        Me.cboDecryptor.DisplayMember = "Text"
+        Me.cboDecryptor.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboDecryptor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboDecryptor.FormattingEnabled = true
+        Me.cboDecryptor.ItemHeight = 15
+        Me.cboDecryptor.Location = New System.Drawing.Point(69, 26)
+        Me.cboDecryptor.Name = "cboDecryptor"
+        Me.cboDecryptor.Size = New System.Drawing.Size(253, 21)
+        Me.cboDecryptor.Sorted = true
+        Me.cboDecryptor.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboDecryptor.TabIndex = 2
+        Me.cboDecryptor.WatermarkBehavior = DevComponents.DotNetBar.eWatermarkBehavior.HideNonEmpty
+        Me.cboDecryptor.WatermarkColor = System.Drawing.Color.Silver
+        Me.cboDecryptor.WatermarkText = "Select a Decryptor to use..."
+        '
+        'cboInventions
+        '
+        Me.cboInventions.DisplayMember = "Text"
+        Me.cboInventions.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboInventions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboInventions.FormattingEnabled = true
+        Me.cboInventions.ItemHeight = 15
+        Me.cboInventions.Location = New System.Drawing.Point(69, 4)
+        Me.cboInventions.Name = "cboInventions"
+        Me.cboInventions.Size = New System.Drawing.Size(253, 21)
+        Me.cboInventions.Sorted = true
+        Me.cboInventions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboInventions.TabIndex = 1
+        Me.cboInventions.WatermarkBehavior = DevComponents.DotNetBar.eWatermarkBehavior.HideNonEmpty
+        Me.cboInventions.WatermarkColor = System.Drawing.Color.Silver
+        Me.cboInventions.WatermarkText = "Select Blueprint to invent..."
+        '
+        'PPRInvention
+        '
+        Me.PPRInvention.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
+            Or System.Windows.Forms.AnchorStyles.Left)  _
+            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
+        Me.PPRInvention.BatchJob = Nothing
+        Me.PPRInvention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
+        Me.PPRInvention.InventionBP = Nothing
+        Me.PPRInvention.Location = New System.Drawing.Point(0, 229)
+        Me.PPRInvention.Name = "PPRInvention"
+        Me.PPRInvention.ProductionJob = Nothing
+        Me.PPRInvention.Size = New System.Drawing.Size(833, 296)
+        Me.PPRInvention.TabIndex = 0
+        '
+        'PACDecryptor
+        '
+        Me.PACDecryptor.Location = New System.Drawing.Point(429, 18)
+        Me.PACDecryptor.Name = "PACDecryptor"
+        Me.PACDecryptor.Price = 0R
+        Me.PACDecryptor.Size = New System.Drawing.Size(20, 12)
+        Me.PACDecryptor.TabIndex = 209
+        Me.PACDecryptor.TypeID = 0
+        '
+        'PACSalesPrice
+        '
+        Me.PACSalesPrice.Location = New System.Drawing.Point(429, 141)
+        Me.PACSalesPrice.Name = "PACSalesPrice"
+        Me.PACSalesPrice.Price = 0R
+        Me.PACSalesPrice.Size = New System.Drawing.Size(20, 12)
+        Me.PACSalesPrice.TabIndex = 208
+        Me.PACSalesPrice.TypeID = 0
+        '
+        'tiInvention
+        '
+        Me.tiInvention.AttachedControl = Me.tcpInvention
+        Me.tiInvention.Name = "tiInvention"
+        Me.tiInvention.Text = "Invention"
+        Me.tiInvention.Visible = false
+        '
         'tcpResearch
         '
         Me.tcpResearch.Controls.Add(Me.lblMETime)
-        Me.tcpResearch.Controls.Add(Me.lblPETimeLbl)
+        Me.tcpResearch.Controls.Add(Me.lblTETimeLbl)
         Me.tcpResearch.Controls.Add(Me.chkAdvancedLab)
-        Me.tcpResearch.Controls.Add(Me.lblPETime)
+        Me.tcpResearch.Controls.Add(Me.lblTETime)
         Me.tcpResearch.Controls.Add(Me.chkResearchAtPOS)
         Me.tcpResearch.Controls.Add(Me.lblMETimeLbl)
         Me.tcpResearch.Controls.Add(Me.lblBPCopyTimeLbl)
         Me.tcpResearch.Controls.Add(Me.lblCopyTime)
+        Me.tcpResearch.DisabledBackColor = System.Drawing.Color.Empty
         Me.tcpResearch.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tcpResearch.Location = New System.Drawing.Point(0, 23)
         Me.tcpResearch.Name = "tcpResearch"
@@ -1384,7 +2097,7 @@ Namespace Forms
         '
         '
         Me.chkResearchAtPOS.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkResearchAtPOS.Location = New System.Drawing.Point(22, 13)
+        Me.chkResearchAtPOS.Location = New System.Drawing.Point(20, 13)
         Me.chkResearchAtPOS.Name = "chkResearchAtPOS"
         Me.chkResearchAtPOS.Size = New System.Drawing.Size(108, 16)
         Me.chkResearchAtPOS.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1433,6 +2146,7 @@ Namespace Forms
         Me.tcpProduction.Controls.Add(Me.lblProdQuantityLbl)
         Me.tcpProduction.Controls.Add(Me.PACUnitValue)
         Me.tcpProduction.Controls.Add(Me.PPRProduction)
+        Me.tcpProduction.DisabledBackColor = System.Drawing.Color.Empty
         Me.tcpProduction.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tcpProduction.Location = New System.Drawing.Point(0, 23)
         Me.tcpProduction.Name = "tcpProduction"
@@ -1602,796 +2316,22 @@ Namespace Forms
         Me.tiProduction.Name = "tiProduction"
         Me.tiProduction.Text = "Production"
         '
-        'tcpInvention
+        'nudTELevel
         '
-        Me.tcpInvention.Controls.Add(Me.chkInventionFlag)
-        Me.tcpInvention.Controls.Add(Me.lblBatchTotalCost)
-        Me.tcpInvention.Controls.Add(Me.lblBatchTotalCostLbl)
-        Me.tcpInvention.Controls.Add(Me.adtInventionProfits)
-        Me.tcpInvention.Controls.Add(Me.lblTotalInventionProfit)
-        Me.tcpInvention.Controls.Add(Me.lblTotalInventionProfitLbl)
-        Me.tcpInvention.Controls.Add(Me.lblUnitInventionProfit)
-        Me.tcpInvention.Controls.Add(Me.lblUnitInventionProfitLbl)
-        Me.tcpInvention.Controls.Add(Me.lblInventionSalesPrice)
-        Me.tcpInvention.Controls.Add(Me.lblInventionSalesPriceLbl)
-        Me.tcpInvention.Controls.Add(Me.lblAvgInventionCost)
-        Me.tcpInvention.Controls.Add(Me.lblAvgInventionCostLbl)
-        Me.tcpInvention.Controls.Add(Me.lblBatchProductionCost)
-        Me.tcpInvention.Controls.Add(Me.lblBatchProductionCostLbl)
-        Me.tcpInvention.Controls.Add(Me.nudInventionSkill2)
-        Me.tcpInvention.Controls.Add(Me.nudInventionSkill3)
-        Me.tcpInvention.Controls.Add(Me.nudInventionSkill1)
-        Me.tcpInvention.Controls.Add(Me.lblSuccessCost)
-        Me.tcpInvention.Controls.Add(Me.lblSuccessCostLbl)
-        Me.tcpInvention.Controls.Add(Me.lblAvgAttempts)
-        Me.tcpInvention.Controls.Add(Me.lblInventionBPCCost)
-        Me.tcpInvention.Controls.Add(Me.lblInventionBPCCostLbl)
-        Me.tcpInvention.Controls.Add(Me.lblInventedBP)
-        Me.tcpInvention.Controls.Add(Me.lblInventionDecryptorCost)
-        Me.tcpInvention.Controls.Add(Me.lblInventionMetaItemCost)
-        Me.tcpInvention.Controls.Add(Me.lblInventionLabCosts)
-        Me.tcpInvention.Controls.Add(Me.lblInventionCost)
-        Me.tcpInvention.Controls.Add(Me.lblInventionBaseCost)
-        Me.tcpInvention.Controls.Add(Me.lblInventionLabCostsLbl)
-        Me.tcpInvention.Controls.Add(Me.lblOverrideBPCRuns)
-        Me.tcpInvention.Controls.Add(Me.lblBlueprintInventions)
-        Me.tcpInvention.Controls.Add(Me.lblMetaItem)
-        Me.tcpInvention.Controls.Add(Me.lblDecryptor)
-        Me.tcpInvention.Controls.Add(Me.lblBaseChance)
-        Me.tcpInvention.Controls.Add(Me.lblInvSkill2)
-        Me.tcpInvention.Controls.Add(Me.lblInvSkill3)
-        Me.tcpInvention.Controls.Add(Me.lblInvSkill1)
-        Me.tcpInvention.Controls.Add(Me.lblInventionCostLbl)
-        Me.tcpInvention.Controls.Add(Me.lblInventionMetaItemCostLbl)
-        Me.tcpInvention.Controls.Add(Me.lblInventionDecryptorCostLbl)
-        Me.tcpInvention.Controls.Add(Me.lblInventionBaseCostLbl)
-        Me.tcpInvention.Controls.Add(Me.lblInventedBPLbl)
-        Me.tcpInvention.Controls.Add(Me.lblInventionChance)
-        Me.tcpInvention.Controls.Add(Me.lblInventionTime)
-        Me.tcpInvention.Controls.Add(Me.lblInventionTimeLbl)
-        Me.tcpInvention.Controls.Add(Me.nudInventionBPCRuns)
-        Me.tcpInvention.Controls.Add(Me.cboMetaItem)
-        Me.tcpInvention.Controls.Add(Me.cboDecryptor)
-        Me.tcpInvention.Controls.Add(Me.cboInventions)
-        Me.tcpInvention.Controls.Add(Me.PPRInvention)
-        Me.tcpInvention.Controls.Add(Me.PACDecryptor)
-        Me.tcpInvention.Controls.Add(Me.PACSalesPrice)
-        Me.tcpInvention.Controls.Add(Me.PACMetaItem)
-        Me.tcpInvention.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpInvention.Location = New System.Drawing.Point(0, 23)
-        Me.tcpInvention.Name = "tcpInvention"
-        Me.tcpInvention.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpInvention.Size = New System.Drawing.Size(836, 525)
-        Me.tcpInvention.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253,Byte),Integer), CType(CType(253,Byte),Integer), CType(CType(254,Byte),Integer))
-        Me.tcpInvention.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157,Byte),Integer), CType(CType(188,Byte),Integer), CType(CType(227,Byte),Integer))
-        Me.tcpInvention.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpInvention.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146,Byte),Integer), CType(CType(165,Byte),Integer), CType(CType(199,Byte),Integer))
-        Me.tcpInvention.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right)  _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom),DevComponents.DotNetBar.eBorderSide)
-        Me.tcpInvention.Style.GradientAngle = 90
-        Me.tcpInvention.TabIndex = 3
-        Me.tcpInvention.TabItem = Me.tiInvention
         '
-        'chkInventionFlag
         '
-        Me.chkInventionFlag.AutoSize = true
-        Me.chkInventionFlag.BackColor = System.Drawing.Color.Transparent
         '
-        '
-        '
-        Me.chkInventionFlag.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkInventionFlag.Location = New System.Drawing.Point(337, 199)
-        Me.chkInventionFlag.Name = "chkInventionFlag"
-        Me.chkInventionFlag.Size = New System.Drawing.Size(153, 16)
-        Me.chkInventionFlag.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkInventionFlag.TabIndex = 213
-        Me.chkInventionFlag.Text = "Save in Invention Manager"
-        '
-        'lblBatchTotalCost
-        '
-        Me.lblBatchTotalCost.AutoSize = true
-        Me.lblBatchTotalCost.BackColor = System.Drawing.Color.Transparent
-        Me.lblBatchTotalCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblBatchTotalCost.Location = New System.Drawing.Point(455, 127)
-        Me.lblBatchTotalCost.Name = "lblBatchTotalCost"
-        Me.lblBatchTotalCost.Size = New System.Drawing.Size(30, 13)
-        Me.lblBatchTotalCost.TabIndex = 212
-        Me.lblBatchTotalCost.Text = "0 Isk"
-        '
-        'lblBatchTotalCostLbl
-        '
-        Me.lblBatchTotalCostLbl.AutoSize = true
-        Me.lblBatchTotalCostLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblBatchTotalCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblBatchTotalCostLbl.Location = New System.Drawing.Point(339, 127)
-        Me.lblBatchTotalCostLbl.Name = "lblBatchTotalCostLbl"
-        Me.lblBatchTotalCostLbl.Size = New System.Drawing.Size(90, 13)
-        Me.lblBatchTotalCostLbl.TabIndex = 211
-        Me.lblBatchTotalCostLbl.Text = "Batch Total Cost:"
-        '
-        'adtInventionProfits
-        '
-        Me.adtInventionProfits.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtInventionProfits.AllowDrop = true
-        Me.adtInventionProfits.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtInventionProfits.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtInventionProfits.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtInventionProfits.Columns.Add(Me.colIPDecryptor)
-        Me.adtInventionProfits.Columns.Add(Me.colIPProfit)
-        Me.adtInventionProfits.ExpandWidth = 0
-        Me.adtInventionProfits.GridLinesColor = System.Drawing.Color.Gainsboro
-        Me.adtInventionProfits.GridRowLines = true
-        Me.adtInventionProfits.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtInventionProfits.Location = New System.Drawing.Point(602, 4)
-        Me.adtInventionProfits.Name = "adtInventionProfits"
-        Me.adtInventionProfits.NodesConnector = Me.NodeConnector2
-        Me.adtInventionProfits.NodeStyle = Me.ElementStyle2
-        Me.adtInventionProfits.PathSeparator = ";"
-        Me.adtInventionProfits.Size = New System.Drawing.Size(228, 222)
-        Me.adtInventionProfits.Styles.Add(Me.ElementStyle2)
-        Me.adtInventionProfits.TabIndex = 210
-        Me.adtInventionProfits.Text = "AdvTree1"
-        '
-        'colIPDecryptor
-        '
-        Me.colIPDecryptor.Name = "colIPDecryptor"
-        Me.colIPDecryptor.SortingEnabled = false
-        Me.colIPDecryptor.Text = "Decryptor"
-        Me.colIPDecryptor.Width.Absolute = 90
-        '
-        'colIPProfit
-        '
-        Me.colIPProfit.Name = "colIPProfit"
-        Me.colIPProfit.SortingEnabled = false
-        Me.colIPProfit.Text = "Unit/Total Profit"
-        Me.colIPProfit.Width.Absolute = 125
-        '
-        'NodeConnector2
-        '
-        Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
-        '
-        'ElementStyle2
-        '
-        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle2.Name = "ElementStyle2"
-        Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'lblTotalInventionProfit
-        '
-        Me.lblTotalInventionProfit.AutoSize = true
-        Me.lblTotalInventionProfit.BackColor = System.Drawing.Color.Transparent
-        Me.lblTotalInventionProfit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblTotalInventionProfit.Location = New System.Drawing.Point(455, 179)
-        Me.lblTotalInventionProfit.Name = "lblTotalInventionProfit"
-        Me.lblTotalInventionProfit.Size = New System.Drawing.Size(30, 13)
-        Me.lblTotalInventionProfit.TabIndex = 204
-        Me.lblTotalInventionProfit.Text = "0 Isk"
-        '
-        'lblTotalInventionProfitLbl
-        '
-        Me.lblTotalInventionProfitLbl.AutoSize = true
-        Me.lblTotalInventionProfitLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblTotalInventionProfitLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblTotalInventionProfitLbl.Location = New System.Drawing.Point(339, 179)
-        Me.lblTotalInventionProfitLbl.Name = "lblTotalInventionProfitLbl"
-        Me.lblTotalInventionProfitLbl.Size = New System.Drawing.Size(64, 13)
-        Me.lblTotalInventionProfitLbl.TabIndex = 203
-        Me.lblTotalInventionProfitLbl.Text = "Total Profit:"
-        '
-        'lblUnitInventionProfit
-        '
-        Me.lblUnitInventionProfit.AutoSize = true
-        Me.lblUnitInventionProfit.BackColor = System.Drawing.Color.Transparent
-        Me.lblUnitInventionProfit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblUnitInventionProfit.Location = New System.Drawing.Point(455, 166)
-        Me.lblUnitInventionProfit.Name = "lblUnitInventionProfit"
-        Me.lblUnitInventionProfit.Size = New System.Drawing.Size(30, 13)
-        Me.lblUnitInventionProfit.TabIndex = 202
-        Me.lblUnitInventionProfit.Text = "0 Isk"
-        '
-        'lblUnitInventionProfitLbl
-        '
-        Me.lblUnitInventionProfitLbl.AutoSize = true
-        Me.lblUnitInventionProfitLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblUnitInventionProfitLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblUnitInventionProfitLbl.Location = New System.Drawing.Point(339, 166)
-        Me.lblUnitInventionProfitLbl.Name = "lblUnitInventionProfitLbl"
-        Me.lblUnitInventionProfitLbl.Size = New System.Drawing.Size(78, 13)
-        Me.lblUnitInventionProfitLbl.TabIndex = 201
-        Me.lblUnitInventionProfitLbl.Text = "Profit per Unit:"
-        '
-        'lblInventionSalesPrice
-        '
-        Me.lblInventionSalesPrice.AutoSize = true
-        Me.lblInventionSalesPrice.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionSalesPrice.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionSalesPrice.Location = New System.Drawing.Point(455, 153)
-        Me.lblInventionSalesPrice.Name = "lblInventionSalesPrice"
-        Me.lblInventionSalesPrice.Size = New System.Drawing.Size(30, 13)
-        Me.lblInventionSalesPrice.TabIndex = 200
-        Me.lblInventionSalesPrice.Text = "0 Isk"
-        '
-        'lblInventionSalesPriceLbl
-        '
-        Me.lblInventionSalesPriceLbl.AutoSize = true
-        Me.lblInventionSalesPriceLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionSalesPriceLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionSalesPriceLbl.Location = New System.Drawing.Point(339, 153)
-        Me.lblInventionSalesPriceLbl.Name = "lblInventionSalesPriceLbl"
-        Me.lblInventionSalesPriceLbl.Size = New System.Drawing.Size(84, 13)
-        Me.lblInventionSalesPriceLbl.TabIndex = 199
-        Me.lblInventionSalesPriceLbl.Text = "Unit Sales Price:"
-        '
-        'lblAvgInventionCost
-        '
-        Me.lblAvgInventionCost.AutoSize = true
-        Me.lblAvgInventionCost.BackColor = System.Drawing.Color.Transparent
-        Me.lblAvgInventionCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblAvgInventionCost.Location = New System.Drawing.Point(455, 140)
-        Me.lblAvgInventionCost.Name = "lblAvgInventionCost"
-        Me.lblAvgInventionCost.Size = New System.Drawing.Size(30, 13)
-        Me.lblAvgInventionCost.TabIndex = 198
-        Me.lblAvgInventionCost.Text = "0 Isk"
-        '
-        'lblAvgInventionCostLbl
-        '
-        Me.lblAvgInventionCostLbl.AutoSize = true
-        Me.lblAvgInventionCostLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblAvgInventionCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblAvgInventionCostLbl.Location = New System.Drawing.Point(339, 140)
-        Me.lblAvgInventionCostLbl.Name = "lblAvgInventionCostLbl"
-        Me.lblAvgInventionCostLbl.Size = New System.Drawing.Size(82, 13)
-        Me.lblAvgInventionCostLbl.TabIndex = 197
-        Me.lblAvgInventionCostLbl.Text = "Unit Total Cost:"
-        '
-        'lblBatchProductionCost
-        '
-        Me.lblBatchProductionCost.AutoSize = true
-        Me.lblBatchProductionCost.BackColor = System.Drawing.Color.Transparent
-        Me.lblBatchProductionCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblBatchProductionCost.Location = New System.Drawing.Point(455, 114)
-        Me.lblBatchProductionCost.Name = "lblBatchProductionCost"
-        Me.lblBatchProductionCost.Size = New System.Drawing.Size(30, 13)
-        Me.lblBatchProductionCost.TabIndex = 196
-        Me.lblBatchProductionCost.Text = "0 Isk"
-        '
-        'lblBatchProductionCostLbl
-        '
-        Me.lblBatchProductionCostLbl.AutoSize = true
-        Me.lblBatchProductionCostLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblBatchProductionCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblBatchProductionCostLbl.Location = New System.Drawing.Point(339, 114)
-        Me.lblBatchProductionCostLbl.Name = "lblBatchProductionCostLbl"
-        Me.lblBatchProductionCostLbl.Size = New System.Drawing.Size(88, 13)
-        Me.lblBatchProductionCostLbl.TabIndex = 195
-        Me.lblBatchProductionCostLbl.Text = "Batch Prod Cost:"
-        '
-        'nudInventionSkill2
-        '
-        '
-        '
-        '
-        Me.nudInventionSkill2.BackgroundStyle.Class = "DateTimeInputBackground"
-        Me.nudInventionSkill2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.nudInventionSkill2.ButtonCustom.Text = "Reset"
-        Me.nudInventionSkill2.ButtonCustom.Visible = true
-        Me.nudInventionSkill2.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
-        Me.nudInventionSkill2.Location = New System.Drawing.Point(218, 114)
-        Me.nudInventionSkill2.LockUpdateChecked = false
-        Me.nudInventionSkill2.MaxValue = 5
-        Me.nudInventionSkill2.MinValue = 0
-        Me.nudInventionSkill2.Name = "nudInventionSkill2"
-        Me.nudInventionSkill2.ShowCheckBox = true
-        Me.nudInventionSkill2.ShowUpDown = true
-        Me.nudInventionSkill2.Size = New System.Drawing.Size(104, 21)
-        Me.nudInventionSkill2.TabIndex = 194
-        Me.nudInventionSkill2.Value = 5
-        Me.nudInventionSkill2.WatermarkEnabled = false
-        '
-        'nudInventionSkill3
-        '
-        '
-        '
-        '
-        Me.nudInventionSkill3.BackgroundStyle.Class = "DateTimeInputBackground"
-        Me.nudInventionSkill3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.nudInventionSkill3.ButtonCustom.Text = "Reset"
-        Me.nudInventionSkill3.ButtonCustom.Visible = true
-        Me.nudInventionSkill3.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
-        Me.nudInventionSkill3.Location = New System.Drawing.Point(218, 136)
-        Me.nudInventionSkill3.LockUpdateChecked = false
-        Me.nudInventionSkill3.MaxValue = 5
-        Me.nudInventionSkill3.MinValue = 0
-        Me.nudInventionSkill3.Name = "nudInventionSkill3"
-        Me.nudInventionSkill3.ShowCheckBox = true
-        Me.nudInventionSkill3.ShowUpDown = true
-        Me.nudInventionSkill3.Size = New System.Drawing.Size(104, 21)
-        Me.nudInventionSkill3.TabIndex = 193
-        Me.nudInventionSkill3.Value = 5
-        Me.nudInventionSkill3.WatermarkEnabled = false
-        '
-        'nudInventionSkill1
-        '
-        '
-        '
-        '
-        Me.nudInventionSkill1.BackgroundStyle.Class = "DateTimeInputBackground"
-        Me.nudInventionSkill1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.nudInventionSkill1.ButtonCustom.Text = "Reset"
-        Me.nudInventionSkill1.ButtonCustom.Visible = true
-        Me.nudInventionSkill1.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
-        Me.nudInventionSkill1.Location = New System.Drawing.Point(218, 92)
-        Me.nudInventionSkill1.LockUpdateChecked = false
-        Me.nudInventionSkill1.MaxValue = 5
-        Me.nudInventionSkill1.MinValue = 0
-        Me.nudInventionSkill1.Name = "nudInventionSkill1"
-        Me.nudInventionSkill1.ShowCheckBox = true
-        Me.nudInventionSkill1.ShowUpDown = true
-        Me.nudInventionSkill1.Size = New System.Drawing.Size(104, 21)
-        Me.nudInventionSkill1.TabIndex = 192
-        Me.nudInventionSkill1.Value = 5
-        Me.nudInventionSkill1.WatermarkEnabled = false
-        '
-        'lblSuccessCost
-        '
-        Me.lblSuccessCost.AutoSize = true
-        Me.lblSuccessCost.BackColor = System.Drawing.Color.Transparent
-        Me.lblSuccessCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblSuccessCost.Location = New System.Drawing.Point(455, 92)
-        Me.lblSuccessCost.Name = "lblSuccessCost"
-        Me.lblSuccessCost.Size = New System.Drawing.Size(35, 13)
-        Me.lblSuccessCost.TabIndex = 191
-        Me.lblSuccessCost.Text = "0 Isk"
-        '
-        'lblSuccessCostLbl
-        '
-        Me.lblSuccessCostLbl.AutoSize = true
-        Me.lblSuccessCostLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblSuccessCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblSuccessCostLbl.Location = New System.Drawing.Point(339, 92)
-        Me.lblSuccessCostLbl.Name = "lblSuccessCostLbl"
-        Me.lblSuccessCostLbl.Size = New System.Drawing.Size(83, 13)
-        Me.lblSuccessCostLbl.TabIndex = 190
-        Me.lblSuccessCostLbl.Text = "Success Cost:"
-        '
-        'lblAvgAttempts
-        '
-        Me.lblAvgAttempts.AutoSize = true
-        Me.lblAvgAttempts.BackColor = System.Drawing.Color.Transparent
-        Me.lblAvgAttempts.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblAvgAttempts.Location = New System.Drawing.Point(4, 186)
-        Me.lblAvgAttempts.Name = "lblAvgAttempts"
-        Me.lblAvgAttempts.Size = New System.Drawing.Size(164, 13)
-        Me.lblAvgAttempts.TabIndex = 189
-        Me.lblAvgAttempts.Text = "Average Attempts Until Success:"
-        '
-        'lblInventionBPCCost
-        '
-        Me.lblInventionBPCCost.AutoSize = true
-        Me.lblInventionBPCCost.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionBPCCost.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
-        Me.lblInventionBPCCost.Location = New System.Drawing.Point(455, 56)
-        Me.lblInventionBPCCost.Name = "lblInventionBPCCost"
-        Me.lblInventionBPCCost.Size = New System.Drawing.Size(30, 13)
-        Me.SuperTooltip1.SetSuperTooltip(Me.lblInventionBPCCost, New DevComponents.DotNetBar.SuperTooltipInfo("BPC Cost", "Click to edit this specific BPC Cost", "The BPC Cost is based on the minimum and maximum run prices set in the Prism Cost"& _ 
-            "s screen. The number of runs of the BPC used is taken into account when calculat"& _ 
-            "ing the final cost.", Global.EveHQ.Prism.My.Resources.Resources.Question32, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.lblInventionBPCCost.TabIndex = 188
-        Me.lblInventionBPCCost.TabStop = true
-        Me.lblInventionBPCCost.Text = "0 Isk"
-        '
-        'lblInventionBPCCostLbl
-        '
-        Me.lblInventionBPCCostLbl.AutoSize = true
-        Me.lblInventionBPCCostLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionBPCCostLbl.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
-        Me.lblInventionBPCCostLbl.Location = New System.Drawing.Point(339, 56)
-        Me.lblInventionBPCCostLbl.Name = "lblInventionBPCCostLbl"
-        Me.lblInventionBPCCostLbl.Size = New System.Drawing.Size(55, 13)
-        Me.SuperTooltip1.SetSuperTooltip(Me.lblInventionBPCCostLbl, New DevComponents.DotNetBar.SuperTooltipInfo("BPC Costs", "Click to edit BPC Costs", "The BPC Cost is based on the minimum and maximum run prices set in the Prism Cost"& _ 
-            "s screen. The number of runs of the BPC used is taken into account when calculat"& _ 
-            "ing the final cost.", Global.EveHQ.Prism.My.Resources.Resources.Question32, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.lblInventionBPCCostLbl.TabIndex = 187
-        Me.lblInventionBPCCostLbl.TabStop = true
-        Me.lblInventionBPCCostLbl.Text = "BPC Cost:"
-        '
-        'lblInventedBP
-        '
-        Me.lblInventedBP.AutoSize = true
-        Me.lblInventedBP.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventedBP.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventedBP.Location = New System.Drawing.Point(119, 199)
-        Me.lblInventedBP.Name = "lblInventedBP"
-        Me.lblInventedBP.Size = New System.Drawing.Size(73, 13)
-        Me.lblInventedBP.TabIndex = 186
-        Me.lblInventedBP.Text = "<not known>"
-        '
-        'lblInventionDecryptorCost
-        '
-        Me.lblInventionDecryptorCost.AutoSize = true
-        Me.lblInventionDecryptorCost.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionDecryptorCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionDecryptorCost.Location = New System.Drawing.Point(455, 17)
-        Me.lblInventionDecryptorCost.Name = "lblInventionDecryptorCost"
-        Me.lblInventionDecryptorCost.Size = New System.Drawing.Size(30, 13)
-        Me.lblInventionDecryptorCost.TabIndex = 185
-        Me.lblInventionDecryptorCost.Text = "0 Isk"
-        '
-        'lblInventionMetaItemCost
-        '
-        Me.lblInventionMetaItemCost.AutoSize = true
-        Me.lblInventionMetaItemCost.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionMetaItemCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionMetaItemCost.Location = New System.Drawing.Point(455, 30)
-        Me.lblInventionMetaItemCost.Name = "lblInventionMetaItemCost"
-        Me.lblInventionMetaItemCost.Size = New System.Drawing.Size(30, 13)
-        Me.lblInventionMetaItemCost.TabIndex = 184
-        Me.lblInventionMetaItemCost.Text = "0 Isk"
-        '
-        'lblInventionLabCosts
-        '
-        Me.lblInventionLabCosts.AutoSize = true
-        Me.lblInventionLabCosts.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionLabCosts.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionLabCosts.Location = New System.Drawing.Point(455, 43)
-        Me.lblInventionLabCosts.Name = "lblInventionLabCosts"
-        Me.lblInventionLabCosts.Size = New System.Drawing.Size(30, 13)
-        Me.lblInventionLabCosts.TabIndex = 183
-        Me.lblInventionLabCosts.Text = "0 Isk"
-        '
-        'lblInventionCost
-        '
-        Me.lblInventionCost.AutoSize = true
-        Me.lblInventionCost.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionCost.Location = New System.Drawing.Point(455, 69)
-        Me.lblInventionCost.Name = "lblInventionCost"
-        Me.lblInventionCost.Size = New System.Drawing.Size(30, 13)
-        Me.lblInventionCost.TabIndex = 182
-        Me.lblInventionCost.Text = "0 Isk"
-        '
-        'lblInventionBaseCost
-        '
-        Me.lblInventionBaseCost.AutoSize = true
-        Me.lblInventionBaseCost.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionBaseCost.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionBaseCost.Location = New System.Drawing.Point(455, 4)
-        Me.lblInventionBaseCost.Name = "lblInventionBaseCost"
-        Me.lblInventionBaseCost.Size = New System.Drawing.Size(30, 13)
-        Me.lblInventionBaseCost.TabIndex = 181
-        Me.lblInventionBaseCost.Text = "0 Isk"
-        '
-        'lblInventionLabCostsLbl
-        '
-        Me.lblInventionLabCostsLbl.AutoSize = true
-        Me.lblInventionLabCostsLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionLabCostsLbl.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
-        Me.lblInventionLabCostsLbl.Location = New System.Drawing.Point(339, 43)
-        Me.lblInventionLabCostsLbl.Name = "lblInventionLabCostsLbl"
-        Me.lblInventionLabCostsLbl.Size = New System.Drawing.Size(58, 13)
-        Me.SuperTooltip1.SetSuperTooltip(Me.lblInventionLabCostsLbl, New DevComponents.DotNetBar.SuperTooltipInfo("Lab Costs", "Click to edit Lab Costs", "Lab Costs comprise of two components: an amount for the original installation and"& _ 
-            " a cost per hour running cost.", Global.EveHQ.Prism.My.Resources.Resources.Question32, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.lblInventionLabCostsLbl.TabIndex = 180
-        Me.lblInventionLabCostsLbl.TabStop = true
-        Me.lblInventionLabCostsLbl.Text = "Lab Costs:"
-        '
-        'lblOverrideBPCRuns
-        '
-        Me.lblOverrideBPCRuns.AutoSize = true
-        Me.lblOverrideBPCRuns.BackColor = System.Drawing.Color.Transparent
-        Me.lblOverrideBPCRuns.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblOverrideBPCRuns.Location = New System.Drawing.Point(3, 78)
-        Me.lblOverrideBPCRuns.Name = "lblOverrideBPCRuns"
-        Me.lblOverrideBPCRuns.Size = New System.Drawing.Size(102, 13)
-        Me.lblOverrideBPCRuns.TabIndex = 179
-        Me.lblOverrideBPCRuns.Text = "Override BPC Runs:"
-        '
-        'lblBlueprintInventions
-        '
-        Me.lblBlueprintInventions.AutoSize = true
-        Me.lblBlueprintInventions.BackColor = System.Drawing.Color.Transparent
-        Me.lblBlueprintInventions.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblBlueprintInventions.Location = New System.Drawing.Point(3, 12)
-        Me.lblBlueprintInventions.Name = "lblBlueprintInventions"
-        Me.lblBlueprintInventions.Size = New System.Drawing.Size(62, 13)
-        Me.lblBlueprintInventions.TabIndex = 178
-        Me.lblBlueprintInventions.Text = "Inventions:"
-        '
-        'lblMetaItem
-        '
-        Me.lblMetaItem.AutoSize = true
-        Me.lblMetaItem.BackColor = System.Drawing.Color.Transparent
-        Me.lblMetaItem.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblMetaItem.Location = New System.Drawing.Point(3, 56)
-        Me.lblMetaItem.Name = "lblMetaItem"
-        Me.lblMetaItem.Size = New System.Drawing.Size(60, 13)
-        Me.lblMetaItem.TabIndex = 177
-        Me.lblMetaItem.Text = "Meta Item:"
-        '
-        'lblDecryptor
-        '
-        Me.lblDecryptor.AutoSize = true
-        Me.lblDecryptor.BackColor = System.Drawing.Color.Transparent
-        Me.lblDecryptor.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblDecryptor.Location = New System.Drawing.Point(3, 34)
-        Me.lblDecryptor.Name = "lblDecryptor"
-        Me.lblDecryptor.Size = New System.Drawing.Size(59, 13)
-        Me.lblDecryptor.TabIndex = 176
-        Me.lblDecryptor.Text = "Decryptor:"
-        '
-        'lblBaseChance
-        '
-        Me.lblBaseChance.AutoSize = true
-        Me.lblBaseChance.BackColor = System.Drawing.Color.Transparent
-        Me.lblBaseChance.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblBaseChance.Location = New System.Drawing.Point(4, 160)
-        Me.lblBaseChance.Name = "lblBaseChance"
-        Me.lblBaseChance.Size = New System.Drawing.Size(122, 13)
-        Me.lblBaseChance.TabIndex = 175
-        Me.lblBaseChance.Text = "Base Invention Chance:"
-        '
-        'lblInvSkill2
-        '
-        Me.lblInvSkill2.AutoSize = true
-        Me.lblInvSkill2.BackColor = System.Drawing.Color.Transparent
-        Me.lblInvSkill2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInvSkill2.Location = New System.Drawing.Point(3, 122)
-        Me.lblInvSkill2.Name = "lblInvSkill2"
-        Me.lblInvSkill2.Size = New System.Drawing.Size(86, 13)
-        Me.lblInvSkill2.TabIndex = 174
-        Me.lblInvSkill2.Text = "Invention Skill 2:"
-        '
-        'lblInvSkill3
-        '
-        Me.lblInvSkill3.AutoSize = true
-        Me.lblInvSkill3.BackColor = System.Drawing.Color.Transparent
-        Me.lblInvSkill3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInvSkill3.Location = New System.Drawing.Point(3, 144)
-        Me.lblInvSkill3.Name = "lblInvSkill3"
-        Me.lblInvSkill3.Size = New System.Drawing.Size(86, 13)
-        Me.lblInvSkill3.TabIndex = 173
-        Me.lblInvSkill3.Text = "Invention Skill 3:"
-        '
-        'lblInvSkill1
-        '
-        Me.lblInvSkill1.AutoSize = true
-        Me.lblInvSkill1.BackColor = System.Drawing.Color.Transparent
-        Me.lblInvSkill1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInvSkill1.Location = New System.Drawing.Point(3, 100)
-        Me.lblInvSkill1.Name = "lblInvSkill1"
-        Me.lblInvSkill1.Size = New System.Drawing.Size(86, 13)
-        Me.lblInvSkill1.TabIndex = 172
-        Me.lblInvSkill1.Text = "Invention Skill 1:"
-        '
-        'lblInventionCostLbl
-        '
-        Me.lblInventionCostLbl.AutoSize = true
-        Me.lblInventionCostLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionCostLbl.Location = New System.Drawing.Point(339, 69)
-        Me.lblInventionCostLbl.Name = "lblInventionCostLbl"
-        Me.lblInventionCostLbl.Size = New System.Drawing.Size(60, 13)
-        Me.lblInventionCostLbl.TabIndex = 171
-        Me.lblInventionCostLbl.Text = "Total Cost:"
-        '
-        'lblInventionMetaItemCostLbl
-        '
-        Me.lblInventionMetaItemCostLbl.AutoSize = true
-        Me.lblInventionMetaItemCostLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionMetaItemCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionMetaItemCostLbl.Location = New System.Drawing.Point(339, 30)
-        Me.lblInventionMetaItemCostLbl.Name = "lblInventionMetaItemCostLbl"
-        Me.lblInventionMetaItemCostLbl.Size = New System.Drawing.Size(58, 13)
-        Me.lblInventionMetaItemCostLbl.TabIndex = 170
-        Me.lblInventionMetaItemCostLbl.Text = "Item Cost:"
-        '
-        'lblInventionDecryptorCostLbl
-        '
-        Me.lblInventionDecryptorCostLbl.AutoSize = true
-        Me.lblInventionDecryptorCostLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionDecryptorCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionDecryptorCostLbl.Location = New System.Drawing.Point(339, 17)
-        Me.lblInventionDecryptorCostLbl.Name = "lblInventionDecryptorCostLbl"
-        Me.lblInventionDecryptorCostLbl.Size = New System.Drawing.Size(84, 13)
-        Me.lblInventionDecryptorCostLbl.TabIndex = 169
-        Me.lblInventionDecryptorCostLbl.Text = "Decryptor Cost:"
-        '
-        'lblInventionBaseCostLbl
-        '
-        Me.lblInventionBaseCostLbl.AutoSize = true
-        Me.lblInventionBaseCostLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionBaseCostLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionBaseCostLbl.Location = New System.Drawing.Point(339, 4)
-        Me.lblInventionBaseCostLbl.Name = "lblInventionBaseCostLbl"
-        Me.lblInventionBaseCostLbl.Size = New System.Drawing.Size(59, 13)
-        Me.lblInventionBaseCostLbl.TabIndex = 168
-        Me.lblInventionBaseCostLbl.Text = "Base Cost:"
-        '
-        'lblInventedBPLbl
-        '
-        Me.lblInventedBPLbl.AutoSize = true
-        Me.lblInventedBPLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventedBPLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventedBPLbl.Location = New System.Drawing.Point(4, 199)
-        Me.lblInventedBPLbl.Name = "lblInventedBPLbl"
-        Me.lblInventedBPLbl.Size = New System.Drawing.Size(105, 13)
-        Me.lblInventedBPLbl.TabIndex = 167
-        Me.lblInventedBPLbl.Text = "Invented BP Details:"
-        '
-        'lblInventionChance
-        '
-        Me.lblInventionChance.AutoSize = true
-        Me.lblInventionChance.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionChance.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionChance.Location = New System.Drawing.Point(4, 173)
-        Me.lblInventionChance.Name = "lblInventionChance"
-        Me.lblInventionChance.Size = New System.Drawing.Size(123, 13)
-        Me.lblInventionChance.TabIndex = 166
-        Me.lblInventionChance.Text = "Chance of Invention:"
-        '
-        'lblInventionTime
-        '
-        Me.lblInventionTime.AutoSize = true
-        Me.lblInventionTime.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionTime.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionTime.Location = New System.Drawing.Point(119, 212)
-        Me.lblInventionTime.Name = "lblInventionTime"
-        Me.lblInventionTime.Size = New System.Drawing.Size(18, 13)
-        Me.lblInventionTime.TabIndex = 165
-        Me.lblInventionTime.Text = "0s"
-        '
-        'lblInventionTimeLbl
-        '
-        Me.lblInventionTimeLbl.AutoSize = true
-        Me.lblInventionTimeLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblInventionTimeLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.lblInventionTimeLbl.Location = New System.Drawing.Point(4, 213)
-        Me.lblInventionTimeLbl.Name = "lblInventionTimeLbl"
-        Me.lblInventionTimeLbl.Size = New System.Drawing.Size(82, 13)
-        Me.lblInventionTimeLbl.TabIndex = 164
-        Me.lblInventionTimeLbl.Text = "Invention Time:"
-        '
-        'nudInventionBPCRuns
-        '
-        '
-        '
-        '
-        Me.nudInventionBPCRuns.BackgroundStyle.Class = "DateTimeInputBackground"
-        Me.nudInventionBPCRuns.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.nudInventionBPCRuns.ButtonCustom.Text = "Set Max"
-        Me.nudInventionBPCRuns.ButtonCustom.Visible = true
-        Me.nudInventionBPCRuns.ButtonCustom2.Text = "Set Min"
-        Me.nudInventionBPCRuns.ButtonCustom2.Visible = true
-        Me.nudInventionBPCRuns.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
-        Me.nudInventionBPCRuns.Location = New System.Drawing.Point(151, 70)
-        Me.nudInventionBPCRuns.LockUpdateChecked = false
-        Me.nudInventionBPCRuns.MaxValue = 1500
-        Me.nudInventionBPCRuns.MinValue = 1
-        Me.nudInventionBPCRuns.Name = "nudInventionBPCRuns"
-        Me.nudInventionBPCRuns.ShowCheckBox = true
-        Me.nudInventionBPCRuns.ShowUpDown = true
-        Me.nudInventionBPCRuns.Size = New System.Drawing.Size(171, 21)
-        Me.nudInventionBPCRuns.TabIndex = 162
-        Me.nudInventionBPCRuns.Value = 1
-        Me.nudInventionBPCRuns.WatermarkEnabled = false
-        '
-        'cboMetaItem
-        '
-        Me.cboMetaItem.DisplayMember = "Text"
-        Me.cboMetaItem.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboMetaItem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboMetaItem.FormattingEnabled = true
-        Me.cboMetaItem.ItemHeight = 15
-        Me.cboMetaItem.Location = New System.Drawing.Point(69, 48)
-        Me.cboMetaItem.Name = "cboMetaItem"
-        Me.cboMetaItem.Size = New System.Drawing.Size(253, 21)
-        Me.cboMetaItem.Sorted = true
-        Me.cboMetaItem.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboMetaItem.TabIndex = 4
-        Me.cboMetaItem.WatermarkBehavior = DevComponents.DotNetBar.eWatermarkBehavior.HideNonEmpty
-        Me.cboMetaItem.WatermarkColor = System.Drawing.Color.Silver
-        Me.cboMetaItem.WatermarkText = "Select a Meta Item to use..."
-        '
-        'cboDecryptor
-        '
-        Me.cboDecryptor.DisplayMember = "Text"
-        Me.cboDecryptor.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboDecryptor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboDecryptor.FormattingEnabled = true
-        Me.cboDecryptor.ItemHeight = 15
-        Me.cboDecryptor.Location = New System.Drawing.Point(69, 26)
-        Me.cboDecryptor.Name = "cboDecryptor"
-        Me.cboDecryptor.Size = New System.Drawing.Size(253, 21)
-        Me.cboDecryptor.Sorted = true
-        Me.cboDecryptor.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboDecryptor.TabIndex = 2
-        Me.cboDecryptor.WatermarkBehavior = DevComponents.DotNetBar.eWatermarkBehavior.HideNonEmpty
-        Me.cboDecryptor.WatermarkColor = System.Drawing.Color.Silver
-        Me.cboDecryptor.WatermarkText = "Select a Decryptor to use..."
-        '
-        'cboInventions
-        '
-        Me.cboInventions.DisplayMember = "Text"
-        Me.cboInventions.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboInventions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboInventions.FormattingEnabled = true
-        Me.cboInventions.ItemHeight = 15
-        Me.cboInventions.Location = New System.Drawing.Point(69, 4)
-        Me.cboInventions.Name = "cboInventions"
-        Me.cboInventions.Size = New System.Drawing.Size(253, 21)
-        Me.cboInventions.Sorted = true
-        Me.cboInventions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboInventions.TabIndex = 1
-        Me.cboInventions.WatermarkBehavior = DevComponents.DotNetBar.eWatermarkBehavior.HideNonEmpty
-        Me.cboInventions.WatermarkColor = System.Drawing.Color.Silver
-        Me.cboInventions.WatermarkText = "Select Blueprint to invent..."
-        '
-        'PPRInvention
-        '
-        Me.PPRInvention.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom)  _
-            Or System.Windows.Forms.AnchorStyles.Left)  _
-            Or System.Windows.Forms.AnchorStyles.Right),System.Windows.Forms.AnchorStyles)
-        Me.PPRInvention.BatchJob = Nothing
-        Me.PPRInvention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0,Byte))
-        Me.PPRInvention.InventionBP = Nothing
-        Me.PPRInvention.Location = New System.Drawing.Point(0, 229)
-        Me.PPRInvention.Name = "PPRInvention"
-        Me.PPRInvention.ProductionJob = Nothing
-        Me.PPRInvention.Size = New System.Drawing.Size(833, 296)
-        Me.PPRInvention.TabIndex = 0
-        '
-        'PACDecryptor
-        '
-        Me.PACDecryptor.Location = New System.Drawing.Point(429, 18)
-        Me.PACDecryptor.Name = "PACDecryptor"
-        Me.PACDecryptor.Price = 0R
-        Me.PACDecryptor.Size = New System.Drawing.Size(20, 12)
-        Me.PACDecryptor.TabIndex = 209
-        Me.PACDecryptor.TypeID = 0
-        '
-        'PACSalesPrice
-        '
-        Me.PACSalesPrice.Location = New System.Drawing.Point(429, 154)
-        Me.PACSalesPrice.Name = "PACSalesPrice"
-        Me.PACSalesPrice.Price = 0R
-        Me.PACSalesPrice.Size = New System.Drawing.Size(20, 12)
-        Me.PACSalesPrice.TabIndex = 208
-        Me.PACSalesPrice.TypeID = 0
-        '
-        'PACMetaItem
-        '
-        Me.PACMetaItem.Location = New System.Drawing.Point(429, 31)
-        Me.PACMetaItem.Name = "PACMetaItem"
-        Me.PACMetaItem.Price = 0R
-        Me.PACMetaItem.Size = New System.Drawing.Size(20, 12)
-        Me.PACMetaItem.TabIndex = 207
-        Me.PACMetaItem.TypeID = 0
-        '
-        'tiInvention
-        '
-        Me.tiInvention.AttachedControl = Me.tcpInvention
-        Me.tiInvention.Name = "tiInvention"
-        Me.tiInvention.Text = "Invention"
-        Me.tiInvention.Visible = false
-        '
-        'nudPELevel
-        '
-        '
-        '
-        '
-        Me.nudPELevel.BackgroundStyle.Class = "DateTimeInputBackground"
-        Me.nudPELevel.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.nudPELevel.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
-        Me.nudPELevel.Location = New System.Drawing.Point(275, 160)
-        Me.nudPELevel.MaxValue = 100000
-        Me.nudPELevel.MinValue = -10
-        Me.nudPELevel.Name = "nudPELevel"
-        Me.nudPELevel.ShowUpDown = true
-        Me.nudPELevel.Size = New System.Drawing.Size(80, 21)
-        Me.nudPELevel.TabIndex = 35
+        Me.nudTELevel.BackgroundStyle.Class = "DateTimeInputBackground"
+        Me.nudTELevel.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.nudTELevel.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
+        Me.nudTELevel.Increment = 2
+        Me.nudTELevel.Location = New System.Drawing.Point(275, 160)
+        Me.nudTELevel.MaxValue = 20
+        Me.nudTELevel.MinValue = 0
+        Me.nudTELevel.Name = "nudTELevel"
+        Me.nudTELevel.ShowUpDown = true
+        Me.nudTELevel.Size = New System.Drawing.Size(80, 21)
+        Me.nudTELevel.TabIndex = 35
         '
         'btnSaveProductionJobAs
         '
@@ -2413,8 +2353,8 @@ Namespace Forms
         Me.nudMELevel.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.nudMELevel.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
         Me.nudMELevel.Location = New System.Drawing.Point(90, 160)
-        Me.nudMELevel.MaxValue = 100000
-        Me.nudMELevel.MinValue = -10
+        Me.nudMELevel.MaxValue = 10
+        Me.nudMELevel.MinValue = 0
         Me.nudMELevel.Name = "nudMELevel"
         Me.nudMELevel.ShowUpDown = true
         Me.nudMELevel.Size = New System.Drawing.Size(80, 21)
@@ -2444,6 +2384,7 @@ Namespace Forms
         '
         'SuperTooltip1
         '
+        Me.SuperTooltip1.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Gray)
         Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         '
         'SaveJobDialogCheckBox
@@ -2480,11 +2421,6 @@ Namespace Forms
         CType(Me.nudCopyRuns,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.tabBPCalcFunctions,System.ComponentModel.ISupportInitialize).EndInit
         Me.tabBPCalcFunctions.ResumeLayout(false)
-        Me.tcpResearch.ResumeLayout(false)
-        Me.tcpResearch.PerformLayout
-        Me.tcpProduction.ResumeLayout(false)
-        Me.tcpProduction.PerformLayout
-        CType(Me.nudRuns,System.ComponentModel.ISupportInitialize).EndInit
         Me.tcpInvention.ResumeLayout(false)
         Me.tcpInvention.PerformLayout
         CType(Me.adtInventionProfits,System.ComponentModel.ISupportInitialize).EndInit
@@ -2492,20 +2428,25 @@ Namespace Forms
         CType(Me.nudInventionSkill3,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.nudInventionSkill1,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.nudInventionBPCRuns,System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.nudPELevel,System.ComponentModel.ISupportInitialize).EndInit
+        Me.tcpResearch.ResumeLayout(false)
+        Me.tcpResearch.PerformLayout
+        Me.tcpProduction.ResumeLayout(false)
+        Me.tcpProduction.PerformLayout
+        CType(Me.nudRuns,System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.nudTELevel,System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.nudMELevel,System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(false)
 
 End Sub
         Friend WithEvents lblBPMELbl As System.Windows.Forms.Label
-        Friend WithEvents lblBPPELbl As System.Windows.Forms.Label
+        Friend WithEvents lblBPTELbl As System.Windows.Forms.Label
         Friend WithEvents lblBPWFLbl As System.Windows.Forms.Label
         Friend WithEvents pbBP As System.Windows.Forms.PictureBox
-        Friend WithEvents lblPETimeLbl As System.Windows.Forms.Label
+        Friend WithEvents lblTETimeLbl As System.Windows.Forms.Label
         Friend WithEvents lblMETimeLbl As System.Windows.Forms.Label
         Friend WithEvents lblNewMELbl As System.Windows.Forms.Label
         Friend WithEvents LblNewWFLbl As System.Windows.Forms.Label
-        Friend WithEvents lblNewPELbl As System.Windows.Forms.Label
+        Friend WithEvents lblNewTELbl As System.Windows.Forms.Label
         Friend WithEvents txtNewWasteFactor As System.Windows.Forms.TextBox
         Friend WithEvents lblProdQuantityLbl As System.Windows.Forms.Label
         Friend WithEvents lblBatchSizeLbl As System.Windows.Forms.Label
@@ -2518,11 +2459,11 @@ End Sub
         Friend WithEvents lblResearchSkill As System.Windows.Forms.Label
         Friend WithEvents lblPESkill As System.Windows.Forms.Label
         Friend WithEvents lblIndustrySkill As System.Windows.Forms.Label
-        Friend WithEvents lblBPPE As System.Windows.Forms.Label
+        Friend WithEvents lblBPTE As System.Windows.Forms.Label
         Friend WithEvents lblBPWF As System.Windows.Forms.Label
         Friend WithEvents lblBPME As System.Windows.Forms.Label
         Friend WithEvents lblPilot As System.Windows.Forms.Label
-        Friend WithEvents lblPETime As System.Windows.Forms.Label
+        Friend WithEvents lblTETime As System.Windows.Forms.Label
         Friend WithEvents lblMETime As System.Windows.Forms.Label
         Friend WithEvents lblCopyTime As System.Windows.Forms.Label
         Friend WithEvents lblBPCopyTimeLbl As System.Windows.Forms.Label
@@ -2558,7 +2499,7 @@ End Sub
         Friend WithEvents gpProductionSkills As DevComponents.DotNetBar.Controls.GroupPanel
         Friend WithEvents gpResearchSkills As DevComponents.DotNetBar.Controls.GroupPanel
         Friend WithEvents cboIndustrySkill As DevComponents.DotNetBar.Controls.ComboBoxEx
-        Friend WithEvents cboProdEffSkill As DevComponents.DotNetBar.Controls.ComboBoxEx
+        Friend WithEvents cboAdvInvSkill As DevComponents.DotNetBar.Controls.ComboBoxEx
         Friend WithEvents cboScienceSkill As DevComponents.DotNetBar.Controls.ComboBoxEx
         Friend WithEvents cboResearchSkill As DevComponents.DotNetBar.Controls.ComboBoxEx
         Friend WithEvents cboMetallurgySkill As DevComponents.DotNetBar.Controls.ComboBoxEx
@@ -2585,7 +2526,7 @@ End Sub
         Friend WithEvents chkAdvancedLab As DevComponents.DotNetBar.Controls.CheckBoxX
         Friend WithEvents chkResearchAtPOS As DevComponents.DotNetBar.Controls.CheckBoxX
         Friend WithEvents nudCopyRuns As DevComponents.Editors.IntegerInput
-        Friend WithEvents nudPELevel As DevComponents.Editors.IntegerInput
+        Friend WithEvents nudTELevel As DevComponents.Editors.IntegerInput
         Friend WithEvents nudMELevel As DevComponents.Editors.IntegerInput
         Friend WithEvents nudRuns As DevComponents.Editors.IntegerInput
         Friend WithEvents cboPOSArrays As DevComponents.DotNetBar.Controls.ComboBoxEx
@@ -2601,7 +2542,6 @@ End Sub
         Friend WithEvents tiInvention As DevComponents.DotNetBar.TabItem
         Friend WithEvents cboInventions As DevComponents.DotNetBar.Controls.ComboBoxEx
         Friend WithEvents cboDecryptor As DevComponents.DotNetBar.Controls.ComboBoxEx
-        Friend WithEvents cboMetaItem As DevComponents.DotNetBar.Controls.ComboBoxEx
         Friend WithEvents nudInventionBPCRuns As DevComponents.Editors.IntegerInput
         Friend WithEvents lblBPMaxRuns As System.Windows.Forms.Label
         Friend WithEvents lblBPMaxRunsLbl As System.Windows.Forms.Label
@@ -2611,21 +2551,18 @@ End Sub
         Friend WithEvents lblInventionTimeLbl As System.Windows.Forms.Label
         Friend WithEvents lblInvSkill1 As System.Windows.Forms.Label
         Friend WithEvents lblInventionCostLbl As System.Windows.Forms.Label
-        Friend WithEvents lblInventionMetaItemCostLbl As System.Windows.Forms.Label
         Friend WithEvents lblInventionDecryptorCostLbl As System.Windows.Forms.Label
         Friend WithEvents lblInventionBaseCostLbl As System.Windows.Forms.Label
         Friend WithEvents lblInventedBPLbl As System.Windows.Forms.Label
         Friend WithEvents lblInventionChance As System.Windows.Forms.Label
         Friend WithEvents lblOverrideBPCRuns As System.Windows.Forms.Label
         Friend WithEvents lblBlueprintInventions As System.Windows.Forms.Label
-        Friend WithEvents lblMetaItem As System.Windows.Forms.Label
         Friend WithEvents lblDecryptor As System.Windows.Forms.Label
         Friend WithEvents lblBaseChance As System.Windows.Forms.Label
         Friend WithEvents lblInvSkill2 As System.Windows.Forms.Label
         Friend WithEvents lblInvSkill3 As System.Windows.Forms.Label
         Friend WithEvents lblInventionLabCostsLbl As System.Windows.Forms.LinkLabel
         Friend WithEvents lblInventionDecryptorCost As System.Windows.Forms.Label
-        Friend WithEvents lblInventionMetaItemCost As System.Windows.Forms.Label
         Friend WithEvents lblInventionLabCosts As System.Windows.Forms.Label
         Friend WithEvents lblInventionCost As System.Windows.Forms.Label
         Friend WithEvents lblInventionBaseCost As System.Windows.Forms.Label
@@ -2652,7 +2589,6 @@ End Sub
         Friend WithEvents lblTotalInventionProfitLbl As System.Windows.Forms.Label
         Friend WithEvents PACDecryptor As PriceAdjustmentControl
         Friend WithEvents PACSalesPrice As PriceAdjustmentControl
-        Friend WithEvents PACMetaItem As PriceAdjustmentControl
         Friend WithEvents adtInventionProfits As DevComponents.AdvTree.AdvTree
         Friend WithEvents colIPDecryptor As DevComponents.AdvTree.ColumnHeader
         Friend WithEvents colIPProfit As DevComponents.AdvTree.ColumnHeader

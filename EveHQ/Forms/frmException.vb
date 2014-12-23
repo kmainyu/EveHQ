@@ -72,40 +72,6 @@ Namespace Forms
             End Try
         End Sub
 
-        Private Sub btnSend_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSend.Click
-
-            Dim reportingUser As String = HQ.Settings.ErrorReportingName
-            Dim reportingEmail As String = HQ.Settings.ErrorReportingEmail
-
-            If (String.IsNullOrEmpty(reportingEmail) Or String.IsNullOrEmpty(reportingUser)) Then
-                MessageBox.Show("Your bug report cannot be filed as you have not set an email address and/or name in the Error Reporting settings.", "Submission Unsuccessful", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            End If
-
-            Try
-                Const BugEmailAddress As String = "bugs@evehq.net"
-                Const BugSmtpServer As String = "mail.evehq.net"
-
-                Dim subject As String = "EveHQ v" & My.Application.Info.Version.ToString & " Error! - " & lblError.Text
-                Dim message As String = "Error Message : " & lblError.Text & "\r\n" & "StackTrace :\r\n" & txtStackTrace.Text
-                Dim payload As New MailMessage(reportingEmail, BugEmailAddress, subject, message)
-                Dim client As New SmtpClient(BugSmtpServer)
-                client.Send(payload)
-
-                MessageBox.Show("Your bug report was successfully submitted and will be reviewed shortly.", "Submission Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Catch ex As Exception
-                Dim msg As String = "There was a problem submitting your bug report. The error was:" & ControlChars.CrLf & ex.Message
-                msg &= "If this error persists, please post the bug report on http://issues.evehq.net manually and make note in the report that sending the report through email failed.."
-                MessageBox.Show(msg, "Submission Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-
-            End Try
-            
-        End Sub
-
-        Private Sub frmException_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
-            btnSend.Visible = False
-            btnSend.Enabled = False
-        End Sub
-
         Private Sub btnContinue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnContinue.Click
             DialogResult = DialogResult.Ignore
         End Sub

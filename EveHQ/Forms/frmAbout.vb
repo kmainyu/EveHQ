@@ -61,28 +61,28 @@ Namespace Forms
             credits.Append("<table style='font-family: Tahoma; font-size: 10px;'>")
             credits.Append("<tr><td colspan=2 style='font-family: Tahoma; font-size: 12px;'><b><u>EveHQ Credits</u></b></td></tr>")
             credits.Append("<tr><td align='left' colspan=2>Lead Developer:</td></tr>")
-            credits.Append("<tr><td align='left' colspan=2>Quantix Blackstar</td></tr>")
+            credits.Append("<tr><td align='left' colspan=2><a href='https://gate.eveonline.com/Profile/Drailen' target='_blank'>Drailen</a></td></tr>")
             credits.Append("<tr><td align='left' colspan=2>Current Contributors:</td></tr>")
-            credits.Append("<tr><td align='left' colspan=2>Rob Crowley (Arkan), Quantix Blackstar, Vessper</td></tr>")
+            credits.Append("<tr><td align='left' colspan=2>Drailen, Warlof Tutsimo</td></tr>")
             credits.Append("<tr><td align='left' colspan=2>Former Contributors:</td></tr>")
-            credits.Append("<tr><td align='left' colspan=2>Darkwolf, Darmed Khan, Eowarian, farlin, geniusfreak, Mdram, Modescond, MoWe79, MrCue, Nauvus3x7, Saulvin, Taedrin, Thorien</td></tr>")
+            credits.Append("<tr><td align='left' colspan=2>Darkwolf, Darmed Khan, Eowarian, farlin, geniusfreak, Mdram, Modescond, MoWe79, MrCue, Nauvus3x7, Quantix Blackstar, Rob Crowley, Saulvin, Taedrin, Thorien</td></tr>")
             credits.Append("<tr><td colspan=2><br /></td></tr>")
             credits.Append("<tr><td align='left' colspan=2>EveHQ Created By:</td></tr>")
-            credits.Append("<tr><td align='left' colspan=2>Vessper</td></tr>")
+            credits.Append("<tr><td align='left' colspan=2><a href='https://gate.eveonline.com/Profile/Drailen' target='_blank'>Drailen</a></td></tr>")
             credits.Append("<tr><td colspan=2><br /></td></tr>")
             credits.Append("<tr><td align='left' colspan=2>EVECacheParser Library By:</td></tr>")
             credits.Append("<tr><td align='left' colspan=2>Desmont McCallock</td></tr>")
             credits.Append("<tr><td colspan=2><br /></td></tr>")
             credits.Append("<tr><td>Artwork</td><td align='right'><a href='http://foxgguy2001.deviantart.com' target='_blank'>Foxgguy2001</a></td></tr>")
             credits.Append("<tr><td colspan=2><br /></td></tr>")
-            credits.Append("<tr><td colspan=2>Isk donations to Quantix Blackstar gratefully accepted! Alternatively, help fund EveHQ development by <a href='http://pledgie.com/campaigns/18228' target='_blank'>donating to cover costs</a>.</td></tr>")
+            credits.Append("<tr><td colspan=2>Isk donations to <a href='https://gate.eveonline.com/Profile/Drailen' target='_blank'>Drailen</a> gratefully accepted! Alternatively, help fund EveHQ development by <a href='https://pledgie.com/campaigns/26849' target='_blank'>donating to cover costs.</a></td></tr>")
             credits.Append("</table></body></html>")
             wbCredits.DocumentText = credits.ToString
         End Sub
 
         Private Sub lblEveHQLink_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblEveHQLink.LinkClicked
             Try
-                Process.Start("http://www.evehq.net")
+                Process.Start("http://newedentech.com")
             Catch ex As Exception
                 MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End Try

@@ -105,6 +105,7 @@
     <Compile Include="Classes\Charges.vb" />
     <Compile Include="Classes\DNAFitting.vb" />
     <Compile Include="Classes\IGBData.vb" />
+    <Compile Include="Classes\ShipModes.vb" />
     <Compile Include="Forms\frmShipSelection.Designer.vb">
       <DependentUpon>frmShipSelection.vb</DependentUpon>
     </Compile>
@@ -503,6 +504,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ShipModeBonuses.csv" />
     <None Include="Resources\icon17_04.png" />
   </ItemGroup>
   <ItemGroup>
@@ -652,6 +654,10 @@
     <None Include="Resources\offline.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\target.png" />
+    <None Include="Resources\speed.png" />
+    <None Include="Resources\105_32_12.png" />
+    <None Include="Resources\defence.png" />
     <Content Include="Resources\icon01_16.png" />
     <Content Include="Resources\icon53_16.png" />
   </ItemGroup>

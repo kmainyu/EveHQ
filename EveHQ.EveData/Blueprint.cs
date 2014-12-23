@@ -63,7 +63,6 @@ namespace EveHQ.EveData
         {
             Resources = new Dictionary<int, Dictionary<int, BlueprintResource>>();
             Inventions = new Collection<int>();
-            InventionMetaItems = new Collection<int>();
             InventFrom = new Collection<int>();
         }
 
@@ -158,15 +157,15 @@ namespace EveHQ.EveData
         public Collection<int> Inventions { get; set; }
 
         /// <summary>
-        ///     Gets or sets the invention meta items.
-        /// </summary>
-        [ProtoMember(16)]
-        public Collection<int> InventionMetaItems { get; set; }
-
-        /// <summary>
         ///     Gets or sets the items IDs that this blueprint can be invented from.
         /// </summary>
-        [ProtoMember(17)]
+        [ProtoMember(16)]
         public Collection<int> InventFrom { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the invention probability.
+        /// </summary>
+        [ProtoMember(17)]
+        public double InventionProbability { get; set; }
     }
 }

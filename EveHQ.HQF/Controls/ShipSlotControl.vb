@@ -252,16 +252,16 @@ Namespace Controls
 
             ' Get the base ship ID, for custom ships, this will need to be the hull on which the custom ship is based on
             ' Fixes EVEHQ-178
-            Dim baseShipID As Integer
+            Dim baseShipId As Integer
             If StaticData.Types.ContainsKey(CInt(ParentFitting.BaseShip.ID)) Then
-                baseShipID = ParentFitting.BaseShip.ID
+                baseShipId = ParentFitting.BaseShip.ID
             Else
                 If CustomHQFClasses.CustomShipIDs.ContainsKey(ParentFitting.BaseShip.ID) Then
                     If _
                         StaticData.TypeNames.ContainsKey(
                             CustomHQFClasses.CustomShips(CustomHQFClasses.CustomShipIDs(ParentFitting.BaseShip.ID)).
                                                             BaseShipName) Then
-                        baseShipID =
+                        baseShipId =
                             StaticData.TypeNames(
                                 CustomHQFClasses.CustomShips(CustomHQFClasses.CustomShipIDs(ParentFitting.BaseShip.ID)).
                                                     BaseShipName)
@@ -270,8 +270,8 @@ Namespace Controls
             End If
 
             ' Add the baseShipID, but only if not zero
-            If baseShipID <> 0 Then
-                itemIds.Add(CInt(baseShipID))
+            If baseShipId <> 0 Then
+                itemIds.Add(CInt(baseShipId))
             End If
 
             ' add in the HiSlot items
@@ -322,35 +322,35 @@ Namespace Controls
 
             priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of Integer, Double)))
 
-                'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
-                If IsHandleCreated Then
+                                       'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                       If IsHandleCreated Then
 
 
-                    Dim prices As Dictionary(Of Integer, Double) = currentTask.Result
+                                           Dim prices As Dictionary(Of Integer, Double) = currentTask.Result
 
-                    ' call back to main thread to update UI
-                    Invoke(Sub()
-                        ' update the values
-                        ' base ship price
-                        If baseShipID <> 0 Then
-                            ParentFitting.BaseShip.MarketPrice = prices(CInt(baseShipID))
-                              End If
-                        ' the sum of all the modules except the ship item.
-                        Dim total As Double =
-                                prices.Sum(
-                                    Function(itemPrice) _
-                                              itemPrice.Value*(From id In itemIds Where id = itemPrice.Key).Count())
+                                           ' call back to main thread to update UI
+                                           Invoke(Sub()
+                                                      ' update the values
+                                                      ' base ship price
+                                                      If baseShipId <> 0 Then
+                                                          ParentFitting.BaseShip.MarketPrice = prices(CInt(baseShipId))
+                                                      End If
+                                                      ' the sum of all the modules except the ship item.
+                                                      Dim total As Double =
+                                                              prices.Sum(
+                                                                  Function(itemPrice) _
+                                                                            itemPrice.Value * (From id In itemIds Where id = itemPrice.Key).Count())
 
-                        ParentFitting.BaseShip.FittingMarketPrice = total
+                                                      ParentFitting.BaseShip.FittingMarketPrice = total
 
-                        lblShipMarketPrice.Text = "Ship Price: " &
-                                                  ParentFitting.BaseShip.MarketPrice.ToInvariantString("N2")
-                        lblFittingMarketPrice.Text = "Total Price: " &
-                                                     (ParentFitting.BaseShip.FittingMarketPrice).
-                                                         ToInvariantString("N2")
-                              End Sub)
-                                      End If
-                                      End Sub)
+                                                      lblShipMarketPrice.Text = "Ship Price: " &
+                                                                                ParentFitting.BaseShip.MarketPrice.ToInvariantString("N2")
+                                                      lblFittingMarketPrice.Text = "Total Price: " &
+                                                                                   (ParentFitting.BaseShip.FittingMarketPrice).
+                                                                                       ToInvariantString("N2")
+                                                  End Sub)
+                                       End If
+                                   End Sub)
         End Sub
 
         Public Sub UpdateAllSlotLocations()
@@ -458,6 +458,7 @@ Namespace Controls
         
         ''' <summary>
         '''     Draws placeholders for the ship slots
+        '''     Also update ship mode switch availability
         ''' </summary>
         ''' <remarks></remarks>
         Public Sub UpdateShipSlotLayout()
@@ -574,6 +575,24 @@ Namespace Controls
 
             adtSlots.EndUpdate()
 
+            ' Update ship mode switch
+            Dim shipModeVisible = ParentFitting.BaseShip.Attributes.ContainsKey(1985)
+            lblShipMode.Visible = shipModeVisible
+            btnShipMode0.Visible = shipModeVisible
+            btnShipMode1.Visible = shipModeVisible
+            btnShipMode2.Visible = shipModeVisible
+            btnShipMode3.Visible = shipModeVisible
+            Select Case ParentFitting.ShipMode
+                Case ShipModes.None
+                    btnShipMode0.Checked = True
+                Case ShipModes.Defence
+                    btnShipMode1.Checked = True
+                Case ShipModes.Sharpshooting
+                    btnShipMode2.Checked = True
+                Case ShipModes.Propulsion
+                    btnShipMode3.Checked = True
+            End Select
+            
             ' Update details
             Call UpdateSlotNumbers()
             Call UpdatePrices()
@@ -2396,7 +2415,6 @@ Namespace Controls
                     charlist.Add(letter)
                 End If
             Next
-
             ToolTip1.SetToolTip(pbShipInfo, SquishText(charlist.ToArray()))
         End Sub
 
@@ -4282,28 +4300,30 @@ Namespace Controls
             Dim shipSkills As New ArrayList
             Dim affects(10) As String
             ctxShipSkills.Items.Clear()
-            For Each affect As String In ParentFitting.BaseShip.GlobalAffects
-                If affect.Contains(";Skill;") = True Then
-                    affects = affect.Split((";").ToCharArray)
-                    If relGlobalSkills.Contains(affects(0)) = False Then
-                        relGlobalSkills.Add(affects(0))
+            If ParentFitting.BaseShip.GlobalAffects IsNot Nothing Then
+                For Each affect As String In ParentFitting.BaseShip.GlobalAffects
+                    If affect.Contains(";Skill;") = True Then
+                        affects = affect.Split((";").ToCharArray)
+                        If relGlobalSkills.Contains(affects(0)) = False Then
+                            relGlobalSkills.Add(affects(0))
+                        End If
                     End If
-                End If
-                If affect.Contains(";Ship Bonus;") = True Then
-                    affects = affect.Split((";").ToCharArray)
-                    If ParentFitting.ShipName = affects(0) Then
+                    If affect.Contains(";Ship Bonus;") = True Then
+                        affects = affect.Split((";").ToCharArray)
+                        If ParentFitting.ShipName = affects(0) Then
+                            If relGlobalSkills.Contains(affects(3)) = False Then
+                                relGlobalSkills.Add(affects(3))
+                            End If
+                        End If
+                    End If
+                    If affect.Contains(";Subsystem;") = True Then
+                        affects = affect.Split((";").ToCharArray)
                         If relGlobalSkills.Contains(affects(3)) = False Then
                             relGlobalSkills.Add(affects(3))
                         End If
                     End If
-                End If
-                If affect.Contains(";Subsystem;") = True Then
-                    affects = affect.Split((";").ToCharArray)
-                    If relGlobalSkills.Contains(affects(3)) = False Then
-                        relGlobalSkills.Add(affects(3))
-                    End If
-                End If
-            Next
+                Next
+            End If
             relGlobalSkills.Sort()
             For Each affect As String In ParentFitting.BaseShip.Affects
                 If affect.Contains(";Skill;") = True Then
@@ -4353,7 +4373,7 @@ Namespace Controls
                             ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK,
                             MessageBoxIcon.Information)
                     End If
-                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString),
+                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), 
                                               Image)
                     For skillLevel As Integer = 0 To 5
                         Dim newRelSkillLevel As New ToolStripMenuItem
@@ -4406,7 +4426,7 @@ Namespace Controls
                             ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK,
                             MessageBoxIcon.Information)
                     End If
-                    newShipSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString),
+                    newShipSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), 
                                                Image)
                     For skillLevel As Integer = 0 To 5
                         Dim newRelSkillLevel As New ToolStripMenuItem
@@ -5159,6 +5179,30 @@ Namespace Controls
         End Sub
 
 #End Region
+
+#Region "Ship Button Methods"
+
+        Private Sub btnShipMode_Click(sender As Object, e As EventArgs) Handles btnShipMode0.Click, btnShipMode1.Click, btnShipMode2.Click, btnShipMode3.Click
+            Call ShipModeSelection(sender)
+        End Sub
+
+        Private Sub ShipModeSelection(sender As Object)
+            Dim btn As ButtonX = CType(sender, ButtonX)
+            btnShipMode0.Checked = False
+            btnShipMode1.Checked = False
+            btnShipMode2.Checked = False
+            btnShipMode3.Checked = False
+            btn.Checked = True
+            Dim mode As Integer = CInt(btn.Name.Substring(btn.Name.Length - 1, 1))
+            ParentFitting.ShipMode = CType(mode, ShipModes)
+            If _updateAll = False Then
+                ParentFitting.ApplyFitting(BuildType.BuildEverything)
+            End If
+        End Sub
+
+#End Region
+
+
     End Class
 
     Public Class UndoInfo

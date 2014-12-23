@@ -96,6 +96,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseFunctions.vb" />
     <Compile Include="frmCacheCreator.Designer.vb">
       <DependentUpon>frmCacheCreator.vb</DependentUpon>
     </Compile>

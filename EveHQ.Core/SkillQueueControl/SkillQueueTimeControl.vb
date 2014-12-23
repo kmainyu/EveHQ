@@ -78,15 +78,16 @@ Namespace SkillQueueControl
             Dim g As Graphics = panelSQT.CreateGraphics
             Const Sx As Integer = 2
             Const Sy As Integer = 16
+            Dim queueTimeLength As Integer = HQ.Settings.EveQueueDisplayLength * 86400
             ' Calculate number of seconds from now till start
             For Each queuedSkill As EveHQPilotQueuedSkill In _queuedSkills.Values
                 If SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now Then
                     Dim startSpan As TimeSpan = SkillFunctions.ConvertEveTimeToLocal(queuedSkill.StartTime) - Now
-                    Dim startSec As Double = Math.Min(startSpan.TotalSeconds, 86400)
+                    Dim startSec As Double = Math.Min(startSpan.TotalSeconds, queueTimeLength)
                     Dim endSpan As TimeSpan = SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) - Now
-                    Dim endSec As Double = Math.Min(endSpan.TotalSeconds, 86400)
-                    Dim startMark As Integer = Math.Max(CInt(startSec / 86400 * (panelSQT.Width - 4)), 0)
-                    Dim endMark As Integer = CInt(endSec / 86400 * (panelSQT.Width - 4))
+                    Dim endSec As Double = Math.Min(endSpan.TotalSeconds, queueTimeLength)
+                    Dim startMark As Integer = Math.Max(CInt(startSec / queueTimeLength * (panelSQT.Width - 4)), 0)
+                    Dim endMark As Integer = CInt(endSec / queueTimeLength * (panelSQT.Width - 4))
                     If Math.IEEERemainder(queuedSkill.Position, 2) = 0 Then
                         g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(Sx + startMark, Sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
                     Else
@@ -101,23 +102,38 @@ Namespace SkillQueueControl
         End Sub
 
         Private Sub DrawMarks()
+            Dim gFont As New Font("Tahoma", 6)
             Dim g As Graphics = panelSQT.CreateGraphics
             Const Sx As Integer = 2
             Const Sy As Integer = 34
             Dim cx As Integer
-            g.DrawLine(Pens.Silver, Sx, Sy, Sx, Sy + 6)
-            g.DrawLine(Pens.Silver, panelSQT.Width - 4, Sy, panelSQT.Width - 4, Sy + 6)
-            For timeMark As Integer = 1 To 23
+            Dim queueTimeLength As Integer = HQ.Settings.EveQueueDisplayLength * 24
+            Dim stepAmount As Integer
+            Select Case HQ.Settings.EveQueueDisplayLength
+                Case 1 To 2
+                    stepAmount = 1
+                Case 3 To 4
+                    stepAmount = 2
+                Case 5 To 8
+                    stepAmount = 3
+                Case Is > 8
+                    stepAmount = 6
+            End Select
+            For timeMark As Integer = 0 To queueTimeLength Step stepAmount
                 cx = (panelSQT.Width - 4)
                 If Math.IEEERemainder(timeMark, 6) = 0 Then
-                    g.DrawLine(Pens.Silver, CInt(cx / 24 * timeMark), Sy, CInt(cx / 24 * timeMark), Sy + 6)
+                    g.DrawLine(Pens.Silver, CInt(cx / queueTimeLength * timeMark), Sy, CInt(cx / queueTimeLength * timeMark), Sy + 2)
                 Else
-                    g.DrawLine(Pens.Silver, CInt(cx / 24 * timeMark), Sy, CInt(cx / 24 * timeMark), Sy + 3)
+                    g.DrawLine(Pens.Silver, CInt(cx / queueTimeLength * timeMark), Sy, CInt(cx / queueTimeLength * timeMark), Sy + 4)
+                End If
+                If Math.IEEERemainder(timeMark, 24) = 0 Then
+                    If HQ.Settings.EveQueueDisplayLength > 7 Then
+                        g.DrawString((timeMark / 24).ToString, gFont, Brushes.Silver, CInt(cx / queueTimeLength * timeMark) - g.MeasureString((timeMark / 24).ToString, gFont).Width / 2, 36)
+                    Else
+                        g.DrawString(timeMark.ToString, gFont, Brushes.Silver, CInt(cx / queueTimeLength * timeMark) - g.MeasureString(timeMark.ToString, gFont).Width / 2, 36)
+                    End If
                 End If
             Next
-            Dim gFont As New Font("Tahoma", 6)
-            g.DrawString("0", gFont, Brushes.Silver, Sx + 2, 35)
-            g.DrawString("24", gFont, Brushes.Silver, panelSQT.Width - 15, 35)
         End Sub
 
         Private Sub panelSQT_Paint(ByVal sender As Object, ByVal e As PaintEventArgs) Handles panelSQT.Paint

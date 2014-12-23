@@ -2157,7 +2157,7 @@ Namespace Forms
                 .Title = "Select EveMon Plan file..."
                 .FileName = ""
                 .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-                .Filter = "EveMon Plan Files (*.emp)|*.emp|All Files (*.*)|*.*"
+                .Filter = "EveMon Plan Files (*.emp)|*.emp|XML Plan Files (*.xml)|*.xml"
                 .FilterIndex = 1
                 .RestoreDirectory = True
                 If .ShowDialog() = DialogResult.OK Then
@@ -2166,21 +2166,30 @@ Namespace Forms
                         Exit Sub
                     Else
                         ' Open the file for reading
-                        Dim planXML As New XmlDocument
+                        Dim planXml As New XmlDocument
                         Try
-                            ' UnGZip the file
-                            Dim fs As FileStream = New FileStream(.FileName, FileMode.Open, FileAccess.Read)
-                            Dim compstream As New GZipStream(fs, CompressionMode.Decompress)
-                            Dim sr As New StreamReader(compstream)
-                            Dim strEmp As String = sr.ReadToEnd()
-                            sr.Close()
-                            fs.Close()
-                            planXML.LoadXml(strEmp)
+                            If My.Computer.FileSystem.FileExists(.FileName) Then
+                                Dim fi As New FileInfo(.FileName)
+                                Select Case fi.Extension
+                                    Case ".emp"
+                                        ' UnGZip the file
+                                        Dim fs As FileStream = New FileStream(.FileName, FileMode.Open, FileAccess.Read)
+                                        Dim compstream As New GZipStream(fs, CompressionMode.Decompress)
+                                        Dim sr As New StreamReader(compstream)
+                                        Dim strEmp As String = sr.ReadToEnd()
+                                        sr.Close()
+                                        fs.Close()
+                                        planXml.LoadXml(strEmp)
+                                    Case ".xml"
+                                        planXml.Load(.FileName)
+                                End Select
+                            End If
                         Catch ex As Exception
                             MessageBox.Show("Unable to read file data. Please check the file is not corrupted and you have permissions to access this file", "File Access Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Exit Sub
                         End Try
                         ' Get the list of skills from the plan
-                        Dim skillList As XmlNodeList = planXML.SelectNodes("/plan/entry")
+                        Dim skillList As XmlNodeList = planXml.SelectNodes("/plan/entry")
                         Dim planSkills As New Dictionary(Of String, Integer)
                         For Each skill As XmlNode In skillList
                             Dim skillName As String = skill.Attributes.GetNamedItem("skill").Value
@@ -2194,10 +2203,12 @@ Namespace Forms
                             End If
                         Next
                         ' Get a dialog for the new skills
-                        Using selectQueue As New FrmSelectQueue(_displayPilot.Name, planSkills, "Import from EveMon")
-                            selectQueue.ShowDialog()
-                        End Using
-                        Call RefreshAllTraining()
+                        If planSkills.Count > 0 Then
+                            Using selectQueue As New FrmSelectQueue(_displayPilot.Name, planSkills, "Import from EveMon")
+                                selectQueue.ShowDialog()
+                            End Using
+                            Call RefreshAllTraining()
+                        End If
                     End If
                 End If
             End With
@@ -2288,29 +2299,33 @@ Namespace Forms
                         End If
                     Next
 
-                    ' Form a string of the XML
-                    Dim strXML As String = empxml.InnerXml
-
                     ' Get a file name
                     Dim sfd1 As New SaveFileDialog
                     With sfd1
                         .Title = "Save as EveMon Plan File..."
                         .FileName = ""
                         .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-                        .Filter = "EveMon Plan Files (*.emp)|*.emp|All Files (*.*)|*.*"
+                        .Filter = "EveMon Plan Files (*.emp)|*.emp|XML Plan Files (*.xml)|*.xml"
                         .FilterIndex = 1
                         .RestoreDirectory = True
                         If .ShowDialog() = DialogResult.OK Then
                             If .FileName <> "" Then
-                                ' Output the file as GZip
-                                Dim buffer() As Byte
-                                Dim enc As New ASCIIEncoding
-                                buffer = enc.GetBytes(strXML)
-                                Dim outfile As FileStream = File.Create(.FileName)
-                                Dim gzipStream As New GZipStream(outfile, CompressionMode.Compress)
-                                gzipStream.Write(buffer, 0, buffer.Length)
-                                gzipStream.Flush()
-                                gzipStream.Close()
+                                Select Case .FilterIndex
+                                    Case 1
+                                        ' Form a string of the XML
+                                        Dim strXml As String = empxml.InnerXml
+                                        ' Output the file as GZip
+                                        Dim buffer() As Byte
+                                        Dim enc As New ASCIIEncoding
+                                        buffer = enc.GetBytes(strXml)
+                                        Dim outfile As FileStream = File.Create(.FileName)
+                                        Dim gzipStream As New GZipStream(outfile, CompressionMode.Compress)
+                                        gzipStream.Write(buffer, 0, buffer.Length)
+                                        gzipStream.Flush()
+                                        gzipStream.Close()
+                                    Case 2
+                                        empxml.Save(.FileName)
+                                End Select
                             End If
                         End If
                     End With

@@ -69,81 +69,86 @@ Namespace Forms
 
         Private Sub DisplayTargetSpeedGraph()
 
-            ' Create series
-            Chart1.Series.Clear()
-            Chart1.Series.Add("LockTime")
-            Chart1.Series.Add("Ships")
+            If _cShipType.ScanResolution > 0 Then
 
-            ' Set chart type and styles
-            Chart1.Series("LockTime").ChartType = SeriesChartType.FastLine
-            Chart1.Series("Ships").ChartType = SeriesChartType.Point
-            Chart1.Series("Ships").IsValueShownAsLabel = False
-            Chart1.Series("Ships")("LabelStyle") = "TopRight"
-            Chart1.Series("Ships").MarkerSize = 15
-            Chart1.Series("Ships").MarkerStyle = MarkerStyle.Cross
-            Chart1.Series("LockTime").XAxisType = AxisType.Primary
-            Chart1.Series("Ships").XAxisType = AxisType.Primary
-            Chart1.ChartAreas("Default").AxisX.Minimum = 0
-            Chart1.ChartAreas("Default").AxisX.Maximum = 500
-            Chart1.ChartAreas("Default").AxisY.Minimum = 0
-            Chart1.ChartAreas("Default").AxisY.Maximum = Int(LockTime(10)) + 1
-            Chart1.ChartAreas("Default").AxisX2.Minimum = 0
-            Chart1.ChartAreas("Default").AxisX2.Maximum = 500
-            Chart1.ChartAreas("Default").AxisY2.Minimum = 0
-            Chart1.ChartAreas("Default").AxisY2.Maximum = Int(LockTime(10)) + 1
-            Chart1.ChartAreas("Default").AxisX.LabelStyle.Format = "N2"
-            Chart1.ChartAreas("Default").AxisY.LabelStyle.Format = "N2"
-            Chart1.ChartAreas("Default").CursorX.Interval = 0
-            Chart1.ChartAreas("Default").CursorY.Interval = 0
-            Chart1.Series("LockTime").ToolTip = "Sig Radius: #VALXm\nLock Time: #VALYs"
-           
-            Chart1.Titles(0).Text = "Targeting Speed Analysis - " & _cShipType.Name & " (" & _cShipType.ScanResolution.ToString("N2") & "mm)"
+                ' Create series
+                Chart1.Series.Clear()
+                Chart1.Series.Add("LockTime")
+                Chart1.Series.Add("Ships")
 
-            Dim p As Double, x As Double, y As Double
-            For p = 1 To 10000 ' Signature radius
-                x = p / 5
-                y = LockTime(x)
+                ' Set chart type and styles
+                Chart1.Series("LockTime").ChartType = SeriesChartType.FastLine
+                Chart1.Series("Ships").ChartType = SeriesChartType.Point
+                Chart1.Series("Ships").IsValueShownAsLabel = False
+                Chart1.Series("Ships")("LabelStyle") = "TopRight"
+                Chart1.Series("Ships").MarkerSize = 15
+                Chart1.Series("Ships").MarkerStyle = MarkerStyle.Cross
+                Chart1.Series("LockTime").XAxisType = AxisType.Primary
+                Chart1.Series("Ships").XAxisType = AxisType.Primary
+                Chart1.ChartAreas("Default").AxisX.Minimum = 0
+                Chart1.ChartAreas("Default").AxisX.Maximum = 500
+                Chart1.ChartAreas("Default").AxisY.Minimum = 0
+                Chart1.ChartAreas("Default").AxisY.Maximum = Int(LockTime(10)) + 1
+                Chart1.ChartAreas("Default").AxisX2.Minimum = 0
+                Chart1.ChartAreas("Default").AxisX2.Maximum = 500
+                Chart1.ChartAreas("Default").AxisY2.Minimum = 0
+                Chart1.ChartAreas("Default").AxisY2.Maximum = Int(LockTime(10)) + 1
+                Chart1.ChartAreas("Default").AxisX.LabelStyle.Format = "N2"
+                Chart1.ChartAreas("Default").AxisY.LabelStyle.Format = "N2"
+                Chart1.ChartAreas("Default").CursorX.Interval = 0
+                Chart1.ChartAreas("Default").CursorY.Interval = 0
+                Chart1.Series("LockTime").ToolTip = "Sig Radius: #VALXm\nLock Time: #VALYs"
 
-                Chart1.Series("LockTime").Points.AddXY(x, y)
+                Chart1.Titles(0).Text = "Targeting Speed Analysis - " & _cShipType.Name & " (" & _cShipType.ScanResolution.ToString("N2") & "mm)"
 
-                Select Case x
-                    Case 25 ' Pod
-                        Dim sp As New DataPoint
-                        sp.SetValueXY(x, y)
-                        sp.Label = "Pod"
-                        Chart1.Series("Ships").Points.Add(sp)
-                    Case 35 ' Crow
-                        Dim sp As New DataPoint
-                        sp.SetValueXY(x, y)
-                        sp.Label = "Crow"
-                        Chart1.Series("Ships").Points.Add(sp)
-                    Case 49 ' Helios
-                        Dim sp As New DataPoint
-                        sp.SetValueXY(x, y)
-                        sp.Label = "Helios"
-                        Chart1.Series("Ships").Points.Add(sp)
-                    Case 125 ' Zealot
-                        Dim sp As New DataPoint
-                        sp.SetValueXY(x, y)
-                        sp.Label = "Zealot"
-                        Chart1.Series("Ships").Points.Add(sp)
-                    Case 180 ' Falcon
-                        Dim sp As New DataPoint
-                        sp.SetValueXY(x, y)
-                        sp.Label = "Falcon"
-                        Chart1.Series("Ships").Points.Add(sp)
-                    Case 300 ' Myrmidon
-                        Dim sp As New DataPoint
-                        sp.SetValueXY(x, y)
-                        sp.Label = "Myrmidon"
-                        Chart1.Series("Ships").Points.Add(sp)
-                    Case 400 ' Megathron
-                        Dim sp As New DataPoint
-                        sp.SetValueXY(x, y)
-                        sp.Label = "Megathron"
-                        Chart1.Series("Ships").Points.Add(sp)
-                End Select
-            Next
+                Dim p As Double, x As Double, y As Double
+                For p = 1 To 10000 ' Signature radius
+                    x = p / 5
+                    y = LockTime(x)
+
+                    Chart1.Series("LockTime").Points.AddXY(x, y)
+
+                    Select Case x
+                        Case 25 ' Pod
+                            Dim sp As New DataPoint
+                            sp.SetValueXY(x, y)
+                            sp.Label = "Pod"
+                            Chart1.Series("Ships").Points.Add(sp)
+                        Case 35 ' Crow
+                            Dim sp As New DataPoint
+                            sp.SetValueXY(x, y)
+                            sp.Label = "Crow"
+                            Chart1.Series("Ships").Points.Add(sp)
+                        Case 49 ' Helios
+                            Dim sp As New DataPoint
+                            sp.SetValueXY(x, y)
+                            sp.Label = "Helios"
+                            Chart1.Series("Ships").Points.Add(sp)
+                        Case 125 ' Zealot
+                            Dim sp As New DataPoint
+                            sp.SetValueXY(x, y)
+                            sp.Label = "Zealot"
+                            Chart1.Series("Ships").Points.Add(sp)
+                        Case 180 ' Falcon
+                            Dim sp As New DataPoint
+                            sp.SetValueXY(x, y)
+                            sp.Label = "Falcon"
+                            Chart1.Series("Ships").Points.Add(sp)
+                        Case 300 ' Myrmidon
+                            Dim sp As New DataPoint
+                            sp.SetValueXY(x, y)
+                            sp.Label = "Myrmidon"
+                            Chart1.Series("Ships").Points.Add(sp)
+                        Case 400 ' Megathron
+                            Dim sp As New DataPoint
+                            sp.SetValueXY(x, y)
+                            sp.Label = "Megathron"
+                            Chart1.Series("Ships").Points.Add(sp)
+                    End Select
+                Next
+            Else
+                Chart1.Titles(0).Text = "Targeting Speed Analysis - " & _cShipType.Name & " (Unable to target)"
+            End If
             ShowDialog()
         End Sub
 
@@ -152,7 +157,11 @@ Namespace Forms
         End Function
 
         Private Function LockTime(ByVal sigRadius As Double) As Double
-            Return Math.Round(((40000 / _cShipType.ScanResolution) / (Asinh(sigRadius) ^ 2)), 2) ' Lock time
+            If _cShipType.ScanResolution <> 0 Then
+                Return Math.Round(((40000 / _cShipType.ScanResolution) / (Asinh(sigRadius) ^ 2)), 2) ' Lock time
+            Else
+                Return 0
+            End If
         End Function
 
         Private Sub mnuResetZoom_Click(sender As System.Object, e As EventArgs) Handles mnuResetZoom.Click

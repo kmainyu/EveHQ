@@ -73,14 +73,20 @@ Namespace Forms
             ' Load recyclable items
             cboItems.BeginUpdate()
             cboItems.Items.Clear()
-            For Each bp As EveData.Blueprint In StaticData.Blueprints.Values
-                If bp.Resources.ContainsKey(6) Then
-                    cboItems.AutoCompleteCustomSource.Add(StaticData.Types(bp.ProductId).Name)
-                    cboItems.Items.Add(StaticData.Types(bp.ProductId).Name)
+            For Each tm As Integer In StaticData.TypeMaterials.Keys
+                If StaticData.Types.ContainsKey(tm) Then
+                    cboItems.AutoCompleteCustomSource.Add(StaticData.Types(tm).Name)
+                    cboItems.Items.Add(StaticData.Types(tm).Name)
                 End If
             Next
+            cboItems.Sorted = True
             cboItems.EndUpdate()
 
         End Sub
+
+        Private Sub FrmSelectItem_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+            cboItems.Focus()
+        End Sub
+
     End Class
 End NameSpace

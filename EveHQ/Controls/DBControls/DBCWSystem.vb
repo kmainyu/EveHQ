@@ -119,8 +119,10 @@ Namespace Controls.DBControls
                 cSystem.ID = solar.ID.ToString
                 cSystem.Name = solar.Name
                 cSystem.Region = solar.RegionID.ToString
-                cSystem.Constellation = solar.ConstellationID.ToString
-                cSystem.WClass = whClasses(cSystem.Region)
+                cSystem.Constellation = solar.ConstellationId.ToString
+                If whClasses.ContainsKey(cSystem.Region) Then
+                    cSystem.WClass = whClasses(cSystem.Region)
+                End If
                 If _whEffects.ContainsKey(cSystem.Name) = True Then
                     cSystem.WEffect = _whEffects(cSystem.Name)
                 Else

@@ -122,7 +122,10 @@ namespace EveHQ.EveApi
             data.Description = results.Element("description").Value;
             data.Url = results.Element("url").Value;
             data.AllianceId = results.Element("allianceID").Value.ToInt32();
-            data.AllianceName = results.Element("allianceName").Value;
+            if (results.Element("allianceName") != null)
+            {
+                data.AllianceName = results.Element("allianceName").Value;
+            }
             data.TaxRate = results.Element("taxRate").Value;
             data.MemberCount = results.Element("memberCount").Value.ToInt32();
             data.MemberLimit = results.Element("memberLimit").Value.ToInt32();

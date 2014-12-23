@@ -432,7 +432,6 @@ Public Class SkillFunctions
             ' Load the skills!
             If skillData.IsSuccess Then
 
-
                 Dim skills = skillData.ResultData.SelectMany(Function(group) group.Skills)
                 For Each skill In skills
                     If HQ.SkillListID.ContainsKey(skill.TypeId) = False Then

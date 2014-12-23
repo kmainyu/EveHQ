@@ -519,12 +519,6 @@ Public Class FileConverter
                 newPilot.Corp = pilot.Corp
                 newPilot.CorpID = pilot.CorpID
                 newPilot.Isk = pilot.Isk
-                newPilot.CloneName = pilot.CloneName
-                If IsNumeric(pilot.CloneSP) Then
-                    newPilot.CloneSP = CInt(pilot.CloneSP)
-                Else
-                    newPilot.CloneSP = 0
-                End If
                 newPilot.SkillPoints = pilot.SkillPoints
                 newPilot.Training = pilot.Training
                 newPilot.TrainingStartTime = pilot.TrainingStartTime
@@ -960,8 +954,6 @@ Public Class FileConverter
             newJob.InventedBpid = oldJob.InventedBpid
             newJob.BaseChance = oldJob.BaseChance
             newJob.DecryptorUsed = ConvertDecryptor(oldJob.DecryptorUsed)
-            newJob.MetaItemId = oldJob.MetaItemId
-            newJob.MetaItemLevel = oldJob.MetaItemLevel
             newJob.OverrideBpcRuns = oldJob.OverrideBpcRuns
             newJob.BpcRuns = oldJob.BpcRuns
             newJob.OverrideEncSkill = oldJob.OverrideEncSkill

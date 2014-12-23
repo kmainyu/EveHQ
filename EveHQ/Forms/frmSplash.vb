@@ -466,9 +466,11 @@ Namespace Forms
             externalApp.Arguments = arguments.ToString
 
             ' Start the process and wait until it has finished
-            Using newProcess As Process = Process.Start(externalApp)
-                newProcess.WaitForExit()
-            End Using
+            If My.Computer.FileSystem.FileExists(externalApp.FileName) Then
+                Using newProcess As Process = Process.Start(externalApp)
+                    newProcess.WaitForExit()
+                End Using
+            End If
 
         End Sub
 

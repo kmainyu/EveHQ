@@ -87,7 +87,7 @@ Namespace Classes
         Public Shared Function HTMLFooter() As String
             Dim html As New StringBuilder
             html.AppendLine("<table width=800px align=center border=0><hr>")
-            html.AppendLine("<tr><td><p align=center class=footer>Generated on " & Now.ToString & " by <a href='http://www.evehq.net'>" & My.Application.Info.ProductName & "</a> v" & My.Application.Info.Version.ToString & "</p></td></tr>")
+            html.AppendLine("<tr><td><p align=center class=footer>Generated on " & Now.ToString & " by <a href='http://newedentech.com'>" & My.Application.Info.ProductName & "</a> v" & My.Application.Info.Version.ToString & "</p></td></tr>")
             html.AppendLine("</table>")
             html.AppendLine("</body></html>")
             Return html.ToString

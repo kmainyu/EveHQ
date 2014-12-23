@@ -283,6 +283,10 @@ Namespace Classes
         End Function
 
         Public Sub InitialiseSlotColumns()
+            ' Check the user settings exists first - this can be caused by an error reading/writing them from last time
+            If UserSettings Is Nothing Then
+                UserSettings = New PrismSettings
+            End If
             UserSettings.StandardSlotColumns.Clear()
             UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetOwner", "Owner", 150, True))
             UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetGroup", "Group", 100, True))

@@ -88,7 +88,9 @@ Namespace Forms
             cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
             cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
             For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
-                cboBPs.Items.Add(StaticData.Types(newBP.Id).Name)
+                If StaticData.Types.ContainsKey(newBP.Id) Then
+                    cboBPs.Items.Add(StaticData.Types(newBP.Id).Name)
+                End If
             Next
             cboBPs.Sorted = True
             cboBPs.EndUpdate()
@@ -149,7 +151,6 @@ Namespace Forms
         Private Sub nudCopyRuns_ValueChanged(sender As Object, e As EventArgs) Handles nudCopyRuns.ValueChanged
             Call CalculateMaterials()
         End Sub
-
-
+        
     End Class
 End NameSpace

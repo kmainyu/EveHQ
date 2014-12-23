@@ -31,6 +31,7 @@ Namespace Forms
             Me.btnClose = New DevComponents.DotNetBar.ButtonX()
             Me.pnlSettings = New DevComponents.DotNetBar.PanelEx()
             Me.gpGeneral = New DevComponents.DotNetBar.Controls.GroupPanel()
+            Me.chkHideSaveJobDialog = New DevComponents.DotNetBar.Controls.CheckBoxX()
             Me.chkHideAPIDialog = New DevComponents.DotNetBar.Controls.CheckBoxX()
             Me.btnDeleteUndefinedJournals = New DevComponents.DotNetBar.ButtonX()
             Me.btnDeleteDuplicateTransactions = New DevComponents.DotNetBar.ButtonX()
@@ -94,7 +95,6 @@ Namespace Forms
             Me.nudLabInstallCost = New DevComponents.Editors.DoubleInput()
             Me.nudLabRunningCost = New DevComponents.Editors.DoubleInput()
             Me.nudFactoryInstallCost = New DevComponents.Editors.DoubleInput()
-            Me.chkHideSaveJobDialog = New DevComponents.DotNetBar.Controls.CheckBoxX()
             Me.pnlSettings.SuspendLayout()
             Me.gpGeneral.SuspendLayout()
             Me.gpCorpReps.SuspendLayout()
@@ -145,6 +145,7 @@ Namespace Forms
             Me.pnlSettings.Controls.Add(Me.gpCosts)
             Me.pnlSettings.Controls.Add(Me.btnClose)
             Me.pnlSettings.Controls.Add(Me.tvwSettings)
+            Me.pnlSettings.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlSettings.Dock = System.Windows.Forms.DockStyle.Fill
             Me.pnlSettings.Location = New System.Drawing.Point(0, 0)
             Me.pnlSettings.Name = "pnlSettings"
@@ -175,6 +176,7 @@ Namespace Forms
             Me.gpGeneral.Controls.Add(Me.cboDefaultBPCalcBPOwner)
             Me.gpGeneral.Controls.Add(Me.lblDefaultPrismCharacter)
             Me.gpGeneral.Controls.Add(Me.cboDefaultPrismCharacter)
+            Me.gpGeneral.DisabledBackColor = System.Drawing.Color.Empty
             Me.gpGeneral.Location = New System.Drawing.Point(194, 12)
             Me.gpGeneral.Name = "gpGeneral"
             Me.gpGeneral.Size = New System.Drawing.Size(582, 497)
@@ -208,6 +210,19 @@ Namespace Forms
             Me.gpGeneral.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.gpGeneral.TabIndex = 32
             Me.gpGeneral.Text = "General Settings"
+            '
+            'chkHideSaveJobDialog
+            '
+            '
+            '
+            '
+            Me.chkHideSaveJobDialog.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.chkHideSaveJobDialog.Location = New System.Drawing.Point(15, 173)
+            Me.chkHideSaveJobDialog.Name = "chkHideSaveJobDialog"
+            Me.chkHideSaveJobDialog.Size = New System.Drawing.Size(224, 23)
+            Me.chkHideSaveJobDialog.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.chkHideSaveJobDialog.TabIndex = 10
+            Me.chkHideSaveJobDialog.Text = "Hide Save Job Dialog"
             '
             'chkHideAPIDialog
             '
@@ -268,6 +283,7 @@ Namespace Forms
             '
             Me.cboDefaultBPCalcAssetOwner.DisplayMember = "Text"
             Me.cboDefaultBPCalcAssetOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+            Me.cboDefaultBPCalcAssetOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboDefaultBPCalcAssetOwner.FormattingEnabled = True
             Me.cboDefaultBPCalcAssetOwner.ItemHeight = 15
             Me.cboDefaultBPCalcAssetOwner.Location = New System.Drawing.Point(244, 69)
@@ -289,6 +305,7 @@ Namespace Forms
             '
             Me.cboDefaultBPCalcManufacturer.DisplayMember = "Text"
             Me.cboDefaultBPCalcManufacturer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+            Me.cboDefaultBPCalcManufacturer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboDefaultBPCalcManufacturer.FormattingEnabled = True
             Me.cboDefaultBPCalcManufacturer.ItemHeight = 15
             Me.cboDefaultBPCalcManufacturer.Location = New System.Drawing.Point(244, 42)
@@ -310,6 +327,7 @@ Namespace Forms
             '
             Me.cboDefaultBPCalcBPOwner.DisplayMember = "Text"
             Me.cboDefaultBPCalcBPOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+            Me.cboDefaultBPCalcBPOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboDefaultBPCalcBPOwner.FormattingEnabled = True
             Me.cboDefaultBPCalcBPOwner.ItemHeight = 15
             Me.cboDefaultBPCalcBPOwner.Location = New System.Drawing.Point(244, 15)
@@ -331,6 +349,7 @@ Namespace Forms
             '
             Me.cboDefaultPrismCharacter.DisplayMember = "Text"
             Me.cboDefaultPrismCharacter.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+            Me.cboDefaultPrismCharacter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboDefaultPrismCharacter.FormattingEnabled = True
             Me.cboDefaultPrismCharacter.ItemHeight = 15
             Me.cboDefaultPrismCharacter.Location = New System.Drawing.Point(244, 96)
@@ -371,6 +390,7 @@ Namespace Forms
             Me.gpCorpReps.Controls.Add(Me.cboAssetsRep)
             Me.gpCorpReps.Controls.Add(Me.lblAssetsRep)
             Me.gpCorpReps.Controls.Add(Me.adtCorpReps)
+            Me.gpCorpReps.DisabledBackColor = System.Drawing.Color.Empty
             Me.gpCorpReps.Location = New System.Drawing.Point(477, 330)
             Me.gpCorpReps.Name = "gpCorpReps"
             Me.gpCorpReps.Size = New System.Drawing.Size(258, 65)
@@ -766,6 +786,7 @@ Namespace Forms
             Me.gpAssetColumns.Controls.Add(Me.lblSlotColumns)
             Me.gpAssetColumns.Controls.Add(Me.btnMoveUp)
             Me.gpAssetColumns.Controls.Add(Me.lvwColumns)
+            Me.gpAssetColumns.DisabledBackColor = System.Drawing.Color.Empty
             Me.gpAssetColumns.Location = New System.Drawing.Point(218, 386)
             Me.gpAssetColumns.Name = "gpAssetColumns"
             Me.gpAssetColumns.Size = New System.Drawing.Size(143, 39)
@@ -858,6 +879,7 @@ Namespace Forms
             Me.gpCosts.Controls.Add(Me.nudLabInstallCost)
             Me.gpCosts.Controls.Add(Me.nudLabRunningCost)
             Me.gpCosts.Controls.Add(Me.nudFactoryInstallCost)
+            Me.gpCosts.DisabledBackColor = System.Drawing.Color.Empty
             Me.gpCosts.Location = New System.Drawing.Point(218, 311)
             Me.gpCosts.Name = "gpCosts"
             Me.gpCosts.Size = New System.Drawing.Size(143, 30)
@@ -900,6 +922,7 @@ Namespace Forms
             Me.lvwBPCCosts.Border.Class = "ListViewBorder"
             Me.lvwBPCCosts.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.lvwBPCCosts.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colBPCName, Me.colBPCMinRunPrice, Me.colBPCMaxRunPrice})
+            Me.lvwBPCCosts.DisabledBackColor = System.Drawing.Color.Empty
             Me.lvwBPCCosts.FullRowSelect = True
             Me.lvwBPCCosts.GridLines = True
             Me.lvwBPCCosts.Location = New System.Drawing.Point(3, 120)
@@ -1033,19 +1056,6 @@ Namespace Forms
             Me.nudFactoryInstallCost.Size = New System.Drawing.Size(119, 21)
             Me.nudFactoryInstallCost.TabIndex = 0
             Me.nudFactoryInstallCost.Value = 1000.0R
-            '
-            'chkHideSaveJobDialog
-            '
-            '
-            '
-            '
-            Me.chkHideSaveJobDialog.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.chkHideSaveJobDialog.Location = New System.Drawing.Point(15, 173)
-            Me.chkHideSaveJobDialog.Name = "chkHideSaveJobDialog"
-            Me.chkHideSaveJobDialog.Size = New System.Drawing.Size(224, 23)
-            Me.chkHideSaveJobDialog.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.chkHideSaveJobDialog.TabIndex = 10
-            Me.chkHideSaveJobDialog.Text = "Hide Save Job Dialog"
             '
             'FrmPrismSettings
             '

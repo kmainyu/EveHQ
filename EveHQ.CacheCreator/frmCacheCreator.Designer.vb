@@ -33,11 +33,8 @@ Partial Class FrmCacheCreator
         Me.gbCheckingTools = New System.Windows.Forms.GroupBox()
         Me.gbEveHQCacheGeneration = New System.Windows.Forms.GroupBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.gbInstructions = New System.Windows.Forms.GroupBox()
-        Me.lblInstructions = New System.Windows.Forms.Label()
         Me.gbCheckingTools.SuspendLayout()
         Me.gbEveHQCacheGeneration.SuspendLayout()
-        Me.gbInstructions.SuspendLayout()
         Me.SuspendLayout()
         '
         'txtServerName
@@ -117,33 +114,11 @@ Partial Class FrmCacheCreator
         Me.gbEveHQCacheGeneration.TabStop = False
         Me.gbEveHQCacheGeneration.Text = "EveHQ Cache Generation"
         '
-        'gbInstructions
-        '
-        Me.gbInstructions.Controls.Add(Me.lblInstructions)
-        Me.gbInstructions.Location = New System.Drawing.Point(336, 12)
-        Me.gbInstructions.Name = "gbInstructions"
-        Me.gbInstructions.Size = New System.Drawing.Size(257, 213)
-        Me.gbInstructions.TabIndex = 14
-        Me.gbInstructions.TabStop = False
-        Me.gbInstructions.Text = "Instructions!"
-        '
-        'lblInstructions
-        '
-        Me.lblInstructions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblInstructions.Location = New System.Drawing.Point(7, 20)
-        Me.lblInstructions.Name = "lblInstructions"
-        Me.lblInstructions.Size = New System.Drawing.Size(244, 185)
-        Me.lblInstructions.TabIndex = 0
-        Me.lblInstructions.Text = resources.GetString("lblInstructions.Text")
-        '
         'FrmCacheCreator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(600, 232)
-        Me.Controls.Add(Me.gbInstructions)
+        Me.ClientSize = New System.Drawing.Size(342, 232)
         Me.Controls.Add(Me.gbEveHQCacheGeneration)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "FrmCacheCreator"
@@ -152,7 +127,6 @@ Partial Class FrmCacheCreator
         Me.gbCheckingTools.ResumeLayout(False)
         Me.gbEveHQCacheGeneration.ResumeLayout(False)
         Me.gbEveHQCacheGeneration.PerformLayout()
-        Me.gbInstructions.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -165,7 +139,5 @@ Partial Class FrmCacheCreator
     Friend WithEvents gbCheckingTools As System.Windows.Forms.GroupBox
     Friend WithEvents gbEveHQCacheGeneration As System.Windows.Forms.GroupBox
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-    Friend WithEvents gbInstructions As System.Windows.Forms.GroupBox
-    Friend WithEvents lblInstructions As System.Windows.Forms.Label
 
 End Class

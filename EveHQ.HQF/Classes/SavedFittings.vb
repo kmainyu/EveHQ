@@ -153,7 +153,8 @@ Imports Newtonsoft.Json
         savedFit.RemoteEffects = fit.RemoteEffects
         savedFit.Notes = fit.Notes
         savedFit.Tags = fit.Tags
-        savedFit.Rating = fit.rating
+        savedFit.Rating = fit.Rating
+        savedFit.ShipMode = fit.ShipMode
         Return savedFit
     End Function
 
@@ -192,7 +193,8 @@ Imports Newtonsoft.Json
             newFit.RemoteEffects = fit.RemoteEffects
             newFit.Notes = fit.Notes
             newFit.Tags = fit.Tags
-            newFit.rating = fit.Rating
+            newFit.Rating = fit.Rating
+            newFit.ShipMode = CType(fit.ShipMode, ShipModes)
             Return newFit
         Else
             Return Nothing

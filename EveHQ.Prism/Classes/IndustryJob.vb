@@ -54,26 +54,33 @@ Imports EveHQ.Common.Extensions
 Namespace Classes
 
     Public Class IndustryJob
-        Public JobID As Long
-        Public InstalledItemLocationID As Long
-        Public InstallerID As Long
-        Public ActivityID As BlueprintActivity
-        Public InstalledItemTypeID As Integer
-        Public OutputTypeID As Integer
+        Public JobId As Long
+        Public InstallerId As Integer
+        Public InstallerName As String
+        Public FacilityId As Integer
+        Public SolarSystemId As Integer
+        Public SolarSystemName As String
+        Public StationId As Integer
+        Public ActivityId As BlueprintActivity
+        Public BlueprintId As Long
+        Public BlueprintTypeId As Integer
+        Public BlueprintTypeName As String
+        Public BlueprintLocationId As Long
+        Public OutputLocationId As Long
         Public Runs As Integer
-        Public OutputLocationID As Long
-        Public InstalledInSolarSystemID As Integer
-        Public Completed As Integer
-        Public CompletedStatus As Integer
-        Public CompletedSuccessfully As Integer
-        Public InstallTime As Date
-        Public BeginProductionTime As Date
-        Public EndProductionTime As Date
-        Public InstalledMELevel As Integer
-        Public InstalledPELevel As Integer
-        Public InstalledRuns As Integer
-        Public MaterialMultiplier As Double
-        Public TimeMultiplier As Double
+        Public Cost As Double
+        Public TeamId As Integer
+        Public LicencedRuns As Integer
+        Public Probability As Double
+        Public ProductTypeId As Integer
+        Public ProductTypeName As String
+        Public Status As IndustryJobStatus
+        Public TimeInSeconds As Integer
+        Public StartDate As DateTimeOffset
+        Public EndDate As DateTimeOffset
+        Public PauseDate As DateTimeOffset
+        Public CompletedDate As DateTimeOffset
+        Public CompletedCharacterId As Integer
 
         Private Const IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
         Private Shared ReadOnly Culture As New CultureInfo("en-GB")
@@ -106,37 +113,33 @@ Namespace Classes
                         Dim jobList As New List(Of IndustryJob)
                         For Each tran As EveApi.IndustryJob In jobsResponse.ResultData
                             Dim newJob As New IndustryJob
-                            newJob.JobID = tran.JobId
-                            newJob.InstalledItemLocationID = tran.InstalledItemLocationId
-                            newJob.InstallerID = tran.InstallerId
-                            newJob.ActivityID = CType(tran.ActivityId, BlueprintActivity)
-                            newJob.InstalledItemTypeID = tran.InstalledItemTypeId
-                            newJob.OutputTypeID = tran.OutputTypeId
+                            newJob.JobId = tran.JobId
+                            newJob.InstallerId = tran.InstallerId
+                            newJob.InstallerName = tran.InstallerName
+                            newJob.FacilityId = tran.FacilityId
+                            newJob.SolarSystemId = tran.SolarSystemId
+                            newJob.SolarSystemName = tran.SolarSystemName
+                            newJob.StationId = tran.StationId
+                            newJob.ActivityId = DirectCast(tran.ActivityId, BlueprintActivity)
+                            newJob.BlueprintId = tran.BlueprintId
+                            newJob.BlueprintTypeId = tran.BlueprintTypeId
+                            newJob.BlueprintTypeName = tran.BlueprintTypeName
+                            newJob.BlueprintLocationId = tran.BlueprintLocationId
+                            newJob.OutputLocationId = tran.OutputLocationId
                             newJob.Runs = tran.Runs
-                            newJob.OutputLocationID = tran.OutputLocationId
-                            newJob.InstalledInSolarSystemID = tran.InstalledInSolarSystemId
-                            If tran.Completed Then
-                                newJob.Completed = 1
-                            Else
-                                newJob.Completed = 0
-                            End If
-
-                            newJob.CompletedStatus = tran.CompletedStatus
-
-                            If tran.CompletedSuccessfully Then
-                                newJob.CompletedSuccessfully = 1
-                            Else
-                                newJob.CompletedSuccessfully = 0
-                            End If
-
-                            newJob.InstallTime = tran.InstallTime.DateTime
-                            newJob.BeginProductionTime = tran.BeginProductionTime.DateTime
-                            newJob.EndProductionTime = tran.EndProductionTime.DateTime
-                            newJob.InstalledMELevel = tran.InstalledItemMaterialLevel
-                            newJob.InstalledPELevel = tran.InstalledItemProductivityLevel
-                            newJob.InstalledRuns = tran.Runs
-                            newJob.MaterialMultiplier = tran.CharMaterialMultiplier
-                            newJob.TimeMultiplier = tran.TimeMultiplier
+                            newJob.Cost = tran.Cost
+                            newJob.TeamId = tran.TeamId
+                            newJob.LicencedRuns = tran.LicensedRuns
+                            newJob.Probability = tran.Probability
+                            newJob.ProductTypeId = tran.ProductTypeId
+                            newJob.ProductTypeName = tran.ProductTypeName
+                            newJob.Status = tran.Status
+                            newJob.TimeInSeconds = tran.TimeInSeconds
+                            newJob.StartDate = tran.StartDate
+                            newJob.EndDate = tran.EndDate
+                            newJob.PauseDate = tran.PauseDate
+                            newJob.CompletedDate = tran.CompletedDate
+                            newJob.CompletedCharacterId = tran.CompletedCharacterId
                             jobList.Add(newJob)
                         Next
                         Return jobList

@@ -50,103 +50,85 @@ namespace EveHQ.EveApi
     /// <summary>The industry job.</summary>
     public sealed class IndustryJob
     {
-        /// <summary>Gets the job id.</summary>
+        /// <summary>Gets the job ID.</summary>
         public long JobId { get; set; }
 
-        /// <summary>Gets the assembly line id.</summary>
-        public long AssemblyLineId { get; set; }
+        /// <summary>Gets the installer ID.</summary>
+        public int InstallerId { get; set; }
 
-        /// <summary>Gets the container id.</summary>
-        public long ContainerId { get; set; }
+        /// <summary>Gets the installer name.</summary>
+        public string InstallerName { get; set; }
 
-        /// <summary>Gets the installed item id.</summary>
-        public long InstalledItemId { get; set; }
+        /// <summary>Gets the facility ID.</summary>
+        public int FacilityId { get; set; }
 
-        /// <summary>Gets the installed item location id.</summary>
-        public long InstalledItemLocationId { get; set; }
+        /// <summary>Gets the solar system ID.</summary>
+        public int SolarSystemId { get; set; }
 
-        /// <summary>Gets the installed item quantity.</summary>
-        public int InstalledItemQuantity { get; set; }
+        /// <summary>Gets the solar system name.</summary>
+        public string SolarSystemName { get; set; }
 
-        /// <summary>Gets the installed item productivity level.</summary>
-        public int InstalledItemProductivityLevel { get; set; }
+        /// <summary>Gets the station ID.</summary>
+        public int StationId { get; set; }
+        
+        /// <summary>Gets the activity ID.</summary>
+        public int ActivityId { get; set; }
 
-        /// <summary>Gets the installed item material level.</summary>
-        public int InstalledItemMaterialLevel { get; set; }
+        /// <summary>Gets the installed blueprint item ID (from AssetList).</summary>
+        public long BlueprintId { get; set; }
 
-        /// <summary>Gets the installed item licensed production runs remaining.</summary>
-        public int InstalledItemLicensedProductionRunsRemaining { get; set; }
+        /// <summary>Gets the installed blueprint type ID.</summary>
+        public int BlueprintTypeId { get; set; }
 
+        /// <summary>Gets the installed blueprint type name.</summary>
+        public string BlueprintTypeName { get; set; }
+
+        /// <summary>Gets the blueprint location id.</summary>
+        public long BlueprintLocationId { get; set; }
+        
         /// <summary>Gets the output location id.</summary>
         public long OutputLocationId { get; set; }
-
-        /// <summary>Gets the installer id.</summary>
-        public long InstallerId { get; set; }
 
         /// <summary>Gets the runs.</summary>
         public int Runs { get; set; }
 
-        /// <summary>Gets the licensed production runs.</summary>
-        public int LicensedProductionRuns { get; set; }
+        /// <summary>Gets the cost.</summary>
+        public double Cost { get; set; }
 
-        /// <summary>Gets the installed in solar system id.</summary>
-        public int InstalledInSolarSystemId { get; set; }
+        /// <summary>Gets the team ID.</summary>
+        public int TeamId { get; set; }
 
-        /// <summary>Gets the container location id.</summary>
-        public long ContainerLocationId { get; set; }
+        /// <summary>Gets the licensed runs.</summary>
+        public int LicensedRuns { get; set; }
 
-        /// <summary>Gets the material multiplier.</summary>
-        public double MaterialMultiplier { get; set; }
+        /// <summary>Gets the probability.</summary>
+        public double Probability { get; set; }
 
-        /// <summary>Gets the char material multiplier.</summary>
-        public double CharMaterialMultiplier { get; set; }
+        /// <summary>Gets the product type ID.</summary>
+        public int ProductTypeId { get; set; }
 
-        /// <summary>Gets the time multiplier.</summary>
-        public double TimeMultiplier { get; set; }
+        /// <summary>Gets the product type name.</summary>
+        public string ProductTypeName { get; set; }
 
-        /// <summary>Gets the char time multiplier.</summary>
-        public double CharTimeMultiplier { get; set; }
+        /// <summary>Gets the status.</summary>
+        public IndustryJobStatus Status { get; set; }
 
-        /// <summary>Gets the installed item type id.</summary>
-        public int InstalledItemTypeId { get; set; }
+        /// <summary>Gets the duration of the job.</summary>
+        public int TimeInSeconds { get; set; }
 
-        /// <summary>Gets the output type id.</summary>
-        public int OutputTypeId { get; set; }
+        /// <summary>Gets the start date.</summary>
+        public DateTimeOffset StartDate { get; set; }
+        
+        /// <summary>Gets the end date.</summary>
+        public DateTimeOffset EndDate { get; set; }
 
-        /// <summary>Gets the container type id.</summary>
-        public long ContainerTypeId { get; set; }
+        /// <summary>Gets the pause date.</summary>
+        public DateTimeOffset PauseDate { get; set; }
 
-        /// <summary>Gets a value indicating whether installed item copy.</summary>
-        public bool InstalledItemCopy { get; set; }
+        /// <summary>Gets the completed date.</summary>
+        public DateTimeOffset CompletedDate { get; set; }
 
-        /// <summary>Gets a value indicating whether completed.</summary>
-        public bool Completed { get; set; }
-
-        /// <summary>Gets a value indicating whether completed successfully.</summary>
-        public bool CompletedSuccessfully { get; set; }
-
-        /// <summary>Gets a value indicating whether installed item flag.</summary>
-        public bool InstalledItemFlag { get; set; }
-
-        /// <summary>Gets the output flag.</summary>
-        public int OutputFlag { get; set; }
-
-        /// <summary>Gets the activity id.</summary>
-        public int ActivityId { get; set; }
-
-        /// <summary>Gets the completed status.</summary>
-        public IndustryJobCompletedStatus CompletedStatus { get; set; }
-
-        /// <summary>Gets the install time.</summary>
-        public DateTimeOffset InstallTime { get; set; }
-
-        /// <summary>Gets the begin production time.</summary>
-        public DateTimeOffset BeginProductionTime { get; set; }
-
-        /// <summary>Gets the end production time.</summary>
-        public DateTimeOffset EndProductionTime { get; set; }
-
-        /// <summary>Gets the pause production time.</summary>
-        public DateTimeOffset PauseProductionTime { get; set; }
+        /// <summary>Gets the completed character ID.</summary>
+        public int CompletedCharacterId { get; set; }
     }
 }

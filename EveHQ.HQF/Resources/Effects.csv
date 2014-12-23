@@ -658,6 +658,7 @@
 1935,2,213,349,6,0,0,0,0,8,Tracking Computer - Falloff
 1935,2,213,351,6,0,0,0,0,8,Tracking Computer - Optimal Range
 1935,2,213,767,6,0,0,0,0,8,Tracking Computer - Tracking Speed
+1206,2,899,73,6,0,0,0,0,8,Warp Disruption Field Generator - Cycle Time
 # MODULE ATTRIBUTE MAPPING,,,,,,,,,,
 # FITTING,,,,,,,,,,
 50,0,0,49,3,6,0,0,1,14,CPU -> CPU_Used
@@ -929,6 +930,8 @@
 20,2,46,37,3,6,0,0,3,12,AB/MWD Velocity Bonus
 # Hyperspatial Accelerators,,,,,,,,,,
 1950,2,1289,600,3,6,0,0,1,14,Warp Speed Bonus
+# Jump Economizers,,,,,,,,,,
+1296,2,1299,868,3,6,0,0,0,14,Fuel Consumption Bonus
 # Inertia Stabilizers,,,,,,,,,,
 169,2,762,70,3,6,1,0,0,14,Inertia Modifier
 554,2,762,552,3,6,1,0,0,14,Sig Radius Penalty
@@ -975,6 +978,8 @@
 986,2,295,273,3,6,1,0,2,14,Shield Amplifiers - Passive Kin Resist
 987,2,295,274,3,6,1,0,2,14,Shield Amplifiers - Passive Therm Resist
 # TURRETS & BAYS,,,,,,,,,,
+# Bomb Launchers,,,,,,,,,,
+983,2,862,552,3,6,0,0,1,15,Signature Radius
 # Ballistic Control Systems,,,,,,,,,,
 204,2,367,51,2,511;524;506;510;771;507;508;509;1245,1,0,0,14,ROF Bonus
 213,2,367,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,1,0,0,14,Damage Bonus - EM
@@ -1340,10 +1345,15 @@
 1138,1,31165,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
 1138,1,31167,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
 1138,1,31169,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
+1138,1,34266,1281,3,6,0,0,0,15,Astronautic Rig Drawback - Warp Speed
+1138,1,34268,1281,3,6,0,0,0,15,Astronautic Rig Drawback - Warp Speed
+1138,1,34306,1281,3,6,0,0,0,15,Astronautic Rig Drawback - Warp Speed
+1138,1,34308,1281,3,6,0,0,0,15,Astronautic Rig Drawback - Warp Speed
 315,2,782,37,3,6,1,0,0,15,Auxiliary Thrusters
 614,2,782,10004,3,6,0,0,0,15,Cargohold Optimization
 317,2,782,6,2,46,0,0,0,15,Dynamic Fuel Valve
 66,2,782,73,2,46,0,0,0,15,Engine Thermal Shielding
+1131,2,782,10002,3,6,0,0,0,15,Higgs Anchor - Mass
 624,2,782,1281,3,6,1,0,0,15,Hyperspatial Velocity Optimizer
 151,2,782,70,3,6,1,0,0,15,Low Friction Nozzle Joints
 1076,2,782,37,3,6,1,0,0,15,Polycarbon Engine Housing - Velocity
@@ -1595,6 +1605,7 @@
 # ENVIRONMENT,,,,,,,,,,
 146,2,920,263,3,6,0,0,0,15,Shield HP Bonus - Ship
 #,2,920,72,2,38,0,0,0,15,Shield HP Bonus - Extenders
+148,2,920,265,3,6,0,0,0,15,Wolf Rayet - Armor HP Bonus
 169,2,920,70,3,6,0,0,5,15,Inertia Modifer
 237,2,920,76,3,6,0,0,0,15,Targeting Range Bonus
 243,2,920,76,3,6,0,0,5,15,Max Range Multiplier
@@ -1665,6 +1676,12 @@
 1686,2,920,116,3,18,0,0,0,15,Incursion Damage Reduction - Explosive Drone
 1686,2,920,117,3,18,0,0,0,15,Incursion Damage Reduction - Kinetic Drone
 1686,2,920,118,3,18,0,0,0,15,Incursion Damage Reduction - Thermal Drone
+1840,2,920,90,2,67,0,0,5,15,Cataclysmic Variable - Remote Cap Transmitter Amount
+1966,2,920,90,2,68,0,0,5,15,Pulsar - Energy Transfer Amount Bonus - Nos
+1966,2,920,97,2,71,0,0,5,15,Pulsar - Energy Transfer Amount Bonus - Neuts
+1967,2,920,654,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,5,15,Magnetar - Missile Explosion Radius Multiplier
+1968,2,920,554,2,379,0,0,5,15,Magnetar - Target Painter Effectiveness Multiplier
+1969,2,920,20,2,65,0,0,5,15,Black Hole - Stasis Webifier Strength Multiplier
 # BOOSTERS,,,,,,,,,,
 548,1,10155,68,2,40;1156,0,0,0,15,Improved Blue Pill - Shield Boost Bonus
 848,1,10151,654,2,654;656;655;653;648;657;772;476;1019;386;396;395;394;385;384;387;89,0,0,0,15,Improved Crash - Explosion Radius Bonus

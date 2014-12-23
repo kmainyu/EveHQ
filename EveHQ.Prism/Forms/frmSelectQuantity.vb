@@ -78,6 +78,7 @@ Namespace Forms
 
         Private Sub frmSelectQuantity_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
             nudQuantity.Value = _quantity
+            nudQuantity.Select()
         End Sub
 
         Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click

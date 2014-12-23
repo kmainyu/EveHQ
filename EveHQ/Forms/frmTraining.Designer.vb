@@ -139,8 +139,6 @@ Namespace Forms
             Me.btnIncTraining = New DevComponents.DotNetBar.ButtonItem()
             Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
             Me.tabQueueMode = New DevComponents.DotNetBar.TabControl()
-            Me.tcpCertPlanning = New DevComponents.DotNetBar.TabControlPanel()
-            Me.tiCertPLanning = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.tcpSkillPlanning = New DevComponents.DotNetBar.TabControlPanel()
             Me.chkOmitLevel5Skills = New System.Windows.Forms.CheckBox()
             Me.adtSkillList = New DevComponents.AdvTree.AdvTree()
@@ -152,18 +150,12 @@ Namespace Forms
             Me.btnCollapseAll = New DevComponents.DotNetBar.ButtonX()
             Me.btnExpandAll = New DevComponents.DotNetBar.ButtonX()
             Me.tiSkillPlanning = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.tcpCertPlanning = New DevComponents.DotNetBar.TabControlPanel()
+            Me.tiCertPLanning = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.tabSkillDetails = New DevComponents.DotNetBar.TabControl()
             Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.lvwDetails = New EveHQ.Classes.ListViewNoFlicker()
-            Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-            Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.tiGeneral = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel7 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.lvwTimes = New EveHQ.Classes.ListViewNoFlicker()
-            Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-            Me.Standard = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-            Me.Current = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-            Me.Cumulative = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.TabItem6 = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
             Me.TabItem4 = New DevComponents.DotNetBar.TabItem(Me.components)
@@ -175,12 +167,6 @@ Namespace Forms
             Me.TabItem1 = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.tabQueues = New DevComponents.DotNetBar.TabControl()
             Me.tcpQueue = New DevComponents.DotNetBar.TabControlPanel()
-            Me.lvQueues = New EveHQ.Classes.ListViewNoFlicker()
-            Me.colQName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-            Me.colQSkills = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-            Me.colQTimeLeft = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-            Me.colQQueuedTime = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-            Me.colQEndDate = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.ctxQueues = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.mnuAddQueue = New System.Windows.Forms.ToolStripMenuItem()
             Me.mnuEditQueue = New System.Windows.Forms.ToolStripMenuItem()
@@ -195,6 +181,20 @@ Namespace Forms
             Me.panelInfo = New DevComponents.DotNetBar.PanelEx()
             Me.cboPilots = New DevComponents.DotNetBar.Controls.ComboBoxEx()
             Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
+            Me.lvQueues = New EveHQ.Classes.ListViewNoFlicker()
+            Me.colQName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.colQSkills = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.colQTimeLeft = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.colQQueuedTime = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.colQEndDate = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.lvwDetails = New EveHQ.Classes.ListViewNoFlicker()
+            Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.lvwTimes = New EveHQ.Classes.ListViewNoFlicker()
+            Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.Standard = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.Current = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+            Me.Cumulative = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.ctxDetails.SuspendLayout()
             Me.ctxReqs.SuspendLayout()
             Me.ctxDepend.SuspendLayout()
@@ -202,9 +202,9 @@ Namespace Forms
             Me.RibbonBarMergeContainer1.SuspendLayout()
             CType(Me.tabQueueMode, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.tabQueueMode.SuspendLayout()
-            Me.tcpCertPlanning.SuspendLayout()
             Me.tcpSkillPlanning.SuspendLayout()
             CType(Me.adtSkillList, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.tcpCertPlanning.SuspendLayout()
             CType(Me.tabSkillDetails, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.tabSkillDetails.SuspendLayout()
             Me.TabControlPanel1.SuspendLayout()
@@ -604,7 +604,7 @@ Namespace Forms
             Me.ctxCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
             Me.ctxCertDetails.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator16, Me.mnuAddCertToQueue, Me.mnuAddCertGroupToQueue, Me.ToolStripSeparator18, Me.mnuViewCertDetails})
             Me.ctxCertDetails.Name = "ctxDepend"
-            Me.ctxCertDetails.Size = New System.Drawing.Size(217, 126)
+            Me.ctxCertDetails.Size = New System.Drawing.Size(217, 104)
             '
             'mnuCertName
             '
@@ -690,35 +690,35 @@ Namespace Forms
             'mnuAddCertGroupToQueue1
             '
             Me.mnuAddCertGroupToQueue1.Name = "mnuAddCertGroupToQueue1"
-            Me.mnuAddCertGroupToQueue1.Size = New System.Drawing.Size(152, 22)
+            Me.mnuAddCertGroupToQueue1.Size = New System.Drawing.Size(137, 22)
             Me.mnuAddCertGroupToQueue1.Tag = "1"
             Me.mnuAddCertGroupToQueue1.Text = "To Basic"
             '
             'mnuAddCertGroupToQueue2
             '
             Me.mnuAddCertGroupToQueue2.Name = "mnuAddCertGroupToQueue2"
-            Me.mnuAddCertGroupToQueue2.Size = New System.Drawing.Size(152, 22)
+            Me.mnuAddCertGroupToQueue2.Size = New System.Drawing.Size(137, 22)
             Me.mnuAddCertGroupToQueue2.Tag = "2"
             Me.mnuAddCertGroupToQueue2.Text = "To Standard"
             '
             'mnuAddCertGroupToQueue3
             '
             Me.mnuAddCertGroupToQueue3.Name = "mnuAddCertGroupToQueue3"
-            Me.mnuAddCertGroupToQueue3.Size = New System.Drawing.Size(152, 22)
+            Me.mnuAddCertGroupToQueue3.Size = New System.Drawing.Size(137, 22)
             Me.mnuAddCertGroupToQueue3.Tag = "3"
             Me.mnuAddCertGroupToQueue3.Text = "To Improved"
             '
             'mnuAddCertGroupToQueue4
             '
             Me.mnuAddCertGroupToQueue4.Name = "mnuAddCertGroupToQueue4"
-            Me.mnuAddCertGroupToQueue4.Size = New System.Drawing.Size(152, 22)
+            Me.mnuAddCertGroupToQueue4.Size = New System.Drawing.Size(137, 22)
             Me.mnuAddCertGroupToQueue4.Tag = "4"
             Me.mnuAddCertGroupToQueue4.Text = "To Advanced"
             '
             'mnuAddCertGroupToQueue5
             '
             Me.mnuAddCertGroupToQueue5.Name = "mnuAddCertGroupToQueue5"
-            Me.mnuAddCertGroupToQueue5.Size = New System.Drawing.Size(152, 22)
+            Me.mnuAddCertGroupToQueue5.Size = New System.Drawing.Size(137, 22)
             Me.mnuAddCertGroupToQueue5.Tag = "5"
             Me.mnuAddCertGroupToQueue5.Text = "To Elite"
             '
@@ -754,7 +754,7 @@ Namespace Forms
             Me.RibbonBarMergeContainer1.Location = New System.Drawing.Point(480, 3)
             Me.RibbonBarMergeContainer1.Name = "RibbonBarMergeContainer1"
             Me.RibbonBarMergeContainer1.RibbonTabText = "Skill Training Planner"
-            Me.RibbonBarMergeContainer1.Size = New System.Drawing.Size(1021, 90)
+            Me.RibbonBarMergeContainer1.Size = New System.Drawing.Size(1185, 90)
             '
             '
             '
@@ -782,11 +782,12 @@ Namespace Forms
             '
             Me.rbImportExport.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbImportExport.ContainerControlProcessDialogKey = True
+            Me.rbImportExport.DragDropSupport = True
             Me.rbImportExport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer1})
             Me.rbImportExport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbImportExport.Location = New System.Drawing.Point(1001, 0)
             Me.rbImportExport.Name = "rbImportExport"
-            Me.rbImportExport.Size = New System.Drawing.Size(134, 90)
+            Me.rbImportExport.Size = New System.Drawing.Size(119, 90)
             Me.rbImportExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
             Me.rbImportExport.TabIndex = 0
             Me.rbImportExport.Text = "Import/Export"
@@ -817,18 +818,21 @@ Namespace Forms
             'btnEveMonImport
             '
             Me.btnEveMonImport.Name = "btnEveMonImport"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnEveMonImport, New DevComponents.DotNetBar.SuperTooltipInfo("", "EveMon Import", "Allows you to import all plans from the EveMon settings file.", Nothing, Global.EveHQ.My.Resources.Resources.Help32, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnEveMonImport.Text = "EveMon Import (Full)"
             '
             'btnImportEMPFile
             '
             Me.btnImportEMPFile.Name = "btnImportEMPFile"
-            Me.btnImportEMPFile.Text = "Import EveMon Plan File"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnImportEMPFile, New DevComponents.DotNetBar.SuperTooltipInfo("", "Import Plan File", "Allows you to import either EveMon plan files (.emp) or XML plan files (.xml).", Nothing, Global.EveHQ.My.Resources.Resources.Help32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            Me.btnImportEMPFile.Text = "Import Plan File"
             '
             'btnExportEMPFile
             '
             Me.btnExportEMPFile.Enabled = False
             Me.btnExportEMPFile.Name = "btnExportEMPFile"
-            Me.btnExportEMPFile.Text = "Export EveMon Plan File"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnExportEMPFile, New DevComponents.DotNetBar.SuperTooltipInfo("", "Export Plan File", "Allows you to export either EveMon plan files (.emp) or XML plan files (.xml).", Nothing, Global.EveHQ.My.Resources.Resources.Help32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            Me.btnExportEMPFile.Text = "Export Plan File"
             '
             'rbAttributeTools
             '
@@ -842,6 +846,7 @@ Namespace Forms
             '
             Me.rbAttributeTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbAttributeTools.ContainerControlProcessDialogKey = True
+            Me.rbAttributeTools.DragDropSupport = True
             Me.rbAttributeTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnImplants, Me.btnRemap})
             Me.rbAttributeTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbAttributeTools.Location = New System.Drawing.Point(58, 0)
@@ -894,6 +899,7 @@ Namespace Forms
             '
             Me.rbQueueSettings.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbQueueSettings.ContainerControlProcessDialogKey = True
+            Me.rbQueueSettings.DragDropSupport = True
             Me.rbQueueSettings.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnQueueSettings})
             Me.rbQueueSettings.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbQueueSettings.Location = New System.Drawing.Point(0, 0)
@@ -934,6 +940,7 @@ Namespace Forms
             '
             Me.rbQueueFunctions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbQueueFunctions.ContainerControlProcessDialogKey = True
+            Me.rbQueueFunctions.DragDropSupport = True
             Me.rbQueueFunctions.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnRBAddSkill, Me.btnRBDeleteSkill, Me.btnRBIncreaseLevel, Me.btnRBDecreaseLevel, Me.btnRBMoveUpQueue, Me.btnRBMoveDownQueue, Me.btnRBClearQueue, Me.btnRBSplitQueue, Me.btnAddRequisition})
             Me.rbQueueFunctions.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbQueueFunctions.Location = New System.Drawing.Point(543, 0)
@@ -1055,6 +1062,7 @@ Namespace Forms
             '
             Me.rbQueueAdmin.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbQueueAdmin.ContainerControlProcessDialogKey = True
+            Me.rbQueueAdmin.DragDropSupport = True
             Me.rbQueueAdmin.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnRBAddQueue, Me.btnRBEditQueue, Me.btnRBDeleteQueue, Me.btnRBSetPrimaryQueue, Me.btnRBMergeQueues, Me.btnRBCopyQueue, Me.btnRBCopyQueueToPilot, Me.btnIncTraining})
             Me.rbQueueAdmin.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbQueueAdmin.Location = New System.Drawing.Point(159, 0)
@@ -1154,7 +1162,9 @@ Namespace Forms
             '
             'SuperTooltip1
             '
+            Me.SuperTooltip1.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Gray)
             Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+            Me.SuperTooltip1.PositionBelowControl = False
             '
             'tabQueueMode
             '
@@ -1182,32 +1192,6 @@ Namespace Forms
             Me.tabQueueMode.Tabs.Add(Me.tiCertPLanning)
             Me.tabQueueMode.Text = "TabControl1"
             '
-            'tcpCertPlanning
-            '
-            Me.tcpCertPlanning.Controls.Add(Me.cboCertFilter)
-            Me.tcpCertPlanning.Controls.Add(Me.lblCertFilter)
-            Me.tcpCertPlanning.Controls.Add(Me.tvwCertList)
-            Me.tcpCertPlanning.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.tcpCertPlanning.Location = New System.Drawing.Point(0, 23)
-            Me.tcpCertPlanning.Name = "tcpCertPlanning"
-            Me.tcpCertPlanning.Padding = New System.Windows.Forms.Padding(1)
-            Me.tcpCertPlanning.Size = New System.Drawing.Size(430, 479)
-            Me.tcpCertPlanning.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.tcpCertPlanning.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.tcpCertPlanning.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.tcpCertPlanning.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.tcpCertPlanning.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.tcpCertPlanning.Style.GradientAngle = 90
-            Me.tcpCertPlanning.TabIndex = 2
-            Me.tcpCertPlanning.TabItem = Me.tiCertPLanning
-            '
-            'tiCertPLanning
-            '
-            Me.tiCertPLanning.AttachedControl = Me.tcpCertPlanning
-            Me.tiCertPLanning.Name = "tiCertPLanning"
-            Me.tiCertPLanning.Text = "CertificatePlanning"
-            '
             'tcpSkillPlanning
             '
             Me.tcpSkillPlanning.Controls.Add(Me.chkOmitLevel5Skills)
@@ -1217,6 +1201,7 @@ Namespace Forms
             Me.tcpSkillPlanning.Controls.Add(Me.btnExpandAll)
             Me.tcpSkillPlanning.Controls.Add(Me.lblFilter)
             Me.tcpSkillPlanning.Controls.Add(Me.chkOmitQueuedSkills)
+            Me.tcpSkillPlanning.DisabledBackColor = System.Drawing.Color.Empty
             Me.tcpSkillPlanning.Dock = System.Windows.Forms.DockStyle.Fill
             Me.tcpSkillPlanning.Location = New System.Drawing.Point(0, 23)
             Me.tcpSkillPlanning.Name = "tcpSkillPlanning"
@@ -1341,6 +1326,33 @@ Namespace Forms
             Me.tiSkillPlanning.Name = "tiSkillPlanning"
             Me.tiSkillPlanning.Text = "Skill Planning"
             '
+            'tcpCertPlanning
+            '
+            Me.tcpCertPlanning.Controls.Add(Me.cboCertFilter)
+            Me.tcpCertPlanning.Controls.Add(Me.lblCertFilter)
+            Me.tcpCertPlanning.Controls.Add(Me.tvwCertList)
+            Me.tcpCertPlanning.DisabledBackColor = System.Drawing.Color.Empty
+            Me.tcpCertPlanning.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tcpCertPlanning.Location = New System.Drawing.Point(0, 23)
+            Me.tcpCertPlanning.Name = "tcpCertPlanning"
+            Me.tcpCertPlanning.Padding = New System.Windows.Forms.Padding(1)
+            Me.tcpCertPlanning.Size = New System.Drawing.Size(430, 479)
+            Me.tcpCertPlanning.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.tcpCertPlanning.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.tcpCertPlanning.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.tcpCertPlanning.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.tcpCertPlanning.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.tcpCertPlanning.Style.GradientAngle = 90
+            Me.tcpCertPlanning.TabIndex = 2
+            Me.tcpCertPlanning.TabItem = Me.tiCertPLanning
+            '
+            'tiCertPLanning
+            '
+            Me.tiCertPLanning.AttachedControl = Me.tcpCertPlanning
+            Me.tiCertPLanning.Name = "tiCertPLanning"
+            Me.tiCertPLanning.Text = "CertificatePlanning"
+            '
             'tabSkillDetails
             '
             Me.tabSkillDetails.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
@@ -1377,6 +1389,7 @@ Namespace Forms
             'TabControlPanel1
             '
             Me.TabControlPanel1.Controls.Add(Me.lvwDetails)
+            Me.TabControlPanel1.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel1.Name = "TabControlPanel1"
@@ -1392,45 +1405,6 @@ Namespace Forms
             Me.TabControlPanel1.TabIndex = 1
             Me.TabControlPanel1.TabItem = Me.tiGeneral
             '
-            'lvwDetails
-            '
-            Me.lvwDetails.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
-            Me.lvwDetails.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.lvwDetails.FullRowSelect = True
-            Me.lvwDetails.GridLines = True
-            ListViewGroup1.Header = "General"
-            ListViewGroup1.Name = "General"
-            ListViewGroup2.Header = "Pilot Specific"
-            ListViewGroup2.Name = "Specific"
-            Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
-            Me.lvwDetails.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-            ListViewItem1.Group = ListViewGroup1
-            ListViewItem2.Group = ListViewGroup1
-            ListViewItem3.Group = ListViewGroup1
-            ListViewItem4.Group = ListViewGroup1
-            ListViewItem5.Group = ListViewGroup1
-            ListViewItem6.Group = ListViewGroup1
-            ListViewItem7.Group = ListViewGroup2
-            ListViewItem8.Group = ListViewGroup2
-            ListViewItem9.Group = ListViewGroup2
-            ListViewItem10.Group = ListViewGroup2
-            Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
-            Me.lvwDetails.Location = New System.Drawing.Point(1, 1)
-            Me.lvwDetails.MultiSelect = False
-            Me.lvwDetails.Name = "lvwDetails"
-            Me.lvwDetails.Size = New System.Drawing.Size(429, 256)
-            Me.lvwDetails.TabIndex = 16
-            Me.lvwDetails.UseCompatibleStateImageBehavior = False
-            Me.lvwDetails.View = System.Windows.Forms.View.Details
-            '
-            'ColumnHeader1
-            '
-            Me.ColumnHeader1.Width = 120
-            '
-            'ColumnHeader2
-            '
-            Me.ColumnHeader2.Width = 200
-            '
             'tiGeneral
             '
             Me.tiGeneral.AttachedControl = Me.TabControlPanel1
@@ -1440,6 +1414,7 @@ Namespace Forms
             'TabControlPanel7
             '
             Me.TabControlPanel7.Controls.Add(Me.lvwTimes)
+            Me.TabControlPanel7.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel7.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel7.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel7.Name = "TabControlPanel7"
@@ -1455,39 +1430,6 @@ Namespace Forms
             Me.TabControlPanel7.TabIndex = 7
             Me.TabControlPanel7.TabItem = Me.TabItem6
             '
-            'lvwTimes
-            '
-            Me.lvwTimes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader6, Me.Standard, Me.Current, Me.Cumulative})
-            Me.lvwTimes.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.lvwTimes.FullRowSelect = True
-            Me.lvwTimes.GridLines = True
-            Me.lvwTimes.Location = New System.Drawing.Point(1, 1)
-            Me.lvwTimes.Name = "lvwTimes"
-            Me.lvwTimes.Size = New System.Drawing.Size(429, 256)
-            Me.lvwTimes.TabIndex = 1
-            Me.lvwTimes.UseCompatibleStateImageBehavior = False
-            Me.lvwTimes.View = System.Windows.Forms.View.Details
-            '
-            'ColumnHeader6
-            '
-            Me.ColumnHeader6.Text = "Lvl"
-            Me.ColumnHeader6.Width = 30
-            '
-            'Standard
-            '
-            Me.Standard.Text = "Time to Level Up"
-            Me.Standard.Width = 105
-            '
-            'Current
-            '
-            Me.Current.Text = "Cumulative From 0 SP"
-            Me.Current.Width = 125
-            '
-            'Cumulative
-            '
-            Me.Cumulative.Text = "Cumulative From Now"
-            Me.Cumulative.Width = 125
-            '
             'TabItem6
             '
             Me.TabItem6.AttachedControl = Me.TabControlPanel7
@@ -1497,6 +1439,7 @@ Namespace Forms
             'TabControlPanel5
             '
             Me.TabControlPanel5.Controls.Add(Me.lvwSPs)
+            Me.TabControlPanel5.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel5.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel5.Name = "TabControlPanel5"
@@ -1521,6 +1464,7 @@ Namespace Forms
             'TabControlPanel4
             '
             Me.TabControlPanel4.Controls.Add(Me.lvwDepend)
+            Me.TabControlPanel4.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel4.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel4.Name = "TabControlPanel4"
@@ -1545,6 +1489,7 @@ Namespace Forms
             'TabControlPanel3
             '
             Me.TabControlPanel3.Controls.Add(Me.tvwReqs)
+            Me.TabControlPanel3.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel3.Name = "TabControlPanel3"
@@ -1569,6 +1514,7 @@ Namespace Forms
             'TabControlPanel2
             '
             Me.TabControlPanel2.Controls.Add(Me.lblDescription)
+            Me.TabControlPanel2.DisabledBackColor = System.Drawing.Color.Empty
             Me.TabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill
             Me.TabControlPanel2.Location = New System.Drawing.Point(0, 23)
             Me.TabControlPanel2.Name = "TabControlPanel2"
@@ -1605,7 +1551,7 @@ Namespace Forms
             Me.tabQueues.Name = "tabQueues"
             Me.tabQueues.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
             Me.tabQueues.SelectedTabIndex = 0
-            Me.tabQueues.Size = New System.Drawing.Size(838, 825)
+            Me.tabQueues.Size = New System.Drawing.Size(1237, 825)
             Me.tabQueues.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
             Me.tabQueues.TabIndex = 50
             Me.tabQueues.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
@@ -1617,11 +1563,12 @@ Namespace Forms
             '
             Me.tcpQueue.Controls.Add(Me.lvQueues)
             Me.tcpQueue.Controls.Add(Me.lblTotalQueueTime)
+            Me.tcpQueue.DisabledBackColor = System.Drawing.Color.Empty
             Me.tcpQueue.Dock = System.Windows.Forms.DockStyle.Fill
             Me.tcpQueue.Location = New System.Drawing.Point(0, 23)
             Me.tcpQueue.Name = "tcpQueue"
             Me.tcpQueue.Padding = New System.Windows.Forms.Padding(1)
-            Me.tcpQueue.Size = New System.Drawing.Size(838, 802)
+            Me.tcpQueue.Size = New System.Drawing.Size(1237, 802)
             Me.tcpQueue.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
             Me.tcpQueue.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.tcpQueue.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1631,50 +1578,6 @@ Namespace Forms
             Me.tcpQueue.Style.GradientAngle = 90
             Me.tcpQueue.TabIndex = 1
             Me.tcpQueue.TabItem = Me.tabSummary
-            '
-            'lvQueues
-            '
-            Me.lvQueues.AllowColumnReorder = True
-            Me.lvQueues.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.lvQueues.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQName, Me.colQSkills, Me.colQTimeLeft, Me.colQQueuedTime, Me.colQEndDate})
-            Me.lvQueues.ContextMenuStrip = Me.ctxQueues
-            Me.lvQueues.FullRowSelect = True
-            Me.lvQueues.GridLines = True
-            Me.lvQueues.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-            Me.lvQueues.HideSelection = False
-            Me.lvQueues.Location = New System.Drawing.Point(4, 0)
-            Me.lvQueues.Name = "lvQueues"
-            Me.lvQueues.Size = New System.Drawing.Size(830, 782)
-            Me.lvQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
-            Me.lvQueues.TabIndex = 4
-            Me.lvQueues.UseCompatibleStateImageBehavior = False
-            Me.lvQueues.View = System.Windows.Forms.View.Details
-            '
-            'colQName
-            '
-            Me.colQName.Text = "Queue Name"
-            Me.colQName.Width = 200
-            '
-            'colQSkills
-            '
-            Me.colQSkills.Text = "Skills"
-            '
-            'colQTimeLeft
-            '
-            Me.colQTimeLeft.Text = "Total Time"
-            Me.colQTimeLeft.Width = 120
-            '
-            'colQQueuedTime
-            '
-            Me.colQQueuedTime.Text = "Queued Time"
-            Me.colQQueuedTime.Width = 120
-            '
-            'colQEndDate
-            '
-            Me.colQEndDate.Text = "End Date"
-            Me.colQEndDate.Width = 175
             '
             'ctxQueues
             '
@@ -1755,6 +1658,7 @@ Namespace Forms
             Me.panelInfo.Controls.Add(Me.lblPilot)
             Me.panelInfo.Controls.Add(Me.tabQueueMode)
             Me.panelInfo.Controls.Add(Me.tabSkillDetails)
+            Me.panelInfo.DisabledBackColor = System.Drawing.Color.Empty
             Me.panelInfo.Dock = System.Windows.Forms.DockStyle.Left
             Me.panelInfo.Location = New System.Drawing.Point(0, 0)
             Me.panelInfo.Name = "panelInfo"
@@ -1815,11 +1719,127 @@ Namespace Forms
             Me.ExpandableSplitter1.TabIndex = 52
             Me.ExpandableSplitter1.TabStop = False
             '
+            'lvQueues
+            '
+            Me.lvQueues.AllowColumnReorder = True
+            Me.lvQueues.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.lvQueues.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colQName, Me.colQSkills, Me.colQTimeLeft, Me.colQQueuedTime, Me.colQEndDate})
+            Me.lvQueues.ContextMenuStrip = Me.ctxQueues
+            Me.lvQueues.FullRowSelect = True
+            Me.lvQueues.GridLines = True
+            Me.lvQueues.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+            Me.lvQueues.HideSelection = False
+            Me.lvQueues.Location = New System.Drawing.Point(4, 0)
+            Me.lvQueues.Name = "lvQueues"
+            Me.lvQueues.Size = New System.Drawing.Size(1229, 782)
+            Me.lvQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
+            Me.lvQueues.TabIndex = 4
+            Me.lvQueues.UseCompatibleStateImageBehavior = False
+            Me.lvQueues.View = System.Windows.Forms.View.Details
+            '
+            'colQName
+            '
+            Me.colQName.Text = "Queue Name"
+            Me.colQName.Width = 200
+            '
+            'colQSkills
+            '
+            Me.colQSkills.Text = "Skills"
+            '
+            'colQTimeLeft
+            '
+            Me.colQTimeLeft.Text = "Total Time"
+            Me.colQTimeLeft.Width = 120
+            '
+            'colQQueuedTime
+            '
+            Me.colQQueuedTime.Text = "Queued Time"
+            Me.colQQueuedTime.Width = 120
+            '
+            'colQEndDate
+            '
+            Me.colQEndDate.Text = "End Date"
+            Me.colQEndDate.Width = 175
+            '
+            'lvwDetails
+            '
+            Me.lvwDetails.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+            Me.lvwDetails.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.lvwDetails.FullRowSelect = True
+            Me.lvwDetails.GridLines = True
+            ListViewGroup1.Header = "General"
+            ListViewGroup1.Name = "General"
+            ListViewGroup2.Header = "Pilot Specific"
+            ListViewGroup2.Name = "Specific"
+            Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+            Me.lvwDetails.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+            ListViewItem1.Group = ListViewGroup1
+            ListViewItem2.Group = ListViewGroup1
+            ListViewItem3.Group = ListViewGroup1
+            ListViewItem4.Group = ListViewGroup1
+            ListViewItem5.Group = ListViewGroup1
+            ListViewItem6.Group = ListViewGroup1
+            ListViewItem7.Group = ListViewGroup2
+            ListViewItem8.Group = ListViewGroup2
+            ListViewItem9.Group = ListViewGroup2
+            ListViewItem10.Group = ListViewGroup2
+            Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
+            Me.lvwDetails.Location = New System.Drawing.Point(1, 1)
+            Me.lvwDetails.MultiSelect = False
+            Me.lvwDetails.Name = "lvwDetails"
+            Me.lvwDetails.Size = New System.Drawing.Size(429, 256)
+            Me.lvwDetails.TabIndex = 16
+            Me.lvwDetails.UseCompatibleStateImageBehavior = False
+            Me.lvwDetails.View = System.Windows.Forms.View.Details
+            '
+            'ColumnHeader1
+            '
+            Me.ColumnHeader1.Width = 120
+            '
+            'ColumnHeader2
+            '
+            Me.ColumnHeader2.Width = 200
+            '
+            'lvwTimes
+            '
+            Me.lvwTimes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader6, Me.Standard, Me.Current, Me.Cumulative})
+            Me.lvwTimes.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.lvwTimes.FullRowSelect = True
+            Me.lvwTimes.GridLines = True
+            Me.lvwTimes.Location = New System.Drawing.Point(1, 1)
+            Me.lvwTimes.Name = "lvwTimes"
+            Me.lvwTimes.Size = New System.Drawing.Size(429, 256)
+            Me.lvwTimes.TabIndex = 1
+            Me.lvwTimes.UseCompatibleStateImageBehavior = False
+            Me.lvwTimes.View = System.Windows.Forms.View.Details
+            '
+            'ColumnHeader6
+            '
+            Me.ColumnHeader6.Text = "Lvl"
+            Me.ColumnHeader6.Width = 30
+            '
+            'Standard
+            '
+            Me.Standard.Text = "Time to Level Up"
+            Me.Standard.Width = 105
+            '
+            'Current
+            '
+            Me.Current.Text = "Cumulative From 0 SP"
+            Me.Current.Width = 125
+            '
+            'Cumulative
+            '
+            Me.Cumulative.Text = "Cumulative From Now"
+            Me.Cumulative.Width = 125
+            '
             'FrmTraining
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-            Me.ClientSize = New System.Drawing.Size(1284, 825)
+            Me.ClientSize = New System.Drawing.Size(1683, 825)
             Me.Controls.Add(Me.RibbonBarMergeContainer1)
             Me.Controls.Add(Me.tabQueues)
             Me.Controls.Add(Me.ExpandableSplitter1)
@@ -1837,11 +1857,11 @@ Namespace Forms
             Me.RibbonBarMergeContainer1.ResumeLayout(False)
             CType(Me.tabQueueMode, System.ComponentModel.ISupportInitialize).EndInit()
             Me.tabQueueMode.ResumeLayout(False)
-            Me.tcpCertPlanning.ResumeLayout(False)
-            Me.tcpCertPlanning.PerformLayout()
             Me.tcpSkillPlanning.ResumeLayout(False)
             Me.tcpSkillPlanning.PerformLayout()
             CType(Me.adtSkillList, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.tcpCertPlanning.ResumeLayout(False)
+            Me.tcpCertPlanning.PerformLayout()
             CType(Me.tabSkillDetails, System.ComponentModel.ISupportInitialize).EndInit()
             Me.tabSkillDetails.ResumeLayout(False)
             Me.TabControlPanel1.ResumeLayout(False)

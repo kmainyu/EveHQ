@@ -497,6 +497,14 @@ Imports EveHQ.Common.Extensions
     ''' <remarks></remarks>
     Public Property Rating As Integer
 
+    ''' <summary>
+    ''' Gets or sets the ship mode
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>The ship mode</returns>
+    ''' <remarks></remarks>
+    Public Property ShipMode As ShipModes
+    
     ' ReSharper restore InconsistentNaming
 
 #End Region
@@ -925,39 +933,14 @@ Imports EveHQ.Common.Extensions
             Dim hSkill As FittingSkill
             Dim fEffect As FinalEffect
             Dim fEffectList As List(Of FinalEffect)
+            ' Check for normal ship bonuses
             If Engine.ShipBonusesMap.ContainsKey(hShip.ID) = True Then
-                shipRoles = Engine.ShipBonusesMap(hShip.ID)
-                If shipRoles IsNot Nothing Then
-                    For Each chkEffect As ShipEffect In shipRoles
-                        If chkEffect.Status <> 16 Then
-                            fEffect = New FinalEffect
-                            If hPilot.SkillSet.ContainsKey(SkillFunctions.SkillIDToName(chkEffect.AffectingID)) = True Then
-                                hSkill = hPilot.SkillSet(SkillFunctions.SkillIDToName(chkEffect.AffectingID))
-                                If chkEffect.IsPerLevel = True Then
-                                    fEffect.AffectedValue = chkEffect.Value * hSkill.Level
-                                    fEffect.Cause = "Ship Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
-                                Else
-                                    fEffect.AffectedValue = chkEffect.Value
-                                    fEffect.Cause = "Ship Role - "
-                                End If
-                            Else
-                                fEffect.AffectedValue = chkEffect.Value
-                                fEffect.Cause = "Ship Role - "
-                            End If
-                            fEffect.AffectedAtt = chkEffect.AffectedAtt
-                            fEffect.AffectedType = chkEffect.AffectedType
-                            fEffect.AffectedID = chkEffect.AffectedID
-                            fEffect.StackNerf = chkEffect.StackNerf
-                            fEffect.CalcType = chkEffect.CalcType
-                            If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt) = False Then
-                                fEffectList = New List(Of FinalEffect)
-                                _skillEffectsTable.Add(fEffect.AffectedAtt, fEffectList)
-                            Else
-                                fEffectList = _skillEffectsTable(fEffect.AffectedAtt)
-                            End If
-                            fEffectList.Add(fEffect)
-                        End If
-                    Next
+                ProcessShipBonuses(hPilot, Engine.ShipBonusesMap(hShip.ID))
+            End If
+            ' Check for ship mode and ship mode bonuses
+            If ShipMode <> ShipModes.None Then
+                If Engine.ShipModeBonusesMap.ContainsKey(hShip.ID) Then
+                    ProcessShipBonuses(hPilot, Engine.ShipModeBonusesMap(hShip.ID)(ShipMode))
                 End If
             End If
             ' Get the ship effects
@@ -1057,6 +1040,41 @@ Imports EveHQ.Common.Extensions
                 Next
             End If
         End If
+    End Sub
+    Private Sub ProcessShipBonuses(ByVal hPilot As FittingPilot, roleList As List(Of ShipEffect))
+        Dim hSkill As FittingSkill
+        Dim fEffect As FinalEffect
+        Dim fEffectList As List(Of FinalEffect)
+        For Each chkEffect As ShipEffect In roleList
+            If chkEffect.Status <> 16 Then
+                fEffect = New FinalEffect
+                If hPilot.SkillSet.ContainsKey(SkillFunctions.SkillIDToName(chkEffect.AffectingID)) = True Then
+                    hSkill = hPilot.SkillSet(SkillFunctions.SkillIDToName(chkEffect.AffectingID))
+                    If chkEffect.IsPerLevel = True Then
+                        fEffect.AffectedValue = chkEffect.Value * hSkill.Level
+                        fEffect.Cause = "Ship Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
+                    Else
+                        fEffect.AffectedValue = chkEffect.Value
+                        fEffect.Cause = "Ship Role - "
+                    End If
+                Else
+                    fEffect.AffectedValue = chkEffect.Value
+                    fEffect.Cause = "Ship Role - "
+                End If
+                fEffect.AffectedAtt = chkEffect.AffectedAtt
+                fEffect.AffectedType = chkEffect.AffectedType
+                fEffect.AffectedID = chkEffect.AffectedID
+                fEffect.StackNerf = chkEffect.StackNerf
+                fEffect.CalcType = chkEffect.CalcType
+                If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt) = False Then
+                    fEffectList = New List(Of FinalEffect)
+                    _skillEffectsTable.Add(fEffect.AffectedAtt, fEffectList)
+                Else
+                    fEffectList = _skillEffectsTable(fEffect.AffectedAtt)
+                End If
+                fEffectList.Add(fEffect)
+            End If
+        Next
     End Sub
     Private Sub BuildChargeEffects(ByRef newShip As Ship)
         ' Clear the Effects Table

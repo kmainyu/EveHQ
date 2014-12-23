@@ -710,44 +710,48 @@ Namespace Forms
 
         Public Sub UpdatePlugIns()
             lvwPlugins.Items.Clear()
-            For Each newPlugIn As EveHQPlugIn In HQ.Plugins.Values
-                Dim newLine As New ListViewItem
-                newLine.Name = newPlugIn.Name
-                newLine.Text = newPlugIn.Name & " (v" & newPlugIn.Version & ")"
-                If newPlugIn.Disabled = True Then
-                    newLine.Checked = False
-                    Dim status As String = ""
-                    Select Case newPlugIn.Status
-                        Case EveHQPlugInStatus.Uninitialised
-                            status = "Uninitialised"
-                        Case EveHQPlugInStatus.Loading
-                            status = "Loading"
-                        Case EveHQPlugInStatus.Failed
-                            status = "Failed"
-                        Case EveHQPlugInStatus.Active
-                            status = "Active"
-                    End Select
-                    newLine.SubItems.Add("Disabled" & " (" & status & ")")
-                Else
-                    newLine.Checked = True
-                    Dim status As String = ""
-                    Select Case newPlugIn.Status
-                        Case EveHQPlugInStatus.Uninitialised
-                            status = "Uninitialised"
-                        Case EveHQPlugInStatus.Loading
-                            status = "Loading"
-                        Case EveHQPlugInStatus.Failed
-                            status = "Failed"
-                        Case EveHQPlugInStatus.Active
-                            status = "Active"
-                    End Select
-                    newLine.SubItems.Add("Enabled" & " (" & status & ")")
-                End If
-                If newPlugIn.Available = False Then
-                    newLine.SubItems(1).Text = "Unavailable"
-                End If
-                lvwPlugins.Items.Add(newLine)
+            For Each plugin As EveHQPlugIn In HQ.Plugins.Values
+                Dim item As New ListViewItem
+                item.Name = plugin.Name
+                item.Text = plugin.Name & " (v" & plugin.Version & ")"
+                item.SubItems.Add("")
+                item.Checked = Not plugin.Disabled
+                UpdatePluginStatus(plugin, item)
+                lvwPlugins.Items.Add(item)
             Next
+        End Sub
+
+        Private Sub UpdatePluginStatus(plugin As EveHQPlugIn, item As ListViewItem)
+            If plugin.Disabled = True Then
+                Dim status As String = ""
+                Select Case plugin.Status
+                    Case EveHQPlugInStatus.Uninitialised
+                        status = "Uninitialised"
+                    Case EveHQPlugInStatus.Loading
+                        status = "Loading"
+                    Case EveHQPlugInStatus.Failed
+                        status = "Failed"
+                    Case EveHQPlugInStatus.Active
+                        status = "Active"
+                End Select
+                item.SubItems(1).Text = ("Disabled" & " (" & status & ")")
+            Else
+                Dim status As String = ""
+                Select Case plugin.Status
+                    Case EveHQPlugInStatus.Uninitialised
+                        status = "Uninitialised"
+                    Case EveHQPlugInStatus.Loading
+                        status = "Loading"
+                    Case EveHQPlugInStatus.Failed
+                        status = "Failed"
+                    Case EveHQPlugInStatus.Active
+                        status = "Active"
+                End Select
+                item.SubItems(1).Text = ("Enabled" & " (" & status & ")")
+            End If
+            If plugin.Available = False Then
+                item.SubItems(1).Text = "Unavailable"
+            End If
         End Sub
 
         Private Sub btnTidyPlugins_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnTidyPlugins.Click
@@ -770,11 +774,15 @@ Namespace Forms
         Private Sub lvwPlugins_ItemChecked(ByVal sender As Object, ByVal e As ItemCheckedEventArgs) Handles lvwPlugins.ItemChecked
             Dim pluginName As String = e.Item.Name
             Dim plugin As EveHQPlugIn = HQ.Plugins(pluginName)
-            If e.Item.Checked = True Then
-                plugin.Disabled = False
+            plugin.Disabled = Not e.Item.Checked
+            If HQ.Settings.Plugins.ContainsKey(pluginName) Then
+                HQ.Settings.Plugins(pluginName).Disabled = Not e.Item.Checked
             Else
-                plugin.Disabled = True
+                HQ.Settings.Plugins.Add(pluginName, New EveHQPlugInConfig With
+                                                   {.Name = pluginName,
+                                                    .Disabled = Not e.Item.Checked})
             End If
+            UpdatePluginStatus(plugin, e.Item)
         End Sub
 
 #End Region
@@ -973,14 +981,16 @@ Namespace Forms
 
 #Region "Training Queue Options"
 
-        Private Sub chkDeleteCompletedSkills_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
-            Handles chkDeleteCompletedSkills.CheckedChanged
+        Private Sub chkDeleteCompletedSkills_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkDeleteCompletedSkills.CheckedChanged
             HQ.Settings.DeleteSkills = chkDeleteCompletedSkills.Checked
         End Sub
 
-        Private Sub chkStartWithPrimaryQueue_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
-            Handles chkStartWithPrimaryQueue.CheckedChanged
+        Private Sub chkStartWithPrimaryQueue_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkStartWithPrimaryQueue.CheckedChanged
             HQ.Settings.StartWithPrimaryQueue = chkStartWithPrimaryQueue.Checked
+        End Sub
+
+        Private Sub nudEveQueueDisplayLength_ValueChanged(sender As Object, e As EventArgs) Handles nudEveQueueDisplayLength.ValueChanged
+            HQ.Settings.EveQueueDisplayLength = nudEveQueueDisplayLength.Value.ToInt32
         End Sub
 
         Private Sub UpdateTrainingQueueOptions()
@@ -988,6 +998,7 @@ Namespace Forms
             Call RedrawQueueColumnList()
             chkDeleteCompletedSkills.Checked = HQ.Settings.DeleteSkills
             chkStartWithPrimaryQueue.Checked = HQ.Settings.StartWithPrimaryQueue
+            nudEveQueueDisplayLength.Value = HQ.Settings.EveQueueDisplayLength
             Dim prereqColor As Color = Color.FromArgb(CInt(HQ.Settings.IsPreReqColor))
             pbIsPreReqColour.BackColor = prereqColor
             Dim hColor As Color = Color.FromArgb(CInt(HQ.Settings.HasPreReqColor))
@@ -2643,5 +2654,6 @@ Namespace Forms
             Call UpdatePilots()
         End Sub
 
+       
     End Class
 End Namespace

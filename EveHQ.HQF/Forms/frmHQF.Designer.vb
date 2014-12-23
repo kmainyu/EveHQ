@@ -618,6 +618,7 @@ Namespace Forms
             Me.panelModules.Controls.Add(Me.panelModuleList)
             Me.panelModules.Controls.Add(Me.SplitterMods)
             Me.panelModules.Controls.Add(Me.panelModFilters)
+            Me.panelModules.DisabledBackColor = System.Drawing.Color.Empty
             Me.panelModules.Dock = System.Windows.Forms.DockStyle.Right
             Me.panelModules.Location = New System.Drawing.Point(1054, 0)
             Me.panelModules.Name = "panelModules"
@@ -637,6 +638,7 @@ Namespace Forms
             Me.panelModuleList.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
             Me.panelModuleList.Controls.Add(Me.lblModuleDisplayType)
             Me.panelModuleList.Controls.Add(Me.tvwModules)
+            Me.panelModuleList.DisabledBackColor = System.Drawing.Color.Empty
             Me.panelModuleList.Dock = System.Windows.Forms.DockStyle.Fill
             Me.panelModuleList.Location = New System.Drawing.Point(0, 361)
             Me.panelModuleList.Name = "panelModuleList"
@@ -790,6 +792,7 @@ Namespace Forms
             Me.panelModFilters.Controls.Add(Me.chkFilter16)
             Me.panelModFilters.Controls.Add(Me.chkFilter32)
             Me.panelModFilters.Controls.Add(Me.chkApplySkills)
+            Me.panelModFilters.DisabledBackColor = System.Drawing.Color.Empty
             Me.panelModFilters.Dock = System.Windows.Forms.DockStyle.Top
             Me.panelModFilters.Location = New System.Drawing.Point(0, 0)
             Me.panelModFilters.Name = "panelModFilters"
@@ -881,6 +884,7 @@ Namespace Forms
             Me.panelShips.Controls.Add(Me.tvwShips)
             Me.panelShips.Controls.Add(Me.SplitterFittings)
             Me.panelShips.Controls.Add(Me.panelFittings)
+            Me.panelShips.DisabledBackColor = System.Drawing.Color.Empty
             Me.panelShips.Dock = System.Windows.Forms.DockStyle.Left
             Me.panelShips.Location = New System.Drawing.Point(0, 0)
             Me.panelShips.Name = "panelShips"
@@ -938,6 +942,7 @@ Namespace Forms
             Me.panelFittings.Controls.Add(Me.lblFlyable)
             Me.panelFittings.Controls.Add(Me.pbSearchShips)
             Me.panelFittings.Controls.Add(Me.btnResetShips)
+            Me.panelFittings.DisabledBackColor = System.Drawing.Color.Empty
             Me.panelFittings.Dock = System.Windows.Forms.DockStyle.Top
             Me.panelFittings.Location = New System.Drawing.Point(0, 0)
             Me.panelFittings.Name = "panelFittings"
@@ -1081,6 +1086,7 @@ Namespace Forms
             '
             Me.rbEditor.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbEditor.ContainerControlProcessDialogKey = True
+            Me.rbEditor.DragDropSupport = True
             Me.rbEditor.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEditor})
             Me.rbEditor.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbEditor.Location = New System.Drawing.Point(719, 0)
@@ -1120,6 +1126,7 @@ Namespace Forms
             '
             Me.rbImport.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbImport.ContainerControlProcessDialogKey = True
+            Me.rbImport.DragDropSupport = True
             Me.rbImport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2, Me.btnImport})
             Me.rbImport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbImport.Location = New System.Drawing.Point(521, 0)
@@ -1191,6 +1198,7 @@ Namespace Forms
             '
             Me.rbExport.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbExport.ContainerControlProcessDialogKey = True
+            Me.rbExport.DragDropSupport = True
             Me.rbExport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnScreenGrab, Me.btnExportEve, Me.ItemContainer1, Me.btnExportReq})
             Me.rbExport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbExport.Location = New System.Drawing.Point(219, 0)
@@ -1255,6 +1263,9 @@ Namespace Forms
             Me.btnExportFitting.ImageFixedSize = New System.Drawing.Size(30, 30)
             Me.btnExportFitting.Name = "btnExportFitting"
             Me.btnExportFitting.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnExportHQF, Me.btnExportEFT, Me.btnExportForums})
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnExportFitting, New DevComponents.DotNetBar.SuperTooltipInfo("", "Export Fitting", "Exports the current fitting in a variety of formats." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click the main button to " & _
+                "export in EFT format (useful for importing directly in Eve) or click the drop dr" & _
+                "own button for more export options." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnExportFitting.Text = "Export Fitting"
             '
             'btnExportHQF
@@ -1315,6 +1326,7 @@ Namespace Forms
             '
             Me.rbTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbTools.ContainerControlProcessDialogKey = True
+            Me.rbTools.DragDropSupport = True
             Me.rbTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnShipSelector, Me.btnPilotManager, Me.btnImplantManager})
             Me.rbTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbTools.Location = New System.Drawing.Point(59, 0)
@@ -1379,6 +1391,7 @@ Namespace Forms
             '
             Me.rbOptions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbOptions.ContainerControlProcessDialogKey = True
+            Me.rbOptions.DragDropSupport = True
             Me.rbOptions.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOptions})
             Me.rbOptions.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbOptions.Location = New System.Drawing.Point(0, 0)
@@ -1410,12 +1423,14 @@ Namespace Forms
             'SuperTooltip1
             '
             Me.SuperTooltip1.DefaultFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.SuperTooltip1.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Gray)
             Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.SuperTooltip1.PositionBelowControl = False
             Me.SuperTooltip1.TooltipDuration = 0
             '
             'STTShips
             '
+            Me.STTShips.DefaultTooltipSettings = New DevComponents.DotNetBar.SuperTooltipInfo("", "", "", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Gray)
             Me.STTShips.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.STTShips.MinimumTooltipSize = New System.Drawing.Size(300, 100)
             Me.STTShips.PositionBelowControl = False

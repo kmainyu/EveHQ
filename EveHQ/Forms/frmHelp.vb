@@ -53,10 +53,10 @@ Namespace Forms
     Public Class FrmHelp
 
         Private ReadOnly _blogItems As New ArrayList
-        Private ReadOnly _twitterItems As New ArrayList
+        Private ReadOnly _forumItems As New ArrayList
         Private ReadOnly _feedIDs As New ArrayList
         Dim WithEvents _blogUpdateWorker As New BackgroundWorker
-        Dim WithEvents _twitterUpdateWorker As New BackgroundWorker
+        Dim WithEvents _forumUpdateWorker As New BackgroundWorker
 
         Private Sub frmHelp_Shown(sender As Object, e As EventArgs) Handles Me.Shown
             tmrUpdate.Start()
@@ -79,21 +79,21 @@ Namespace Forms
             pnlBlogFeedItems.ResumeLayout()
         End Sub
 
-        Private Sub UpdateTwitterFeedDisplay()
-            pnlTwitterFeedItems.SuspendLayout()
-            pnlTwitterFeedItems.Controls.Clear()
-            For Each item As FeedItem In _twitterItems
-                Dim rssItem As New RSSTwitterItem
-                rssItem.lblFeedItemTitle.Text = item.Title.Replace("EveHQ", "<b><a href='" & item.Link & "'>EveHQ</a></b>")
+        Private Sub UpdateForumFeedDisplay()
+            pnlForumFeedItems.SuspendLayout()
+            pnlForumFeedItems.Controls.Clear()
+            For Each item As FeedItem In _forumItems
+                Dim rssItem As New RSSFeedItem
+                rssItem.lblFeedItemTitle.Text = item.Title
                 rssItem.lblFeedItemTitle.Tag = item.Link
                 Dim itemDate As Date
                 Date.TryParse(item.PubDate, itemDate)
-                rssItem.lblFeeItemDate.Text = Format(itemDate, "d MMM")
-                pnlTwitterFeedItems.Controls.Add(rssItem)
+                rssItem.lblFeeItemDate.Text = itemDate.ToLongDateString & " " & itemDate.ToLongTimeString
+                pnlForumFeedItems.Controls.Add(rssItem)
                 rssItem.Dock = DockStyle.Top
                 rssItem.BringToFront()
             Next
-            pnlTwitterFeedItems.ResumeLayout()
+            pnlForumFeedItems.ResumeLayout()
         End Sub
 
 #Region "Feed Parsing Routines"
@@ -146,7 +146,7 @@ Namespace Forms
             Return output
         End Function
 
-        Private Shared Function RemoveHTMLTags(ByVal text As String) As String
+        Private Shared Function RemoveHtmlTags(ByVal text As String) As String
             Const RegularExpressionString As String = "<.+?>"
 
             Dim r As New Regex(RegularExpressionString, RegexOptions.Singleline)
@@ -160,13 +160,13 @@ Namespace Forms
             tmrUpdate.Enabled = False
             pbBlogUpdate.Visible = True
             _blogUpdateWorker.RunWorkerAsync()
-            pbTwitterUpdate.Visible = True
-            _twitterUpdateWorker.RunWorkerAsync()
-            wbHelp.Navigate("http://evehq.net/wiki")
+            pbForumUpdate.Visible = True
+            _forumUpdateWorker.RunWorkerAsync()
+            wbHelp.Navigate("http://newedentech.com/wiki")
         End Sub
 
         Private Sub BlogUpdater_DoWork(sender As Object, e As DoWorkEventArgs) Handles _blogUpdateWorker.DoWork
-            Call ParseFeed("http://evehq.net/feed/", _blogItems)
+            Call ParseFeed("http://newedentech.com/feed/", _blogItems)
         End Sub
 
         Private Sub BlogUpdater_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _blogUpdateWorker.RunWorkerCompleted
@@ -174,13 +174,13 @@ Namespace Forms
             pbBlogUpdate.Visible = False
         End Sub
 
-        Private Sub TwitterUpdater_DoWork(sender As Object, e As DoWorkEventArgs) Handles _twitterUpdateWorker.DoWork
-            Call ParseFeed("http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=EveHQToolkit", _twitterItems)
+        Private Sub ForumUpdater_DoWork(sender As Object, e As DoWorkEventArgs) Handles _forumUpdateWorker.DoWork
+            Call ParseFeed("http://newedentech.com/forum/index.php?action=.xml;type=rss;sa=recent;limit=10", _forumItems)
         End Sub
 
-        Private Sub TwitterUpdater_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _twitterUpdateWorker.RunWorkerCompleted
-            Call UpdateTwitterFeedDisplay()
-            pbTwitterUpdate.Visible = False
+        Private Sub ForumUpdater_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _forumUpdateWorker.RunWorkerCompleted
+            Call UpdateForumFeedDisplay()
+            pbForumUpdate.Visible = False
         End Sub
 
         Private Sub lblBlogFeed_DoubleClick(sender As Object, e As EventArgs) Handles lblBlogFeed.DoubleClick
@@ -188,9 +188,9 @@ Namespace Forms
             _blogUpdateWorker.RunWorkerAsync()
         End Sub
 
-        Private Sub lblTwitterFeed_DoubleClick(sender As Object, e As EventArgs) Handles lblTwitterFeed.DoubleClick
-            pbTwitterUpdate.Visible = True
-            _twitterUpdateWorker.RunWorkerAsync()
+        Private Sub lblForumFeed_DoubleClick(sender As Object, e As EventArgs) Handles lblForumFeed.DoubleClick
+            pbForumUpdate.Visible = True
+            _forumUpdateWorker.RunWorkerAsync()
         End Sub
     End Class
 End NameSpace

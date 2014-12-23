@@ -1,12 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<eveHQMessage>
-  <lastUpdated>02/06/2012 21:40:00</lastUpdated>
-  <title>EveHQ - New Location</title>
+﻿<eveHQMessage>
+  <lastUpdated>28/11/2014 23:00:00</lastUpdated>
+  <title>Ideas for New HQF Ship Wanted</title>
   <allowIgnore>1</allowIgnore>
   <message>
-  <![CDATA[Please note that the EveHQ website has now been moved to a new location to house EveHQ and all other projects currently in development. This includes all information and support, including forums.<br /><br />Please update any bookmarks to <a href="http://eveit.net">http://eveit.net</a> and use this location from now on.<br /><br /><br /><br />- Vessper]]></message>
+    <![CDATA[The Confessor, the first in a new line of Tech 3 Destroyers, will be making its debut in Rhea on 9th December. This ship contains 3 alternative modes which can be switched between on command to give different bonuses in each mode. This will obviously need to be added into HQF very shortly so I'm looking into how these separate modes will be implemented.<br /><br />Any ideas would be appreciated at <a href='http://newedentech.com/forum/index.php?topic=157.0'>the forums</a><br /><br />Thanks.<br /><br /><br /><br />- Drailen]]>
+  </message>
   <disabledPlugins>
-    <plugin name="PoS Manager" version="2.8.1.3869" />
-    <plugin name="EveHQ Route Map" version="2.4.0.3671" />
+    <plugin name="PoS Manager" version="2.8.1.3869"/>
+    <plugin name="EveHQ Route Map" version="2.4.0.3671"/>
   </disabledPlugins>
 </eveHQMessage>

@@ -26,8 +26,7 @@ Namespace Forms
             Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Calculation Variables")
             Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Damage Profiles")
             Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Defence Profiles")
-            Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Data and Cache")
-            Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Layout")
+            Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Slot Layout")
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmHQFSettings))
             Me.gbGeneral = New System.Windows.Forms.GroupBox()
             Me.chkUseLastPilot = New DevComponents.DotNetBar.Controls.CheckBoxX()
@@ -62,19 +61,6 @@ Namespace Forms
             Me.lvwColumns = New System.Windows.Forms.ListView()
             Me.colSlotColumns = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.lblSlotColumns = New System.Windows.Forms.Label()
-            Me.gbCache = New System.Windows.Forms.GroupBox()
-            Me.pbIcon = New System.Windows.Forms.PictureBox()
-            Me.btnGetIconImage = New System.Windows.Forms.Button()
-            Me.btnGenerateIconList = New System.Windows.Forms.Button()
-            Me.btnCheckMarket = New System.Windows.Forms.Button()
-            Me.btnExportShipBonuses = New System.Windows.Forms.Button()
-            Me.btnExportImplantEffects = New System.Windows.Forms.Button()
-            Me.btnExportEffects = New System.Windows.Forms.Button()
-            Me.btnCheckAttributeIntFloat = New System.Windows.Forms.Button()
-            Me.btnCheckModuleMetaData = New System.Windows.Forms.Button()
-            Me.btnDeleteAllFittings = New System.Windows.Forms.Button()
-            Me.btnCheckData = New System.Windows.Forms.Button()
-            Me.btnDeleteCache = New System.Windows.Forms.Button()
             Me.gbConstants = New System.Windows.Forms.GroupBox()
             Me.chkAmmoLoadTime = New System.Windows.Forms.CheckBox()
             Me.chkCapBoosterReloadTime = New System.Windows.Forms.CheckBox()
@@ -177,8 +163,6 @@ Namespace Forms
             CType(Me.pbRigSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.gbSlotFormat.SuspendLayout()
             CType(Me.pbSubSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.gbCache.SuspendLayout()
-            CType(Me.pbIcon, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.gbConstants.SuspendLayout()
             CType(Me.nudMissileRange, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -272,7 +256,6 @@ Namespace Forms
             '
             Me.cboStartupPilot.DisplayMember = "Text"
             Me.cboStartupPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-            Me.cboStartupPilot.FlatStyle = System.Windows.Forms.FlatStyle.Flat
             Me.cboStartupPilot.FormattingEnabled = True
             Me.cboStartupPilot.ItemHeight = 15
             Me.cboStartupPilot.Location = New System.Drawing.Point(152, 48)
@@ -361,11 +344,9 @@ Namespace Forms
             TreeNode4.Text = "Damage Profiles"
             TreeNode5.Name = "nodeDefenceProfiles"
             TreeNode5.Text = "Defence Profiles"
-            TreeNode6.Name = "nodeCache"
-            TreeNode6.Text = "Data and Cache"
-            TreeNode7.Name = "nodeSlotFormat"
-            TreeNode7.Text = "Slot Layout"
-            Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7})
+            TreeNode6.Name = "nodeSlotFormat"
+            TreeNode6.Text = "Slot Layout"
+            Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6})
             Me.tvwSettings.Size = New System.Drawing.Size(176, 473)
             Me.tvwSettings.TabIndex = 27
             '
@@ -544,146 +525,6 @@ Namespace Forms
             Me.lblSlotColumns.TabIndex = 28
             Me.lblSlotColumns.Text = "Slot Column Selection:"
             '
-            'gbCache
-            '
-            Me.gbCache.Controls.Add(Me.pbIcon)
-            Me.gbCache.Controls.Add(Me.btnGetIconImage)
-            Me.gbCache.Controls.Add(Me.btnGenerateIconList)
-            Me.gbCache.Controls.Add(Me.btnCheckMarket)
-            Me.gbCache.Controls.Add(Me.btnExportShipBonuses)
-            Me.gbCache.Controls.Add(Me.btnExportImplantEffects)
-            Me.gbCache.Controls.Add(Me.btnExportEffects)
-            Me.gbCache.Controls.Add(Me.btnCheckAttributeIntFloat)
-            Me.gbCache.Controls.Add(Me.btnCheckModuleMetaData)
-            Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
-            Me.gbCache.Controls.Add(Me.btnCheckData)
-            Me.gbCache.Controls.Add(Me.btnDeleteCache)
-            Me.gbCache.Location = New System.Drawing.Point(555, 109)
-            Me.gbCache.Name = "gbCache"
-            Me.gbCache.Size = New System.Drawing.Size(87, 48)
-            Me.gbCache.TabIndex = 29
-            Me.gbCache.TabStop = False
-            Me.gbCache.Text = "Data and Cache Settings"
-            Me.gbCache.Visible = False
-            '
-            'pbIcon
-            '
-            Me.pbIcon.Location = New System.Drawing.Point(36, 314)
-            Me.pbIcon.Name = "pbIcon"
-            Me.pbIcon.Size = New System.Drawing.Size(64, 64)
-            Me.pbIcon.TabIndex = 12
-            Me.pbIcon.TabStop = False
-            Me.pbIcon.Visible = False
-            '
-            'btnGetIconImage
-            '
-            Me.btnGetIconImage.Location = New System.Drawing.Point(36, 285)
-            Me.btnGetIconImage.Name = "btnGetIconImage"
-            Me.btnGetIconImage.Size = New System.Drawing.Size(137, 23)
-            Me.btnGetIconImage.TabIndex = 11
-            Me.btnGetIconImage.Text = "Get Icon Image"
-            Me.btnGetIconImage.UseVisualStyleBackColor = True
-            Me.btnGetIconImage.Visible = False
-            '
-            'btnGenerateIconList
-            '
-            Me.btnGenerateIconList.Location = New System.Drawing.Point(36, 256)
-            Me.btnGenerateIconList.Name = "btnGenerateIconList"
-            Me.btnGenerateIconList.Size = New System.Drawing.Size(137, 23)
-            Me.btnGenerateIconList.TabIndex = 10
-            Me.btnGenerateIconList.Text = "Generate Icon List"
-            Me.btnGenerateIconList.UseVisualStyleBackColor = True
-            Me.btnGenerateIconList.Visible = False
-            '
-            'btnCheckMarket
-            '
-            Me.btnCheckMarket.Location = New System.Drawing.Point(254, 148)
-            Me.btnCheckMarket.Name = "btnCheckMarket"
-            Me.btnCheckMarket.Size = New System.Drawing.Size(105, 33)
-            Me.btnCheckMarket.TabIndex = 9
-            Me.btnCheckMarket.Text = "Check Market"
-            Me.btnCheckMarket.UseVisualStyleBackColor = True
-            Me.btnCheckMarket.Visible = False
-            '
-            'btnExportShipBonuses
-            '
-            Me.btnExportShipBonuses.Location = New System.Drawing.Point(36, 170)
-            Me.btnExportShipBonuses.Name = "btnExportShipBonuses"
-            Me.btnExportShipBonuses.Size = New System.Drawing.Size(137, 23)
-            Me.btnExportShipBonuses.TabIndex = 8
-            Me.btnExportShipBonuses.Text = "Export Ship Bonuses"
-            Me.btnExportShipBonuses.UseVisualStyleBackColor = True
-            Me.btnExportShipBonuses.Visible = False
-            '
-            'btnExportImplantEffects
-            '
-            Me.btnExportImplantEffects.Location = New System.Drawing.Point(36, 141)
-            Me.btnExportImplantEffects.Name = "btnExportImplantEffects"
-            Me.btnExportImplantEffects.Size = New System.Drawing.Size(137, 23)
-            Me.btnExportImplantEffects.TabIndex = 7
-            Me.btnExportImplantEffects.Text = "Export Implant Effects"
-            Me.btnExportImplantEffects.UseVisualStyleBackColor = True
-            Me.btnExportImplantEffects.Visible = False
-            '
-            'btnExportEffects
-            '
-            Me.btnExportEffects.Location = New System.Drawing.Point(36, 112)
-            Me.btnExportEffects.Name = "btnExportEffects"
-            Me.btnExportEffects.Size = New System.Drawing.Size(137, 23)
-            Me.btnExportEffects.TabIndex = 6
-            Me.btnExportEffects.Text = "Export Effects"
-            Me.btnExportEffects.UseVisualStyleBackColor = True
-            Me.btnExportEffects.Visible = False
-            '
-            'btnCheckAttributeIntFloat
-            '
-            Me.btnCheckAttributeIntFloat.Location = New System.Drawing.Point(383, 77)
-            Me.btnCheckAttributeIntFloat.Name = "btnCheckAttributeIntFloat"
-            Me.btnCheckAttributeIntFloat.Size = New System.Drawing.Size(102, 58)
-            Me.btnCheckAttributeIntFloat.TabIndex = 5
-            Me.btnCheckAttributeIntFloat.Text = "Check Module Attribute Int/Float"
-            Me.btnCheckAttributeIntFloat.UseVisualStyleBackColor = True
-            Me.btnCheckAttributeIntFloat.Visible = False
-            '
-            'btnCheckModuleMetaData
-            '
-            Me.btnCheckModuleMetaData.Location = New System.Drawing.Point(383, 141)
-            Me.btnCheckModuleMetaData.Name = "btnCheckModuleMetaData"
-            Me.btnCheckModuleMetaData.Size = New System.Drawing.Size(102, 46)
-            Me.btnCheckModuleMetaData.TabIndex = 4
-            Me.btnCheckModuleMetaData.Text = "Check Module Meta Data"
-            Me.btnCheckModuleMetaData.UseVisualStyleBackColor = True
-            Me.btnCheckModuleMetaData.Visible = False
-            '
-            'btnDeleteAllFittings
-            '
-            Me.btnDeleteAllFittings.Location = New System.Drawing.Point(267, 47)
-            Me.btnDeleteAllFittings.Name = "btnDeleteAllFittings"
-            Me.btnDeleteAllFittings.Size = New System.Drawing.Size(102, 23)
-            Me.btnDeleteAllFittings.TabIndex = 3
-            Me.btnDeleteAllFittings.Text = "Delete All Fittings"
-            Me.btnDeleteAllFittings.UseVisualStyleBackColor = True
-            Me.btnDeleteAllFittings.Visible = False
-            '
-            'btnCheckData
-            '
-            Me.btnCheckData.Location = New System.Drawing.Point(257, 112)
-            Me.btnCheckData.Name = "btnCheckData"
-            Me.btnCheckData.Size = New System.Drawing.Size(102, 23)
-            Me.btnCheckData.TabIndex = 2
-            Me.btnCheckData.Text = "Check Data"
-            Me.btnCheckData.UseVisualStyleBackColor = True
-            Me.btnCheckData.Visible = False
-            '
-            'btnDeleteCache
-            '
-            Me.btnDeleteCache.Location = New System.Drawing.Point(36, 47)
-            Me.btnDeleteCache.Name = "btnDeleteCache"
-            Me.btnDeleteCache.Size = New System.Drawing.Size(102, 23)
-            Me.btnDeleteCache.TabIndex = 1
-            Me.btnDeleteCache.Text = "Delete Cache"
-            Me.btnDeleteCache.UseVisualStyleBackColor = True
-            '
             'gbConstants
             '
             Me.gbConstants.Controls.Add(Me.chkAmmoLoadTime)
@@ -764,7 +605,7 @@ Namespace Forms
             Me.nudMissileRange.TabIndex = 5
             Me.nudMissileRange.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
             Me.ToolTip1.SetToolTip(Me.nudMissileRange, "Defines the proportion of the theoretical maximum range of missiles (velocity x f" & _
-                                                       "light time) to be used for optimal missile optimal range calculations")
+            "light time) to be used for optimal missile optimal range calculations")
             Me.nudMissileRange.Value = New Decimal(New Integer() {1, 0, 0, 0})
             '
             'lblMissileRange
@@ -776,7 +617,7 @@ Namespace Forms
             Me.lblMissileRange.TabIndex = 4
             Me.lblMissileRange.Text = "Missile Range Constant:"
             Me.ToolTip1.SetToolTip(Me.lblMissileRange, "Defines the proportion of the theoretical maximum range of missiles (velocity x f" & _
-                                                       "light time) to be used for optimal missile optimal range calculations")
+            "light time) to be used for optimal missile optimal range calculations")
             '
             'nudShieldRecharge
             '
@@ -846,11 +687,11 @@ Namespace Forms
             Me.pnlSettings.Controls.Add(Me.gbDefenceProfiles)
             Me.pnlSettings.Controls.Add(Me.gbGeneral)
             Me.pnlSettings.Controls.Add(Me.gbAttributeColumns)
-            Me.pnlSettings.Controls.Add(Me.gbCache)
             Me.pnlSettings.Controls.Add(Me.gbDamageProfiles)
             Me.pnlSettings.Controls.Add(Me.gbConstants)
             Me.pnlSettings.Controls.Add(Me.btnClose)
             Me.pnlSettings.Controls.Add(Me.tvwSettings)
+            Me.pnlSettings.DisabledBackColor = System.Drawing.Color.Empty
             Me.pnlSettings.Dock = System.Windows.Forms.DockStyle.Fill
             Me.pnlSettings.Location = New System.Drawing.Point(0, 0)
             Me.pnlSettings.Name = "pnlSettings"
@@ -908,6 +749,7 @@ Namespace Forms
             Me.gpDefenceProfile.Controls.Add(Me.Label25)
             Me.gpDefenceProfile.Controls.Add(Me.lblDefTh)
             Me.gpDefenceProfile.Controls.Add(Me.lblDefSTh)
+            Me.gpDefenceProfile.DisabledBackColor = System.Drawing.Color.Empty
             Me.gpDefenceProfile.Location = New System.Drawing.Point(347, 77)
             Me.gpDefenceProfile.Name = "gpDefenceProfile"
             Me.gpDefenceProfile.Size = New System.Drawing.Size(223, 416)
@@ -1258,6 +1100,7 @@ Namespace Forms
             Me.lvwDefenceProfiles.Border.Class = "ListViewBorder"
             Me.lvwDefenceProfiles.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.lvwDefenceProfiles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+            Me.lvwDefenceProfiles.DisabledBackColor = System.Drawing.Color.Empty
             Me.lvwDefenceProfiles.FullRowSelect = True
             Me.lvwDefenceProfiles.GridLines = True
             Me.lvwDefenceProfiles.Location = New System.Drawing.Point(6, 19)
@@ -1317,8 +1160,8 @@ Namespace Forms
             Me.adtAttributeColumns.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
             Me.adtAttributeColumns.AllowDrop = True
             Me.adtAttributeColumns.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                                    Or System.Windows.Forms.AnchorStyles.Left) _
-                                                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.adtAttributeColumns.BackColor = System.Drawing.SystemColors.Window
             '
             '
@@ -1413,6 +1256,7 @@ Namespace Forms
             Me.gpProfile.Controls.Add(Me.lblTHDamage)
             Me.gpProfile.Controls.Add(Me.lblTHDamagePercentage)
             Me.gpProfile.Controls.Add(Me.lblTHDamageAmount)
+            Me.gpProfile.DisabledBackColor = System.Drawing.Color.Empty
             Me.gpProfile.Location = New System.Drawing.Point(347, 77)
             Me.gpProfile.Name = "gpProfile"
             Me.gpProfile.Size = New System.Drawing.Size(223, 416)
@@ -1793,6 +1637,7 @@ Namespace Forms
             Me.lvwProfiles.Border.Class = "ListViewBorder"
             Me.lvwProfiles.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.lvwProfiles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colProfileName, Me.colProfileType})
+            Me.lvwProfiles.DisabledBackColor = System.Drawing.Color.Empty
             Me.lvwProfiles.FullRowSelect = True
             Me.lvwProfiles.GridLines = True
             Me.lvwProfiles.Location = New System.Drawing.Point(6, 19)
@@ -1812,7 +1657,7 @@ Namespace Forms
             Me.colProfileType.Text = "Profile Type"
             Me.colProfileType.Width = 100
             '
-            'frmHQFSettings
+            'FrmHQFSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -1826,7 +1671,7 @@ Namespace Forms
             Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
             Me.MaximizeBox = False
             Me.MinimizeBox = False
-            Me.Name = "frmHQFSettings"
+            Me.Name = "FrmHQFSettings"
             Me.ShowInTaskbar = False
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             Me.Text = "HQF Settings"
@@ -1841,8 +1686,6 @@ Namespace Forms
             Me.gbSlotFormat.ResumeLayout(False)
             Me.gbSlotFormat.PerformLayout()
             CType(Me.pbSubSlotColour, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.gbCache.ResumeLayout(False)
-            CType(Me.pbIcon, System.ComponentModel.ISupportInitialize).EndInit()
             Me.gbConstants.ResumeLayout(False)
             Me.gbConstants.PerformLayout()
             CType(Me.nudMissileRange, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1878,8 +1721,6 @@ Namespace Forms
         Friend WithEvents lblRigSlotColour As System.Windows.Forms.Label
         Friend WithEvents pbRigSlotColour As System.Windows.Forms.PictureBox
         Friend WithEvents gbSlotFormat As System.Windows.Forms.GroupBox
-        Friend WithEvents gbCache As System.Windows.Forms.GroupBox
-        Friend WithEvents btnDeleteCache As System.Windows.Forms.Button
         Friend WithEvents gbConstants As System.Windows.Forms.GroupBox
         Friend WithEvents nudShieldRecharge As System.Windows.Forms.NumericUpDown
         Friend WithEvents lblShieldRecharge As System.Windows.Forms.Label
@@ -1890,13 +1731,6 @@ Namespace Forms
         Friend WithEvents colSlotColumns As System.Windows.Forms.ColumnHeader
         Friend WithEvents btnMoveDown As System.Windows.Forms.Button
         Friend WithEvents btnMoveUp As System.Windows.Forms.Button
-        Friend WithEvents btnCheckData As System.Windows.Forms.Button
-        Friend WithEvents btnDeleteAllFittings As System.Windows.Forms.Button
-        Friend WithEvents btnCheckModuleMetaData As System.Windows.Forms.Button
-        Friend WithEvents btnCheckAttributeIntFloat As System.Windows.Forms.Button
-        Friend WithEvents btnExportShipBonuses As System.Windows.Forms.Button
-        Friend WithEvents btnExportImplantEffects As System.Windows.Forms.Button
-        Friend WithEvents btnExportEffects As System.Windows.Forms.Button
         Friend WithEvents nudMissileRange As System.Windows.Forms.NumericUpDown
         Friend WithEvents lblMissileRange As System.Windows.Forms.Label
         Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
@@ -1905,7 +1739,6 @@ Namespace Forms
         Friend WithEvents lblShieldRechargeUnit As System.Windows.Forms.Label
         Friend WithEvents lblSubSlotColour As System.Windows.Forms.Label
         Friend WithEvents pbSubSlotColour As System.Windows.Forms.PictureBox
-        Friend WithEvents btnCheckMarket As System.Windows.Forms.Button
         Friend WithEvents chkAmmoLoadTime As System.Windows.Forms.CheckBox
         Friend WithEvents chkCapBoosterReloadTime As System.Windows.Forms.CheckBox
         Friend WithEvents gbFittingProtocol As System.Windows.Forms.GroupBox
@@ -1972,9 +1805,6 @@ Namespace Forms
         Friend WithEvents lblDefHEx As System.Windows.Forms.Label
         Friend WithEvents lblDefHKi As System.Windows.Forms.Label
         Friend WithEvents lblDefHTh As System.Windows.Forms.Label
-        Friend WithEvents btnGenerateIconList As System.Windows.Forms.Button
-        Friend WithEvents pbIcon As System.Windows.Forms.PictureBox
-        Friend WithEvents btnGetIconImage As System.Windows.Forms.Button
         Friend WithEvents gbAttributeColumns As System.Windows.Forms.GroupBox
         Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
         Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle

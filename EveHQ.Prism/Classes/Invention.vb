@@ -43,7 +43,6 @@
 '
 ' ==============================================================================
 
-Imports EveHQ.Prism.BPCalc
 Imports EveHQ.EveData
 
 Namespace Classes
@@ -53,11 +52,11 @@ Namespace Classes
         Public Shared Function LoadInventionData() As Boolean
 
             ' Load all the decryptor data
-            Dim groupIDs As List(Of Integer) = {728, 729, 730, 731}.ToList
+            Dim groupIDs As List(Of Integer) = {1304}.ToList
             PlugInData.Decryptors.Clear()
-            For Each groupID As Integer In groupIDs
+            For Each groupId As Integer In groupIDs
                 ' Get the items in each group
-                Dim items As IEnumerable(Of EveType) = StaticData.GetItemsInGroup(groupID)
+                Dim items As IEnumerable(Of EveType) = StaticData.GetItemsInGroup(groupId)
                 For Each item As EveType In items
                     ' Set data
                     Dim newDecryptor As New BPCalc.Decryptor
@@ -86,9 +85,11 @@ Namespace Classes
 
         End Function
 
-        Public Shared Function CalculateInventionChance(ByVal baseChance As Double, ByVal encSkillLevel As Integer, ByVal dc1SkillLevel As Integer, ByVal dc2SkillLevel As Integer, ByVal metaLevel As Integer, ByVal decryptorModifier As Double) As Double
-            Return baseChance * (1 + (0.01 * encSkillLevel)) * (1 + ((dc1SkillLevel + dc2SkillLevel) * (0.1 / (5 - metaLevel)))) * DecryptorModifier
+        Public Shared Function CalculateInventionChance(ByVal baseChance As Double, ByVal encryptionSkill As Integer, ByVal datacoreSkill1 As Integer, ByVal datacoreSkill2 As Integer, ByVal decryptorMod As Double) As Double
+            'Return baseChance * (1 + (0.01 * encSkillLevel)) * (1 + ((dc1SkillLevel + dc2SkillLevel) * (0.1 / (5 - metaLevel)))) * decryptorModifier
+            Return baseChance * 100 * (1 + (((datacoreSkill1 + datacoreSkill2) / 30) + (encryptionSkill / 40))) * decryptorMod
         End Function
 
     End Class
+
 End Namespace

@@ -285,15 +285,18 @@ Namespace Forms
             If StaticData.Traits.ContainsKey(shipID) Then
                 For Each skillTraitList In StaticData.Traits(shipID)
                     Dim skillID As Integer = skillTraitList.Key
-                    If skillID = -1 Then
-                        traits &= "<b>Role Bonus:</b>" & vbCrLf
-                    Else
-                        If StaticData.Types.ContainsKey(skillID) Then
-                            traits &= "<b><a href=showinfo:" & skillID & ">" & StaticData.Types(skillID).Name & "</a> bonuses (per skill level):</b>" & vbCrLf
-                        Else
-                            Continue For
-                        End If
-                    End If
+                    Select Case skillID
+                        Case -2
+                            traits &= "<b>Misc Bonus:</b>" & vbCrLf
+                        Case -1
+                            traits &= "<b>Role Bonus:</b>" & vbCrLf
+                        Case Else
+                            If StaticData.Types.ContainsKey(skillID) Then
+                                traits &= "<b><a href=showinfo:" & skillID & ">" & StaticData.Types(skillID).Name & "</a> bonuses (per skill level):</b>" & vbCrLf
+                            Else
+                                Continue For
+                            End If
+                    End Select
                     For Each bonus In skillTraitList.Value
                         traits &= "    " & bonus & vbCrLf
                     Next
@@ -317,7 +320,7 @@ Namespace Forms
             End If
 
             ' Need to replace the CRLF with HTML to display correctly in all cases
-            traits = traits.Replace(ControlChars.CrLf, "<br />").Replace("<br>", "<br />")
+            traits = traits.Replace(ControlChars.CrLf, "<br />").Replace("<br>", "<br />").Replace("</b></u>", "</u></b>")
 
             ' Identify internal CCP "showinfo" links and replace with something that we can actually use internally for EveHQ :)
             Dim matches As MatchCollection = Regex.Matches(traits, "<a\shref=(?<url>.*?)>(?<text>.*?)</a>")

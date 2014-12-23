@@ -157,13 +157,6 @@ Namespace Forms
                     lblPilotCorp.Text = _displayPilot.Corp
                     lblPilotIsk.Text = _displayPilot.Isk.ToString("N2")
                     lblPilotSP.Text = (_displayPilot.SkillPoints + SkillFunctions.CalcCurrentSkillPoints(_displayPilot)).ToString("N0")
-                    lblPilotClone.Text = _displayPilot.CloneName & " (" & CLng(_displayPilot.CloneSP).ToString("N0") & " SP)"
-                    ' Check Clone
-                    If (_displayPilot.SkillPoints + _displayPilot.TrainingCurrentSP) > CLng(_displayPilot.CloneSP) Then
-                        lblPilotClone.ForeColor = Color.Red
-                    Else
-                        lblPilotClone.ForeColor = Color.Black
-                    End If
                 Catch e As Exception
                     Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
                     msg &= "Pilot Name: " & _displayPilot.Name
@@ -680,23 +673,18 @@ Namespace Forms
                     End If
                 End If
 
-                ' Check Clone
-                If (_displayPilot.SkillPoints + _displayPilot.TrainingCurrentSP) > CLng(_displayPilot.CloneSP) Then
-                    lblPilotClone.ForeColor = Color.Red
-                Else
-                    lblPilotClone.ForeColor = Color.Black
-                End If
-
                 ' Display Account Info
                 If grpAccount.Visible = True Then
-                    Dim dAccount As EveHQAccount = HQ.Settings.Accounts(_displayPilot.Account)
-                    lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
-                    If HQ.Settings.NotifyAccountTime = True Then
-                        Dim accountTime As Date = dAccount.PaidUntil
-                        If accountTime.Year > 2000 And (accountTime - Now).TotalHours <= HQ.Settings.AccountTimeLimit Then
-                            lblAccountExpiry.ForeColor = Color.Red
-                        Else
-                            lblAccountExpiry.ForeColor = Color.Black
+                    If _displayPilot.Account <> "" Then
+                        Dim dAccount As EveHQAccount = HQ.Settings.Accounts(_displayPilot.Account)
+                        lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
+                        If HQ.Settings.NotifyAccountTime = True Then
+                            Dim accountTime As Date = dAccount.PaidUntil
+                            If accountTime.Year > 2000 And (accountTime - Now).TotalHours <= HQ.Settings.AccountTimeLimit Then
+                                lblAccountExpiry.ForeColor = Color.Red
+                            Else
+                                lblAccountExpiry.ForeColor = Color.Black
+                            End If
                         End If
                     End If
                 End If

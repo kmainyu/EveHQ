@@ -355,6 +355,7 @@ namespace EveHQ.EveApi
             // disabled null checks on resharper, because the xml contract expects these not to be null, and if they are an exception should be fired (and caught in base class processing)
             int characterId = results.Element(ApiConstants.CharacterId).Value.ToInt32();
             string name = results.Element(ApiConstants.Name).Value;
+            int homeStationId = results.Element("homeStationID").Value.ToInt32();
             DateTimeOffset birthDate = results.Element("DoB").Value.ToDateTimeOffset(0);
             string race = results.Element("race").Value;
             string bloodline = results.Element("bloodLine").Value;
@@ -368,15 +369,16 @@ namespace EveHQ.EveApi
             int allianceId = (allianceIdNode = results.Element("allianceID")) != null
                 ? allianceIdNode.Value.ToInt32()
                 : 0;
-            string cloneName = results.Element("cloneName").Value;
-            int cloneSkillpoints = results.Element("cloneSkillPoints").Value.ToInt32();
+            int freeSkillPoints = results.Element("freeSkillPoints").Value.ToInt32();
+            int freeRespecs = results.Element("freeRespecs").Value.ToInt32();
+            DateTimeOffset cloneJumpDate = results.Element("cloneJumpDate").Value.ToDateTimeOffset(0);
+            DateTimeOffset lastRespecDate = results.Element("lastRespecDate").Value.ToDateTimeOffset(0);
+            DateTimeOffset lastTimedRespec = results.Element("lastTimedRespec").Value.ToDateTimeOffset(0);
+            DateTimeOffset remoteStationDate = results.Element("remoteStationDate").Value.ToDateTimeOffset(0);
+            DateTimeOffset jumpActivation = results.Element("jumpActivation").Value.ToDateTimeOffset(0);
+            DateTimeOffset jumpFatigue = results.Element("jumpFatigue").Value.ToDateTimeOffset(0);
+            DateTimeOffset jumpLastUpdate = results.Element("jumpLastUpdate").Value.ToDateTimeOffset(0);
             double balance = results.Element("balance").Value.ToDouble();
-            XElement enhancers = results.Element("attributeEnhancers");
-            AttributeEnhancer memoryBonus = GetEnhancer(enhancers, "memoryBonus");
-            AttributeEnhancer perceptionBonus = GetEnhancer(enhancers, "perceptionBonus");
-            AttributeEnhancer willpowerBonus = GetEnhancer(enhancers, "willpowerBonus");
-            AttributeEnhancer intelligenceBonus = GetEnhancer(enhancers, "intelligenceBonus");
-            AttributeEnhancer charismaBonus = GetEnhancer(enhancers, "charismaBonus");
             XElement attributes = results.Element("attributes");
             int intelligence = attributes.Element("intelligence").Value.ToInt32();
             int willpower = attributes.Element("willpower").Value.ToInt32();
@@ -386,6 +388,43 @@ namespace EveHQ.EveApi
 
             // ReSharper restore PossibleNullReferenceException
 
+            // Build the jump clones
+            IEnumerable<JumpClone> jumpClones =
+                results.Elements(ApiConstants.Rowset)
+                    .First(set => set.Attribute(ApiConstants.Name).Value == "jumpClones")
+                    .Elements(ApiConstants.Row)
+                    .Select(row => new JumpClone
+                                       {
+                                           JumpCloneId = long.Parse(row.Attribute("jumpCloneID").Value),
+                                           CloneName = row.Attribute("cloneName").Value,
+                                           TypeId = int.Parse(row.Attribute("typeID").Value),
+                                           LocationId = long.Parse(row.Attribute("locationID").Value),
+                                       });
+
+            // Build the jump clone Implants
+            IEnumerable<Implant> jumpCloneImplants =
+                results.Elements(ApiConstants.Rowset)
+                    .First(set => set.Attribute(ApiConstants.Name).Value == "jumpCloneImplants")
+                    .Elements(ApiConstants.Row)
+                    .Select(row => new Implant
+                                       {
+                                           JumpCloneId = long.Parse(row.Attribute("jumpCloneID").Value),
+                                           TypeId = int.Parse(row.Attribute("typeID").Value),
+                                           TypeName = row.Attribute("typeName").Value
+                                       });
+
+            // Add the current clone implants to the implant collection
+            IEnumerable<Implant> implants =
+               results.Elements(ApiConstants.Rowset)
+                   .First(set => set.Attribute(ApiConstants.Name).Value == "implants")
+                   .Elements(ApiConstants.Row)
+                   .Select(row => new Implant
+                   {
+                       JumpCloneId = 0,
+                       TypeId = int.Parse(row.Attribute("typeID").Value),
+                       TypeName = row.Attribute("typeName").Value
+                   });
+           
             // build the enumerable collection for the skills.
             IEnumerable<CharacterSkillRecord> skills =
                 results.Elements(ApiConstants.Rowset)
@@ -432,6 +471,7 @@ namespace EveHQ.EveApi
             {
                 CharacterId = characterId,
                 Name = name,
+                HomeStationId = homeStationId,
                 BirthDate = birthDate,
                 Race = race,
                 BloodLine = bloodline,
@@ -441,20 +481,25 @@ namespace EveHQ.EveApi
                 CorporationId = corporationId,
                 AllianceName = allianceName,
                 AllianceId = allianceId,
-                CloneName = cloneName,
-                CloneSkillPoints = cloneSkillpoints,
+                FreeSkillPoints = freeSkillPoints,
+                FreeRespecs = freeRespecs,
+                CloneJumpDate = cloneJumpDate,
+                LastRespecDate = lastRespecDate,
+                LastTimedRespec = lastTimedRespec,
+                RemoteStationDate = remoteStationDate,
+                JumpActivation = jumpActivation,
+                JumpFatigue = jumpFatigue,
+                JumpLastUpdate = jumpLastUpdate,
                 Balance = balance,
-                MemoryBonus = memoryBonus,
-                PerceptionBonus = perceptionBonus,
-                WillpowerBonus = willpowerBonus,
-                IntelligenceBonus = intelligenceBonus,
-                CharismaBonus = charismaBonus,
                 Intelligence = intelligence,
                 Memory = memory,
                 Charisma = charisma,
                 Perception = perception,
                 Willpower = willpower,
                 Skills = skills,
+                JumpClones = jumpClones,
+                Implants = implants,
+                JumpCloneImplants = jumpCloneImplants,
                 Certificates = certificates,
                 CorporationRoles = corpRoles,
                 CorporationRolesAtHq = corpRolesAtHq,
@@ -482,26 +527,6 @@ namespace EveHQ.EveApi
                                 RoleId = int.TryParse(row.Attribute("roleID").Value, out temp) ? temp : 0,
                                 RoleName = row.Attribute("roleName").Value
                             });
-        }
-
-        /// <summary>The get enhancer.</summary>
-        /// <param name="enhancers">The enhancers.</param>
-        /// <param name="typeName">The type name.</param>
-        /// <returns>The <see cref="AttributeEnhancer" />.</returns>
-        private static AttributeEnhancer GetEnhancer(XElement enhancers, string typeName)
-        {
-            XElement enhancer = enhancers.Element(typeName);
-            int temp;
-            if (enhancer == null)
-            {
-                return new AttributeEnhancer {Name = string.Empty, Value = 0};
-            }
-
-            return new AttributeEnhancer
-            {
-                Name = enhancer.Element("augmentatorName").Value,
-                Value = int.TryParse(enhancer.Element("augmentatorValue").Value, out temp) ? temp : 0
-            };
         }
 
         /// <summary>The process upcoming calendar events response.</summary>

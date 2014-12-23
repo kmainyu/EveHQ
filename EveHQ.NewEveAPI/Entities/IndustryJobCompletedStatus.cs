@@ -45,25 +45,28 @@
 
 namespace EveHQ.EveApi
 {
-    /// <summary>The industry job completed status.</summary>
-    public enum IndustryJobCompletedStatus
+    /// <summary>The industry job status.</summary>
+    public enum IndustryJobStatus
     {
-        /// <summary>The failed.</summary>
-        Failed,
+        /// <summary>The active.</summary>
+        Active = 1,
+
+        /// <summary>The paused.</summary>
+        Paused = 2,
+
+        /// <summary>The ready.</summary>
+        Ready = 3,
+
+        /// <summary>The cancelled.</summary>
+        Cancelled = 102,
+
+        /// <summary>The reverted.</summary>
+        Reverted = 103,
 
         /// <summary>The delivered.</summary>
-        Delivered,
+        Delivered = 104,
 
-        /// <summary>The aborted.</summary>
-        Aborted,
-
-        /// <summary>The job was aborted by a GM.</summary>
-        GmAborted,
-
-        /// <summary>The in flight un anchored.</summary>
-        InFlightUnAnchored,
-
-        /// <summary>The destroyed.</summary>
-        Destroyed
+        /// <summary>The failed.</summary>
+        Failed = 105
     }
 }

@@ -48,7 +48,6 @@ Namespace Forms
             '
             '
             '
-            Me.lblVersion.BackgroundStyle.Class = ""
             Me.lblVersion.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.lblVersion.Font = New System.Drawing.Font("Tahoma", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, CType(0, Byte))
             Me.lblVersion.ForeColor = System.Drawing.Color.White
@@ -95,10 +94,10 @@ Namespace Forms
             Me.lblEveHQLink.LinkColor = System.Drawing.Color.PaleTurquoise
             Me.lblEveHQLink.Location = New System.Drawing.Point(127, 9)
             Me.lblEveHQLink.Name = "lblEveHQLink"
-            Me.lblEveHQLink.Size = New System.Drawing.Size(336, 13)
+            Me.lblEveHQLink.Size = New System.Drawing.Size(346, 13)
             Me.lblEveHQLink.TabIndex = 4
             Me.lblEveHQLink.TabStop = True
-            Me.lblEveHQLink.Text = "Visit the forums at www.evehq.net for bug reporting and comments."
+            Me.lblEveHQLink.Text = "Visit the forums at newedentech.com for bug reporting and comments."
             Me.lblEveHQLink.VisitedLinkColor = System.Drawing.Color.PaleTurquoise
             '
             'wbCredits
@@ -114,7 +113,7 @@ Namespace Forms
             Me.wbCredits.Size = New System.Drawing.Size(195, 399)
             Me.wbCredits.TabIndex = 1
             '
-            'frmAbout
+            'FrmAbout
             '
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
             Me.ClientSize = New System.Drawing.Size(794, 399)
@@ -125,7 +124,7 @@ Namespace Forms
             Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
             Me.MaximizeBox = False
             Me.MinimizeBox = False
-            Me.Name = "frmAbout"
+            Me.Name = "FrmAbout"
             Me.ShowIcon = False
             Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
